@@ -20,7 +20,9 @@ output.texCoord0.zw = output.texCoord0.xy * decalTileCoordScale;
 #endif
 
 #if TILED_DECAL_ANIMATED_EMISSION
-	float windowOffset = aniCamoAmplitude * sin(globalTime * aniCamoSpeed) + aniCamoMiddle;
-	output.aniCamo = float4(-aniCamoWidth * 0.5 + (windowOffset - aniCamoSmooth), aniCamoWidth * 0.5 + windowOffset, 1.0 / aniCamoSmooth, (cos(input.localPos.y * aniCamoWaveLength + globalTime * aniCamoWaveSpeed) * 0.5 + 0.5) * aniCamoPower);
-	output.aniCamo.xy *= output.aniCamo.z;
+	float aniCamoInvSmooth = 1.0 / aniCamoSmooth;
+	float aniCamoHalfWidth = aniCamoWidth * aniCamoInvSmooth * 0.5;
+	float windowOffset = (aniCamoAmplitude * sin(globalTime * aniCamoSpeed) + aniCamoMiddle) * aniCamoInvSmooth;
+	float windowPhase = cos(input.localPos.y * aniCamoWaveLength + globalTime * aniCamoWaveSpeed) * 0.5 + 0.5;
+	output.aniCamo = float4(windowOffset - aniCamoHalfWidth - 1.0, windowOffset + aniCamoHalfWidth, aniCamoInvSmooth, windowPhase * aniCamoPower);
 #endif

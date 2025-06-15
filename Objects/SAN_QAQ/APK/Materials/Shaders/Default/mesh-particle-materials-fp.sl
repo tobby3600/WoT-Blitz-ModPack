@@ -3,21 +3,26 @@
 #include "common.slh"
 #include "blending.slh"
 
+#if RECEIVE_SHADOW
+	#include "shadow-mapping.slh"
+#endif
+
 #if RETRIEVE_FRAG_DEPTH_AVAILABLE && SOFT_PARTICLES
 	#include "depth-fetch.slh"
 #endif
 
 fragment_in
 {
-	#if RETRIEVE_FRAG_DEPTH_AVAILABLE && SOFT_PARTICLES
+	#if RECEIVE_SHADOW || (RETRIEVE_FRAG_DEPTH_AVAILABLE && SOFT_PARTICLES)
 		float4 projPos : POSITION0;
 	#endif
 
-	float4 vertexColor : COLOR0;
-
 	#if RECEIVE_SHADOW
-		float3 shadowColor : COLOR1;
+		float3 worldPos : POSITION1;
+		float4 worldNormalSlope : POSITION2;
 	#endif
+
+	float4 vertexColor : COLOR0;
 
 	#if PARTICLES_MASK
 		float4 texCoord0 : TEXCOORD0;
@@ -25,27 +30,26 @@ fragment_in
 		float2 texCoord0 : TEXCOORD0;
 	#endif
 
-	#if FRAME_BLEND
-		float3 texCoord1 : TEXCOORD1;
+	#if FRAME_BLEND || PARTICLES_FLOWMAP
+		float4 texCoord1 : TEXCOORD1;
 	#endif
 
 	#if PARTICLES_FLOWMAP
 		float4 texCoord2 : TEXCOORD2;
-		float texCoord3 : TEXCOORD3;
 	#endif
 
 	#if PARTICLES_NOISE
 		#if PARTICLES_FRESNEL_TO_ALPHA
-			float4 texCoord4 : TEXCOORD4; // xy - noise uv, z - noise scale, w - fresnel.
+			float4 texCoord3 : TEXCOORD3; // xy - noise uv, z - noise scale, w - fresnel.
 		#else
-			float3 texCoord4 : TEXCOORD4; // xy - noise uv, z - noise scale.
+			float3 texCoord3 : TEXCOORD3; // xy - noise uv, z - noise scale.
 		#endif
 	#elif PARTICLES_FRESNEL_TO_ALPHA
-		float texCoord4 : TEXCOORD4; // Fresnel.
+		float texCoord3 : TEXCOORD3; // Fresnel.
 	#endif
 
 	#if USE_VERTEX_FOG
-		float4 varFog : TEXCOORD5;
+		float4 varFog : TEXCOORD4;
 	#endif
 };
 
@@ -94,33 +98,37 @@ fragment_out fp_main(fragment_in input)
 {
 	fragment_out output;
 
+	float4 textureColor0 = const1List4;
+
+	#if RECEIVE_SHADOW || (RETRIEVE_FRAG_DEPTH_AVAILABLE && SOFT_PARTICLES)
+		float3 projPos = input.projPos.xyz / input.projPos.w;
+	#endif
+
 	#if PARTICLES_FLOWMAP
 		float2 flowDir = tex2D(flowmap, input.texCoord2.xy).xy * 2.0 - const1List2;
 	#endif
 
-	float4 textureColor0 = const1List4;
-
 	#if ALPHATEST || ALPHABLEND
 		#if PARTICLES_FLOWMAP
 			#if PARTICLES_NOISE
-				flowDir *= tex2D(noiseTex, input.texCoord4.xy).r * input.texCoord4.z;
+				flowDir *= tex2D(noiseTex, input.texCoord3.xy).r * input.texCoord3.z;
 			#endif
 
-			textureColor0 = lerp(tex2D(albedo, flowDir * input.texCoord2.z + input.texCoord0.xy), tex2D(albedo, flowDir * input.texCoord2.w + input.texCoord0.xy), input.texCoord3);
+			textureColor0 = lerp(tex2D(albedo, flowDir * input.texCoord2.z + input.texCoord0.xy), tex2D(albedo, flowDir * input.texCoord2.w + input.texCoord0.xy), input.texCoord1.w);
 		#else
 			float2 albedoTexCoord = input.texCoord0.xy;
 
 			#if PARTICLES_NOISE
-				float2 noiseSample = tex2D(noiseTex, input.texCoord4.xy).rr * 2.0 - const1List2;
+				float2 noiseSample = tex2D(noiseTex, input.texCoord3.xy).rr * 2.0 - const1List2;
 
-				albedoTexCoord += noiseSample * input.texCoord4.z;
+				albedoTexCoord += noiseSample * input.texCoord3.z;
 			#endif
 
 			textureColor0 = tex2D(albedo, albedoTexCoord);
 		#endif
 	#else
 		#if PARTICLES_FLOWMAP
-			textureColor0.rgb = lerp(tex2D(albedo, flowDir * input.texCoord2.z + input.texCoord0.xy).rgb, tex2D(albedo, flowDir * input.texCoord2.w + input.texCoord0.xy).rgb, input.texCoord3);
+			textureColor0.rgb = lerp(tex2D(albedo, flowDir * input.texCoord2.z + input.texCoord0.xy).rgb, tex2D(albedo, flowDir * input.texCoord2.w + input.texCoord0.xy).rgb, input.texCoord1.w);
 		#else
 			float4 albedoSample = tex2D(albedo, input.texCoord0.xy);
 			textureColor0.rgb = albedoSample.rgb;
@@ -175,29 +183,25 @@ fragment_out fp_main(fragment_in input)
 
 	#if PARTICLES_FRESNEL_TO_ALPHA
 		#if PARTICLES_NOISE
-			output.color.a *= input.texCoord4.w;
+			output.color.a *= input.texCoord3.w;
 		#else
-			output.color.a *= input.texCoord4;
+			output.color.a *= input.texCoord3;
 		#endif
 	#endif
 
 	#if RECEIVE_SHADOW
-		output.color.rgb *= input.shadowColor;
+		float3 shadowInf = getShadow(input.worldNormalSlope.xyz * (shadowNormalSlopeOffset * input.worldNormalSlope.w) + input.worldPos, projPos.xy, input.worldNormalSlope.w);
+		output.color.rgb *= lerp(shadowMapShadowColor.rgb, const1List3, shadowInf.x);
 	#endif
-
-	output.color.rgb = toLinear(output.color.rgb);
-
-	#include "color-grading.slh"
 
 	#if USE_VERTEX_FOG
 		output.color.rgb = lerp(output.color.rgb, input.varFog.rgb, input.varFog.a);
 	#endif
 
 	#if RETRIEVE_FRAG_DEPTH_AVAILABLE && SOFT_PARTICLES
-		float3 projPos = input.projPos.xyz * (1.0 / input.projPos.w);
-
 		#include "depth-diff.slh"
 
+		float distanceDifference = max(depthPosition.x / max(depthPosition.y, 0.0001) - depthPosition.z / max(depthPosition.w, 0.0001), 0.0);
 		float scale = exp2((-distanceDifference * distanceDifference) * (depthDifferenceSlope * _LOG2_E));
 
 		#if BLENDING == BLENDING_ADDITIVE
@@ -206,6 +210,8 @@ fragment_out fp_main(fragment_in input)
 			output.color.a -= output.color.a * scale;
 		#endif
 	#endif
+
+	#include "color-grading.slh"
 
 	return output;
 }

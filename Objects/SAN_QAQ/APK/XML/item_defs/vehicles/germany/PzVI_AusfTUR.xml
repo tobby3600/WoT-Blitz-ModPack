@@ -18,7 +18,7 @@
 	</invisibility>
 	<repairCost>0</repairCost>
 	<crewXpFactor>1.0</crewXpFactor>
-	<optDevicePreset>HEprotectionPreset</optDevicePreset>
+	<optDevicePreset>defaultPreset</optDevicePreset>
 	<consumableSlots>3</consumableSlots>
 	<provisionSlots>3</provisionSlots>
 	<enrichmentBoost>0.0</enrichmentBoost>
@@ -69,10 +69,10 @@
 			<collisionModel>vehicles/german/PzVI_AusfTUR/collision/Hull.model</collisionModel>
 		</hitTester>
 		<armor>
-			<armor_1>150</armor_1>
-			<armor_2>110</armor_2>
-			<armor_3>85</armor_3>
-			<armor_4>82</armor_4>
+			<armor_1>180</armor_1>
+			<armor_2>162</armor_2>
+			<armor_3>95</armor_3>
+			<armor_4>85</armor_4>
 			<armor_5>80</armor_5>
 			<armor_6>85</armor_6>
 			<armor_7>150</armor_7>
@@ -81,13 +81,13 @@
 			<armor_10>0</armor_10>
 			<armor_11>15<vehicleDamageFactor>0.0</vehicleDamageFactor>
 			</armor_11>
-			<armor_12>150</armor_12>
+			<armor_12>176</armor_12>
 			<armor_13>110</armor_13>
 			<armor_16>65</armor_16>
 		</armor>
 		<primaryArmor>armor_1 armor_3 armor_4</primaryArmor>
 		<weight>25350</weight>
-		<maxHealth>970</maxHealth>
+		<maxHealth>900</maxHealth>
 		<ammoBayHealth>
 			<maxHealth>200</maxHealth>
 			<maxRegenHealth>135</maxRegenHealth>
@@ -116,7 +116,7 @@
 			<shortUserString>#germany_vehicles:Chassis_1_PzVI_AusfTUR_short</shortUserString>
 			<description>#germany_vehicles:Chassis_1_PzVI_AusfTUR_descr</description>
 			<tags/>
-			<level>6</level>
+			<level>7</level>
 			<price>0</price>
 			<models>
 				<undamaged>vehicles/german/PzVI_AusfTUR/normal/lod0/Chassis.model</undamaged>
@@ -181,13 +181,13 @@
 			<navmeshGirth>6.0</navmeshGirth>
 			<weight>19000</weight>
 			<maxLoad>61000</maxLoad>
-			<terrainResistance>1.3 1.5 2.3</terrainResistance>
+			<terrainResistance>1 1.4 1.7</terrainResistance>
 			<brakeForce>51000</brakeForce>
 			<rotationIsAroundCenter>true</rotationIsAroundCenter>
 			<rotationSpeed>27</rotationSpeed>
 			<shotDispersionFactors>
-				<vehicleMovement>0.2</vehicleMovement>
-				<vehicleRotation>0.21</vehicleRotation>
+				<vehicleMovement>0.16</vehicleMovement>
+				<vehicleRotation>0.15</vehicleRotation>
 			</shotDispersionFactors>
 			<bulkHealthFactor>3.0</bulkHealthFactor>
 			<maxHealth>190</maxHealth>
@@ -200,7 +200,7 @@
 			<userString>#germany_vehicles:Turret_1_PzVI_AusfTUR</userString>
 			<description>#germany_vehicles:Turret_1_PzVI_AusfTUR_descr</description>
 			<tags/>
-			<level>6</level>
+			<level>7</level>
 			<price>0</price>
 			<hitTester>
 				<collisionModel>vehicles/german/PzVI_AusfTUR/collision/Turret_01.model</collisionModel>
@@ -213,21 +213,21 @@
 			<yawLimits>-180 180</yawLimits>
 			<gunPosition>0.032067 0.412195 1.205636</gunPosition>
 			<armor>
-				<armor_1>100</armor_1>
+				<armor_1>172</armor_1>
 				<armor_2>100</armor_2>
-				<armor_3>82</armor_3>
+				<armor_3>100</armor_3>
 				<armor_4>82</armor_4>
-				<armor_5>86</armor_5>
+				<armor_5>140</armor_5>
 				<armor_6>100</armor_6>
 				<armor_7>45</armor_7>
 				<armor_9>100</armor_9>
 				<armor_10>95</armor_10>
-				<armor_16>82</armor_16>
+				<armor_16>100</armor_16>
 			</armor>
 			<primaryArmor>armor_1 armor_3 armor_4</primaryArmor>
 			<weight>8950</weight>
-			<maxHealth>230</maxHealth>
-			<rotationSpeed>19</rotationSpeed>
+			<maxHealth>680</maxHealth>
+			<rotationSpeed>27</rotationSpeed>
 			<turretRotatorHealth>
 				<maxHealth>140</maxHealth>
 				<maxRegenHealth>70</maxRegenHealth>
@@ -250,19 +250,19 @@
 						<exploded>vehicles/german/PzVI_AusfTUR/crash/lod0/Gun_01.model</exploded>
 					</models>
 					<armor>
-						<armor_1>100<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						<armor_1>115<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_1>
-						<armor_2>100<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						<armor_2>115<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_2>
-						<armor_4>100<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						<armor_4>115<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_4>
 						<gun>35</gun>
 					</armor>
-					<shotDispersionRadius>0.37</shotDispersionRadius>
-					<aimingTime>2.25</aimingTime>
-					<reloadTime>7.8</reloadTime>
+					<shotDispersionRadius>0.36</shotDispersionRadius>
+					<aimingTime>2.315</aimingTime>
+					<reloadTime>6.7</reloadTime>
 					<shotDispersionFactors>
-						<turretRotation>0.13</turretRotation>
+						<turretRotation>0.11</turretRotation>
 						<afterShot>4</afterShot>
 						<whileGunDamaged>2.0</whileGunDamaged>
 					</shotDispersionFactors>
@@ -277,7 +277,7 @@
 							</shell>
 						</_88mm_Pzgr39TUR>
 						<_88mm_Pzgr44TUR>
-							<shell>shared<price>6<gold/>
+							<shell>shared<price>8<gold/>
 								</price>
 							</shell>
 						</_88mm_Pzgr44TUR>

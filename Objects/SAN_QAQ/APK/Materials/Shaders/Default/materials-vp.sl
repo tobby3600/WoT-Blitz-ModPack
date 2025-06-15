@@ -5,10 +5,6 @@
 
 #ensuredefined HIGHLIGHT_WAVE_ANIM 0
 
-#if ENVIRONMENT_MAPPING
-	#include "fresnel-shlick.slh"
-#endif
-
 vertex_in
 {
 	float4 localPos : POSITION;
@@ -17,7 +13,7 @@ vertex_in
 		float4 color0 : COLOR0;
 	#endif
 
-	#if ENVIRONMENT_MAPPING || MATERIAL_TEXTURE || TILED_DECAL_MASK
+	#if MATERIAL_TEXTURE || TILED_DECAL_MASK
 		float2 texCoord0 : TEXCOORD0;
 	#endif
 
@@ -31,7 +27,7 @@ vertex_in
 		float flexibility : TEXCOORD5;
 	#endif
 
-	#if BLEND_BY_ANGLE || ENVIRONMENT_MAPPING || RECEIVE_SHADOW || USE_VERTEX_DISPLACEMENT
+	#if BLEND_BY_ANGLE || RECEIVE_SHADOW || USE_VERTEX_DISPLACEMENT
 		float3 normal : NORMAL;
 	#endif
 
@@ -43,49 +39,49 @@ vertex_out
 	float4 localPos : SV_POSITION;
 	float4 projPos : POSITION0;
 
+	#if RECEIVE_SHADOW || HIGHLIGHT_WAVE_ANIM
+		float3 worldPos : POSITION1;
+	#endif
+
 	#if VERTEX_COLOR
 		float4 vertexColor : COLOR0;
 	#endif
 
-	#if (ALPHA_MASK || MATERIAL_DECAL || (MATERIAL_LIGHTMAP && VIEW_DIFFUSE)) || (ENVIRONMENT_MAPPING || MATERIAL_TEXTURE || TILED_DECAL_MASK)
+	#if MATERIAL_TEXTURE || TILED_DECAL_MASK
 		float4 texCoord0 : TEXCOORD0;
 	#endif
 
-	#if MATERIAL_DETAIL || TILED_DECAL_MASK
+	#if (ALPHA_MASK || MATERIAL_DECAL || (MATERIAL_LIGHTMAP && VIEW_DIFFUSE)) || MATERIAL_DETAIL
 		float4 texCoord1 : TEXCOORD1;
 	#endif
 
-	#if ENVIRONMENT_MAPPING
-		float4 specularVector : TEXCOORD2;
-		float4 reflectionVector : TEXCOORD3;
-	#endif
-
-	#if USE_VERTEX_FOG
-		float4 varFog : TEXCOORD4;
-	#endif
-
-	#if FLOWMAP
-		float3 flowData : TEXCOORD5; // For flowmap animations - xy next frame uv. z - frame time
-	#endif
-
 	#if BLEND_BY_ANGLE || RECEIVE_SHADOW
-		float4 worldNormalNdotL : POSITION0;
+		float4 worldNormalSlope : TEXCOORD2;
 	#endif
 
 	#if BLEND_BY_ANGLE
-		float3 toWorldDir : POSITION1;
+		float3 toCamDir : TEXCOORD3;
 	#endif
 
-	#if RECEIVE_SHADOW || HIGHLIGHT_WAVE_ANIM
-		float3 worldPos : POSITION2;
+	#if FLOWMAP
+		float3 flowData : TEXCOORD4; // For flowmap animations - xy next frame uv. z - frame time
+	#endif
+
+	#if USE_VERTEX_FOG
+		float4 varFog : TEXCOORD5;
 	#endif
 };
 
-[auto][a] property float4 lightPosition0;
-
-#if BLEND_BY_ANGLE || ENVIRONMENT_MAPPING || RECEIVE_SHADOW
+#if BLEND_BY_ANGLE || RECEIVE_SHADOW
 	[auto][a] property float4x4 worldInvTransposeMatrix;
+#endif
+
+#if RECEIVE_SHADOW
 	[auto][a] property float4x4 worldViewInvTransposeMatrix;
+#endif
+
+#if RECEIVE_SHADOW || USE_VERTEX_FOG
+	[auto][a] property float4 lightPosition0;
 #endif
 
 #if !SETUP_LIGHTMAP && MATERIAL_LIGHTMAP && VIEW_DIFFUSE
@@ -97,15 +93,8 @@ vertex_out
 	[material][a] property float2 distanceFadeNearFarSq;
 #endif
 
-#if ENVIRONMENT_MAPPING
-	[material][a] property float reflectionBrightenEnvMap = 3.0;
-	[material][a] property float reflectionSpecular = 1.0;
-	[material][a] property float3 reflectionMetalFresnelReflectance = float3(0.562, 0.565, 0.578);
-#endif
-
-#if FLOWMAP
-	[material][a] property float flowAnimOffset = 0.0;
-	[material][a] property float flowAnimSpeed = 0.0;
+#if MATERIAL_DETAIL
+	[material][a] property float2 detailTileCoordScale = const1List2;
 #endif
 
 #if TEXTURE0_ANIMATION_SHIFT
@@ -121,77 +110,74 @@ vertex_out vp_main(vertex_in input)
 	vertex_out output;
 
 	#include "materials-vertex-processing.slh"
-	#include "flowmap-vec.slh"
 
-	float3 toLightDir = -eyePos * lightPosition0.w + lightPosition0.xyz;
-	float toLightDis = length(toLightDir);
-	toLightDir *= 1.0 / toLightDis;
-
-	#if USE_VERTEX_FOG
-		#include "vp-fog-math.slh"
-	#endif
-
-	#if BLEND_BY_ANGLE || ENVIRONMENT_MAPPING || (DISTANCE_FADE_OUT && VERTEX_COLOR)
-		float3 toWorldDir = worldPos - camPos;
-	#endif
-
-	#if BLEND_BY_ANGLE || ENVIRONMENT_MAPPING || RECEIVE_SHADOW
-		float3 worldNormal = normalize(mul3Fast0(input.normal, worldInvTransposeMatrix));
-	#endif
-
-	#if BLEND_BY_ANGLE
-		output.toWorldDir = toWorldDir;
+	#if PUSH_TO_NEAR_PLANE_HACK
+		output.localPos.z = (output.localPos.z / output.localPos.w * 0.00005 + 0.00005) * output.localPos.w - output.localPos.w;
 	#endif
 
 	#if VERTEX_COLOR
 		output.vertexColor = input.color0;
 
 		#if DISTANCE_FADE_OUT
-			output.vertexColor.a -= output.vertexColor.a * smoothstep(distanceFadeNearFarSq.x, distanceFadeNearFarSq.y, dot(toWorldDir, toWorldDir));
+			output.vertexColor.a -= output.vertexColor.a * smoothstep(distanceFadeNearFarSq.x, distanceFadeNearFarSq.y, dot(toCamDir, toCamDir));
 		#endif
 	#endif
 
-	#if (ALPHA_MASK || MATERIAL_DECAL || (MATERIAL_LIGHTMAP && VIEW_DIFFUSE)) || (ENVIRONMENT_MAPPING || MATERIAL_TEXTURE || TILED_DECAL_MASK)
-		output.texCoord0 = const0List4;
+	#if MATERIAL_TEXTURE || TILED_DECAL_MASK
+		output.texCoord0.xy = getTexCoordsTransform0(input.texCoord0);
 
-		#if ALPHA_MASK || MATERIAL_DECAL || (MATERIAL_LIGHTMAP && VIEW_DIFFUSE)
-			#if !SETUP_LIGHTMAP && MATERIAL_LIGHTMAP && VIEW_DIFFUSE
-				output.texCoord0.xy = input.texCoord1 * uvScale + uvOffset;
-			#else
-				output.texCoord0.xy = input.texCoord1;
-			#endif
-		#endif
-
-		#if ENVIRONMENT_MAPPING || MATERIAL_TEXTURE || TILED_DECAL_MASK
-			output.texCoord0.zw = getTexCoordsTransform0(input.texCoord0);
-		#endif
-	#endif
-
-	#if MATERIAL_TEXTURE
 		#if TEXTURE0_SHIFT_ENABLED
-			output.texCoord0.zw += texture0Shift;
+			output.texCoord0.xy += texture0Shift;
 		#endif
 
 		#if TEXTURE0_ANIMATION_SHIFT
-			output.texCoord0.zw += frac(tex0ShiftPerSecond * globalTime);
+			output.texCoord0.xy += frac(tex0ShiftPerSecond * globalTime);
 		#endif
 	#endif
 
-	#if !DRAW_DEPTH_ONLY && (MATERIAL_DETAIL || TILED_DECAL_MASK)
-		output.texCoord1 = float4(output.texCoord0.zw * decalTileCoordScale, output.texCoord0.zw * detailTileCoordScale);
+	#if TILED_DECAL_MASK
+		output.texCoord0.zw = output.texCoord0.xy * decalTileCoordScale;
 
 		#if TILED_DECAL_TRANSFORM
 			#if HARD_SKINNING
-				output.texCoord1.xy = getTexCoordsTransform2(output.texCoord1.xy, int(input.index * 2.0));
+				output.texCoord0.zw = getTexCoordsTransform2(output.texCoord0.zw, int(input.index * 2.0));
 			#elif !SOFT_SKINNING
-				output.texCoord1.xy = getTexCoordsTransform1(output.texCoord1.xy);
+				output.texCoord0.zw = getTexCoordsTransform1(output.texCoord0.zw);
 			#endif
 		#endif
 	#endif
 
-	float3 L = toLightDir;
+	#if ALPHA_MASK || MATERIAL_DECAL || (MATERIAL_LIGHTMAP && VIEW_DIFFUSE)
+		#if !SETUP_LIGHTMAP && MATERIAL_LIGHTMAP && VIEW_DIFFUSE
+			output.texCoord1.xy = input.texCoord1 * uvScale + uvOffset;
+		#else
+			output.texCoord1.xy = input.texCoord1;
+		#endif
+	#endif
 
-	#if BLEND_BY_ANGLE || ENVIRONMENT_MAPPING || RECEIVE_SHADOW
+	#if MATERIAL_DETAIL
+		output.texCoord1.zw = output.texCoord0.xy * detailTileCoordScale;
+	#endif
+
+	#if BLEND_BY_ANGLE || (DISTANCE_FADE_OUT && VERTEX_COLOR) || USE_VERTEX_FOG
+		float3 toCamDir = camPos - worldPos;
+	#endif
+
+	#if RECEIVE_SHADOW || USE_VERTEX_FOG
+		float3 toLightDir = -eyePos * lightPosition0.w + lightPosition0.xyz;
+		float toLightDis = length(toLightDir);
+		toLightDir /= toLightDis;
+	#endif
+
+	#if RECEIVE_SHADOW || HIGHLIGHT_WAVE_ANIM
+		output.worldPos = worldPos;
+	#endif
+
+	#if BLEND_BY_ANGLE || RECEIVE_SHADOW
+		output.worldNormalSlope.xyz = normalize(mul3Fast0(input.normal, worldInvTransposeMatrix));
+	#endif
+
+	#if RECEIVE_SHADOW
 		float3 normal = input.normal;
 
 		#if SOFT_SKINNING
@@ -200,35 +186,17 @@ vertex_out vp_main(vertex_in input)
 			normal = hardSkinnedNormal(normal, input.index);
 		#endif
 
-		float3 N = normalize(mul3Fast0(normal, worldViewInvTransposeMatrix));
-		float NdotL = saturate(dot(N, L));
+		output.worldNormalSlope.w = 1.0 - saturate(dot(normalize(mul3Fast0(normal, worldViewInvTransposeMatrix)), toLightDir));
 	#endif
 
-	#if ENVIRONMENT_MAPPING
-		float3 V = normalize(-eyePos);
-		float3 H = normalize(L + V);
-
-		float NdotV = saturate(dot(N, V));
-		float NdotH = saturate(dot(N, H));
-		float VdotH = saturate(dot(V, H));
-
-		float3 fresnelOut = fresnelVec3(NdotV, reflectionMetalFresnelReflectance);
-
-		output.specularVector = float4(fresnelOut * (NdotL * reflectionSpecular) * (1.0 / (VdotH * VdotH + 0.0001)), NdotH);
-		output.reflectionVector = float4(reflect(normalize(toWorldDir), worldNormal), dot(fresnelOut, rgbMixList * reflectionBrightenEnvMap));
+	#if BLEND_BY_ANGLE
+		output.toCamDir = toCamDir;
 	#endif
 
-	#if RECEIVE_SHADOW || HIGHLIGHT_WAVE_ANIM
-		output.worldPos = worldPos;
-	#endif
+	#include "flowmap-vec.slh"
 
-	#if BLEND_BY_ANGLE || RECEIVE_SHADOW
-		output.worldNormalNdotL = float4(worldNormal, 1.0 - NdotL);
-	#endif
-
-	#if PUSH_TO_NEAR_PLANE_HACK
-		float z = output.localPos.z * 0.00005 * (1.0 / output.localPos.w) + 0.00005;
-		output.localPos.z = z * output.localPos.w - output.localPos.w;
+	#if USE_VERTEX_FOG
+		#include "vp-fog-math.slh"
 	#endif
 
 	return output;

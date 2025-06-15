@@ -1852,14 +1852,14 @@
 		<userString>#germany_vehicles:PzVI_AusfTUR</userString>
 		<shortUserString>#germany_vehicles:PzVI_AusfTUR_short</shortUserString>
 		<description>#germany_vehicles:PzVI_AusfTUR_descr</description>
-		<price>500<gold/>
+		<price>5000<gold/>
 		</price>
 		<sellPrice>500<gold/>
 		</sellPrice>
 		<enrichmentPermanentCost>0</enrichmentPermanentCost>
 		<notInShop>false</notInShop>
 		<tags>heavyTank beast collectible eventCamouflage_user</tags>
-		<level>6</level>
+		<level>7</level>
 		<combatRole>
 			<arcade>dreadnought</arcade>
 			<hellgames>werewolf</hellgames>

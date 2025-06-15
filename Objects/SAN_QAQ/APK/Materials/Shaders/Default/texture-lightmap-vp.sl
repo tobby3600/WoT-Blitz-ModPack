@@ -5,13 +5,13 @@
 #include "texture-coords-transform.slh"
 #include "vp-fog-props.slh"
 
-#if ENVIRONMENT_MAPPING
-	#include "fresnel-shlick.slh"
-#endif
-
 vertex_in
 {
 	float4 localPos : POSITION;
+
+	#if USE_VERTEX_DISPLACEMENT
+		float4 color0 : COLOR0;
+	#endif
 
 	#if ENVIRONMENT_MAPPING || MATERIAL_TEXTURE
 		float2 texCoord0 : TEXCOORD0;
@@ -34,11 +34,11 @@ vertex_out
 	float4 projPos : POSITION0;
 
 	#if RECEIVE_SHADOW
-		float4 worldNormalNdotL : POSITION1;
-		float3 worldPos : POSITION2;
+		float3 worldPos : POSITION1;
+		float4 worldNormalSlope : POSITION2;
 	#endif
 
-	#if ENVIRONMENT_MAPPING || (MATERIAL_TEXTURE || MATERIAL_LIGHTMAP && VIEW_DIFFUSE)
+	#if ENVIRONMENT_MAPPING || (MATERIAL_TEXTURE || (MATERIAL_LIGHTMAP && VIEW_DIFFUSE))
 		float4 texCoord : TEXCOORD0;
 	#endif
 
@@ -65,7 +65,7 @@ vertex_out
 	[material][a] property float3 reflectionMetalFresnelReflectance = float3(0.562, 0.565, 0.578);
 #endif
 
-#if MATERIAL_LIGHTMAP && VIEW_DIFFUSE
+#if !SETUP_LIGHTMAP && MATERIAL_LIGHTMAP && VIEW_DIFFUSE
 	[material][a] property float2 uvOffset = const0List2;
 	[material][a] property float2 uvScale = const0List2;
 #endif
@@ -76,24 +76,30 @@ vertex_out vp_main(vertex_in input)
 
 	#include "materials-vertex-processing.slh"
 
-	float3 toLightDir = -eyePos * lightPosition0.w + lightPosition0.xyz;
-	float toLightDis = length(toLightDir);
-	toLightDir *= 1.0 / toLightDis;
+	#if ENVIRONMENT_MAPPING || USE_VERTEX_FOG
+		float3 toCamDir = camPos - worldPos;
+	#endif
+
+	#if ENVIRONMENT_MAPPING || RECEIVE_SHADOW || USE_VERTEX_FOG
+		float3 toLightDir = -eyePos * lightPosition0.w + lightPosition0.xyz;
+		float toLightDis = length(toLightDir);
+		toLightDir /= toLightDis;
+	#endif
 
 	#if USE_VERTEX_FOG
 		#include "vp-fog-math.slh"
 	#endif
 
-	#if ENVIRONMENT_MAPPING || (MATERIAL_TEXTURE || MATERIAL_LIGHTMAP && VIEW_DIFFUSE)
-		output.texCoord = const0List4;
+	#if ENVIRONMENT_MAPPING || MATERIAL_TEXTURE
+		output.texCoord.xy = getTexCoordsTransform0(input.texCoord0);
+	#endif
 
-		#if ENVIRONMENT_MAPPING || MATERIAL_TEXTURE
-			output.texCoord.xy = getTexCoordsTransform0(input.texCoord0);
-		#endif
+	#if MATERIAL_LIGHTMAP && VIEW_DIFFUSE
+		output.texCoord.zw = input.texCoord1 * uvScale + uvOffset;
 
-		#if MATERIAL_LIGHTMAP && VIEW_DIFFUSE
-			output.texCoord.zw = input.texCoord1 * uvScale + uvOffset;
-		#endif
+		#if SETUP_LIGHTMAP
+			output.texCoord.zw = input.texCoord1;
+		#else
 	#endif
 
 	#if ENVIRONMENT_MAPPING || RECEIVE_SHADOW
@@ -112,7 +118,6 @@ vertex_out vp_main(vertex_in input)
 	#endif
 
 	#if ENVIRONMENT_MAPPING
-		float3 toWorldDir = normalize(worldPos - camPos);
 		float3 V = normalize(-eyePos);
 		float3 H = normalize(L + V);
 
@@ -120,15 +125,15 @@ vertex_out vp_main(vertex_in input)
 		float NdotH = saturate(dot(N, H));
 		float VdotH = saturate(dot(V, H));
 
-		float3 fresnelOut = fresnelVec3(NdotV, reflectionMetalFresnelReflectance);
+		float3 fresnelOut = lerp(reflectionMetalFresnelReflectance, const1List3, pow5Exp(NdotV));
 
-		output.specularVector = float4(fresnelOut * (NdotL * reflectionSpecular) * (1.0 / (VdotH * VdotH + 0.0001)), NdotH);
-		output.reflectionVector = float4(reflect(toWorldDir, worldNormal), dot(fresnelOut, rgbMixList * reflectionBrightenEnvMap));
+		output.specularVector = float4(fresnelOut * (NdotL * reflectionSpecular / (VdotH * VdotH + 0.0001)), NdotH);
+		output.reflectionVector = float4(reflect(normalize(-toCamDir), worldNormal), dot(fresnelOut, rgbMixList * reflectionBrightenEnvMap));
 	#endif
 
 	#if RECEIVE_SHADOW
 		output.worldPos = worldPos;
-		output.worldNormalNdotL = float4(worldNormal, 1.0 - NdotL);
+		output.worldNormalSlope = float4(worldNormal, 1.0 - NdotL);
 	#endif
 
 	return output;

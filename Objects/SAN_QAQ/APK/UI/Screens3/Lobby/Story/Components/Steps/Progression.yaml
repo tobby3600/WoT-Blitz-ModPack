@@ -177,13 +177,13 @@ Slots:
                         verticalPolicy: "PercentOfParent"
                 bindings:
                 - ["UIOpacityComponent.opacity", "opacity"]
-                # children:
-                # -   prototype: "BlurModified/BlurModified"
-                    # name: "Blur"
-                    # components:
-                        # UIDataParamsComponent:
-                            # args:
-                                # "bgStyle": "\"grey-shark-25-bg\""
+                children:
+                -   prototype: "BlurModified/BlurModified"
+                    name: "Blur"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "bgStyle": "\"grey-shark-25-bg\""
             -   class: "UIControl"
                 name: "VehicleBgHolder"
                 input: false

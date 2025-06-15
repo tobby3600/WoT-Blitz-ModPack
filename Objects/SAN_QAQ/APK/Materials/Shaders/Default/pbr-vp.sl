@@ -44,13 +44,9 @@ vertex_out
 		float4 displacePos : POSITION1; // xyz - position, w - normal.z
 	#endif
 
-	#if HARD_SKINNING && TILED_DECAL_MASK
-		float index : POSITION2;
-	#endif
-
-	float4 tbnToWorld0 : TANGENTTOWORLD0;
-	float4 tbnToWorld1 : TANGENTTOWORLD1;
-	float4 tbnToWorld2 : TANGENTTOWORLD2;
+	float4 tangentToWorld0 : TANGENTTOWORLD0;
+	float4 tangentToWorld1 : TANGENTTOWORLD1;
+	float4 tangentToWorld2 : TANGENTTOWORLD2;
 
 	#if TILED_DECAL_MASK
 		float4 texCoord0 : TEXCOORD0;
@@ -62,20 +58,20 @@ vertex_out
 		float4 texCoord1 : TEXCOORD1;
 	#endif
 
-	#if USE_VERTEX_FOG
-		float4 varFog : TEXCOORD2;
+	#if RECEIVE_SHADOW || VERTEX_COLOR
+		float4 texCoord2 : TEXCOORD2;
 	#endif
 
-	#if RECEIVE_SHADOW
-		float3 toLightDir : TEXCOORD3;
+	#if USE_VERTEX_FOG
+		float4 varFog : TEXCOORD3;
 	#endif
 
 	#if TILED_DECAL_ANIMATED_EMISSION && TILED_DECAL_MASK
 		float4 aniCamo : TEXCOORD4;
 	#endif
 
-	#if VERTEX_COLOR
-		float vertexAlpha : COLOR0;
+	#if HARD_SKINNING && TILED_DECAL_MASK
+		float index : TEXCOORD5;
 	#endif
 };
 
@@ -113,9 +109,11 @@ vertex_out vp_main(vertex_in input)
 
 	#include "materials-vertex-processing.slh"
 
-	float3 toLightDir = -eyePos * lightPosition0.w + lightPosition0.xyz;
-	float toLightDis = length(toLightDir);
-	toLightDir *= 1.0 / toLightDis;
+	#if RECEIVE_SHADOW || USE_VERTEX_FOG
+		float3 toLightDir = viewPos * lightPosition0.w + lightPosition0.xyz;
+		float toLightDis = length(toLightDir);
+		toLightDir /= toLightDis;
+	#endif
 
 	float3 normal = input.normal;
 	float3 binormal = input.binormal;
@@ -146,26 +144,21 @@ vertex_out vp_main(vertex_in input)
 	float3 b = normalize(mul3Fast0(binormal, worldInvTransposeMatrix));
 	float3 n = normalize(mul3Fast0(normal, worldInvTransposeMatrix));
 
-	output.tbnToWorld0 = float4(t.x, b.x, n.x, worldPos.x);
-	output.tbnToWorld1 = float4(t.y, b.y, n.y, worldPos.y);
-	output.tbnToWorld2 = float4(t.z, b.z, n.z, worldPos.z);
+	#if NEEDS_LOCAL_POSITION
+		output.displacePos.xyz = float4(displacePos, input.normal.z);
 
-	#if RECEIVE_SHADOW
-		output.toLightDir = float3(dot(toLightDir, normalize(mul3Fast0(tangent, worldViewInvTransposeMatrix))), dot(toLightDir, normalize(mul3Fast0(binormal, worldViewInvTransposeMatrix))), dot(toLightDir, normalize(mul3Fast0(normal, worldViewInvTransposeMatrix))));
+		#if INSTANCED_CHAIN
+			output.displacePos.w = normal.z;
+		#endif
 	#endif
 
-	#if USE_VERTEX_FOG
-		#include "vp-fog-math.slh"
-	#endif
-
-	#if VERTEX_COLOR
-		output.vertexAlpha = input.color0.a;
-	#endif
-
+	output.tangentToWorld0 = float4(t.x, b.x, n.x, worldPos.x);
+	output.tangentToWorld1 = float4(t.y, b.y, n.y, worldPos.y);
+	output.tangentToWorld2 = float4(t.z, b.z, n.z, worldPos.z);
 	output.texCoord0.xy = input.texCoord0;
 
 	#if INSTANCED_CHAIN
-		output.texCoord0.y = output.texCoord0.y * segmentLength * (1.0 / chunkLength) + getTexCoordOffset(instanceId + 1);
+		output.texCoord0.y = output.texCoord0.y * segPerChunkLength + getTexCoordOffset(instanceId + uint(1));
 	#endif
 
 	#if ALBEDO_TRANSFORM
@@ -180,30 +173,32 @@ vertex_out vp_main(vertex_in input)
 		output.texCoord0.xy += texture0Shift;
 	#endif
 
+	#if PBR_DECAL
+		output.texCoord1.xy = input.texCoord1;
+	#elif PBR_LIGHTMAP
+		output.texCoord1.xy = input.texCoord1 * pbrUvScale + pbrUvOffset;
+	#endif
+
+	#if PBR_DETAIL
+		output.texCoord1.zw = output.texCoord0.xy * pbrDetailTileCoordScale;
+	#endif
+
+	#if RECEIVE_SHADOW
+		output.texCoord2.xyz = float3(dot(toLightDir, normalize(mul3Fast0(tangent, worldViewInvTransposeMatrix))), dot(toLightDir, normalize(mul3Fast0(binormal, worldViewInvTransposeMatrix))), dot(toLightDir, normalize(mul3Fast0(normal, worldViewInvTransposeMatrix))));
+	#endif
+
+	#if VERTEX_COLOR
+		output.texCoord2.w = input.color0.a;
+	#endif
+
+	#if USE_VERTEX_FOG
+		float3 toCamDir = camPos - worldPos;
+
+		#include "vp-fog-math.slh"
+	#endif
+
 	#if TILED_DECAL_MASK
 		#include "decal-mask.slh"
-	#endif
-
-	#if PBR_DECAL || PBR_DETAIL || PBR_LIGHTMAP
-		output.texCoord1 = const0List4;
-
-		#if PBR_DECAL
-			output.texCoord1.xy = input.texCoord1;
-		#elif PBR_LIGHTMAP
-			output.texCoord1.xy = input.texCoord1 * pbrUvScale + pbrUvOffset;
-		#endif
-
-		#if PBR_DETAIL
-			output.texCoord1.zw = output.texCoord0.xy * pbrDetailTileCoordScale;
-		#endif
-	#endif
-
-	#if NEEDS_LOCAL_POSITION
-		#if INSTANCED_CHAIN
-			output.displacePos = float4(displacePos, normal.z);
-		#else
-			output.displacePos = float4(displacePos, input.normal.z);
-		#endif
 	#endif
 
 	#if HARD_SKINNING && TILED_DECAL_MASK

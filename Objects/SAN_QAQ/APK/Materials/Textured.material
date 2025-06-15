@@ -41,6 +41,7 @@ Material:
             RenderState:
                 blend: true
                 depthWrite: false
+                cullMode: NONE
             Passes:
                 DepthOnly:
                     enabled: false

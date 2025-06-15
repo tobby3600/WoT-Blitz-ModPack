@@ -58,16 +58,14 @@ tanks:
         position: [5, 22]
 #<!-- TIER_6 -->
     M24_Chaffee_BP:
-        position: [6, 5]
-    T21:
         position: [6, 6]
-    T21_BP:
+    T21:
         position: [6, 7]
-    A104_M4A3E8A:
+    T21_BP:
         position: [6, 8]
-    M4A3E8TU:
+    A104_M4A3E8A:
         position: [6, 9]
-    M4A3E8TUR:
+    M4A3E8TU:
         position: [6, 10]
     M4A3E8_BP:
         position: [6, 11]
@@ -97,12 +95,14 @@ tanks:
         position: [6, 24]
 #<!-- TIER_7 -->
     T49_Rocket:
-        position: [7, 11]
+        position: [7, 10]
     T23E3:
-        position: [7, 12]
+        position: [7, 11]
     A121_T26E3:
-        position: [7, 13]
+        position: [7, 12]
     A136_T42:
+        position: [7, 13]
+    M4A3E8TUR:
         position: [7, 14]
     M6A2E1:
         position: [7, 15]

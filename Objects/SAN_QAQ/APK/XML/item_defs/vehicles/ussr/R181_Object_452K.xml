@@ -270,7 +270,7 @@
 					</armor>
 					<shotDispersionRadius>0.38</shotDispersionRadius>
 					<aimingTime>2.6</aimingTime>
-					<reloadTime>13.8</reloadTime>
+					<reloadTime>13.1</reloadTime>
 					<shotDispersionFactors>
 						<turretRotation>0.13</turretRotation>
 						<afterShot>4</afterShot>
@@ -327,4 +327,20 @@
 	<radios>
 		<_10RK-26K>shared</_10RK-26K>
 	</radios>
+	<extras>
+		<shotDispersionStabilizator>
+			<forward>
+				<speedLimitFactor>15</speedLimitFactor>
+				<speedIncreaseFactor>4.0</speedIncreaseFactor>
+			</forward>
+			<backward>
+				<speedLimitFactor>15</speedLimitFactor>
+				<speedIncreaseFactor>4.0</speedIncreaseFactor>
+			</backward>
+			<rotation>
+				<speedLimitFactor>20</speedLimitFactor>
+				<speedIncreaseFactor>4.0</speedIncreaseFactor>
+			</rotation>
+		</shotDispersionStabilizator>
+	</extras>
 </root>

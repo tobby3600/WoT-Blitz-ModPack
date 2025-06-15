@@ -26,13 +26,9 @@ fragment_in
 		float4 displacePos : POSITION1; // xyz - position, w - normal.z
 	#endif
 
-	#if HARD_SKINNING && TILED_DECAL_MASK
-		float index : POSITION2;
-	#endif
-
-	float4 tbnToWorld0 : TANGENTTOWORLD0;
-	float4 tbnToWorld1 : TANGENTTOWORLD1;
-	float4 tbnToWorld2 : TANGENTTOWORLD2;
+	float4 tangentToWorld0 : TANGENTTOWORLD0;
+	float4 tangentToWorld1 : TANGENTTOWORLD1;
+	float4 tangentToWorld2 : TANGENTTOWORLD2;
 
 	#if TILED_DECAL_MASK
 		float4 texCoord0 : TEXCOORD0;
@@ -44,20 +40,20 @@ fragment_in
 		float4 texCoord1 : TEXCOORD1;
 	#endif
 
-	#if USE_VERTEX_FOG
-		float4 varFog : TEXCOORD2;
+	#if RECEIVE_SHADOW || VERTEX_COLOR
+		float4 texCoord2 : TEXCOORD2;
 	#endif
 
-	#if RECEIVE_SHADOW
-		float3 toLightDir : TEXCOORD3;
+	#if USE_VERTEX_FOG
+		float4 varFog : TEXCOORD3;
 	#endif
 
 	#if TILED_DECAL_ANIMATED_EMISSION && TILED_DECAL_MASK
 		float4 aniCamo : TEXCOORD4;
 	#endif
 
-	#if VERTEX_COLOR
-		float vertexAlpha : COLOR0;
+	#if HARD_SKINNING && TILED_DECAL_MASK
+		float index : TEXCOORD5;
 	#endif
 };
 
@@ -120,8 +116,11 @@ uniform sampler2D miscMap; // RG or AG(DXT5NM) or GA(ASTC) - ambient occlusion /
 
 #if MAX_POINT_LIGHTS > 0
 	[auto][a] property float pointLightIntensity0;
-	[auto][a] property float pointLightIntensity1;
 	[auto][a] property float4x4 pointLights; // 0,1: (position, radius); 2,3: (color, falloff exponent)
+#endif
+
+#if MAX_POINT_LIGHTS > 1
+	[auto][a] property float pointLightIntensity1;
 #endif
 
 [material][a] property float normalScale = 1.0;
@@ -189,9 +188,24 @@ fragment_out fp_main(fragment_in input)
 {
 	fragment_out output;
 
-	float2 projPos = input.projPos.xy * (1.0 / input.projPos.w);
-	float3 worldPos = float3(input.tbnToWorld0.w, input.tbnToWorld1.w, input.tbnToWorld2.w);
-	float4 baseColor = tex2D(baseColorMap, input.texCoord0.xy);
+	float2 projPos = input.projPos.xy / input.projPos.w;
+	float3 worldPos = float3(input.tangentToWorld0.w, input.tangentToWorld1.w, input.tangentToWorld2.w);
+
+	#if NEEDS_LOCAL_POSITION
+		float4 displacePos = input.displacePos; // xyz - position, w - normal.z
+	#endif
+
+	#if TILED_DECAL_MASK
+		float4 texCoord0 = input.texCoord0;
+	#else
+		float2 texCoord0 = input.texCoord0;
+	#endif
+
+	#if PBR_DECAL || PBR_DETAIL || PBR_LIGHTMAP
+		float4 texCoord1 = input.texCoord1;
+	#endif
+
+	float4 baseColor = tex2D(baseColorMap, texCoord0.xy);
 
 	#if LOD_TRANSITION
 		baseColor.a *= getLodTransition(projPos, lodTransitionThreshold);
@@ -201,7 +215,7 @@ fragment_out fp_main(fragment_in input)
 		float alpha = baseColor.a;
 
 		#if VERTEX_COLOR
-			alpha *= input.vertexAlpha;
+			alpha *= input.texCoord2.w;
 		#endif
 
 		#if ALPHATESTVALUE
@@ -217,21 +231,21 @@ fragment_out fp_main(fragment_in input)
 
 	baseColor *= baseColorFactor;
 
-	float2 misc = tex2D(miscMap, input.texCoord0.xy).ga;
-	float2 mask = tex2D(maskMap, input.texCoord0.xy).ga;
-	float2 baseRM = tex2D(baseRMMap, input.texCoord0.xy).ga * roughnessMetallicFactor;
-	float3 baseNormal = unpackNormal(tex2D(baseNormalMap, input.texCoord0.xy).ga);
+	float2 misc = tex2D(miscMap, texCoord0.xy).ga;
+	float2 mask = tex2D(maskMap, texCoord0.xy).ga;
+	float2 baseRM = tex2D(baseRMMap, texCoord0.xy).ga * roughnessMetallicFactor;
+	float3 baseNormal = unpackNormal(tex2D(baseNormalMap, texCoord0.xy).ga);
 
 	#if PBR_DECAL
-		float4 decalColorAndRoughness = tex2D(pbrDecalColorRoughnessMap, input.texCoord1.xy) * 2.0;
+		float4 decalColorAndRoughness = tex2D(pbrDecalColorRoughnessMap, texCoord1.xy) * 2.0;
 		baseColor.rgb *= decalColorAndRoughness.rgb;
 		baseRM.x *= decalColorAndRoughness.a;
 	#endif
 
 	#if PBR_DETAIL
-		float2 detailRoughnessAO = tex2D(pbrDetailRoughnessAOMap, input.texCoord1.zw).ga;
-		float3 detailColor = tex2D(pbrDetailColorMap, input.texCoord1.zw).rgb;
-		float3 detailNormal = unpackNormal(tex2D(pbrDetailNormalMap, input.texCoord1.zw).ga);
+		float2 detailRoughnessAO = tex2D(pbrDetailRoughnessAOMap, texCoord1.zw).ga;
+		float3 detailColor = tex2D(pbrDetailColorMap, texCoord1.zw).rgb;
+		float3 detailNormal = unpackNormal(tex2D(pbrDetailNormalMap, texCoord1.zw).ga);
 
 		baseNormal = blendNormal(detailNormal, baseNormal);
 		baseColor.rgb *= detailColor * 2.0;
@@ -248,7 +262,7 @@ fragment_out fp_main(fragment_in input)
 			float index = 0.0;
 		#endif
 
-		float4 decalColor = tex2Darray(decalColorMap, input.texCoord0.zw, index);
+		float4 decalColor = tex2Darray(decalColorMap, texCoord0.zw, index);
 
 		#if TILED_DECAL_EMISSIVE_ALBEDO
 			emission += decalColor.rgb * (mask.r * decalColor.a * max(0.0, tiledDecalEmissiveAlbedoFactor));
@@ -275,11 +289,11 @@ fragment_out fp_main(fragment_in input)
 			float spreading = 1.0;
 
 			#if TILED_DECAL_NOISE_SPREADING
-				spreading *= getSpreadNoise(input.texCoord0.zw);
+				spreading *= getSpreadNoise(texCoord0.zw);
 			#endif
 
 			#if TILED_DECAL_SPATIAL_SPREADING
-				spreading *= getSpreadSpace(input.displacePos.xyz);
+				spreading *= getSpreadSpace(displacePos.xyz);
 			#endif
 
 			mask.r *= spreading;
@@ -288,23 +302,22 @@ fragment_out fp_main(fragment_in input)
 
 		#if TILED_DECAL_BLEND_NORMAL
 			float blendFactor = decalblendNormal * mask.r * 2.0;
-			float3 decalNormal = unpackNormal(tex2Darray(decalNormalMap, input.texCoord0.zw, index).ga);
-			float3 blendNormal = blendNormal(baseNormal, decalNormal);
+			float3 decalNormal = unpackNormal(tex2Darray(decalNormalMap, texCoord0.zw, index).ga);
 
-			baseNormal = lerp(baseNormal, blendNormal, saturate(blendFactor));
+			baseNormal = lerp(baseNormal, blendNormal(baseNormal, decalNormal), saturate(blendFactor));
 			baseNormal = lerp(baseNormal, decalNormal, saturate(blendFactor - 1.0));
 		#endif
 
 		#if TILED_DECAL_OVERRIDE_ROUGHNESS_METALLIC
-			baseRM = lerp(baseRM, tex2Darray(decalRMMap, input.texCoord0.zw, index).ga, mask.r);
+			baseRM = lerp(baseRM, tex2Darray(decalRMMap, texCoord0.zw, index).ga, mask.r);
 		#endif
 
 		baseColor.rgb = lerp(baseColor.rgb, toLinear(decalColor.rgb), mask.r);
 	#endif
 
 	#if DIRT_COVERAGE
-		float dirtFactor = saturate(1.0 - smoothstep(dirtStrength - 0.25, dirtStrength + 0.25, 1.0 - mask.g) + smoothstep(0.05, 0.95, dirtStrength * tex2D(dirtHeightMap, input.texCoord0.xy).g));
-		float3 dirtNormal = unpackNormal(tex2D(dirtNormalMap, input.texCoord0.xy).ga);
+		float dirtFactor = saturate(1.0 - smoothstep(dirtStrength - 0.25, dirtStrength + 0.25, 1.0 - mask.g) + smoothstep(0.05, 0.95, dirtStrength * tex2D(dirtHeightMap, texCoord0.xy).g));
+		float3 dirtNormal = unpackNormal(tex2D(dirtNormalMap, texCoord0.xy).ga);
 
 		baseColor.rgb = lerp(baseColor.rgb, toLinear(dirtColor.rgb), dirtFactor * dirtColor.a);
 		baseRM = lerp(baseRM, float2(dirtRoughness, 0.0), dirtFactor);
@@ -314,8 +327,8 @@ fragment_out fp_main(fragment_in input)
 
 	float3 N = baseNormal;
 	N.xy *= normalScale;
-	N = normalize(float3(dot(N, input.tbnToWorld0.xyz), dot(N, input.tbnToWorld1.xyz), dot(N, input.tbnToWorld2.xyz)));
-	float3 polygonN = normalize(float3(input.tbnToWorld0.z, input.tbnToWorld1.z, input.tbnToWorld2.z));
+	N = normalize(float3(dot(N, input.tangentToWorld0.xyz), dot(N, input.tangentToWorld1.xyz), dot(N, input.tangentToWorld2.xyz)));
+	float3 polygonN = normalize(float3(input.tangentToWorld0.z, input.tangentToWorld1.z, input.tangentToWorld2.z));
 	float3 L = normalize(mul3Fast0(lightPosition0.xyz, invViewMatrix));
 	float3 V = normalize(cameraPosition - worldPos);
 	float3 H = normalize(L + V);
@@ -323,15 +336,15 @@ fragment_out fp_main(fragment_in input)
 	#if WETNESS_MULTILEVEL || WETNESS_SIMPLIFIED
 		#if WETNESS_MULTILEVEL
 			float2 boundPos = const0List2;
-			boundPos += input.displacePos.xy * 1.2;
-			boundPos += input.displacePos.zz * 0.4;
+			boundPos += displacePos.xy * 1.2;
+			boundPos += displacePos.zz * 0.4;
 
 			const float noiseSample = tex2D(perlinNoise, boundPos).a;
-			const float boundarySample = lerp(noiseSample * 0.25, noiseSample * 0.05 + 0.15, saturate(input.displacePos.w * 10.0 - 9.0));
+			const float boundarySample = lerp(noiseSample * 0.25, noiseSample * 0.05 + 0.15, saturate(displacePos.w * 10.0 - 9.0));
 			const float boundarySampleFade = boundarySample + 0.05;
 
-			const float4 stepCurrentLevel = step(wetnessHeights, input.displacePos.zzzz);
-			const float4 stepNextLevel = step(wetnessHeights, input.displacePos.zzzz + float4(boundarySampleFade, boundarySampleFade, boundarySampleFade, boundarySampleFade));
+			const float4 stepCurrentLevel = step(wetnessHeights, displacePos.zzzz);
+			const float4 stepNextLevel = step(wetnessHeights, displacePos.zzzz + float4(boundarySampleFade, boundarySampleFade, boundarySampleFade, boundarySampleFade));
 
 			const float currentLevelF32 = dot(stepCurrentLevel, const1List4);
 			const float nextLevelF32 = dot(stepNextLevel, const1List4);
@@ -346,10 +359,10 @@ fragment_out fp_main(fragment_in input)
 			{
 				float midHeight = wetnessHeights[midLevel];
 
-				nextStrength = lerp(wetnessStrengths[midLevel - 1], nextStrength, smoothstep(midHeight - boundarySampleFade, midHeight - boundarySample, input.displacePos.z));
+				nextStrength = lerp(wetnessStrengths[midLevel - 1], nextStrength, smoothstep(midHeight - boundarySampleFade, midHeight - boundarySample, displacePos.z));
 			}
 
-			const float wetnessStrength = lerp(currentStrength, nextStrength, smoothstep(currentHeight - boundarySampleFade, currentHeight - boundarySample, input.displacePos.z));
+			const float wetnessStrength = lerp(currentStrength, nextStrength, smoothstep(currentHeight - boundarySampleFade, currentHeight - boundarySample, displacePos.z));
 		#else
 			const float wetnessStrength = simpleWetnessStrength;
 		#endif
@@ -365,18 +378,18 @@ fragment_out fp_main(fragment_in input)
 		float2 directionalAndAO = const1List2;
 
 		#if PBR_DECAL
-			directionalAndAO *= tex2D(pbrDecalLightmap, input.texCoord1.xy).ga;
+			directionalAndAO *= tex2D(pbrDecalLightmap, texCoord1.xy).ga;
 		#endif
 
 		#if PBR_LIGHTMAP
-			directionalAndAO *= tex2D(pbrLightmap, input.texCoord1.xy).ga;
+			directionalAndAO *= tex2D(pbrLightmap, texCoord1.xy).ga;
 		#endif
 
 		misc.r *= directionalAndAO.y;
 	#endif
 
 	#if AMBIENT_ATTENUATION_BOX
-		float3 ambientAttenuation = const1List3 - smoothstep(attenuationBoxHalfSize - attenuationBoxSmoothness, attenuationBoxHalfSize, abs(attenuationBoxPosition - input.displacePos.xyz));
+		float3 ambientAttenuation = const1List3 - smoothstep(attenuationBoxHalfSize - attenuationBoxSmoothness, attenuationBoxHalfSize, abs(attenuationBoxPosition - displacePos.xyz));
 		misc.r -= (ambientAttenuation.x * ambientAttenuation.y) * (ambientAttenuation.z * misc.r);
 	#endif
 
@@ -392,10 +405,10 @@ fragment_out fp_main(fragment_in input)
 		float3 NShady = baseNormal;
 		NShady.xy *= shadowLitNormalScale;
 		NShady = normalize(NShady);
-		float3 LShady = normalize(input.toLightDir);
-		float NdotLShady = saturate(1.0 - dot(NShady, LShady));
-		float3 worldNormal = float3(dot(NShady, input.tbnToWorld0.xyz), dot(NShady, input.tbnToWorld1.xyz), dot(NShady, input.tbnToWorld2.xyz));
-		float3 shadowInf = getShadow(worldNormal * (shadowNormalSlopeOffset * NdotLShady) + worldPos, projPos, NdotLShady);
+		float3 LShady = normalize(input.texCoord2.xyz);
+		float slope = 1.0 - saturate(dot(NShady, LShady));
+		float3 worldNormal = float3(dot(NShady, input.tangentToWorld0.xyz), dot(NShady, input.tangentToWorld1.xyz), dot(NShady, input.tangentToWorld2.xyz));
+		float3 shadowInf = getShadow(worldNormal * (shadowNormalSlopeOffset * slope) + worldPos, projPos, slope);
 
 		#if PBR_DECAL || PBR_LIGHTMAP
 			shadow = lerp(directionalAndAO.x, shadowInf.z, shadowInf.y);
@@ -410,19 +423,19 @@ fragment_out fp_main(fragment_in input)
 	baseRM = saturate(baseRM);
 	misc.r = saturate(misc.r);
 
-	output.color.rgb = getPBR(polygonN, N, V, L, H, lightColor0 * lightIntensity0, baseColor.rgb, baseRM.y, baseRM.x, misc.r, shadow, emission);
+	output.color.rgb = getPBR(polygonN, N, L, V, H, lightColor0 * lightIntensity0, baseColor.rgb, baseRM.y, baseRM.x, misc.r, shadow, emission);
 
 	#if MAX_POINT_LIGHTS > 0
-		float4 pbrPointLightInf = getPbrPointLight(mul3Fast1(pointLights[0].xyz, invViewMatrix) - worldPos, pointLights[0].w, pointLights[2].w);
-		output.color.rgb += getPBR(polygonN, N, V, pbrPointLightInf.xyz, H, pointLights[2].xyz * (pointLightIntensity0 * pbrPointLightInf.w), baseColor.rgb, baseRM.y, baseRM.x, 0.0, 1.0, const0List3);
-
-		#if MAX_POINT_LIGHTS > 1
-			pbrPointLightInf = getPbrPointLight(mul3Fast1(pointLights[1].xyz, invViewMatrix) - worldPos, pointLights[1].w, pointLights[3].w);
-			output.color.rgb += getPBR(polygonN, N, V, pbrPointLightInf.xyz, H, pointLights[3].xyz * (pointLightIntensity1 * pbrPointLightInf.w), baseColor.rgb, baseRM.y, baseRM.x, 0.0, 1.0, const0List3);
-		#endif
+		L = mul3Fast1(pointLights[0].xyz, invViewMatrix) - worldPos;
+		output.color.rgb += getPBRPointLight(N, L, V, H, pointLights[2].xyz * pointLightIntensity0, baseColor.rgb, baseRM.y, baseRM.x, pointLights[0].w, pointLights[2].w);
 	#endif
 
-	#include "color-grading.slh"
+	#if MAX_POINT_LIGHTS > 1
+		L = mul3Fast1(pointLights[1].xyz, invViewMatrix) - worldPos;
+		output.color.rgb += getPBRPointLight(N, L, V, H, pointLights[3].xyz * pointLightIntensity1, baseColor.rgb, baseRM.y, baseRM.x, pointLights[1].w, pointLights[3].w);
+	#endif
+
+	output.color.rgb = toSRGB(output.color.rgb);
 
 	#if ALPHABLEND
 		output.color.a = baseColor.a;
@@ -441,6 +454,8 @@ fragment_out fp_main(fragment_in input)
 	#if USE_VERTEX_FOG
 		output.color.rgb = lerp(output.color.rgb, input.varFog.rgb, input.varFog.a);
 	#endif
+
+	#include "color-grading.slh"
 
 	return output;
 }

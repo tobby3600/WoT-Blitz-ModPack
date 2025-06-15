@@ -84,7 +84,7 @@
 			<maxHealth>240</maxHealth>
 			<maxRegenHealth>160</maxRegenHealth>
 			<repairCost>0</repairCost>
-			</ammoBayHealth>
+		</ammoBayHealth>
 		<emblemSlots>
 			<clan>
 				<rayStart>-0.466219 -0.153001 3.09408</rayStart>
@@ -207,7 +207,7 @@
 			<terrainResistance>1.1 1.2 1.55</terrainResistance>
 			<brakeForce>38000</brakeForce>
 			<rotationIsAroundCenter>true</rotationIsAroundCenter>
-			<rotationSpeed>44</rotationSpeed>
+			<rotationSpeed>48</rotationSpeed>
 			<shotDispersionFactors>
 				<vehicleMovement>0.16</vehicleMovement>
 				<vehicleRotation>0.16</vehicleRotation>
@@ -400,13 +400,13 @@
 				<maxHealth>100</maxHealth>
 				<maxRegenHealth>50</maxRegenHealth>
 				<repairCost>0</repairCost>
-				</turretRotatorHealth>
+			</turretRotatorHealth>
 			<circularVisionRadius>250</circularVisionRadius>
 			<surveyingDeviceHealth>
 				<maxHealth>100</maxHealth>
 				<maxRegenHealth>50</maxRegenHealth>
 				<repairCost>0</repairCost>
-				</surveyingDeviceHealth>
+			</surveyingDeviceHealth>
 			<emblemSlots>
 				<player>
 					<rayStart>-1.14052 0.501314 -1.84861</rayStart>
@@ -459,7 +459,7 @@
 					</armor>
 					<invisibilityFactorAtShot>0.225</invisibilityFactorAtShot>
 					<shotDispersionRadius>0.34</shotDispersionRadius>
-					<reloadTime>6.5</reloadTime>
+					<reloadTime>6</reloadTime>
 					<aimingTime>1.7</aimingTime>
 					<shotDispersionFactors>
 						<turretRotation>0.08</turretRotation>

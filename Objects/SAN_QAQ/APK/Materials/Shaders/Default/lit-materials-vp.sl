@@ -12,30 +12,26 @@
 	#include "instanced-chain.slh"
 #endif
 
-#if !PIXEL_LIT && NORMALIZED_BLINN_PHONG
-	#include "fresnel-shlick.slh"
-#endif
-
 vertex_in
 {
 	float4 localPos : POSITION;
 	float3 normal : NORMAL;
 
+	#if PIXEL_LIT
+		float3 tangent : TANGENT;
+		float3 binormal : BINORMAL;
+	#endif
+
 	#if MATERIAL_TEXTURE
 		float2 texCoord0 : TEXCOORD0;
 	#endif
 
-	#if ALPHA_MASK || MATERIAL_DETAIL || USE_VERTEX_DISPLACEMENT
+	#if ALPHA_MASK || USE_VERTEX_DISPLACEMENT
 		float2 texCoord1 : TEXCOORD1;
 	#endif
 
 	#if USE_VERTEX_DISPLACEMENT || VERTEX_COLOR
 		float4 color0 : COLOR0;
-	#endif
-
-	#if PIXEL_LIT
-		float3 tangent : TANGENT;
-		float3 binormal : BINORMAL;
 	#endif
 
 	#include "skinning-vertex-input.slh"
@@ -46,12 +42,13 @@ vertex_out
 	float4 localPos : SV_POSITION;
 	float4 projPos : POSITION0;
 
-	#if HIGHLIGHT_WAVE_ANIM || PIXEL_LIT || RECEIVE_SHADOW
-		float3 worldPos : POSITION1;
+	#if HIGHLIGHT_WAVE_ANIM || (TILED_DECAL_MASK && TILED_DECAL_SPATIAL_SPREADING)
+		float4 displacePos : POSITION1;
 	#endif
 
-	#if TILED_DECAL_MASK && TILED_DECAL_SPATIAL_SPREADING
-		float3 displacePos : POSITION2;
+	#if !PIXEL_LIT && RECEIVE_SHADOW
+		float3 worldPos : POSITION2;
+		float4 worldNormalSlope : POSITION3;
 	#endif
 
 	#if MATERIAL_TEXTURE || PIXEL_LIT || TILED_DECAL_MASK
@@ -62,42 +59,33 @@ vertex_out
 		float4 texCoord1 : TEXCOORD1;
 	#endif
 
-	#if USE_VERTEX_FOG
-		float4 varFog : TEXCOORD2;
+	#if (!ENVIRONMENT_MAPPING_NORMALMAP && ENVIRONMENT_MAPPING) || (HARD_SKINNING && TILED_DECAL_MASK)
+		float4 texCoord2 : TEXCOORD2;
 	#endif
 
 	#if PIXEL_LIT
-		float4 tbnToView0 : TANGENTTOVIEW0;
-		float4 tbnToView1 : TANGENTTOVIEW1;
-		float4 tbnToView2 : TANGENTTOVIEW2;
+		float3 toLightDir : TEXCOORD3;
+		float3 toCamDir : TEXCOORD4;
+		float4 tangentToView0 : TANGENTTOVIEW0;
+		float4 tangentToView1 : TANGENTTOVIEW1;
+		float4 tangentToView2 : TANGENTTOVIEW2;
 
 		#if RECEIVE_SHADOW
-			float4 tbnToWorld0 : TANGENTTOWORLD0;
-			float4 tbnToWorld1 : TANGENTTOWORLD1;
-			float4 tbnToWorld2 : TANGENTTOWORLD2;
+			float4 tangentToWorld0 : TANGENTTOWORLD0;
+			float4 tangentToWorld1 : TANGENTTOWORLD1;
+			float4 tangentToWorld2 : TANGENTTOWORLD2;
 		#endif
 	#else
-		#if SIMPLE_BLINN_PHONG || NORMALIZED_BLINN_PHONG
-			float3 diffuseVector : TEXCOORD3;
-		#endif
-
 		#if SIMPLE_BLINN_PHONG
-			float specularVector : TEXCOORD4;
+			float4 diffuseSpecularVector : TEXCOORD3;
 		#elif NORMALIZED_BLINN_PHONG
+			float3 diffuseVector : TEXCOORD3;
 			float4 specularVector : TEXCOORD4;
 		#endif
-
-		#if RECEIVE_SHADOW
-			float4 worldNormalNdotL : TEXCOORD5;
-		#endif
 	#endif
 
-	#if !ENVIRONMENT_MAPPING_NORMALMAP && ENVIRONMENT_MAPPING
-		float3 reflectionTexCoord : TEXCOORD6;
-	#endif
-
-	#if HARD_SKINNING && TILED_DECAL_MASK
-		float index : TEXCOORD7;
+	#if USE_VERTEX_FOG
+		float4 varFog : TEXCOORD5;
 	#endif
 
 	#if TILED_DECAL_ANIMATED_EMISSION && TILED_DECAL_MASK
@@ -130,6 +118,10 @@ vertex_out
 	[material][a] property float4 jointToDecalTextureMapping;
 #endif
 
+#if MATERIAL_DETAIL
+	[material][a] property float2 detailTileCoordScale = const1List2;
+#endif
+
 #if TEXTURE0_ANIMATION_SHIFT
 	[material][a] property float2 tex0ShiftPerSecond = const0List2;
 #endif
@@ -144,12 +136,13 @@ vertex_out vp_main(vertex_in input)
 
 	#include "materials-vertex-processing.slh"
 
-	float3 toLightDir = -eyePos * lightPosition0.w + lightPosition0.xyz;
+	float3 toCamDir = camPos - worldPos;
+	float3 toLightDir = viewPos * lightPosition0.w + lightPosition0.xyz;
 	float toLightDis = length(toLightDir);
-	toLightDir *= 1.0 / toLightDis;
+	toLightDir /= toLightDis;
 
 	float3 L = toLightDir;
-	float3 V = normalize(-eyePos);
+	float3 V = normalize(viewPos);
 
 	#if USE_VERTEX_FOG
 		#include "vp-fog-math.slh"
@@ -185,20 +178,20 @@ vertex_out vp_main(vertex_in input)
 		float3 b = normalize(mul3Fast0(binormal, worldViewInvTransposeMatrix));
 		float3 n = normalize(mul3Fast0(normal, worldViewInvTransposeMatrix));
 
-		output.tbnToView0 = float4(t.x, b.x, n.x, eyePos.x);
-		output.tbnToView1 = float4(t.y, b.y, n.y, eyePos.y);
-		output.tbnToView2 = float4(t.z, b.z, n.z, eyePos.z);
+		output.tangentToView0 = float4(t.x, b.x, n.x, viewPos.x);
+		output.tangentToView1 = float4(t.y, b.y, n.y, viewPos.y);
+		output.tangentToView2 = float4(t.z, b.z, n.z, viewPos.z);
+		output.toLightDir = float3(dot(toLightDir, t), dot(toLightDir, b), dot(toLightDir, n));
+		output.toCamDir = float3(dot(viewPos, t), dot(viewPos, b), dot(viewPos, n));
 
 		#if RECEIVE_SHADOW
-			float3 temp = float3(dot(L, t), dot(L, b), dot(L, n));
-
 			t = normalize(mul3Fast0(tangent, worldInvTransposeMatrix));
 			b = normalize(mul3Fast0(binormal, worldInvTransposeMatrix));
 			n = normalize(mul3Fast0(normal, worldInvTransposeMatrix));
 
-			output.tbnToWorld0 = float4(t.x, b.x, n.x, temp.x);
-			output.tbnToWorld1 = float4(t.y, b.y, n.y, temp.y);
-			output.tbnToWorld2 = float4(t.z, b.z, n.z, temp.z);
+			output.tangentToWorld0 = float4(t.x, b.x, n.x, worldPos.x);
+			output.tangentToWorld1 = float4(t.y, b.y, n.y, worldPos.y);
+			output.tangentToWorld2 = float4(t.z, b.z, n.z, worldPos.z);
 		#endif
 	#else
 		float3 normal = input.normal;
@@ -212,20 +205,15 @@ vertex_out vp_main(vertex_in input)
 			normal = hardSkinnedNormal(normal, input.index);
 		#endif
 
-		float3 N = normalize(mul3Fast0(normal, worldViewInvTransposeMatrix);
+		float3 N = normalize(mul3Fast0(normal, worldViewInvTransposeMatrix));
 		float NdotL = saturate(dot(N, L));
 
 		#if RECEIVE_SHADOW
-			output.worldNormalNdotL = float4(normalize(mul3Fast0(input.normal, worldInvTransposeMatrix)), 1.0 - NdotL);
+			output.worldNormalSlope = float4(normalize(mul3Fast0(input.normal, worldInvTransposeMatrix)), 1.0 - NdotL);
 		#endif
 
 		#if SIMPLE_BLINN_PHONG
-			float3 H = normalize(L + V);
-
-			float NdotH = saturate(dot(N, H));
-
-			output.specularVector = pow(NdotH, materialSpecularShininess);
-			output.diffuseVector= float3(NdotL, NdotL, NdotL);
+			output.diffuseSpecularVector= float4(NdotL, NdotL, NdotL, pow(saturate(dot(N, normalize(L + V))), materialSpecularShininess));
 		#elif NORMALIZED_BLINN_PHONG
 			float3 H = normalize(L + V);
 
@@ -233,18 +221,15 @@ vertex_out vp_main(vertex_in input)
 			float NdotH = saturate(dot(N, H));
 			float VdotH = saturate(dot(V, H));
 
-			float3 fresnelOut = fresnelVec3(NdotV, metalFresnelReflectance);
-			float Geo = 1.0 / (VdotH * VdotH + 0.0001);
-
 			output.diffuseVector = lightColor0 * (NdotL * _INVERSE_PI);
-			output.specularVector = float4(fresnelOut * (NdotL * Geo * inSpecularity), NdotH);
+			output.specularVector = float4(lerp(metalFresnelReflectance, const1List3, pow5Exp(NdotV)) * (NdotL * inSpecularity / (VdotH * VdotH + 0.0001)), NdotH);
 
 			#if MAX_POINT_LIGHTS > 0
-				output.diffuseVector += getBlinnPhongPointLight(pointLights[0].w, pointLights[2], pointLights[0].xyz - eyePos, N);
+				output.diffuseVector += getBlinnPhongPointLight(pointLights[0].w, pointLights[2], pointLights[0].xyz + viewPos, N);
+			#endif
 
-				#if MAX_POINT_LIGHTS > 1
-					output.diffuseVector += getBlinnPhongPointLight(pointLights[1].w, pointLights[3], pointLights[1].xyz - eyePos, N);
-				#endif
+			#if MAX_POINT_LIGHTS > 1
+				output.diffuseVector += getBlinnPhongPointLight(pointLights[1].w, pointLights[3], pointLights[1].xyz + viewPos, N);
 			#endif
 		#endif
 	#endif
@@ -257,7 +242,7 @@ vertex_out vp_main(vertex_in input)
 		output.texCoord0.xy = input.texCoord0;
 
 		#if INSTANCED_CHAIN
-			output.texCoord0.y = output.texCoord0.y * segmentLength * (1.0 / chunkLength) + getTexCoordOffset(instanceId + 1);
+			output.texCoord0.y = output.texCoord0.y * segPerChunkLength + getTexCoordOffset(instanceId + uint(1));
 		#endif
 
 		output.texCoord0.xy = getTexCoordsTransform0(output.texCoord0.xy);
@@ -277,24 +262,32 @@ vertex_out vp_main(vertex_in input)
 		#include "decal-mask.slh"
 	#endif
 
-	#if ALPHA_MASK || MATERIAL_DETAIL
-		output.texCoord1 = float4(input.texCoord1, output.texCoord0.xy * detailTileCoordScale);
+	#if ALPHA_MASK
+		output.texCoord1.xy = input.texCoord1;
 	#endif
 
-	#if HIGHLIGHT_WAVE_ANIM || PIXEL_LIT || RECEIVE_SHADOW
-		output.worldPos = worldPos;
-	#endif
-
-	#if TILED_DECAL_MASK && TILED_DECAL_SPATIAL_SPREADING
-		output.displacePos = displacePos;
+	#if MATERIAL_DETAIL
+		output.texCoord1.zw = output.texCoord0.xy * detailTileCoordScale;
 	#endif
 
 	#if !ENVIRONMENT_MAPPING_NORMALMAP && ENVIRONMENT_MAPPING
-		output.reflectionTexCoord = reflect(normalize(worldPos - camPos), normalize(mul3Fast0(input.normal, worldInvTransposeMatrix)));
+		output.texCoord2.xyz = reflect(normalize(-toCamDir), normalize(mul3Fast0(input.normal, worldInvTransposeMatrix)));
 	#endif
 
 	#if HARD_SKINNING && TILED_DECAL_MASK
-		output.index = jointToDecalTextureMapping[int(clamp(input.index, 0.0, 3.0))];
+		output.texCoord2.w = jointToDecalTextureMapping[int(clamp(input.index, 0.0, 3.0))];
+	#endif
+
+	#if TILED_DECAL_MASK && TILED_DECAL_SPATIAL_SPREADING
+		output.displacePos.xyz = displacePos;
+	#endif
+
+	#if HIGHLIGHT_WAVE_ANIM
+		output.displacePos.w = worldPos.z;
+	#endif
+
+	#if !PIXEL_LIT && RECEIVE_SHADOW
+		output.worldPos = worldPos;
 	#endif
 
 	return output;

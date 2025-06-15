@@ -25,7 +25,7 @@ float3 rgb2hsv(float3 C)
 	float4 Q = lerp(float4(C.r, P.yzx), float4(P.xyw, C.r), step(C.r, P.x));
 	float D = Q.x - min(Q.w, Q.y);
 
-	return float3(abs(Q.z + (Q.w - Q.y) * (1.0 / (D * 6.0 + 0.0001))), D * (1.0 / (Q.x + 0.0001)), Q.x);
+	return float3(abs((Q.w - Q.y) / (D * 6.0 + 0.0001) + Q.z), D / (Q.x + 0.0001), Q.x);
 }
 
 float3 hsv2rgb(float3 C)

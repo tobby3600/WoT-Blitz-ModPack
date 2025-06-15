@@ -16,11 +16,11 @@ fragment_in
 	float4 projPos : POSITION0;
 
 	#if RECEIVE_SHADOW
-		float4 worldNormalNdotL : POSITION1;
-		float3 worldPos : POSITION2;
+		float3 worldPos : POSITION1;
+		float4 worldNormalSlope : POSITION2;
 	#endif
 
-	#if ENVIRONMENT_MAPPING || (MATERIAL_TEXTURE || MATERIAL_LIGHTMAP && VIEW_DIFFUSE)
+	#if ENVIRONMENT_MAPPING || (MATERIAL_TEXTURE || (MATERIAL_LIGHTMAP && VIEW_DIFFUSE))
 		float4 texCoord : TEXCOORD0;
 	#endif
 
@@ -79,11 +79,16 @@ fragment_out fp_main(fragment_in input)
 {
 	fragment_out output;
 
-	float2 projPos = input.projPos.xy * (1.0 / input.projPos.w);
+	float2 projPos = input.projPos.xy / input.projPos.w;
+
+	#if ENVIRONMENT_MAPPING || (MATERIAL_TEXTURE || (MATERIAL_LIGHTMAP && VIEW_DIFFUSE))
+		float4 texCoord = input.texCoord;
+	#endif
+
 	float4 outColor = const1List4;
 
 	#if MATERIAL_TEXTURE
-		float4 albedoSample = tex2D(albedo, input.texCoord.xy);
+		float4 albedoSample = tex2D(albedo, texCoord.xy);
 
 		#if ALPHATEST || ALPHABLEND
 			outColor = albedoSample;
@@ -113,7 +118,7 @@ fragment_out fp_main(fragment_in input)
 	#endif
 
 	#if RECEIVE_SHADOW
-		float3 shadowInf = getShadow(input.worldNormalNdotL.xyz * (shadowNormalSlopeOffset * input.worldNormalNdotL.w) + input.worldPos, projPos, input.worldNormalNdotL.w);
+		float3 shadowInf = getShadow(input.worldNormalSlope.xyz * (shadowNormalSlopeOffset * input.worldNormalSlope.w) + input.worldPos, projPos, input.worldNormalSlope.w);
 	#endif
 
 	#if MATERIAL_LIGHTMAP
@@ -124,7 +129,7 @@ fragment_out fp_main(fragment_in input)
 		#endif
 
 		#if VIEW_DIFFUSE
-			float3 diffuse = tex2D(lightmap, input.texCoord.zw).rgb;
+			float3 diffuse = tex2D(lightmap, texCoord.zw).rgb;
 
 			#if RECEIVE_SHADOW
 				diffuse *= lerp(shadowMapShadowColor.rgb * lerp(shadowLMGateFactor.y, 1.0, saturate(dot(diffuse, rgbMixList) * shadowLMGateFactor.x)), const1List3, shadowInf.x);
@@ -147,7 +152,7 @@ fragment_out fp_main(fragment_in input)
 	#endif
 
 	#if ENVIRONMENT_MAPPING
-		float envMaskValue = tex2D(envReflectionMask, input.texCoord.xy).a;
+		float envMaskValue = tex2D(envReflectionMask, texCoord.xy).a;
 		float maskScaled = min(1.0, envMaskValue * reflectionMaskMultiplier);
 
 		#if MATERIAL_LIGHTMAP && VIEW_DIFFUSE
@@ -158,10 +163,6 @@ fragment_out fp_main(fragment_in input)
 
 		output.color.rgb = lightColor0 * input.specularVector.xyz * (getBlinnPhongSpecular(input.specularVector.w, reflectionSpecParamGloss * envMaskValue) * maskScaled) + lerp(output.color.rgb, output.color.rgb * reflectionAddDiffuse + texCUBE(cubemap, input.reflectionVector.xyz).xyz * cubemapIntensity * lightenLM * (maskScaled * input.reflectionVector.w), min(1.0, envMaskValue * reflectionLerpEnvMap));
 	#endif
-
-	output.color.rgb = toLinear(output.color.rgb);
-
-	#include "color-grading.slh"
 
 	#if ALPHABLEND && MATERIAL_TEXTURE
 		output.color.a = outColor.a;
@@ -176,6 +177,8 @@ fragment_out fp_main(fragment_in input)
 	#if USE_VERTEX_FOG
 		output.color.rgb = lerp(output.color.rgb, input.varFog.rgb, input.varFog.a);
 	#endif
+
+	#include "color-grading.slh"
 
 	return output;
 }

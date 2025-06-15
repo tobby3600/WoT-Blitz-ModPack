@@ -30,23 +30,11 @@
 
 fragment_in
 {
+	float3 worldPos : POSITION0;
+	float4 projPos : POSITION1;
 	float2 texCoord0 : TEXCOORD0;
 
-	#if DRAW_DEPTH_ONLY
-		float4 projPos : POSITION0;
-
-		#if FLORA_LOD_TRANSITION
-			float3 worldPos : POSITION1;
-		#endif 
-	#else
-		#if RECEIVE_SHADOW || FLORA_LOD_TRANSITION
-			float4 projPos : POSITION0;
-		#endif
-
-		#if RECEIVE_SHADOW || FLORA_LOD_TRANSITION || FLORA_PBR_LIGHTING
-			float3 worldPos : POSITION1;
-		#endif
-
+	#if !DRAW_DEPTH_ONLY
 		#if FLORA_LAYING
 			float3 texCoord1 : TEXCOORD1; // .z - layingStrength
 		#else
@@ -65,14 +53,14 @@ fragment_in
 
 				float4 normal : NORMAL; // .w - localHeight
 			#else
-				float4 tbnToWorld0 : TANGENTTOWORLD0; // .w - localHeight
+				float4 tangentToWorld0 : TANGENTTOWORLD0; // .w - localHeight
 
-				#if FLORA_FAKE_SHADOW && FLORA_ANIMATION
-					float4 tbnToWorld1 : TANGENTTOWORLD1; // .w - animation.x
-					float4 tbnToWorld2 : TANGENTTOWORLD2; // .w - animation.y
+				#if FLORA_ANIMATION && FLORA_FAKE_SHADOW
+					float4 tangentToWorld1 : TANGENTTOWORLD1; // .w - animation.x
+					float4 tangentToWorld2 : TANGENTTOWORLD2; // .w - animation.y
 				#else
-					float3 tbnToWorld1 : TANGENTTOWORLD1;
-					float3 tbnToWorld2 : TANGENTTOWORLD2;
+					float3 tangentToWorld1 : TANGENTTOWORLD1;
+					float3 tangentToWorld2 : TANGENTTOWORLD2;
 				#endif
 			#endif
 		#endif
@@ -158,6 +146,9 @@ fragment_out fp_main(fragment_in input)
 {
 	fragment_out output;
 
+	float3 worldPos = input.worldPos;
+	float3 projPos = input.projPos.xyz / input.projPos.w;
+
 	#if FLORA_PBR_LIGHTING
 		float4 baseColor = tex2D(baseColorMap, input.texCoord0);
 	#else
@@ -172,15 +163,14 @@ fragment_out fp_main(fragment_in input)
 		#endif
 
 		#if FLORA_LOD_TRANSITION
-			float toCamDis = length(cameraPosition.xy - input.worldPos.xy);
-			float2 xyNDC = input.projPos.xy * (1.0 / input.projPos.w);
+			float toCamDis = length(cameraPosition.xy - worldPos.xy);
 
 			#if FLORA_LOD_TRANSITION_NEAR
-				alpha *= getLodTransition(xyNDC, smoothstep(floraLodTransitionNearRange.x, floraLodTransitionNearRange.y, toCamDis));
+				alpha *= getLodTransition(projPos.xy, smoothstep(floraLodTransitionNearRange.x, floraLodTransitionNearRange.y, toCamDis));
 			#endif
 
 			#if FLORA_LOD_TRANSITION_FAR
-				alpha *= getLodTransition(xyNDC, smoothstep(floraLodTransitionFarRange.x, floraLodTransitionFarRange.y, toCamDis) - 1.0);
+				alpha *= getLodTransition(projPos.xy, smoothstep(floraLodTransitionFarRange.x, floraLodTransitionFarRange.y, toCamDis) - 1.0);
 			#endif
 		#endif
 
@@ -192,7 +182,7 @@ fragment_out fp_main(fragment_in input)
 	#endif
 
 	#if DRAW_DEPTH_ONLY
-		float depthColor = input.projPos.z * (1.0 / input.projPos.w) * 0.5 + 0.5;
+		float depthColor = projPos.z * 0.5 + 0.5;
 		output.color = float4(depthColor, depthColor, depthColor, depthColor);
 	#else
 		#if FLORA_PBR_LIGHTING
@@ -216,40 +206,46 @@ fragment_out fp_main(fragment_in input)
 		output.color = baseColor;
 
 		#if RECEIVE_SHADOW
-			float3 shadowInf = getShadow(input.worldPos, input.projPos.xy * (1.0 / input.projPos.w), 0.0);
+			float3 shadowInf = getShadow(worldPos, projPos.xy, 0.0);
 		#endif
 
 		#if FLORA_PBR_LIGHTING
 			#if FLORA_NORMAL_MAP
-				float3 baseNormal = unpackNormal(tex2D(baseNormalMap, input.texCoord0).ga);
-				baseNormal.xy *= floraNormalMapScale;
+				float3 N = unpackNormal(tex2D(baseNormalMap, input.texCoord0).ga);
+				N.xy *= floraNormalMapScale;
+				N = normalize(float3(dot(N, input.tangentToWorld0.xyz), dot(N, input.tangentToWorld1.xyz), dot(N, input.tangentToWorld2.xyz)));
 
-				float3 N = normalize(float3(dot(baseNormal, input.tbnToWorld0.xyz), dot(baseNormal, input.tbnToWorld1.xyz), dot(baseNormal, input.tbnToWorld2.xyz)));
-				float3 polygonN = normalize(float3(input.tbnToWorld0.z, input.tbnToWorld1.z, input.tbnToWorld2.z));
+				float3 polygonN = normalize(float3(input.tangentToWorld0.z, input.tangentToWorld1.z, input.tangentToWorld2.z));
 			#else
 				float3 N = normalize(input.normal.xyz);
 				float3 polygonN = N;
 			#endif
 
-			#include "vector-compute.slh"
+			float3 L = normalize(mul3Fast0(lightPosition0.xyz, invViewMatrix));
+			float3 V = normalize(cameraPosition - worldPos);
+			float3 H = normalize(L + V);
 
-			float2 worldTexCoord = input.worldPos.xy * (1.0 / worldSize.xy) + const05List2;
+			float2 worldTexCoord = worldPos.xy / worldSize.xy + const05List2;
 			worldTexCoord.y = 1.0 - worldTexCoord.y;
 
 			#if FLORA_EDGE_MAP
 				float edgeFactor = tex2D(floraEdgeMap, worldTexCoord).r;
-			#else
-				float edgeFactor = 0.0;
 			#endif
 
 			#if FLORA_NORMAL_MAP
-				float localHeight = input.tbnToWorld0.w;
+				float localHeight = input.tangentToWorld0.w;
 			#else
 				float localHeight = input.normal.w;
 			#endif
 
 			float2 lightmapDirAndAO = tex2D(floraLightmap, worldTexCoord).ga;
-			float2 occlusionShadow = lerp(floraBottomOcclusionShadow, const1List2, lerp(localHeight, 1.0, edgeFactor));
+
+			#if FLORA_EDGE_MAP
+				float2 occlusionShadow = lerp(floraBottomOcclusionShadow, const1List2, lerp(localHeight, 1.0, edgeFactor));
+			#else
+				float2 occlusionShadow = lerp(floraBottomOcclusionShadow, const1List2, localHeight);
+			#endif
+
 			occlusionShadow.x *= lightmapDirAndAO.y;
 
 			#if RECEIVE_SHADOW
@@ -263,7 +259,7 @@ fragment_out fp_main(fragment_in input)
 
 				#if FLORA_ANIMATION
 					#if FLORA_NORMAL_MAP
-						float2 animation = float2(input.tbnToWorld1.w, input.tbnToWorld2.w);
+						float2 animation = float2(input.tangentToWorld1.w, input.tangentToWorld2.w);
 					#else
 						float2 animation = input.animation;
 					#endif
@@ -272,7 +268,10 @@ fragment_out fp_main(fragment_in input)
 				#endif
 
 				float fakeShadow = floraFakeShadowIntensity;
-				fakeShadow -= fakeShadow * edgeFactor;
+
+				#if FLORA_EDGE_MAP
+					fakeShadow -= fakeShadow * edgeFactor;
+				#endif
 
 				#if FLORA_LAYING
 					fakeShadow -= fakeShadow * input.texCoord1.z;
@@ -285,22 +284,17 @@ fragment_out fp_main(fragment_in input)
 			float roughness = saturate(floraRoughnessMetallic.x);
 			occlusionShadow.x = saturate(occlusionShadow.x);
 
-			output.color.rgb = getPBR(polygonN, N, V, L, H, lightColor0 * lightIntensity0, baseColor.rgb, floraRoughnessMetallic.y, roughness, occlusionShadow.x, occlusionShadow.y, const0List3);
-
-			#include "color-grading.slh"
-		#else
-			#if RECEIVE_SHADOW
-				output.color.rgb *= lerp(shadowMapShadowColor.rgb, const1List3, shadowInf.x);
-			#endif
-
-			output.color.rgb = toLinear(output.color.rgb);
-
-			#include "color-grading.slh"
+			output.color.rgb = getPBR(polygonN, N, L, V, H, lightColor0 * lightIntensity0, baseColor.rgb, floraRoughnessMetallic.y, roughness, occlusionShadow.x, occlusionShadow.y, const0List3);
+			output.color.rgb = toSRGB(output.color.rgb);
+		#elif RECEIVE_SHADOW
+			output.color.rgb *= lerp(shadowMapShadowColor.rgb, const1List3, shadowInf.x);
 		#endif
 
 		#if USE_VERTEX_FOG
 			output.color.rgb = lerp(output.color.rgb, input.varFog.rgb, input.varFog.a);
 		#endif
+
+		#include "color-grading.slh"
 	#endif
 
 	return output;

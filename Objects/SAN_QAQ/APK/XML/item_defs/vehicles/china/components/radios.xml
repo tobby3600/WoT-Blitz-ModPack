@@ -1,5 +1,5 @@
 <root>
-	<nextAvailableId>30</nextAvailableId>
+	<nextAvailableId>31</nextAvailableId>
 	<ids>
 		<_9RM>0</_9RM>
 		<A-220>1</A-220>
@@ -24,6 +24,7 @@
 		<A220BZ>27</A220BZ>
 		<A_220>28</A_220>
 		<A220_B>29</A220_B>
+		<A-220B-2>30</A-220B-2>
 	</ids>
 	<shared>
 		<_9RM>
@@ -237,7 +238,7 @@
 			<userString>#china_vehicles:_9TUR</userString>
 			<description>#china_vehicles:_9TUR_descr</description>
 			<tags/>
-			<level>6</level>
+			<level>7</level>
 			<price>0</price>
 			<weight>80</weight>
 			<distance>500</distance>
@@ -305,5 +306,17 @@
 			<maxRegenHealth>1</maxRegenHealth>
 			<repairCost>0</repairCost>
 		</A220_B>
+		<A-220B-2>
+			<userString>#china_vehicles:A-220B-2</userString>
+			<description>#china_vehicles:A-220B-2_descr</description>
+			<tags/>
+			<level>10</level>
+			<price>0</price>
+			<weight>100</weight>
+			<distance>1</distance>
+			<maxHealth>180</maxHealth>
+			<maxRegenHealth>1</maxRegenHealth>
+			<repairCost>0</repairCost>
+		</A-220B-2>
 	</shared>
 </root>

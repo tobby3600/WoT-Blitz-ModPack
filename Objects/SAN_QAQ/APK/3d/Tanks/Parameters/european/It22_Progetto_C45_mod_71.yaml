@@ -103,6 +103,7 @@ detachedTurret:
         shouldClipGun: false
         clippingPlaneZPos: 1.497803
         textureScaleFactor: 0.591547
+mechanics: [{name: "ReserveAmmo"}]
 armorScale:
     gun_01:
         pushNormalsScale: true
@@ -113,7 +114,6 @@ armorScale:
     turret_01:
         pushNormalsScale: true
         armorScale: [0.019277, 0.019277, 0.027327]
-mechanics: [{name: "ReserveAmmo"}]
 collision:
     chassis:
         points: [0.000000, -0.000177, -0.000208]
@@ -131,7 +131,7 @@ collision:
             min: [-1.752596, -3.445323, 0.396161]
             max: [1.724031, 3.650505, 1.548647]
         averageThickness:
-            turret_01: 190.040390
+            turret_01: 202.858337
     turret_01:
         points: [0.000000, -0.774277, -1.505898]
         bbox:

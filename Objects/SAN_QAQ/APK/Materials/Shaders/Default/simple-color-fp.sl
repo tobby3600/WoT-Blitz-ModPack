@@ -15,7 +15,7 @@ fragment_in
 		float4 projPos : POSITION0;
 		float3 worldPos : POSITION1;
 		float4 vertexColor : COLOR0;
-		float4 worldNormalNdotL : TEXCOORD0;
+		float4 worldNormalSlope : TEXCOORD0;
 	#endif
 
 	#if USE_VERTEX_FOG
@@ -40,8 +40,8 @@ fragment_out fp_main(fragment_in input)
 
 	#if SIMPLE_COLOR_RECEIVED_SHADOW_ONLY
 		#if USE_SHADOW_MAP
-			float2 projPos = input.projPos.xy * (1.0 / input.projPos.w);
-			float3 shadowInf = getShadow(input.worldNormalNdotL.xyz * (shadowNormalSlopeOffset * input.worldNormalNdotL.w) + input.worldPos, projPos, input.worldNormalNdotL.w);
+			float2 projPos = input.projPos.xy / input.projPos.w;
+			float3 shadowInf = getShadow(input.worldNormalSlope.xyz * (shadowNormalSlopeOffset * input.worldNormalSlope.w) + input.worldPos, projPos, input.worldNormalSlope.w);
 			output.color = float4(shadowMapShadowColor.rgb, 1.0 - shadowInf.x);
 
 			#if FLATCOLOR

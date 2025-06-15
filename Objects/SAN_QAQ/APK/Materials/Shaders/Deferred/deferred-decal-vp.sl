@@ -9,7 +9,7 @@ vertex_in
 	[instance] float4 invWorldMatrix0 : TEXCOORD3;
 	[instance] float4 invWorldMatrix1 : TEXCOORD4;
 	[instance] float4 invWorldMatrix2 : TEXCOORD5;
-	[instance] float4 instanceOpacity : TEXCOORD6;
+	[instance] float instanceOpacity : TEXCOORD6;
 };
 
 vertex_out
@@ -19,7 +19,7 @@ vertex_out
 	float4 invWorldMatrix0 : TEXCOORD0;
 	float4 invWorldMatrix1 : TEXCOORD1;
 	float4 invWorldMatrix2 : TEXCOORD2;
-	float4 instanceOpacity : TEXCOORD3;
+	float instanceOpacity : TEXCOORD3;
 };
 
 [auto][a] property float farFadeDistance;
@@ -38,7 +38,7 @@ vertex_out vp_main(vertex_in input)
 	output.invWorldMatrix0 = input.invWorldMatrix0;
 	output.invWorldMatrix1 = input.invWorldMatrix1;
 	output.invWorldMatrix2 = input.invWorldMatrix2;
-	output.instanceOpacity = -input.instanceOpacity * (clamp(length(camPos - worldPos), nearFadeDistance, farFadeDistance) - nearFadeDistance) * (1.0 / max(farFadeDistance - nearFadeDistance, 0.0001)) + input.instanceOpacity;
+	output.instanceOpacity = input.instanceOpacity * (nearFadeDistance - clamp(length(camPos - worldPos), nearFadeDistance, farFadeDistance)) / max(farFadeDistance - nearFadeDistance, 0.0001) + input.instanceOpacity;
 
 	return output;
 }

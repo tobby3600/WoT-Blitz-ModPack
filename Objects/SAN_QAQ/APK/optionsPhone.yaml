@@ -64,7 +64,7 @@ keyedArchive:
                     min:
                         float: 0.0000
                     value:
-                        float: 25
+                        float: 30.0000
             10) Default fov:
                 keyedArchive:
                     max:
@@ -72,7 +72,7 @@ keyedArchive:
                     min:
                         float: 30.0000
                     value:
-                        float: 75
+                        float: 90.0000
             11) Camera max lock time (sec):
                 keyedArchive:
                     max:
@@ -88,7 +88,7 @@ keyedArchive:
                     min: 
                         float: 0.0000
                     value: 
-                        float: 2.5000
+                        float: 1.5000
             13) Camera backward fov offset:
                 keyedArchive: 
                     max: 
@@ -96,7 +96,7 @@ keyedArchive:
                     min: 
                         float: 0.0000
                     value: 
-                        float: 2.5000
+                        float: 1.5000
             14) Camera backward type in: 
                 keyedArchive: 
                     count: 
@@ -172,7 +172,7 @@ keyedArchive:
                     min: 
                         float: 0.0000
                     value: 
-                        float: 0.5000
+                        float: 0.2500
             17) Camera backward time out:
                 keyedArchive: 
                     max: 
@@ -180,7 +180,7 @@ keyedArchive:
                     min: 
                         float: 0.0000
                     value: 
-                        float: 0.5000
+                        float: 0.2500
             18) Camera backward delay time in:
                 keyedArchive: 
                     max: 

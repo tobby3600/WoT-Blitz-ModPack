@@ -119,15 +119,17 @@ tanks:
         position: [9, 1]
     Oth75_Braniaq_DM5:
         position: [9, 2]
-    Oth41_Centurion_Mk3_S2:
+    Oth84_FVE_Defender:
         position: [9, 3]
-    Oth38_50TP_Tyszkiewicza_S1:
+    Oth41_Centurion_Mk3_S2:
         position: [9, 4]
-    Oth48_EMIL_1951E1_S3:
+    Oth38_50TP_Tyszkiewicza_S1:
         position: [9, 5]
-    Oth68_KV2ANN_S4:
+    Oth48_EMIL_1951E1_S3:
         position: [9, 6]
-    Oth76_Destiny:
+    Oth68_KV2ANN_S4:
         position: [9, 7]
-    Oth74_Argonaut:
+    Oth76_Destiny:
         position: [9, 8]
+    Oth74_Argonaut:
+        position: [9, 9]

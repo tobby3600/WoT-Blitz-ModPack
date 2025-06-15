@@ -15,7 +15,7 @@ vertex_in
 		float2 texCoord0 : TEXCOORD0;
 	#endif
 
-	#if ALPHA_MASK || MATERIAL_TEXTURE || MATERIAL_DECAL || TILED_DECAL_MASK
+	#if ALPHA_MASK || MATERIAL_DECAL
 		float2 texCoord1 : TEXCOORD1;
 	#endif
 
@@ -35,11 +35,11 @@ vertex_out
 		float3 worldPos : POSITION1;
 	#endif
 
-	#if ALPHA_MASK || MATERIAL_TEXTURE || MATERIAL_DECAL || TILED_DECAL_MASK
+	#if MATERIAL_TEXTURE || TILED_DECAL_MASK
 		float4 texCoord0 : TEXCOORD0;
 	#endif
 
-	#if MATERIAL_DETAIL || TILED_DECAL_MASK
+	#if (ALPHA_MASK || MATERIAL_DECAL) || MATERIAL_DETAIL
 		float4 texCoord1 : TEXCOORD1;
 	#endif
 
@@ -74,9 +74,8 @@ vertex_out
 	[auto][a] property float4 lightPosition0;
 #endif
 
-#if FLOWMAP
-	[material][a] property float flowAnimSpeed = 0.0;
-	[material][a] property float flowAnimOffset = 0.0;
+#if MATERIAL_DETAIL
+	[material][a] property float2 detailTileCoordScale = const1List2;
 #endif
 
 #if TEXTURE0_ANIMATION_SHIFT
@@ -95,15 +94,16 @@ vertex_out vp_main(vertex_in input)
 	#include "flowmap-vec.slh"
 
 	#if USE_VERTEX_FOG
+		float3 toCamDir = camPos - worldPos;
 		float3 toLightDir = -eyePos * lightPosition0.w + lightPosition0.xyz;
 		float toLightDis = length(toLightDir);
-		toLightDir *= 1.0 / toLightDis;
+		toLightDir /= toLightDis;
 
 		#include "vp-fog-math.slh"
 	#endif
 
 	#if SPHERICAL_HARMONICS_4 || SPHERICAL_HARMONICS_9
-		float3 normal = normalize(mul3Fast0(eyePos - worldViewObjectCenter, invViewMatrix) * (1.0 / boundingBoxSize));
+		float3 normal = normalize(mul3Fast0(eyePos - worldViewObjectCenter, invViewMatrix) / boundingBoxSize);
 		float3 normalS = normal * normal;
 		output.sphericalLightFactor = sphericalHarmonics[0].xyz * 0.564188 + mul(normal.yzx, float3x3(float3(sphericalHarmonics[0].w, sphericalHarmonics[1].xy), float3(sphericalHarmonics[1].zw, sphericalHarmonics[2].x), sphericalHarmonics[2].yzw)) * 0.651468;
 
@@ -118,8 +118,8 @@ vertex_out vp_main(vertex_in input)
 		output.sphericalLightFactor *= input.color0.xyz;
 	#endif
 
-	#if ALPHA_MASK || MATERIAL_TEXTURE || MATERIAL_DECAL || TILED_DECAL_MASK
-		output.texCoord0 = float4(input.texCoord0, input.texCoord1);
+	#if MATERIAL_TEXTURE || TILED_DECAL_MASK
+		output.texCoord0.xy = input.texCoord0;
 	#endif
 
 	#if ALBEDO_TRANSFORM
@@ -127,27 +127,33 @@ vertex_out vp_main(vertex_in input)
 	#endif
 
 	#if MATERIAL_TEXTURE
-		#if TEXTURE0_SHIFT_ENABLED
-			output.texCoord0.xy += texture0Shift;
-		#endif
-
 		#if TEXTURE0_ANIMATION_SHIFT
 			output.texCoord0.xy += frac(tex0ShiftPerSecond * globalTime);
 		#endif
-	#endif
 
-	#if MATERIAL_DETAIL || TILED_DECAL_MASK
-		output.texCoord1 = float4(output.texCoord.xy * detailTileCoordScale, output.texCoord.xy * decalTileCoordScale);
+		#if TEXTURE0_SHIFT_ENABLED
+			output.texCoord0.xy += texture0Shift;
+		#endif
 	#endif
 
 	#if TILED_DECAL_MASK
+		output.texCoord0.zw = output.texCoord0.xy * decalTileCoordScale;
+
 		#if TILED_DECAL_TRANSFORM
 			#if HARD_SKINNING
-				output.texCoord1.zw = getTexCoordsTransform2(output.texCoord1.zw, int(input.index * 2.0));
+				output.texCoord0.zw = getTexCoordsTransform2(output.texCoord0.zw, int(input.index * 2.0));
 			#elif !SOFT_SKINNING
-				output.texCoord1.zw = getTexCoordsTransform1(output.texCoord1.zw);
+				output.texCoord0.zw = getTexCoordsTransform1(output.texCoord0.zw);
 			#endif
 		#endif
+	#endif
+
+	#if ALPHA_MASK || MATERIAL_DECAL
+		output.texCoord1.xy = input.texCoord1;
+	#endif
+
+	#if MATERIAL_DETAIL
+		output.texCoord1.zw = output.texCoord0.xy * detailTileCoordScale;
 	#endif
 
 	#if RECEIVE_SHADOW

@@ -19,7 +19,9 @@ vertex_out vp_main(vertex_in input)
 {
 	vertex_out output;
 
-	output.localPos = mul4Fast1(input.localPos.xyz, mul(vecToMat(input.worldMatrix0, input.worldMatrix1, input.worldMatrix2), viewProjMatrix));
+	float4x4 worldMatrix = vecToMat(input.worldMatrix0, input.worldMatrix1, input.worldMatrix2);
+
+	output.localPos = mul(mul4Fast1(input.localPos.xyz, worldMatrix), viewProjMatrix);
 
 	return output;
 }

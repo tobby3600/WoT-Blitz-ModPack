@@ -8737,6 +8737,104 @@ battlepass58_04:
         spreadingProgress: 3.00
         spreadingStart: 0.55
     texture: "common/battlepass58_04"
+battlepass59_01:
+    colorMap: "common/images_pbr/battlepass59_01_BC"
+    decalNormalBlend: 1.0
+    normalMap: "common/images_pbr/battlepass59_01_NM"
+    overrideTankNormalMap: true
+    overrideTankRmMap: true
+    previewWith: "usa:M-6-Y"
+    rmMap: "common/images_pbr/battlepass59_01_RM"
+    scale:
+    - 0.55
+    - 0.55
+    specularity: 0.4
+    spreading:
+        progressPower: 1.25
+        spreadingBorderColor:
+        - 2.55
+        - 2.55
+        - 2.55
+        - 1.28
+        spreadingBorderSize: 0.15
+        spreadingMode: 1
+        spreadingProgress: 3.00
+    texture: "common/battlepass59_01"
+battlepass59_02:
+    colorMap: "common/images_pbr/battlepass59_02_BC"
+    decalNormalBlend: 1.0
+    general:
+        decalTileRotation: -35.0
+    normalMap: "common/images_pbr/battlepass59_02_NM"
+    overrideTankNormalMap: true
+    overrideTankRmMap: true
+    previewWith: "usa:M-6-Y"
+    rmMap: "common/images_pbr/battlepass59_02_RM"
+    scale:
+    - 0.6
+    - 0.6
+    specularity: 0.4
+    spreading:
+        progressPower: 1.25
+        spreadingBorderColor:
+        - 2.55
+        - 2.55
+        - 2.55
+        - 1.28
+        spreadingBorderSize: 0.15
+        spreadingMode: 1
+        spreadingProgress: 3.00
+    texture: "common/battlepass59_02"
+battlepass59_03:
+    colorMap: "common/images_pbr/battlepass59_03_BC"
+    decalNormalBlend: 1.0
+    general:
+        decalTileRotation: 15.0
+    normalMap: "common/images_pbr/battlepass59_03_NM"
+    overrideTankNormalMap: true
+    overrideTankRmMap: true
+    previewWith: "usa:M-6-Y"
+    rmMap: "common/images_pbr/battlepass59_03_RM"
+    scale:
+    - 0.65
+    - 0.65
+    specularity: 0.4
+    spreading:
+        progressPower: 1.25
+        spreadingBorderColor:
+        - 2.55
+        - 2.55
+        - 2.55
+        - 1.28
+        spreadingBorderSize: 0.15
+        spreadingMode: 1
+        spreadingProgress: 3.00
+    texture: "common/battlepass59_03"
+battlepass59_04:
+    colorMap: "common/images_pbr/battlepass59_04_BC"
+    decalNormalBlend: 1.0
+    general:
+        decalTileRotation: 15.0
+    normalMap: "common/images_pbr/battlepass59_04_NM"
+    overrideTankNormalMap: true
+    overrideTankRmMap: true
+    previewWith: "usa:M-6-Y"
+    rmMap: "common/images_pbr/battlepass59_04_RM"
+    scale:
+    - 0.6
+    - 0.6
+    specularity: 0.4
+    spreading:
+        progressPower: 1.25
+        spreadingBorderColor:
+        - 2.55
+        - 2.55
+        - 2.55
+        - 1.28
+        spreadingBorderSize: 0.15
+        spreadingMode: 1
+        spreadingProgress: 3.00
+    texture: "common/battlepass59_04"
 battlepass_2020spy_1:
     albedoFlatColor:
     - 0.7
@@ -23492,6 +23590,30 @@ skin3_r87_t62a:
     userString: "#ussr_vehicles:T62A_Custom_v3"
     previewWith: "ussr:T62A"
     type: 1
+skin3_r97_object_140:
+    customEntities:
+        Skin_02_gun_03:
+            item: "Skin3_R97_Object_140_gun_03"
+        Skin_02_hull:
+            item: "Skin3_R97_Object_140_hull"
+        Skin_02_turret_01:
+            item: "Skin3_R97_Object_140_turret_01"
+        turret_01_Lamp_0:
+            item: "set_empty_dummy"
+        turret_01_Large_0:
+            item: "set_empty_dummy"
+        turret_01_Large_1:
+            item: "set_empty_dummy"
+        turret_01_Small_0:
+            item: "set_empty_dummy"
+        turret_01_Small_1:
+            item: "set_empty_dummy"
+    iconBig: "~res:/Gfx/UI/BigTankIcons/ussr-R97_Object_140_skin3.txt"
+    preset: "Skin_03"
+    shortUserString: "#ussr_vehicles:Object_140_Custom_short_v2"
+    userString: "#ussr_vehicles:Object_140_Custom_v2"
+    previewWith: "ussr:Object_140"
+    type: 1
 skin3_rhb_waffentrager:
     customEntities:
         Skin_01_hull:
@@ -25395,6 +25517,28 @@ skin_g64_panther_ii:
     userString: "#germany_vehicles:Panther_II_Custom"
     previewWith: "germany:Panther_II"
     type: 1
+skin_g71_jagdpantherii:
+    customEntities:
+        Skin_01_gun_01:
+            item: "Skin_G71_JagdPantherII_gun_01"
+        Skin_01_gun_01_mask:
+            item: "Skin_G71_JagdPantherII_gun_01_mask"
+        Skin_01_gun_02:
+            item: "Skin_G71_JagdPantherII_gun_02"
+        Skin_01_gun_02_mask:
+            item: "Skin_G71_JagdPantherII_gun_02_mask"
+        Skin_01_gun_04:
+            item: "Skin_G71_JagdPantherII_gun_04"
+        Skin_01_gun_04_mask:
+            item: "Skin_G71_JagdPantherII_gun_04_mask"
+        Skin_01_hull:
+            item: "Skin_G71_JagdPantherII_hull"
+    iconBig: "~res:/Gfx/UI/BigTankIcons/germany-G71_JagdPantherII_skin.txt"
+    preset: "Skin_01"
+    shortUserString: "#germany_vehicles:JagdPantherII_Custom_short"
+    userString: "#germany_vehicles:JagdPantherII_Custom"
+    previewWith: "germany:JagdPantherII"
+    type: 1
 skin_g_e-75rt:
     customEntities:
         SlotType3:
@@ -25528,6 +25672,20 @@ skin_gb109_gsor_1008:
     shortUserString: "#gb_vehicles:GB109_GSOR_1008_Custom_short"
     userString: "#gb_vehicles:GB109_GSOR_1008_Custom"
     previewWith: "uk:GB109_GSOR_1008"
+    type: 1
+skin_gb110_fv4201_chieftain_prototype:
+    customEntities:
+        Skin_01_gun_01:
+            item: "Skin_GB110_FV4201_Chieftain_Prototype_gun_01"
+        Skin_01_hull:
+            item: "Skin_GB110_FV4201_Chieftain_Prototype_hull"
+        Skin_01_turret_01:
+            item: "Skin_GB110_FV4201_Chieftain_Prototype_turret_01"
+    iconBig: "~res:/Gfx/UI/BigTankIcons/british-GB110_FV4201_Chieftain_Prototype_skin.txt"
+    preset: "Skin_01"
+    shortUserString: "#uk_vehicles:GB110_FV4201_Chieftain_Prototype_Custom_short"
+    userString: "#uk_vehicles:GB110_FV4201_Chieftain_Prototype_Custom"
+    previewWith: "uk:GB110_FV4201_Chieftain_Prototype"
     type: 1
 skin_gb111_charlemagne:
     customEntities:
@@ -26018,6 +26176,24 @@ skin_jagdpz_e100:
     shortUserString: "#germany_vehicles:JagdPz_E100_Custom_short"
     userString: "#germany_vehicles:JagdPz_E100_Custom"
     previewWith: "germany:JagdPz_E100"
+    type: 1
+skin_jagdtiger:
+    customEntities:
+        Skin_01_gun_01:
+            item: "Skin_JagdTiger_gun_01"
+        Skin_01_gun_01_mask:
+            item: "Skin_JagdTiger_gun_01_mask"
+        Skin_01_gun_02:
+            item: "Skin_JagdTiger_gun_02"
+        Skin_01_gun_02_mask:
+            item: "Skin_JagdTiger_gun_01_mask"
+        Skin_01_hull:
+            item: "Skin_JagdTiger_hull"
+    iconBig: "~res:/Gfx/UI/BigTankIcons/germany-JagdTiger_skin.txt"
+    preset: "Skin_01"
+    shortUserString: "#germany_vehicles:JagdTiger_Custom_short"
+    userString: "#germany_vehicles:JagdTiger_Custom"
+    previewWith: "germany:JagdTiger"
     type: 1
 skin_k-91:
     customEntities:
@@ -26533,6 +26709,22 @@ skin_pzvi_tiger_p:
     shortUserString: "#germany_vehicles:PzVI_Tiger_P_Custom_short"
     userString: "#germany_vehicles:PzVI_Tiger_P_Custom"
     previewWith: "germany:PzVI_Tiger_P"
+    type: 1
+skin_r109_t54s:
+    customEntities:
+        Skin_01_gun_01:
+            item: "Skin_R109_T54S_gun_01"
+        Skin_01_hull:
+            item: "Skin_R109_T54S_hull"
+        Skin_01_turret_01:
+            item: "Skin_R109_T54S_turret_01"
+        hull_hw18_AT_Missile:
+            item: "HW18_AT_Missile"
+    iconBig: "~res:/Gfx/UI/BigTankIcons/ussr-R109_T54S_skin.txt"
+    preset: "Skin_01"
+    shortUserString: "#ussr_vehicles:R109_T54S_Custom_short"
+    userString: "#ussr_vehicles:R109_T54S_Custom"
+    previewWith: "ussr:R109_T54S"
     type: 1
 skin_r110_object_260:
     customEntities:

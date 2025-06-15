@@ -21,14 +21,18 @@ fragment_out fp_main(fragment_in input)
 	for (int i = 0; i < 4096; i++)
 	{
 		float3 H = I_GGX(D_Hammersley(i, 4096.0), input.texCoord.y, float3(const0List2, 1.0));
-		float3 L = reflect(-V, H);
+
+		float VdotH = dot(V, H);
+
+		float3 L = H * (VdotH * 2.0) - V;
+
+		VdotH = saturate(VdotH);
 
 		float NdotV = saturate(V.z);
 		float NdotL = saturate(L.z);
 		float NdotH = saturate(H.z);
-		float VdotH = saturate(dot(V, H));
 
-		float Gv = G_GGX(NdotV, NdotL, input.texCoord.y) * VdotH * (1.0 / (NdotV * NdotH + 0.0001));
+		float Gv = G_GGX(NdotV, NdotL, input.texCoord.y) * VdotH / (NdotV * NdotH + 0.0001);
 		float Fc = Gv * pow5Exp(VdotH);
 		result += float2(Gv - Fc, Fc);
 	}

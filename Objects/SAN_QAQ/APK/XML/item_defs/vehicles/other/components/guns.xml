@@ -1,5 +1,5 @@
 <root>
-	<nextAvailableId>188</nextAvailableId>
+	<nextAvailableId>193</nextAvailableId>
 	<ids>
 		<_75mm_L56_5_kan_Strv_74>1</_75mm_L56_5_kan_Strv_74>
 		<_90mm_KwK_E_L56>2</_90mm_KwK_E_L56>
@@ -116,6 +116,7 @@
 		<_Destiny_M4>179</_Destiny_M4>
 		<_Destiny_M2>180</_Destiny_M2>
 		<_Destiny_M3>181</_Destiny_M3>
+		<_100mm_Railcannon_Oth84>187</_100mm_Railcannon_Oth84>
 	</ids>
 	<shared>
 		<_75mm_L56_5_kan_Strv_74>
@@ -6492,5 +6493,55 @@
 				</_110mm_HE_Braniaq_DM5_2>
 			</shots>
 		</_110mm_Gun_Braniaq_DM5_2>
+		<_100mm_Railcannon_Oth84>
+			<userString>#other_vehicles:_100mm_Railcannon_Oth84</userString>
+			<shortUserString>#other_vehicles:_100mm_Railcannon_Oth84_short</shortUserString>
+			<description>#other_vehicles:_100mm_Railcannon_Oth84_descr</description>
+			<tags/>
+			<level>9</level>
+			<price>0</price>
+			<impulse>0.44</impulse>
+			<effects>wpn_shot_main</effects>
+			<turretYawLimits>-180 180</turretYawLimits>
+			<pitchLimits>-1 1</pitchLimits>
+			<rotationSpeed>40</rotationSpeed>
+			<reloadTime>0.1</reloadTime>
+			<maxAmmo>1</maxAmmo>
+			<aimingTime>1.0</aimingTime>
+			<weight>3000</weight>
+			<maxHealth>190</maxHealth>
+			<maxRegenHealth>95</maxRegenHealth>
+			<repairCost>0</repairCost>
+			<invisibilityFactorAtShot>0.1</invisibilityFactorAtShot>
+			<shotDispersionRadius>0.1</shotDispersionRadius>
+			<shotDispersionFactors>
+				<turretRotation>0.1</turretRotation>
+				<afterShot>1</afterShot>
+				<whileGunDamaged>1.0</whileGunDamaged>
+			</shotDispersionFactors>
+			<shots>
+				<_100mm_AP_FVED>
+					<defaultPortion>0.8</defaultPortion>
+					<speed>2000</speed>
+					<gravity>9.81</gravity>
+					<maxDistance>720</maxDistance>
+					<piercingPower>215 205</piercingPower>
+				</_100mm_AP_FVED>
+				<_100mm_HC_FVED>
+					<defaultPortion>0</defaultPortion>
+					<speed>2000</speed>
+					<gravity>9.81</gravity>
+					<maxDistance>720</maxDistance>
+					<piercingPower>285 285</piercingPower>
+				</_100mm_HC_FVED>
+				<_100mm_HE_FVED>
+					<defaultPortion>0.2</defaultPortion>
+					<speed>2000</speed>
+					<gravity>9.81</gravity>
+					<maxDistance>720</maxDistance>
+					<piercingPower>55 55</piercingPower>
+				</_100mm_HE_FVED>
+			</shots>
+		</_100mm_Railcannon_Oth84>
 	</shared>
 </root>

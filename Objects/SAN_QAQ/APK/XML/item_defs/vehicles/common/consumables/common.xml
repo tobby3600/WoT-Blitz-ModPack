@@ -142,7 +142,7 @@
 		<vehicleFilter>
 			<include>
 				<vehicle>
-					<name>uk:GB83_4005 uk:GB81_FV4004 uk:GB80_Charioteer uk:GB41_Challenger uk:GB10_Black_Prince uk:GB11_Caernarvon uk:GB12_Conqueror uk:GB13_FV215b usa:A121_T26E3 usa:T25_AT usa:T28 usa:T95 usa:T110E3 usa:A146_TL_7_120 european:S18_EMIL_1951E1 european:S17_EMIL_1952E2 european:S16_Kranvagn china:Ch25_121_mod_1971B china:Ch59_BZ58_2 ussr:KV-3 ussr:KV4 ussr:ST_I ussr:IS-4 france:AMX_AC_Mle1946 france:AMX_AC_Mle1948 france:AMX50_Foch france:AMX_50Fosh_155 ussr:R127_T44_100_P ussr:R111_ISU130 china:Ch03_WZ-111 ussr:IS-2Sh usa:A111_T25_Pilot germany:G106_PzKpfwPanther_AusfF germany:E-25 uk:GB52_FV201_A45 germany:Panther_M10 uk:GB109_GSOR_1008_Fearless usa:M60 france:FCM_50t ussr:T62A germany:G125_Spz_57_Rh other:Oth75_Braniaq_DM5 other:Oth77_Prowler</name>
+					<name>uk:GB83_4005 uk:GB81_FV4004 uk:GB80_Charioteer uk:GB41_Challenger uk:GB10_Black_Prince uk:GB11_Caernarvon uk:GB12_Conqueror uk:GB13_FV215b usa:A121_T26E3 usa:T25_AT usa:T28 usa:T95 usa:T110E3 usa:A146_TL_7_120 usa:M4A3E8TUR european:S18_EMIL_1951E1 european:S17_EMIL_1952E2 european:S16_Kranvagn china:Ch25_121_mod_1971B china:Ch59_BZ58_2 china:Type_58TUR ussr:KV-3 ussr:KV4 ussr:ST_I ussr:IS-4 ussr:T34_85TUR france:AMX_AC_Mle1946 france:AMX_AC_Mle1948 france:AMX50_Foch france:AMX_50Fosh_155 ussr:R127_T44_100_P ussr:R111_ISU130 china:Ch03_WZ-111 ussr:IS-2Sh usa:A111_T25_Pilot germany:G106_PzKpfwPanther_AusfF germany:E-25 germany:PzVI_AusfTUR uk:GB52_FV201_A45 germany:Panther_M10 uk:GB109_GSOR_1008_Fearless usa:M60 france:FCM_50t ussr:T62A germany:G125_Spz_57_Rh other:Oth75_Braniaq_DM5 other:Oth77_Prowler other:Oth84_FVE_Defender</name>
 				</vehicle>
 			</include>
 		</vehicleFilter>

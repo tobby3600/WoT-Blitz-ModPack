@@ -10,10 +10,6 @@
 	#define GRADIENT_MODE GRADIENT_MULTIPLY
 #endif
 
-#if COLORBLIND_MODE
-	#include "colorblind-mode.slh"
-#endif
-
 blending { src=one dst=inv_src_alpha }
 
 fragment_in
@@ -58,10 +54,6 @@ fragment_out fp_main(fragment_in input)
 	detailImpact *= maskColor.a;
 
 	output.color = float4((contourColor.rgb - detailImpact) * contourColor.a + detailImpact, -maskColor.a * contourColor.a + (maskColor.a + contourColor.a)) * float4(input.color.rgb, 1.0) * input.color.a;
-
-	#if COLORBLIND_MODE
-		output.color.rgb = getColorBlind(output.color.rgb);
-	#endif
 
 	return output;
 }

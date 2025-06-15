@@ -8,12 +8,17 @@
 		float2 zeroLod = step(const1List2, relativePos);
 		float lodAdjust = 1.0 - min(zeroLod.x + zeroLod.y, 1.0);
 		float samplePixelOffset = input.data6.z * edgeShiftAmount * lodAdjust;
+		float morphAmount = input.data2.y * input.data6.y + dot(input.data1, input.data5);
+
+		#if LANDSCAPE_MORPHING_COLOR
+			output.morphColor = float4(1.0 - morphAmount, morphAmount, const1List2);
+		#endif
 
 		float4 heightmapSample = tex2Dlod(heightmap, relativePos + float2(samplePixelOffset, samplePixelOffset), (input.data6.x + lodOffset) * lodAdjust);
 
-		float height = dot(lerp(heightmapSample.zw, heightmapSample.xy, input.data2.y * input.data6.y + dot(input.data1, input.data5)), float2(0.0038910506, 0.99610895));
+		float height = dot(lerp(heightmapSample.zw, heightmapSample.xy, morphAmount), float2(0.0038910506, 0.99610895));
 	#else
-		float4 heightmapSample = tex2Dlod(heightmap, const05List2 * (1.0 / heightmapTextureSize) + relativePos, 0.0);
+		float4 heightmapSample = tex2Dlod(heightmap, const05List2 / heightmapTextureSize + relativePos, 0.0);
 
 		#if HEIGHTMAP_FLOAT_TEXTURE
 			float height = heightmapSample.r;

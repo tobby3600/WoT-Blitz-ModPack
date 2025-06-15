@@ -23,13 +23,13 @@ fragment_in
 
 	#if !DRAW_DEPTH_ONLY
 		#if RECEIVE_SHADOW
-			float3 shadowWorldPos : POSITION1;
+			float3 worldPos : POSITION1;
 		#endif
 
 		#if PBR_SPEEDTREE
-			float4 tbnToWorld0 : TANGENTTOWORLD0;
-			float4 tbnToWorld1 : TANGENTTOWORLD1;
-			float4 tbnToWorld2 : TANGENTTOWORLD2;
+			float4 tangentToWorld0 : TANGENTTOWORLD0;
+			float4 tangentToWorld1 : TANGENTTOWORLD1;
+			float4 tangentToWorld2 : TANGENTTOWORLD2;
 		#endif
 	#endif
 
@@ -88,14 +88,16 @@ fragment_out fp_main(fragment_in input)
 {
 	fragment_out output;
 
+	float2 texCoord = input.texCoord;
+
 	#if LOD_TRANSITION || (!DRAW_DEPTH_ONLY && RECEIVE_SHADOW)
-		float2 projPos = input.projPos.xy * (1.0 / input.projPos.w);
+		float2 projPos = input.projPos.xy / input.projPos.w;
 	#endif
 
 	#if PBR_SPEEDTREE
-		float4 baseColor = tex2D(baseColorMap, input.texCoord);
+		float4 baseColor = tex2D(baseColorMap, texCoord);
 	#else
-		float4 baseColor = tex2D(albedo, input.texCoord);
+		float4 baseColor = tex2D(albedo, texCoord);
 	#endif
 
 	#if !ALPHATEST && !ALPHABLEND
@@ -143,21 +145,21 @@ fragment_out fp_main(fragment_in input)
 			baseColor *= flatColor;
 		#endif
 
-		#if RECEIVE_SHADOW
-			float3 shadowInf = getShadow(float3(0.0, 0.5, 0.0) * shadowNormalSlopeOffset + input.shadowWorldPos, projPos, 0.5);
-		#endif
-
 		output.color = baseColor;
 
-		#if PBR_SPEEDTREE
-			float2 roughnessAO = tex2D(roughnessAOMap, input.texCoord).ga;
-			float3 tangentNormal = unpackNormal(tex2D(baseNormalMap, input.texCoord).ga);
-			tangentNormal.xy *= normalScale;
+		#if RECEIVE_SHADOW
+			float3 shadowInf = getShadow(float3(0.0, 0.5, 0.0) * shadowNormalSlopeOffset + input.worldPos, projPos, 0.5);
+		#endif
 
-			float3 polygonN = normalize(float3(input.tbnToWorld0.z, input.tbnToWorld1.z, input.tbnToWorld2.z));
-			float3 N = normalize(float3(dot(tangentNormal, input.tbnToWorld0.xyz), dot(tangentNormal, input.tbnToWorld1.xyz), dot(tangentNormal, input.tbnToWorld2.xyz)));
+		#if PBR_SPEEDTREE
+			float2 roughnessAO = tex2D(roughnessAOMap, texCoord).ga;
+			float3 baseNormal = unpackNormal(tex2D(baseNormalMap, texCoord).ga);
+			baseNormal.xy *= normalScale;
+
+			float3 polygonN = normalize(float3(input.tangentToWorld0.z, input.tangentToWorld1.z, input.tangentToWorld2.z));
+			float3 N = normalize(float3(dot(baseNormal, input.tangentToWorld0.xyz), dot(baseNormal, input.tangentToWorld1.xyz), dot(baseNormal, input.tangentToWorld2.xyz)));
 			float3 L = normalize(mul3Fast0(lightPosition0.xyz, invViewMatrix));
-			float3 V = normalize(cameraPosition - float3(input.tbnToWorld0.w, input.tbnToWorld1.w, input.tbnToWorld2.w));
+			float3 V = normalize(cameraPosition - float3(input.tangentToWorld0.w, input.tangentToWorld1.w, input.tangentToWorld2.w));
 			float3 H = normalize(L + V);
 
 			float occlusion = dot(input.vertexColor.rgb, rgbMixList) * saturate(pbrTextureAOBrightnessContrast.y * (roughnessAO.y - 0.5) + (0.5 + pbrTextureAOBrightnessContrast.x));
@@ -171,22 +173,17 @@ fragment_out fp_main(fragment_in input)
 			baseColor.rgb = saturate(baseColor.rgb);
 			roughnessAO.x = saturate(roughnessAO.x);
 
-			output.color.rgb = getPBR(polygonN, N, V, L, H, lightColor0 * lightIntensity0, baseColor.rgb, metallness, roughnessAO.x, occlusion, shadow, const0List3);
-
-			#include "color-grading.slh"
-		#else
-			#if RECEIVE_SHADOW
-				output.color.rgb *= lerp(shadowMapShadowColor.rgb, const1List3, shadowInf.x);
-			#endif
-
-			output.color.rgb = toLinear(output.color.rgb);
-
-			#include "color-grading.slh"
+			output.color.rgb = getPBR(polygonN, N, L, V, H, lightColor0 * lightIntensity0, baseColor.rgb, metallness, roughnessAO.x, occlusion, shadow, const0List3);
+			output.color.rgb = toSRGB(output.color.rgb);
+		#elif RECEIVE_SHADOW
+			output.color.rgb *= lerp(shadowMapShadowColor.rgb, const1List3, shadowInf.x);
 		#endif
 
 		#if USE_VERTEX_FOG
 			output.color.rgb = lerp(output.color.rgb, input.varFog.rgb, input.varFog.a);
 		#endif
+
+		#include "color-grading.slh"
 	#endif
 
 	return output;

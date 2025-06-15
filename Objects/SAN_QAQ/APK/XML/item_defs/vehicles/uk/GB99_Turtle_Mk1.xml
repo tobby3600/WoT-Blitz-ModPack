@@ -82,7 +82,7 @@
 			<armor_8>152</armor_8>
 			<armor_9>152</armor_9>
 			<armor_10>40</armor_10>
-			<armor_11>203</armor_11>
+			<armor_11>254</armor_11>
 			<armor_12>102</armor_12>
 			<armor_13>76</armor_13>
 			<armor_14>267</armor_14>
@@ -252,7 +252,7 @@
 						</armor_2>
 					</armor>
 					<shotDispersionRadius>0.38</shotDispersionRadius>
-					<reloadTime>8.0</reloadTime>
+					<reloadTime>7.1</reloadTime>
 					<shotDispersionFactors>
 						<turretRotation>0.1</turretRotation>
 						<afterShot>4</afterShot>

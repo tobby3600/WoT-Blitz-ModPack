@@ -1,5 +1,5 @@
 <root>
-	<nextAvailableId>229</nextAvailableId>
+	<nextAvailableId>230</nextAvailableId>
 	<ids>
 		<Chassis_Strv_74A2>1</Chassis_Strv_74A2>
 		<Chassis_Edelweiss>2</Chassis_Edelweiss>
@@ -8,7 +8,7 @@
 		<Chassis_Dracula>5</Chassis_Dracula>
 		<Chassis_RX_20_1>6</Chassis_RX_20_1>
 		<Chassis_WZ-135G_FT>7</Chassis_WZ-135G_FT>
-		<Chassis_Lupus>10</Chassis_Lupus>*
+		<Chassis_Lupus>10</Chassis_Lupus>
 		<Chassis_Vindicator>11</Chassis_Vindicator>
 		<Chassis_Predator>13</Chassis_Predator>
 		<Chassis_T-55A>113</Chassis_T-55A>
@@ -112,6 +112,7 @@
 		<Chassis_2_Oth76_Destiny>220</Chassis_2_Oth76_Destiny>
 		<Chassis_3_Oth76_Destiny>221</Chassis_3_Oth76_Destiny>
 		<Chassis_4_Oth76_Destiny>222</Chassis_4_Oth76_Destiny>
+		<Chassis_Oth84_FVE_Defender>228</Chassis_Oth84_FVE_Defender>
 	</ids>
 	<shared/>
 </root>

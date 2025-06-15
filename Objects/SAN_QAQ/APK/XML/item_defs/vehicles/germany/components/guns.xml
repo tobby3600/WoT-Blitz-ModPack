@@ -5745,7 +5745,7 @@
 			<shortUserString>#germany_vehicles:_88mm_KwK_36_L56TUR_short</shortUserString>
 			<description>#germany_vehicles:_88mm_KwK_36_L56TUR_descr</description>
 			<tags/>
-			<level>6</level>
+			<level>7</level>
 			<price>0</price>
 			<impulse>0.38</impulse>
 			<recoil>
@@ -5762,8 +5762,8 @@
 			<maxAmmo>90</maxAmmo>
 			<aimingTime>2.25</aimingTime>
 			<weight>2050</weight>
-			<maxHealth>150</maxHealth>
-			<maxRegenHealth>75</maxRegenHealth>
+			<maxHealth>170</maxHealth>
+			<maxRegenHealth>85</maxRegenHealth>
 			<repairCost>0</repairCost>
 			<invisibilityFactorAtShot>0.238</invisibilityFactorAtShot>
 			<shotDispersionRadius>0.37</shotDispersionRadius>
@@ -5778,21 +5778,21 @@
 					<speed>773</speed>
 					<gravity>9.81</gravity>
 					<maxDistance>720</maxDistance>
-					<piercingPower>150 135</piercingPower>
+					<piercingPower>180 166</piercingPower>
 				</_88mm_Pzgr39TUR>
 				<_88mm_Pzgr44TUR>
 					<defaultPortion>0</defaultPortion>
 					<speed>966</speed>
 					<gravity>9.81</gravity>
 					<maxDistance>720</maxDistance>
-					<piercingPower>200 175</piercingPower>
+					<piercingPower>238 224</piercingPower>
 				</_88mm_Pzgr44TUR>
 				<_88mm_Sprg18TUR>
 					<defaultPortion>0.15</defaultPortion>
 					<speed>773</speed>
 					<gravity>9.81</gravity>
 					<maxDistance>720</maxDistance>
-					<piercingPower>44 44</piercingPower>
+					<piercingPower>47 47</piercingPower>
 				</_88mm_Sprg18TUR>
 			</shots>
 		</_88mm_KwK_36_L56TUR>
@@ -6666,7 +6666,7 @@
 					<speed>600</speed>
 					<gravity>9.81</gravity>
 					<maxDistance>720</maxDistance>
-					<piercingPower>317 317</piercingPower>
+					<piercingPower>327 327</piercingPower>
 				</_128mm_Gr_40HTM>
 				<_128mm_Sprgr_18TM>
 					<defaultPortion>0.2</defaultPortion>

@@ -4,34 +4,33 @@
 
 [auto][a] property float globalTime;
 [auto][a] property float4x4 worldMatrix;
-[auto][a] property float4x4 worldViewProjMatrix;
+[auto][a] property float4x4 viewProjMatrix;
 
 #if !DRAW_DEPTH_ONLY
 	[auto][a] property float3 cameraPosition;
-	[auto][a] property float4x4 worldViewMatrix;
+	[auto][a] property float4x4 viewMatrix;
+
+	#if ALBEDO_TRANSFORM
+		[material][a] property float4 decalAtlasBoxAlbedo = float4(const0List2, const1List2);
+		[material][a] property widget textureTransform float4x4 Tex0Transform;
+	#endif
+
+	#if TILED_DECAL_MASK
+		[material][a] property float2 decalTileCoordScale = const1List2;
+	
+		#if TILED_DECAL_TRANSFORM
+			#if HARD_SKINNING
+				[auto][ttc] property widget textureTransform float4 jointTextureTransforms[64] : "bigarray";
+			#elif !SOFT_SKINNING
+				[material][a] property widget textureTransform float4x4 tiledDecalTextureTransform;
+			#endif
+		#endif
+	#endif
 #endif
 
 #if SOFT_SKINNING || HARD_SKINNING
 	[auto][jpos] property float4 jointPositions[32] : "bigarray";
 	[auto][jrot] property float4 jointQuaternions[32] : "bigarray";
-#endif
-
-#if !DRAW_DEPTH_ONLY && ALBEDO_TRANSFORM
-	[material][a] property float4 decalAtlasBoxAlbedo = float4(const0List2, const1List2);
-	[material][a] property widget textureTransform float4x4 Tex0Transform;
-#endif
-
-#if MATERIAL_DETAIL || TILED_DECAL_MASK
-	[material][a] property float2 decalTileCoordScale = const1List2;
-	[material][a] property float2 detailTileCoordScale = const1List2;
-
-	#if TILED_DECAL_TRANSFORM
-		#if HARD_SKINNING
-			[auto][ttc] property widget textureTransform float4 jointTextureTransforms[64] : "bigarray";
-		#elif !SOFT_SKINNING
-			[material][a] property widget textureTransform float4x4 tiledDecalTextureTransform;
-		#endif
-	#endif
 #endif
 
 #if USE_VERTEX_DISPLACEMENT
@@ -42,7 +41,9 @@
 
 #if VERTEX_VERTICAL_OFFSET
 	[material][a] property float verticalOffset = 0.0;
-#elif WIND_ANIMATION
+#endif
+
+#if WIND_ANIMATION
 	[material][a] property float2 windOscillationParams;
 #endif
 
@@ -66,7 +67,7 @@
 			weights = weights.yzwx;
 		}
 
-		return skinnedPosition.xyz * (1.0 / skinnedPosition.w);
+		return skinnedPosition.xyz / skinnedPosition.w;
 	}
 
 	__forceinline float3 softSkinnedNormal(float3 n, float4 indices, float4 weights)
@@ -146,10 +147,10 @@
 #if WAVE_ANIMATION
 	inline float3 wave(float3 pos, float2 uv, float time)
 	{
-		float sinOff = dot(pos, const1List3);
-		float3 cosOff = cos(float3(time * 4.35 + sinOff, time * 9.36 + sinOff, time * 6.6 + sinOff));
-		float2 fxy = float2(uv.x * 0.5, -uv.x * uv.y);
+		float offset = dot(pos, const1List3);
+		float2 phase = float2(uv.x * 0.5, -uv.x * uv.y);
+		float3 cosOff = cos(float3(time * 4.35 + offset, time * 9.36 + offset, time * 6.6 + offset));
 
-		return float3(cosOff.x * fxy.x + pos.x, cosOff.y * fxy.x + (fxy.y * 0.9 + pos.y), cosOff.z * fxy.x + pos.z);
+		return float3(cosOff.x * phase.x + pos.x, cosOff.y * phase.x + (phase.y * 0.9 + pos.y), cosOff.z * phase.x + pos.z);
 	}
 #endif

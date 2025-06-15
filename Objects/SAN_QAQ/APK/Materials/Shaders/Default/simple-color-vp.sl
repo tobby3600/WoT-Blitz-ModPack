@@ -41,7 +41,7 @@ vertex_out
 		float4 projPos : POSITION0;
 		float3 worldPos : POSITION1;
 		float4 vertexColor : COLOR0;
-		float4 worldNormalNdotL : TEXCOORD0;
+		float4 worldNormalSlope : TEXCOORD0;
 	#endif
 
 	#if USE_VERTEX_FOG
@@ -65,24 +65,28 @@ vertex_out vp_main(vertex_in input)
 
 	#include "materials-vertex-processing.slh"
 
-	const float3 toLightDir = -eyePos * lightPosition0.w + lightPosition0.xyz;
-	const float toLightDis = length(toLightDir);
-	toLightDir *= 1.0 / toLightDis;
+	float3 toLightDir = -eyePos * lightPosition0.w + lightPosition0.xyz;
+	float toLightDis = length(toLightDir);
+	toLightDir /= toLightDis;
+
+	#if SIMPLE_COLOR_RECEIVED_SHADOW_ONLY_ENABLED || USE_VERTEX_FOG
+		float3 toCamDir = camPos - worldPos;
+	#endif
 
 	#if USE_VERTEX_FOG
 		#include "vp-fog-math.slh"
 	#endif
 
 	#if SIMPLE_COLOR_RECEIVED_SHADOW_ONLY_ENABLED
-		const float3 lightColor = flatColor.rgb * 0.5 + float3(0.25, 0.25, 0.25);
-		const float3 N = normalize(mul3Fast0(input.normal, worldViewInvTransposeMatrix));
-		const float3 L = toLightDir;
+		float3 lightColor = flatColor.rgb * 0.5 + float3(0.25, 0.25, 0.25);
+		float3 N = normalize(mul3Fast0(input.normal, worldViewInvTransposeMatrix));
+		float3 L = toLightDir;
 
-		const float NdotL = saturate(dot(N, L));
+		float NdotL = saturate(dot(N, L));
 
 		output.worldPos = worldPos;
-		output.worldNormalNdotL = float4(N, 1.0 - NdotL);
-		output.vertexColor = float4(flatColor.rgb * flatColor.rgb * 0.5 + ((lightColor * NdotL) * ((NdotL * NdotL) * (NdotL * NdotL) + _INVERSE_PI)), flatColor.a);
+		output.worldNormalSlope = float4(N, 1.0 - NdotL);
+		output.vertexColor = float4(flatColor.rgb * 0.4 + (flatColor.rgb * 0.5 + float3(0.25, 0.25, 0.25)) * (pow(saturate(dot(N, normalize(L + toCamDir))), 4.0) * 0.15 + NdotL), flatColor.a);
 	#endif
 
 	return output;

@@ -2,10 +2,6 @@
 #include "blending.slh"
 #include "highlight-animation.slh"
 
-#if ENVIRONMENT_MAPPING
-	#include "lighting.slh"
-#endif
-
 #if LOD_TRANSITION
 	#include "lod-transition.slh"
 #endif
@@ -18,41 +14,36 @@ fragment_in
 {
 	float4 projPos : POSITION0;
 
+	#if RECEIVE_SHADOW || HIGHLIGHT_WAVE_ANIM
+		float3 worldPos : POSITION1;
+	#endif
+
 	#if VERTEX_COLOR
 		float4 vertexColor : COLOR0;
 	#endif
 
-	#if (ALPHA_MASK || MATERIAL_DECAL || (MATERIAL_LIGHTMAP && VIEW_DIFFUSE)) || (ENVIRONMENT_MAPPING || MATERIAL_TEXTURE || TILED_DECAL_MASK)
+	#if MATERIAL_TEXTURE || TILED_DECAL_MASK
 		float4 texCoord0 : TEXCOORD0;
 	#endif
 
-	#if MATERIAL_DETAIL || TILED_DECAL_MASK
+	#if (ALPHA_MASK || MATERIAL_DECAL || (MATERIAL_LIGHTMAP && VIEW_DIFFUSE)) || MATERIAL_DETAIL
 		float4 texCoord1 : TEXCOORD1;
 	#endif
 
-	#if ENVIRONMENT_MAPPING
-		float4 specularVector : TEXCOORD2;
-		float4 reflectionVector : TEXCOORD3;
-	#endif
-
-	#if USE_VERTEX_FOG
-		float4 varFog : TEXCOORD4;
-	#endif
-
-	#if FLOWMAP
-		float3 flowData : TEXCOORD5; // For flowmap animations - xy next frame uv. z - frame time
-	#endif
-
 	#if BLEND_BY_ANGLE || RECEIVE_SHADOW
-		float4 worldNormalNdotL : POSITION0;
+		float4 worldNormalSlope : TEXCOORD2;
 	#endif
 
 	#if BLEND_BY_ANGLE
-		float3 toWorldDir : POSITION1;
+		float3 toCamDir : TEXCOORD3;
 	#endif
 
-	#if RECEIVE_SHADOW || HIGHLIGHT_WAVE_ANIM
-		float3 worldPos : POSITION2;
+	#if FLOWMAP
+		float3 flowData : TEXCOORD4; // For flowmap animations - xy next frame uv. z - frame time
+	#endif
+
+	#if USE_VERTEX_FOG
+		float4 varFog : TEXCOORD5;
 	#endif
 };
 
@@ -63,11 +54,6 @@ fragment_out
 
 #if ALPHA_MASK
 	uniform sampler2D alphamask;
-#endif
-
-#if ENVIRONMENT_MAPPING
-	uniform sampler2D envReflectionMask;
-	uniform samplerCUBE cubemap;
 #endif
 
 #if FLOWMAP
@@ -95,17 +81,6 @@ fragment_out
 	uniform sampler2D decaltexture;
 #endif
 
-#if ENVIRONMENT_MAPPING
-	[auto][a] property float3 lightColor0;
-
-	[material][a] property float reflectionAddDiffuse = 0.025;
-	[material][a] property float reflectionLerpEnvMap = 0.5;
-	[material][a] property float reflectionMaskMultiplier = 100.0;
-	[material][a] property float reflectionMultLightmap = 2.0;
-	[material][a] property float reflectionSpecParamGloss = 0.45;
-	[material][a] property float3 cubemapIntensity = const1List3;
-#endif
-
 #if LOD_TRANSITION || MATERIAL_TEXTURE
 	#if ALPHABLEND && ALPHASTEPVALUE
 		[material][a] property float alphaStepValue = 0.5;
@@ -122,7 +97,7 @@ fragment_out
 	[material][a] property float2 angleBlendBounds = float2(0.0, 1.0);
 #endif
 
-#if FLATCOLOR || FLATALBEDO
+#if FLATALBEDO || FLATCOLOR
 	[material][a] property float4 flatColor = const1List4;
 #endif
 
@@ -142,23 +117,32 @@ fragment_out fp_main(fragment_in input)
 {
 	fragment_out output;
 
-	float2 projPos = input.projPos.xy * (1.0 / input.projPos.w);
+	float2 projPos = input.projPos.xy / input.projPos.w;
+
+	#if MATERIAL_TEXTURE || TILED_DECAL_MASK
+		float4 texCoord0 = input.texCoord0;
+	#endif
+
+	#if (ALPHA_MASK || MATERIAL_DECAL || (MATERIAL_LIGHTMAP && VIEW_DIFFUSE)) || MATERIAL_DETAIL
+		float4 texCoord1 = input.texCoord1;
+	#endif
+
 	float4 outColor = const1List4;
 
 	#if MATERIAL_TEXTURE
 		#if FLOWMAP
-			float2 flowDir = tex2D(flowmap, input.texCoord0.zw).xy * 2.0 - const1List2;
+			float2 flowDir = tex2D(flowmap, texCoord0.xy).xy * 2.0 - const1List2;
 
-			float4 albedoSample = lerp(tex2D(albedo, flowDir * input.flowData.x + input.texCoord0.zw), tex2D(albedo, flowDir * input.flowData.y + input.texCoord0.zw), input.flowData.z);
+			float4 albedoSample = lerp(tex2D(albedo, flowDir * input.flowData.x + texCoord0.xy), tex2D(albedo, flowDir * input.flowData.y + texCoord0.xy), input.flowData.z);
 		#else
-			float4 albedoSample = tex2D(albedo, input.texCoord0.zw);
+			float4 albedoSample = tex2D(albedo, texCoord0.xy);
 		#endif
 
 		#if ALPHATEST || ALPHABLEND
 			outColor = albedoSample;
 
 			#if ALPHA_MASK 
-				outColor.a *= tex2D(alphamask, input.texCoord0.xy).a;
+				outColor.a *= tex2D(alphamask, texCoord1.xy).a;
 			#endif
 		#elif TEST_OCCLUSION
 			outColor.rgb = albedoSample.rgb * albedoSample.a;
@@ -199,23 +183,23 @@ fragment_out fp_main(fragment_in input)
 		float3 diffuse = const1List3;
 
 		#if MATERIAL_DECAL
-			float4 decalColor = tex2D(decal, input.texCoord0.xy);
+			float4 decalColor = tex2D(decal, texCoord1.xy);
 			diffuse *= decalColor.rgb;
 		#endif
 
 		#if MATERIAL_LIGHTMAP
-			diffuse *= tex2D(lightmap, input.texCoord0.xy).rgb;
+			diffuse *= tex2D(lightmap, texCoord1.xy).rgb;
 		#endif
 
 		#if SETUP_LIGHTMAP
-			float2 oddXY = step(const05List2, frac(input.texCoord0.xy * (aLightmapSize * 0.5)));
+			float2 oddXY = step(const05List2, frac(texCoord1.xy * (aLightmapSize * 0.5)));
 
 			diffuse = -const05List3 * abs(oddXY.x - oddXY.y) + float3(0.75, 0.75, 0.75);
 		#endif
 	#endif
 
 	#if RECEIVE_SHADOW
-		float3 shadowInf = getShadow(input.worldNormalNdotL.xyz * (shadowNormalSlopeOffset * input.worldNormalNdotL.w) + input.worldPos, projPos, input.worldNormalNdotL.w);
+		float3 shadowInf = getShadow(input.worldNormalSlope.xyz * (shadowNormalSlopeOffset * input.worldNormalSlope.w) + input.worldPos, projPos, input.worldNormalSlope.w);
 	#endif
 
 	#if MATERIAL_DECAL || MATERIAL_LIGHTMAP
@@ -256,31 +240,14 @@ fragment_out fp_main(fragment_in input)
 		output.color.rgb = const1List3;
 	#endif
 
-	#if ENVIRONMENT_MAPPING
-		float envMaskValue = tex2D(envReflectionMask, input.texCoord0.zw).a;
-		float maskScaled = min(1.0, envMaskValue * reflectionMaskMultiplier);
-
-		#if MATERIAL_LIGHTMAP && VIEW_DIFFUSE
-			float3 lightenLM = saturate(diffuse * reflectionMultLightmap);
-		#else
-			float3 lightenLM = float3(reflectionMultLightmap, reflectionMultLightmap, reflectionMultLightmap);
-		#endif
-
-		output.color.rgb = lightColor0 * input.specularVector.xyz * (getBlinnPhongSpecular(input.specularVector.w, reflectionSpecParamGloss * envMaskValue) * maskScaled) + lerp(output.color.rgb, output.color.rgb * reflectionAddDiffuse + texCUBE(cubemap, input.reflectionVector.xyz).xyz * cubemapIntensity * lightenLM * (maskScaled * input.reflectionVector.w), min(1.0, envMaskValue * reflectionLerpEnvMap));
-	#endif
-
 	#if TILED_DECAL_MASK
-		float4 tileColor = tex2D(decaltexture, input.texCoord1.xy) * decalTileColor;
-		output.color.rgb += (tileColor.rgb - output.color.rgb) * (tileColor.a * tex2D(decalmask, input.texCoord0.zw).a);
+		float4 tileColor = tex2D(decaltexture, texCoord0.zw) * decalTileColor;
+		output.color.rgb += (tileColor.rgb - output.color.rgb) * (tileColor.a * tex2D(decalmask, texCoord0.xy).a);
 	#endif
 
 	#if MATERIAL_DETAIL
-		output.color.rgb *= tex2D(detail, input.texCoord1.zw).rgb * 2.0;
+		output.color.rgb *= tex2D(detail, texCoord1.zw).rgb * 2.0;
 	#endif
-
-	output.color.rgb = toLinear(output.color.rgb);
-
-	#include "color-grading.slh"
 
 	#if ALPHABLEND && MATERIAL_TEXTURE
 		output.color.a = outColor.a;
@@ -305,9 +272,11 @@ fragment_out fp_main(fragment_in input)
 	#endif
 
 	#if BLEND_BY_ANGLE
-		float NdotV = abs(dot(input.worldNormalNdotL.xyz, input.toWorldDir)) * (1.0 / (length(input.worldNormalNdotL.xyz) * length(input.toWorldDir)));
-		output.color.a *= pow(saturate((lerp(NdotV, 1.0 - NdotV, angleBlendInversion) - angleBlendBounds.x) * (1.0 / (angleBlendBounds.y - angleBlendBounds.x))), angleBlendPower);
+		float NdotV = abs(dot(input.worldNormalSlope.xyz, input.toCamDir)) / (length(input.worldNormalSlope.xyz) * length(input.toCamDir));
+		output.color.a *= pow(saturate((lerp(NdotV, 1.0 - NdotV, angleBlendInversion) - angleBlendBounds.x) / (angleBlendBounds.y - angleBlendBounds.x)), angleBlendPower);
 	#endif
+
+	#include "color-grading.slh"
 
 	return output;
 }

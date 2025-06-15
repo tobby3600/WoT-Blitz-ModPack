@@ -1,5 +1,5 @@
 <root>
-	<nextAvailableId>73</nextAvailableId>
+	<nextAvailableId>74</nextAvailableId>
 	<ids>
 		<Ra_421>1</Ra_421>
 		<FuG_N>2</FuG_N>
@@ -46,6 +46,7 @@
 		<A221_Braniaq_DM5>64</A221_Braniaq_DM5>
 		<A221_Destiny>65</A221_Destiny>
 		<ProwlerRadio_508>66</ProwlerRadio_508>
+		<DirectLine_Oth84>72</DirectLine_Oth84>
 	</ids>
 	<shared>
 		<Ra_421>
@@ -588,5 +589,17 @@
 			<maxRegenHealth>1</maxRegenHealth>
 			<repairCost>0</repairCost>
 		</ProwlerRadio_508>
+		<DirectLine_Oth84>
+			<userString>#other_vehicles:DirectLine_Oth84</userString>
+			<description>#other_vehicles:DirectLine_Oth84_descr</description>
+			<tags/>
+			<level>9</level>
+			<price>0</price>
+			<weight>100</weight>
+			<distance>1</distance>
+			<maxHealth>250</maxHealth>
+			<maxRegenHealth>1</maxRegenHealth>
+			<repairCost>0</repairCost>
+		</DirectLine_Oth84>
 	</shared>
 </root>

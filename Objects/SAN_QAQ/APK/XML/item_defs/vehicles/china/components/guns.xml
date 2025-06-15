@@ -1,5 +1,5 @@
 <root>
-	<nextAvailableId>81</nextAvailableId>
+	<nextAvailableId>82</nextAvailableId>
 	<ids>
 		<_100mm_59>0</_100mm_59>
 		<_85mm_Tip_62-85TS>1</_85mm_Tip_62-85TS>
@@ -70,6 +70,7 @@
 		<_160mm_56_160_bzs>78</_160mm_56_160_bzs>
 		<_100mm_Type_59_spc>79</_100mm_Type_59_spc>
 		<_130mm_Type_61>80</_130mm_Type_61>
+		<_180mm_S-23CH>81</_180mm_S-23CH>
 	</ids>
 	<shared>
 		<_37mm_APX_SA18>
@@ -2959,7 +2960,7 @@
 			<aimingTime>1.0</aimingTime>
 			<weight>2257</weight>
 			<maxHealth>180</maxHealth>
-			<maxRegenHealth>1</maxRegenHealth>
+			<maxRegenHealth>90</maxRegenHealth>
 			<repairCost>0</repairCost>
 			<invisibilityFactorAtShot>0.1</invisibilityFactorAtShot>
 			<shotDispersionRadius>0.1</shotDispersionRadius>
@@ -3053,7 +3054,7 @@
 			<shortUserString>#china_vehicles:_85mm_Tip_56-85TUR_short</shortUserString>
 			<description>#china_vehicles:_85mm_Tip_56-85TUR_descr</description>
 			<tags/>
-			<level>6</level>
+			<level>7</level>
 			<price>0</price>
 			<impulse>0.44</impulse>
 			<effects>wpn_shot_main</effects>
@@ -3064,8 +3065,8 @@
 			<maxAmmo>60</maxAmmo>
 			<aimingTime>2.3</aimingTime>
 			<weight>1750</weight>
-			<maxHealth>122</maxHealth>
-			<maxRegenHealth>61</maxRegenHealth>
+			<maxHealth>150</maxHealth>
+			<maxRegenHealth>70</maxRegenHealth>
 			<repairCost>0</repairCost>
 			<invisibilityFactorAtShot>0.25</invisibilityFactorAtShot>
 			<shotDispersionRadius>0.37</shotDispersionRadius>
@@ -3080,14 +3081,14 @@
 					<speed>1000</speed>
 					<gravity>9.81</gravity>
 					<maxDistance>792</maxDistance>
-					<piercingPower>132 115</piercingPower>
+					<piercingPower>147 135</piercingPower>
 				</_85mm_CJ_365_TUR>
 				<_85mm_TC_367_TUR>
 					<defaultPortion>0.0</defaultPortion>
 					<speed>1000</speed>
 					<gravity>9.81</gravity>
 					<maxDistance>720</maxDistance>
-					<piercingPower>180 157</piercingPower>
+					<piercingPower>195 179</piercingPower>
 				</_85mm_TC_367_TUR>
 				<_85mm_SB_365_TUR>
 					<defaultPortion>0.15</defaultPortion>
@@ -3770,5 +3771,55 @@
 				</_130mm_HE_SB_472x2>
 			</shots>
 		</_130mm_Type_61>
+		<_180mm_S-23CH>
+			<userString>#china_vehicles:_180mm_S-23CH</userString>
+			<shortUserString>#china_vehicles:_180mm_S-23CH_short</shortUserString>
+			<description>#china_vehicles:_180mm_S-23CH_descr</description>
+			<tags/>
+			<level>10</level>
+			<price>0</price>
+			<impulse>0.1</impulse>
+			<effects>wpn_shot_huge_extra</effects>
+			<turretYawLimits>-180 180</turretYawLimits>
+			<pitchLimits>-1 1</pitchLimits>
+			<rotationSpeed>40</rotationSpeed>
+			<reloadTime>0.1</reloadTime>
+			<maxAmmo>1</maxAmmo>
+			<aimingTime>1.0</aimingTime>
+			<weight>3500</weight>
+			<maxHealth>252</maxHealth>
+			<maxRegenHealth>126</maxRegenHealth>
+			<repairCost>0</repairCost>
+			<invisibilityFactorAtShot>0.1</invisibilityFactorAtShot>
+			<shotDispersionRadius>0.1</shotDispersionRadius>
+			<shotDispersionFactors>
+				<turretRotation>0.1</turretRotation>
+				<afterShot>1</afterShot>
+				<whileGunDamaged>1.0</whileGunDamaged>
+			</shotDispersionFactors>
+			<shots>
+				<_180mm_Chuan_bei-G572>
+					<defaultPortion>0.8</defaultPortion>
+					<speed>500</speed>
+					<gravity>9.81</gravity>
+					<maxDistance>720</maxDistance>
+					<piercingPower>250 210</piercingPower>
+				</_180mm_Chuan_bei-G572>
+				<_180mm_Sha_bao-VO53>
+					<defaultPortion>0</defaultPortion>
+					<speed>400</speed>
+					<gravity>9.81</gravity>
+					<maxDistance>720</maxDistance>
+					<piercingPower>210 210</piercingPower>
+				</_180mm_Sha_bao-VO53>
+				<_180mm_Sha_bao-VO28>
+					<defaultPortion>0.2</defaultPortion>
+					<speed>400</speed>
+					<gravity>9.81</gravity>
+					<maxDistance>720</maxDistance>
+					<piercingPower>90 90</piercingPower>
+				</_180mm_Sha_bao-VO28>
+			</shots>
+		</_180mm_S-23CH>
 	</shared>
 </root>
