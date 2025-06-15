@@ -31,10 +31,10 @@ vertex_out
 		float4 invWorldMatrix2 : TEXCOORD2;
 		float4 parameters : TEXCOORD3;
 		float4 texCoord : TEXCOORD4;
+	#endif
 
-		#if USE_VERTEX_FOG
-			float4 varFog : TEXCOORD5;
-		#endif
+	#if USE_VERTEX_FOG
+		float4 varFog : TEXCOORD5;
 	#endif
 };
 
@@ -71,7 +71,7 @@ vertex_out vp_main(vertex_in input)
 	#endif
 
 	float toCamDis = length(toCamDir);
-	toCamDir *= 1.0 / toCamDis;
+	toCamDir /= toCamDis;
 
 	#if DECAL_TREAD
 		localPos.y = lerp(localPos.y, localPos.y * input.parameters.z + input.parameters.w, localPos.x + 0.5);
@@ -109,16 +109,17 @@ vertex_out vp_main(vertex_in input)
 		#endif
 
 		output.texCoord = input.texCoord;
+	#endif
 
-		#if USE_VERTEX_FOG
-			float3 camPos = cameraPosition;
-			float3 eyePos = mul3Fast1(worldPos, viewMatrix);
-			float3 toLightDir = -eyePos * lightPosition0.w + lightPosition0.xyz;
-			float toLightDis = length(toLightDir);
-			toLightDir *= 1.0 / toLightDis;
+	#if USE_VERTEX_FOG
+		float3 camPos = cameraPosition;
+		float3 eyePos = mul3Fast1(worldPos, viewMatrix);
+		toCamDir = camPos - worldPos;
+		float3 toLightDir = -eyePos * lightPosition0.w + lightPosition0.xyz;
+		float toLightDis = length(toLightDir);
+		toLightDir /= toLightDis;
 
-			#include "vp-fog-math.slh"
-		#endif
+		#include "vp-fog-math.slh"
 	#endif
 
 	return output;

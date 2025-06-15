@@ -5105,21 +5105,21 @@
 					<speed>1400</speed>
 					<gravity>9.81</gravity>
 					<maxDistance>720</maxDistance>
-					<piercingPower>221 193</piercingPower>
+					<piercingPower>225 198</piercingPower>
 				</_122mm_3BM14B>
 				<_122mm_3VBK6>
 					<defaultPortion>0.0</defaultPortion>
 					<speed>820</speed>
 					<gravity>9.81</gravity>
 					<maxDistance>720</maxDistance>
-					<piercingPower>270 270</piercingPower>
+					<piercingPower>285 285</piercingPower>
 				</_122mm_3VBK6>
 				<_122mm_UOF-471>
 					<defaultPortion>0.15</defaultPortion>
 					<speed>790</speed>
 					<gravity>9.81</gravity>
 					<maxDistance>720</maxDistance>
-					<piercingPower>61 61</piercingPower>
+					<piercingPower>68 68</piercingPower>
 				</_122mm_UOF-471>
 			</shots>
 		</_122-mm_D-30A>
@@ -6751,7 +6751,7 @@
 			<shortUserString>#ussr_vehicles:_85mm_D5T_85BM_TUR_short</shortUserString>
 			<description>#ussr_vehicles:_85mm_D5T_85BM_TUR_descr</description>
 			<tags/>
-			<level>6</level>
+			<level>7</level>
 			<price>0</price>
 			<impulse>0.44</impulse>
 			<recoil>
@@ -6784,14 +6784,14 @@
 					<speed>950</speed>
 					<gravity>9.81</gravity>
 					<maxDistance>720</maxDistance>
-					<piercingPower>144 125</piercingPower>
+					<piercingPower>155 141</piercingPower>
 				</_85mm_UBR_365KBM_TUR>
 				<_85mm_UBR_385KBM_TUR>
 					<defaultPortion>0</defaultPortion>
 					<speed>1070</speed>
 					<gravity>9.81</gravity>
 					<maxDistance>720</maxDistance>
-					<piercingPower>180 165</piercingPower>
+					<piercingPower>190 175</piercingPower>
 				</_85mm_UBR_385KBM_TUR>
 				<_85mm_UOF_365_TUR>
 					<defaultPortion>0.2</defaultPortion>

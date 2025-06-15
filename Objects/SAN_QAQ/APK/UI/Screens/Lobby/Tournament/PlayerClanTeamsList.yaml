@@ -258,28 +258,11 @@ Prototypes:
             name: "Back"
             size: [924.000000, 64.000000]
             input: false
+            classes: "panel-background"
             components:
                 Background:
-                    usePostProcessedSprite: true
-                UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                    needClearAlphaAfterRender: true
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent1:
-                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent2:
-                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
+                    drawType: "DRAW_FILL"
+                    colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "PercentOfParent"

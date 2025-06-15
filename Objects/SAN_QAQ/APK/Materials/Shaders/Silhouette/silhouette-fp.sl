@@ -14,7 +14,6 @@ fragment_out fp_main(fragment_in input)
 	fragment_out output;
 
 	output.color = silhouetteColor;
-	output.color.rgb = toLinear(output.color.rgb);
 
 	#include "color-grading.slh"
 

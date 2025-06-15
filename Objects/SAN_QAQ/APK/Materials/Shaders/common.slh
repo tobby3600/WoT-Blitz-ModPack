@@ -1,3 +1,4 @@
+#define COMMON_INCLUDED 1
 #define _PI 3.141592653589793238
 #define _PI_05 1.570796326794896619
 #define _PI_20 6.283185307179586476
@@ -6,7 +7,6 @@
 #define _PI_60 18.84955592153875943
 #define _INVERSE_PI 0.318309886183790671
 #define _LOG2_E 1.442695040888963
-#define COMMON_INCLUDED 1
 #define const0List2 float2(0.0, 0.0)
 #define const0List3 float3(0.0, 0.0, 0.0)
 #define const0List4 float4(0.0, 0.0, 0.0, 0.0)
@@ -39,7 +39,6 @@
 #ensuredefined BLEND_BY_ANGLE 0
 #ensuredefined BLEND_WITH_CONST_ALPHA 0
 #ensuredefined CLAMP 0
-#ensuredefined COLORBLIND_MODE 0
 #ensuredefined CURSOR 0
 #ensuredefined CUT_LEAF 0
 #ensuredefined DECAL_ALBEDO 0
@@ -81,7 +80,6 @@
 #ensuredefined HEIGHTMAP_FLOAT_TEXTURE 0
 #ensuredefined INSTANCED_CHAIN 0
 #ensuredefined LANDSCAPE_CURSOR 0
-#ensuredefined LANDSCAPE_HAS_METALLIC_AND_EMISSION 0
 #ensuredefined LANDSCAPE_HEIGHT_BLEND 0
 #ensuredefined LANDSCAPE_HEIGHT_BLEND_ALLOWED 0
 #ensuredefined LANDSCAPE_LOD_MORPHING 0
@@ -209,62 +207,54 @@ float DefaultFirstStatement()
 	return 1.0;
 }
 
-inline float pow5Exp(float num)
+float pow5Exp(float num)
 {
 	return exp2(-num * (num * 5.55473 + 6.98316));
 }
 
-inline float2 rotate(float2 vec, float2 theta)
+float2 rotate(float2 vec, float2 theta)
 {
 	return float2(dot(vec, float2(theta.x, -theta.y)), dot(vec, theta.yx));
 }
 
-inline float3 unpackNormal(float2 normal)
+float3 unpackNormal(float2 normal)
 {
 	normal += normal - const1List2;
 
-	return float3(normal, sqrt(saturate(1.0 - dot(normal, normal))));
+	return float3(normal, sqrt(1.0 - dot(normal, normal)));
 }
 
-inline float3 mixNormal(float3 base, float3 detail)
-{
-	base = base * 2.0 + float3(-const1List2, 0.0);
-	detail = detail * float3(-const2List2, 2.0) + float3(const1List2, -1.0);
-
-	return base * dot(base.xy, detail.xy) + (base * detail.z - detail);
-}
-
-inline float3 toLinear(float3 SRGB)
+float3 toLinear(float3 SRGB)
 {
 	return lerp(SRGB * 0.07739938080495, pow(SRGB * 0.9478672985782 + float3(0.0521327014218, 0.0521327014218, 0.0521327014218), 2.4), step(float3(0.04044823627711, 0.04044823627711, 0.04044823627711), SRGB));
 }
 
-inline float3 toSRGB(float3 Linear)
+float3 toSRGB(float3 Linear)
 {
 	return lerp(Linear * 12.92, pow(Linear, 0.41666666666666) * 1.055 - float3(0.055, 0.055, 0.055), step(float3(0.0031308, 0.0031308, 0.0031308), Linear));
 }
 
-inline float3 mul3Fast0(float3 vec, float4x4 mat)
+float3 mul3Fast0(float3 vec, float4x4 mat)
 {
 	return mul(vec, float3x3(mat[0].xyz, mat[1].xyz, mat[2].xyz));
 }
 
-inline float3 mul3Fast1(float3 vec, float4x4 mat)
+float3 mul3Fast1(float3 vec, float4x4 mat)
 {
 	return mat[0].xyz * vec.x + (mat[1].xyz * vec.y + (mat[2].xyz * vec.z + mat[3].xyz));
 }
 
-inline float4 mul4Fast0(float3 vec, float4x4 mat)
+float4 mul4Fast0(float3 vec, float4x4 mat)
 {
 	return mat[0] * vec.x + mat[1] * vec.y + mat[2] * vec.z;
 }
 
-inline float4 mul4Fast1(float3 vec, float4x4 mat)
+float4 mul4Fast1(float3 vec, float4x4 mat)
 {
 	return mat[0] * vec.x + (mat[1] * vec.y + (mat[2] * vec.z + mat[3]));
 }
 
-inline float4x4 vecToMat(float4 vecA, float4 vecB, float4 vecC)
+float4x4 vecToMat(float4 vecA, float4 vecB, float4 vecC)
 {
 	return float4x4(float4(vecA.x, vecB.x, vecC.x, 0.0), float4(vecA.y, vecB.y, vecC.y, 0.0), float4(vecA.z, vecB.z, vecC.z, 0.0), float4(vecA.w, vecB.w, vecC.w, 1.0));
 }

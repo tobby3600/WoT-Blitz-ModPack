@@ -79,12 +79,12 @@
 			<armor_14>105</armor_14>
 			<armor_15>175</armor_15>
 			<armor_16>65</armor_16>
-			<armor_2>100</armor_2>
-			<armor_3>140</armor_3>
-			<armor_4>120</armor_4>
+			<armor_2>130</armor_2>
+			<armor_3>150</armor_3>
+			<armor_4>130</armor_4>
 			<armor_5>65</armor_5>
 			<armor_6>40</armor_6>
-			<armor_7>120</armor_7>
+			<armor_7>130</armor_7>
 			<armor_8>0</armor_8>
 			<armor_9>110</armor_9>
 		</armor>
@@ -226,7 +226,7 @@
 				<armor_15>100</armor_15>
 				<armor_16>35</armor_16>
 				<armor_2>80</armor_2>
-				<armor_3>160</armor_3>
+				<armor_3>170</armor_3>
 				<armor_4>140</armor_4>
 				<armor_5>35</armor_5>
 				<armor_6>35</armor_6>
@@ -250,7 +250,7 @@
 				<repairCost>0</repairCost>
 			</surveyingDeviceHealth>
 			<guns>
-				<_128mm_KwK_L55_TM>shared<maxAmmo>55</maxAmmo>
+				<_128mm_KwK_L55_TM>shared<maxAmmo>60</maxAmmo>
 					<hitTester>
 						<collisionModel>vehicles/german/G167_Tiger_Maus/collision/Gun_01.model</collisionModel>
 					</hitTester>
@@ -272,7 +272,7 @@
 					</armor>
 					<shotDispersionRadius>0.39</shotDispersionRadius>
 					<aimingTime>3.2</aimingTime>
-					<reloadTime>14.4</reloadTime>
+					<reloadTime>10.25</reloadTime>
 					<shotDispersionFactors>
 						<turretRotation>0.17</turretRotation>
 						<afterShot>4</afterShot>
@@ -289,7 +289,7 @@
 							</shell>
 						</_128mm_Pzgr_39TM>
 						<_128mm_Gr_40HTM>
-							<shell>shared<price>11<gold/>
+							<shell>shared<price>10<gold/>
 								</price>
 							</shell>
 						</_128mm_Gr_40HTM>

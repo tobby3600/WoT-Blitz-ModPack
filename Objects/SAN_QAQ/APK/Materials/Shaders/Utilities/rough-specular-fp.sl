@@ -33,16 +33,19 @@ fragment_out fp_main(fragment_in input)
 	for (int i = 0; i < 1024; i++)
 	{
 		float3 H = I_GGX(D_Hammersley(i, 1024.0), linearRoughness, N);
-		float3 L = reflect(-N, H);
 
 		float NdotL = saturate(dot(N, L));
-		float NdotH = saturate(dot(N, H));
+		float NdotH = dot(N, H);
+
+		float3 L = H * (NdotH * 2.0) - N;
+
+		NdotH = saturate(NdotH);
 
 		totalWeight += NdotL;
 		landscapeDiffuse += texCUBElod(cubemap, L, lerp(log2(1.0 / (D_GGX(NdotH, linearRoughness) * 1206.371578978480604 + 0.48301987048943071)) * 0.5 + log2(width), 0.0, float(linearRoughness == 0.0))).rgb * NdotL;
 	}
 
-	output.color = float4(landscapeDiffuse * (1.0 / totalWeight), 1.0);
+	output.color = float4(landscapeDiffuse / totalWeight, 1.0);
 
 	return output;
 }

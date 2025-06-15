@@ -40,7 +40,7 @@ fragment_out fp_main(fragment_in input)
 		}
 	}
 
-	output.color = float4(accumulationCount.x * (1.0 / accumulationCount.y), const1List3);
+	output.color = float4(accumulationCount.x / accumulationCount.y, const1List3);
 
 	return output;
 }

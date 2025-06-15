@@ -8,24 +8,12 @@ fragment_in
 {
 	float4 projPos : POSITION0;
 
-	#if ALPHATEST && MATERIAL_TEXTURE
-		#if PARTICLES_PERSPECTIVE_MAPPING
-			float3 texCoord0 : TEXCOORD0;
-		#else
-			float2 texCoord0 : TEXCOORD0;
-		#endif
-
-		#if ALPHA_MASK
-			float2 texCoord1 : TEXCOORD1;
-		#endif
-
-		#if FLOWMAP
-			float3 flowData : TEXCOORD2;
-		#endif
+	#if ALPHA_MASK || MATERIAL_TEXTURE
+		float4 texCoord0 : TEXCOORD0;
 	#endif
 
-	#if VERTEX_COLOR
-		float vertexAlpha : COLOR0;
+	#if FLOWMAP || VERTEX_COLOR
+		float4 texCoord1 : TEXCOORD1;
 	#endif
 };
 
@@ -60,21 +48,25 @@ fragment_out fp_main(fragment_in input)
 {
 	fragment_out output;
 
-	float3 projPos = input.projPos.xyz * (1.0 / input.projPos.w);
+	float3 projPos = input.projPos.xyz / input.projPos.w;
+
+	#if ALPHA_MASK || MATERIAL_TEXTURE
+		float4 texCoord0 = input.texCoord0;
+	#endif
 
 	#if ALPHATEST && MATERIAL_TEXTURE
 		#if FLOWMAP
-			float2 flowDir = tex2D(flowmap, input.texCoord0.xy).xy * 2.0 - const1List2;
+			float2 flowDir = tex2D(flowmap, texCoord0.xy).xy * 2.0 - const1List2;
 
-			output.color.a = lerp(tex2D(albedo, flowDir * input.flowData.x + input.texCoord0.xy).a, tex2D(albedo, flowDir * input.flowData.y + input.texCoord0.xy).a, input.flowData.z);
+			output.color.a = lerp(tex2D(albedo, flowDir * input.texCoord1.x + texCoord0.xy).a, tex2D(albedo, flowDir * input.texCoord1.y + texCoord0.xy).a, input.texCoord1.z);
 		#elif PBR_TEXTURE_SET
-			output.color.a = tex2D(baseColorMap, input.texCoord0.xy).a;
+			output.color.a = tex2D(baseColorMap, texCoord0.xy).a;
 		#else
-			output.color.a = tex2D(albedo, input.texCoord0.xy).a;
+			output.color.a = tex2D(albedo, texCoord0.xy).a;
 		#endif
 
 		#if ALPHA_MASK
-			output.color.a *= tex2D(alphamask, input.texCoord1).a;
+			output.color.a *= tex2D(alphamask, texCoord0.zw).a;
 		#endif
 	#endif
 
@@ -87,7 +79,7 @@ fragment_out fp_main(fragment_in input)
 			float alpha = output.color.a;
 
 			#if VERTEX_COLOR
-				alpha *= input.vertexAlpha;
+				alpha *= input.texCoord1.w;
 			#endif
 
 			#if ALPHATESTVALUE

@@ -12,13 +12,13 @@ __forceinline float3 getSingleWaveAnim(float3 worldPos, float3 waveDDS, float4 w
 	float2 wavePTDInv = 1.0 / wavePTD;
 	float3 waveDR = worldPos - waveCR.xyz;
 	float waveDS = length(waveDR);
-	waveDR *= 1.0 / waveDS;
+	waveDR /= waveDS;
 
-	float waveDT = (waveCR.w - waveDS) * (1.0 / waveDDS.z);
+	float waveDT = (waveCR.w - waveDS) / waveDDS.z;
 	float waveTR = (waveDT - wavePTD.x) * wavePTDInv.y;
 	float wavePS = waveDT * wavePTDInv.x;
 
-	float wavePHA = lerp(waveTR * _PI_25 + _PI_05, wavePS * _PI_05, 1.0 - step(1.0, wavePS));
+	float wavePHA = lerp(wavePS * _PI_05, waveTR * _PI_25 + _PI_05, step(1.0, wavePS));
 	float waveWAVE = sin(wavePHA) * saturate(-waveDDS.x * waveDS + 1.0) * (-waveAMD.x * min(1.0, waveTR) + waveAMD.x);
 
 	waveDR.z *= saturate(waveDR.z) * step(0.0, waveWAVE);

@@ -1,9 +1,13 @@
 float fogDis = length(eyePos);
 
 #if FOG_ATMOSPHERE
-	float fogAtmosphereFactory = saturate(dot(eyePos, toLightDir) * (1.0 / (fogDis * toLightDis + 0.0001)));
-	float3 fogAtmosphereColor = lerp(fogAtmosphereColorSky, fogAtmosphereColorSun, pow(fogAtmosphereFactory, fogAtmosphereScattering));
-	output.varFog.rgb = lerp(fogColor, fogAtmosphereColor, saturate(fogDis * (1.0 / fogAtmosphereDistance)));
+	#if ENABLE_HIGH_QUALITY_FOG
+		float fogAtmosphereFactory = saturate((dot(eyePos, toLightDir) / (fogDis * toLightDis + 0.001)) * 0.5 + 0.5);
+		float3 fogAtmosphereColor = lerp(fogAtmosphereColorSky, fogAtmosphereColorSun, pow(fogAtmosphereFactory, fogAtmosphereScattering));
+		output.varFog.rgb = lerp(fogColor, fogAtmosphereColor, saturate(fogDis / fogAtmosphereDistance));
+	#else
+		output.varFog.rgb = fogAtmosphereColorSky;
+	#endif
 #else
 	output.varFog.rgb = fogColor;
 #endif
@@ -15,20 +19,19 @@ float fogDis = length(eyePos);
 #endif
 
 #if USE_FOG_HALFSPACE
-	float3 viewDir = worldPos - camPos;
-
 	#if FOG_HALFSPACE_LINEAR
 		float fogA = step(camPos.z, fogHalfspaceHeight);
 		float fogB = worldPos.z - fogHalfspaceHeight;
-		float fogC = camPos.z - fogHalfspaceHeight;
-		float fogD = fogA * fogB;
-		float fogE = min(0.0, -fogD * 2.0 + fogB);
-		float fogHalfSpaceAmoung = 1.0 - exp2(fogHalfspaceDensity * length(viewDir) * (-fogE * fogE * (1.0 / abs(viewDir.z)) + (fogA * fogC + fogD)));
+		float fogC = fogA * fogB;
+		float fogD = fogA * (camPos.z - fogHalfspaceHeight) + fogC;
+		float fogE = min(0.0, -fogC * 2.0 + fogB);
+		float fogF = fogE / (abs(toCamDir.z) + 0.0001);
+		float fogHalfSpaceAmoung = 1.0 - exp2(-fogHalfspaceDensity * length(toCamDir) * (fogE * fogF - fogD));
 	#else
-		float fogA = -fogHalfspaceFalloff * _LOG2_E;
-		float fogB = camPos.z - fogHalfspaceHeight;
-		float fogC = fogDis * (1.0 / viewDir.z);
-		float fogHalfSpaceAmoung = fogHalfspaceDensity * exp2(fogA * fogB) * (-exp2(fogB * viewDir.z) * fogC + fogC);
+		float fogA = fogHalfspaceFalloff * _LOG2_E;
+		float fogB = fogHalfspaceHeight - camPos.z;
+		float fogC = fogDis / toCamDir.z;
+		float fogHalfSpaceAmoung = fogHalfspaceDensity * exp2(fogA * fogB) * (exp2(fogA * toCamDir.z) * fogC - fogC);
 	#endif
 
 	output.varFog.a += clamp(fogHalfSpaceAmoung, 0.0, fogHalfspaceLimit);

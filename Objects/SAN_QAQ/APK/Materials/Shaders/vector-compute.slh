@@ -1,3 +1,11 @@
-float3 L = normalize(mul3Fast0(lightPosition0.xyz, invViewMatrix));
-float3 V = normalize(cameraPosition - input.worldPos);
+float3 L = normalize(input.toLightDir);
+float3 V = normalize(input.toCamDir);
 float3 H = normalize(L + V);
+
+float NdotL = saturate(dot(N, L));
+float NdotV = dot(N, V);
+float NdotH = saturate(dot(N, H));
+
+float3 R = N * (NdotV * 2.0) - V;
+
+NdotV = saturate(NdotV);

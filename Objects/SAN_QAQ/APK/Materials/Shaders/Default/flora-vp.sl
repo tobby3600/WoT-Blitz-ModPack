@@ -44,23 +44,11 @@ vertex_in
 vertex_out
 {
 	float4 localPos : SV_POSITION;
+	float3 worldPos : POSITION0;
+	float4 projPos : POSITION1;
 	float2 texCoord0 : TEXCOORD0;
 
-	#if DRAW_DEPTH_ONLY
-		float4 projPos : POSITION0;
-
-		#if FLORA_LOD_TRANSITION
-			float3 worldPos : POSITION1;
-		#endif 
-	#else
-		#if RECEIVE_SHADOW || FLORA_LOD_TRANSITION
-			float4 projPos : POSITION0;
-		#endif
-
-		#if RECEIVE_SHADOW || FLORA_LOD_TRANSITION || FLORA_PBR_LIGHTING
-			float3 worldPos : POSITION1;
-		#endif
-
+	#if !DRAW_DEPTH_ONLY
 		#if FLORA_LAYING
 			float3 texCoord1 : TEXCOORD1; // .z - layingStrength
 		#else
@@ -79,14 +67,14 @@ vertex_out
 
 				float4 normal : NORMAL; // .w - localHeight
 			#else
-				float4 tbnToWorld0 : TANGENTTOWORLD0; // .w - localHeight
+				float4 tangentToWorld0 : TANGENTTOWORLD0; // .w - localHeight
 
-				#if FLORA_FAKE_SHADOW && FLORA_ANIMATION
-					float4 tbnToWorld1 : TANGENTTOWORLD1; // .w - animation.x
-					float4 tbnToWorld2 : TANGENTTOWORLD2; // .w - animation.y
+				#if FLORA_ANIMATION && FLORA_FAKE_SHADOW
+					float4 tangentToWorld1 : TANGENTTOWORLD1; // .w - animation.x
+					float4 tangentToWorld2 : TANGENTTOWORLD2; // .w - animation.y
 				#else
-					float3 tbnToWorld1 : TANGENTTOWORLD1;
-					float3 tbnToWorld2 : TANGENTTOWORLD2;
+					float3 tangentToWorld1 : TANGENTTOWORLD1;
+					float3 tangentToWorld2 : TANGENTTOWORLD2;
 				#endif
 			#endif
 		#endif
@@ -175,8 +163,8 @@ vertex_out vp_main(vertex_in input)
 	float3 worldPos = localPos;
 	worldPos.xy += pivot;
 
-	float2 texCoord = worldPos.xy * (1.0 / worldSize.xy) + const05List2;
-	float4 vegetationHeight = tex2Dlod(heightmap, const05List2 * (1.0 / heightmapTextureSize) + texCoord, 0.0);
+	float2 texCoord = worldPos.xy / worldSize.xy + const05List2;
+	float4 vegetationHeight = tex2Dlod(heightmap, const05List2 / heightmapTextureSize + texCoord, 0.0);
 
 	#if HEIGHTMAP_FLOAT_TEXTURE
 		float height = vegetationHeight.r;
@@ -194,14 +182,14 @@ vertex_out vp_main(vertex_in input)
 		float toCamDirDot = toCamDir.z * toCamDir.z + toCamDirXYDot;
 		float toCamDirDis = dot(toCamDir, normalize(cameraDirection));
 		float2 toCamDirScale = float2(pow(toCamDirDot, grassBendParams.w) + grassBendParams.y, -grassBendParams.z) * viewportSize;
-		toCamDirScale.y *= 1.0 / toCamDirScale.x;
+		toCamDirScale.y /= toCamDirScale.x;
 
 		worldPos.z = localPos.z * lerp(1.0, clamp((toCamDirDis * toCamDirDis - toCamDirDot) * toCamDirScale.y, grassBendParams.x, 1.0), grassBendWeight) + height;
 	#endif
 
 	#if FLORA_LAYING
 		float4 layingLocalPos = mul4Fast1(worldPos, floraLayingViewProj);
-		layingLocalPos.xyz *= 1.0 / layingLocalPos.w;
+		layingLocalPos.xyz /= layingLocalPos.w;
 
 		float4 layingSample = tex2Dlod(dynamicFloraLayingMap, layingLocalPos.xy * float2(0.5, -0.5) + const05List2, 0.0);
 		float3 layingDir = layingSample.xyz * 2.0 - const1List3;
@@ -210,7 +198,7 @@ vertex_out vp_main(vertex_in input)
 
 		layingStrength *= step(layingLocalPos.z * float(0.5) + float(0.5), layingSample.w);
 		layingStrength -= layingStrength * smoothstep(floraLayingFadeOutRange.x, floraLayingFadeOutRange.y, sqrt(toCamDirXYDot));
-		layingDir = lerp(layingDir, layingDir * (1.0 / layingDis), step(0.0, layingStrength));
+		layingDir = lerp(layingDir, layingDir / layingDis, step(0.0, layingStrength));
 		layingDir = lerp(float3(const0List2, 1.0), layingDir, layingStrength);
 
 		worldPos += layingDir * localPos.z;
@@ -256,23 +244,10 @@ vertex_out vp_main(vertex_in input)
 
 	output.worldPos = worldPos;
 	output.localPos = mul4Fast1(worldPos, viewProjMatrix);
+	output.projPos = output.localPos;
 	output.texCoord0 = input.texCoord0;
 
-	#if DRAW_DEPTH_ONLY
-		output.projPos = output.localPos;
-
-		#if FLORA_LOD_TRANSITION
-			output.worldPos = worldPos;
-		#endif 
-	#else
-		#if RECEIVE_SHADOW || FLORA_LOD_TRANSITION
-			output.projPos = output.localPos;
-		#endif
-
-		#if RECEIVE_SHADOW || FLORA_LOD_TRANSITION || FLORA_PBR_LIGHTING
-			output.worldPos = worldPos;
-		#endif
-
+	#if !DRAW_DEPTH_ONLY
 		output.texCoord1.xy = float2(texCoord.x, 1.0 - texCoord.y);
 
 		#if FLORA_LAYING
@@ -283,13 +258,13 @@ vertex_out vp_main(vertex_in input)
 			float3 eyePos = mul3Fast1(worldPos, viewMatrix);
 			float3 toLightDir = -eyePos * lightPosition0.w + lightPosition0.xyz;
 			float toLightDis = length(toLightDir);
-			toLightDir *= 1.0 / toLightDis;
+			toLightDir /= toLightDis;
 
 			#include "vp-fog-math.slh"
 		#endif
 
 		#if FLORA_PBR_LIGHTING
-			float localHeight = max(input.localPos.z * (1.0 / floraLocalHeight), 0.0);
+			float localHeight = max(input.localPos.z / floraLocalHeight, 0.0);
 			float3 landscapeNormal = unpackNormal(tex2Dlod(floraLandscapeNormalMap, texCoord, 0.0).ga);
 
 			#if FLORA_LAYING
@@ -310,14 +285,14 @@ vertex_out vp_main(vertex_in input)
 				tangent = normalize(normal * dot(-tangent, normal) + tangent);
 				binormal = normalize(tangent * dot(-binormal, tangent) + (normal * dot(-binormal, normal) + binormal));
 
-				output.tbnToWorld0.xyz = float3(tangent.x, binormal.x, normal.x);
-				output.tbnToWorld1.xyz = float3(tangent.y, binormal.y, normal.y);
-				output.tbnToWorld2.xyz = float3(tangent.z, binormal.z, normal.z);
-				output.tbnToWorld0.w = localHeight;
+				output.tangentToWorld0.xyz = float3(tangent.x, binormal.x, normal.x);
+				output.tangentToWorld1.xyz = float3(tangent.y, binormal.y, normal.y);
+				output.tangentToWorld2.xyz = float3(tangent.z, binormal.z, normal.z);
+				output.tangentToWorld0.w = localHeight;
 
 				#if FLORA_ANIMATION && FLORA_FAKE_SHADOW
-					output.tbnToWorld1.w = animation.x;
-					output.tbnToWorld2.w = animation.y;
+					output.tangentToWorld1.w = animation.x;
+					output.tangentToWorld2.w = animation.y;
 				#endif
 			#else
 				output.normal = float4(normal, localHeight);

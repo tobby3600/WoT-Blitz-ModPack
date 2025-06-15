@@ -17,11 +17,11 @@ fragment_in
 		float3 worldPos : POSITION1;
 	#endif
 
-	#if ALPHA_MASK || MATERIAL_TEXTURE || MATERIAL_DECAL || TILED_DECAL_MASK
+	#if MATERIAL_TEXTURE || TILED_DECAL_MASK
 		float4 texCoord0 : TEXCOORD0;
 	#endif
 
-	#if MATERIAL_DETAIL || TILED_DECAL_MASK
+	#if (ALPHA_MASK || MATERIAL_DECAL) || MATERIAL_DETAIL
 		float4 texCoord1 : TEXCOORD1;
 	#endif
 
@@ -33,7 +33,7 @@ fragment_in
 		float3 flowData : TEXCOORD3;
 	#endif
 
-	float3 sphericalLightFactor : TEXCOORD3;
+	float3 sphericalLightFactor : TEXCOORD4;
 };
 
 fragment_out
@@ -82,7 +82,7 @@ fragment_out
 	#endif
 #endif
 
-#if FLATCOLOR || FLATALBEDO
+#if FLATALBEDO || FLATCOLOR
 	[material][a] property float4 flatColor = const1List4;
 #endif
 
@@ -90,23 +90,32 @@ fragment_out fp_main(fragment_in input)
 {
 	fragment_out output;
 
-	float2 projPos = input.projPos.xy * (1.0 / input.projPos.w);
+	float2 projPos = input.projPos.xy / input.projPos.w;
+
+	#if MATERIAL_TEXTURE || TILED_DECAL_MASK
+		float4 texCoord0 = input.texCoord0;
+	#endif
+
+	#if (ALPHA_MASK || MATERIAL_DECAL) || MATERIAL_DETAIL
+		float4 texCoord1 = input.texCoord1;
+	#endif
+
 	float4 textureColor0 = const1List4;
 
 	#if MATERIAL_TEXTURE
 		#if FLOWMAP
-			float2 flowDir = tex2D(flowmap, input.texCoord0.xy).xy * 2.0 - const1List2;
+			float2 flowDir = tex2D(flowmap, texCoord0.xy).xy * 2.0 - const1List2;
 
-			float4 albedoSample = lerp(tex2D(albedo, flowDir * input.flowData.x + input.texCoord0.xy), tex2D(albedo, flowDir * input.flowData.y + input.texCoord0.xy), input.flowData.z);
+			float4 albedoSample = lerp(tex2D(albedo, flowDir * input.flowData.x + texCoord0.xy), tex2D(albedo, flowDir * input.flowData.y + texCoord0.xy), input.flowData.z);
 		#else
-			float4 albedoSample = tex2D(albedo, input.texCoord0.xy);
+			float4 albedoSample = tex2D(albedo, texCoord0.xy);
 		#endif
 
 		#if ALPHATEST || ALPHABLEND
 			textureColor0 = albedoSample;
 
 			#if ALPHA_MASK 
-				textureColor0.a *= tex2D(alphamask, input.texCoord0.zw).a;
+				textureColor0.a *= tex2D(alphamask, texCoord1.xy).a;
 			#endif
 		#elif TEST_OCCLUSION
 			textureColor0.rgb = albedoSample.rgb * albedoSample.a;
@@ -140,7 +149,7 @@ fragment_out fp_main(fragment_in input)
 	#endif
 
 	#if MATERIAL_DECAL
-		float3 decalColor = tex2D(decal, input.texCoord0.zw).rgb;
+		float3 decalColor = tex2D(decal, texCoord1.xy).rgb;
 
 		#if VIEW_ALBEDO
 			output.color.rgb = decalColor;
@@ -162,21 +171,21 @@ fragment_out fp_main(fragment_in input)
 	#endif
 
 	#if TILED_DECAL_MASK
-		float4 tileColor = tex2D(decaltexture, input.texCoord1.zw) * decalTileColor;
-		output.color.rgb += (tileColor.rgb - output.color.rgb) * (tileColor.a * tex2D(decalmask, input.texCoord0.xy).a);
+		float4 tileColor = tex2D(decaltexture, texCoord0.zw) * decalTileColor;
+		output.color.rgb += (tileColor.rgb - output.color.rgb) * (tileColor.a * tex2D(decalmask, texCoord0.xy).a);
 	#endif
 
 	#if MATERIAL_DETAIL
-		output.color.rgb *= tex2D(detail, input.texCoord1.xy).rgb * 2.0;
+		output.color.rgb *= tex2D(detail, texCoord1.zw).rgb * 2.0;
 	#endif
+
+	output.color.rgb *= input.sphericalLightFactor;
 
 	#if ALPHABLEND && MATERIAL_TEXTURE
 		output.color.a = textureColor0.a;
 	#else
 		output.color.a = 1.0;
 	#endif
-
-	output.color.rgb *= input.sphericalLightFactor;
 
 	#if FLATCOLOR
 		output.color *= flatColor;
@@ -187,13 +196,11 @@ fragment_out fp_main(fragment_in input)
 		output.color.rgb *= lerp(shadowMapShadowColor.rgb, const1List3, shadowInf.x);
 	#endif
 
-	output.color.rgb = toLinear(output.color.rgb);
-
-	#include "color-grading.slh"
-
 	#if USE_VERTEX_FOG
 		output.color.rgb = lerp(output.color.rgb, input.varFog.rgb, input.varFog.a);
 	#endif
+
+	#include "color-grading.slh"
 
 	return output;
 }

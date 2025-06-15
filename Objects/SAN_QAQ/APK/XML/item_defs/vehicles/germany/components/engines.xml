@@ -1823,13 +1823,13 @@
 			<userString>#germany_vehicles:Maybach_HL_210_TRM_P45TUR</userString>
 			<description>#germany_vehicles:Maybach_HL_210_TRM_P45TUR_descr</description>
 			<tags/>
-			<level>6</level>
+			<level>7</level>
 			<price>0</price>
 			<sound/>
 			<power>650</power>
 			<weight>850</weight>
-			<maxHealth>200</maxHealth>
-			<maxRegenHealth>100</maxRegenHealth>
+			<maxHealth>255</maxHealth>
+			<maxRegenHealth>127</maxRegenHealth>
 			<repairCost>0</repairCost>
 			<fireStartingChance>0.19</fireStartingChance>
 		</Maybach_HL_210_TRM_P45TUR>

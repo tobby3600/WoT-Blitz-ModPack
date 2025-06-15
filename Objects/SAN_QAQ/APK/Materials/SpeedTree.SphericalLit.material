@@ -15,7 +15,6 @@ Material:
         cullMode: FACE_BACK
     Passes:
         ReflectionRefraction:
-            enabled: true
         Forward:
         DepthOnly:
             enabled: false

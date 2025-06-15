@@ -83,9 +83,10 @@ vertex_out vp_main(vertex_in input)
 	#endif
 
 	#if USE_VERTEX_FOG
+		float3 toCamDir = camPos - worldPos;
 		float3 toLightDir = -eyePos * lightPosition0.w + lightPosition0.xyz;
 		float toLightDis = length(toLightDir);
-		toLightDir *= 1.0 / toLightDis;
+		toLightDir /= toLightDis;
 
 		#include "vp-fog-math.slh"
 	#endif

@@ -33,13 +33,13 @@ vertex_out
 
 	#if !DRAW_DEPTH_ONLY
 		#if RECEIVE_SHADOW
-			float3 shadowWorldPos : POSITION1;
+			float3 worldPos : POSITION1;
 		#endif
 
 		#if PBR_SPEEDTREE
-			float4 tbnToWorld0 : TANGENTTOWORLD0;
-			float4 tbnToWorld1 : TANGENTTOWORLD1;
-			float4 tbnToWorld2 : TANGENTTOWORLD2;
+			float4 tangentToWorld0 : TANGENTTOWORLD0;
+			float4 tangentToWorld1 : TANGENTTOWORLD1;
+			float4 tangentToWorld2 : TANGENTTOWORLD2;
 		#endif
 	#endif
 
@@ -193,7 +193,7 @@ vertex_out vp_main(vertex_in input)
 				{
 					float3x3 shMatrix = float3x3(float3(sphericalHarmonics[0].w, sphericalHarmonics[1].xy), float3(sphericalHarmonics[1].zw, sphericalHarmonics[2].x), sphericalHarmonics[2].yzw);
 					
-					float3 normal = normalize(mul3Fast0(eyePos - worldViewObjectCenter, invViewMatrix) * (1.0 / boundingBoxSize));
+					float3 normal = normalize(mul3Fast0(eyePos - worldViewObjectCenter, invViewMatrix) / boundingBoxSize);
 					float3 normalS = normal * normal;
 					float3 localNormal = mul3Fast0(billboardOffsetPos, invViewMatrix);
 					float3 localSphericalLightFactor = mul(localNormal.yzx, shMatrix) * (input.pivot.w * 0.325734) + sphericalLightFactor;
@@ -225,7 +225,7 @@ vertex_out vp_main(vertex_in input)
 		#endif
 
 		#if RECEIVE_SHADOW
-			output.shadowWorldPos = shadowWorldPos;
+			output.worldPos = shadowWorldPos;
 		#endif
 
 		#if PBR_SPEEDTREE
@@ -233,21 +233,22 @@ vertex_out vp_main(vertex_in input)
 			float3 b = mul3Fast0(input.binormal, worldInvTransposeMatrix);
 			float3 n = mul3Fast0(input.normal, worldInvTransposeMatrix);
 
-			float3 bentNormal = normalize(lerp(n, (worldPos - mul3Fast1(normalSphereBendCenter, worldMatrix)) * float3(const1List2, normalSphereBendZSquish), normalSphereBendTerm));
-			float3 bentTangent = normalize(t - bentNormal * dot(t, bentNormal));
-			float3 bentBinormal = normalize(b - bentNormal * dot(b, bentNormal) - bentTangent * dot(b, bentTangent));
+			n = normalize(lerp(n, (worldPos - mul3Fast1(normalSphereBendCenter, worldMatrix)) * float3(const1List2, normalSphereBendZSquish), normalSphereBendTerm));
+			t = normalize(t - n * dot(t, n));
+			b = normalize(b - n * dot(b, n) - t * dot(b, t));
 
-			output.tbnToWorld0 = float4(bentTangent.x, bentBinormal.x, bentNormal.x, worldPos.x);
-			output.tbnToWorld1 = float4(bentTangent.y, bentBinormal.y, bentNormal.y, worldPos.y);
-			output.tbnToWorld2 = float4(bentTangent.z, bentBinormal.z, bentNormal.z, worldPos.z);
+			output.tangentToWorld0 = float4(t.x, b.x, n.x, worldPos.x);
+			output.tangentToWorld1 = float4(t.y, b.y, n.y, worldPos.y);
+			output.tangentToWorld2 = float4(t.z, b.z, n.z, worldPos.z);
 		#endif
 	#endif
 
 	#if USE_VERTEX_FOG
 		float3 camPos = cameraPosition;
+		float3 toCamDir = camPos - worldPos;
 		float3 toLightDir = -eyePos * lightPosition0.w + lightPosition0.xyz;
 		float toLightDis = length(toLightDir);
-		toLightDir *= 1.0 / toLightDis;
+		toLightDir /= toLightDis;
 
 		#include "vp-fog-math.slh"
 	#endif

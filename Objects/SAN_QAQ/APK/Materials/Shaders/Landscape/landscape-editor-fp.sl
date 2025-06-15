@@ -50,7 +50,7 @@ uniform sampler2D colorTexture;
 		float heightMax = max(max(height.x, height.y), max(height.z, height.w));
 		float4 heightStart = heightMapSoftnessColor - float4(heightMax, heightMax, heightMax, heightMax);
 		float4 a = max(height + heightStart, const00001List4);
-		float4 b = a * (1.0 / dot(a, const1List4));
+		float4 b = a / dot(a, const1List4);
 
 		return (input1 * b.x + input2 * b.y) + (input3 * b.z + input4 * b.w);
 	}
@@ -60,7 +60,6 @@ fragment_out fp_main(fragment_in input)
 {
 	fragment_out output;
 
-	float4 color = tex2D(colorTexture, input.texCoord.xy);
 	float4 tile = tex2D(tileTexture0, input.texCoord.zw);
 
 	#if LANDSCAPE_HEIGHT_BLEND_ALLOWED && LANDSCAPE_HEIGHT_BLEND
@@ -72,7 +71,7 @@ fragment_out fp_main(fragment_in input)
 	#if LANDSCAPE_HEIGHT_BLEND_ALLOWED && LANDSCAPE_HEIGHT_BLEND
 		output.color = getHeightBlend(tileColor0 * tile.r, tileColor1 * tile.g, tileColor2 * tile.b, tileColor3 * tile.a, saturate(mask * 0.3 + (tex2D(tileHeightTexture, input.texCoord.zw) * heightMapScaleColor + (heightMapOffsetColor - float4(0.15, 0.15, 0.15, 0.15)))));
 	#else
-		output.color = tileColor0 * (tile.r * mask.r) + (tileColor1 * (tile.g * mask.g) + (tileColor2 * (tile.b * mask.b) + (tileColor3 * (tile.a * mask.a)))) * color;
+		output.color = ((tileColor0 * (tile.r * mask.r) + tileColor1 * (tile.g * mask.g)) + (tileColor2 * (tile.b * mask.b) + tileColor3 * (tile.a * mask.a))) * tex2D(colorTexture, input.texCoord.xy);
 	#endif
 
 	output.color *= 2.0;
@@ -89,7 +88,7 @@ fragment_out fp_main(fragment_in input)
 	#endif
 
 	#if LANDSCAPE_CURSOR
-		float4 cursorColor = tex2D(cursorTexture, input.texCoord.xy * (1.0 / cursorCoordSize.zw) - (cursorCoordSize.xy * (1.0 / cursorCoordSize.zw) - const05List2));
+		float4 cursorColor = tex2D(cursorTexture, input.texCoord.xy / cursorCoordSize.zw - (cursorCoordSize.xy / cursorCoordSize.zw - const05List2));
 		output.color.rgb -= output.color.rgb * cursorColor.a;
 		output.color.rgb += cursorColor.rgb * cursorColor.a;
 	#endif

@@ -463,10 +463,10 @@
 #MT
 "european:It12_Prototipo_Standard_B":
 - other:Oth11_T-55A
-- other:Oth75_Braniaq_DM5
+- other:Oth84_FVE_Defender
 "european:Cz02_T50":
 - other:Oth11_T-55A
-- other:Oth75_Braniaq_DM5
+- other:Oth84_FVE_Defender
 "european:Pl22_CS_59":
 - other:Oth11_T-55A
 - other:Oth75_Braniaq_DM5
@@ -474,11 +474,11 @@
 - other:Oth11_T-55A
 - other:Oth75_Braniaq_DM5
 "germany:E-50":
-- other:Oth41_Centurion_Mk3_S2
 - other:Oth75_Braniaq_DM5
+- other:Oth84_FVE_Defender
 "germany:Pro_Ag_A":
-- other:Oth41_Centurion_Mk3_S2
 - other:Oth75_Braniaq_DM5
+- other:Oth84_FVE_Defender
 "china:Ch18_WZ-120":
 - other:Oth41_Centurion_Mk3_S2
 - other:Oth75_Braniaq_DM5
@@ -486,11 +486,11 @@
 - other:Oth41_Centurion_Mk3_S2
 - other:Oth75_Braniaq_DM5
 "uk:GB24_Centurion_Mk3":
-- other:Oth11_T-55A
 - other:Oth41_Centurion_Mk3_S2
+- other:Oth84_FVE_Defender
 "usa:M46_Patton":
-- other:Oth11_T-55A
 - other:Oth41_Centurion_Mk3_S2
+- other:Oth84_FVE_Defender
 "usa:T54E1":
 - other:Oth11_T-55A
 - other:Oth41_Centurion_Mk3_S2

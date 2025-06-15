@@ -25,10 +25,10 @@ fragment_in
 		float4 invWorldMatrix2 : TEXCOORD2;
 		float4 parameters : TEXCOORD3;
 		float4 texCoord : TEXCOORD4;
+	#endif
 
-		#if USE_VERTEX_FOG
-			float4 varFog : TEXCOORD5;
-		#endif
+	#if USE_VERTEX_FOG
+		float4 varFog : TEXCOORD5;
 	#endif
 };
 
@@ -59,7 +59,7 @@ fragment_out fp_main(fragment_in input)
 {
 	fragment_out output;
 
-	float3 projPos = input.projPos.xyz * (1.0 / input.projPos.w);
+	float3 projPos = input.projPos.xyz / input.projPos.w;
 
 	#if DRAW_FLORA_LAYING
 		output.color = float4(input.worldDirStrength, projPos.z * 0.5 + 0.5);
@@ -67,8 +67,7 @@ fragment_out fp_main(fragment_in input)
 		#include "deferred-pos.slh"
 
 		#if DECAL_TREAD
-			float revertedOffsetY = -input.parameters.w * localPos.x + (input.parameters.w * 0.5 + localPos.y);
-			localPos.y = revertedOffsetY * (1.0 / lerp(1.0, input.parameters.z, localPos.x + 0.5));
+			localPos.y = (-input.parameters.w * localPos.x + (input.parameters.w * 0.5 + localPos.y)) / lerp(1.0, input.parameters.z, localPos.x + 0.5);
 		#endif
 
 		float2 albedoTexCoord = float2(input.texCoord.zw * localPos.xy + (input.texCoord.zw * 0.5 + input.texCoord.xy));
@@ -104,10 +103,6 @@ fragment_out fp_main(fragment_in input)
 			output.color.rgb *= lerp(shadowMapShadowColor.rgb, const1List3, shadowInf.x);
 		#endif
 
-		output.color.rgb = toLinear(output.color.rgb);
-
-		#include "color-grading.slh"
-
 		#if USE_VERTEX_FOG
 			output.color.rgb = lerp(output.color.rgb, input.varFog.rgb, input.varFog.a);
 		#endif
@@ -115,6 +110,8 @@ fragment_out fp_main(fragment_in input)
 		#if BLENDING == BLENDING_MULTIPLICATIVE
 			output.color.rgb = lerp(const1List3, output.color.rgb, output.color.a);
 		#endif
+
+		#include "color-grading.slh"
 	#endif
 
 	return output;

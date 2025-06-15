@@ -9,7 +9,7 @@
 	</crew>
 	<isUnlocked>true</isUnlocked>
 	<speedLimits>
-		<forward>35</forward>
+		<forward>38</forward>
 		<backward>12</backward>
 	</speedLimits>
 	<invisibility>
@@ -313,13 +313,13 @@
 						</armor_3>
 						<gun>50</gun>
 					</armor>
-					<reloadTime>14</reloadTime>
+					<reloadTime>13.4</reloadTime>
 					<shotDispersionFactors>
 						<turretRotation>0.16</turretRotation>
 						<afterShot>4</afterShot>
 						<whileGunDamaged>2.0</whileGunDamaged>
 					</shotDispersionFactors>
-					<aimingTime>3.1</aimingTime>
+					<aimingTime>2.9</aimingTime>
 					<extraPitchLimits>
 						<back>-15 5 30</back>
 					</extraPitchLimits>

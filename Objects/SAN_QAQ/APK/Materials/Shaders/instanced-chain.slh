@@ -12,7 +12,7 @@ inline float getModificationFactor(float2 a, float2 b)
 {
 	const float2 ab = float2(a.x * b.y, b.x * a.y);
 
-	return sign(ab.x - ab.y) * sqrt((-ab.y * 2.0 + ab.x) * ab.x + (ab.y * ab.y)) * (1.0 / dot(a, b));
+	return sign(ab.x - ab.y) * sqrt((-ab.y * 2.0 + ab.x) * ab.x + (ab.y * ab.y)) / dot(a, b);
 }
 
 #if NEED_CHAIN_TEXCOORD_OFFSETS
@@ -36,5 +36,5 @@ __forceinline float2 getChainPoint(uint index)
 	const uint arrayIndex = index / uint(2);
 	const uint componentOffset = uintMod(index, uint(2)) * uint(2);
 
-	return float2(chainPoints[arrayIndex][componentOffset], chainPoints[arrayIndex][componentOffset + 1]);
+	return float2(chainPoints[arrayIndex][componentOffset], chainPoints[arrayIndex][componentOffset + uint(1)]);
 }

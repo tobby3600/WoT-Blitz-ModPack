@@ -10,10 +10,6 @@
 	#define COLOR_OP COLOR_MUL
 #endif
 
-#if COLORBLIND_MODE
-	#include "colorblind-mode.slh"
-#endif
-
 fragment_in
 {
 	float4 color : COLOR0;
@@ -75,10 +71,6 @@ fragment_out fp_main(fragment_in input)
 	#if GRAYSCALE
 		float lum = dot(output.color.rgb, lumCof);
 		output.color.rgb = float3(lum, lum, lum);
-	#endif
-
-	#if COLORBLIND_MODE
-		output.color.rgb = getColorBlind(output.color.rgb);
 	#endif
 
 	return output;

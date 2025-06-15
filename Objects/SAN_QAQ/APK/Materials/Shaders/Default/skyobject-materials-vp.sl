@@ -20,9 +20,6 @@ vertex_out
 
 #if FLOWMAP
 	[auto][a] property float globalTime;
-
-	[material][a] property float flowAnimSpeed = 0.0;
-	[material][a] property float flowAnimOffset = 0.0;
 #endif
 
 vertex_out vp_main(vertex_in input)

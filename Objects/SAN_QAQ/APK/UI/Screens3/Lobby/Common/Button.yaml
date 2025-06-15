@@ -27,7 +27,7 @@ Prototypes:
             - ["bool", "isEmitSound", "false", "false"]
             - ["bool", "locked", "false", "false"]
             - ["string", "caption", "\"\"", "\"BUTTON\""]
-            - ["eButtonType", "type", "eButtonType.POSITIVE", "eButtonType.POSITIVE"]
+            - ["eButtonType", "type", "eButtonType.POSITIVE", "eButtonType.OPTIONAL_LIGHT"]
             - ["eButtonSize", "size", "eButtonSize.NORMAL", "eButtonSize.SMALL"]
             - ["eButtonSound", "sound", "eButtonSound.UNKNOWN", "eButtonSound.CANCEL"]
             - ["bool", "enabled", "true", "true"]
@@ -342,7 +342,7 @@ Prototypes:
                         StyleSheet:
                             styles: "~res:/UI/Screens3/Font.style.yaml"
                     bindings:
-                    - ["classes", "(when type != eButtonType.NO_BG -> \"bold white-wild-sand-text \", \"bold orange-meteor-text \") + (when size == eButtonSize.NORMAL -> \"t-button\", \"t-overline\")"]
+                    - ["classes", "(when type != eButtonType.NO_BG -> \"bold white-wild-sand-text \", \"bold orange-meteor-text \") + (when size == eButtonSize.NORMAL -> \"t-button\", type == eButtonType.BIRTHDAY -> \"bold brown-birthday-text\", \"t-overline\")"]
                     - ["UITextComponent.text", "when isCapitalize -> capitalize(localize(caption)), localize(caption)"]
                     - ["Anchor.vCenterAnchor", "when size == eButtonSize.NORMAL -> 0, 1"]
                 -   class: "UIControl"

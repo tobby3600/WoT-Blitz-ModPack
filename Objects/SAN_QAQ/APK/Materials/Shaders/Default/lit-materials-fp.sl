@@ -7,10 +7,6 @@
 	#include "lod-transition.slh"
 #endif
 
-#if NORMALIZED_BLINN_PHONG
-	#include "fresnel-shlick.slh"
-#endif
-
 #if RECEIVE_SHADOW
 	#include "shadow-mapping.slh"
 #endif
@@ -23,12 +19,13 @@ fragment_in
 {
 	float4 projPos : POSITION0;
 
-	#if HIGHLIGHT_WAVE_ANIM || PIXEL_LIT || RECEIVE_SHADOW
-		float3 worldPos : POSITION1;
+	#if HIGHLIGHT_WAVE_ANIM || (TILED_DECAL_MASK && TILED_DECAL_SPATIAL_SPREADING)
+		float4 displacePos : POSITION1;
 	#endif
 
-	#if TILED_DECAL_MASK && TILED_DECAL_SPATIAL_SPREADING
-		float3 displacePos : POSITION2;
+	#if !PIXEL_LIT && RECEIVE_SHADOW
+		float3 worldPos : POSITION2;
+		float4 worldNormalSlope : POSITION3;
 	#endif
 
 	#if MATERIAL_TEXTURE || PIXEL_LIT || TILED_DECAL_MASK
@@ -39,42 +36,33 @@ fragment_in
 		float4 texCoord1 : TEXCOORD1;
 	#endif
 
-	#if USE_VERTEX_FOG
-		float4 varFog : TEXCOORD2;
+	#if (!ENVIRONMENT_MAPPING_NORMALMAP && ENVIRONMENT_MAPPING) || (HARD_SKINNING && TILED_DECAL_MASK)
+		float4 texCoord2 : TEXCOORD2;
 	#endif
 
 	#if PIXEL_LIT
-		float4 tbnToView0 : TANGENTTOVIEW0;
-		float4 tbnToView1 : TANGENTTOVIEW1;
-		float4 tbnToView2 : TANGENTTOVIEW2;
+		float3 toLightDir : TEXCOORD3;
+		float3 toCamDir : TEXCOORD4;
+		float4 tangentToView0 : TANGENTTOVIEW0;
+		float4 tangentToView1 : TANGENTTOVIEW1;
+		float4 tangentToView2 : TANGENTTOVIEW2;
 
 		#if RECEIVE_SHADOW
-			float4 tbnToWorld0 : TANGENTTOWORLD0;
-			float4 tbnToWorld1 : TANGENTTOWORLD1;
-			float4 tbnToWorld2 : TANGENTTOWORLD2;
+			float4 tangentToWorld0 : TANGENTTOWORLD0;
+			float4 tangentToWorld1 : TANGENTTOWORLD1;
+			float4 tangentToWorld2 : TANGENTTOWORLD2;
 		#endif
 	#else
-		#if SIMPLE_BLINN_PHONG || NORMALIZED_BLINN_PHONG
-			float3 diffuseVector : TEXCOORD3;
-		#endif
-
 		#if SIMPLE_BLINN_PHONG
-			float specularVector : TEXCOORD4;
+			float4 diffuseSpecularVector : TEXCOORD3;
 		#elif NORMALIZED_BLINN_PHONG
+			float3 diffuseVector : TEXCOORD3;
 			float4 specularVector : TEXCOORD4;
 		#endif
-
-		#if RECEIVE_SHADOW
-			float4 worldNormalNdotL : TEXCOORD5;
-		#endif
 	#endif
 
-	#if !ENVIRONMENT_MAPPING_NORMALMAP && ENVIRONMENT_MAPPING
-		float3 reflectionTexCoord : TEXCOORD6;
-	#endif
-
-	#if HARD_SKINNING && TILED_DECAL_MASK
-		float index : TEXCOORD7;
+	#if USE_VERTEX_FOG
+		float4 varFog : TEXCOORD5;
 	#endif
 
 	#if TILED_DECAL_ANIMATED_EMISSION && TILED_DECAL_MASK
@@ -129,8 +117,6 @@ fragment_out
 #endif
 
 #if PIXEL_LIT
-	[auto][a] property float3 cameraPosition;
-	[auto][a] property float4 lightPosition0;
 	[auto][a] property float4x4 invViewMatrix;
 	[auto][a] property float4x4 pointLights; // 0,1:(position, radius); 2,3:(color, unused)
 
@@ -183,16 +169,20 @@ fragment_out fp_main(fragment_in input)
 {
 	fragment_out output;
 
-	float2 projPos = input.projPos.xy * (1.0 / input.projPos.w);
+	float2 projPos = input.projPos.xy / input.projPos.w;
+
+	#if MATERIAL_TEXTURE || PIXEL_LIT || TILED_DECAL_MASK
+		float4 texCoord0 = input.texCoord0;
+	#endif
+
 	float4 outColor = const1List4;
 	output.color = const0List4;
 
 	#if MATERIAL_TEXTURE
-		float4 albedoSample = tex2D(albedo, input.texCoord0.xy);
-		outColor = albedoSample;
+		outColor = tex2D(albedo, texCoord0.xy);
 
 		#if TEST_OCCLUSION
-			outColor.rgb *= albedoSample.a;
+			outColor.rgb *= outColor.a;
 		#endif
 
 		#if ALPHA_MASK
@@ -229,8 +219,7 @@ fragment_out fp_main(fragment_in input)
 	#endif
 
 	#if PIXEL_LIT
-		float3 N = tex2D(normalmap, input.texCoord0.xy).rgb;
-		N = mixNormal(N, N);
+		float3 N = tex2D(normalmap, texCoord0.xy).rgb * 2.0 - const1List3;
 
 		#if RECEIVE_SHADOW
 			float3 NShady = N;
@@ -243,23 +232,21 @@ fragment_out fp_main(fragment_in input)
 
 		#include "vector-compute.slh"
 
-		float NdotL = saturate(dot(N, L));
-		float NdotV = saturate(dot(N, V));
-		float NdotH = saturate(dot(N, H));
-
 		float3 diffuse = lightColor0 * (NdotL * _INVERSE_PI);
 		float3 specular = const0List3;
 
+		float3x3 tangentToViewMatrix = float3x3(input.tangentToView0.xyz, input.tangentToView1.xyz, input.tangentToView2.xyz);
+
 		#if NORMALIZED_BLINN_PHONG
 			#if MAX_POINT_LIGHTS > 0
-				float3 viewPosition = float3(input.tbnToView0.w, input.tbnToView1.w, input.tbnToView2.w);
-				float3 viewNormal = float3(dot(input.tbnToView0.xyz, N), dot(input.tbnToView1.xyz, N), dot(input.tbnToView2.xyz, N));
+				float3 viewNormal = float3(dot(N, tangentToViewMatrix[0]), dot(N, tangentToViewMatrix[1]), dot(N, tangentToViewMatrix[2]));
+				float3 viewPosition = float3(input.tangentToView0.w, input.tangentToView1.w, input.tangentToView2.w);
 
-				diffuse += getBlinnPhongPointLight(pointLights[0].w, pointLights[2], pointLights[0].xyz - viewPosition, viewNormal);
+				diffuse += getBlinnPhongPointLight(pointLights[0].w, pointLights[2], pointLights[0].xyz + viewPosition, viewNormal);
+			#endif
 
-				#if MAX_POINT_LIGHTS > 1
-					diffuse += getBlinnPhongPointLight(pointLights[1].w, pointLights[3], pointLights[1].xyz - viewPosition, viewNormal);
-				#endif
+			#if MAX_POINT_LIGHTS > 1
+				diffuse += getBlinnPhongPointLight(pointLights[1].w, pointLights[3], pointLights[1].xyz + viewPosition, viewNormal);
 			#endif
 
 			#if VIEW_SPECULAR
@@ -267,24 +254,21 @@ fragment_out fp_main(fragment_in input)
 
 				#if ENVIRONMENT_MAPPING
 					#if ENVIRONMENT_MAPPING_NORMALMAP
-						float3 VreflectN = -reflect(V, N);
-						float3 samplingPos = mul3Fast0(float3(dot(VreflectN, input.tbnToView0.xyz), dot(VreflectN, input.tbnToView1.xyz), dot(VreflectN, input.tbnToView2.xyz)), invViewMatrix);
+						float3 envTexCoord = mul3Fast0(float3(dot(R, tangentToViewMatrix[0]), dot(R, tangentToViewMatrix[1]), dot(R, tangentToViewMatrix[2])), invViewMatrix);
 					#else
-						float3 samplingPos = input.reflectionTexCoord;
+						float3 envTexCoord = input.texCoord2.xyz;
 					#endif
 
-					specular += texCUBE(cubemap, samplingPos).rgb * cubemapIntensity * outColor.a;
+					specular += texCUBE(cubemap, envTexCoord).rgb * cubemapIntensity * outColor.a;
 				#endif
 
-				specular *= fresnelVec3(NdotV, metalFresnelReflectance);
+				specular *= lerp(metalFresnelReflectance, const1List3, pow5Exp(NdotV));
 			#endif
 		#endif
 
 		#if RECEIVE_SHADOW
-			float3 LShady = normalize(float3(input.tbnToWorld0.w, input.tbnToWorld1.w, input.tbnToWorld2.w));
-			float NdotLShady = saturate(1.0 - dot(NShady, LShady));
-			float3 worldNormal = float3(dot(input.tbnToWorld0.xyz, NShady), dot(input.tbnToWorld1.xyz, NShady), dot(input.tbnToWorld2.xyz, NShady));
-			float3 shadowInf = getShadow(worldNormal * (shadowNormalSlopeOffset * NdotLShady) + input.worldPos, projPos, NdotLShady);
+			float slope = 1.0 - saturate(dot(NShady, L));
+			float3 shadowInf = getShadow(float3(dot(input.tangentToWorld0.xyz, NShady), dot(input.tangentToWorld1.xyz, NShady), dot(input.tangentToWorld2.xyz, NShady)) * (shadowNormalSlopeOffset * slope) + float3(input.tangentToWorld0.w, input.tangentToWorld1.w, input.tangentToWorld2.w), projPos, slope);
 
 			#if VIEW_DIFFUSE
 				diffuse *= (-shadowLitDiffuseSpecAmbientMult.x * shadowInf.x) + (shadowLitDiffuseSpecAmbientMult.x + shadowInf.x);
@@ -307,24 +291,20 @@ fragment_out fp_main(fragment_in input)
 			output.color.rgb += diffuse;
 		#endif
 
-		#if VIEW_ALBEDO
-			#include "emission.slh"
-		#endif
-
 		#if VIEW_SPECULAR
 			output.color.rgb += specular;
+		#endif
+
+		#if VIEW_ALBEDO
+			#include "emission.slh"
 		#endif
 
 		#if VIEW_ALBEDO && !VIEW_AMBIENT && !VIEW_DIFFUSE && !VIEW_SPECULAR
 			output.color.rgb = outColor.rgb;
 		#endif
-
-		#if VIEW_ALL && (VIEW_NORMAL || VIEW_NORMAL_FINAL)
-			output.color.rgb = N * 0.5 + const05List3;
-		#endif
 	#else
 		#if RECEIVE_SHADOW
-			float3 shadowInf = getShadow(input.worldNormalNdotL.xyz * (shadowNormalSlopeOffset * input.worldNormalNdotL.w) + input.worldPos, projPos, input.worldNormalNdotL.w);
+			float3 shadowInf = getShadow(input.worldNormalSlope.xyz * (shadowNormalSlopeOffset * input.worldNormalSlope.w) + input.worldPos, projPos, input.worldNormalSlope.w);
 			float3 shadowColor = lerp(shadowMapShadowColor.rgb, const1List3, shadowInf.x);
 		#endif
 
@@ -338,7 +318,11 @@ fragment_out fp_main(fragment_in input)
 			#endif
 
 			#if VIEW_DIFFUSE
-				output.color.rgb += input.diffuseVector;
+				#if SIMPLE_BLINN_PHONG
+					output.color.rgb += input.diffuseSpecularVector.rgb;
+				#elif NORMALIZED_BLINN_PHONG
+					output.color.rgb += input.diffuseVector;
+				#endif
 			#endif
 
 			#if VIEW_ALBEDO
@@ -348,28 +332,24 @@ fragment_out fp_main(fragment_in input)
 
 		#if VIEW_SPECULAR
 			#if SIMPLE_BLINN_PHONG
-				output.color.rgb += lightColor0 * (input.specularVector * outColor.a);
+				output.color.rgb += lightColor0 * (input.diffuseSpecularVector.a * outColor.a);
 			#elif NORMALIZED_BLINN_PHONG
 				output.color.rgb += lightColor0 * input.specularVector.rgb * getBlinnPhongSpecular(input.specularVector.a, inGlossiness * outColor.a);
 			#endif
 		#endif
 
-		#if VIEW_ALBEDO && !VIEW_AMBIENT && !VIEW_DIFFUSE && !VIEW_SPECULAR
-			output.color.rgb = outColor.rgb;
-		#endif
-
 		#if RECEIVE_SHADOW
 			output.color.rgb *= shadowColor;
+		#endif
+
+		#if VIEW_ALBEDO && !VIEW_AMBIENT && !VIEW_DIFFUSE && !VIEW_SPECULAR
+			output.color.rgb = outColor.rgb;
 		#endif
 	#endif
 
 	#if MATERIAL_DETAIL
 		output.color.rgb *= tex2D(detail, input.texCoord1.zw).rgb * 2.0;
 	#endif
-
-	output.color.rgb = toLinear(output.color.rgb);
-
-	#include "color-grading.slh"
 
 	#if ALPHABLEND && MATERIAL_TEXTURE
 		output.color.a = outColor.a;
@@ -390,12 +370,14 @@ fragment_out fp_main(fragment_in input)
 	#endif
 
 	#if HIGHLIGHT_COLOR || HIGHLIGHT_WAVE_ANIM
-		output.color = getHighlightAnim(output.color, input.worldPos.z);
+		output.color = getHighlightAnim(output.color, input.displacePos.w);
 	#endif
 
 	#if USE_VERTEX_FOG
 		output.color.rgb = lerp(output.color.rgb, input.varFog.rgb, input.varFog.a);
 	#endif
+
+	#include "color-grading.slh"
 
 	return output;
 }

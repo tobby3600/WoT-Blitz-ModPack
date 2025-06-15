@@ -29,19 +29,19 @@ fragment_out fp_main(fragment_in input)
 {
 	fragment_out output;
 
-	#if FLOWMAP
-		float2 flowDir = tex2D(flowmap, input.texCoord).xy * 2.0 - const1List2;
+	float2 texCoord = input.texCoord;
 
-		output.color = lerp(tex2D(albedo, flowDir * input.flowData.x + input.texCoord), tex2D(albedo, flowDir * input.flowData.y + input.texCoord), input.flowData.z);
+	#if FLOWMAP
+		float2 flowDir = tex2D(flowmap, texCoord).xy * 2.0 - const1List2;
+
+		output.color = lerp(tex2D(albedo, flowDir * input.flowData.x + texCoord), tex2D(albedo, flowDir * input.flowData.y + texCoord), input.flowData.z);
 	#else
-		output.color = tex2D(albedo, input.texCoord);
+		output.color = tex2D(albedo, texCoord);
 	#endif
 
 	#if FLATCOLOR
 		output.color *= flatColor;
 	#endif
-
-	output.color.rgb = toLinear(output.color.rgb);
 
 	#include "color-grading.slh"
 

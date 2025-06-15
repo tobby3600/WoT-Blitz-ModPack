@@ -42,17 +42,19 @@ vertex_out
 		float4 texCoord : TEXCOORD0;
 
 		#if PIXEL_LIT
+			float3 toLightDir : TEXCOORD1;
+			float3 toCamDir : TEXCOORD2;
+
 			#if REAL_REFLECTION
-				float3 eyePos : POSITION2;
-				float3 waterProjPos : POSITION3;
+				float4 reflectionPos : POSITION2;
 			#else
-				float3 tbnToWorld0 : TANGENTTOWORLD0;
-				float3 tbnToWorld1 : TANGENTTOWORLD1;
-				float3 tbnToWorld2 : TANGENTTOWORLD2;
+				float3 tangentToWorld0 : TANGENTTOWORLD0;
+				float3 tangentToWorld1 : TANGENTTOWORLD1;
+				float3 tangentToWorld2 : TANGENTTOWORLD2;
 			#endif
 		#else
 			float2 decalTexCoord : TEXCOORD1;
-			float3 reflectTexCoord : TEXCOORD2;
+			float3 reflectionTexCoord : TEXCOORD2;
 		#endif
 	#endif
 
@@ -66,13 +68,10 @@ vertex_out
 #endif
 
 [auto][a] property float3 cameraPosition;
+[auto][a] property float4 lightPosition0;
 [auto][a] property float4x4 viewMatrix;
 [auto][a] property float4x4 viewProjMatrix;
 [auto][a] property float4x4 worldMatrix;
-
-#if USE_VERTEX_FOG
-	[auto][a] property float4 lightPosition0;
-#endif
 
 #if WATER_DEFORMATION
 	[auto][a] property float3 cameraDirection;
@@ -84,8 +83,12 @@ vertex_out
 	[auto][a] property float globalTime;
 	[auto][a] property float4x4 worldInvTransposeMatrix;
 
-	#if PIXEL_LIT && REAL_REFLECTION
-		[auto][a] property float projectionFlip;
+	#if PIXEL_LIT
+		#if REAL_REFLECTION
+			[auto][a] property float projectionFlip;
+		#endif
+
+		[auto][a] property float4x4 worldViewInvTransposeMatrix;
 	#endif
 
 	#if WATER_RENDER_OBJECT
@@ -93,10 +96,12 @@ vertex_out
 		[material][a] property float4 texCoordTransform0;
 	#endif
 
-	[material][a] property float normal0Scale = 0.0;
-	[material][a] property float normal1Scale = 0.0;
-	[material][a] property float2 normal0ShiftPerSecond = const0List2;
-	[material][a] property float2 normal1ShiftPerSecond = const0List2;
+	[auto][instance] property float4x4 viewMatrix;
+
+	[material][instance] property float normal0Scale = 1.0;
+	[material][instance] property float normal1Scale = 1.0;
+	[material][instance] property float2 normal0ShiftPerSecond = const0List2;
+	[material][instance] property float2 normal1ShiftPerSecond = const0List2;
 #endif
 
 vertex_out vp_main(vertex_in input)
@@ -111,16 +116,16 @@ vertex_out vp_main(vertex_in input)
 	#endif
 
 	float3 worldPos = mul3Fast1(localPos, worldMatrix);
+	float3 toCamDir = camPos - worldPos;
 
 	#if WATER_DEFORMATION
 		float4 wavePos = mul4Fast1(worldPos, waterDeformationViewProj);
-		float waveFadeOutDiff = abs(waterDeformationParams.x - waterDeformationParams.y);
-		float waveFactor = 1.0 - smoothstep(waterDeformationParams.x - waveFadeOutDiff, waterDeformationParams.y + waveFadeOutDiff, length(cameraDirection.xy * waterDeformationParams.w + (camPos.xy - worldPos.xy)));
-		float offset = 0.025 * (1.0 / waterDeformationParams.y);
+		float waveFactor = 1.0 - smoothstep(waterDeformationParams.x, waterDeformationParams.y, length(cameraDirection.xy * waterDeformationParams.w + toCamDir.xy));
+		float2 offset = float2(0.025 / waterDeformationParams.y, 0.0);
 		float2 waveTexCoord = wavePos.xy * float2(0.5, -0.5) + const05List2;
 
-		float4 wave0 = tex2Dlod(dynamicWaterDeformationMap, waveTexCoord + float2(offset, 0.0), 0.0);
-		float4 wave1 = tex2Dlod(dynamicWaterDeformationMap, waveTexCoord + float2(0.0, -offset), 0.0);
+		float4 wave0 = tex2Dlod(dynamicWaterDeformationMap, waveTexCoord + offset, 0.0);
+		float4 wave1 = tex2Dlod(dynamicWaterDeformationMap, waveTexCoord - offset.yx, 0.0);
 		float4 wave2 = tex2Dlod(dynamicWaterDeformationMap, waveTexCoord, 0.0);
 		float3 wave = float3(wave0.r - wave0.b, wave1.r - wave1.b, wave2.r - wave2.b) * waveFactor;
 
@@ -128,14 +133,15 @@ vertex_out vp_main(vertex_in input)
 	#endif
 
 	float3 eyePos = mul3Fast1(worldPos, viewMatrix);
+	float3 viewPos = -eyePos;
 	output.localPos = mul4Fast1(worldPos, viewProjMatrix);
 	output.projPos = output.localPos;
 
-	#if USE_VERTEX_FOG
-		float3 toLightDir = -eyePos * lightPosition0.w + lightPosition0.xyz;
-		float toLightDis = length(toLightDir);
-		toLightDir *= 1.0 / toLightDis;
+	float3 toLightDir = viewPos * lightPosition0.w + lightPosition0.xyz;
+	float toLightDis = length(toLightDir);
+	toLightDir /= toLightDis;
 
+	#if USE_VERTEX_FOG
 		#include "vp-fog-math.slh"
 	#endif
 
@@ -143,7 +149,7 @@ vertex_out vp_main(vertex_in input)
 		output.worldPos.xyz = worldPos;
 
 		#if WATER_DEFORMATION
-			output.worldPos.w = wave2.g * waveFactor;
+			output.worldPos.w = dot(float3(wave0.g, wave1.g, wave2.g), rgbMixList) * waveFactor;
 		#endif
 
 		#if WATER_RENDER_OBJECT
@@ -165,21 +171,27 @@ vertex_out vp_main(vertex_in input)
 		output.texCoord = float4(texCoord * normal0Scale + frac(normal0ShiftPerSecond * globalTime), float2(texCoord.x + texCoord.y, texCoord.y - texCoord.x) * normal1Scale + frac(normal1ShiftPerSecond * globalTime));
 
 		#if PIXEL_LIT
-			#if REAL_REFLECTION
-				output.eyePos = eyePos;
-				output.waterProjPos = output.projPos.xyw;
-				output.waterProjPos.y *= projectionFlip;
-			#else
-				float3 n = normalize(mul3Fast0(normal, worldInvTransposeMatrix));
-				float3 t = normalize(mul3Fast0(tangent, worldInvTransposeMatrix));
-				float3 b = cross(n, t);
+			float3 n = normalize(mul3Fast0(normal, worldViewInvTransposeMatrix));
+			float3 t = normalize(mul3Fast0(tangent, worldViewInvTransposeMatrix));
+			float3 b = cross(n, t);
 
-				output.tbnToWorld0 = float3(t.x, b.x, n.x);
-				output.tbnToWorld1 = float3(t.y, b.y, n.y);
-				output.tbnToWorld2 = float3(t.z, b.z, n.z);
+			output.toLightDir = float3(dot(toLightDir, t), dot(toLightDir, b), dot(toLightDir, n));
+			output.toCamDir = float3(dot(viewPos, t), dot(viewPos, b), dot(viewPos, n));
+
+			#if REAL_REFLECTION
+				output.reflectionPos = float4(output.projPos.xyw, dot(eyePos, viewPos));
+				output.reflectionPos.y *= projectionFlip;
+			#else
+				n = normalize(mul3Fast0(normal, worldInvTransposeMatrix));
+				t = normalize(mul3Fast0(tangent, worldInvTransposeMatrix));
+				b = cross(n, t);
+
+				output.tangentToWorld0 = float3(t.x, b.x, n.x);
+				output.tangentToWorld1 = float3(t.y, b.y, n.y);
+				output.tangentToWorld2 = float3(t.z, b.z, n.z);
 			#endif
 		#else
-			output.reflectTexCoord = reflect(normalize(worldPos - camPos), normalize(mul3Fast0(normal, worldInvTransposeMatrix)));
+			output.reflectionTexCoord = reflect(normalize(-toCamDir), normalize(mul3Fast0(normal, worldInvTransposeMatrix)));
 
 			#if WATER_TESSELLATION
 				output.decalTexCoord = const0List2;

@@ -11,42 +11,22 @@ float2 D_Hammersley(uint i, float numSamples)
 	bits = ((bits & 0x0F0F0F0F) << 4) | ((bits & c) >> 4);
 	bits = ((bits & 0x00FF00FF) << 8) | ((bits & d) >> 8);
 
-	return float2(float(i) * (1.0 / numSamples), float(bits) * 2.3283064365386963e-10);
-}
-
-float2 D_HammersleyNoBitOps(uint n, uint N)
-{
-	float invBase = 0.5;
-	float denom = 1.0;
-	float result = 0.0;
-
-	if (float(n) > 0.0)
-	{
-		for (uint i = 0; i < 32; ++i)
-		{
-			denom = fmod(float(n), 2.0);
-			result += denom * invBase;
-			invBase *= 0.5;
-			n = uint(float(n) * 0.5);
-		}
-	}
-
-	return float2(float(n) * (1.0 / float(N)), result);
+	return float2(float(i) / numSamples, float(bits) * 2.3283064365386963e-10);
 }
 
 float D_GGX(float NdotH, float roughness)
 {
 	float a = (NdotH * roughness - NdotH) * NdotH + 1.0;
 
-	return roughness * _INVERSE_PI * (1.0 / (a * a +0.0001));
+	return roughness * _INVERSE_PI / (a * a + 0.0001);
 }
 
 float G_GGX(float NdotV, float NdotL, float roughness)
 {
 	roughness *= roughness * 0.5; //remapping
 
-	float GGXV = NdotV * (1.0 / lerp(NdotV, 1.0, roughness));
-	float GGXL = NdotL * (1.0 / lerp(NdotL, 1.0, roughness));
+	float GGXV = NdotV / lerp(NdotV, 1.0, roughness);
+	float GGXL = NdotL / lerp(NdotL, 1.0, roughness);
 
 	return GGXL * GGXV;
 }
@@ -65,11 +45,4 @@ float3 I_GGX(float2 X, float roughness, float3 N)
 	float3 tangentY = cross(N, tangentX);
 
 	return ((tangentX * cos(phi)) + (tangentY * sin(phi))) * sinTheta + (N * cosTheta);
-}
-
-float2 getRandom(float f, int NUM_SAMPLES)
-{
-	f *= 1.0 / float(NUM_SAMPLES);
-
-	return float2(f, frac(cos(f * 23.14069263277926) * 12345.6789));
 }

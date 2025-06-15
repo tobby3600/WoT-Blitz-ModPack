@@ -3,10 +3,6 @@
 #include "common.slh"
 #include "vp-fog-props.slh"
 
-#if RECEIVE_SHADOW
-	#include "shadow-mapping.slh"
-#endif
-
 vertex_in
 {
 	[vertex] float4 localPos : POSITION;
@@ -55,15 +51,16 @@ vertex_out
 {
 	float4 localPos : SV_POSITION;
 
-	#if RETRIEVE_FRAG_DEPTH_AVAILABLE && SOFT_PARTICLES
+	#if RECEIVE_SHADOW || (RETRIEVE_FRAG_DEPTH_AVAILABLE && SOFT_PARTICLES)
 		float4 projPos : POSITION0;
 	#endif
 
-	float4 vertexColor : COLOR0;
-
 	#if RECEIVE_SHADOW
-		float3 shadowColor : COLOR1;
+		float3 worldPos : POSITION1;
+		float4 worldNormalSlope : POSITION2;
 	#endif
+
+	float4 vertexColor : COLOR0;
 
 	#if PARTICLES_MASK
 		float4 texCoord0 : TEXCOORD0;
@@ -71,27 +68,26 @@ vertex_out
 		float2 texCoord0 : TEXCOORD0;
 	#endif
 
-	#if FRAME_BLEND
-		float3 texCoord1 : TEXCOORD1;
+	#if FRAME_BLEND || PARTICLES_FLOWMAP
+		float4 texCoord1 : TEXCOORD1;
 	#endif
 
 	#if PARTICLES_FLOWMAP
 		float4 texCoord2 : TEXCOORD2;
-		float texCoord3 : TEXCOORD3;
 	#endif
 
 	#if PARTICLES_NOISE
 		#if PARTICLES_FRESNEL_TO_ALPHA
-			float4 texCoord4 : TEXCOORD4; // xy - noise uv, z - noise scale, w - fresnel.
+			float4 texCoord3 : TEXCOORD3; // xy - noise uv, z - noise scale, w - fresnel.
 		#else
-			float3 texCoord4 : TEXCOORD4; // xy - noise uv, z - noise scale.
+			float3 texCoord3 : TEXCOORD3; // xy - noise uv, z - noise scale.
 		#endif
 	#elif PARTICLES_FRESNEL_TO_ALPHA
-		float texCoord4 : TEXCOORD4; // Fresnel.
+		float texCoord3 : TEXCOORD3; // Fresnel.
 	#endif
 
 	#if USE_VERTEX_FOG
-		float4 varFog : TEXCOORD5;
+		float4 varFog : TEXCOORD4;
 	#endif
 };
 
@@ -107,31 +103,47 @@ vertex_out
 
 #if RECEIVE_SHADOW || USE_VERTEX_FOG
 	[auto][a] property float4 lightPosition0;
+	[auto][a] property float4x4 viewMatrix;
 #endif
 
 #if USE_VERTEX_FOG
 	[auto][a] property float3 cameraPosition;
-	[auto][a] property float4x4 viewMatrix;
 #endif
 
 vertex_out vp_main(vertex_in input)
 {
 	vertex_out output;
 
-	output.texCoord0.xy = float2(input.texCoord0.x * input.spriteRect.z + input.spriteRect.x, input.texCoord0.y * input.spriteRect.w + input.spriteRect.y);
+	float3 localPos = input.localPos.xyz;
+	float4x4 worldMatrix = vecToMat(input.worldMatrix0, input.worldMatrix1, input.worldMatrix2);
 
-	#if PARTICLES_MASK
-		output.texCoord0.zw = float2(input.texCoord0.x * input.maskSpriteRect.z + input.maskSpriteRect.x, input.texCoord0.y * input.maskSpriteRect.w + input.maskSpriteRect.y);
+	#if PARTICLES_VERTEX_ANIMATION
+		float vertexAnimationValue = tex2Dlod(vertexAnimationTex, input.texCoord0.xy * input.vertexAnimationSpriteRect.zw + input.vertexAnimationSpriteRect.xy, 0.0).x * 2.0 - 1.0;
+		localPos += input.normal * (vertexAnimationValue * input.vertexAnimationAmplitude);
 	#endif
 
-	#if FRAME_BLEND
-		output.texCoord1 = float3(input.texCoord0.x * input.nextSpriteRect.z + input.nextSpriteRect.x, input.texCoord0.y * input.nextSpriteRect.w + input.nextSpriteRect.y, input.texCoord6.x);
+	float3 worldPos = mul3Fast1(localPos, worldMatrix);
+
+	#if PARTICLES_FRESNEL_TO_ALPHA || RECEIVE_SHADOW
+		float3 worldNormal = normalize(mul3Fast0(input.normal, worldMatrix));
 	#endif
 
-	#if PARTICLES_FLOWMAP
-		float2 flowPhase = frac(float2(input.flowSpeedAndOffset.x, input.flowSpeedAndOffset.x + 0.5)) - const05List2;
-		output.texCoord2 = float4(input.texCoord0.x * input.flowMapRect.z + input.flowMapRect.x, input.texCoord0.y * input.flowMapRect.w + input.flowMapRect.y, flowPhase * input.flowSpeedAndOffset.y);
-		output.texCoord3 = abs(flowPhase.x) * 2.0;
+	#if RECEIVE_SHADOW || USE_VERTEX_FOG
+		float3 eyePos = mul3Fast1(worldPos, viewMatrix);
+		float3 toLightDir = -eyePos * lightPosition0.w + lightPosition0.xyz;
+		float toLightDis = length(toLightDir);
+		toLightDir *= 1.0 / toLightDis;
+	#endif
+
+	output.localPos = mul4Fast1(worldPos, viewProjMatrix);
+
+	#if RECEIVE_SHADOW || (RETRIEVE_FRAG_DEPTH_AVAILABLE && SOFT_PARTICLES)
+		output.projPos = output.localPos;
+	#endif
+
+	#if RECEIVE_SHADOW
+		output.worldPos = worldPos;
+		output.worldNormalSlope = float4(worldNormal, 1.0 - saturate(dot(worldNormal, toLightDir - worldPos)));
 	#endif
 
 	output.vertexColor = input.color1;
@@ -140,53 +152,41 @@ vertex_out vp_main(vertex_in input)
 		output.vertexColor *= input.color0;
 	#endif
 
+	output.texCoord0.xy = float2(input.texCoord0.x * input.spriteRect.z + input.spriteRect.x, input.texCoord0.y * input.spriteRect.w + input.spriteRect.y);
+
+	#if PARTICLES_MASK
+		output.texCoord0.zw = float2(input.texCoord0.x * input.maskSpriteRect.z + input.maskSpriteRect.x, input.texCoord0.y * input.maskSpriteRect.w + input.maskSpriteRect.y);
+	#endif
+
+	#if FRAME_BLEND
+		output.texCoord1.xyz = float3(input.texCoord0.x * input.nextSpriteRect.z + input.nextSpriteRect.x, input.texCoord0.y * input.nextSpriteRect.w + input.nextSpriteRect.y, input.texCoord6.x);
+	#endif
+
+	#if PARTICLES_FLOWMAP
+		float2 flowPhase = frac(float2(input.flowSpeedAndOffset.x, input.flowSpeedAndOffset.x + 0.5)) - const05List2;
+		output.texCoord1.w = abs(flowPhase.x) * 2.0;
+		output.texCoord2 = float4(input.texCoord0.x * input.flowMapRect.z + input.flowMapRect.x, input.texCoord0.y * input.flowMapRect.w + input.flowMapRect.y, flowPhase * input.flowSpeedAndOffset.y);
+	#endif
+
 	#if PARTICLES_NOISE
-		output.texCoord4.xyz = float3(input.texCoord0.x * input.noiseRect.z + input.noiseRect.x, input.texCoord0.y * input.noiseRect.w + input.noiseRect.y, input.noiseScale);
-	#endif
-
-	float4x4 worldMatrix = vecToMat(input.worldMatrix0, input.worldMatrix1, input.worldMatrix2);
-	float3 localPos = input.localPos.xyz;
-
-	#if PARTICLES_VERTEX_ANIMATION
-		float vertexAnimationValue = tex2Dlod(vertexAnimationTex, input.texCoord0.xy * input.vertexAnimationSpriteRect.zw + input.vertexAnimationSpriteRect.xy, 0.0).x * 2.0 - 1.0;
-		localPos += input.normal * (vertexAnimationValue * input.vertexAnimationAmplitude);
-	#endif
-
-	float3 worldPos = mul3Fast1(localPos, worldMatrix);
-	output.localPos = mul4Fast1(worldPos, viewProjMatrix);
-
-	#if RETRIEVE_FRAG_DEPTH_AVAILABLE && SOFT_PARTICLES
-		output.projPos = output.localPos;
-	#endif
-
-	#if PARTICLES_FRESNEL_TO_ALPHA || RECEIVE_SHADOW
-		float3 N = normalize(mul3Fast0(input.normal, worldMatrix));
+		output.texCoord3.xyz = float3(input.texCoord0.x * input.noiseRect.z + input.noiseRect.x, input.texCoord0.y * input.noiseRect.w + input.noiseRect.y, input.noiseScale);
 	#endif
 
 	#if PARTICLES_FRESNEL_TO_ALPHA
-		float fresnelToAlpha = lerp(input.texCoord6.z, 1.0, pow(saturate(1.0 - dot(N, cameraDirection)), input.texCoord6.w));
+		float fresnelToAlpha = lerp(input.texCoord6.z, 1.0, pow(1.0 - saturate(dot(worldNormal, cameraDirection)), input.texCoord6.w));
 
 		#if PARTICLES_NOISE
-			output.texCoord4.w = fresnelToAlpha;
+			output.texCoord3.w = fresnelToAlpha;
 		#else
-			output.texCoord4 = fresnelToAlpha;
+			output.texCoord3 = fresnelToAlpha;
 		#endif
 	#endif
 
 	#if USE_VERTEX_FOG
 		float3 camPos = cameraPosition;
-		float3 eyePos = mul3Fast1(worldPos, viewMatrix);
-		float3 toLightDir = -eyePos * lightPosition0.w + lightPosition0.xyz;
-		float toLightDis = length(toLightDir);
-		toLightDir *= 1.0 / toLightDis;
+		float3 toCamDir = camPos - worldPos;
 
 		#include "vp-fog-math.slh"
-	#endif
-
-	#if RECEIVE_SHADOW
-		float NdotLShady = saturate(1.0 - dot(N, lightPosition0.xyz - worldPos));
-		float3 shadowInf = getShadow(N * (shadowNormalSlopeOffset * NdotLShady) + worldPos, output.localPos.xy * (1.0 / output.localPos.w), NdotLShady);
-		output.shadowColor = lerp(shadowMapShadowColor.rgb, const1List3, shadowInf.x);
 	#endif
 
 	return output;

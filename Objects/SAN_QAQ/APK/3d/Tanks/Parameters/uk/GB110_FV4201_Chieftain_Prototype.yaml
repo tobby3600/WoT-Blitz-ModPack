@@ -92,7 +92,7 @@ shadowDecal:
 chassis:
     textureScale: -1.322000
 detachedTurret:
-    cylinderPos: [0.000000, 0.000000, 0.000000]
+    cylinderPos: [0.000000, 0.000000, 0.042251]
     cylinderXYScale: 1.161970
     cylinderZScale: 0.753520
     turret_01:

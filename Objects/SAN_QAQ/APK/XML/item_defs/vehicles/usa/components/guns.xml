@@ -6351,7 +6351,7 @@
 			<shortUserString>#usa_vehicles:_76mm_Gun_M1A2C_R_short</shortUserString>
 			<description>#usa_vehicles:_76mm_Gun_M1A2C_R_descr</description>
 			<tags/>
-			<level>6</level>
+			<level>7</level>
 			<price>0</price>
 			<impulse>0.48</impulse>
 			<recoil>
@@ -6368,8 +6368,8 @@
 			<maxAmmo>75</maxAmmo>
 			<aimingTime>2.3</aimingTime>
 			<weight>1590</weight>
-			<maxHealth>130</maxHealth>
-			<maxRegenHealth>65</maxRegenHealth>
+			<maxHealth>170</maxHealth>
+			<maxRegenHealth>85</maxRegenHealth>
 			<repairCost>0</repairCost>
 			<invisibilityFactorAtShot>0.247</invisibilityFactorAtShot>
 			<shotDispersionRadius>0.38</shotDispersionRadius>
@@ -6384,21 +6384,21 @@
 					<speed>792</speed>
 					<gravity>9.81</gravity>
 					<maxDistance>720</maxDistance>
-					<piercingPower>130 112</piercingPower>
+					<piercingPower>160 143</piercingPower>
 				</_76mm_AP_M79ABR>
 				<_76mm_APCR_M81ABR>
 					<defaultPortion>0</defaultPortion>
 					<speed>990</speed>
 					<gravity>9.81</gravity>
 					<maxDistance>720</maxDistance>
-					<piercingPower>180 160</piercingPower>
+					<piercingPower>220 205</piercingPower>
 				</_76mm_APCR_M81ABR>
 				<_76mm_HE_M84ABR>
 					<defaultPortion>0.15</defaultPortion>
 					<speed>792</speed>
 					<gravity>9.81</gravity>
 					<maxDistance>720</maxDistance>
-					<piercingPower>42 42</piercingPower>
+					<piercingPower>46 46</piercingPower>
 				</_76mm_HE_M84ABR>
 			</shots>
 		</_76mm_Gun_M1A2C_R>

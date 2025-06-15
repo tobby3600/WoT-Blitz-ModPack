@@ -1,62 +1,66 @@
-#include "fresnel-shlick.slh"
+#if VIEW_AMBIENT
+	uniform sampler2D specularBRDF;
+	uniform samplerCUBE diffuseIrradianceMap;
+	uniform samplerCUBE specularReflectionMap;
 
-uniform sampler2D specularBRDF;
-uniform samplerCUBE diffuseIrradianceMap;
-uniform samplerCUBE specularReflectionMap;
+	[auto][a] property float environmentRotation;
+	[auto][a] property float2 mipmapLevel;
+#endif
 
-[auto][a] property float environmentRotation;
-[auto][a] property float2 mipmapLevel;
-
-inline float3 blendNormal(float3 n1, float3 n2)
+float3 directLight(float roughness, float shadow, float NdotL, float NdotV, float NdotH, float VdotH)
 {
-	return normalize(mul(n2, float3x3(float3(n1.zy, -n1.x), float3(n1.xz, -n1.y), n1)));
+	float roughnessS = roughness * roughness;
+	float a = (VdotH * VdotH) * (roughness * 2.0) + 0.5;
+	float b = roughnessS * roughnessS;
+	float c = (NdotH * b - NdotH) * NdotH + 1.0;
+	float d = roughness * 0.25 + (roughnessS * 0.125 + 0.125);
+
+	return float3(float2(lerp(1.0, a, pow5Exp(NdotL)) * lerp(1.0, a, pow5Exp(NdotV)), (NdotL * NdotV) * (b * 0.25) / (lerp(NdotL * c, c, d) * lerp(NdotV * c, c, d))) * shadow, a);
 }
 
-inline float3 getPBR(float3 polygonN, float3 N, float3 V, float3 L, float3 H, float3 lightColor, float3 baseColor, float metallic, float roughness, float occlusion, float shadow, float3 emissive)
+inline float3 blendNormal(float3 base, float3 detail)
 {
-	float3 R = lerp(N, reflect(-V, N), saturate(-roughness * 1.35 + 1.0));
-	R += polygonN * saturate(dot(-polygonN, R));
+	base.z += 1.0;
+	detail.xy *= -1.0;
 
+	return normalize(base * (dot(base, detail) / base.z) - detail);
+}
+
+inline float3 getPBR(float3 polygonN, float3 N, float3 L, float3 V, float3 H, float3 lightColor, float3 baseColor, float metallic, float roughness, float occlusion, float shadow, float3 emissive)
+{
 	float NdotL = saturate(dot(N, L));
-	float NdotV = saturate(dot(N, V));
+	float NdotV = dot(N, V);
 	float NdotH = saturate(dot(N, H));
 	float VdotH = saturate(dot(V, H));
 
+	float3 R = N * (NdotV * 2.0) - V;
+	R += polygonN * saturate(dot(-polygonN, lerp(N, R, saturate(-roughness * 1.35 + 1.35))));
+	NdotV = saturate(NdotV);
+
 	float envTheta = environmentRotation * _PI_20;
-	float roughnessS = roughness * roughness;
-	float a = roughnessS * roughnessS;
-	float b = saturate(roughness * 0.25 + (roughnessS * 0.125 + 0.125));
-	float c = (NdotH * a - NdotH) * NdotH + 1.0;
-	float d = (VdotH * VdotH) * (roughness * 2.0) + 0.5;
-	float e = a * 0.25 * (1.0 / max((lerp(NdotL, 1.0, b) * lerp(NdotV, 1.0, b)) * (c * c), 0.0001));
-	float f = lerp(1.0, d, pow5Exp(NdotL)) * lerp(1.0, d, pow5Exp(NdotV));
-	float2 dfg = tex2D(specularBRDF, float2(NdotV, roughness)).xy;
 	float2 envRotTheta = float2(cos(envTheta), sin(envTheta));
+	float2 dfgI = tex2D(specularBRDF, float2(NdotV, roughness)).xy;
+	float3 dfgD = directLight(roughness, shadow, NdotL, NdotV, NdotH, VdotH);
 	float3 diffuseColor = lerp(baseColor, const0List3, metallic);
 	float3 f0 = lerp(float3(0.04, 0.04, 0.04), baseColor, metallic);
 	float3 light0 = lightColor * (NdotL * _INVERSE_PI);
-	float3 sI = f0 * dfg.x + dfg.yyy;
-	float3 sD = fresnelVec3(VdotH, f0);
+	float3 sI = f0 * dfgI.x + dfgI.yyy;
+	float3 sD = lerp(f0, dfgD.zzz, pow5Exp(VdotH));
 	float3 dI = -sI * diffuseColor + diffuseColor;
 	float3 dD = -sD * diffuseColor + diffuseColor;
-
-	float3 diffuseIBL = texCUBElod(diffuseIrradianceMap, float3(rotate(envRotTheta, N.xy), N.z), 0.0).rgb * dI;
-	float3 specularIBL = texCUBElod(specularReflectionMap, float3(rotate(envRotTheta, R.xy), R.z), log2(roughness) * 1.2 + (mipmapLevel.x - 5.0)).rgb * sI;
-	float3 diffuseDirect = light0 * dD * f;
-	float3 specularDirect = light0 * sD * e;
 	float3 result = const0List3;
 
 	#if VIEW_AMBIENT
-		result += diffuseIBL * occlusion;
-		result += specularIBL * occlusion;
+		result += texCUBElod(diffuseIrradianceMap, float3(rotate(envRotTheta, N.xy), N.z), 0.0).rgb * dI * occlusion;
+		result += texCUBElod(specularReflectionMap, float3(rotate(envRotTheta, R.xy), R.z), log2(roughness) * 1.2 + (mipmapLevel.x - 5.0)).rgb * sI * occlusion;
 	#endif
 
 	#if VIEW_DIFFUSE
-		result += diffuseDirect * shadow;
+		result += light0 * dD * dfgD.x;
 	#endif
 
 	#if VIEW_SPECULAR
-		result += specularDirect * shadow;
+		result += light0 * sD * dfgD.y;
 	#endif
 
 	#if EMISSIVE_ALBEDO || EMISSIVE_COLOR || TILED_DECAL_EMISSIVE_ALBEDO || TILED_DECAL_EMISSIVE_COLOR || TILED_DECAL_SPREADING
@@ -66,10 +70,33 @@ inline float3 getPBR(float3 polygonN, float3 N, float3 V, float3 L, float3 H, fl
 	return result;
 }
 
-inline float4 getPbrPointLight(float3 dirToLight, float lightRadius, float colorFalloff)
+inline float3 getPBRPointLight(float3 N, float3 L, float3 V, float3 H, float3 lightColor, float3 baseColor, float metallic, float roughness, float lightRadius, float colorFalloff)
 {
-	float disToLight = length(dirToLight) + 0.0001;
-	float attenuation = _PI_60 * (1.0 / pow(disToLight, colorFalloff));
+	float disToLight = length(L);
+	float attenuation = pow(disToLight, -colorFalloff) * 6.0;
+	float intensity = -attenuation * smoothstep(lightRadius * 0.95, lightRadius, disToLight) + attenuation;
 
-	return float4(dirToLight * (1.0 / disToLight), -attenuation * smoothstep(lightRadius * 0.95, lightRadius, disToLight) + attenuation);
+	L /= disToLight;
+	float NdotL = saturate(dot(N, L));
+	float NdotV = saturate(dot(N, V));
+	float NdotH = saturate(dot(N, H));
+	float VdotH = saturate(dot(V, H));
+
+	float3 dfgD = directLight(roughness, 1.0, NdotL, NdotV, NdotH, VdotH);
+	float3 diffuseColor = lerp(baseColor, const0List3, metallic);
+	float3 f0 = lerp(float3(0.04, 0.04, 0.04), baseColor, metallic);
+	float3 light0 = lightColor * (NdotL * intensity);
+	float3 sD = lerp(f0, dfgD.zzz, pow5Exp(VdotH));
+	float3 dD = -sD * diffuseColor + diffuseColor;
+	float3 result = const0List3;
+
+	#if VIEW_DIFFUSE
+		result += light0 * dD * dfgD.x;
+	#endif
+
+	#if VIEW_SPECULAR
+		result += light0 * sD * dfgD.y;
+	#endif
+
+	return result;
 }

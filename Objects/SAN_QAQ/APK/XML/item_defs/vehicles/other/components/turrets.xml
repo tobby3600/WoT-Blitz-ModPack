@@ -1,5 +1,5 @@
 <root>
-	<nextAvailableId>227</nextAvailableId>
+	<nextAvailableId>232</nextAvailableId>
 	<ids>
 		<Turret_Strv_74A2>1</Turret_Strv_74A2>
 		<Turret_Edelweiss>2</Turret_Edelweiss>
@@ -108,6 +108,7 @@
 		<Turret_2_Oth76_Destiny>218</Turret_2_Oth76_Destiny>
 		<Turret_3_Oth76_Destiny>219</Turret_3_Oth76_Destiny>
 		<Turret_4_Oth76_Destiny>220</Turret_4_Oth76_Destiny>
+		<Turret_Oth84_FVE_Defender>226</Turret_Oth84_FVE_Defender>
 	</ids>
 	<shared/>
 </root>

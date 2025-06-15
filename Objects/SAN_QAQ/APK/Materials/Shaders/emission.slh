@@ -1,11 +1,12 @@
 #if TILED_DECAL_MASK
-	float fullMask = tex2D(decalmask, input.texCoord0.xy).a;
-	float4 tileColor = tex2D(decaltexture, input.texCoord0.zw) * decalTileColor;
+	float fullMask = tex2D(decalmask, texCoord0.xy).a;
+	float4 tileColor = tex2D(decaltexture, texCoord0.zw) * decalTileColor;
 
 	#if HARD_SKINNING
-		tileColor = lerp(tileColor, tex2D(decalTexture1, input.texCoord0.zw) * decalTileColor1, saturate(input.index));
-		tileColor = lerp(tileColor, tex2D(decalTexture2, input.texCoord0.zw) * decalTileColor2, saturate(input.index - 1.0));
-		tileColor = lerp(tileColor, tex2D(decalTexture3, input.texCoord0.zw) * decalTileColor3, saturate(input.index - 2.0));
+		float tileIndex = input.texCoord2.w;
+		tileColor = lerp(tileColor, tex2D(decalTexture1, texCoord0.zw) * decalTileColor1, saturate(tileIndex));
+		tileColor = lerp(tileColor, tex2D(decalTexture2, texCoord0.zw) * decalTileColor2, saturate(tileIndex - 1.0));
+		tileColor = lerp(tileColor, tex2D(decalTexture3, texCoord0.zw) * decalTileColor3, saturate(tileIndex - 2.0));
 	#endif
 
 	#if !TILED_DECAL_ANIM_MASK
@@ -20,11 +21,11 @@
 		float spreading = 1.0;
 
 		#if TILED_DECAL_NOISE_SPREADING
-			spreading *= getSpreadNoise(input.texCoord0.zw);
+			spreading *= getSpreadNoise(texCoord0.zw);
 		#endif
 
 		#if TILED_DECAL_SPATIAL_SPREADING
-			spreading *= getSpreadSpace(input.displacePos);
+			spreading *= getSpreadSpace(input.displacePos.xyz);
 		#endif
 
 		fullMask *= spreading;

@@ -54,7 +54,7 @@ tmp * jQ.w + (input.normal + cross(jQ.xyz, tmp));
 	float4 lightProjPos = mul4Fast0(lightPos, projMatrix);
 
 	float2 gSl = sign(lightProjPos.xy) * 1.5;
-	float2 evRes = (gSl * projPos.w - projPos.xy) * (1.0 / (-gSl * lightProjPos.w + lightProjPos.xy));
+	float2 evRes = (gSl * projPos.w - projPos.xy) / (-gSl * lightProjPos.w + lightProjPos.xy);
 	evRes = lerp(evRes, float2(250.0, 250.0), step(evRes, const0List2));
 
 	output.localPos = lerp(lightProjPos * min(evRes.x, evRes.y) + projPos, projPos, float(dot(normal, lightPos) == 0.0));

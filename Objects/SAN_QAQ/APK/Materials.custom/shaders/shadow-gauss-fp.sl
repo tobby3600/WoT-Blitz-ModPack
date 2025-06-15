@@ -43,8 +43,8 @@ fragment_out fp_main(fragment_in input)
 	for (int i = 0; i < 9; i++)
 	{
 		float2 offset = pixelOffset * gWeightsOffsets[i].y;
-		blurColor += tex2D(tex, clamp(input.texCoord + offset, const0List2, maxUV)).xyz * gWeightsOffsets[i].x;
-		blurColor += tex2D(tex, clamp(input.texCoord - offset, const0List2, maxUV)).xyz * gWeightsOffsets[i].x;
+		blurColor += tex2D(tex, clamp(input.texCoord + offset, const0List2, maxUV)).xw * gWeightsOffsets[i].x;
+		blurColor += tex2D(tex, clamp(input.texCoord - offset, const0List2, maxUV)).xw * gWeightsOffsets[i].x;
 	}
 
 	#ifdef USE_RED_TEXTURE_CHANNEL
