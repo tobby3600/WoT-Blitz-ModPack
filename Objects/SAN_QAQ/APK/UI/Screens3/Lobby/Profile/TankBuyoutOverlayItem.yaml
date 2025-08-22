@@ -2,7 +2,6 @@ Header:
     version: 161
 ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Common/Button.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "TankBuyoutOverlayItem"
@@ -26,6 +25,7 @@ Prototypes:
         UIDataLocalBindingsComponent:
             data:
             - ["string", "winRate", "percent(model.winsPercent, 0)"]
+            - ["string", "winRateTextColor", "when winRate >= 90.000000 -> \"red-red-text\", winRate >= 80.000000 -> \"gold-shining-text\", winRate >= 70.000000 -> \"purple-zhuk-text\", winRate >= 60.000000 -> \"blue-rimmi-text\", winRate >= 50.000000 -> \"green-zmilly-text\", \"white-wild-sand-text\""]
         Sound: {}
         StyleSheet:
             styles: "~res:/UI/Screens3/ButtonSound.style.yaml;~res:/UI/Screens3/Common/Touch.style.yaml"
@@ -55,36 +55,19 @@ Prototypes:
         -   class: "UIControl"
             name: "Bg"
             input: false
+            classes: "white-wild-sand-15-bg"
             components:
+                Background:
+                    drawType: "DRAW_STRETCH_BOTH"
+                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_r1"
+                    leftRightStretchCap: 1.000000
+                    topBottomStretchCap: 1.000000
                 IgnoreLayout: {}
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "PercentOfParent"
-            children:
-            -   prototype: "BlurModified/BlurModified"
-                name: "Blur"
-                components:
-                    UIDataParamsComponent:
-                        args:
-                            "bgStyle": "\"white-wild-sand-15-bg\""
-                            "roundCorner": "\"4\""
-        -   class: "UIControl"
-            name: "Selector"
-            input: false
-            components:
-                Anchor:
-                    rightAnchorEnabled: true
-                    rightAnchor: 4.000000
-                IgnoreLayout: {}
-                SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    horizontalValue: 40.000000
-                    verticalPolicy: "PercentOfParent"
-                UIChildComponent0:
-                    prototypePath: "~res:/UI/Screens3/Lobby/Profile/Common/TankListCellSelector.yaml"
-                    args:
-                        "addDeltaPercents": "25"
-                        "selected": "selected"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
         -   class: "UIControl"
             name: "Hover"
             input: false
@@ -171,7 +154,6 @@ Prototypes:
                 position: [70.750000, 0.000000]
                 visible: false
                 input: false
-                classes: "t-body bold color=white-wild-sand-text not-localize"
                 components:
                     UITextComponent: {}
                     Anchor:
@@ -183,6 +165,7 @@ Prototypes:
                     StyleSheet:
                         styles: "~res:/UI/Screens3/Font.style.yaml"
                 bindings:
+                - ["classes", "\"t-body bold not-localize \" + winRateTextColor"]
                 - ["UITextComponent.text", "winRate"]
             -   class: "UIControl"
                 name: "Experience"
@@ -205,7 +188,7 @@ Prototypes:
                 name: "Damage"
                 visible: false
                 input: false
-                classes: "t-body bold color=white-wild-sand-text"
+                classes: "t-body bold color=white-wild-sand-text not-localize"
                 components:
                     UITextComponent: {}
                     Anchor:

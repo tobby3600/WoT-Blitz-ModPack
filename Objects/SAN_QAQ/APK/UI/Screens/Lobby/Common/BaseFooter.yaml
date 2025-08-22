@@ -1,5 +1,7 @@
 Header:
     version: 157
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "BaseFooter"
@@ -7,27 +9,6 @@ Prototypes:
     size: [1024.000000, 94.000000]
     input: false
     components:
-        Background:
-            usePostProcessedSprite: true
-        UIPostProcessTextureComponent0:
-            materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-            needClearAlphaAfterRender: true
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent1:
-            materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent2:
-            materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
         Anchor:
             leftAnchorEnabled: true
             rightAnchorEnabled: true
@@ -39,3 +20,10 @@ Prototypes:
         StyleSheet:
             inheritsStylesFromParent: true
             styles: "~res:/UI/Screens3/Background.style.yaml"
+        children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "bgStyle": "\"grey-shark-70-bg\""

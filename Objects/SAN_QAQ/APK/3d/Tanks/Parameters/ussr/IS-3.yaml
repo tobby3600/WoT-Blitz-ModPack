@@ -317,14 +317,14 @@ armorScale:
         pushNormalsScale: true
         armorScale: [0.034940, 0.034940, 0.034940]
     hull:
-        pushNormalsScale: false
-        armorScale: [1.010843, 1.010843, 1.010843]
+        pushNormalsScale: true
+        armorScale: [0.030000, 0.030000, 0.030000]
     turret_01:
         pushNormalsScale: false
         armorScale: [1.020482, 1.020482, 1.020482]
     turret_02:
-        pushNormalsScale: false
-        armorScale: [1.030000, 1.030000, 1.030000]
+        pushNormalsScale: true
+        armorScale: [0.030000, 0.030000, 0.030000]
 collision:
     chassis:
         points: [0.000000, 0.000309, 0.001988]
@@ -377,8 +377,8 @@ collision:
             min: [-1.605471, -3.451832, 0.443649]
             max: [1.605471, 3.408974, 1.579102]
         averageThickness:
-            turret_01: 144.159027
-            turret_02: 180.933716
+            turret_01: 144.966721
+            turret_02: 179.079788
     turret_01:
         points: [0.001303, -0.599570, -1.519608]
         bbox:

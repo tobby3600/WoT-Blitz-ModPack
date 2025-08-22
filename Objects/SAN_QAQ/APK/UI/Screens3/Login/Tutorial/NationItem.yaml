@@ -1,0 +1,80 @@
+Header:
+    version: 133
+Prototypes:
+-   class: "UIControl"
+    name: "Item"
+    size: [88.000000, 72.000000]
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalValue: 88.000000
+            verticalPolicy: "FixedSize"
+            verticalValue: 72.000000
+        UIInputEventComponent:
+            onTouchUpInside: "ON_NATION_CLICKED"
+            onTouchUpInsideData: "nation"
+            blockDuplicatedEvents: true
+        UIDataParamsComponent:
+            params:
+            - ["eNation", "nation", "eNation.USA", "eNation.USA"]
+            - ["string", "icon", "\"\"", "\"~res:/Gfx/Lobby/flags/flag_tank-tree_usa\""]
+            - ["bool", "selected", "false", "true"]
+        UIIdentifierComponent:
+            id: "nation_item"
+            params:
+            - ["string", "name", "str(int(nation), eNation)"]
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Color.style.yaml"
+    children:
+    -   class: "UIControl"
+        name: "Selection"
+        size: [32.000000, 32.000000]
+        input: false
+        classes: "orange-orange-peel-bg"
+        components:
+            Background:
+                drawType: "DRAW_ALIGNED"
+                sprite: "~res:/Gfx/Lobby/backgrounds/bg_oval-64px_border-2px"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
+        bindings:
+        - ["visible", "selected"]
+    -   class: "UIControl"
+        name: "IconWrapper"
+        position: [44.000000, 36.000000]
+        size: [32.000000, 32.000000]
+        pivot: [0.500000, 0.500000]
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfFirstChild"
+        children:
+        -   class: "UIControl"
+            name: "Icon"
+            input: false
+            classes: "white-wild-sand-bg"
+            components:
+                UITextureComponent:
+                    materialPath: "~res:/Materials.custom/2d.Textured.Saturation.material"
+                    materialParams: "saturation,25"
+                    drawType: "DRAW_SCALE_PROPORTIONAL"
+                    perPixelAccuracy: "PER_PIXEL_ACCURACY_FORCED"
+                UIOpacityComponent: {}
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 48.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 48.000000
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["UITextureComponent.spritePath", "icon"]

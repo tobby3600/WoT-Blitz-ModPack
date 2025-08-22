@@ -1,0 +1,140 @@
+Header:
+    version: 141
+Prototypes:
+-   class: "UIControl"
+    name: "StepReward"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfFirstChild"
+            verticalPolicy: "Formula"
+            verticalFormula: "max(firstChild, parentLine)"
+        UIDataParamsComponent:
+            params:
+            - ["ResourceDetailed", "reward", "null", "{ \"type\" = ResourceType.stuff; }"]
+            - ["bool", "showVehicleInfo", "true", "true"]
+            - ["bool", "showVehicleLabel", "true", "true"]
+            - ["bool", "showUnlockStub", "false", "false"]
+            - ["bool", "isBlur", "true", "true"]
+            - ["bool", "isReceived", "false", "true"]
+            events:
+            - "ON_REWARD_PRESSED(ResourceDetailed reward)"
+        UIDataLocalBindingsComponent:
+            data:
+            - ["bool", "isBrowsable", "(reward.type == ResourceType.stuff and not isNull(reward.stuff)) or (reward.type == ResourceType.vehicle and not isNull(reward.vehicle)) or (reward.type == ResourceType.unlocks and not isNull(reward.unlock) and reward.unlock.type == eItemType.CAMOUFLAGE)"]
+            - ["int", "itemCompactDescr", "when reward.type == ResourceType.stuff -> reward.stuff.itemCompactDescr, reward.type == ResourceType.unlocks -> reward.unlock.itemCompactDescr, reward.type == ResourceType.vehicle -> reward.vehicle.info.tankDescriptor.rawDescr, 0"]
+            - ["bool", "showEye", "reward.type != ResourceType.stuff or (not isNull(reward.stuff) and (reward.stuff.type == ArtefactType.decoration or reward.stuff.type == ArtefactType.profile_background or (reward.stuff.type == ArtefactType.coupon and not isNull(reward.stuff.coupon) and not reward.stuff.coupon.appliesToUnlocks.Empty())))"]
+            - ["string", "browseIcon", "when showEye -> \"~res:/Gfx/Lobby/icons/icon_eye_s\", \"~res:/Gfx/Lobby/icons/icon_info_s\""]
+    bindings:
+    - ["visible", "reward.type != ResourceType.stuff or reward.stuff.visibleInShop"]
+    children:
+    -   class: "UIControl"
+        name: "ContentSlot"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                childType: "kControl"
+                condition: "isBrowsable"
+                control: "Browsable"
+            UIChildComponent1:
+                childType: "kControl"
+                condition: "not isBrowsable"
+                control: "Reward"
+    -   class: "UIControl"
+        name: "ReceiveSlot"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                childType: "kControl"
+                condition: "isReceived"
+                control: "Received"
+Slots:
+-   class: "UIControl"
+    name: "Received"
+    size: [200.000000, 176.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "Icon"
+        scale: [0.700000, 0.700000]
+        input: false
+        components:
+            UITextureComponent:
+                spritePath: "~res:/Gfx/UI/Quests/stamp"
+                frame: 2
+            Anchor:
+                rightAnchorEnabled: true
+                rightAnchor: 25.000000
+                topAnchorEnabled: true
+                topAnchor: 25.000000
+-   class: "UIControl"
+    name: "Browsable"
+    classes: "simple-button button-choose-sound"
+    components:
+        UIOpacityComponent: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfFirstChild"
+            verticalPolicy: "PercentOfFirstChild"
+        UIInputEventComponent:
+            onTouchUpInside: "ON_REWARD_PRESSED"
+            onTouchUpInsideData: "reward"
+            blockDuplicatedEvents: true
+        Sound: {}
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Lobby/Hangar/DevMenu/SimpleButton.style.yaml;~res:/UI/Screens3/ButtonSound.style.yaml"
+    children:
+    -   class: "UIControl"
+        name: "RewardSlot"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                childType: "kControl"
+                control: "Reward"
+    -   class: "UIControl"
+        name: "BrowseIcon"
+        input: false
+        components:
+            UIOpacityComponent:
+                opacity: 0.700000
+            UITextureComponent: {}
+            Anchor:
+                rightAnchorEnabled: true
+                rightAnchor: 8.000000
+                topAnchorEnabled: true
+                topAnchor: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfContent"
+        bindings:
+        - ["visible", "not isReceived"]
+        - ["UITextureComponent.spritePath", "browseIcon"]
+-   class: "UIControl"
+    name: "Reward"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfFirstChild"
+            verticalPolicy: "Formula"
+            verticalFormula: "max(firstChild, parentLine)"
+        UIChildComponent0:
+            childType: "kPrototype"
+            prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/RewardBig.yaml"
+            args:
+                "reward": "reward"
+                "showVehicleInfo": "showVehicleInfo"
+                "showVehicleLabel": "showVehicleLabel"
+                "showUnlockStub": "showUnlockStub"
+                "isBlur": "isBlur"

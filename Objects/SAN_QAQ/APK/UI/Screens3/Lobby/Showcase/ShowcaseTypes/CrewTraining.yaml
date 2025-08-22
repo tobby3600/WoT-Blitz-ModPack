@@ -1,5 +1,5 @@
 Header:
-    version: "108"
+    version: 108
 ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Common/GradientPane.yaml"
 - "~res:/UI/Screens3/Lobby/Common/Button.yaml"
@@ -170,7 +170,7 @@ Prototypes:
                 prototypePath: "~res:/UI/Screens3/Common/Footer.yaml"
                 args:
                     "content": "FooterContent"
-                    "bgStyle": ""
+                    "bgStyle": "\"black-50-bg\""
     -   class: "UIControl"
         name: "NavigationPanel"
         size: [32.000000, 32.000000]

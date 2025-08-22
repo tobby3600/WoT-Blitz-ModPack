@@ -349,6 +349,7 @@ Slots:
                     "time": "product.promoExpiresAt"
                     "timerSize": "eTimerSize.Small"
                     "bgVisible": "true"
+                    "bgColorStyle": "\"white-wild-sand-25-bg\""
         bindings:
         - ["visible", "isSimpleContent"]
     -   class: "UIControl"
@@ -580,9 +581,8 @@ Slots:
                                 condition: "isSimpleContent and product.xTimed"
                                 prototypePath: "~res:/UI/Screens3/Common/RemainingLabel.yaml"
                                 args:
-                                    "roundCorner": "\"3\""
                                     "left": "product.availableTimes"
-                                    "bgStyle": "\"\""
+                                    "bgStyle": "\"white-wild-sand-25-bg\""
                                     "textStyle": "\"t-subtitle regular white-wild-sand-text\""
                         bindings:
                         - ["visible", "isSimpleContent and product.xTimed"]
@@ -685,12 +685,6 @@ Slots:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfMaxChild"
         children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
-            components:
-                UIDataParamsComponent:
-                    args:
-                        "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "ContentText"
             input: false
@@ -746,6 +740,7 @@ Slots:
                     components:
                         UIDataParamsComponent:
                             args:
+                                "bgStyle": "\"white-wild-sand-25-bg\""
                                 "roundCorner": "\"8\""
                 -   class: "UIControl"
                     name: "stuffList"
@@ -941,17 +936,15 @@ Slots:
                     "time": "product.promoExpiresAt"
                     "timerSize": "eTimerSize.Medium"
                     "bgVisible": "true"
+                    "bgColorStyle": "\"white-wild-sand-25-bg\""
     -   class: "UIControl"
         name: "XTime"
         input: false
         components:
-            Background: {}
             SizePolicy:
                 horizontalPolicy: "PercentOfFirstChild"
                 verticalPolicy: "FixedSize"
                 verticalValue: 32.000000
-            StyleSheet:
-                styles: "~res:/UI/Screens3/Color.style.yaml"
         bindings:
         - ["visible", "product.xTimed"]
         children:
@@ -968,9 +961,8 @@ Slots:
                     condition: "product.xTimed"
                     prototypePath: "~res:/UI/Screens3/Common/RemainingLabel.yaml"
                     args:
-                        "roundCorner": "\"3\""
                         "left": "product.availableTimes"
-                        "bgStyle": "\"\""
+                        "bgStyle": "\"white-wild-sand-25-bg\""
                         "textStyle": "\"t-subtitle regular white-wild-sand-text\""
     -   class: "UIControl"
         name: "mainReward"
@@ -1184,29 +1176,6 @@ Slots:
                         SizePolicy:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfChildrenSum"
-                        Background:
-                            usePostProcessedSprite: true
-                        UIPostProcessTextureComponent0:
-                            materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                            needClearAlphaAfterRender: true
-                            scale: 0.500000
-                            useVirtualCoordinateSystem: true
-                            minFilter: "Linear"
-                            magFilter: "Linear"
-                        UIPostProcessTextureComponent1:
-                            materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                            scale: 0.500000
-                            useVirtualCoordinateSystem: true
-                            minFilter: "Linear"
-                            magFilter: "Linear"
-                        UIPostProcessTextureComponent2:
-                            materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                            scale: 0.500000
-                            useVirtualCoordinateSystem: true
-                            minFilter: "Linear"
-                            magFilter: "Linear"
-                        UIRoundedCornersComponent:
-                            radius: "8"
                     children:
                     -   class: "UIControl"
                         name: "Description"
@@ -1383,34 +1352,18 @@ Slots:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "PercentOfMaxChild"
             children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "bgStyle": "\"white-wild-sand-25-bg\""
+                            "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "description"
                 input: false
                 refreshStylesOnInteract: false
                 components:
-                    Background:
-                        usePostProcessedSprite: true
-                    UIPostProcessTextureComponent0:
-                        materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                        needClearAlphaAfterRender: true
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent1:
-                        materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent2:
-                        materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIRoundedCornersComponent:
-                        radius: "4"
                     ClipContent: {}
                     SizePolicy:
                         horizontalPolicy: "PercentOfParent"

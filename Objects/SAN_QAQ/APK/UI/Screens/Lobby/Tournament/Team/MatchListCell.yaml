@@ -36,39 +36,21 @@ Prototypes:
             name: "StageInfo"
             size: [760.000000, 36.000000]
             input: false
+            classes: "background-light"
             components:
-                Anchor:
-                    hCenterAnchorEnabled: true
                 Background:
-                    usePostProcessedSprite: true
-                UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                    needClearAlphaAfterRender: true
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent1:
-                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent2:
-                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
+                    drawType: "DRAW_FILL"
                 LinearLayout:
                     dynamicPadding: true
                     spacing: 5.000000
                     useRtl: true
                 SizePolicy:
-                    horizontalPolicy: "PercentOfChildrenSum"
+                    horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "FixedSize"
                     verticalValue: 36.000000
             children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
             -   class: "UIStaticText"
                 name: "Stage"
                 size: [101.000000, 36.000000]
@@ -269,56 +251,34 @@ Prototypes:
                                 verticalPolicy: "PercentOfParent"
             -   class: "UIControl"
                 name: "StartAt"
-                position: [0.000000, 0.000000]
                 size: [110.000000, 64.000000]
                 input: false
-                classes: "text-color-blue header4"
+                classes: "background"
                 components:
                     Background:
-                        usePostProcessedSprite: true
-                    UIPostProcessTextureComponent0:
-                        materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                        needClearAlphaAfterRender: true
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent1:
-                        materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent2:
-                        materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UITextComponent: {}
-                    Anchor: {}
+                        drawType: "DRAW_FILL"
                     LinearLayout:
                         orientation: "TopDown"
                         dynamicPadding: true
+                        spacing: 2.000000
                     SizePolicy:
-                        horizontalPolicy: "FixedSize"
-                        horizontalValue: 110.000000
+                        horizontalPolicy: "PercentOfMaxChild"
                         verticalPolicy: "PercentOfParent"
                     StyleSheet:
-                        styles: "~res:/UI/Screens/Fonts.yaml;~res:/UI/Screens/CommonStyles.yaml"
+                        styles: "~res:/UI/Screens/CommonStyles.yaml"
                 children:
+                -   prototype: "BlurModified/BlurModified"
+                    name: "Blur"
                 -   class: "UIControl"
                     name: "Date"
                     input: false
                     classes: "header4 text-color-blue"
                     components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
                         UITextComponent:
                             text: "20.10.2016"
                             colorInheritType: "COLOR_IGNORE_PARENT"
-                        Anchor:
-                            hCenterAnchorEnabled: true
-                            topAnchorEnabled: true
-                            vCenterAnchorEnabled: true
                         SizePolicy:
                             horizontalPolicy: "PercentOfContent"
                             verticalPolicy: "PercentOfContent"
@@ -330,13 +290,11 @@ Prototypes:
                     input: false
                     classes: "header4 text-color-blue"
                     components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
                         UITextComponent:
                             text: "20:30"
                             colorInheritType: "COLOR_IGNORE_PARENT"
-                        Anchor:
-                            hCenterAnchorEnabled: true
-                            vCenterAnchorEnabled: true
-                            bottomAnchorEnabled: true
                         SizePolicy:
                             horizontalPolicy: "PercentOfContent"
                             verticalPolicy: "PercentOfContent"

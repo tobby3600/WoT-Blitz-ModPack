@@ -181,7 +181,7 @@ Prototypes:
                         hCenterAnchorEnabled: true
                     LinearLayout:
                         dynamicPadding: true
-                        spacing: 2.000000
+                        spacing: 12.000000
                     SizePolicy:
                         horizontalPolicy: "PercentOfParent"
                         horizontalMax: 1100.000000
@@ -249,29 +249,6 @@ Prototypes:
         -   class: "UIControl"
             name: "TitleContainer"
             components:
-                Background:
-                    usePostProcessedSprite: true
-                UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                    needClearAlphaAfterRender: true
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent1:
-                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent2:
-                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIRoundedCornersComponent:
-                    radius: "8"
                 Anchor:
                     hCenterAnchorEnabled: true
                     topAnchorEnabled: true
@@ -280,14 +257,23 @@ Prototypes:
                     padding: "10.000000"
                 SizePolicy:
                     horizontalPolicy: "PercentOfMaxChild"
+                    horizontalValue: 115.000000
                     verticalPolicy: "PercentOfChildrenSum"
+                    verticalValue: 125.000000
             children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "roundCorner": "\"8\""
             -   class: "UIStaticText"
                 name: "TournamentTitle"
                 classes: "header1 lang_independece"
                 components:
                     Anchor:
                         hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
                     SizePolicy:
                         horizontalPolicy: "PercentOfContent"
                         verticalPolicy: "PercentOfContent"
@@ -298,6 +284,7 @@ Prototypes:
                 components:
                     Anchor:
                         hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
                     LinearLayout:
                         spacing: 5.000000
                         useRtl: true
@@ -332,6 +319,7 @@ Prototypes:
                 components:
                     Anchor:
                         hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
                     LinearLayout:
                         spacing: 4.000000
                         useRtl: true
@@ -668,35 +656,17 @@ Prototypes:
             size: [819.200012, 230.000000]
             input: false
             components:
-                Background:
-                    usePostProcessedSprite: true
-                UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                    needClearAlphaAfterRender: true
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent1:
-                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent2:
-                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIRoundedCornersComponent:
-                    radius: "\"8;8;0;0\""
                 Anchor:
                     hCenterAnchorEnabled: true
                     topAnchorEnabled: true
                     topAnchor: 90.000000
                     bottomAnchorEnabled: true
                     bottomAnchor: 64.000000
+                Background:
+                    drawType: "DRAW_FILL"
+                    color: [0.207843, 0.274510, 0.325490, 0.250980]
+                UIRoundedCornersComponent:
+                    radius: "8"
                 LinearLayout:
                     orientation: "TopDown"
                 SizePolicy:
@@ -704,6 +674,12 @@ Prototypes:
                     horizontalValue: 80.000000
                     horizontalMax: 1100.000000
             children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "Padding"
                 size: [819.200012, 15.000000]
@@ -737,29 +713,6 @@ Prototypes:
                 size: [819.200012, 46.000000]
                 classes: "button button-open-sound"
                 components:
-                    Background:
-                        usePostProcessedSprite: true
-                    UIPostProcessTextureComponent0:
-                        materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                        needClearAlphaAfterRender: true
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent1:
-                        materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent2:
-                        materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIRoundedCornersComponent:
-                        radius: "\"0;0;8;8\""
                     Anchor:
                         leftAnchorEnabled: true
                         rightAnchorEnabled: true
@@ -776,6 +729,7 @@ Prototypes:
                     components:
                         UITextComponent:
                             text: "tournaments/Button/Expand"
+                            colorInheritType: "COLOR_IGNORE_PARENT"
                         Anchor:
                             leftAnchorEnabled: true
                             rightAnchorEnabled: true
@@ -783,7 +737,7 @@ Prototypes:
                             bottomAnchorEnabled: true
             -   class: "UIControl"
                 name: "Shadow"
-                size: [819.200012, 102.000000]
+                size: [819.200012, 56.000000]
                 input: false
                 components:
                     Background:
@@ -793,6 +747,7 @@ Prototypes:
                         leftAnchorEnabled: true
                         rightAnchorEnabled: true
                         bottomAnchorEnabled: true
+                        bottomAnchor: 45.000000
                     IgnoreLayout: {}
                     SizePolicy:
                         verticalPolicy: "PercentOfContent"

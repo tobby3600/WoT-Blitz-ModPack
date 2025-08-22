@@ -6501,7 +6501,7 @@
 			<level>9</level>
 			<price>0</price>
 			<impulse>0.44</impulse>
-			<effects>wpn_shot_main</effects>
+			<effects>wpn_shot_main_extra</effects>
 			<turretYawLimits>-180 180</turretYawLimits>
 			<pitchLimits>-1 1</pitchLimits>
 			<rotationSpeed>40</rotationSpeed>

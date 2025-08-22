@@ -1,0 +1,569 @@
+Header:
+    version: 153
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Inventory/Common/DynamicHorizontalPadding.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+- "~res:/UI/Screens3/Common/Footer.yaml"
+- "~res:/UI/Screens3/Lobby/Inventory/Common/DynamicTopSpacer.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Resource/CurrencyWithDiscountAndCounter.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "Screen"
+    size: [960.000000, 640.000000]
+    input: false
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/Lobby/Inventory/Crew/MasteryScreenInit.animation"
+        Anchor:
+            leftAnchorEnabled: true
+            rightAnchorEnabled: true
+            topAnchorEnabled: true
+            bottomAnchorEnabled: true
+        LinearLayout:
+            orientation: "TopDown"
+            spacing: 32.000000
+        UIDataParamsComponent:
+            params:
+            - ["CrewMasteryViewModel", "model", "null", "{ }"]
+            - ["TankParams", "tankParams", "null", "{ }"]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            events:
+            - "TRAIN_PRESSED"
+        UIDataLocalVarsComponent:
+            data:
+            - ["int", "progressBarAnimationMastery", "session.playerTanks.currentTank.mastery"]
+            - ["bool", "showCountAnimation", "true"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["CrewTrainingInfo", "selectedTraining", "when not isNull(model) and model.trainingTypes.Contains(model.selectedTrainingType) -> model.trainingTypes[model.selectedTrainingType], null"]
+            - ["bool", "freeTrainingSelected", "session.playerTanks.currentTank.mastery < 100 and not session.stats.wasMasteryUp and selectedTraining.type == eCrewTrainingType.kMedium"]
+            - ["int", "tankMastery", "session.playerTanks.currentTank.mastery"]
+            - ["int", "tankLevel", "session.playerTanks.currentTank.info.level"]
+            - ["int", "levelMastery", "when not isNull(selectedTraining) -> selectedTraining.masteryLevel, 0"]
+            - ["ArtefactProviderModel", "artefacts", "session.artefacts"]
+            - ["StatsDataModel", "stats", "session.stats"]
+            - ["Price", "priceInitial", "selectedTraining.priceInitial"]
+            - ["map<string,bool>", "canAffordMap", "when isNull(artefacts) or isNull(stats) -> emptyMap, CanAffordResources(selectedTraining.price, stats.resources, artefacts.artefactIds)"]
+            - ["bool", "isPriceInitialValid", "when not isNull(priceInitial) -> not priceInitial.resources.Empty(), false"]
+            - ["string", "masteryLevelText", "format(\"%(masteryLevel)%\", { \"masteryLevel\" = tankMastery; })"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Inventory/Crew/MasteryScreen.actions"
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        position: [9.000000, 0.000000]
+        size: [32.000000, 32.000000]
+        input: false
+        classes: "inventory-limited-width"
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            LinearLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Common/Desktop.style.yaml"
+        children:
+        -   prototype: "DynamicHorizontalPadding/DynamicHorizontalPadding"
+            name: "DynamicHorizontalPadding"
+            classes: "padding fixed-padding desktop-unvisible"
+        -   class: "UIControl"
+            name: "LeftPart"
+            position: [24.000000, 0.000000]
+            input: false
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   prototype: "DynamicTopSpacer/DynamicTopSpacer"
+                name: "DynamicTopSpacer"
+                position: [-34.000000, 0.000000]
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+            -   class: "UIControl"
+                name: "Content"
+                position: [0.000000, 38.000000]
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   class: "UIControl"
+                    name: "ContainerInside"
+                    position: [0.000000, 52.000000]
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        LinearLayout:
+                            orientation: "TopDown"
+                            dynamicPadding: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            horizontalFormula: "min(parent-32, 1140)"
+                            verticalPolicy: "PercentOfChildrenSum"
+                    bindings:
+                    - ["Anchor.vCenterAnchor", "when (screenWidth < 641) -> 0, -24"]
+                    - ["LinearLayout.spacing", "when (screenWidth < 641) -> screenWidth * 0.100000, 32"]
+                    children:
+                    -   class: "UIControl"
+                        name: "ProgressPanel"
+                        input: false
+                        components:
+                            Anchor:
+                                leftAnchorEnabled: true
+                                rightAnchorEnabled: true
+                            LinearLayout:
+                                orientation: "TopDown"
+                                spacing: 16.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfMaxChild"
+                                verticalPolicy: "PercentOfChildrenSum"
+                            UIAttachLayoutMasterComponent:
+                                attachId: "PROGRESS_MASTERY"
+                        children:
+                        -   class: "UIControl"
+                            name: "Labels"
+                            position: [60.000000, 0.000000]
+                            size: [400.000000, 88.000000]
+                            input: false
+                            components:
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                LinearLayout:
+                                    orientation: "TopDown"
+                                    spacing: 4.000000
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfChildrenSum"
+                            children:
+                            -   class: "UIStaticText"
+                                name: "Title"
+                                classes: "t-overline bold white-wild-sand-text"
+                                components:
+                                    UITextComponent:
+                                        text: "#crew:mastery/masteryProgress"
+                                        align: ["HCENTER", "VCENTER"]
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfContent"
+                                        verticalPolicy: "PercentOfContent"
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                            -   class: "UIStaticText"
+                                name: "Description"
+                                position: [0.000000, 28.000000]
+                                classes: "t-caption regular white-wild-sand-50-text"
+                                components:
+                                    UITextComponent:
+                                        text: "#crew:mastery/tip"
+                                        multiline: "MULTILINE_ENABLED"
+                                        align: ["HCENTER", "VCENTER"]
+                                        useRtlAlign: "USE_BY_SYSTEM"
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                        verticalPolicy: "PercentOfContent"
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                        -   class: "UIControl"
+                            name: "Progress"
+                            position: [110.000000, 100.000000]
+                            size: [400.000000, 56.000000]
+                            input: false
+                            components:
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                LinearLayout:
+                                    orientation: "TopDown"
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfMaxChild"
+                                    verticalPolicy: "PercentOfChildrenSum"
+                            children:
+                            -   class: "UIControl"
+                                name: "Progress"
+                                position: [0.000000, 50.000000]
+                                input: false
+                                components:
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 400.000000
+                                        verticalPolicy: "PercentOfChildrenSum"
+                                children:
+                                -   class: "UIControl"
+                                    name: "ProgressContainer"
+                                    size: [32.000000, 32.000000]
+                                    input: false
+                                    components:
+                                        SizePolicy:
+                                            horizontalPolicy: "PercentOfParent"
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 6.000000
+                                    children:
+                                    -   class: "UIControl"
+                                        name: "ProgressBarBg"
+                                        input: false
+                                        components:
+                                            SizePolicy:
+                                                horizontalPolicy: "PercentOfParent"
+                                                verticalPolicy: "PercentOfParent"
+                                            UIChildComponent0:
+                                                prototypePath: "~res:/UI/Screens3/Lobby/Common/ProgressBar.yaml"
+                                                args:
+                                                    "progressColor": "\"yellow-chalky-bg\""
+                                                    "minimum": "0"
+                                                    "maximum": "100"
+                                                    "value": "levelMastery"
+                                                    "showGradient": "false"
+                                    -   class: "UIControl"
+                                        name: "ProgressBarValue"
+                                        input: false
+                                        components:
+                                            SizePolicy:
+                                                horizontalPolicy: "PercentOfParent"
+                                                verticalPolicy: "PercentOfParent"
+                                            UIChildComponent0:
+                                                prototypePath: "~res:/UI/Screens3/Lobby/Common/ProgressBar.yaml"
+                                                args:
+                                                    "progressColor": "\"green-la-palma-bg\""
+                                                    "minimum": "0"
+                                                    "maximum": "100"
+                                                    "value": "tankMastery"
+                                                    "showGradient": "false"
+                                                    "bgStyle": "\"\""
+                                    -   class: "UIControl"
+                                        name: "ProgressBarAnimation"
+                                        input: false
+                                        components:
+                                            UIOpacityComponent: {}
+                                            SizePolicy:
+                                                horizontalPolicy: "PercentOfParent"
+                                                verticalPolicy: "PercentOfParent"
+                                            UIChildComponent0:
+                                                prototypePath: "~res:/UI/Screens3/Lobby/Common/ProgressBar.yaml"
+                                                args:
+                                                    "progressColor": "\"green-la-palma-bg\""
+                                                    "minimum": "0"
+                                                    "maximum": "100"
+                                                    "value": "progressBarAnimationMastery"
+                                                    "showGradient": "false"
+                                                    "bgStyle": "\"\""
+                            -   class: "UIControl"
+                                name: "ValueContainer"
+                                input: false
+                                components:
+                                    Anchor:
+                                        leftAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "Formula"
+                                        horizontalFormula: "parent / 100. * tankMastery + 24"
+                                        verticalPolicy: "PercentOfMaxChild"
+                                children:
+                                -   class: "UIControl"
+                                    name: "EndMarker"
+                                    position: [151.000000, -17.000000]
+                                    size: [32.000000, 32.000000]
+                                    input: false
+                                    components:
+                                        Anchor:
+                                            rightAnchorEnabled: true
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "PercentOfMaxChild"
+                                            verticalPolicy: "PercentOfMaxChild"
+                                    children:
+                                    -   class: "UIControl"
+                                        name: "Popup"
+                                        position: [-29.000000, -34.000000]
+                                        input: false
+                                        components:
+                                            Anchor:
+                                                hCenterAnchorEnabled: true
+                                                bottomAnchorEnabled: true
+                                            LinearLayout:
+                                                orientation: "TopDown"
+                                                spacing: -8.000000
+                                            SizePolicy:
+                                                horizontalPolicy: "PercentOfMaxChild"
+                                                verticalPolicy: "PercentOfChildrenSum"
+                                        children:
+                                        -   class: "UIControl"
+                                            name: "Arrow"
+                                            position: [12.000000, 34.000000]
+                                            input: false
+                                            classes: "grey-shark-bg"
+                                            components:
+                                                Background:
+                                                    drawType: "DRAW_ALIGNED"
+                                                    sprite: "~res:/Gfx/UI/CommonUIElements/Selection_back_0.psd"
+                                                    colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
+                                                Anchor:
+                                                    hCenterAnchorEnabled: true
+                                                    bottomAnchorEnabled: true
+                                                SizePolicy:
+                                                    horizontalPolicy: "PercentOfContent"
+                                                    verticalPolicy: "PercentOfContent"
+                                                StyleSheet:
+                                                    styles: "~res:/UI/Screens3/Color.style.yaml"
+                                        -   class: "UIControl"
+                                            name: "Background"
+                                            input: false
+                                            classes: "grey-shark-bg"
+                                            components:
+                                                Background:
+                                                    drawType: "DRAW_FILL"
+                                                UIRoundedCornersComponent:
+                                                    radius: "4"
+                                                Anchor:
+                                                    hCenterAnchorEnabled: true
+                                                    vCenterAnchorEnabled: true
+                                                SizePolicy:
+                                                    horizontalPolicy: "FixedSize"
+                                                    horizontalValue: 48.000000
+                                                    verticalPolicy: "Formula"
+                                                    verticalFormula: "firstChild + 8"
+                                                StyleSheet:
+                                                    styles: "~res:/UI/Screens3/Color.style.yaml"
+                                            children:
+                                            -   class: "UIControl"
+                                                name: "Text"
+                                                position: [7.000000, 0.000000]
+                                                input: false
+                                                classes: "t-body bold white-wild-sand-text"
+                                                components:
+                                                    UITextComponent: {}
+                                                    Anchor:
+                                                        hCenterAnchorEnabled: true
+                                                        vCenterAnchorEnabled: true
+                                                    SizePolicy:
+                                                        horizontalPolicy: "PercentOfContent"
+                                                        verticalPolicy: "PercentOfContent"
+                                                    StyleSheet:
+                                                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Common/PopupMenu.style.yaml"
+                                                bindings:
+                                                - ["UITextComponent.text", "masteryLevelText"]
+                    -   class: "UIControl"
+                        name: "Train"
+                        position: [0.000000, 138.000000]
+                        input: false
+                        components:
+                            Anchor: {}
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfMaxChild"
+                        children:
+                        -   class: "UIControl"
+                            name: "SchoolType"
+                            input: false
+                            components:
+                                LinearLayout:
+                                    dynamicPadding: true
+                                    spacing: 32.000000
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfMaxChild"
+                                UISwitchBarComponent:
+                                    onSelectElement: "MASTERY_SELECTED_INTERNAL"
+                                    onSelectElementData: "_selectedElement"
+                                    selectionEventType: "TOUCH_UP"
+                                UIRepeatComponent:
+                                    control: "~res:/UI/Screens3/Lobby/Common/TrainingType.yaml"
+                                    dataContainer: "model.trainingTypes"
+                                    args:
+                                        "isSelected": "model.selectedTrainingType == _item.type"
+                                        "attachId": "when _item.type == eCrewTrainingType.kMedium -> \"SCHOOL_MASTERY\", \"\""
+                                        "trainingInfo": "_item"
+                            bindings:
+                            - ["UISwitchBarComponent.selectedElement", "model.selectedTrainingType"]
+        -   class: "UIControl"
+            name: "Spacer"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 16.000000
+                    verticalPolicy: "PercentOfParent"
+        -   class: "UIControl"
+            name: "RightPart"
+            size: [450.000000, 603.000000]
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "Content"
+                input: false
+                components:
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   prototype: "DynamicTopSpacer/DynamicTopSpacer"
+                    name: "DynamicTopSpacer"
+                -   class: "UIControl"
+                    name: "RightPanel"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "Formula"
+                            verticalFormula: "when parent == 0 -> childrenSum, min(parentRest, childrenSum)"
+                        UIAttachLayoutMasterComponent:
+                            attachId: "PARAMS_MASTERY"
+                        UIChildComponent0:
+                            prototypePath: "~res:/UI/Screens3/Lobby/Inventory/Common/RightPanel.yaml"
+                            args:
+                                "content": "RightPanelContent"
+                                "isBlur": "false"
+        -   prototype: "DynamicHorizontalPadding/DynamicHorizontalPadding"
+            name: "DynamicHorizontalPadding_1"
+            classes: "padding only-notch-padding desktop-unvisible"
+    -   prototype: "Footer/Footer"
+        name: "Footer"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "bgStyle": "\"grey-shark-70-bg\""
+                    "content": "FooterContent"
+                    "isBlur": "false"
+        children:
+        -   path: "ContentWrapper/Content"
+            components:
+                LinearLayout: {}
+Slots:
+-   class: "UIControl"
+    name: "FooterContent"
+    size: [700.000000, 48.000000]
+    input: false
+    components:
+        LinearLayout:
+            spacing: 28.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   prototype: "Button/Button"
+        name: "SkillsButton"
+        position: [16.000000, 16.000000]
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            UIDataParamsComponent:
+                args:
+                    "caption": "localize(\"#crew:mastery/skills\")"
+                    "type": "eButtonType.OPTIONAL_LIGHT"
+                    "size": "eButtonSize.NORMAL"
+                    "sound": "eButtonSound.OPEN"
+                    "enabled": "true"
+                eventActions:
+                - ["ON_CLICK_BUTTON", "SKILL_PRESSED", ""]
+    -   class: "UIControl"
+        name: "PricingInfo"
+        position: [195.000000, 0.000000]
+        input: false
+        classes: ""
+        components:
+            UITextComponent:
+                align: ["RIGHT", "VCENTER"]
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml"
+        children:
+        -   class: "UIControl"
+            name: "FirstFreeTraining"
+            input: false
+            classes: "t-body regular white-wild-sand-50-text"
+            components:
+                UITextComponent:
+                    text: "#crew:mastery/firstTrainFree"
+                Anchor:
+                    rightAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+            bindings:
+            - ["visible", "freeTrainingSelected"]
+        -   class: "UIControl"
+            name: "VisibilityWrapper"
+            input: false
+            components:
+                Anchor:
+                    rightAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfFirstChild"
+            bindings:
+            - ["visible", "not freeTrainingSelected"]
+            children:
+            -   prototype: "CurrencyWithDiscountAndCounter/CurrencyWithDiscountAndCounter"
+                name: "CurrencyWithDiscountAndCounter"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "resource": "selectedTraining.price.resources[0]"
+                            "resourceInitial": "when isPriceInitialValid -> selectedTraining.priceInitial.resources[0], null"
+                            "forceFullValue": "true"
+                            "canAfford": "when isNull(canAffordMap) -> true, when canAffordMap.Contains(selectedTraining.price.resources[0].name) -> canAffordMap[selectedTraining.price.resources[0].name], true"
+                            "showCountAnimation": "showCountAnimation"
+    -   class: "UIControl"
+        name: "TutorialButtonWrapper"
+        position: [1567.000000, 16.000000]
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfFirstChild"
+            UIAttachLayoutMasterComponent:
+                attachId: "TRAIN_BUTTON"
+        children:
+        -   prototype: "Button/Button"
+            name: "TrainAvatarButton"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "caption": "localize(\"CrewPanel/Footer/IncreaseLevelButton\")"
+                        "type": "eButtonType.POSITIVE"
+                        "size": "eButtonSize.NORMAL"
+                        "sound": "eButtonSound.UNKNOWN"
+                        "enabled": "not isNull(selectedTraining)"
+                    eventActions:
+                    - ["ON_CLICK_BUTTON", "TRAIN_PRESSED", ""]
+-   class: "UIControl"
+    name: "RightPanelContent"
+    size: [400.000000, 469.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfChildrenSum"
+        UIChildComponent0:
+            prototypePath: "~res:/UI/Screens3/Lobby/Inventory/Common/VehicleParamsTable.yaml"
+            args:
+                "sectionName": "\"changed\""
+                "tankParams": "tankParams"
+                "title": "localize(session.playerTanks.currentTank.info.shortName)"

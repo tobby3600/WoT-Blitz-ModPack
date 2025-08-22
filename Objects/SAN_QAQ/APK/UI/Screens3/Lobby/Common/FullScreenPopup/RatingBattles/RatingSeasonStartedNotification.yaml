@@ -77,28 +77,30 @@ Slots:
                     "animate": "animateInfoIcon"
                 eventActions:
                 - ["ON_CLICK_BUTTON", "RATING_BATTLES_INFO", "_event"]
-    -   prototype: "BlurModified/BlurModified"
+    -   class: "UIControl"
         name: "ScreenTop"
+        input: false
         components:
             Anchor:
                 hCenterAnchorEnabled: true
-                vCenterAnchorEnabled: false
-                leftAnchorEnabled: false
-                rightAnchorEnabled: false
                 topAnchorEnabled: true
-                bottomAnchorEnabled: false
+            UIOpacityComponent:
+                opacity: 1.000000
             LinearLayout:
                 orientation: "TopDown"
                 spacing: -27.000000
             SizePolicy:
-                horizontalPolicy: "PercentOfParent"
+                horizontalPolicy: "PercentOfMaxChild"
                 verticalPolicy: "PercentOfChildrenSum"
-            UIDataParamsComponent:
-                args:
-                    "roundCorner": "\"8\""
         bindings:
         - ["Anchor.topAnchor", "anchorDistance"]
         children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "Icon"
             input: false

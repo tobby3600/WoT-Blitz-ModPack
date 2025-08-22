@@ -24,28 +24,28 @@ Prototypes:
             selectionEventType: "TOUCH_UP"
         UIDataParamsComponent:
             params:
+            - ["InventoryPanelViewModel", "panel", "null", "{ \"optionalDevices\" = [ { }; { }; { }; ]; }"]
+            - ["InventoryTabType", "selectedTab", "InventoryTabType.UNDEFINED", "InventoryTabType.CREW"]
+            - ["LobbyDataModel", "lobby", "null", "{ }"]
+            - ["OwnedTank", "tank", "null", "{ }"]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["bool", "ammoIsVisible", "true", "true"]
+            - ["bool", "camoIsVisible", "true", "true"]
             - ["bool", "canMoveSelectionByHotKeys", "false", "true"]
-            - ["bool", "tankPanelVisible", "false", "true"]
-            - ["bool", "optionalDevicesAreVisible", "true", "true"]
+            - ["bool", "consumablesIsVisible", "true", "true"]
+            - ["bool", "crewFragmentVisible", "false", "true"]
             - ["bool", "isGeneralPackLoaded", "true", "true"]
-            - ["int", "modulesLayer", "0", "0"]
+            - ["bool", "isInHangar", "false", "true"]
+            - ["bool", "optionalDevicesAreVisible", "true", "true"]
+            - ["bool", "provisionsIsVisible", "true", "true"]
+            - ["bool", "showBackground", "false", "true"]
+            - ["bool", "tankPanelVisible", "false", "true"]
+            - ["bool", "visible", "true", "true"]
+            - ["eInventoryPanelAnimation", "initializationAnimation", "eInventoryPanelAnimation.kNoAnimation", "eInventoryPanelAnimation.kFallDown"]
             - ["int", "ammoLayer", "0", "0"]
+            - ["int", "modulesLayer", "0", "0"]
             - ["string", "ammoMasterId", "\"\"", "\"\""]
             - ["string", "modulesMasterId", "\"\"", "\"\""]
-            - ["bool", "visible", "true", "true"]
-            - ["bool", "camoIsVisible", "true", "true"]
-            - ["OwnedTank", "tank", "null", "{ }"]
-            - ["InventoryTabType", "selectedTab", "InventoryTabType.UNDEFINED", "InventoryTabType.CREW"]
-            - ["bool", "ammoIsVisible", "true", "true"]
-            - ["bool", "consumablesIsVisible", "true", "true"]
-            - ["bool", "provisionsIsVisible", "true", "true"]
-            - ["bool", "crewFragmentVisible", "false", "true"]
-            - ["SessionDataModel", "session", "null", "{ }"]
-            - ["InventoryPanelViewModel", "panel", "null", "{ \"optionalDevices\" = [ { }; { }; { }; ]; }"]
-            - ["eInventoryPanelAnimation", "initializationAnimation", "eInventoryPanelAnimation.kNoAnimation", "eInventoryPanelAnimation.kFallDown"]
-            - ["bool", "isInHangar", "false", "true"]
-            - ["LobbyDataModel", "lobby", "null", "{ }"]
-            - ["bool", "showBackground", "false", "true"]
             events:
             - "CREW_PRESSED"
         UIDataLocalVarsComponent:
@@ -187,10 +187,7 @@ Prototypes:
     -   class: "UIControl"
         name: "Fade"
         input: false
-        classes: "black-50-bg"
         components:
-            Background: {}
-            UIOpacityComponent: {}
             IgnoreLayout: {}
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
@@ -198,10 +195,15 @@ Prototypes:
             StyleSheet:
                 styles: "~res:/UI/Screens3/Color.style.yaml"
         bindings:
-        - ["visible", "panel.tabsMode and selectedTab == InventoryTabType.CAMOUFLAGES"]
+        - ["visible", "panel.tabsMode"]
         children:
         -   prototype: "BlurModified/BlurModified"
             name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "isBlur": "selectedTab == InventoryTabType.CAMOUFLAGES"
+                        "bgStyle": "when selectedTab == InventoryTabType.CAMOUFLAGES -> \"black-50-bg\", \"grey-shark-70-bg\""
     -   class: "UIControl"
         name: "Group"
         components:

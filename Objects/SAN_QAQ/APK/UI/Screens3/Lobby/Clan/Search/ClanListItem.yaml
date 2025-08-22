@@ -1,5 +1,7 @@
 Header:
     version: 161
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ClanListItem"
@@ -71,30 +73,6 @@ Prototypes:
         input: false
         classes: "content"
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                needDepth: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIRoundedCornersComponent:
-                radius: "4"
             UIOpacityComponent: {}
             LinearLayout:
                 padding: "12; 5"
@@ -103,21 +81,12 @@ Prototypes:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
         children:
-        -   class: "UIControl"
+        -   prototype: "BlurModified/BlurModified"
             name: "Background"
-            input: false
-            classes: "white-wild-sand-10-bg"
             components:
-                Background: {}
-                UIOpacityComponent: {}
-                IgnoreLayout: {}
-                UIRoundedCornersComponent:
-                    radius: "4"
-                SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "PercentOfParent"
-                StyleSheet:
-                    styles: "~res:/UI/Screens3/Color.style.yaml"
+                UIDataParamsComponent:
+                    args:
+                        "bgStyle": "when model.isRecommended -> \"gold-shining-20-bg\", \"\""
         -   class: "UIControl"
             name: "Hover"
             size: [32.000000, 32.000000]
@@ -127,8 +96,6 @@ Prototypes:
                 Background: {}
                 UIOpacityComponent: {}
                 IgnoreLayout: {}
-                UIRoundedCornersComponent:
-                    radius: "4"
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "PercentOfParent"

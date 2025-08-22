@@ -25,7 +25,7 @@ float fogDis = length(eyePos);
 		float fogC = fogA * fogB;
 		float fogD = fogA * (camPos.z - fogHalfspaceHeight) + fogC;
 		float fogE = min(0.0, -fogC * 2.0 + fogB);
-		float fogF = fogE / (abs(toCamDir.z) + 0.0001);
+		float fogF = fogE / (abs(toCamDir.z) + 1e-4);
 		float fogHalfSpaceAmoung = 1.0 - exp2(-fogHalfspaceDensity * length(toCamDir) * (fogE * fogF - fogD));
 	#else
 		float fogA = fogHalfspaceFalloff * _LOG2_E;

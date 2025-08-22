@@ -1,5 +1,5 @@
 <root>
-	<nextAvailableId>116</nextAvailableId>
+	<nextAvailableId>117</nextAvailableId>
 	<ids>
 		<Rolls_Royse_Meteor_MkV>1</Rolls_Royse_Meteor_MkV>
 		<Vickers-Armstrong_MkII>5</Vickers-Armstrong_MkII>
@@ -71,6 +71,7 @@
 		<DetroitDiesel_12V-71T>113</DetroitDiesel_12V-71T>
 		<GMC_6_71>114</GMC_6_71>
 		<Rolls_Royse_Meteor_M120A>115</Rolls_Royse_Meteor_M120A>
+		<MTU_870-N>116</MTU_870-N>
 	</ids>
 	<shared>
 		<Rolls_Royse_Meteor_MkV>
@@ -1027,7 +1028,7 @@
 			<level>8</level>
 			<price>0</price>
 			<sound/>
-			<power>825</power>
+			<power>850</power>
 			<weight>1500</weight>
 			<maxHealth>280</maxHealth>
 			<maxRegenHealth>140</maxRegenHealth>
@@ -1062,5 +1063,19 @@
 			<repairCost>0</repairCost>
 			<fireStartingChance>0.2</fireStartingChance>
 		</Rolls_Royse_Meteor_M120A>
+		<MTU_870-N>
+			<userString>#gb_vehicles:MTU_870-N</userString>
+			<description>#gb_vehicles:MTU_870-N_descr</description>
+			<tags/>
+			<level>8</level>
+			<price>0</price>
+			<sound/>
+			<power>750</power>
+			<weight>1300</weight>
+			<maxHealth>300</maxHealth>
+			<maxRegenHealth>150</maxRegenHealth>
+			<repairCost>0</repairCost>
+			<fireStartingChance>0.12</fireStartingChance>
+		</MTU_870-N>
 	</shared>
 </root>

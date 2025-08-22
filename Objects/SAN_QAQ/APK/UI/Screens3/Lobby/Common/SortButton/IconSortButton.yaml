@@ -1,5 +1,7 @@
 Header:
     version: 160
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "IconSortButton"
@@ -18,7 +20,10 @@ Prototypes:
             onHoverRemovedData: "false"
         UIDataParamsComponent:
             params:
+            - ["string", "bgStyle", "\"\"", "\"\""]
             - ["string", "iconPath", "\"\"", "\"~res:/Gfx/Lobby/icons/icon_exp_s\""]
+            - ["bool", "isVisible", "true", "true"]
+            - ["bool", "isBlur", "true", "true"]
             - ["bool", "inverseSort", "true", "true"]
             - ["bool", "isSelected", "false", "false"]
             - ["bool", "isIconFliped", "false", "false"]
@@ -53,37 +58,22 @@ Prototypes:
         pivot: [0.500000, 0.500000]
         input: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                needDepth: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIRoundedCornersComponent:
-                radius: "8"
-            UIOpacityComponent: {}
             Anchor:
                 leftAnchorEnabled: true
                 rightAnchorEnabled: true
                 topAnchorEnabled: true
                 bottomAnchorEnabled: true
+            UIOpacityComponent: {}
         children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "isVisible": "isVisible"
+                        "isBlur": "isBlur"
+                        "bgStyle": "bgStyle"
+                        "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "sortDirImageUp"
             input: false

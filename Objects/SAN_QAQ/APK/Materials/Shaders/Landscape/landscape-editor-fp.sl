@@ -47,9 +47,8 @@ uniform sampler2D colorTexture;
 #if LANDSCAPE_HEIGHT_BLEND_ALLOWED && LANDSCAPE_HEIGHT_BLEND
 	inline float4 getHeightBlend(float4 input1, float4 input2, float4 input3, float4 input4, float4 height)
 	{
-		float heightMax = max(max(height.x, height.y), max(height.z, height.w));
-		float4 heightStart = heightMapSoftnessColor - float4(heightMax, heightMax, heightMax, heightMax);
-		float4 a = max(height + heightStart, const00001List4);
+		float heightMax = max(max(max(height.x, height.y), height.z), height.w);
+		float4 a = max(height + heightMapSoftnessColor - float4(heightMax, heightMax, heightMax, heightMax), constBiasList4);
 		float4 b = a / dot(a, const1List4);
 
 		return (input1 * b.x + input2 * b.y) + (input3 * b.z + input4 * b.w);

@@ -1,0 +1,377 @@
+Header:
+    version: 140
+Prototypes:
+-   class: "UIControl"
+    name: "AvatarsChainCell"
+    size: [348.000000, 72.000000]
+    exclusiveInput: true
+    classes: "avatar-chain-cell pressed-opacity button-open-sound"
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "FixedSize"
+            verticalValue: 72.000000
+        UILayoutEventComponent:
+            sizeChangedEvent: "ChainAvatarUpdate"
+            sizeChangedEventData: "_position.Y, index"
+        UIInputEventComponent:
+            onTouchUpInside: "ON_CHAIN_ITEM_SELECTED"
+            onTouchUpInsideData: "index"
+        UIDataParamsComponent:
+            params:
+            - ["int", "index", "0", "3"]
+            - ["int", "receivedCount", "0", "3"]
+            - ["bool", "isInstalled", "false", "false"]
+            - ["bool", "isSelected", "false", "true"]
+            - ["AvatarModel", "avatar", "null", "{ }"]
+        UIDataLocalVarsComponent:
+            data:
+            - ["float", "bgWidth", "when isSelected -> 100.000000, 0.000000"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["bool", "displayProgress", "index == receivedCount"]
+            - ["bool", "isIconUrl", "avatar.resource.avatar.iconType == eAvatarIconType.URL"]
+            - ["bool", "isIconPath", "avatar.resource.avatar.iconType == eAvatarIconType.RESOURCE"]
+            - ["ArtefactGrade", "grade", "avatar.resource.grade"]
+            - ["bool", "hasProgress", "not isNull(avatar.questProgress)"]
+            - ["string", "progressCurrentFormatted", "when hasProgress -> shortStr(avatar.questProgress.currentProgress), \"\""]
+            - ["string", "progressMaxFormatted", "when hasProgress -> shortStr(avatar.questProgress.maxProgress), \"\""]
+            - ["float", "progressBarPercent", "when not hasProgress -> 0.000000, when avatar.questProgress.maxProgress != 0 -> float(avatar.questProgress.currentProgress) / float(avatar.questProgress.maxProgress) * 100.000000, 0.000000"]
+            - ["string", "progressName", "when hasProgress -> avatar.questProgress.name, \"\""]
+            - ["bool", "isLocked", "index > receivedCount or (receivedCount == 0 and int(progressBarPercent) == 0)"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Avatars/Animations/AvatarChainCell.actions"
+        UIEventOnDataComponent0:
+            watchedDataExpression: "isSelected"
+            eventName: "OnSelect"
+        Sound: {}
+        StyleSheet:
+            styles: "~res:/UI/Screens3/ButtonSound.style.yaml;~res:/UI/Screens3/Common/Touch.style.yaml"
+    bindings:
+    - ["enabled", "not isSelected"]
+    - ["selected", "isSelected"]
+    children:
+    -   class: "UIControl"
+        name: "ChainLine"
+        input: false
+        classes: "white-wild-sand-50-bg"
+        components:
+            Background:
+                drawType: "DRAW_FILL"
+            Anchor:
+                leftAnchorEnabled: true
+                leftAnchor: 47.000000
+                topAnchorEnabled: true
+                topAnchor: -6.000000
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 2.000000
+                verticalPolicy: "FixedSize"
+                verticalValue: 16.000000
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
+        bindings:
+        - ["visible", "index != 0"]
+    -   class: "UIControl"
+        name: "Content"
+        pivot: [0.140000, 0.500000]
+        input: false
+        classes: "content-area"
+        components:
+            UIOpacityComponent: {}
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Common/Touch.style.yaml"
+        children:
+        -   class: "UIControl"
+            name: "Bg"
+            input: false
+            components:
+                UIOpacityComponent:
+                    opacity: 0.600000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            bindings:
+            - ["SizePolicy.horizontalValue", "bgWidth"]
+            children:
+            -   class: "UIControl"
+                name: "Gradient1"
+                input: false
+                classes: "red-red-bg"
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_TO_RECT"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                        spriteModification: ["FLIP_HORIZONTAL"]
+                    UIOpacityComponent:
+                        opacity: 0.400000
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "Gradient2"
+                input: false
+                classes: "red-red-bg"
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_TO_RECT"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                        spriteModification: ["FLIP_HORIZONTAL"]
+                    UIOpacityComponent:
+                        opacity: 0.400000
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                        verticalValue: 80.000000
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "Gradient3"
+                input: false
+                classes: "red-red-bg"
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_TO_RECT"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                        spriteModification: ["FLIP_HORIZONTAL"]
+                    UIOpacityComponent:
+                        opacity: 0.400000
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                        verticalValue: 60.000000
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "Gradient4"
+                input: false
+                classes: "red-red-bg"
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_TO_RECT"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                        spriteModification: ["FLIP_HORIZONTAL"]
+                    UIOpacityComponent:
+                        opacity: 0.400000
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                        verticalValue: 40.000000
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+        -   class: "UIControl"
+            name: "Hover"
+            input: false
+            classes: "black-15-bg hover"
+            components:
+                Background: {}
+                UIOpacityComponent: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Common/Hover.style.yaml"
+        -   class: "UIControl"
+            name: "SelectedLine"
+            input: false
+            classes: "orange-orange-peel-bg"
+            components:
+                Background: {}
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 4.000000
+                    verticalPolicy: "PercentOfParent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["visible", "isSelected"]
+        -   class: "UIControl"
+            name: "Info"
+            input: false
+            components:
+                LinearLayout:
+                    padding: "16"
+                    spacing: 16.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "Avatar"
+                input: false
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfFirstChild"
+                        verticalPolicy: "PercentOfFirstChild"
+                children:
+                -   class: "UIControl"
+                    name: "Avatar"
+                    input: false
+                    components:
+                        UIOpacityComponent: {}
+                        Anchor:
+                            enabled: true
+                            leftAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfMaxChild"
+                        UIChildComponent0:
+                            prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/PlayerAvatar.yaml"
+                            args:
+                                "interactive": "false"
+                                "size": "eAvatarSize.NORMAL"
+                                "avatar": "avatar.resource.avatar"
+                                "animated": "true"
+                    bindings:
+                    - ["UIOpacityComponent.opacity", "when avatar.resource.quantity > 0 -> 1, 0.750000"]
+                -   class: "UIControl"
+                    name: "CheckMark"
+                    input: false
+                    components:
+                        Anchor:
+                            rightAnchorEnabled: true
+                            bottomAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfMaxChild"
+                        UIChildComponent0:
+                            prototypePath: "~res:/UI/Screens3/Lobby/Common/CheckMark.yaml"
+                            args:
+                                "type": "eCheckMarkType.kSmall"
+                                "isVisible": "true"
+                    bindings:
+                    - ["visible", "isInstalled"]
+                -   class: "UIControl"
+                    name: "Lock"
+                    input: false
+                    classes: "white-wild-sand-bg"
+                    components:
+                        Background:
+                            drawType: "DRAW_SCALE_PROPORTIONAL"
+                            sprite: "~res:/Gfx/Lobby/icons/icon_lock"
+                        Anchor:
+                            rightAnchorEnabled: true
+                            bottomAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 24.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 24.000000
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["visible", "isLocked"]
+                -   class: "UIControl"
+                    name: "Badge"
+                    input: false
+                    components:
+                        Anchor:
+                            rightAnchorEnabled: true
+                            rightAnchor: 4.000000
+                            topAnchorEnabled: true
+                            topAnchor: 4.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfMaxChild"
+                        UIChildComponent0:
+                            prototypePath: "~res:/UI/Screens3/Lobby/Common/Badge.yaml"
+                    bindings:
+                    - ["visible", "avatar.hasBadge"]
+            -   class: "UIControl"
+                name: "Progress"
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "Text"
+                    input: false
+                    components:
+                        UIOpacityComponent: {}
+                        UITextComponent:
+                            fitting: "FITTING_POINTS"
+                            align: ["LEFT"]
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+                    bindings:
+                    - ["classes", "when isInstalled -> \"regular t-subtitle green-green-text align-left\", \"regular t-subtitle white-wild-sand-text align-left\""]
+                    - ["UIOpacityComponent.opacity", "when isLocked -> 0.600000, 1"]
+                    - ["UITextComponent.text", "when index >= receivedCount -> progressName, isInstalled -> localize(\"avatars/Items/SelectedStatus\"), localize(\"avatars/Items/ReceivedStatus\")"]
+                -   class: "UIControl"
+                    name: "ProgressBar"
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        LinearLayout:
+                            enabled: true
+                            orientation: "LeftToRight"
+                            spacing: 16.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfMaxChild"
+                    bindings:
+                    - ["visible", "displayProgress"]
+                    children:
+                    -   class: "UIControl"
+                        name: "ProgressBar"
+                        input: false
+                        components:
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 4.000000
+                            UIChildComponent0:
+                                prototypePath: "~res:/UI/Screens3/Lobby/Common/ProgressBar.yaml"
+                                args:
+                                    "maximum": "100"
+                                    "value": "int(progressBarPercent)"
+                                    "isBlur": "false"
+                    -   class: "UIControl"
+                        name: "Text"
+                        input: false
+                        classes: "bold t-caption white-wild-sand-text align-left"
+                        components:
+                            UITextComponent: {}
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfContent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml"
+                        bindings:
+                        - ["UITextComponent.text", "progressCurrentFormatted + \" / \" + progressMaxFormatted"]

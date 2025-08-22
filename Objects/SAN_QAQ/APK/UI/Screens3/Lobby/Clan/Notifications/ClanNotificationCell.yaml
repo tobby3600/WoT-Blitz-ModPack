@@ -1,14 +1,13 @@
 Header:
     version: 151
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ClanNotificationCell"
     size: [608.000000, 64.000000]
-    classes: "grey-shark-25-bg touchable hoverable button-open-sound"
+    classes: "touchable hoverable button-open-sound"
     components:
-        Background: {}
-        UIRoundedCornersComponent:
-            radius: "8"
         Anchor:
             hCenterAnchorEnabled: true
         LinearLayout: {}
@@ -39,32 +38,8 @@ Prototypes:
         StyleSheet:
             styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Common/Touch.style.yaml;~res:/UI/Screens3/Common/Hover.style.yaml;~res:/UI/Screens3/ButtonSound.style.yaml"
     children:
-    -   class: "UIControl"
-        name: "blur"
-        components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIRoundedCornersComponent:
-                radius: "8"
+    -   prototype: "BlurModified/BlurModified"
+        name: "Blur"
     -   class: "UIControl"
         name: "icon"
         input: false

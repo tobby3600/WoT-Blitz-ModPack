@@ -20,10 +20,8 @@ Prototypes:
         UIDataParamsComponent:
             params:
             - ["bool", "showBg", "true", "true"]
+            - ["bool", "isBlur", "true", "true"]
             - ["control", "content", "null", "null"]
-            - ["float", "bgOpacity", "0.000000", "0.5000000"]
-            - ["float", "blurOpacity", "1.000000", "1.000000"]
-            - ["float", "blurScale", "0.500000", "0.500000"]
             - ["string", "bgStyle", "\"black-25-bg\"", "\"black-25-bg\""]
             - ["string", "desktopStyle", "\"inventory-limited-width\"", "\"inventory-limited-width\""]
             - ["string", "leftPaddingStyle", "\"padding fixed-padding\"", "\"padding fixed-padding\""]
@@ -46,7 +44,6 @@ Prototypes:
         name: "Background"
         input: false
         components:
-            Background: {}
             IgnoreLayout: {}
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
@@ -59,10 +56,8 @@ Prototypes:
             components:
                 UIDataParamsComponent:
                     args:
+                        "isBlur": "isBlur"
                         "bgStyle": "bgStyle"
-                        "bgOpacity": "bgOpacity"
-                        "blurOpacity": "blurOpacity"
-                        "blurScale": "blurScale"
     -   class: "UIControl"
         name: "ContentWrapper"
         input: false

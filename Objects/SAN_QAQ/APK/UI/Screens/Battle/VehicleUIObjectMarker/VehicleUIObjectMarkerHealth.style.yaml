@@ -53,23 +53,23 @@ StyleSheets:
     - ".text-marker-health-points"
     properties:
         atlasText-color: [0.909804, 0.909804, 0.909804, 1.000000]
-        atlasText-fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+        atlasText-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
         atlasText-fontSize: 10.000000
 -   selectors:
     - ".text-marker-health-points.Increased"
     properties:
         atlasText-color: [0.909804, 0.909804, 0.909804, 1.000000]
-        atlasText-fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+        atlasText-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
         atlasText-fontSize: 17.000000
 -   selectors:
     - ".text-marker-health-points.Phone"
     properties:
         atlasText-color: [0.909804, 0.909804, 0.909804, 1.000000]
-        atlasText-fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+        atlasText-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
         atlasText-fontSize: 17.000000
 -   selectors:
     - ".text-marker-health-points.Phone.Increased"
     properties:
         atlasText-color: [0.909804, 0.909804, 0.909804, 1.000000]
-        atlasText-fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+        atlasText-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
         atlasText-fontSize: 19.000000

@@ -3,6 +3,7 @@ Header:
 ImportedPackages:
 - "~res:/UI/Screens/Common.yaml"
 - "~res:/UI/Screens/Common/StyledButton.yaml"
+- "~res:/UI/Screens3/Common/OverlayBlur.yaml"
 Prototypes:
 -   class: "UIControl"
     customClass: "GameMenuUI"
@@ -19,16 +20,10 @@ Prototypes:
             inheritsStylesFromParent: true
             styles: "~res:/UI/Screens/Battle/GameMenuDialog.yaml"
     children:
-    -   class: "UIControl"
-        name: "BackgroundBlur"
+    -   prototype: "OverlayBlur/BlurAndFade"
+        name: "BlurAndFade"
         components:
-            Anchor:
-                leftAnchorEnabled: true
-                rightAnchorEnabled: true
-                topAnchorEnabled: true
-                bottomAnchorEnabled: true
-            UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Common/BlurModified.yaml"
+            IgnoreLayout: {}
     -   prototype: "Common/ResizableDialog"
         name: "menuDialog"
         size: [246.000000, 664.000000]

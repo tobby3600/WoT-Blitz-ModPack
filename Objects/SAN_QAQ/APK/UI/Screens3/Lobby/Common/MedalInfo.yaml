@@ -1,0 +1,325 @@
+Header:
+    version: 153
+ImportedPackages:
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "MedalInfo"
+    size: [1300.000000, 800.000000]
+    input: false
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["RibbonViewModel", "ribbon", "null", "{ }"]
+            - ["AchievementViewModel", "achievement", "null", "{ }"]
+            - ["AppDataModel", "app", "null", "{ }"]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["bool", "wasPushed", "true", "true"]
+            events: []
+        UIDataLocalVarsComponent:
+            data:
+            - ["int", "contentHeight", "0"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["string", "historicInfo", "when not isNull(achievement) -> achievement.historicInfo, \"\""]
+            - ["string", "conditions", "when not isNull(achievement) -> achievement.conditions, not isNull(ribbon) -> ribbon.conditions, \"\""]
+            - ["string", "name", "when not isNull(achievement) -> achievement.title, not isNull(ribbon) -> ribbon.title, \"\""]
+            - ["string", "description", "when not isNull(achievement) -> achievement.fullDescription, not isNull(ribbon) -> ribbon.description, \"\""]
+            - ["int", "overallH", "contentHeight + 80"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/BattlePass/LicenseDescription.actions"
+        UIDataOnEventComponent0:
+            eventName: "ContentHeightChanged"
+            modelFieldExpression: "contentHeight"
+            dataExpression: "_event"
+    children:
+    -   class: "UIControl"
+        name: "Overlay"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Overlay/OverlayBasic.yaml"
+                args:
+                    "hideHeader": "true"
+                    "alighBgCenter": "false"
+                    "isFooterVisible": "true"
+                    "wasPushed": "wasPushed"
+                    "contentHeight": "overallH"
+                    "content": "Content"
+                eventActions:
+                - ["BACK_EVENT", "BACK_EVENT", ""]
+Slots:
+-   class: "UIControl"
+    name: "Content"
+    size: [1024.000000, 768.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "ContentWrapper"
+        input: false
+        components:
+            LinearLayout:
+                dynamicPadding: true
+                spacing: 32.000000
+                useRtl: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "LeftPart"
+            position: [633.000000, 0.000000]
+            input: false
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    horizontalValue: 65.000000
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "IconWrapper"
+                input: false
+                components:
+                    Anchor:
+                        rightAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                        useRtl: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 144.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 132.000000
+                children:
+                -   class: "UIControl"
+                    name: "Item"
+                    input: false
+                    components:
+                        Anchor:
+                            rightAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "PercentOfChildrenSum"
+                        UIChildComponent0:
+                            condition: "not isNull(achievement)"
+                            prototypePath: "~res:/UI/Screens3/Lobby/Profile/Common/AchievementItem.yaml"
+                            args:
+                                "hideCounter": "true"
+                                "showBarForZeroProgress": "true"
+                                "disableInput": "true"
+                                "singleAchievementMode": "true"
+                                "hideName": "true"
+                                "showDescription": "true"
+                                "achievement": "achievement"
+                        UIChildComponent1:
+                            condition: "not isNull(ribbon)"
+                            prototypePath: "~res:/UI/Screens3/Lobby/Profile/Common/Ribbon.yaml"
+                            args:
+                                "disableInput": "true"
+                                "ribbon": "ribbon"
+        -   class: "UIControl"
+            name: "ScrollWrapper"
+            position: [422.000000, 40.000000]
+            input: false
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                LinearLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "Formula"
+                    verticalFormula: "parent - 80"
+            children:
+            -   class: "UIScrollView"
+                name: "UIScrollView"
+                autoUpdate: true
+                centerContent: true
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   class: "UIScrollViewContainer"
+                    name: "scrollContainerControl"
+                    refreshStylesOnInteract: false
+                    scrollDirection: "kVertical"
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfChildrenSum"
+                        UILayoutEventComponent:
+                            sizeChangedEvent: "ContentHeightChanged"
+                            sizeChangedEventData: "int(_size.Y)"
+                    children:
+                    -   class: "UIControl"
+                        name: "RightPart"
+                        input: false
+                        components:
+                            LinearLayout:
+                                orientation: "TopDown"
+                                spacing: 8.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        children:
+                        -   class: "UIControl"
+                            name: "Name"
+                            input: false
+                            classes: "t-headline bold color=white-wild-sand-text"
+                            components:
+                                UITextComponent:
+                                    colorInheritType: "COLOR_IGNORE_PARENT"
+                                    align: ["LEFT", "VCENTER"]
+                                    useRtlAlign: "USE_BY_SYSTEM"
+                                Anchor:
+                                    leftAnchorEnabled: true
+                                    useRtl: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    horizontalMax: 500.000000
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                            bindings:
+                            - ["visible", "not empty(name)"]
+                            - ["UITextComponent.text", "localize(name)"]
+                        -   class: "UIControl"
+                            name: "Description"
+                            input: false
+                            classes: "t-body regular color=white-wild-sand-70-text"
+                            components:
+                                UITextComponent:
+                                    colorInheritType: "COLOR_IGNORE_PARENT"
+                                    multiline: "MULTILINE_ENABLED"
+                                    align: ["LEFT", "VCENTER"]
+                                    useRtlAlign: "USE_BY_SYSTEM"
+                                Anchor:
+                                    leftAnchorEnabled: true
+                                    useRtl: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    horizontalMax: 500.000000
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                            bindings:
+                            - ["visible", "not empty(description)"]
+                            - ["UITextComponent.text", "localize(description)"]
+                        -   class: "UIControl"
+                            name: "TopSpacer"
+                            input: false
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 8.000000
+                            bindings:
+                            - ["visible", "not empty(conditions)"]
+                        -   class: "UIControl"
+                            name: "Conditions"
+                            position: [0.000000, 136.000000]
+                            input: false
+                            components:
+                                RichContent:
+                                    baseClasses: "t-body regular white-wild-sand-text"
+                                RichContentAliases0:
+                                    aliases:
+                                    - ["text_legendary", "<span class=\"t-body bold grades-legendary-text\" />"]
+                                    - ["text_unique", "<span class=\"t-body bold grades-unique-text\" />"]
+                                    - ["text_rare", "<span class=\"t-body bold grades-rare-text\" />"]
+                                    - ["text_common", "<span class=\"t-body bold grades-common-text\" />"]
+                                    - ["text_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                                Anchor:
+                                    leftAnchorEnabled: true
+                                    useRtl: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    horizontalMax: 500.000000
+                                    verticalPolicy: "PercentOfChildrenSum"
+                                FlowLayout:
+                                    hSpacing: 5.000000
+                                    useRtl: true
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                            bindings:
+                            - ["visible", "not empty(conditions)"]
+                            - ["RichContent.text", "localize(conditions)"]
+                        -   class: "UIControl"
+                            name: "BottomSpacer"
+                            input: false
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 8.000000
+                            bindings:
+                            - ["visible", "not empty(historicInfo)"]
+                        -   class: "UIControl"
+                            name: "HistoricInfoLabel"
+                            position: [0.000000, 92.000000]
+                            input: false
+                            classes: "t-body bold color=white-wild-sand-text"
+                            components:
+                                UITextComponent:
+                                    text: "HISTORIC_INFO"
+                                    colorInheritType: "COLOR_IGNORE_PARENT"
+                                    multiline: "MULTILINE_ENABLED"
+                                    align: ["LEFT", "VCENTER"]
+                                    useRtlAlign: "USE_BY_SYSTEM"
+                                Anchor:
+                                    leftAnchorEnabled: true
+                                    useRtl: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    horizontalMax: 500.000000
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                            bindings:
+                            - ["visible", "not empty(historicInfo)"]
+                        -   class: "UIControl"
+                            name: "HistoricInfo"
+                            input: false
+                            classes: "t-body regular color=white-wild-sand-70-text"
+                            components:
+                                UITextComponent:
+                                    colorInheritType: "COLOR_IGNORE_PARENT"
+                                    multiline: "MULTILINE_ENABLED"
+                                    align: ["LEFT", "VCENTER"]
+                                    useRtlAlign: "USE_BY_SYSTEM"
+                                Anchor:
+                                    leftAnchorEnabled: true
+                                    useRtl: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    horizontalMax: 500.000000
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                            bindings:
+                            - ["visible", "not empty(historicInfo)"]
+                            - ["UITextComponent.text", "localize(historicInfo)"]
+            -   prototype: "VerticalScrollBar/VerticalScrollBar"
+                name: "VerticalScrollBar"
+                components:
+                    UIScrollBarComponent:
+                        delegate: "../UIScrollView"
+                children:
+                -   path: "slider"
+                    visible: true
+                    children: []

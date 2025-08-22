@@ -1,0 +1,218 @@
+Header:
+    version: 144
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "ClanEventAchievementProgress"
+    classes: "touchable hoverable button-open-sound"
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfMaxChild"
+            verticalPolicy: "PercentOfMaxChild"
+        UIInputEventComponent:
+            onTouchUpInside: "SHOW_ACHIEVEMENT_INFO"
+        UIDataParamsComponent:
+            params:
+            - ["ResourceDetailed", "proxy", "null", "{ }"]
+            - ["ProgressProxyFromAchievement", "model", "null", "{ }"]
+            events:
+            - "SHOW_ACHIEVEMENT_INFO"
+        Sound: {}
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Common/Hover.style.yaml;~res:/UI/Screens3/Common/Touch.style.yaml;~res:/UI/Screens3/ButtonSound.style.yaml"
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        pivot: [0.500000, 0.500000]
+        input: false
+        classes: "touch-scale"
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                dynamicPadding: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                horizontalMin: 300.000000
+                verticalPolicy: "PercentOfMaxChild"
+        children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "bgStyle": "\"black-50-bg\""
+        -   class: "UIControl"
+            name: "Hover"
+            input: false
+            classes: "hover white-wild-sand-10-bg"
+            components:
+                Background:
+                    drawType: "DRAW_STRETCH_BOTH"
+                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_r1"
+                    leftRightStretchCap: 1.000000
+                    topBottomStretchCap: 1.000000
+                UIOpacityComponent: {}
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+        -   class: "UIControl"
+            name: "Icon"
+            input: false
+            components:
+                UITextureComponent:
+                    drawType: "DRAW_SCALE_TO_RECT"
+                Anchor:
+                    vCenterAnchorEnabled: true
+                    vCenterAnchor: 4.000000
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 80.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 80.000000
+            bindings:
+            - ["UITextureComponent.spritePath", "model.achievement.iconPath"]
+        -   class: "UIControl"
+            name: "Info"
+            input: false
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                    dynamicPadding: true
+                    spacing: 4.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "Achievement"
+                input: false
+                components:
+                    LinearLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfMaxChild"
+                children:
+                -   class: "UIControl"
+                    name: "Description"
+                    input: false
+                    classes: "t-caption regular color=white-wild-sand-text"
+                    components:
+                        UITextComponent:
+                            colorInheritType: "COLOR_IGNORE_PARENT"
+                            align: ["LEFT", "VCENTER"]
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            horizontalMin: 100.000000
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["UITextComponent.text", "model.achievement.title"]
+                -   class: "UIControl"
+                    name: "InfoIcon"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_ALIGNED"
+                            sprite: "~res:/Gfx/Lobby/icons/icon_info_xs"
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 32.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 24.000000
+                        UIAttachLayoutMasterComponent: {}
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["UIAttachLayoutMasterComponent.attachId", "model.achievement.name"]
+            -   class: "UIControl"
+                name: "Progress"
+                input: false
+                components:
+                    LinearLayout:
+                        padding: "4"
+                        spacing: 4.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfMaxChild"
+                children:
+                -   class: "UIControl"
+                    name: "Current"
+                    input: false
+                    classes: "t-body regular color=white-wild-sand-text"
+                    components:
+                        UITextComponent:
+                            colorInheritType: "COLOR_IGNORE_PARENT"
+                            align: ["LEFT", "VCENTER"]
+                        Anchor:
+                            bottomAnchorEnabled: true
+                            bottomAnchor: 2.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["UITextComponent.text", "model.currentProgress"]
+                -   class: "UIControl"
+                    name: "Slash"
+                    input: false
+                    classes: "t-caption regular color=white-wild-sand-50-text"
+                    components:
+                        UITextComponent:
+                            text: "/"
+                            colorInheritType: "COLOR_IGNORE_PARENT"
+                            align: ["LEFT", "VCENTER"]
+                        Anchor:
+                            bottomAnchorEnabled: true
+                            bottomAnchor: 2.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                -   class: "UIControl"
+                    name: "Total"
+                    input: false
+                    classes: "t-caption regular color=white-wild-sand-50-text"
+                    components:
+                        UITextComponent:
+                            colorInheritType: "COLOR_IGNORE_PARENT"
+                            align: ["LEFT", "VCENTER"]
+                        Anchor:
+                            bottomAnchorEnabled: true
+                            bottomAnchor: 2.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["UITextComponent.text", "model.totalProgress"]
+                -   class: "UIControl"
+                    name: "CurrencyAdapter"
+                    pivot: [0.500000, 0.500000]
+                    input: false
+                    components:
+                        UIOpacityComponent: {}
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            bottomAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "Formula"
+                            horizontalFormula: "maxChild + 8"
+                            verticalPolicy: "Formula"
+                            verticalFormula: "maxChild + 4"
+                        UIChildComponent0:
+                            prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/CurrencyAdapter.yaml"
+                            args:
+                                "forceHideValue": "true"
+                                "resource": "proxy"

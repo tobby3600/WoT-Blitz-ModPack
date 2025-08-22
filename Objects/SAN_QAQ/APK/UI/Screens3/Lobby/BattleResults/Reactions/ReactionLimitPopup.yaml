@@ -1,0 +1,46 @@
+Header:
+    version: 143
+Prototypes:
+-   class: "UIControl"
+    name: "ReactionLimitPopup"
+    size: [400.000000, 100.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["int", "indexRow", "0", "0"]
+            - ["bool", "isEnemy", "false", "false"]
+            - ["int64", "timeLimitToSetReaction", "0L", "86400L"]
+        UIDataLocalVarsComponent:
+            data:
+            - ["string", "timeLimitText", "format(localize(\"Reactions/ReactionsNotification/TimeIsUp\"), { \"time\" = timeDiffShort(timeLimitToSetReaction); })"]
+        UIChildComponent0:
+            prototypePath: "~res:/UI/Screens3/Common/PopupMenu.yaml"
+            args:
+                "masterId": "\"reactionLimitPopup\" + str(indexRow)"
+                "slaveAlign": "when isEnemy -> ePositionAlign.Left, ePositionAlign.Right"
+                "defaultTextHMax": "281"
+                "content": "Content"
+                "title": "\"\""
+Slots:
+-   class: "UIControl"
+    name: "Content"
+    input: false
+    components:
+        RichContent:
+            baseClasses: "t-body regular white-wild-sand-text"
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "PercentOfChildrenSum"
+        FlowLayout:
+            alignment: "Left"
+            hSpacing: 5.000000
+            skipInvisible: true
+            useRtl: true
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Font.style.yaml"
+    bindings:
+    - ["RichContent.text", "timeLimitText"]

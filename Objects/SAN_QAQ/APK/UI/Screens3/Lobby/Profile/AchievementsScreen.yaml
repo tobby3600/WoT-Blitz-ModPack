@@ -1,0 +1,163 @@
+Header:
+    version: 144
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/Button/TextIconButton.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Tabs/TextTabsBar.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "AChievementsScreen"
+    size: [1227.000000, 1035.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["ProfileAchievementsViewModel", "achievements", "null", "{ }"]
+            - ["ProfileViewModel", "profile", "null", "{ }"]
+            events:
+            - "OVERLAY_OPEN_FINISH"
+            - "SHOW_ACHIEVEMENT_INFO"
+        UIDataLocalVarsComponent:
+            data:
+            - ["int", "activeTab", "when profile.profileType == ePlayerProfileType.SELF -> 0, 1"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["bool", "isSelfProfile", "profile.profileType == ePlayerProfileType.SELF"]
+            - ["bool", "IsButtonEnabled", "achievements.isExternalAchievementsAvailable"]
+        UIChildComponent0:
+            prototypePath: "~res:/UI/Screens3/Lobby/Common/Overlay/Overlay.yaml"
+            args:
+                "wasPushed": "true"
+                "content": "SliderContent"
+                "tabContent": "TabContent"
+                "playerName": "profile.playerNameData.name"
+                "title": "localize(\"profile/Achievements/Header\")"
+                "rightCornerContent": "ButtonHolder"
+                "clanTag": "when isNull(profile.clanInfo.clan) -> \"\", profile.clanInfo.clan.tag"
+                "forcedFullSize": "true"
+            eventActions:
+            - ["BACK_EVENT", "BACK_EVENT", ""]
+            - ["OVERLAY_OPEN_FINISH", "OVERLAY_OPEN_FINISH", ""]
+        UIDataOnEventComponent0:
+            eventName: "ON_SELECT_TAB"
+            modelFieldExpression: "activeTab"
+            dataExpression: "_event"
+Slots:
+-   class: "UIControl"
+    name: "SliderContent"
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+            vCenterAnchorEnabled: false
+        SizePolicy:
+            horizontalPolicy: "Formula"
+            horizontalFormula: "when parent < 1200 -> 800, 1040"
+            verticalPolicy: "PercentOfMaxChild"
+        FlowLayout: {}
+    children:
+    -   class: "UIControl"
+        name: "OwnedAchievements"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+            FlowLayout:
+                hDynamicPadding: true
+                hSpacing: 16.000000
+                vPadding: "24"
+                vSpacing: 16.000000
+            UIRepeatComponent:
+                control: "~res:/UI/Screens3/Lobby/Profile/Common/AchievementItem.yaml"
+                dataContainer: "achievements.ownedAchievements"
+                args:
+                    "achievement": "_item"
+                eventActions:
+                - ["ON_PRESSED", "SHOW_ACHIEVEMENT_INFO", "_event"]
+                elementNameExpression: "_item.name"
+        bindings:
+        - ["visible", "activeTab == 0 or not isSelfProfile"]
+    -   class: "UIControl"
+        name: "AllAchievements"
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+                padding: "24"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+            UIRepeatComponent:
+                control: "~res:/UI/Screens3/Lobby/Profile/Common/AchievementGroup.yaml"
+                dataContainer: "achievements.allAchievements"
+                args:
+                    "group": "_item"
+                eventActions:
+                - ["SHOW_ACHIEVEMENT_INFO", "SHOW_ACHIEVEMENT_INFO", "_event"]
+                elementNameExpression: "str(_item.section, eAchievementsSection)"
+        bindings:
+        - ["visible", "activeTab == 1 and isSelfProfile"]
+-   class: "UIControl"
+    name: "TabContent"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "FixedSize"
+            verticalValue: 64.000000
+    bindings:
+    - ["visible", "isSelfProfile"]
+    children:
+    -   prototype: "TextTabsBar/TextTabsBar"
+        name: "TextTabsBar"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "activeTab": "activeTab"
+                    "info": "[ { \"text\" = localize(\"profile/MyAchievements\"); \"autotestKey\" = \"myTab\"; }; { \"text\" = localize(\"profile/AllAchievements\"); \"autotestKey\" = \"allTab\"; }; ]"
+                eventActions:
+                - ["ON_SELECT_TAB", "ON_SELECT_TAB", "_event"]
+-   class: "UIControl"
+    name: "ButtonHolder"
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+            vCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfFirstChild"
+            verticalPolicy: "PercentOfFirstChild"
+    children:
+    -   prototype: "TextIconButton/Button"
+        name: "Button"
+        position: [-24.000000, 16.000000]
+        size: [180.000000, 48.000000]
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 180.000000
+            UIDataParamsComponent:
+                args:
+                    "icon": "\"~res:/Gfx/Lobby/icons/icon_googleplay_color\""
+                    "iconColorStyle": "\"white-wild-sand-bg\""
+                    "iconIsLeft": "true"
+                    "caption": "localize(\"profile/Achievements/Button/GooglePlay\")"
+                    "type": "eButtonType.OPTIONAL_LIGHT"
+                    "size": "eButtonSize.NORMAL"
+                    "sound": "eButtonSound.UNKNOWN"
+                    "enabled": "IsButtonEnabled"
+                    "locked": "false"
+                    "iconFlip": "0"
+                    "isBlur": "false"
+                eventActions:
+                - ["ON_CLICK_BUTTON", "SHOW_EXTERNAL_ACHIEVEMENTS", ""]
+        bindings:
+        - ["visible", "enabled"]

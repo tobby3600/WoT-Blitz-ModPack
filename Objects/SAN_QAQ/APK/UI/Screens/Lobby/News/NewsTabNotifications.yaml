@@ -1,0 +1,60 @@
+Header:
+    version: 155
+Prototypes:
+-   class: "UIControl"
+    name: "NewsTabNotifications"
+    size: [1024.000000, 570.000000]
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIList"
+        name: "List"
+        size: [1024.000000, 570.000000]
+        orientation: "ORIENTATION_VERTICAL"
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+    -   class: "UIScrollBar"
+        name: "VerticalScrollbar"
+        position: [1016.000000, 0.000000]
+        size: [10.000000, 570.000000]
+        input: false
+        classes: "notch-tightly-right-inset"
+        orientation: "ORIENTATION_VERTICAL"
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                bottomAnchorEnabled: true
+            UIAnchorSafeAreaComponent: {}
+            UIScrollBarComponent:
+                delegate: "../List"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/SafeArea.style.yaml"
+        children:
+        -   class: "UIControl"
+            name: "slider"
+            size: [10.000000, 30.000000]
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_STRETCH_VERTICAL"
+                    sprite: "~res:/Gfx/UI/CommonUIElements/VerticalScroll"
+                    topBottomStretchCap: 10.000000
+    -   class: "UIControl"
+        name: "EmptyList"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/News/NewsFeedEmptyContent.yaml"
+                args:
+                    "text": "\"#news:emptyNotificationsList\""

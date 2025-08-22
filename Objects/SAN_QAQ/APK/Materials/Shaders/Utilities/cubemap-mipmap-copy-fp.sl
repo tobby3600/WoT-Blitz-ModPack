@@ -28,7 +28,7 @@ fragment_out fp_main(fragment_in input)
 	float3 normal = normalize(faceNormals[face] + (input.texCoord.x * faceUs[face] + (input.texCoord.x * faceUs[face] - faceUs[face] + (input.texCoord.y * faceVs[face] + (input.texCoord.y * faceVs[face] - faceVs[face]))));
 
 	output.color.rgb = texCUBE(cubemap, normal).rgb;
-	output.color.rgb = lerp(output.color.rgb, toLinear(output.color.rgb), step(0.0, convertSRGBToLinear));
+	output.color.rgb = lerp(output.color.rgb, toLRGB(output.color.rgb), step(0.0, convertSRGBToLinear));
 	output.color = float4(pow(output.color.rgb, gamma) * multiplier * saturate(normal.z + groundFactor + groundFactor), 1.0);
 
 	return output;

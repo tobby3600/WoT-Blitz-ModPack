@@ -16,7 +16,7 @@
 	</invisibility>
 	<repairCost>0</repairCost>
 	<crewXpFactor>1.0</crewXpFactor>
-	<optDevicePreset>defaultPreset</optDevicePreset>
+	<optDevicePreset>drumGunVehiclePreset</optDevicePreset>
 	<consumableSlots>3</consumableSlots>
 	<provisionSlots>3</provisionSlots>
 	<enrichmentBoost>0.0</enrichmentBoost>
@@ -67,13 +67,13 @@
 			<collisionModel>vehicles/german/G165_Erich_Koncept/collision/Hull.model</collisionModel>
 		</hitTester>
 		<armor>
-			<armor_1>65</armor_1>
+			<armor_1>78</armor_1>
 			<armor_2>70</armor_2>
 			<armor_3>80</armor_3>
 			<armor_4>55</armor_4>
 			<armor_5>30</armor_5>
 			<armor_6>15</armor_6>
-			<armor_7>50</armor_7>
+			<armor_7>64</armor_7>
 			<armor_8>5</armor_8>
 			<armor_9>72</armor_9>
 			<armor_10>70</armor_10>
@@ -240,8 +240,12 @@
 						<destroyed>vehicles/german/G165_Erich_Koncept/crash/lod0/Gun_01.model</destroyed>
 						<exploded>vehicles/german/G165_Erich_Koncept/crash/lod0/Gun_01.model</exploded>
 					</models>
+					<unlocks>
+						<gun>_152mm_Rh2B<cost>1500</cost>
+						</gun>
+					</unlocks>
 					<armor>
-						<armor_1>170</armor_1>
+						<armor_1>180</armor_1>
 						<armor_3>110</armor_3>
 						<armor_4>70</armor_4>
 						<armor_5>40</armor_5>
@@ -249,7 +253,7 @@
 						<armor_7>110</armor_7>
 						<armor_8>5</armor_8>
 						<armor_9>235</armor_9>
-						<armor_10>200</armor_10>
+						<armor_10>210</armor_10>
 						<armor_12>100</armor_12>
 						<armor_13>135</armor_13>
 						<armor_14>240</armor_14>
@@ -258,7 +262,7 @@
 					</armor>
 					<shotDispersionRadius>0.36</shotDispersionRadius>
 					<aimingTime>1.84</aimingTime>
-					<reloadTime>9.80</reloadTime>
+					<reloadTime>9.50</reloadTime>
 					<shotDispersionFactors>
 						<turretRotation>0.08</turretRotation>
 						<afterShot>4</afterShot>
@@ -270,22 +274,82 @@
 						<back>-13 6 30</back>
 						<transition>10</transition>
 					</extraPitchLimits>
+					<fitsRatingBattle>true</fitsRatingBattle>
 					<shots>
-						<_120mm_AP_G165>
+						<_120mm_AP_XM578E1>
 							<shell>shared<price>0</price>
 							</shell>
-						</_120mm_AP_G165>
-						<_120mm_HEAT_G165>
+						</_120mm_AP_XM578E1>
+						<_120mm_HEAT_M409>
 							<shell>shared<price>10<gold/>
 							</price>
 							</shell>
-						</_120mm_HEAT_G165>
-						<_120mm_HE_G165>
+						</_120mm_HEAT_M409>
+						<_120mm_HE_XM657E2>
 							<shell>shared<price>0</price>
 							</shell>
-						</_120mm_HE_G165>
+						</_120mm_HE_XM657E2>
 					</shots>
 				</_120mm_Rh2B>
+				<_152mm_Rh2B>shared<maxAmmo>55</maxAmmo>
+					<hitTester>
+						<collisionModel>vehicles/german/G165_Erich_Koncept/collision/Gun_02.model</collisionModel>
+					</hitTester>
+					<models>
+						<undamaged>vehicles/german/G165_Erich_Koncept/normal/lod0/Gun_02.model</undamaged>
+						<destroyed>vehicles/german/G165_Erich_Koncept/crash/lod0/Gun_02.model</destroyed>
+						<exploded>vehicles/german/G165_Erich_Koncept/crash/lod0/Gun_02.model</exploded>
+					</models>
+					<armor>
+						<armor_1>180</armor_1>
+						<armor_3>110</armor_3>
+						<armor_4>70</armor_4>
+						<armor_5>40</armor_5>
+						<armor_6>175</armor_6>
+						<armor_7>110</armor_7>
+						<armor_8>5</armor_8>
+						<armor_9>235</armor_9>
+						<armor_10>210</armor_10>
+						<armor_12>100</armor_12>
+						<armor_13>135</armor_13>
+						<armor_14>240</armor_14>
+						<armor_16>50</armor_16>
+						<gun>40</gun>
+					</armor>
+					<clip>
+						<count>2</count>
+						<rate>12</rate>
+					</clip>
+					<shotDispersionRadius>0.42</shotDispersionRadius>
+					<aimingTime>2.4</aimingTime>
+					<reloadTime>22.50</reloadTime>
+					<shotDispersionFactors>
+						<turretRotation>0.12</turretRotation>
+						<afterShot>4</afterShot>
+						<whileGunDamaged>2.0</whileGunDamaged>
+					</shotDispersionFactors>
+					<invisibilityFactorAtShot>0.225</invisibilityFactorAtShot>
+					<pitchLimits>-13 8</pitchLimits>
+					<extraPitchLimits>
+						<back>-13 6 30</back>
+						<transition>10</transition>
+					</extraPitchLimits>
+					<shots>
+						<_152mm_AP_XM578E1>
+							<shell>shared<price>0</price>
+							</shell>
+						</_152mm_AP_XM578E1>
+						<_152mm_HEAT_M409>
+							<shell>shared<price>10<gold/>
+							</price>
+							</shell>
+						</_152mm_HEAT_M409>
+						<_152mm_HE_XM657E2>
+							<shell>shared<price>0</price>
+							</shell>
+						</_152mm_HE_XM657E2>
+					</shots>
+				</_152mm_Rh2B>
 			</guns>
 			<emblemSlots>
 				<player>

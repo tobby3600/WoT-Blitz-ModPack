@@ -174,7 +174,7 @@ vertex_out vp_main(vertex_in input)
 	#endif
 
 	#if BLEND_BY_ANGLE || RECEIVE_SHADOW
-		output.worldNormalSlope.xyz = normalize(mul3Fast0(input.normal, worldInvTransposeMatrix));
+		output.worldNormalSlope.xyz = normalize(mul(float4(input.normal, 0.0), worldInvTransposeMatrix).xyz);
 	#endif
 
 	#if RECEIVE_SHADOW
@@ -186,7 +186,7 @@ vertex_out vp_main(vertex_in input)
 			normal = hardSkinnedNormal(normal, input.index);
 		#endif
 
-		output.worldNormalSlope.w = 1.0 - saturate(dot(normalize(mul3Fast0(normal, worldViewInvTransposeMatrix)), toLightDir));
+		output.worldNormalSlope.w = 1.0 - saturate(dot(normalize(mul(float4(normal, 0.0), worldViewInvTransposeMatrix).xyz), toLightDir));
 	#endif
 
 	#if BLEND_BY_ANGLE

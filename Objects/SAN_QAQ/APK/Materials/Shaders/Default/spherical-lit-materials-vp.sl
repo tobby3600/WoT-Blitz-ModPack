@@ -103,11 +103,11 @@ vertex_out vp_main(vertex_in input)
 	#endif
 
 	#if SPHERICAL_HARMONICS_4 || SPHERICAL_HARMONICS_9
-		float3 normal = normalize(mul3Fast0(eyePos - worldViewObjectCenter, invViewMatrix) / boundingBoxSize);
-		float3 normalS = normal * normal;
+		float3 normal = normalize(mul(float4(eyePos - worldViewObjectCenter, 0.0), invViewMatrix).xyz / boundingBoxSize);
 		output.sphericalLightFactor = sphericalHarmonics[0].xyz * 0.564188 + mul(normal.yzx, float3x3(float3(sphericalHarmonics[0].w, sphericalHarmonics[1].xy), float3(sphericalHarmonics[1].zw, sphericalHarmonics[2].x), sphericalHarmonics[2].yzw)) * 0.651468;
 
 		#if SPHERICAL_HARMONICS_9
+			float3 normalS = normal * normal;
 			output.sphericalLightFactor += sphericalHarmonics[3].xyz * (normal.x * normal.y * 0.273136) + float3(sphericalHarmonics[3].w, sphericalHarmonics[4].xy) * (normal.y * normal.z * 0.273136) + float3(sphericalHarmonics[4].zw, sphericalHarmonics[5].x) * (normalS.z * 0.236541 - 0.078847) + sphericalHarmonics[5].yzw * (normal.x * normal.z * 0.273136) + sphericalHarmonics[6].xyz * ((normalS.x - normalS.y) * 0.136568);
 		#endif
 	#else

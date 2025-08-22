@@ -2,7 +2,6 @@ Header:
     version: 141
 ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Common/BlurDynamic.yaml"
-- "~res:/UI/Screens3/Common/OverlayBlur.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "News"
@@ -223,7 +222,7 @@ Prototypes:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "PercentOfMaxChild"
                 UIChildComponent0:
-                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Tabs/TextTabsBarNoBlur.yaml"
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Tabs/TextTabsBar.yaml"
                     args:
                         "bgStyle": "\"\""
                         "activeTab": "int(activeTabLocal)"
@@ -243,17 +242,12 @@ Prototypes:
                         "leftContent": "LeftContent"
                         "lobby": "lobby"
                         "session": "session"
+                        "isBlur": "false"
                     eventActions:
                     - ["GO_TO_SHOP", "GO_TO_SHOP", ""]
                     - ["BACK_EVENT", "BACK_EVENT", ""]
                     - ["PREMIUM_INFO_EVENT", "PREMIUM_INFO_EVENT", ""]
                     - ["SHOP_BUTTON", "SHOP_BUTTON", "_event.requiredResource"]
-    -   prototype: "OverlayBlur/BlurAndFade"
-        name: "BlurAndFadeForSwitch"
-        components:
-            IgnoreLayout: {}
-        bindings:
-        - ["visible", "showFade and isGamepad"]
     -   class: "UIControl"
         name: "LoadingControl"
         size: [32.000000, 32.000000]

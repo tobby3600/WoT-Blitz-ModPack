@@ -3,6 +3,7 @@ Header:
 ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Common/Overlay/OverlayBasic.yaml"
 - "~res:/UI/Screens3/Lobby/Common/RichText.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "TanksMechanicsOverlay"
@@ -216,35 +217,12 @@ Slots:
         size: [512.000000, 72.000000]
         input: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIRoundedCornersComponent:
-                radius: "8"
-            UIOpacityComponent: {}
             Anchor:
                 leftAnchorEnabled: true
                 leftAnchor: 80.000000
                 topAnchorEnabled: true
                 topAnchor: 80.000000
+            UIOpacityComponent: {}
             LinearLayout:
                 orientation: "TopDown"
                 spacing: 32.000000
@@ -252,6 +230,12 @@ Slots:
                 horizontalPolicy: "PercentOfMaxChild"
                 verticalPolicy: "PercentOfChildrenSum"
         children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "Title"
             input: false

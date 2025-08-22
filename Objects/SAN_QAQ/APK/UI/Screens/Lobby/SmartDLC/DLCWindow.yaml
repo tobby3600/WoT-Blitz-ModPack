@@ -1,0 +1,868 @@
+Header:
+    version: 157
+ImportedPackages:
+- "~res:/UI/Screens/Hangar/BasePopup.yaml"
+- "~res:/UI/Screens/Fonts.yaml"
+- "~res:/UI/Screens/Common/StyledInfoButton.yaml"
+- "~res:/UI/Screens/Common/StyledButton.yaml"
+- "~res:/UI/Styles/ButtonSoundStyles.yaml"
+- "~res:/UI/Styles/DesktopStyles.yaml"
+- "~res:/UI/Screens/Lobby/Common/Hint.yaml"
+- "~res:/UI/Screens/Common/ScrollBar.yaml"
+- "~res:/UI/Screens/Common/Settings/SettingsCommon.yaml"
+- "~res:/UI/Styles/ButtonStyle.yaml"
+- "~res:/UI/Screens/Common/IconButton.yaml"
+- "~res:/UI/Styles/BackgroundStyles.yaml"
+- "~res:/UI/Styles/ColorStyles.yaml"
+- "~res:/UI/Screens/Common/ProgressBar.yaml"
+- "~res:/UI/Screens/Options/OptionEditor.yaml"
+- "~res:/UI/Screens/Common/Switch.yaml"
+- "~res:/UI/Screens/Common/Settings/SwitchWithCaptionAndDescription.yaml"
+StyleSheets:
+-   selectors:
+    - ".level-cell.default"
+    properties:
+        bg-color: [0.196078, 0.219608, 0.250980, 1.000000]
+-   selectors:
+    - ".progress-line_bg"
+    - ".progress-bar.default .progress-line_progress"
+    properties:
+        bg-color: [0.313726, 0.329412, 0.349020, 1.000000]
+-   selectors:
+    - ".level-cell.loading"
+    - ".progress-bar.loading .progress-line_progress"
+    properties:
+        bg-color: [0.901961, 0.607843, 0.133333, 1.000000]
+-   selectors:
+    - ".level-cell.loaded"
+    - ".progress-bar.loaded .progress-line_progress"
+    properties:
+        bg-color: [0.439216, 0.600000, 0.282353, 1.000000]
+-   selectors:
+    - ".progress-line_need-size"
+    properties:
+        bg-color: [0.407843, 0.423529, 0.439216, 1.000000]
+-   selectors:
+    - ".download-progress.loading #PlayPauseButton #icon"
+    properties:
+        bg-frame: 0
+-   selectors:
+    - ".download-progress.paused #PlayPauseButton #icon"
+    properties:
+        bg-frame: 1
+-   selectors:
+    - ".progress-bar.loading"
+    - ".progress-bar.loaded"
+    - ".progress-bar.default"
+    - "#need-size"
+    properties:
+        bg-color: [1.000000, 1.000000, 1.000000, 0.000000]
+Prototypes:
+-   class: "UIControl"
+    name: "DownloadBlock"
+    size: [200.000000, 88.000000]
+    input: false
+    components:
+        Anchor:
+            topAnchorEnabled: false
+            bottomAnchorEnabled: true
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "Formula"
+            horizontalFormula: "maxChild + freeSpace/parentChildrenCount"
+            verticalPolicy: "PercentOfChildrenSum"
+            verticalMin: 72.000000
+        StyleSheet:
+            inheritsStylesFromParent: true
+            styles: "~res:/UI/Screens/Lobby/SmartDLC/DLCWindow.yaml"
+    children:
+    -   class: "UIStaticText"
+        name: "header"
+        position: [0.000000, 0.000000]
+        classes: "text2-small text-color-white"
+        components:
+            UITextComponent:
+                text: "header text"
+                colorInheritType: "COLOR_IGNORE_PARENT"
+                multiline: "MULTILINE_ENABLED"
+                align: ["HCENTER", "BOTTOM"]
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                horizontalValue: 105.000000
+                verticalPolicy: "FixedSize"
+                verticalValue: 44.000000
+    -   class: "UIControl"
+        name: "Spacer"
+        size: [32.000000, 4.000000]
+        input: false
+    -   class: "UIControl"
+        name: "ProgressLine"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfMaxChild"
+        children:
+        -   class: "UIControl"
+            name: "bg"
+            visible: true
+            input: false
+            classes: "progress-line_bg"
+            components:
+                Background:
+                    drawType: "DRAW_FILL"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    horizontalValue: 100.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 40.000000
+        -   class: "UIControl"
+            customClass: "UIProgressBar"
+            name: "need-size"
+            visible: true
+            input: false
+            classes: ""
+            components:
+                Background:
+                    drawType: "DRAW_FILL"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    horizontalValue: 100.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 40.000000
+            children:
+            -   class: "UIControl"
+                name: "LeftValue"
+                size: [60.000000, 40.000000]
+                visible: true
+                input: false
+                classes: "progress-line_need-size"
+                components:
+                    Background:
+                        drawType: "DRAW_FILL"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        horizontalValue: 80.000000
+                        verticalPolicy: "PercentOfParent"
+                        verticalValue: 100.000000
+        -   class: "UIControl"
+            customClass: "UIProgressBar"
+            name: "progress"
+            visible: true
+            input: false
+            classes: "progress-bar state=loading"
+            components:
+                Background:
+                    drawType: "DRAW_FILL"
+                ClipContent: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    horizontalValue: 100.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 40.000000
+            children:
+            -   class: "UIControl"
+                name: "LeftValue"
+                size: [40.000000, 40.000000]
+                visible: true
+                input: false
+                classes: "progress-line_progress"
+                components:
+                    Background:
+                        drawType: "DRAW_FILL"
+                    ClipContent: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        horizontalValue: 50.000000
+                        verticalPolicy: "PercentOfParent"
+                        verticalValue: 100.000000
+                children:
+                -   class: "UIControl"
+                    name: "Glow"
+                    position: [0.000000, 0.000000]
+                    size: [29.000000, 40.000000]
+                    scale: [1.000000, 1.000000]
+                    input: false
+                    components:
+                        Background:
+                            sprite: "~res:/Gfx/UI/DlcScreen/progressbarGlow.psd"
+                            frame: 0
+                            gradientMode: "Overlay"
+                            perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                        Anchor:
+                            vCenterAnchorEnabled: true
+        -   class: "UIControl"
+            name: "Icon"
+            size: [60.000000, 40.000000]
+            input: false
+            components:
+                Background:
+                    sprite: "~res:/Gfx/UI/LobbyCommon/smartDLC_load_icons.psd"
+                    perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    topAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                    bottomAnchorEnabled: true
+-   class: "UIControl"
+    name: "TankLevelsStatusBar"
+    size: [0.000000, 0.000000]
+    input: false
+    components:
+        Background:
+            colorInherit: "COLOR_MULTIPLY_ON_PARENT"
+        Anchor:
+            hCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfFirstChild"
+            verticalPolicy: "PercentOfMaxChild"
+        StyleSheet:
+            inheritsStylesFromParent: true
+            styles: "~res:/UI/Screens/Lobby/SmartDLC/DLCWindow.yaml"
+    children:
+    -   class: "UIControl"
+        name: "Levels"
+        size: [0.000000, 0.000000]
+        input: false
+        components:
+            Background:
+                colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
+            LinearLayout:
+                spacing: 1.000000
+                useRtl: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfMaxChild"
+-   class: "UIControl"
+    name: "Level"
+    input: false
+    classes: "level-cell state=default"
+    components:
+        Background:
+            drawType: "DRAW_FILL"
+            colorInherit: "COLOR_MULTIPLY_ON_PARENT"
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalValue: 26.000000
+            verticalPolicy: "FixedSize"
+            verticalValue: 22.000000
+        StyleSheet:
+            inheritsStylesFromParent: true
+            styles: "~res:/UI/Screens/Lobby/SmartDLC/DLCWindow.yaml"
+    children:
+    -   class: "UIControl"
+        name: "Value"
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+                sprite: "~res:/Gfx/UI/LobbyCommon/TankLevels_middle.psd"
+                perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+-   prototype: "BasePopup/BasePopup"
+    name: "BasePopup"
+    size: [960.000000, 640.000000]
+    components:
+        UIDataParamsComponent:
+            params: []
+        StyleSheet:
+            styles: "~res:/UI/Screens/Fonts.yaml;~res:/UI/Screens3/Background.style.yaml;~res:/UI/Screens/Lobby/SmartDLC/DLCWindow.yaml"
+    children:
+    -   path: "DialogBackground"
+        components:
+            Background:
+                drawType: "DRAW_ALIGNED"
+        children: []
+    -   path: "BackButton"
+        visible: true
+        classes: "button button-color-gray button-close-sound"
+        children: []
+    -   path: "Content"
+        components:
+            Anchor:
+                leftAnchorEnabled: false
+                hCenterAnchorEnabled: true
+                rightAnchorEnabled: false
+                topAnchor: 0.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIScrollView"
+            name: "ScrollArea"
+            position: [0.000000, 0.000000]
+            classes: "limited-width state=Desktop"
+            autoUpdate: true
+            centerContent: true
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIScrollViewContainer"
+                name: "scrollContainerControl"
+                components:
+                    LinearLayout:
+                        orientation: "TopDown"
+                        spacing: 16.000000
+                    SizePolicy:
+                        horizontalPolicy: "Formula"
+                        horizontalFormula: "parent-200"
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "HeaderWrapper"
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 80.000000
+                    children:
+                    -   class: "UIStaticText"
+                        name: "Header"
+                        classes: "header1 text-color-white"
+                        components:
+                            UITextComponent:
+                                text: "dlc/MainScreen/Header"
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfContent"
+                    -   prototype: "StyledInfoButton/StyledInfoButton"
+                        name: "InfoButton"
+                        position: [710.000000, 15.000000]
+                        enabled: true
+                        classes: "button button-color-gray button-open-sound"
+                        components:
+                            Background:
+                                detail: "~res:/Gfx/UI/CommonUIElements/Button/detail"
+                            Anchor:
+                                rightAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 50.000000
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 50.000000
+                            StyleSheet:
+                                inheritsStylesFromParent: true
+                        children:
+                        -   path: "icon"
+                            components:
+                                Background:
+                                    drawType: "DRAW_SCALE_TO_RECT"
+                                Anchor:
+                                    leftAnchorEnabled: true
+                                    rightAnchorEnabled: true
+                                    topAnchorEnabled: true
+                                    bottomAnchorEnabled: true
+                -   class: "UIControl"
+                    name: "ContentWrapper"
+                    components:
+                        LinearLayout:
+                            orientation: "TopDown"
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "Formula"
+                            verticalFormula: "childrenSum + 16"
+                    children:
+                    -   class: "UIControl"
+                        name: "DownloadInfo"
+                        components:
+                            LinearLayout:
+                                orientation: "TopDown"
+                                spacing: 4.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        children:
+                        -   class: "UIControl"
+                            name: "FullDownloadLine"
+                            components:
+                                LinearLayout:
+                                    spacing: 6.000000
+                                    useRtl: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfMaxChild"
+                            children:
+                            -   class: "UIStaticText"
+                                name: "Label"
+                                classes: "text2 text-color-blue"
+                                components:
+                                    UITextComponent:
+                                        text: "dlc/MainScreen/DownloadProgress/DataProcess"
+                                        colorInheritType: "COLOR_IGNORE_PARENT"
+                                        align: ["LEFT", "VCENTER"]
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfContent"
+                                        verticalPolicy: "PercentOfContent"
+                            -   class: "UIStaticText"
+                                name: "Value"
+                                classes: "text2 text-color-white"
+                                components:
+                                    UITextComponent:
+                                        text: "1,5 Гб из 2 Гб"
+                                        colorInheritType: "COLOR_IGNORE_PARENT"
+                                        align: ["LEFT", "VCENTER"]
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfContent"
+                                        verticalPolicy: "PercentOfContent"
+                        -   class: "UIControl"
+                            name: "CurrentTankDownloadLine"
+                            components:
+                                LinearLayout:
+                                    spacing: 6.000000
+                                    useRtl: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfMaxChild"
+                            children:
+                            -   class: "UIStaticText"
+                                name: "Label"
+                                classes: "text2 text-color-blue"
+                                components:
+                                    UITextComponent:
+                                        text: "dlc/MainScreen/DownloadProgress/CurrentTank"
+                                        colorInheritType: "COLOR_IGNORE_PARENT"
+                                        align: ["LEFT", "VCENTER"]
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfContent"
+                                        verticalPolicy: "PercentOfContent"
+                            -   class: "UIStaticText"
+                                name: "Value"
+                                classes: "text2 text-color-white"
+                                components:
+                                    UITextComponent:
+                                        text: "—"
+                                        colorInheritType: "COLOR_IGNORE_PARENT"
+                                        align: ["LEFT", "VCENTER"]
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfContent"
+                                        verticalPolicy: "PercentOfContent"
+                        -   class: "UIControl"
+                            name: "RemainedTimeLine"
+                            components:
+                                LinearLayout:
+                                    spacing: 6.000000
+                                    useRtl: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfMaxChild"
+                            children:
+                            -   class: "UIStaticText"
+                                name: "Label"
+                                classes: "text2 text-color-blue"
+                                components:
+                                    UITextComponent:
+                                        text: "dlc/MainScreen/DownloadProgress/TimeLeft"
+                                        colorInheritType: "COLOR_IGNORE_PARENT"
+                                        align: ["LEFT", "VCENTER"]
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfContent"
+                                        verticalPolicy: "PercentOfContent"
+                            -   class: "UIStaticText"
+                                name: "Value"
+                                classes: "text2 text-color-white"
+                                components:
+                                    UITextComponent:
+                                        text: "4 мин"
+                                        colorInheritType: "COLOR_IGNORE_PARENT"
+                                        align: ["LEFT", "VCENTER"]
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfContent"
+                                        verticalPolicy: "PercentOfContent"
+                        -   class: "UIControl"
+                            name: "StatusLine"
+                            visible: true
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfMaxChild"
+                            children:
+                            -   class: "UIStaticText"
+                                name: "Status"
+                                classes: "text2 textColor=text-color-blue"
+                                components:
+                                    UITextComponent:
+                                        text: "dlc/Download/Paused"
+                                        colorInheritType: "COLOR_IGNORE_PARENT"
+                                        multiline: "MULTILINE_ENABLED"
+                                        align: ["LEFT", "TOP"]
+                                        useRtlAlign: "USE_BY_SYSTEM"
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                        verticalPolicy: "PercentOfContent"
+                                        verticalMin: 46.000000
+                    -   class: "UIControl"
+                        name: "DownloadStateContainer"
+                        components:
+                            LinearLayout:
+                                orientation: "TopDown"
+                                spacing: 24.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfChildrenSum"
+                            UIAttachLayoutMasterComponent:
+                                attachId: "SDLC"
+                        children:
+                        -   class: "UIControl"
+                            name: "HightLight"
+                            input: false
+                            components:
+                                Anchor:
+                                    enabled: true
+                                    leftAnchorEnabled: true
+                                    leftAnchor: -20.000000
+                                    topAnchorEnabled: true
+                                    topAnchor: -15.000000
+                                IgnoreLayout: {}
+                                SizePolicy:
+                                    horizontalPolicy: "Formula"
+                                    horizontalFormula: "parent + 40"
+                                    verticalPolicy: "Formula"
+                                    verticalFormula: "parent + 40"
+                        -   class: "UIControl"
+                            name: "DownloadState"
+                            input: false
+                            classes: "download-progress state=loading"
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfMaxChild"
+                            children:
+                            -   class: "UIControl"
+                                name: "BlocksWrapper"
+                                components:
+                                    Anchor:
+                                        leftAnchorEnabled: true
+                                        rightAnchorEnabled: true
+                                        rightAnchor: 56.000000
+                                    LinearLayout:
+                                        spacing: 4.000000
+                                        useRtl: true
+                                    SizePolicy:
+                                        verticalPolicy: "PercentOfMaxChild"
+                                children:
+                                -   prototype: "DownloadBlock"
+                                    name: "Base"
+                                    children:
+                                    -   path: "header"
+                                        components:
+                                            UITextComponent:
+                                                text: "dlc/MainScreen/ProgressBar/Base"
+                                    -   path: "ProgressLine/Icon"
+                                        components:
+                                            Background:
+                                                frame: 4
+                                -   prototype: "DownloadBlock"
+                                    name: "Tanks"
+                                    children:
+                                    -   path: "header"
+                                        components:
+                                            UITextComponent:
+                                                text: "dlc/MainScreen/ProgressBar/Tanks"
+                                -   prototype: "DownloadBlock"
+                                    name: "Maps"
+                                    children:
+                                    -   path: "header"
+                                        components:
+                                            UITextComponent:
+                                                text: "dlc/MainScreen/ProgressBar/Maps"
+                                    -   path: "ProgressLine/Icon"
+                                        components:
+                                            Background:
+                                                frame: 2
+                                -   prototype: "DownloadBlock"
+                                    name: "Extra"
+                                    children:
+                                    -   path: "header"
+                                        components:
+                                            UITextComponent:
+                                                text: "dlc/MainScreen/ProgressBar/Extra"
+                                    -   path: "ProgressLine/Icon"
+                                        components:
+                                            Background:
+                                                frame: 3
+                                -   prototype: "DownloadBlock"
+                                    name: "HD"
+                                    children:
+                                    -   path: "header"
+                                        components:
+                                            UITextComponent:
+                                                text: "dlc/MainScreen/ProgressBar/HD"
+                                    -   path: "ProgressLine/Icon"
+                                        components:
+                                            Background:
+                                                frame: 1
+                            -   prototype: "IconButton/IconButton"
+                                name: "PlayPauseButton"
+                                classes: "button button-color-gray button-open-sound"
+                                components:
+                                    Anchor:
+                                        rightAnchorEnabled: true
+                                        bottomAnchorEnabled: true
+                                        bottomAnchor: -5.000000
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 50.000000
+                                        verticalPolicy: "FixedSize"
+                                        verticalValue: 50.000000
+                                    StyleSheet:
+                                        inheritsStylesFromParent: true
+                                children:
+                                -   path: "icon"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_SCALE_TO_RECT"
+                                            sprite: "~res:/Gfx/UI/CommonUIElements/stop_btn.psd"
+                                            align: ["HCENTER", "VCENTER"]
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 30.000000
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 30.000000
+                        -   class: "UIControl"
+                            name: "AccessInfo"
+                            input: false
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfChildrenSum"
+                            children:
+                            -   class: "UIControl"
+                                name: "FirstLine"
+                                components:
+                                    LinearLayout:
+                                        spacing: 6.000000
+                                        useRtl: true
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                        verticalPolicy: "PercentOfMaxChild"
+                                children:
+                                -   class: "UIStaticText"
+                                    name: "Label"
+                                    classes: "text2 text-color-blue"
+                                    components:
+                                        UITextComponent:
+                                            text: "dlc/Download/Dowloading/AvailableLevels"
+                                            colorInheritType: "COLOR_IGNORE_PARENT"
+                                        SizePolicy:
+                                            horizontalPolicy: "PercentOfContent"
+                                            verticalPolicy: "PercentOfContent"
+                                -   prototype: "TankLevelsStatusBar"
+                                    name: "TankLevelsStatusBar"
+                                    components:
+                                        Anchor:
+                                            vCenterAnchorEnabled: true
+                                            vCenterAnchor: 2.000000
+                                    children:
+                                    -   path: "Levels"
+                                        children:
+                                        -   prototype: "Level"
+                                            name: "Level_1"
+                                        -   prototype: "Level"
+                                            name: "Level_2"
+                                            children:
+                                            -   path: "Value"
+                                                components:
+                                                    Background:
+                                                        frame: 1
+                                        -   prototype: "Level"
+                                            name: "Level_3"
+                                            children:
+                                            -   path: "Value"
+                                                components:
+                                                    Background:
+                                                        frame: 2
+                                        -   prototype: "Level"
+                                            name: "Level_4"
+                                            children:
+                                            -   path: "Value"
+                                                components:
+                                                    Background:
+                                                        frame: 3
+                                        -   prototype: "Level"
+                                            name: "Level_5"
+                                            children:
+                                            -   path: "Value"
+                                                components:
+                                                    Background:
+                                                        frame: 4
+                                        -   prototype: "Level"
+                                            name: "Level_6"
+                                            children:
+                                            -   path: "Value"
+                                                components:
+                                                    Background:
+                                                        frame: 5
+                                        -   prototype: "Level"
+                                            name: "Level_7"
+                                            children:
+                                            -   path: "Value"
+                                                components:
+                                                    Background:
+                                                        frame: 6
+                                        -   prototype: "Level"
+                                            name: "Level_8"
+                                            children:
+                                            -   path: "Value"
+                                                components:
+                                                    Background:
+                                                        frame: 7
+                                        -   prototype: "Level"
+                                            name: "Level_9"
+                                            children:
+                                            -   path: "Value"
+                                                components:
+                                                    Background:
+                                                        frame: 8
+                                        -   prototype: "Level"
+                                            name: "Level_10"
+                                            children:
+                                            -   path: "Value"
+                                                components:
+                                                    Background:
+                                                        frame: 9
+                -   class: "UIControl"
+                    name: "SettingsWrapper"
+                    input: false
+                    components:
+                        LinearLayout:
+                            orientation: "TopDown"
+                            spacing: 1.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfChildrenSum"
+                    children:
+                    -   prototype: "OptionEditor/EditorRow"
+                        name: "DownloadFullClient"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "Formula"
+                                horizontalValue: 46.000000
+                                horizontalFormula: "parent"
+                        children:
+                        -   path: "Bg"
+                            visible: false
+                        -   path: "Background/NameAndDescription/Name"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/DownloadFullClient/Title"
+                                Anchor:
+                                    leftAnchorEnabled: true
+                                    leftAnchor: -12.000000
+                                    vCenterAnchorEnabled: true
+                        -   path: "Background/NameAndDescription/Description"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/DownloadFullClient/On/Description"
+                                Anchor:
+                                    leftAnchorEnabled: true
+                                    leftAnchor: -12.000000
+                                    vCenterAnchorEnabled: true
+                        -   path: "Background/Editor"
+                            children:
+                            -   prototype: "Switch/Switch"
+                                name: "Switch"
+                                components:
+                                    Anchor:
+                                        leftAnchorEnabled: true
+                                        leftAnchor: 20.000000
+                                        vCenterAnchorEnabled: true
+                                    Sound:
+                                        valueChanged: "GUI/buttons/checkbox"
+                    -   prototype: "OptionEditor/EditorRow"
+                        name: "DownloadHDTextures"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "Formula"
+                                horizontalValue: 46.000000
+                                horizontalFormula: "parent"
+                        children:
+                        -   path: "Bg"
+                            visible: false
+                        -   path: "Background/NameAndDescription/Name"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/DownloadHDTextures/Title"
+                                Anchor:
+                                    leftAnchorEnabled: true
+                                    leftAnchor: -12.000000
+                                    vCenterAnchorEnabled: true
+                        -   path: "Background/NameAndDescription/Description"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/DownloadHDTextures/Off/Description"
+                                Anchor:
+                                    leftAnchorEnabled: true
+                                    leftAnchor: -12.000000
+                                    vCenterAnchorEnabled: true
+                        -   path: "Background/Editor"
+                            children:
+                            -   prototype: "Switch/Switch"
+                                name: "Switch"
+                                components:
+                                    Anchor:
+                                        leftAnchorEnabled: true
+                                        leftAnchor: 20.000000
+                                        vCenterAnchorEnabled: true
+                                    Sound:
+                                        valueChanged: "GUI/buttons/checkbox"
+                    -   prototype: "OptionEditor/EditorRow"
+                        name: "WifiDownloadOnly"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "Formula"
+                                horizontalValue: 46.000000
+                                horizontalFormula: "parent"
+                        children:
+                        -   path: "Bg"
+                            visible: false
+                        -   path: "Background/NameAndDescription/Name"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/WifiDownloadOnly/Title"
+                                Anchor:
+                                    leftAnchorEnabled: true
+                                    leftAnchor: -12.000000
+                                    vCenterAnchorEnabled: true
+                        -   path: "Background/NameAndDescription/Description"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/WifiDownloadOnly/On/Description"
+                                Anchor:
+                                    leftAnchorEnabled: true
+                                    leftAnchor: -12.000000
+                                    vCenterAnchorEnabled: true
+                        -   path: "Background/Editor"
+                            children:
+                            -   prototype: "Switch/Switch"
+                                name: "Switch"
+                                components:
+                                    Anchor:
+                                        leftAnchorEnabled: true
+                                        leftAnchor: 20.000000
+                                        vCenterAnchorEnabled: true
+                                    Sound:
+                                        valueChanged: "GUI/buttons/checkbox"
+        -   prototype: "ScrollBar/VerticalScrollBar"
+            name: "VerticalScrollBar"
+            components:
+                Anchor:
+                    rightAnchorEnabled: true
+                    topAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                UIScrollBarComponent:
+                    delegate: "../ScrollArea"
+    -   path: "NavigationPanel"
+        visible: false
+        enabled: false

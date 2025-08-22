@@ -1,0 +1,232 @@
+Header:
+    version: 161
+Prototypes:
+-   class: "UIControl"
+    name: "StoryScreen"
+    size: [960.000000, 640.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        ModalInput: {}
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Escape"
+            keyDownEvent: "BACK_SHORTCUT"
+        UIVirtualActionEventComponent1:
+            virtualKeyAction: "Options"
+            keyDownEvent: "GO_TO_SHOP"
+        UIShortcutEventComponent:
+            shortcuts: "BACK_SHORTCUT,Back;BACK_SHORTCUT,Escape"
+        UIDataParamsComponent:
+            params:
+            - ["StoryScreenViewModel", "viewModel", "null", "{ }"]
+            - ["AppDataModel", "app", "null", "{ }"]
+            - ["SessionDataModel", "session", "null", "{ \"serverTime\" = 0L; \"stats\" = { \"balanceSynchronized\" = true; \"gold\" = { \"type\" = ResourceType.gold; \"quantity\" = 125000; }; \"freeXp\" = { \"type\" = ResourceType.free_xp; \"quantity\" = 2789456; }; }; }"]
+            - ["AccountDataModel", "account", "null", "{ }"]
+            - ["LobbyDataModel", "lobby", "null", "{ }"]
+            events:
+            - "SELECT_STORY(string storyName)"
+            - "OPEN_LEVEL"
+            - "OPEN_BATTLEPASS"
+            - "SELECT_STEP(int id)"
+            - "SELECT_COMPOSITE_STEP(string name)"
+            - "SHOW_STEP_INFO(int id)"
+            - "SHOW_CHEST_INFO(int id)"
+            - "DESELECT"
+            - "COMPLETE_STEP(bool isChest)"
+            - "SHOW_STORY_INFO"
+            - "SHOW_STEP_INFO_FOOTER"
+            - "WEB_INTERACTION_BUTTON_PRESSED"
+            - "SHOW_DETAILED_INFO"
+            - "BACK_EVENT"
+            - "SHOW_TASK_JOURNAL"
+            - "ON_TOURNAMENTS_CLICKED"
+            - "SHOP_BUTTON(eRequiredResource requiredResource)"
+            - "STEPS_SHOWN"
+            - "PARALLAX_SHIFT(float shift)"
+            - "CLOSE_START_SCREEN"
+            - "SHOW_BOOSTERS"
+            - "ON_ITEM_PRESSED(ResourceDetailed reward)"
+            - "CLOSE_INTRO"
+            - "GO_TO_SHOP"
+        UIDataLocalVarsComponent:
+            data:
+            - ["StoryStringsKeys", "keys", "{ }"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["string", "background", "when viewModel.selectedStory.name == \"NEWCOMERS2020\" and viewModel.selectedStory.resources.graphics.Contains(\"newcomersBg\") -> viewModel.selectedStory.resources.graphics[\"newcomersBg\"], viewModel.selectedStory.resources.graphics.Contains(\"background\") -> viewModel.selectedStory.resources.graphics[\"background\"], \"\""]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Story/StoryScreen.actions"
+    children:
+    -   class: "UIControl"
+        name: "Bg"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UI3DView"
+            customClass: "UIHangar3dView"
+            name: "HangarScene"
+            components:
+                SceneComponent:
+                    drawToFramebuffer: true
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+    -   class: "UIControl"
+        name: "StoryContent"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                childType: "kControl"
+                control: "StoryContent"
+Slots:
+-   class: "UIControl"
+    name: "BgImage"
+    input: false
+    components:
+        UITextureComponent:
+            drawType: "DRAW_SCALE_TO_RECT"
+            perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+        SizePolicy:
+            horizontalPolicy: "Formula"
+            horizontalFormula: "content / 0.75"
+            verticalPolicy: "PercentOfContent"
+    bindings:
+    - ["UITextureComponent.spriteResource", "when app.constants.deviceType == eScreenSizeType.Large -> eResourceLoadingStrategy.PreferMaxResolution, eResourceLoadingStrategy.Base"]
+    - ["UITextureComponent.spritePath", "background"]
+-   class: "UIControl"
+    name: "BgUrlImage"
+    input: false
+    components:
+        Background:
+            drawType: "DRAW_SCALE_TO_RECT"
+            perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+        UIUrlImageComponent:
+            placeholderScenePath: "~res:/UI/Screens3/Common/LoadingOverlay.yaml"
+            placeholderControlName: "LoadingOverlay"
+            checkUpdate: true
+        SizePolicy:
+            horizontalPolicy: "Formula"
+            horizontalFormula: "content / 0.75"
+            verticalPolicy: "PercentOfContent"
+    bindings:
+    - ["Background.spriteResource", "when app.constants.deviceType == eScreenSizeType.Large -> eResourceLoadingStrategy.PreferMaxResolution, eResourceLoadingStrategy.Base"]
+    - ["UIUrlImageComponent.imageUrl", "background"]
+-   class: "UIControl"
+    name: "StoryContent"
+    size: [960.000000, 640.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "Bg"
+        input: false
+        components:
+            ClipContent: {}
+            UIPostProcessSourceComponent0:
+                id: "StoryBackground"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "ImageArea"
+            input: false
+            components:
+                LinearLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "SidebarSizeArea"
+                visible: true
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        verticalPolicy: "PercentOfParent"
+                bindings:
+                - ["SizePolicy.horizontalValue", "when not viewModel.isFullScreen -> 170, 0"]
+            -   class: "UIControl"
+                name: "ImageSizeArea"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   class: "UIControl"
+                    name: "ImageSizeArea_1"
+                    pivot: [0.500000, 0.500000]
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "Formula"
+                            horizontalFormula: "parentRest + 170 * 2"
+                            verticalPolicy: "PercentOfParent"
+                    children:
+                    -   class: "UIControl"
+                        name: "ImageSlot"
+                        pivot: [0.500000, 0.500000]
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfFirstChild"
+                                verticalPolicy: "PercentOfFirstChild"
+                            ScalePolicy:
+                                horizontalFormula: "max(parentSize.X / size.X, parentSize.Y / size.Y)"
+                                verticalFormula: "max(parentSize.X / size.X, parentSize.Y / size.Y)"
+                            UIChildComponent0:
+                                childType: "kControl"
+                                condition: "not empty(background) and background.StartsWith(\"~res:/\")"
+                                control: "BgImage"
+                            UIChildComponent1:
+                                childType: "kControl"
+                                condition: "not empty(background)"
+                                control: "BgUrlImage"
+    -   class: "UIControl"
+        name: "ContentHolder"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Story/ContentScreens/AggregatorScreen.yaml"
+                args:
+                    "viewModel": "viewModel"
+                    "app": "app"
+                    "session": "session"
+                    "account": "account"
+                    "lobby": "lobby"
+                    "keys": "keys"
+                eventActions:
+                - ["SELECT_STORY", "SELECT_STORY", "_event.storyName"]
+                - ["SELECT_STEP", "SELECT_STEP", "_event.id"]
+                - ["SHOW_CHEST_INFO", "SHOW_CHEST_INFO", "_event.id"]
+                - ["SHOW_STEP_INFO", "SHOW_STEP_INFO", "_event.id"]
+                - ["SELECT_COMPOSITE_STEP", "SELECT_COMPOSITE_STEP", "_event.name"]
+                - ["COMPLETE_STEP", "COMPLETE_STEP", "_event.isChest"]
+                - ["SHOW_STORY_INFO", "SHOW_STORY_INFO", ""]
+                - ["DESELECT", "DESELECT", ""]
+                - ["BACK_EVENT", "BACK_EVENT", ""]
+                - ["CLOSE_INTRO", "CLOSE_INTRO", ""]
+                - ["GO_TO_SHOP", "GO_TO_SHOP", ""]

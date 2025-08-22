@@ -279,6 +279,8 @@ Prototypes:
                         SizePolicy:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfParent"
+                    bindings:
+                    - ["visible", "view.selectedTab == InventoryTabType.PROGRESS and tankProgress.currentTab == eTankProgressTab.Achievements"]
                     children:
                     -   prototype: "BlurDynamic/BlurDynamic"
                         name: "BlurDynamic"
@@ -373,6 +375,7 @@ Prototypes:
                                     "firstLessonCompleted": "account.tutorialData.currentLesson > eTutorialLesson.kTurretUnlock"
                                     "currentScreen": "currentScreen"
                                     "isFullScreen": "false"
+                                    "isBlur": "currentScreen == eCurrentScreen.kInventoryCamouflages"
                                 eventActions:
                                 - ["GO_TO_SHOP", "GO_TO_SHOP", ""]
                                 - ["PREMIUM_INFO_EVENT", "PREMIUM_INFO_EVENT", ""]
@@ -394,9 +397,10 @@ Prototypes:
                         args:
                             "backButtonLayer": "when (account.tutorialData.currentHighlightControl == eTutorialHighlights.kInventoryBack or account.tutorialData.currentHighlightControl == eTutorialHighlights.kBack) -> 1, 0"
                             "rightSeparatorWidth": "when currentScreen == eCurrentScreen.kInventoryCamouflages -> 1, 0"
-                            "bgStyle": "when currentScreen == eCurrentScreen.kInventoryCamouflages -> \"black-50-bg\", \"\""
+                            "bgStyle": "when currentScreen == eCurrentScreen.kInventoryCamouflages -> \"black-50-bg\", \"grey-shark-70-bg\""
                             "content": "SidebarContent"
                             "isBackButtonHasSounds": "false"
+                            "isBlur": "currentScreen == eCurrentScreen.kInventoryCamouflages or (view.selectedTab == InventoryTabType.PROGRESS and tankProgress.currentTab == eTankProgressTab.Achievements)"
                         eventActions:
                         - ["ON_CLICK_BACK", "BACK_EVENT", ""]
                 children:

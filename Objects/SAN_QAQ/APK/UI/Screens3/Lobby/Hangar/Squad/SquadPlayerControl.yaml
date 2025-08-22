@@ -1,0 +1,275 @@
+Header:
+    version: 161
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/PlayerName.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "SquadPlayerControl"
+    input: true
+    classes: "squad-player-control button-cancel-sound"
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+            vCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "Formula"
+            horizontalFormula: "firstChild - 16"
+            verticalPolicy: "Formula"
+            verticalFormula: "firstChild - 16"
+        UIAttachLayoutMasterComponent: {}
+        UIInputEventComponent:
+            onTouchUpInside: "ON_CLICK"
+            onTouchUpInsideData: "playerInfo.playerIndex"
+            onDoubleTouch: "ON_DOUBLE_CLICK"
+            onDoubleTouchData: "playerInfo.playerIndex"
+        UIDataParamsComponent:
+            params:
+            - ["SquadPlayerModel", "playerInfo", "null", "{ }"]
+            events:
+            - "ON_DOUBLE_CLICK(int playerIndex)"
+            - "ON_CLICK(int playerIndex)"
+        UIDataLocalBindingsComponent:
+            data:
+            - ["string", "masterId", "when isNull(playerInfo) -> \"\", \"SquadPlayerControl\" + str(playerInfo.playerIndex)"]
+            - ["bool", "rankVisible", "when isNull(playerInfo) -> false, playerInfo.rank != 0"]
+            - ["string", "tankNameStyle", "when isNull(playerInfo) -> \"white-wild-sand-text\", playerInfo.vehicleDescriptionType == eVehicleDescriptionType.PREMIUM -> \"yellow-lightning-text\", playerInfo.vehicleDescriptionType == eVehicleDescriptionType.COLLECTIBLE -> \"blue-rimmi-text\", playerInfo.vehicleDescriptionType == eVehicleDescriptionType.PREMIUMISED -> \"yellow-chalky-text\", \"white-wild-sand-text\""]
+            - ["string", "shevronIcon", "when isNull(playerInfo) -> \"\", playerInfo.role == eSquadRole.Commander -> \"~res:/Gfx/Lobby/icons/platoon/icon_player-commander_m\", playerInfo.role == eSquadRole.FirstTeammate -> \"~res:/Gfx/Lobby/icons/platoon/icon_player-first_m\", playerInfo.role == eSquadRole.SecondTeammate -> \"~res:/Gfx/Lobby/icons/platoon/icon_player-second_m\", \"\""]
+        Sound: {}
+        StyleSheet:
+            styles: "~res:/UI/Screens3/ButtonSound.style.yaml;~res:/UI/Screens3/Lobby/Hangar/Squad/SquadPlayerControl.style.yaml;~res:/UI/Screens3/Common/Touch.style.yaml"
+    bindings:
+    - ["visible", "not isNull(playerInfo)"]
+    - ["UIAttachLayoutMasterComponent.attachId", "masterId"]
+    children:
+    -   class: "UIControl"
+        name: "ContentArea"
+        pivot: [0.500000, 0.500000]
+        input: false
+        classes: "hover content-area"
+        components:
+            UIOpacityComponent: {}
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "Formula"
+                horizontalFormula: "maxChild + 16"
+                verticalPolicy: "Formula"
+                verticalFormula: "maxChild + 16"
+        children:
+        -   class: "UIControl"
+            name: "ReadyForBattleEffect"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "Formula"
+                    horizontalFormula: "parent - 16"
+                    verticalPolicy: "Formula"
+                    verticalFormula: "parent - 16"
+            bindings:
+            - ["visible", "when isNull(playerInfo) -> false, playerInfo.isReady"]
+            children:
+            -   class: "UIParticles"
+                name: "UIParticles"
+                position: [24.000000, 24.000000]
+                size: [64.000000, 38.000000]
+                scale: [7.000000, 7.000000]
+                input: false
+                effectPath: "~res:/3d/FX/UI/squad_rediness/squad_rediness.sc2"
+                autoStart: true
+        -   class: "UIControl"
+            name: "Content"
+            pivot: [0.500000, 0.500000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                LinearLayout:
+                    spacing: 4.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "Left"
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "TopDown"
+                        spacing: -12.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "Avatar"
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfMaxChild"
+                        UIChildComponent0:
+                            condition: "not isNull(playerInfo)"
+                            prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/PlayerAvatar.yaml"
+                            args:
+                                "avatar": "when isNull(playerInfo) -> null, playerInfo.avatar"
+                                "size": "eAvatarSize.MEDIUM"
+                                "interactive": "false"
+                -   class: "UIControl"
+                    name: "Shevron"
+                    position: [20.000000, 32.000000]
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_ALIGNED"
+                            perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                        UIShadowComponent:
+                            blurType: "Gauss"
+                            color: [0.000000, 0.000000, 0.000000, 1.000000]
+                            indent: 8
+                            canBeDelayed: true
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            horizontalValue: 100.000000
+                            verticalPolicy: "PercentOfContent"
+                            verticalValue: 100.000000
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["Background.sprite", "shevronIcon"]
+            -   class: "UIControl"
+                name: "Rigth"
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                        vCenterAnchor: 5.000000
+                    LinearLayout:
+                        orientation: "TopDown"
+                        spacing: 4.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "TankContent"
+                    input: false
+                    components:
+                        LinearLayout:
+                            spacing: 2.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "PercentOfMaxChild"
+                    bindings:
+                    - ["visible", "when isNull(playerInfo) -> false, playerInfo.isVehicleInfoValid"]
+                    children:
+                    -   class: "UIControl"
+                        name: "TankTier"
+                        input: false
+                        components:
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "Formula"
+                                horizontalFormula: "maxChild+6"
+                                verticalPolicy: "PercentOfMaxChild"
+                        children:
+                        -   prototype: "BlurModified/BlurModified"
+                            name: "Bg"
+                            components:
+                                UIDataParamsComponent:
+                                    args:
+                                        "bgStyle": "\"black-50-bg\""
+                                        "roundCorner": "\"2\""
+                        -   class: "UIControl"
+                            name: "VehicleInfo"
+                            input: false
+                            components:
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                    hCenterAnchor: 1.000000
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfMaxChild"
+                                    verticalPolicy: "PercentOfMaxChild"
+                                UIChildComponent0:
+                                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Vehicle/VehicleInfo.yaml"
+                                    args:
+                                        "elite": "when isNull(playerInfo) -> false, playerInfo.isElite"
+                                        "type": "when isNull(playerInfo) -> eVehicleDescriptionType.NORMAL, playerInfo.vehicleDescriptionType"
+                                        "level": "when isNull(playerInfo) -> 1, playerInfo.level"
+                                        "class": "when isNull(playerInfo) -> eTankClass.TANK_CLASS_NONE, playerInfo.tankClass"
+                    -   class: "UIControl"
+                        name: "Rank"
+                        input: false
+                        components:
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfMaxChild"
+                                verticalPolicy: "PercentOfMaxChild"
+                            UIChildComponent0:
+                                prototypePath: "~res:/UI/Screens3/Lobby/Inventory/TankProgress/TankRankSmall.yaml"
+                                args:
+                                    "grade": "when isNull(playerInfo) -> eTankRankGrade.Unknown, playerInfo.grade"
+                                    "rank": "when isNull(playerInfo) -> 1, playerInfo.rank"
+                        bindings:
+                        - ["visible", "rankVisible"]
+                    -   class: "UIControl"
+                        name: "TankShortName"
+                        input: false
+                        components:
+                            UITextComponent:
+                                fitting: "FITTING_POINTS"
+                                align: ["LEFT", "VCENTER"]
+                            UIShadowComponent:
+                                blurType: "Gauss"
+                                color: [0.000000, 0.000000, 0.000000, 1.000000]
+                                indent: 8
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                verticalPolicy: "PercentOfContent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml"
+                        bindings:
+                        - ["classes", "\"t-subtitle bold \" + tankNameStyle"]
+                        - ["UITextComponent.text", "when isNull(playerInfo) -> \"\", localize(playerInfo.tankShortName)"]
+                        - ["SizePolicy.horizontalValue", "when (screenWidth > 1335) -> 144, 168"]
+                -   prototype: "PlayerName/PlayerName"
+                    name: "PlayerName"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "playerNameStyle": "\"bold white-wild-sand-text\""
+                                "clanTag": "when (not isNull(playerInfo)) -> playerInfo.clanTag, \"\""
+                                "playerName": "when (not isNull(playerInfo)) -> playerInfo.playerName, \"\""
+                    children:
+                    -   path: "UserName"
+                        components:
+                            UITextComponent:
+                                fontSize: 13.000000
+                            UIShadowComponent:
+                                blurType: "Gauss"
+                                color: [0.000000, 0.000000, 0.000000, 1.000000]
+                                indent: 8
+                    -   path: "ClanTag"
+                        components:
+                            UITextComponent:
+                                fontSize: 13.000000
+                                color: [0.960784, 0.960784, 0.960784, 1.000000]
+                            UIShadowComponent:
+                                blurType: "Gauss"
+                                color: [0.000000, 0.000000, 0.000000, 1.000000]
+                                indent: 8

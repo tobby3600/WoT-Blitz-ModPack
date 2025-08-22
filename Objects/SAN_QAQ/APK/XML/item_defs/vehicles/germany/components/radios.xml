@@ -34,6 +34,7 @@
 		<SEM_25.1A>47</SEM_25.1A>
 		<FuG5_W>48</FuG5_W>
 		<Fu_8_SE_30M>49</Fu_8_SE_30M>
+		<G190_QubyTalking>50</G190_QubyTalking>
 	</ids>
 	<shared>
 		<Die_Signalfahnen>
@@ -437,5 +438,17 @@
 			<maxRegenHealth>1</maxRegenHealth>
 			<repairCost>0</repairCost>
 		</Fu_8_SE_30M>
+		<G190_QubyTalking>
+			<userString>#germany_vehicles:G190_QubyTalking</userString>
+			<description>#germany_vehicles:G190_QubyTalking_descr</description>
+			<tags/>
+			<level>8</level>
+			<price>0</price>
+			<weight>100</weight>
+			<distance>1</distance>
+			<maxHealth>100</maxHealth>
+			<maxRegenHealth>1</maxRegenHealth>
+			<repairCost>0</repairCost>
+		</G190_QubyTalking>
 	</shared>
 </root>

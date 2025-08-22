@@ -15,19 +15,19 @@ Prototypes:
             verticalPolicy: "FixedSize"
         UIDataParamsComponent:
             params:
-            - ["float", "blurScale", "0.500000", "0.500000"]
+            - ["bool", "bgVisible", "false", "false"]
             - ["bool", "enableAlert", "false", "false"]
+            - ["bool", "iconVisible", "true", "true"]
+            - ["bool", "isBlur", "true", "true"]
             - ["bool", "shortFormat", "false", "true"]
-            - ["string", "colorStyle", "\"white-wild-sand\"", "\"white-wild-sand\""]
-            - ["string", "bgColorStyle", "\"\"", "\"\""]
             - ["bool", "visible", "true", "true"]
+            - ["eTimerSize", "timerSize", "eTimerSize.Small", "eTimerSize.Small"]
+            - ["int64", "alertTime", "0L", "0L"]
             - ["int64", "serverTime", "1548670002L", "1548670002L"]
             - ["int64", "time", "15131323123L", "15131323123L"]
-            - ["bool", "bgVisible", "false", "false"]
-            - ["bool", "iconVisible", "true", "true"]
-            - ["int64", "alertTime", "0L", "0L"]
+            - ["string", "bgColorStyle", "\"\"", "\"\""]
+            - ["string", "colorStyle", "\"white-wild-sand\"", "\"white-wild-sand\""]
             - ["string", "customIcon", "\"\"", "\"\""]
-            - ["eTimerSize", "timerSize", "eTimerSize.Small", "eTimerSize.Small"]
         UIDataLocalVarsComponent:
             data:
             - ["string", "defaultIcon", "when timerSize == eTimerSize.Small or timerSize == eTimerSize.Medium -> \"~res:/Gfx/Lobby/icons/icon_timer\", timerSize == eTimerSize.Big -> \"~res:/Gfx/Lobby/icons/icon_timer_m\", \"\""]
@@ -45,28 +45,15 @@ Prototypes:
     - ["visible", "visible"]
     - ["SizePolicy.verticalValue", "verticalSize"]
     children:
-    -   class: "UIControl"
+    -   prototype: "BlurModified/BlurModified"
         name: "Bg"
-        input: false
         components:
-            Background: {}
-            IgnoreLayout: {}
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfParent"
-            StyleSheet:
-                styles: "~res:/UI/Screens3/Color.style.yaml"
-        bindings:
-        - ["visible", "bgVisible"]
-        children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
-            components:
-                UIDataParamsComponent:
-                    args:
-                        "bgStyle": "bgColorStyle"
-                        "blurScale": "blurScale"
-                        "roundCorner": "\"3\""
+            UIDataParamsComponent:
+                args:
+                    "isBlur": "isBlur"
+                    "isVisible": "bgVisible"
+                    "bgStyle": "bgColorStyle"
+                    "roundCorner": "\"4\""
     -   class: "UIControl"
         name: "Icon"
         input: false

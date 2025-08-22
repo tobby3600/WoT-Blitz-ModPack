@@ -432,8 +432,6 @@ Prototypes:
                         "dateString": "shortDate(item._pubDateUTC)"
                         "badgeIsVisible": "not item.seen"
                         "textColor": "\"white-wild-sand-text\""
-                        "bgIsVisible": "true"
-                        "bgColor": "\"grey-shark-50-bg\""
     -   class: "UIControl"
         name: "ContainerForControlForScroll"
         size: [32.000000, 32.000000]

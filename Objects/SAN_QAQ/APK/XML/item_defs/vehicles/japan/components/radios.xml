@@ -1,5 +1,5 @@
 <root>
-	<nextAvailableId>18</nextAvailableId>
+	<nextAvailableId>19</nextAvailableId>
 	<ids>
 		<_Type94_Hei_1>0</_Type94_Hei_1>
 		<Alarm_flags>1</Alarm_flags>
@@ -12,6 +12,7 @@
 		<Type_3_Ko>15</Type_3_Ko>
 		<AN_GRC_3_8>16</AN_GRC_3_8>
 		<Type_3_Ko_J20>17</Type_3_Ko_J20>
+		<Type_3_Otsu_J38>18</Type_3_Otsu_J38>
 	</ids>
 	<shared>
 		<_Type94_Hei_1>
@@ -141,5 +142,17 @@
 			<maxRegenHealth>1</maxRegenHealth>
 			<repairCost>0</repairCost>
 		</Type_3_Ko_J20>
+		<Type_3_Otsu_J38>
+			<userString>#japan_vehicles:Type_3_Otsu_J38</userString>
+			<description>#japan_vehicles:Type_3_Otsu_J38_descr</description>
+			<tags/>
+			<level>8</level>
+			<price>0</price>
+			<weight>100</weight>
+			<distance>1</distance>
+			<maxHealth>250</maxHealth>
+			<maxRegenHealth>1</maxRegenHealth>
+			<repairCost>0</repairCost>
+		</Type_3_Otsu_J38>
 	</shared>
 </root>

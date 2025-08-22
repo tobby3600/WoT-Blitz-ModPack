@@ -1,5 +1,7 @@
 Header:
     version: 140
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "BattleStatsDetails"
@@ -33,6 +35,12 @@ Prototypes:
             - ["float", "commonOpacity", "when economics.withPremium -> 0.500000, 1.000000"]
             - ["float", "premiumOpacity", "when economics.withPremium -> 1.000000, 0.500000"]
     children:
+    -   prototype: "BlurModified/BlurModified"
+        name: "Blur"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "roundCorner": "\"8\""
     -   class: "UIControl"
         name: "Title"
         size: [32.000000, 32.000000]

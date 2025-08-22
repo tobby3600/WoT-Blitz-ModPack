@@ -86,8 +86,8 @@ vertex_out vp_main(vertex_in input)
 		opacity *= input.parameters.x;
 	#endif
 
-	float3 worldPos = mul3Fast1(localPos, worldMatrix);
-	output.localPos = mul4Fast1(worldPos, viewProjMatrix);
+	float3 worldPos = mul(float4(localPos, 1.0), worldMatrix).xyz;
+	output.localPos = mul(float4(worldPos, 1.0), viewProjMatrix);
 	output.projPos = output.localPos;
 
 	#if DRAW_FLORA_LAYING
@@ -113,7 +113,7 @@ vertex_out vp_main(vertex_in input)
 
 	#if USE_VERTEX_FOG
 		float3 camPos = cameraPosition;
-		float3 eyePos = mul3Fast1(worldPos, viewMatrix);
+		float3 eyePos = mul(float4(worldPos, 1.0), viewMatrix).xyz;
 		toCamDir = camPos - worldPos;
 		float3 toLightDir = -eyePos * lightPosition0.w + lightPosition0.xyz;
 		float toLightDis = length(toLightDir);

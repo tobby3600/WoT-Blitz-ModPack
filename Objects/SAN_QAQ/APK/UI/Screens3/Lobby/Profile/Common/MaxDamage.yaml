@@ -1,0 +1,172 @@
+Header:
+    version: 153
+Prototypes:
+-   class: "UIControl"
+    name: "MaxDamage"
+    size: [200.000000, 64.000000]
+    classes: "profile-cell"
+    components:
+        UIAnimationComponent:
+            animations: "MAX_DAMAGE_SELECTED_ANIMATION,~res:/UI/Screens3/Lobby/Profile/Common/MaxDamage.animation"
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "Formula"
+            verticalFormula: "max(parent, childrenSum)"
+        UIAttachLayoutMasterComponent:
+            attachId: "MaxDamage"
+        UIInputEventComponent:
+            onTouchUpInside: "MAX_DAMAGE_SELECTED_ANIMATION"
+        UIDataParamsComponent:
+            params:
+            - ["string", "header", "\"#header\"", "\"#header\""]
+            - ["int", "value", "0", "666"]
+            - ["string", "ValueColor", "\"white-wild-sand-text\"", "\"white-wild-sand-text\""]
+            events:
+            - "SHOW_MAX_DAMAGE"
+        UIDataLocalBindingsComponent:
+            data:
+            - ["bool", "isVisible", "value > 0"]
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Common/Touch.style.yaml"
+    bindings:
+    - ["input", "isVisible"]
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        pivot: [0.500000, 0.500000]
+        input: false
+        classes: "content-area"
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "Formula"
+                verticalFormula: "max(parent, childrenSum)"
+        children:
+        -   class: "UIControl"
+            name: "InfoIconWrapper"
+            size: [16.000000, 16.000000]
+            input: false
+            components:
+                Anchor:
+                    rightAnchorEnabled: true
+                    rightAnchor: 8.000000
+                    topAnchorEnabled: true
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 16.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 16.000000
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Common/Hover.style.yaml"
+            bindings:
+            - ["visible", "isVisible"]
+            children:
+            -   class: "UIControl"
+                name: "InfoIcon"
+                size: [16.000000, 16.000000]
+                input: false
+                components:
+                    Background:
+                        sprite: "~res:/Gfx/Lobby/icons/icon_info_xs"
+                        color: [0.960784, 0.960784, 0.960784, 0.501961]
+                        perPixelAccuracy: "PER_PIXEL_ACCURACY_FORCED"
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 16.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 16.000000
+            -   class: "UIControl"
+                name: "HoverInfoIcon"
+                size: [16.000000, 16.000000]
+                input: false
+                classes: "hover"
+                components:
+                    Background:
+                        sprite: "~res:/Gfx/Lobby/icons/icon_info_xs"
+                        color: [0.960784, 0.960784, 0.960784, 1.000000]
+                        perPixelAccuracy: "PER_PIXEL_ACCURACY_FORCED"
+                    UIOpacityComponent: {}
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 16.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 16.000000
+        -   class: "UIControl"
+            name: "Hover"
+            position: [0.000000, 0.000000]
+            size: [188.000000, 80.000000]
+            input: false
+            classes: "hover white-wild-sand-10-bg"
+            components:
+                Background:
+                    drawType: "DRAW_STRETCH_BOTH"
+                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_r1"
+                    leftRightStretchCap: 1.000000
+                    topBottomStretchCap: 1.000000
+                UIOpacityComponent: {}
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "Formula"
+                    horizontalFormula: "parent + 32"
+                    verticalPolicy: "Formula"
+                    verticalFormula: "parent + 16"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Common/Hover.style.yaml"
+        -   class: "UIControl"
+            name: "Title"
+            position: [0.000000, 0.000000]
+            size: [32.000000, 32.000000]
+            input: false
+            classes: "t-caps bold white-wild-sand-70-text"
+            components:
+                UITextComponent:
+                    multiline: "MULTILINE_ENABLED"
+                    align: ["HCENTER", "VCENTER"]
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 164.000000
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "capitalize(header)"]
+        -   class: "UIControl"
+            name: "Spacer"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "Formula"
+                    verticalFormula: "max(6, parentRest)"
+        -   class: "UIControl"
+            name: "Value"
+            position: [46.000000, 36.000000]
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                UITextComponent: {}
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["classes", "\"t-title bold not-localize color=\" + ValueColor"]
+            - ["UITextComponent.text", "str1000Separated(value)"]

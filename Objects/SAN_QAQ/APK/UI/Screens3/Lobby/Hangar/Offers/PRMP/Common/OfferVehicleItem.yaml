@@ -1,0 +1,196 @@
+Header:
+    version: 155
+Prototypes:
+-   class: "UIControl"
+    name: "OfferVehicleItem"
+    size: [368.000000, 56.000000]
+    input: false
+    components:
+        ClipContent: {}
+        Anchor:
+            hCenterAnchorEnabled: true
+            vCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalValue: 364.000000
+            verticalPolicy: "FixedSize"
+            verticalValue: 56.000000
+        UIDataParamsComponent:
+            params:
+            - ["bool", "owned", "false", "false"]
+            - ["VehicleResource", "vehicle", "null", "{ }"]
+            events: []
+        UIDataLocalVarsComponent:
+            data:
+            - ["float", "fadeOpacity", "0.500000"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["eNation", "nation", "vehicle.info.nation"]
+            - ["string", "subnation", "vehicle.info.subnation"]
+            - ["string", "nationFlagIcon", "when subnation == \"\" -> (when nation == eNation.USA -> \"~res:/Gfx/Lobby/flags/flag_carousel_usa.psd\", nation == eNation.GERMANY -> \"~res:/Gfx/Lobby/flags/flag_carousel_germany.psd\", nation == eNation.USSR -> \"~res:/Gfx/Lobby/flags/flag_carousel_ussr.psd\", nation == eNation.UK -> \"~res:/Gfx/Lobby/flags/flag_carousel_uk.psd\", nation == eNation.JAPAN -> \"~res:/Gfx/Lobby/flags/flag_carousel_japan.psd\", nation == eNation.CHINA -> \"~res:/Gfx/Lobby/flags/flag_carousel_china.psd\", nation == eNation.FRANCE -> \"~res:/Gfx/Lobby/flags/flag_carousel_france.psd\", nation == eNation.OTHER -> \"~res:/Gfx/Lobby/flags/flag_carousel_other.psd\", nation == eNation.EUROPEAN -> \"~res:/Gfx/Lobby/flags/flag_carousel_european.psd\", \"~res:/Gfx/Lobby/flags/flag_carousel_other.psd\"), (when subnation == \"finland\" -> \"~res:/Gfx/Lobby/flags/flag_carousel_finland.psd\", subnation == \"poland\" -> \"~res:/Gfx/Lobby/flags/flag_carousel_poland.psd\", subnation == \"sweden\" -> \"~res:/Gfx/Lobby/flags/flag_carousel_sweden.psd\", subnation == \"italy\" -> \"~res:/Gfx/Lobby/flags/flag_carousel_italy.psd\", subnation == \"australia\" -> \"~res:/Gfx/Lobby/flags/flag_carousel_australia.psd\", subnation == \"canada\" -> \"~res:/Gfx/Lobby/flags/flag_carousel_canada.psd\", subnation == \"czech\" -> \"~res:/Gfx/Lobby/flags/flag_carousel_czech.psd\", \"~res:/Gfx/Lobby/flags/flag_carousel_european.psd\")"]
+    children:
+    -   class: "UIControl"
+        name: "Flag"
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+            UIOpacityComponent: {}
+            UIRoundedCornersComponent:
+                radius: "4"
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["Background.sprite", "nationFlagIcon"]
+        - ["UIOpacityComponent.opacity", "when owned -> 0.300000, 0.500000"]
+        children:
+        -   class: "UIControl"
+            name: "Saturation"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                UITextureComponent:
+                    materialPath: "~res:/Materials.custom/2d.Textured.Saturation.material"
+                    materialParams: "saturation,25"
+    -   class: "UIControl"
+        name: "TankWrapper"
+        input: false
+        components:
+            ClipContent: {}
+            Anchor:
+                rightAnchorEnabled: true
+                rightAnchor: 16.000000
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "Formula"
+                verticalFormula: "parent - 4"
+        children:
+        -   class: "UIControl"
+            name: "TankImage"
+            input: false
+            components:
+                UIOpacityComponent: {}
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 120.000000
+                    verticalPolicy: "FixedSize"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Detailed/VehicleIcon.yaml"
+                    args:
+                        "vehicle": "vehicle"
+            bindings:
+            - ["UIOpacityComponent.opacity", "when owned -> fadeOpacity, 1.000000"]
+    -   class: "UIControl"
+        name: "Tier"
+        input: false
+        components:
+            UIOpacityComponent: {}
+            Anchor:
+                leftAnchorEnabled: true
+                leftAnchor: 8.000000
+                topAnchorEnabled: true
+                topAnchor: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                childType: "kPrototype"
+                condition: "not isNull(vehicle)"
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Vehicle/VehicleInfo.yaml"
+                args:
+                    "class": "vehicle.info.tankClass"
+                    "level": "vehicle.info.level"
+                    "type": "when vehicle.info.isPremium -> eVehicleDescriptionType.PREMIUM, vehicle.info.isCollectible -> eVehicleDescriptionType.COLLECTIBLE, vehicle.stats.isPremiumized -> eVehicleDescriptionType.PREMIUMISED, eVehicleDescriptionType.NORMAL"
+                    "elite": "vehicle.stats.isElite"
+        bindings:
+        - ["UIOpacityComponent.opacity", "when owned -> fadeOpacity, 1.000000"]
+    -   class: "UIControl"
+        name: "Name"
+        input: false
+        components:
+            UIOpacityComponent: {}
+            Anchor:
+                leftAnchorEnabled: true
+                leftAnchor: 8.000000
+                bottomAnchorEnabled: true
+                bottomAnchor: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Vehicle/VehicleName.yaml"
+                args:
+                    "textStyle": "\"t-caption bold\""
+                    "isShortName": "true"
+                    "vehicle": "vehicle.info"
+                    "tankStats": "vehicle.stats"
+        bindings:
+        - ["UIOpacityComponent.opacity", "when owned -> fadeOpacity, 1.000000"]
+    -   class: "UIControl"
+        name: "Owned"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                childType: "kControl"
+                condition: "owned"
+                control: "OwnedBg"
+Slots:
+-   class: "UIControl"
+    name: "OwnedBg"
+    size: [100.000000, 100.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "Fade"
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_FILL"
+            UIOpacityComponent: {}
+            UIGradientComponent:
+                startColor: [0.000000, 0.000000, 0.000000, 0.000000]
+                finishColor: [0.000000, 0.000000, 0.000000, 0.196078]
+                orientation: "TopDown"
+            UIRoundedCornersComponent:
+                radius: "4"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
+    -   class: "UIControl"
+        name: "Mark"
+        input: false
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+                rightAnchor: -4.000000
+                topAnchorEnabled: true
+                topAnchor: -4.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/CheckMark.yaml"
+                args:
+                    "isVisible": "true"

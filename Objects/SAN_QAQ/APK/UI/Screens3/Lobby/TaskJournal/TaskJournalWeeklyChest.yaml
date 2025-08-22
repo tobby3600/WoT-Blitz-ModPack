@@ -11,26 +11,10 @@ Prototypes:
         UIAnimationComponent:
             animations: "CHEST_UNLOCKED,~res:/UI/Screens3/Lobby/TaskJournal/Animations/ChestUnlocked.animation"
         Background:
-            usePostProcessedSprite: true
-        UIPostProcessTextureComponent0:
-            materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-            needClearAlphaAfterRender: true
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent1:
-            materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent2:
-            materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
+            drawType: "DRAW_FILL"
+            perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+            leftRightStretchCap: 5.000000
+            topBottomStretchCap: 5.000000
         UIRoundedCornersComponent:
             radius: "5"
         Anchor:
@@ -115,7 +99,7 @@ Prototypes:
             bindings:
             - ["UITextureComponent.spritePath", "\"~res:/Gfx/UI/TaskJournal/Extended/Chests_week_\" + str(index + 1)"]
             - ["UITextureComponent.frame", "imageFrame"]
-            - ["UITextureComponent.materialParams", "when isOpened -> \"hue,0;saturation,0;value,0\", \"hue,0;saturation,1;value,0\""]
+            - ["UITextureComponent.materialParams", "when isOpened -> \"saturation,-100\", \"saturation,0\""]
         -   class: "UIControl"
             name: "ChestStatus"
             input: false
@@ -167,6 +151,7 @@ Slots:
                 args:
                     "maximum": "maxProxy"
                     "value": "currentProxy"
+                    "isBlur": "false"
     -   class: "UIControl"
         name: "ResourceStatusContainer"
         input: false

@@ -1,0 +1,72 @@
+Header:
+    version: 149
+Prototypes:
+-   class: "UIControl"
+    name: "Footer"
+    size: [800.000000, 101.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfFirstChild"
+        UIDataParamsComponent:
+            params:
+            - ["TanksRankConfigurationModel", "rankConfig", "null", "{ }"]
+            - ["StorageSelectedItemInfo", "info", "{ }", "{ }"]
+            events:
+            - "ON_ACTION(eArtefactAction actionType)"
+        UIChildComponent0:
+            prototypePath: "~res:/UI/Screens3/Common/Footer.yaml"
+            args:
+                "bgStyle": "\"grey-shark-70-bg\""
+                "content": "FooterContent"
+                "isBlur": "false"
+Slots:
+-   class: "UIControl"
+    name: "FooterContent"
+    size: [800.000000, 48.000000]
+    input: false
+    components:
+        LinearLayout:
+            orientation: "RightToLeft"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "Buttons"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            LinearLayout:
+                orientation: "RightToLeft"
+                spacing: 16.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfParent"
+            UIRepeatComponent:
+                control: "~res:/UI/Screens3/Lobby/Storage/StorageButtonWrapper.yaml"
+                dataContainer: "info.footerActions"
+                args:
+                    "isEnabled": "not (_item.actionType == eArtefactAction.Use and info.requiredTankRank > 0)"
+                    "isVisible": "when _item.actionType == eArtefactAction.Convert and isNull(info.resource.sellInfo) -> false, true"
+                    "action": "_item"
+                    "isInstalled": "info.isInstalled"
+                eventActions:
+                - ["ON_CLICK_BUTTON", "ON_ACTION", "_item.actionType"]
+    -   class: "UIControl"
+        name: "TankRankRichText"
+        size: [325.000000, 24.000000]
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                condition: "info.requiredTankRank > 0"
+                prototypePath: "~res:/UI/Screens3/Lobby/Inventory/TankProgress/TankRankConditionLabel.yaml"
+                args:
+                    "requiredTankRank": "info.requiredTankRank"
+                    "rankConfig": "rankConfig"

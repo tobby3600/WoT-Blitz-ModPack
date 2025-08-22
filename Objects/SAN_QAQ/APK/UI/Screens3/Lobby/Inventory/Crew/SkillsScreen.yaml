@@ -1,0 +1,342 @@
+Header:
+    version: 128
+ImportedPackages:
+- "~res:/UI/Screens3/Common/Footer.yaml"
+- "~res:/UI/Screens3/Lobby/Inventory/Common/DynamicHorizontalPadding.yaml"
+- "~res:/UI/Screens3/Lobby/Inventory/Common/DynamicTopSpacer.yaml"
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+- "~res:/UI/Screens3/Lobby/Inventory/Common/BottomInventorySpacer.yaml"
+- "~res:/UI/Screens3/Lobby/Common/RichText.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+- "~res:/UI/Screens3/Common/DiscountLabel.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "Screen"
+    size: [960.000000, 496.000000]
+    input: false
+    components:
+        Anchor:
+            leftAnchorEnabled: true
+            rightAnchorEnabled: true
+            topAnchorEnabled: true
+            bottomAnchorEnabled: true
+        LinearLayout:
+            orientation: "TopDown"
+        UISwitchBarComponent:
+            onSelectElement: "SKILL_SELECTED"
+            onSelectElementData: "_selectedElement"
+            selectionEventType: "TOUCH_UP"
+        UIDataParamsComponent:
+            params:
+            - ["TutorialDataModel", "tutorialModel", "null", "{ }"]
+            - ["CrewSkillsViewModel", "model", "null", "{ }"]
+            events:
+            - "ACCELERATE_SKILL"
+            - "TRAIN_SKILL"
+        UIDataLocalBindingsComponent:
+            data:
+            - ["eTutorialHighlights", "currentHighlightControl", "when not isNull(tutorialModel) -> tutorialModel.currentHighlightControl, eTutorialHighlights.kUnknown"]
+            - ["string", "selectedName", "when not isNull(model) -> model.selected.skillName, \"\""]
+            - ["bool", "isActiveSkill", "when not isNull(model) -> model.activeSkills.Contains(selectedName), false"]
+            - ["bool", "isMaxSkillLevel", "when not isNull(model) -> model.selected.level >= model.selected.maxLevel, false"]
+            - ["eSkillTrainMode", "trainMode", "when not isNull(model) -> model.skillDescription.trainMode, eSkillTrainMode.kTrain"]
+            - ["bool", "discountVisible", "when not isNull(model) -> model.discountAvailable, false"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Inventory/Crew/SkillsScreen.actions"
+        UIEventOnDataComponent0:
+            watchedDataExpression: "currentHighlightControl"
+            ifExpression: "currentHighlightControl == eTutorialHighlights.kCurrentSkillTrain"
+            eventName: "SCROLL_TO_TANK_SKILLS"
+            eventData: "model.selectedTankClass"
+    bindings:
+    - ["UISwitchBarComponent.selectedElement", "selectedName"]
+    children:
+    -   prototype: "DynamicTopSpacer/DynamicTopSpacer"
+        name: "DynamicTopSpacer"
+    -   class: "UIControl"
+        name: "Content"
+        position: [0.000000, 16.000000]
+        input: false
+        classes: "inventory-limited-width"
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            LinearLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Common/Desktop.style.yaml"
+        children:
+        -   prototype: "DynamicHorizontalPadding/DynamicHorizontalPadding"
+            name: "DynamicHorizontalPadding"
+            classes: "padding fixed-padding desktop-unvisible"
+        -   class: "UIControl"
+            name: "CenterContent"
+            position: [16.000000, 0.000000]
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIScrollView"
+                name: "ContentArea"
+                autoUpdate: true
+                centerContent: true
+                components:
+                    Background: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "Formula"
+                        verticalFormula: "when parent == 0 -> childrenSum, parent"
+                children:
+                -   class: "UIScrollViewContainer"
+                    name: "scrollContainerControl"
+                    position: [0.000000, -157.000000]
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            horizontalValue: 100.000000
+                            horizontalMax: 664.000000
+                            verticalPolicy: "PercentOfChildrenSum"
+                        FlowLayout:
+                            hPadding: "8"
+                            hDynamicPadding: true
+                            hSpacing: 16.000000
+                            vPadding: "16"
+                            vDynamicPadding: true
+                            vSpacing: 26.000000
+                        UIRepeatComponent:
+                            control: "~res:/UI/Screens3/Lobby/Inventory/Crew/SkillsSet.yaml"
+                            dataContainer: "model.skillsByClass"
+                            args:
+                                "selectedName": "selectedName"
+                                "selectedTankClass": "model.selectedTankClass"
+                                "currentHighlightControl": "currentHighlightControl"
+                                "activeSkills": "model.activeSkills"
+                                "classSkills": "_item"
+            -   prototype: "VerticalScrollBar/VerticalScrollBar"
+                name: "VerticalScrollBar"
+                position: [348.000000, 0.000000]
+                components:
+                    Anchor:
+                        enabled: true
+                        rightAnchorEnabled: true
+                        rightAnchor: -6.000000
+                        topAnchorEnabled: true
+                        topAnchor: 2.000000
+                        bottomAnchorEnabled: true
+                        bottomAnchor: 2.000000
+                    UIScrollBarComponent:
+                        delegate: "../ContentArea"
+        -   class: "UIControl"
+            name: "Spacer"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 16.000000
+                    verticalPolicy: "PercentOfParent"
+        -   class: "UIControl"
+            name: "RightPanelWrapper"
+            position: [596.000000, 0.000000]
+            size: [630.000000, 400.000000]
+            input: false
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "RightPanel"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "Formula"
+                        verticalFormula: "when parent == 0 -> childrenSum, min(parentRest, childrenSum)"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Lobby/Inventory/Common/RightPanel.yaml"
+                        args:
+                            "header": "RightPanelHeader"
+                            "content": "RightPanelContent"
+                            "isBlur": "false"
+            -   prototype: "BottomInventorySpacer/BottomSpacer"
+                name: "BottomSpacer"
+        -   prototype: "DynamicHorizontalPadding/DynamicHorizontalPadding"
+            name: "DynamicHorizontalPadding_1"
+            classes: "padding only-notch-padding desktop-unvisible"
+    -   prototype: "Footer/Footer"
+        name: "Footer"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "bgStyle": "\"grey-shark-70-bg\""
+                    "content": "when isActiveSkill -> AccelerateSkillFooterContent, TrainSkillFooterContent"
+                    "isBlur": "false"
+Slots:
+-   class: "UIControl"
+    name: "AccelerateSkillFooterContent"
+    size: [940.000000, 32.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfMaxChild"
+    children:
+    -   class: "UIControl"
+        name: "TextWrapper"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   prototype: "RichText/RichText"
+            name: "RichText"
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                    useRtl: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 500.000000
+                FlowLayout:
+                    useRtl: false
+                UIDataParamsComponent:
+                    args:
+                        "baseFontSize": "\"t-body\""
+                        "baseFontStyle": "\"regular\""
+                        "baseFontColor": "\"white-wild-sand-50-text\""
+                        "key": "localize(\"#crew:skills/skillDescription/tip2\")"
+                        "resource1Model": "null"
+                        "resource2Model": "null"
+                        "resource3Model": "null"
+                        "resource4Model": "null"
+    -   class: "UIControl"
+        name: "Disount"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+                rightAnchor: 156.000000
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+        bindings:
+        - ["visible", "discountVisible"]
+        children:
+        -   prototype: "DiscountLabel/DiscountLabel"
+            name: "DiscountLabel"
+    -   prototype: "Button/Button"
+        name: "ButtonPositive"
+        position: [789.000000, 0.000000]
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            UIDataParamsComponent:
+                args:
+                    "sound": "eButtonSound.OK"
+                    "caption": "localize(\"#crew:skills/skillDescription/speedUp\")"
+                    "type": "eButtonType.POSITIVE"
+                    "size": "eButtonSize.NORMAL"
+                    "enabled": "not isMaxSkillLevel"
+                eventActions:
+                - ["ON_CLICK_BUTTON", "ACCELERATE_SKILL", ""]
+-   class: "UIControl"
+    name: "TrainSkillFooterContent"
+    size: [940.000000, 32.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfMaxChild"
+    children:
+    -   class: "UIControl"
+        name: "TextWrapper"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   prototype: "RichText/RichText"
+            name: "RichText"
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 500.000000
+                FlowLayout:
+                    useRtl: false
+                UIDataParamsComponent:
+                    args:
+                        "baseFontSize": "\"t-body\""
+                        "baseFontStyle": "\"regular\""
+                        "baseFontColor": "\"white-wild-sand-50-text\""
+                        "key": "localize(\"#crew:skills/skillDescription/tip2\")"
+                        "resource1Model": "null"
+                        "resource2Model": "null"
+                        "resource3Model": "null"
+                        "resource4Model": "null"
+    -   prototype: "Button/Button"
+        name: "ButtonPositive"
+        position: [131.000000, 30.000000]
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            UIDataParamsComponent:
+                args:
+                    "caption": "when trainMode == eSkillTrainMode.kTrainSkill -> localize(\"#crew:skills/trainSkill\"), trainMode == eSkillTrainMode.kTrain -> localize(\"#crew:skills/skillDescription/train\"), trainMode == eSkillTrainMode.kConvert -> localize(\"#crew:skills/skillDescription/convert\"), \"\""
+                    "type": "eButtonType.POSITIVE"
+                    "size": "eButtonSize.NORMAL"
+                    "enabled": "not isMaxSkillLevel"
+                eventActions:
+                - ["ON_CLICK_BUTTON", "TRAIN_SKILL", ""]
+        children:
+        -   path: "TapArea/Content/Bg/Shadows/Colored/Left"
+            position: [-48.000000, 0.000000]
+-   class: "UIControl"
+    name: "RightPanelHeader"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfMaxChild"
+        UIChildComponent0:
+            condition: "not isNull(model)"
+            prototypePath: "~res:/UI/Screens3/Lobby/Inventory/Crew/SkillDescriptionHeader.yaml"
+            args:
+                "skill": "model.selected"
+                "userString": "model.skillDescription.userString"
+                "activeSkills": "model.activeSkills"
+-   class: "UIControl"
+    name: "RightPanelContent"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfChildrenSum"
+        UIChildComponent0:
+            condition: "not isNull(model)"
+            prototypePath: "~res:/UI/Screens3/Lobby/Inventory/Crew/SkillDescriptionPanel.yaml"
+            args:
+                "description": "model.skillDescription"
+                "isMaxLevel": "model.selected.level == model.selected.maxLevel"

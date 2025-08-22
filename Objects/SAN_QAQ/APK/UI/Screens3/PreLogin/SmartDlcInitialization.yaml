@@ -1,5 +1,7 @@
 Header:
     version: 161
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "SmartDlcInitialization"
@@ -120,29 +122,6 @@ Prototypes:
         position: [374.000000, 64.000000]
         input: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIRoundedCornersComponent:
-                radius: "8"
             Anchor:
                 hCenterAnchorEnabled: true
                 topAnchorEnabled: true
@@ -155,43 +134,23 @@ Prototypes:
             UIChildComponent0:
                 condition: "preLoginData.isChina"
                 prototypePath: "~res:/UI/Screens3/PreLogin/AOGASControl.yaml"
-                args:
-                    "description": "localize(\"#SAN_QAQ_ModPack/Description\")"
-                    "header": "localize(\"#SAN_QAQ_ModPack/Header\")"
         bindings:
         - ["visible", "preLoginData.isChina"]
+        children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "roundCorner": "\"8\""
     -   class: "UIControl"
         name: "AgeRatingInfo"
         size: [265.000000, 220.000000]
         input: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIRoundedCornersComponent:
-                radius: "8"
             Anchor:
                 hCenterAnchorEnabled: true
                 bottomAnchorEnabled: true
-                bottomAnchor: 16.000000
             LinearLayout:
                 orientation: "TopDown"
                 dynamicPadding: true
@@ -203,7 +162,14 @@ Prototypes:
                 verticalValue: 125.000000
         bindings:
         - ["visible", "preLoginData.isChina"]
+        - ["Anchor.bottomAnchor", "when (screenHeight > 640 and screenHeight < 1023) -> 16.000000, screenHeight * 0.060000"]
         children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "SelfRegulatoryConvention"
             input: false

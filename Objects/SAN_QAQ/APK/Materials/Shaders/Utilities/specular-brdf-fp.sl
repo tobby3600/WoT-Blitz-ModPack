@@ -32,12 +32,12 @@ fragment_out fp_main(fragment_in input)
 		float NdotL = saturate(L.z);
 		float NdotH = saturate(H.z);
 
-		float Gv = G_GGX(NdotV, NdotL, input.texCoord.y) * VdotH / (NdotV * NdotH + 0.0001);
+		float Gv = G_GGX(NdotV, NdotL, input.texCoord.y) * VdotH / (NdotV * NdotH + 1e-4);
 		float Fc = Gv * pow5Exp(VdotH);
 		result += float2(Gv - Fc, Fc);
 	}
 
-	output.color = float4(result * 0.000244140625, 0.0, 1.0);
+	output.color = float4(result * 2.44140625e-4, 0.0, 1.0);
 
 	return output;
 }

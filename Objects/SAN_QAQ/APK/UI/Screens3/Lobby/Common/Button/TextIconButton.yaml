@@ -13,25 +13,27 @@ Prototypes:
             onTouchUpInside: "ON_CLICK_BUTTON"
         UIDataParamsComponent:
             params:
-            - ["string", "icon", "\"\"", "\"~res:/Gfx/Lobby/icons/icon_empty_32.psd\""]
-            - ["string", "iconColorStyle", "\"white-wild-sand-bg\"", "\"white-wild-sand-bg\""]
+            - ["bool", "bgIsVisible", "true", "true"]
+            - ["bool", "enabled", "false", "true"]
             - ["bool", "iconIsLeft", "true", "true"]
-            - ["string", "caption", "\"\"", "\"BUTTON\""]
-            - ["eButtonType", "type", "eButtonType.POSITIVE", "eButtonType.POSITIVE"]
+            - ["bool", "isBlur", "true", "true"]
+            - ["bool", "locked", "false", "false"]
+            - ["bool", "visible", "true", "true"]
             - ["eButtonSize", "size", "eButtonSize.NORMAL", "eButtonSize.NORMAL"]
             - ["eButtonSound", "sound", "eButtonSound.UNKNOWN", "eButtonSound.UNKNOWN"]
-            - ["bool", "enabled", "false", "true"]
-            - ["bool", "locked", "false", "false"]
+            - ["eButtonType", "type", "eButtonType.POSITIVE", "eButtonType.POSITIVE"]
             - ["int", "iconFlip", "0", "0"]
-            - ["bool", "bgIsVisible", "true", "true"]
-            - ["bool", "visible", "true", "true"]
+            - ["string", "caption", "\"\"", "\"BUTTON\""]
+            - ["string", "icon", "\"\"", "\"~res:/Gfx/Lobby/icons/icon_empty_32.psd\""]
+            - ["string", "iconColorStyle", "\"white-wild-sand-bg\"", "\"white-wild-sand-bg\""]
+            - ["string", "maskStyle", "\"\"", "\"\""]
             events:
             - "ON_CLICK_BUTTON"
         UIDataLocalBindingsComponent:
             data:
             - ["eButtonSound", "soundType", "when sound != eButtonSound.UNKNOWN -> sound, type == eButtonType.POSITIVE or type == eButtonType.NO_BG or type == eButtonType.NO_BG_WHITE -> eButtonSound.OPEN, type == eButtonType.ALTERNATIVE -> eButtonSound.OK, type == eButtonType.ALTERNATIVE -> eButtonSound.OK, type == eButtonType.NEGATIVE -> eButtonSound.SELL, eButtonSound.CANCEL"]
             - ["bool", "isColoredButton", "type == eButtonType.POSITIVE or type == eButtonType.ALTERNATIVE or type == eButtonType.NEGATIVE or type == eButtonType.SPECIAL"]
-            - ["string", "bgStyle", "str(type, eButtonType, \"color_style\")"]
+            - ["string", "bgStyle", "when isBlur -> maskStyle, str(type, eButtonType, \"color_style\")"]
             - ["string", "coloredButtonType", "str(type, eButtonType, \"sprite_name\")"]
             - ["string", "soundStyle", "when soundType == eButtonSound.OPEN -> \"button-open-sound\", soundType == eButtonSound.OK -> \"button-ok-sound\", soundType == eButtonSound.CANCEL -> \"button-cancel-sound\", soundType == eButtonSound.SELL -> \"button-sell-sound\", soundType == eButtonSound.BUY -> \"button-buy-sound\", soundType == eButtonSound.CHOOSE -> \"button-choose-sound\", \"\""]
     bindings:
@@ -81,21 +83,13 @@ Prototypes:
                 bindings:
                 - ["visible", "bgIsVisible and not (type == eButtonType.NO_BG or type == eButtonType.NO_BG_WHITE)"]
                 children:
-                -   class: "UIControl"
-                    name: "BasicBackground"
-                    input: false
+                -   prototype: "BlurModified/BlurModified"
+                    name: "Blur"
                     components:
-                        Background: {}
-                        SizePolicy:
-                            horizontalPolicy: "PercentOfParent"
-                            verticalPolicy: "PercentOfParent"
-                    bindings:
-                    - ["visible", "not isColoredButton"]
-                    children:
-                    -   prototype: "BlurModified/BlurModified"
-                        name: "Blur"
-                        components:
+                        UIDataParamsComponent:
                             args:
+                                "isVisible": "not isColoredButton"
+                                "isBlur": "isBlur"
                                 "bgStyle": "bgStyle"
                 -   class: "UIControl"
                     name: "Shadows"

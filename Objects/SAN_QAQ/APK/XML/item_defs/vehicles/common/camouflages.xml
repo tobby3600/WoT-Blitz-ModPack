@@ -1,6 +1,6 @@
 <root>
-	<nextAvailableId>1101</nextAvailableId>
-	<nextAvailableIdForDynamicContent>2138</nextAvailableIdForDynamicContent>
+	<nextAvailableId>1112</nextAvailableId>
+	<nextAvailableIdForDynamicContent>2142</nextAvailableIdForDynamicContent>
 	<groups>
 		<standard>
 			<userString>ApppearancePanel/Grade/Standard</userString>
@@ -10456,7 +10456,7 @@
 			<category>free</category>
 			<group>legendary</group>
 			<kind>desert summer winter</kind>
-			<notInShop>true</notInShop>
+			<notInShop>false</notInShop>
 			<script>Camouflage</script>
 			<unlockCostCategory>ultimate-skins-gold</unlockCostCategory>
 			<vehicleFilter>
@@ -10475,7 +10475,7 @@
 			<category>free</category>
 			<group>legendary</group>
 			<kind>desert summer winter</kind>
-			<notInShop>true</notInShop>
+			<notInShop>false</notInShop>
 			<script>Camouflage</script>
 			<unlockCostCategory>ultimate-skins-gold</unlockCostCategory>
 			<vehicleFilter>
@@ -10695,6 +10695,120 @@
 				</include>
 			</vehicleFilter>
 		</skin3_r97_object_140>
+		<battlepass60_03>
+			<id>1102</id>
+			<userString>#vehicle_customization:camouflage/battlepass60_03/Name</userString>
+			<description>#vehicle_customization:camouflage/Universal/Descr</description>
+			<icon/>
+			<category>free</category>
+			<group>improved</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<unlockCostCategory>rare-camo-gold</unlockCostCategory>
+			<script>Camouflage</script>
+			<vehicleFilter>
+				<exclude>
+					<vehicle>
+						<tags>eventCamouflage_user</tags>
+					</vehicle>
+				</exclude>
+			</vehicleFilter>
+		</battlepass60_03>
+		<battlepass60_04>
+			<id>1103</id>
+			<userString>#vehicle_customization:camouflage/battlepass60_04/Name</userString>
+			<description>#vehicle_customization:camouflage/Universal/Descr</description>
+			<icon/>
+			<category>free</category>
+			<group>improved</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<unlockCostCategory>rare-camo-gold</unlockCostCategory>
+			<script>Camouflage</script>
+			<vehicleFilter>
+				<exclude>
+					<vehicle>
+						<tags>eventCamouflage_user</tags>
+					</vehicle>
+				</exclude>
+			</vehicleFilter>
+		</battlepass60_04>
+		<battlepass60_01>
+			<id>1104</id>
+			<userString>#vehicle_customization:camouflage/battlepass60_01/Name</userString>
+			<description>#vehicle_customization:camouflage/Universal/Descr</description>
+			<icon/>
+			<category>free</category>
+			<group>improved</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<unlockCostCategory>rare-camo-gold</unlockCostCategory>
+			<script>Camouflage</script>
+			<vehicleFilter>
+				<exclude>
+					<vehicle>
+						<tags>eventCamouflage_user</tags>
+					</vehicle>
+				</exclude>
+			</vehicleFilter>
+		</battlepass60_01>
+		<battlepass60_02>
+			<id>1105</id>
+			<userString>#vehicle_customization:camouflage/battlepass60_02/Name</userString>
+			<description>#vehicle_customization:camouflage/Universal/Descr</description>
+			<icon/>
+			<category>free</category>
+			<group>improved</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<unlockCostCategory>rare-camo-gold</unlockCostCategory>
+			<script>Camouflage</script>
+			<vehicleFilter>
+				<exclude>
+					<vehicle>
+						<tags>eventCamouflage_user</tags>
+					</vehicle>
+				</exclude>
+			</vehicleFilter>
+		</battlepass60_02>
+		<skin3_is_3>
+			<id>1106</id>
+			<userString>#vehicle_customization:camouflage/skin3_is_3/Name</userString>
+			<description>#vehicle_customization:camouflage/skin3_is_3/Descr</description>
+			<icon>~res:/Gfx/UI/CamouflagesShop/Skin/ussr-IS_3_skin3.txt</icon>
+			<category>free</category>
+			<group>legendary</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<script>Camouflage</script>
+			<unlockCostCategory>ultimate-skins-gold</unlockCostCategory>
+			<vehicleFilter>
+				<include>
+					<vehicle>
+						<name>ussr:IS-3</name>
+					</vehicle>
+				</include>
+			</vehicleFilter>
+		</skin3_is_3>
+		<skin2_a175_atac>
+			<id>1110</id>
+			<userString>#vehicle_customization:camouflage/skin2_a175_atac/Name</userString>
+			<description>#vehicle_customization:camouflage/skin2_a175_atac/Descr</description>
+			<icon>~res:/Gfx/UI/CamouflagesShop/Skin/usa-A175_ATAC_skin2.txt</icon>
+			<category>free</category>
+			<group>legendary</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<script>Camouflage</script>
+			<unlockCostCategory>ultimate-skins-gold</unlockCostCategory>
+			<vehicleFilter>
+				<include>
+					<vehicle>
+						<name>usa:A175_ATAC</name>
+					</vehicle>
+				</include>
+			</vehicleFilter>
+		</skin2_a175_atac>
 		<skin_e25>
 			<id>255</id>
 			<userString>#vehicle_customization:camouflage/Number1/Name</userString>
@@ -15749,7 +15863,7 @@
 			<category>free</category>
 			<group>legendary</group>
 			<kind>desert summer winter</kind>
-			<notInShop>true</notInShop>
+			<notInShop>false</notInShop>
 			<script>Camouflage</script>
 			<unlockCostCategory>ultimate-skins-gold</unlockCostCategory>
 			<vehicleFilter>
@@ -15817,82 +15931,101 @@
 				</include>
 			</vehicleFilter>
 		</skin_g71_jagdpantherii>
-		<battlepass59_01>
-			<id>1094</id>
-			<userString>#vehicle_customization:camouflage/battlepass59_01/Name</userString>
-			<description>#vehicle_customization:camouflage/Universal/Descr</description>
-			<icon/>
+		<skin_f127_elc_amx_901_proto>
+			<id>1101</id>
+			<userString>#vehicle_customization:camouflage/skin_f127_elc_amx_901_proto/Name</userString>
+			<description>#vehicle_customization:camouflage/skin_f127_elc_amx_901_proto/Descr</description>
+			<icon>~res:/Gfx/UI/CamouflagesShop/Skin/france-F127_ELC_AMX_901_Proto_skin.txt</icon>
 			<category>free</category>
-			<group>improved</group>
+			<group>legendary</group>
 			<kind>desert summer winter</kind>
 			<notInShop>true</notInShop>
-			<unlockCostCategory>rare-camo-gold</unlockCostCategory>
 			<script>Camouflage</script>
+			<unlockCostCategory>ultimate-skins-gold</unlockCostCategory>
 			<vehicleFilter>
-				<exclude>
+				<include>
 					<vehicle>
-						<tags>eventCamouflage_user</tags>
+						<name>france:F127_ELC_AMX_901_Proto</name>
 					</vehicle>
-				</exclude>
+				</include>
 			</vehicleFilter>
-		</battlepass59_01>
-		<battlepass59_02>
-			<id>1095</id>
-			<userString>#vehicle_customization:camouflage/battlepass59_02/Name</userString>
-			<description>#vehicle_customization:camouflage/Universal/Descr</description>
-			<icon/>
+		</skin_f127_elc_amx_901_proto>
+		<skin_a175_atac>
+			<id>1107</id>
+			<userString>#vehicle_customization:camouflage/skin_a175_atac/Name</userString>
+			<description>#vehicle_customization:camouflage/skin_a175_atac/Descr</description>
+			<icon>~res:/Gfx/UI/CamouflagesShop/Skin/usa-A175_ATAC_skin.txt</icon>
 			<category>free</category>
-			<group>improved</group>
+			<group>legendary</group>
 			<kind>desert summer winter</kind>
 			<notInShop>true</notInShop>
-			<unlockCostCategory>rare-camo-gold</unlockCostCategory>
 			<script>Camouflage</script>
+			<unlockCostCategory>ultimate-skins-gold</unlockCostCategory>
 			<vehicleFilter>
-				<exclude>
+				<include>
 					<vehicle>
-						<tags>eventCamouflage_user</tags>
+						<name>usa:A175_ATAC</name>
 					</vehicle>
-				</exclude>
+				</include>
 			</vehicleFilter>
-		</battlepass59_02>
-		<battlepass59_03>
-			<id>1096</id>
-			<userString>#vehicle_customization:camouflage/battlepass59_03/Name</userString>
-			<description>#vehicle_customization:camouflage/Universal/Descr</description>
-			<icon/>
+		</skin_a175_atac>
+		<skin_a90_t69>
+			<id>1108</id>
+			<userString>#vehicle_customization:camouflage/skin_a90_t69/Name</userString>
+			<description>#vehicle_customization:camouflage/skin_a90_t69/Descr</description>
+			<icon>~res:/Gfx/UI/CamouflagesShop/Skin/usa-A90_T69_skin.txt</icon>
 			<category>free</category>
-			<group>improved</group>
+			<group>legendary</group>
 			<kind>desert summer winter</kind>
 			<notInShop>true</notInShop>
-			<unlockCostCategory>rare-camo-gold</unlockCostCategory>
 			<script>Camouflage</script>
+			<unlockCostCategory>ultimate-skins-gold</unlockCostCategory>
 			<vehicleFilter>
-				<exclude>
+				<include>
 					<vehicle>
-						<tags>eventCamouflage_user</tags>
+						<name>usa:T69</name>
 					</vehicle>
-				</exclude>
+				</include>
 			</vehicleFilter>
-		</battlepass59_03>
-		<battlepass59_04>
-			<id>1097</id>
-			<userString>#vehicle_customization:camouflage/battlepass59_04/Name</userString>
-			<description>#vehicle_customization:camouflage/Universal/Descr</description>
-			<icon/>
+		</skin_a90_t69>
+		<skin_ch57_bzt_70>
+			<id>1109</id>
+			<userString>#vehicle_customization:camouflage/skin_ch57_bzt_70/Name</userString>
+			<description>#vehicle_customization:camouflage/skin_ch57_bzt_70/Descr</description>
+			<icon>~res:/Gfx/UI/CamouflagesShop/Skin/china-Ch57_BZT_70_skin.txt</icon>
 			<category>free</category>
-			<group>improved</group>
+			<group>legendary</group>
 			<kind>desert summer winter</kind>
 			<notInShop>true</notInShop>
-			<unlockCostCategory>rare-camo-gold</unlockCostCategory>
 			<script>Camouflage</script>
+			<unlockCostCategory>ultimate-skins-gold</unlockCostCategory>
 			<vehicleFilter>
-				<exclude>
+				<include>
 					<vehicle>
-						<tags>eventCamouflage_user</tags>
+						<name>china:Ch57_BZT_70</name>
 					</vehicle>
-				</exclude>
+				</include>
 			</vehicleFilter>
-		</battlepass59_04>
+		</skin_ch57_bzt_70>
+		<skin_f36_amx_ac_mle1948>
+			<id>1111</id>
+			<userString>#vehicle_customization:camouflage/skin_f36_amx_ac_mle1948/Name</userString>
+			<description>#vehicle_customization:camouflage/skin_f36_amx_ac_mle1948/Descr</description>
+			<icon>~res:/Gfx/UI/CamouflagesShop/Skin/france-F36_AMX_AC_Mle1948_skin.txt</icon>
+			<category>free</category>
+			<group>legendary</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<script>Camouflage</script>
+			<unlockCostCategory>legendary-skins-gold</unlockCostCategory>
+			<vehicleFilter>
+				<include>
+					<vehicle>
+						<name>france:AMX_AC_Mle1948</name>
+					</vehicle>
+				</include>
+			</vehicleFilter>
+		</skin_f36_amx_ac_mle1948>
 		<custom_set_Object252>
 			<id>1000</id>
 			<userString>#vehicle_customization:customSet/set_mskin_IS6/Name</userString>
@@ -52578,5 +52711,81 @@
 				</include>
 			</vehicleFilter>
 		</skin_gb110_fv4201_chieftain_prototype>
+		<battlepass61_01>
+			<id>2138</id>
+			<userString>#vehicle_customization:camouflage/battlepass61_01/Name</userString>
+			<description>#vehicle_customization:camouflage/Universal/Descr</description>
+			<icon/>
+			<category>free</category>
+			<group>improved</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<unlockCostCategory>rare-camo-gold</unlockCostCategory>
+			<script>Camouflage</script>
+			<vehicleFilter>
+				<exclude>
+					<vehicle>
+						<tags>eventCamouflage_user</tags>
+					</vehicle>
+				</exclude>
+			</vehicleFilter>
+		</battlepass61_01>
+		<battlepass61_02>
+			<id>2139</id>
+			<userString>#vehicle_customization:camouflage/battlepass61_02/Name</userString>
+			<description>#vehicle_customization:camouflage/Universal/Descr</description>
+			<icon/>
+			<category>free</category>
+			<group>improved</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<unlockCostCategory>rare-camo-gold</unlockCostCategory>
+			<script>Camouflage</script>
+			<vehicleFilter>
+				<exclude>
+					<vehicle>
+						<tags>eventCamouflage_user</tags>
+					</vehicle>
+				</exclude>
+			</vehicleFilter>
+		</battlepass61_02>
+		<battlepass61_03>
+			<id>2140</id>
+			<userString>#vehicle_customization:camouflage/battlepass61_03/Name</userString>
+			<description>#vehicle_customization:camouflage/Universal/Descr</description>
+			<icon/>
+			<category>free</category>
+			<group>improved</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<unlockCostCategory>rare-camo-gold</unlockCostCategory>
+			<script>Camouflage</script>
+			<vehicleFilter>
+				<exclude>
+					<vehicle>
+						<tags>eventCamouflage_user</tags>
+					</vehicle>
+				</exclude>
+			</vehicleFilter>
+		</battlepass61_03>
+		<battlepass61_04>
+			<id>2141</id>
+			<userString>#vehicle_customization:camouflage/battlepass61_04/Name</userString>
+			<description>#vehicle_customization:camouflage/Universal/Descr</description>
+			<icon/>
+			<category>free</category>
+			<group>improved</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<unlockCostCategory>rare-camo-gold</unlockCostCategory>
+			<script>Camouflage</script>
+			<vehicleFilter>
+				<exclude>
+					<vehicle>
+						<tags>eventCamouflage_user</tags>
+					</vehicle>
+				</exclude>
+			</vehicleFilter>
+		</battlepass61_04>
 	</camouflages>
 </root>

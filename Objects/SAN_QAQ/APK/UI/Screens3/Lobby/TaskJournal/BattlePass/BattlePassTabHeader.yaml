@@ -2,6 +2,7 @@ Header:
     version: 160
 ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "BattlePassTabHeader"
@@ -38,7 +39,6 @@ Prototypes:
             - ["bool", "activateWeekClicked", "false"]
             - ["bool", "collectButtonClicked", "false"]
             - ["bool", "collectButtonInputEnabled", "when week.lastDisplayedUntakenStages == 0 -> false, true"]
-            - ["float", "collectButtonOpacity", "when week.lastDisplayedUntakenStages == 0 -> 0.000000, 1.000000"]
             - ["bool", "refreshButtonInputEnabled", "when week.lastDisplayedUntakenStages == 0 and week.actualUntakenStages == 0 -> true, false"]
             - ["float", "refreshButtonOpacity", "when week.lastDisplayedUntakenStages == 0 and week.actualUntakenStages == 0 -> 1.000000, 0.000000"]
             - ["float", "activeWeekTextOpacity", "when isWidgetActive -> 0.000000, 1.000000"]
@@ -85,29 +85,6 @@ Slots:
     name: "FreeRefreshInfo"
     input: false
     components:
-        Background:
-            usePostProcessedSprite: true
-        UIPostProcessTextureComponent0:
-            materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-            needClearAlphaAfterRender: true
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent1:
-            materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent2:
-            materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIRoundedCornersComponent:
-            radius: "8"
         LinearLayout:
             orientation: "TopDown"
             dynamicPadding: true
@@ -138,29 +115,6 @@ Slots:
     name: "PaidRefreshInfo"
     input: false
     components:
-        Background:
-            usePostProcessedSprite: true
-        UIPostProcessTextureComponent0:
-            materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-            needClearAlphaAfterRender: true
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent1:
-            materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent2:
-            materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIRoundedCornersComponent:
-            radius: "8"
         LinearLayout:
             orientation: "TopDown"
             dynamicPadding: true
@@ -276,39 +230,6 @@ Slots:
                         condition: "showTimerEffect"
                         control: "TimerEffect"
             -   class: "UIControl"
-                name: "Bg"
-                input: false
-                components:
-                    Background:
-                        usePostProcessedSprite: true
-                    UIPostProcessTextureComponent0:
-                        materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                        needClearAlphaAfterRender: true
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent1:
-                        materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent2:
-                        materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIRoundedCornersComponent:
-                        radius: "4"
-                    IgnoreLayout: {}
-                    SizePolicy:
-                        horizontalPolicy: "PercentOfParent"
-                        verticalPolicy: "PercentOfParent"
-                    StyleSheet:
-                        styles: "~res:/UI/Screens3/Color.style.yaml"
-            -   class: "UIControl"
                 name: "Timer"
                 input: false
                 components:
@@ -322,6 +243,8 @@ Slots:
                         args:
                             "time": "time"
                             "serverTime": "session.serverTime"
+                            "bgVisible": "true"
+                            "bgColorStyle": "\"white-wild-sand-15-bg\""
         -   class: "UIControl"
             name: "Description"
             input: false
@@ -363,38 +286,18 @@ Slots:
         Anchor:
             vCenterAnchorEnabled: true
         LinearLayout:
+            padding: "8"
             spacing: 16.000000
             dynamicSpacing: true
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
-            verticalPolicy: "PercentOfMaxChild"
-            verticalMin: 64.000000
+            verticalPolicy: "Formula"
+            verticalFormula: "maxChild + 16"
     children:
     -   class: "UIControl"
         name: "Bg"
         input: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
             Anchor:
                 vCenterAnchorEnabled: true
             IgnoreLayout: {}
@@ -402,6 +305,13 @@ Slots:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "FixedSize"
                 verticalValue: 64.000000
+        children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "bgStyle": "\"white-wild-sand-15-bg\""
     -   class: "UIControl"
         name: "DescriptionWrapper"
         input: false
@@ -466,16 +376,16 @@ Slots:
         components:
             Anchor:
                 vCenterAnchorEnabled: true
+            LinearLayout:
+                spacing: 8.000000
             SizePolicy:
-                horizontalPolicy: "FixedSize"
-                horizontalValue: 152.000000
-                verticalPolicy: "PercentOfParent"
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfMaxChild"
         children:
         -   class: "UIControl"
             name: "CollectLevelsButton"
             input: false
             components:
-                UIOpacityComponent: {}
                 Anchor:
                     hCenterAnchorEnabled: true
                     vCenterAnchorEnabled: true
@@ -494,7 +404,7 @@ Slots:
                     eventActions:
                     - ["ON_CLICK_BUTTON", "ON_COLLECT_ALL", ""]
             bindings:
-            - ["UIOpacityComponent.opacity", "collectButtonOpacity"]
+            - ["visible", "week.lastDisplayedUntakenStages != 0"]
         -   class: "UIControl"
             name: "RefreshQuestsButton"
             input: false
@@ -556,6 +466,15 @@ Slots:
                 effectPath: "~res:/3d/FX/UI/BattlePass/BlinkPurchase.sc2"
                 components:
                     IgnoreLayout: {}
+        -   class: "UIControl"
+            name: "Spacer"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 4.000000
+                    verticalPolicy: "PercentOfParent"
 -   class: "UIControl"
     name: "InactiveState"
     size: [1072.000000, 64.000000]
@@ -577,27 +496,6 @@ Slots:
         name: "Bg"
         input: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
             Anchor:
                 vCenterAnchorEnabled: true
             IgnoreLayout: {}
@@ -605,8 +503,13 @@ Slots:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "FixedSize"
                 verticalValue: 64.000000
-            StyleSheet:
-                styles: "~res:/UI/Screens3/Color.style.yaml"
+        children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "bgStyle": "\"white-wild-sand-15-bg\""
     -   class: "UIControl"
         name: "DescriptionInactive"
         input: false
@@ -673,3 +576,12 @@ Slots:
                         "type": "eButtonType.ALTERNATIVE"
                     eventActions:
                     - ["ON_CLICK_BUTTON", "ON_LICENSE_CLICKED", ""]
+        -   class: "UIControl"
+            name: "Spacer"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 4.000000
+                    verticalPolicy: "PercentOfParent"

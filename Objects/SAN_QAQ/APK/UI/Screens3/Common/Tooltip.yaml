@@ -1,7 +1,7 @@
 Header:
     version: 142
 ImportedPackages:
-- "~res:/UI/Screens3/Lobby/Common/ButtonNoBlur.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
 - "~res:/UI/Screens3/Lobby/Common/Resource/Currency.yaml"
 Prototypes:
 -   class: "UIControl"
@@ -181,7 +181,7 @@ Prototypes:
             bindings:
             - ["visible", "buttonVisible"]
             children:
-            -   prototype: "ButtonNoBlur/Button"
+            -   prototype: "Button/Button"
                 name: "ButtonOptionalDarkSmall"
                 components:
                     Anchor:
@@ -192,6 +192,7 @@ Prototypes:
                             "type": "eButtonType.OPTIONAL_DARK"
                             "size": "eButtonSize.SMALL"
                             "enabled": "true"
+                            "isBlur": "false"
                         eventActions:
                         - ["ON_CLICK_BUTTON", "CONTINUE", ""]
         -   class: "UIControl"
@@ -340,8 +341,7 @@ Slots:
     name: "RichTextLeft"
     input: false
     components:
-        RichContent:
-            baseClasses: "t-subtitle regular color=white-wild-sand-70-text"
+        RichContent: {}
         RichContentAliases0:
             aliases:
             - ["text_white_bold", "<span class=\"t-subtitle bold white-wild-sand-text\" />"]
@@ -365,12 +365,12 @@ Slots:
             styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
     bindings:
     - ["RichContent.text", "localize(text, { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; })"]
+    - ["RichContent.baseClasses", "textStyle"]
 -   class: "UIControl"
     name: "RichTextCenter"
     input: false
     components:
-        RichContent:
-            baseClasses: "t-subtitle regular color=white-wild-sand-70-text"
+        RichContent: {}
         RichContentAliases0:
             aliases:
             - ["text_white_bold", "<span class=\"t-subtitle bold white-wild-sand-text\" />"]
@@ -394,3 +394,4 @@ Slots:
             styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
     bindings:
     - ["RichContent.text", "localize(text, { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; })"]
+    - ["RichContent.baseClasses", "textStyle"]

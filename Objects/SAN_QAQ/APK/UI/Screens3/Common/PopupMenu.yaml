@@ -1,7 +1,7 @@
 Header:
     version: 144
 ImportedPackages:
-- "~res:/UI/Screens3/Lobby/Common/ButtonNoBlur.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
 - "~res:/UI/Screens3/Lobby/Common/Timer.yaml"
 Prototypes:
 -   class: "UIControl"
@@ -134,7 +134,7 @@ Prototypes:
             bindings:
             - ["visible", "buttonCaption != \"\""]
             children:
-            -   prototype: "ButtonNoBlur/Button"
+            -   prototype: "Button/Button"
                 name: "ButtonWithoutBG"
                 components:
                     Anchor:
@@ -266,13 +266,13 @@ Slots:
         name: "Title"
         input: false
         components:
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
             UITextComponent:
                 colorInheritType: "COLOR_IGNORE_PARENT"
                 multiline: "MULTILINE_ENABLED"
                 useRtlAlign: "USE_BY_SYSTEM"
-            Anchor:
-                leftAnchorEnabled: true
-                rightAnchorEnabled: true
             SizePolicy:
                 horizontalPolicy: "PercentOfContent"
                 verticalPolicy: "PercentOfContent"
@@ -286,20 +286,25 @@ Slots:
         name: "Text"
         input: false
         components:
-            UITextComponent:
-                colorInheritType: "COLOR_IGNORE_PARENT"
-                multiline: "MULTILINE_ENABLED"
-                useRtlAlign: "USE_BY_SYSTEM"
             Anchor:
                 hCenterAnchorEnabled: true
                 vCenterAnchorEnabled: true
+            RichContent: {}
+            RichContentAliases0:
+                aliases:
+                - ["text_white_bold", "<span class=\"t-subtitle bold white-wild-sand-text\" />"]
+                - ["text2_white_bold", "<span class=\"t-subtitle bold white-wild-sand-text\" />"]
             SizePolicy:
                 horizontalPolicy: "Formula"
-                horizontalFormula: "min(content, defaultTextHMax)"
-                verticalPolicy: "PercentOfContent"
-                verticalFormula: "when parent == 0 -> content, parent"
+                horizontalFormula: "min(childrenSum, defaultTextHMax)"
+                verticalPolicy: "PercentOfChildrenSum"
+            FlowLayout:
+                hDynamicPadding: true
+                alignment: "Center"
+                hSpacing: 4.000000
+                useRtl: true
             StyleSheet:
                 styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Common/PopupMenu.style.yaml"
         bindings:
-        - ["classes", "textStyle"]
-        - ["UITextComponent.text", "text"]
+        - ["RichContent.baseClasses", "textStyle"]
+        - ["RichContent.text", "localize(text, { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; })"]

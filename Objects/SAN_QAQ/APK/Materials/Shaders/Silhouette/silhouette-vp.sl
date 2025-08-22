@@ -28,17 +28,17 @@ vertex_out vp_main(vertex_in input)
 	vertex_out output;
 
 	#if HARD_SKINNING
-		float3 localPos = hardSkinnedPosition(input.localPos.xyz, input.index);
+		float4 localPos = hardSkinnedPosition(input.localPos.xyz, input.index);
 		float4 jQ = jointQuaternions[int(input.index)];
 		float3 tmp = cross(jQ.xyz, input.normal) * 2.0;
 		float3 normal = tmp * jQ.w + (input.normal + cross(jQ.xyz, tmp));
 	#else
-		float3 localPos = input.localPos.xyz;
+		float4 localPos = float4(input.localPos.xyz, 1.0);
 		float3 normal = input.normal;
 	#endif
 
-	float3 eyePos = mul3Fast1(localPos, worldViewMatrix);
-	output.localPos = mul4Fast1(pow(float3(0.01, 0.01, 0.01) * (silhouetteScale * length(eyePos)), silhouetteExponent) * normalize(mul3Fast0(normal, worldViewInvTransposeMatrix)) + eyePos, projMatrix);
+	float3 eyePos = mul(localPos, worldViewMatrix).xyz;
+	output.localPos = mul(float4(pow(float3(0.01, 0.01, 0.01) * (silhouetteScale * length(eyePos)), silhouetteExponent) * normalize(mul(float4(normal, 0.0), worldViewInvTransposeMatrix).xyz) + eyePos, 1.0), projMatrix);
 
 	return output;
 }

@@ -400,8 +400,8 @@ Prototypes:
                                     - ["SHOW_MEMBER_POPUP", "SHOW_MEMBER_POPUP", "_index"]
                                     elementNameExpression: "\"ClanMember_\" + str(_item.playerInfo.nameModel.dbId)"
                                     loadingPolicy: "Lazy"
-                                    loadingDistance: 400.000000
-                                    unloadingDistance: 200.000000
+                                    loadingDistance: 0.000000
+                                    unloadingDistance: 0.000000
             -   prototype: "VerticalScrollBar/VerticalScrollBar"
                 name: "VerticalScrollBar"
                 components:

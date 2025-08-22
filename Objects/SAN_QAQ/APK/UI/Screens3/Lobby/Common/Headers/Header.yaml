@@ -14,28 +14,31 @@ Prototypes:
             verticalValue: 48.000000
         UIDataParamsComponent:
             params:
-            - ["string", "bgStyle", "\"\"", "\"black-15-bg\""]
+            - ["bool", "isBlur", "true", "true"]
+            - ["bool", "isFullScreen", "false", "true"]
+            - ["bool", "needSafeArea", "true", "true"]
             - ["control", "background", "null", "null"]
             - ["control", "content", "null", "null"]
-            - ["bool", "needSafeArea", "true", "true"]
-            - ["bool", "isFullScreen", "false", "true"]
+            - ["string", "bgStyle", "\"\"", "\"\""]
             events: []
     children:
     -   class: "UIControl"
         name: "Background"
         input: false
         components:
-            Background: {}
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
-        children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
-            components:
-                UIDataParamsComponent:
-                    args:
-                        "bgStyle": "bgStyle"
+            UIChildComponent0:
+                childType: "kControl"
+                condition: "isNull(background)"
+                control: "DefaultBg"
+            UIChildComponent1:
+                childType: "kControl"
+                condition: "not isNull(background)"
+                control: "background"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
     -   class: "UIControl"
         name: "Layout"
         input: false
@@ -79,3 +82,11 @@ Prototypes:
                     verticalPolicy: "PercentOfParent"
             bindings:
             - ["visible", "needSafeArea"]
+Slots:
+-   prototype: "BlurModified/BlurModified"
+    name: "DefaultBg"
+    components:
+        UIDataParamsComponent:
+            args:
+                "isBlur": "isBlur"
+                "bgStyle": "bgStyle"

@@ -100,6 +100,7 @@
 		<_110mm_Gun_EXP_7>1036</_110mm_Gun_EXP_7>
 		<_105mm_Gun_T254A>1037</_105mm_Gun_T254A>
 		<_105mm_Gun_T5E1M1>1038</_105mm_Gun_T5E1M1>
+		<_105mm_Gun_T5E1CL>1039</_105mm_Gun_T5E1CL>
 		<_120mm_Gun_T179_M169>1040</_120mm_Gun_T179_M169>
 		<_76mm_Gun_M1A2B2>1042</_76mm_Gun_M1A2B2>
 		<_105mm_T140E3>1041</_105mm_T140E3>
@@ -122,7 +123,7 @@
 		<_120mm_Gun_M58_T>1060</_120mm_Gun_M58_T>
 		<_120mm_RHD>1061</_120mm_RHD>
 		<_90mm_Gun_T208_ATAC_4x3>1062</_90mm_Gun_T208_ATAC_4x3>
-		<_90mm_Gun_T208_ATAC_3x2>1063</_90mm_Gun_T208_ATAC_3x2>'
+		<_90mm_Gun_T208_ATAC_3x2>1063</_90mm_Gun_T208_ATAC_3x2>
 	</ids>
 	<shared>
 		<_20mm_Hispano_Suiza_Birgikt_gun>
@@ -5414,6 +5415,61 @@
 				</_105mm_HESH_M393>
 			</shots>
 		</_105mm_Gun_T254A>
+		<_105mm_Gun_T5E1CL>
+			<userString>#usa_vehicles:_105mm_Gun_T5E1CL</userString>
+			<shortUserString>#usa_vehicles:_105mm_Gun_T5E1CL_short</shortUserString>
+			<description>#usa_vehicles:_105mm_Gun_T5E1CL_descr</description>
+			<tags/>
+			<level>9</level>
+			<price>0</price>
+			<impulse>0.48</impulse>
+			<recoil>
+				<lodDist>MEDIUM</lodDist>
+				<amplitude>0.24</amplitude>
+				<backoffTime>0.1</backoffTime>
+				<returnTime>0.24</returnTime>
+			</recoil>
+			<effects>wpn_shot_large</effects>
+			<pitchLimits>-20 10</pitchLimits>
+			<rotationSpeed>35.0</rotationSpeed>
+			<reloadTime>8.8</reloadTime>
+			<maxAmmo>46</maxAmmo>
+			<aimingTime>2.28</aimingTime>
+			<weight>2400</weight>
+			<maxHealth>194</maxHealth>
+			<maxRegenHealth>97</maxRegenHealth>
+			<repairCost>0</repairCost>
+			<invisibilityFactorAtShot>0.198</invisibilityFactorAtShot>
+			<shotDispersionRadius>0.42</shotDispersionRadius>
+			<shotDispersionFactors>
+				<turretRotation>0.05</turretRotation>
+				<afterShot>4.0</afterShot>
+				<whileGunDamaged>2.0</whileGunDamaged>
+			</shotDispersionFactors>
+			<shots>
+				<_105mm_AP_T32M2_CL>
+					<defaultPortion>0.85</defaultPortion>
+					<speed>945</speed>
+					<gravity>9.81</gravity>
+					<maxDistance>720</maxDistance>
+					<piercingPower>240 225</piercingPower>
+				</_105mm_AP_T32M2_CL>
+				<_105mm_HEAT_M456_CL>
+					<defaultPortion>0.0</defaultPortion>
+					<speed>1181</speed>
+					<gravity>9.81</gravity>
+					<maxDistance>720</maxDistance>
+					<piercingPower>290 290</piercingPower>
+				</_105mm_HEAT_M456_CL>
+				<_105mm_HE_M11A2_CL>
+					<defaultPortion>0.15</defaultPortion>
+					<speed>945</speed>
+					<gravity>9.81</gravity>
+					<maxDistance>720</maxDistance>
+					<piercingPower>56 56</piercingPower>
+				</_105mm_HE_M11A2_CL>
+			</shots>
+		</_105mm_Gun_T5E1CL>
 		<_120mm_Gun_T179_M169>
 			<userString>#usa_vehicles:_120mm_Gun_T179_M169</userString>
 			<shortUserString>#usa_vehicles:_120mm_Gun_T179_M169_short</shortUserString>
@@ -6557,7 +6613,7 @@
 					<speed>300</speed>
 					<gravity>9.81</gravity>
 					<maxDistance>720</maxDistance>
-					<piercingPower>145 145</piercingPower>
+					<piercingPower>155 155</piercingPower>
 				</_90mm_HESH_M431_ATAC_Tripple>
 				<_90mm_HE_T340_ATAC_Tripple>
 					<defaultPortion>0.2</defaultPortion>
@@ -6613,7 +6669,7 @@
 					<speed>300</speed>
 					<gravity>9.81</gravity>
 					<maxDistance>720</maxDistance>
-					<piercingPower>145 145</piercingPower>
+					<piercingPower>155 155</piercingPower>
 				</_90mm_HESH_M432_ATAC_Duo>
 				<_90mm_HE_T230_ATAC_Duo>
 					<defaultPortion>0.2</defaultPortion>

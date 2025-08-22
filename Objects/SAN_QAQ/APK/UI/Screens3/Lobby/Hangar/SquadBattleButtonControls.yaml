@@ -1,0 +1,666 @@
+Header:
+    version: 157
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/RichTextContent.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "SquadControlsWrapper"
+    visible: true
+    input: false
+    components:
+        LinearLayout:
+            spacing: 4.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "PercentOfFirstChild"
+        UIDataParamsComponent:
+            params:
+            - ["int", "untakenRewardsCount", "0", "42"]
+            - ["bool", "isSquadType", "false", "false"]
+            - ["bool", "isReadyToBattle", "false", "false"]
+            - ["string", "squadRestrictionText", "\"\"", "\"<t-subtitle_highlighted>Purchase</t-subtitle_highlighted> the selected tank to fight in it.\""]
+            - ["bool", "squadReadyButtonEnabled", "false", "true"]
+            - ["bool", "forceDisableSquadButtons", "false", "false"]
+            - ["bool", "showSquadUI", "false", "true"]
+            events:
+            - "ON_READY_FOR_SQUAD_PRESSED"
+            - "ON_NOT_READY_FOR_SQUAD_PRESSED"
+            - "ON_BACK_TO_SQUAD_SCREEN_PRESSED"
+            - "ON_SQUAD_AND_HANGAR_TOGGLE_PRESSED"
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Lobby/Hangar/BattleButton.style.yaml"
+    children:
+    -   class: "UIControl"
+        name: "ReadyButtonWrapper"
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfFirstChild"
+        bindings:
+        - ["visible", "showSquadUI and not isReadyToBattle"]
+        children:
+        -   class: "UIControl"
+            name: "ReadyButton"
+            classes: "ready-button long-element button-battle-sound"
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 56.000000
+                UIAttachLayoutMasterComponent:
+                    attachId: "ReadyButton"
+                UIInputEventComponent:
+                    onTouchUpInside: "ON_READY_FOR_SQUAD_PRESSED"
+                Sound: {}
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/ButtonSound.style.yaml;~res:/UI/Screens3/Lobby/Hangar/BattleButton.style.yaml"
+            bindings:
+            - ["enabled", "not forceDisableSquadButtons and squadReadyButtonEnabled"]
+            - ["input", "true"]
+            children:
+            -   class: "UIControl"
+                name: "Shadows"
+                input: false
+                components:
+                    Anchor:
+                        topAnchorEnabled: true
+                        topAnchor: -16.000000
+                    LinearLayout:
+                        enabled: true
+                        padding: "-32"
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   class: "UIControl"
+                    name: "Left"
+                    position: [-32.000000, 0.000000]
+                    input: false
+                    components:
+                        Background:
+                            sprite: "~res:/Gfx/Lobby/controls/buttons/button_default/button_shadow_accent-positive_left"
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                -   class: "UIControl"
+                    name: "Center"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_TILED"
+                            sprite: "~res:/Gfx/Lobby/controls/buttons/button_default/button_shadow_accent-positive_center"
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfContent"
+                -   class: "UIControl"
+                    name: "Right"
+                    input: false
+                    components:
+                        Background:
+                            sprite: "~res:/Gfx/Lobby/controls/buttons/button_default/button_shadow_accent-positive_left"
+                            spriteModification: ["FLIP_HORIZONTAL"]
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+            -   class: "UIControl"
+                name: "Content"
+                pivot: [0.500000, 0.500000]
+                input: false
+                classes: "content-area"
+                components:
+                    UIOpacityComponent: {}
+                    Anchor:
+                        leftAnchorEnabled: true
+                        topAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 208.000000
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Lobby/Hangar/BattleButton.style.yaml"
+                bindings:
+                - ["UIOpacityComponent.opacity", "when squadReadyButtonEnabled -> 1, 0.500000"]
+                children:
+                -   class: "UIControl"
+                    name: "Background"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_STRETCH_BOTH"
+                            sprite: "~res:/Gfx/Lobby/controls/buttons/button_squad/button_squad_bg"
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                -   class: "UIControl"
+                    name: "Hover"
+                    input: false
+                    classes: "hover white-wild-sand-10-bg"
+                    components:
+                        Background: {}
+                        UIOpacityComponent: {}
+                        UIRoundedCornersComponent:
+                            radius: "1"
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Lobby/Hangar/BattleButton.style.yaml"
+                -   class: "UIControl"
+                    name: "Text"
+                    position: [48.000000, 18.000000]
+                    input: false
+                    classes: "t-content-h4 bold white-wild-sand-text"
+                    components:
+                        UIOpacityComponent: {}
+                        UITextComponent:
+                            colorInheritType: "COLOR_MULTIPLY_ON_PARENT"
+                            fitting: "FITTING_REDUCE"
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "Formula"
+                            horizontalFormula: "parent - 16"
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["UITextComponent.text", "capitalize(localize(\"hangar/squad/readyButton\"))"]
+                -   class: "UIParticles"
+                    name: "battle_top"
+                    position: [92.000000, 55.000000]
+                    size: [32.000000, 32.000000]
+                    scale: [1.000000, 1.000000]
+                    pivot: [0.500000, 0.500000]
+                    angle: 0.000000
+                    input: false
+                    classes: "ready-button-effect"
+                    effectPath: "~res:/3d/FX/UI/battle_top_1.sc2"
+                    autoStart: true
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            topAnchorEnabled: true
+                            topAnchor: -15.000000
+                        Update:
+                            updateInvisible: false
+                    bindings:
+                    - ["visible", "squadReadyButtonEnabled"]
+                -   class: "UIParticles"
+                    name: "battle_top_1"
+                    position: [92.000000, 33.000000]
+                    size: [32.000000, 32.000000]
+                    scale: [1.000000, 1.000000]
+                    pivot: [0.500000, 0.500000]
+                    angle: 0.000000
+                    input: false
+                    classes: "ready-button-effect"
+                    effectPath: "~res:/3d/FX/UI/battle_top_1.sc2"
+                    autoStart: true
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            bottomAnchorEnabled: true
+                            bottomAnchor: -15.000000
+                        Update:
+                            updateInvisible: false
+                    bindings:
+                    - ["visible", "squadReadyButtonEnabled"]
+        -   class: "UIControl"
+            name: "SquadRestrictionText"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfMaxChild"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Common/PopupMenu.yaml"
+                    args:
+                        "slaveAlign": "ePositionAlign.Bottom"
+                        "masterId": "\"ReadyButton\""
+                        "title": "\"\""
+                        "content": "RestrictionTextContent"
+                        "isAlignLeft": "false"
+            bindings:
+            - ["visible", "squadRestrictionText != \"\""]
+    -   class: "UIControl"
+        name: "NotReadyButton"
+        classes: "not-ready-button long-element button-cancel-sound"
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "FixedSize"
+                verticalValue: 56.000000
+            UIAttachLayoutMasterComponent:
+                attachId: "ReadyButton"
+            UIInputEventComponent:
+                onTouchUpInside: "ON_NOT_READY_FOR_SQUAD_PRESSED"
+            Sound: {}
+            StyleSheet:
+                styles: "~res:/UI/Screens3/ButtonSound.style.yaml"
+        bindings:
+        - ["visible", "showSquadUI and isReadyToBattle"]
+        - ["enabled", "not forceDisableSquadButtons"]
+        - ["input", "true"]
+        children:
+        -   class: "UIControl"
+            name: "Shadows"
+            position: [0.000000, -16.000000]
+            input: false
+            components:
+                Anchor:
+                    topAnchorEnabled: true
+                    topAnchor: -16.000000
+                LinearLayout:
+                    enabled: true
+                    padding: "-32"
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "Left"
+                position: [-32.000000, 0.000000]
+                input: false
+                components:
+                    Background:
+                        sprite: "~res:/Gfx/Lobby/controls/buttons/button_default/common/button_shadow_common_left"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+            -   class: "UIControl"
+                name: "Center"
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_TILED"
+                        sprite: "~res:/Gfx/Lobby/controls/buttons/button_default/common/button_shadow_common_center"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfContent"
+            -   class: "UIControl"
+                name: "Right"
+                input: false
+                components:
+                    Background:
+                        sprite: "~res:/Gfx/Lobby/controls/buttons/button_default/common/button_shadow_common_left"
+                        spriteModification: ["FLIP_HORIZONTAL"]
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+        -   class: "UIControl"
+            name: "Content"
+            position: [92.000000, 28.000000]
+            pivot: [0.500000, 0.500000]
+            input: false
+            classes: "content-area"
+            components:
+                UIOpacityComponent: {}
+                Anchor:
+                    leftAnchorEnabled: true
+                    topAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 208.000000
+                    verticalPolicy: "PercentOfParent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Lobby/Hangar/BattleButton.style.yaml"
+            children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Background"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "bgStyle": "\"white-wild-sand-25-bg\""
+                            "roundCorner": "\"1\""
+            -   class: "UIControl"
+                name: "Border"
+                input: false
+                classes: "white-wild-sand-25-bg"
+                components:
+                    Background:
+                        drawType: "DRAW_STRETCH_BOTH"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_border_2px_r1"
+                        leftRightStretchCap: 3.000000
+                        topBottomStretchCap: 3.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "Hover"
+                input: false
+                classes: "hover white-wild-sand-10-bg"
+                components:
+                    Background:
+                        drawType: "DRAW_STRETCH_BOTH"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_r1"
+                        leftRightStretchCap: 1.000000
+                        topBottomStretchCap: 1.000000
+                    UIOpacityComponent: {}
+                    UIRoundedCornersComponent:
+                        radius: "1"
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Lobby/Hangar/BattleButton.style.yaml"
+            -   class: "UIControl"
+                name: "Text"
+                position: [16.000000, 18.000000]
+                input: false
+                classes: "t-content-h4 bold white-wild-sand-text"
+                components:
+                    UIOpacityComponent: {}
+                    UITextComponent:
+                        fitting: "FITTING_REDUCE"
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "Formula"
+                        horizontalFormula: "parent - 16"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "capitalize(localize(\"hangar/squad/cancelButton\"))"]
+    -   class: "UIControl"
+        name: "BackToSquadButton"
+        classes: "back-to-squad-button long-element button-open-sound"
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "FixedSize"
+                verticalValue: 56.000000
+            UIInputEventComponent:
+                onTouchUpInside: "ON_BACK_TO_SQUAD_SCREEN_PRESSED"
+            Sound: {}
+            StyleSheet:
+                styles: "~res:/UI/Screens3/ButtonSound.style.yaml"
+        bindings:
+        - ["visible", "not showSquadUI"]
+        - ["enabled", "not forceDisableSquadButtons"]
+        - ["input", "true"]
+        children:
+        -   class: "UIControl"
+            name: "Shadows"
+            position: [0.000000, -16.000000]
+            input: false
+            components:
+                Anchor:
+                    topAnchorEnabled: true
+                    topAnchor: -16.000000
+                LinearLayout:
+                    enabled: true
+                    padding: "-32"
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "Left"
+                position: [-32.000000, 0.000000]
+                input: false
+                components:
+                    Background:
+                        sprite: "~res:/Gfx/Lobby/controls/buttons/button_default/common/button_shadow_common_left"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+            -   class: "UIControl"
+                name: "Center"
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_TILED"
+                        sprite: "~res:/Gfx/Lobby/controls/buttons/button_default/common/button_shadow_common_center"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfContent"
+            -   class: "UIControl"
+                name: "Right"
+                input: false
+                components:
+                    Background:
+                        sprite: "~res:/Gfx/Lobby/controls/buttons/button_default/common/button_shadow_common_left"
+                        spriteModification: ["FLIP_HORIZONTAL"]
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+        -   class: "UIControl"
+            name: "Content"
+            position: [92.000000, 28.000000]
+            pivot: [0.500000, 0.500000]
+            input: false
+            classes: "content-area"
+            components:
+                UIOpacityComponent: {}
+                Anchor:
+                    leftAnchorEnabled: true
+                    topAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 208.000000
+                    verticalPolicy: "PercentOfParent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Lobby/Hangar/BattleButton.style.yaml"
+            children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "FadeBg"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "bgStyle": "\"black-50-bg\""
+                            "roundCorner": "\"1\""
+            -   class: "UIControl"
+                name: "Background"
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_TILED"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/platoon/bg_back-to-squad"
+                        leftRightStretchCap: 1.000000
+                        topBottomStretchCap: 1.000000
+                    UIOpacityComponent:
+                        opacity: 0.250000
+                    UIRoundedCornersComponent:
+                        radius: "1"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 56.000000
+            -   class: "UIControl"
+                name: "Hover"
+                input: false
+                classes: "hover white-wild-sand-10-bg"
+                components:
+                    Background:
+                        drawType: "DRAW_STRETCH_BOTH"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_r1"
+                        leftRightStretchCap: 1.000000
+                        topBottomStretchCap: 1.000000
+                    UIOpacityComponent: {}
+                    UIRoundedCornersComponent:
+                        radius: "1"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Lobby/Hangar/BattleButton.style.yaml"
+            -   class: "UIControl"
+                name: "Border"
+                input: false
+                classes: "yellow-submarine-bg"
+                components:
+                    Background:
+                        drawType: "DRAW_STRETCH_BOTH"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_border_2px_r1"
+                        leftRightStretchCap: 3.000000
+                        topBottomStretchCap: 3.000000
+                    UIOpacityComponent: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Lobby/Hangar/BattleButton.style.yaml"
+            -   class: "UIControl"
+                name: "Text"
+                position: [12.000000, 14.000000]
+                input: false
+                classes: "t-content-h4 bold yellow-submarine-text"
+                components:
+                    UIOpacityComponent: {}
+                    UITextComponent:
+                        fitting: "FITTING_REDUCE"
+                    UIShadowComponent:
+                        blurType: "Gauss"
+                        color: [1.000000, 0.164706, 0.000000, 1.000000]
+                        indent: 16
+                        canBeDelayed: true
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "Formula"
+                        horizontalFormula: "parent - 16"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "capitalize(localize(\"hangar/squad/backToSquadButton\"))"]
+    -   class: "UIControl"
+        name: "SquadViewToggleButton"
+        position: [228.000000, 0.000000]
+        classes: "squad-view-toggle-button button-open-sound"
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "FixedSize"
+                verticalValue: 56.000000
+            UIInputEventComponent:
+                onTouchUpInside: "ON_SQUAD_AND_HANGAR_TOGGLE_PRESSED"
+            Sound: {}
+            StyleSheet:
+                styles: "~res:/UI/Screens3/ButtonSound.style.yaml;~res:/UI/Screens3/Lobby/Hangar/BattleButton.style.yaml"
+        bindings:
+        - ["enabled", "not forceDisableSquadButtons and not isReadyToBattle"]
+        - ["input", "true"]
+        children:
+        -   class: "UIControl"
+            name: "Badge"
+            input: false
+            components:
+                Anchor:
+                    rightAnchorEnabled: true
+                    rightAnchor: -4.000000
+                    topAnchorEnabled: true
+                    topAnchor: -8.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfMaxChild"
+                UIChildComponent0:
+                    condition: "untakenRewardsCount != 0"
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Badge.yaml"
+                    args:
+                        "value": "str(untakenRewardsCount)"
+                        "type": "eBadgeType.Digit"
+        -   class: "UIControl"
+            name: "Content"
+            position: [32.000000, 28.000000]
+            pivot: [0.500000, 0.500000]
+            input: false
+            classes: "hover content-area"
+            components:
+                UIOpacityComponent: {}
+                Anchor:
+                    leftAnchorEnabled: true
+                    topAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 64.000000
+                    verticalPolicy: "PercentOfParent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Lobby/Hangar/BattleButton.style.yaml"
+            children:
+            -   class: "UIControl"
+                name: "Background"
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_button-fade_48"
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 56.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 56.000000
+                bindings:
+                - ["visible", "not isReadyToBattle"]
+            -   class: "UIControl"
+                name: "Icon"
+                position: [-10.000000, 4.000000]
+                input: false
+                classes: "yellow-submarine-bg"
+                components:
+                    Background:
+                        drawType: "DRAW_ALIGNED"
+                    UIOpacityComponent: {}
+                    UIShadowComponent:
+                        blurType: "Gauss"
+                        color: [1.000000, 0.164706, 0.000000, 1.000000]
+                        indent: 16
+                        canBeDelayed: true
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["Background.sprite", "when showSquadUI -> \"~res:/Gfx/Lobby/icons/platoon/icon_hangar_m\", \"~res:/Gfx/Lobby/icons/platoon/icon_squad_m\""]
+                - ["UIOpacityComponent.opacity", "when isReadyToBattle -> 0.500000, 1"]
+Slots:
+-   class: "UIControl"
+    name: "RestrictionTextContent"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalValue: 400.000000
+            verticalPolicy: "PercentOfMaxChild"
+    children:
+    -   prototype: "RichTextContent/RichText"
+        name: "RichText"
+        components:
+            Anchor:
+                leftAnchorEnabled: false
+                hCenterAnchorEnabled: true
+            UIDataParamsComponent:
+                args:
+                    "baseFontSize": "\"t-subtitle\""
+                    "baseFontStyle": "\"regular\""
+                    "hSizePolicy": "eSizePolicy.PercentOfParent"
+                    "key": "squadRestrictionText"

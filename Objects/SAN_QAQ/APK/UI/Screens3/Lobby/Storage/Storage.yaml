@@ -1,0 +1,462 @@
+Header:
+    version: 149
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Inventory/Common/DynamicTopSpacer.yaml"
+- "~res:/UI/Screens3/Lobby/Inventory/Common/DynamicHorizontalPadding.yaml"
+- "~res:/UI/Screens3/Lobby/Inventory/Common/BottomInventorySpacer.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "Storage"
+    size: [2000.000000, 791.000000]
+    input: false
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/Lobby/Storage/Animations/Storage.animation"
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        ModalInput: {}
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Escape"
+            keyDownEvent: "BACK_SHORTCUT"
+        UIVirtualActionEventComponent1:
+            virtualKeyAction: "BaseNext"
+            keyDownEvent: "NEXT_TAB"
+        UIVirtualActionEventComponent2:
+            virtualKeyAction: "BasePrevious"
+            keyDownEvent: "PREV_TAB"
+        UIVirtualActionEventComponent3:
+            virtualKeyAction: "ActionLeft"
+            keyDownEvent: "ON_LEFT"
+        UIVirtualActionEventComponent4:
+            virtualKeyAction: "ActionRight"
+            keyDownEvent: "ON_RIGHT"
+        UIVirtualActionEventComponent5:
+            virtualKeyAction: "ActionUp"
+            keyDownEvent: "ON_UP"
+        UIVirtualActionEventComponent6:
+            virtualKeyAction: "ActionDown"
+            keyDownEvent: "ON_DOWN"
+        UIVirtualActionEventComponent7:
+            virtualKeyAction: "Extra2"
+            keyDownEvent: "ON_MAIN_ACTION"
+        UIVirtualActionEventComponent8:
+            virtualKeyAction: "Extra1"
+            keyDownEvent: "ON_OPTIONAL_ACTION"
+        UIVirtualActionEventComponent9:
+            virtualKeyAction: "Options"
+            keyDownEvent: "GO_TO_SHOP"
+        UIDataParamsComponent:
+            params:
+            - ["LobbyDataModel", "lobby", "null", "{ }"]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["AppDataModel", "app", "null", "{ }"]
+            - ["AccountDataModel", "account", "null", "{ }"]
+            - ["StorageViewModel", "storage", "null", "{ }"]
+            events:
+            - "ON_TAB_SELECTED"
+            - "ON_ITEM_SELECTED(int index)"
+            - "PREMIUM_INFO_EVENT"
+            - "BACK_EVENT"
+            - "SHOP_BUTTON(eRequiredResource requiredResource)"
+            - "ON_TO_SHOP_BUTTON"
+            - "ON_ACTION(eArtefactAction actionType)"
+            - "STORAGE_ITEM_UPDATE(float posY, int index)"
+        UIDataLocalVarsComponent:
+            data:
+            - ["float", "itemWidth", "120.000000"]
+            - ["float", "itemHeight", "160.000000"]
+            - ["float", "rowSpacing", "16.000000"]
+            - ["int", "itemCountInRow", "0"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["bool", "currentTabEmpty", "Empty(storage.tabDataMap[storage.selectedTab].items)"]
+            - ["StorageTabData", "selectedTabData", "storage.tabDataMap[storage.selectedTab]"]
+            - ["int", "itemCountInTab", "selectedTabData.items.Size()"]
+            - ["string", "boostersBadgesValue", "when storage.tabDataMap[eStorageTab.Boosters].badgesCount > 0 -> str(storage.tabDataMap[eStorageTab.Boosters].badgesCount), \"\""]
+            - ["string", "appearanceBadgesValue", "when storage.tabDataMap[eStorageTab.Appearance].badgesCount > 0 -> str(storage.tabDataMap[eStorageTab.Appearance].badgesCount), \"\""]
+            - ["string", "certificatesBadgesValue", "when storage.tabDataMap[eStorageTab.Certificates].badgesCount > 0 -> str(storage.tabDataMap[eStorageTab.Certificates].badgesCount), \"\""]
+            - ["string", "otherBadgesValue", "when storage.tabDataMap[eStorageTab.Other].badgesCount > 0 -> str(storage.tabDataMap[eStorageTab.Other].badgesCount), \"\""]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Storage/Animations/Storage.actions"
+        UIEventOnDataComponent0:
+            watchedDataExpression: "storage.selectedTab"
+            eventName: "ScrollToTop"
+        UIEventOnDataComponent1:
+            watchedDataExpression: "storage.selectedTab"
+            eventName: "ScrollStuffDescriptionToTop"
+        UIEventOnDataComponent2:
+            watchedDataExpression: "selectedTabData.selectedIndex"
+            eventName: "ScrollStuffDescriptionToTop"
+    children:
+    -   class: "UIControl"
+        name: "Header"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Storage/StorageHeader.yaml"
+                args:
+                    "subtitle": "localize(str(storage.selectedTab, eStorageTab, \"text\"))"
+                    "session": "session"
+                    "lobby": "lobby"
+                    "isGeneralPackLoaded": "app.sDlc.isGeneralPackLoaded"
+                    "isTutorialActive": "account.tutorialData.isTutorialActive"
+                    "firstLessonCompleted": "account.tutorialData.currentLesson > eTutorialLesson.kTurretUnlock"
+                eventActions:
+                - ["GO_TO_SHOP", "GO_TO_SHOP", ""]
+                - ["SHOP_BUTTON", "SHOP_BUTTON", "_event.requiredResource"]
+                - ["BACK_EVENT", "BACK_EVENT", ""]
+                - ["PREMIUM_INFO_EVENT", "PREMIUM_INFO_EVENT", ""]
+    -   class: "UIControl"
+        name: "Tabs"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Tabs/TextTabsBar.yaml"
+                args:
+                    "info": "[ { \"text\" = capitalize(localize(str(eStorageTab.Certificates, eStorageTab, \"text\"))); \"badge\" = { \"type\" = eBadgeType.Digit; \"value\" = certificatesBadgesValue; }; }; { \"text\" = capitalize(localize(str(eStorageTab.Appearance, eStorageTab, \"text\"))); \"badge\" = { \"type\" = eBadgeType.Digit; \"value\" = appearanceBadgesValue; }; }; { \"text\" = capitalize(localize(str(eStorageTab.Boosters, eStorageTab, \"text\"))); \"badge\" = { \"type\" = eBadgeType.Digit; \"value\" = boostersBadgesValue; }; }; { \"text\" = capitalize(localize(str(eStorageTab.Other, eStorageTab, \"text\"))); \"badge\" = { \"type\" = eBadgeType.Digit; \"value\" = otherBadgesValue; }; }; ]"
+                    "activeTab": "int(storage.selectedTab)"
+                eventActions:
+                - ["ON_SELECT_TAB", "ON_TAB_SELECTED", "toEnum(_event, eStorageTab)"]
+    -   prototype: "DynamicTopSpacer/DynamicTopSpacer"
+        name: "DynamicTopSpacer"
+    -   class: "UIControl"
+        name: "EmptyTab"
+        input: false
+        classes: "inventory-limited-width"
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            LinearLayout:
+                dynamicPadding: true
+                dynamicSpacing: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                childType: "kControl"
+                condition: "currentTabEmpty"
+                control: "EmptyTab"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Common/Desktop.style.yaml"
+        bindings:
+        - ["visible", "currentTabEmpty"]
+    -   class: "UIControl"
+        name: "ContentTab"
+        size: [1600.000000, 768.000000]
+        input: false
+        classes: "inventory-limited-width"
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            LinearLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Common/Desktop.style.yaml"
+        bindings:
+        - ["visible", "not currentTabEmpty"]
+        children:
+        -   prototype: "DynamicHorizontalPadding/DynamicHorizontalPadding"
+            name: "DynamicHorizontalPadding"
+            classes: "padding only-notch-padding desktop-unvisible"
+        -   class: "UIControl"
+            name: "ScrollableContent"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIScrollView"
+                name: "UIScrollView"
+                autoUpdate: true
+                components:
+                    ClipContent:
+                        left: false
+                        right: false
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        horizontalMax: 1100.000000
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   class: "UIScrollViewContainer"
+                    name: "scrollContainerControl"
+                    refreshStylesOnInteract: false
+                    scrollDirection: "kVertical"
+                    components:
+                        LinearLayout:
+                            orientation: "TopDown"
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfChildrenSum"
+                        UILayoutEventComponent:
+                            positionChangedEvent: "ItemsContainerUpdate"
+                            positionChangedEventData: "itemWidth, itemHeight, _parentSize.X, _parentSize.Y, _position.Y"
+                            sizeChangedEvent: "ItemsContainerUpdate"
+                            sizeChangedEventData: "itemWidth, itemHeight, _parentSize.X, _parentSize.Y, _position.Y"
+                    children:
+                    -   class: "UIControl"
+                        name: "InputContainer"
+                        components:
+                            IgnoreLayout: {}
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfParent"
+                    -   class: "UIControl"
+                        name: "List"
+                        input: false
+                        components:
+                            GridLayout:
+                                dynamicColumnCalulation: "bySize"
+                                columnDynamicPadding: true
+                                columnSpacing: 16.000000
+                                dynamicRowCalulation: "byControls"
+                                rowPadding: "8; 24"
+                                rowSpacing: 16.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfChildrenSum"
+                            UIRepeatComponent:
+                                control: "~res:/UI/Screens3/Lobby/Storage/StorageItem.yaml"
+                                dataContainer: "selectedTabData.items"
+                                args:
+                                    "serverTime": "session.serverTime"
+                                    "isSelected": "selectedTabData.selectedIndex == _index"
+                                    "model": "_item"
+                                    "index": "_index"
+                                    "masterId": "when (selectedTabData.selectedIndex == _index) -> \"NEWBIE_BOOSTER_CHOOSE\", \"\""
+                                eventActions:
+                                - ["STORAGE_ITEM_UPDATE", "STORAGE_ITEM_UPDATE", "_event.posY, _event.index"]
+                                - ["ON_RESOURCE_CLICKED", "ON_ITEM_SELECTED", "_index"]
+                                elementNameExpression: "when not isNull(_item.resource) -> \"stuff_\" + _item.resource.name, \"gift_\" + str(_item.gift.id)"
+                        bindings:
+                        - ["GridLayout.columnWidth", "itemWidth"]
+                        - ["GridLayout.rowHeight", "itemHeight"]
+        -   class: "UIControl"
+            name: "Spacer"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 16.000000
+                    verticalPolicy: "PercentOfParent"
+        -   class: "UIControl"
+            name: "Wrapper"
+            input: false
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 348.000000
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "RigthPanel"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfParent"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Lobby/Inventory/Common/RightPanel.yaml"
+                        args:
+                            "content": "RightPanelContent"
+                            "isBlur": "false"
+            -   prototype: "BottomInventorySpacer/BottomSpacer"
+                name: "BottomSpacer"
+        -   prototype: "DynamicHorizontalPadding/DynamicHorizontalPadding"
+            name: "DynamicHorizontalPadding_1"
+            classes: "padding only-notch-padding desktop-unvisible"
+    -   class: "UIControl"
+        name: "Footer"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+            UIChildComponent0:
+                condition: "not currentTabEmpty"
+                prototypePath: "~res:/UI/Screens3/Lobby/Storage/StorageFooter.yaml"
+                args:
+                    "rankConfig": "session.rankConfig"
+                    "info": "storage.selectedItemInfo"
+                eventActions:
+                - ["ON_ACTION", "ON_ACTION", "_event.actionType"]
+        bindings:
+        - ["visible", "not currentTabEmpty"]
+    -   class: "UIControl"
+        name: "NavigationPanel"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                condition: "isGamepad"
+                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/NavigationPanel.yaml"
+                args:
+                    "content": "StorageNSPanel"
+    -   class: "UIControl"
+        name: "Loading"
+        input: false
+        components:
+            IgnoreLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                condition: "not isNull(storage.selectedItemInfo) and storage.selectedItemInfo.actionInProgress"
+                prototypePath: "~res:/UI/Screens3/Common/LoadingOverlay.yaml"
+                args:
+                    "description": "\"Gifts/OperationInProgress\""
+                    "modalInput": "true"
+                eventActions:
+                - ["ON_OVERLAY_CLICKED", "ON_ACTION_CANCELLED", ""]
+        bindings:
+        - ["visible", "not isNull(storage.selectedItemInfo) and storage.selectedItemInfo.actionInProgress"]
+Slots:
+-   class: "UIControl"
+    name: "EmptyTab"
+    size: [1024.000000, 768.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "EmptyTabContent"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Storage/EmptyTab.yaml"
+                args:
+                    "showShopButton": "selectedTabData.availableInShop"
+                    "tab": "storage.selectedTab"
+                eventActions:
+                - ["ON_TO_SHOP_BUTTON", "ON_TO_SHOP_BUTTON", ""]
+-   class: "UIControl"
+    name: "StorageNSPanel"
+    size: [768.000000, 40.000000]
+    input: false
+    components:
+        LinearLayout:
+            spacing: 24.000000
+            dynamicSpacing: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "PercentOfMaxChild"
+    children:
+    -   class: "UIControl"
+        name: "Back"
+        input: false
+        components:
+            LinearLayout:
+                spacing: 24.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
+                args:
+                    "text": "\"Switch/HubridPanel/Lobby/Back\""
+                    "icon": "eNintendoSwitchControls.B"
+    -   class: "UIControl"
+        name: "ChooseTab"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconsWithLabel.yaml"
+                args:
+                    "text": "\"Switch/HubridPanel/Lobby/ChooseInventoryScreen\""
+                    "nsControls": "[ eNintendoSwitchControls.LeftShoulder; eNintendoSwitchControls.RightShoulder; ]"
+    -   class: "UIControl"
+        name: "ChooseItem"
+        input: false
+        components:
+            LinearLayout:
+                spacing: 24.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
+                args:
+                    "text": "\"Switch/HubridPanel/Storage/ChooseItem\""
+                    "icon": "eNintendoSwitchControls.AllArrows"
+        bindings:
+        - ["visible", "itemCountInTab > 0"]
+    -   class: "UIControl"
+        name: "OptionalAction"
+        input: false
+        components:
+            Anchor: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                condition: "storage.selectedItemInfo.footerActions.Size() > 1"
+                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconsWithLabel.yaml"
+                args:
+                    "text": "when storage.selectedItemInfo.footerActions.Size() > 1 -> storage.selectedItemInfo.footerActions[1].userString, \"\""
+                    "nsControls": "[ eNintendoSwitchControls.X; ]"
+    -   class: "UIControl"
+        name: "MainAction"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                condition: "storage.selectedItemInfo.footerActions.Size() > 0"
+                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
+                args:
+                    "text": "when storage.selectedItemInfo.footerActions.Size() > 0 -> (when storage.selectedItemInfo.footerActions[0].actionType == eArtefactAction.Install and storage.selectedItemInfo.isInstalled -> \"#common:DialogButton/Remove\", storage.selectedItemInfo.footerActions[0].userString), \"\""
+                    "icon": "eNintendoSwitchControls.Y"
+-   class: "UIControl"
+    name: "RightPanelContent"
+    size: [500.000000, 4148.500000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfFirstChild"
+        UIChildComponent0:
+            condition: "not isNull(storage.selectedItemInfo.resource)"
+            prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Detailed/StuffDescription.yaml"
+            args:
+                "disableScroll": "true"
+                "lobby": "lobby"
+                "session": "session"
+                "resource": "storage.selectedItemInfo.resource"
+                "isInstalled": "storage.selectedItemInfo.isInstalled"
+                "isSuitable": "storage.selectedItemInfo.isSuitable"
+        UIChildComponent1:
+            condition: "not isNull(storage.selectedItemInfo.gift)"
+            prototypePath: "~res:/UI/Screens3/Lobby/Gifts/GiftDescription.yaml"
+            args:
+                "gift": "storage.selectedItemInfo.gift"
+                "iconUrl": "storage.giftIconUrl"

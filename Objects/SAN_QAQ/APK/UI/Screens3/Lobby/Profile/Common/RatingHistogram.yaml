@@ -2,7 +2,7 @@ Header:
     version: 151
 ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Common/Vehicle/VehicleLevel.yaml"
-- "~res:/UI/Screens3/Lobby/Common/Blur.yaml"
+# - "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "RatingHistogram"
@@ -24,7 +24,27 @@ Prototypes:
             - ["string", "colorStyle", "when style == eRatingHistogramStyle.POSITIVE -> \"green-la-palma-bg\", when style == eRatingHistogramStyle.NEGATIVE -> \"red-tamarillo-bg\", \"white-wild-sand-25-bg\""]
             - ["string", "colorStyleOpacity", "when style == eRatingHistogramStyle.POSITIVE -> \"green-la-palma-50-bg\", when style == eRatingHistogramStyle.NEGATIVE -> \"red-tamarillo-50-bg\", \"white-wild-sand-15-bg\""]
             - ["float", "histogramPercent", "abs(percent)"]
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Color.style.yaml"
     children:
+    # -   class: "UIControl"
+        # name: "Background"
+        # input: false
+        # components:
+            # Anchor: {}
+            # IgnoreLayout: {}
+            # SizePolicy:
+                # horizontalPolicy: "PercentOfParent"
+                # verticalPolicy: "FixedSize"
+        # bindings:
+        # - ["Anchor.topAnchorEnabled", "style != eRatingHistogramStyle.POSITIVE"]
+        # - ["Anchor.topAnchor", "when style == eRatingHistogramStyle.NEGATIVE -> 120, 96"]
+        # - ["Anchor.bottomAnchorEnabled", "style == eRatingHistogramStyle.POSITIVE"]
+        # - ["Anchor.bottomAnchor", "when style == eRatingHistogramStyle.POSITIVE -> 92, 0"]
+        # - ["SizePolicy.verticalValue", "when style == eRatingHistogramStyle.POSITIVE -> 68 * histogramPercent, when style == eRatingHistogramStyle.NEGATIVE -> 40 * histogramPercent, 24"]
+        # children:
+        # -   prototype: "BlurModified/BlurModified"
+            # name: "Blur"
     -   class: "UIControl"
         name: "Top"
         input: false
@@ -39,7 +59,7 @@ Prototypes:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfChildrenSum"
         bindings:
-        - ["visible", "style != eRatingHistogramStyle.NEGATIVE"]
+        - ["visible", "style == eRatingHistogramStyle.POSITIVE"]
         children:
         -   class: "UIControl"
             name: "Value"
@@ -70,8 +90,6 @@ Prototypes:
                         horizontalValue: 6.000000
                         verticalPolicy: "FixedSize"
                         verticalValue: 6.000000
-                    StyleSheet:
-                        styles: "~res:/UI/Screens3/Color.style.yaml"
                 bindings:
                 - ["visible", "style == eRatingHistogramStyle.POSITIVE"]
             -   class: "UIControl"
@@ -97,20 +115,9 @@ Prototypes:
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "FixedSize"
-                StyleSheet:
-                    styles: "~res:/UI/Screens3/Color.style.yaml"
             bindings:
             - ["classes", "colorStyleOpacity"]
             - ["SizePolicy.verticalValue", "68 * histogramPercent"]
-            children:
-            -   prototype: "Blur/Blur"
-                name: "Blur"
-                components:
-                    SizePolicy:
-                        horizontalPolicy: "PercentOfParent"
-                        verticalPolicy: "FixedSize"
-                bindings:
-                - ["SizePolicy.verticalValue", "68 * histogramPercent"]
     -   class: "UIControl"
         name: "Center"
         input: false
@@ -122,8 +129,6 @@ Prototypes:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "FixedSize"
                 verticalValue: 24.000000
-            StyleSheet:
-                styles: "~res:/UI/Screens3/Color.style.yaml"
         children:
         -   class: "UIControl"
             name: "Bg"
@@ -134,13 +139,8 @@ Prototypes:
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "PercentOfParent"
-                StyleSheet:
-                    styles: "~res:/UI/Screens3/Color.style.yaml"
             bindings:
             - ["classes", "colorStyle"]
-            children:
-            -   prototype: "Blur/Blur"
-                name: "Blur"
         -   prototype: "VehicleLevel/VehicleLevel"
             name: "VehicleLevel"
             components:
@@ -174,20 +174,9 @@ Prototypes:
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "FixedSize"
-                StyleSheet:
-                    styles: "~res:/UI/Screens3/Color.style.yaml"
             bindings:
             - ["classes", "colorStyleOpacity"]
             - ["SizePolicy.verticalValue", "40 * histogramPercent"]
-            children:
-            -   prototype: "Blur/Blur"
-                name: "Blur"
-                components:
-                    SizePolicy:
-                        horizontalPolicy: "PercentOfParent"
-                        verticalPolicy: "FixedSize"
-                bindings:
-                - ["SizePolicy.verticalValue", "40 * histogramPercent"]
         -   class: "UIControl"
             name: "Value"
             size: [32.000000, 32.000000]
@@ -218,8 +207,6 @@ Prototypes:
                         horizontalValue: 6.000000
                         verticalPolicy: "FixedSize"
                         verticalValue: 6.000000
-                    StyleSheet:
-                        styles: "~res:/UI/Screens3/Color.style.yaml"
                 bindings:
                 - ["visible", "style == eRatingHistogramStyle.NEGATIVE"]
             -   class: "UIControl"

@@ -1,0 +1,332 @@
+Header:
+    version: 125
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Inventory/Common/DynamicTopSpacer.yaml"
+- "~res:/UI/Screens3/Lobby/Inventory/Common/DynamicHorizontalPadding.yaml"
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+- "~res:/UI/Screens3/Lobby/Inventory/Common/RightPanel.yaml"
+- "~res:/UI/Screens3/Lobby/Inventory/Common/BottomInventorySpacer.yaml"
+- "~res:/UI/Screens3/Common/Footer.yaml"
+- "~res:/UI/Screens3/Lobby/Common/ProgressBar.yaml"
+- "~res:/UI/Screens3/Lobby/Common/RichText.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Resource/Currencies.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Selection.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Resource/CurrencyWithDiscount.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Resource/Price.yaml"
+- "~res:/UI/Screens3/Lobby/Inventory/Crew/AccelerationProgressPanel.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "Screen"
+    size: [960.000000, 728.000000]
+    input: false
+    components:
+        Anchor:
+            leftAnchorEnabled: true
+            rightAnchorEnabled: true
+            topAnchorEnabled: true
+            bottomAnchorEnabled: true
+        LinearLayout:
+            orientation: "TopDown"
+        UISwitchBarComponent:
+            onSelectElement: "ACCELERATION_SELECTED"
+            onSelectElementData: "_selectedElement"
+            selectionEventType: "TOUCH_UP"
+        UIDataParamsComponent:
+            params:
+            - ["CrewSkillsAccelerationViewModel", "model", "null", "{ }"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["Acceleration", "acceleration", "when not isNull(model) -> model.accelerations[model.selected], null"]
+            - ["bool", "canAfford", "acceleration.price.resources[0].quantity != 0"]
+    bindings:
+    - ["UISwitchBarComponent.selectedElement", "model.selected"]
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        position: [0.000000, 0.000000]
+        input: false
+        classes: "inventory-limited-width"
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            LinearLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Common/Desktop.style.yaml"
+        children:
+        -   prototype: "DynamicHorizontalPadding/DynamicHorizontalPadding"
+            name: "DynamicHorizontalPadding"
+            classes: "padding fixed-padding desktop-unvisible"
+        -   class: "UIControl"
+            name: "CenterContent"
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIScrollView"
+                name: "ContentArea"
+                autoUpdate: true
+                centerContent: true
+                components:
+                    Background: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "Formula"
+                        verticalFormula: "when parent == 0 -> childrenSum, parent"
+                children:
+                -   class: "UIScrollViewContainer"
+                    name: "scrollContainerControl"
+                    position: [64.000000, -162.000000]
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        LinearLayout:
+                            orientation: "TopDown"
+                            spacing: 24.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfChildrenSum"
+                    children:
+                    -   class: "UIControl"
+                        name: "Progress"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            LinearLayout:
+                                orientation: "TopDown"
+                                spacing: 18.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        children:
+                        -   class: "UIControl"
+                            name: "Header"
+                            size: [32.000000, 32.000000]
+                            input: false
+                            classes: "t-overline bold white-wild-sand-text"
+                            components:
+                                UITextComponent: {}
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml"
+                            bindings:
+                            - ["UITextComponent.text", "localize(\"#crew:skills/forceTraining/header\")"]
+                        -   prototype: "AccelerationProgressPanel/ProgressPanel"
+                            name: "ProgressPanel"
+                            position: [0.000000, 44.000000]
+                            components:
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                UIDataParamsComponent:
+                                    args:
+                                        "model": "model"
+                    -   class: "UIControl"
+                        name: "Buttons"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            LinearLayout:
+                                orientation: "TopDown"
+                                spacing: 32.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfMaxChild"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        children:
+                        -   class: "UIControl"
+                            name: "Header"
+                            position: [321.000000, 0.000000]
+                            size: [32.000000, 32.000000]
+                            input: false
+                            classes: "t-overline bold white-wild-sand-text"
+                            components:
+                                UITextComponent: {}
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml"
+                            bindings:
+                            - ["UITextComponent.text", "localize(\"#crew:skills/skillDescription/chooseSpeedUp\")"]
+                        -   class: "UIControl"
+                            name: "ButtonsContainer"
+                            position: [-76.000000, 68.000000]
+                            size: [32.000000, 32.000000]
+                            input: false
+                            components:
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                LinearLayout:
+                                    spacing: 16.000000
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfChildrenSum"
+                                    verticalPolicy: "PercentOfMaxChild"
+                                UIRepeatComponent:
+                                    control: "~res:/UI/Screens3/Lobby/Inventory/Crew/AccelerationButton.yaml"
+                                    dataContainer: "model.accelerations"
+                                    args:
+                                        "isSelected": "_item.type == model.selected"
+                                        "acceleration": "_item"
+                    -   class: "UIControl"
+                        name: "Spacer"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            SizePolicy:
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 26.000000
+            -   prototype: "VerticalScrollBar/VerticalScrollBar"
+                name: "VerticalScrollBar"
+                position: [348.000000, 0.000000]
+                components:
+                    Anchor:
+                        enabled: true
+                        rightAnchorEnabled: true
+                        rightAnchor: -6.000000
+                        topAnchorEnabled: true
+                        topAnchor: 2.000000
+                        bottomAnchorEnabled: true
+                        bottomAnchor: 2.000000
+                    UIScrollBarComponent:
+                        delegate: "../ContentArea"
+        -   prototype: "DynamicHorizontalPadding/DynamicHorizontalPadding"
+            name: "DynamicHorizontalPadding_1"
+            classes: "padding only-notch-padding desktop-unvisible"
+    -   prototype: "Footer/Footer"
+        name: "Footer"
+        position: [0.000000, 416.000000]
+        components:
+            UIDataParamsComponent:
+                args:
+                    "content": "FooterContent"
+Slots:
+-   class: "UIControl"
+    name: "FooterContent"
+    size: [700.000000, 48.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfMaxChild"
+    children:
+    -   class: "UIControl"
+        name: "LeftPart"
+        position: [0.000000, 12.000000]
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                spacing: 8.000000
+                useRtl: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfMaxChild"
+        children:
+        -   class: "UIControl"
+            name: "EliteXpText"
+            size: [32.000000, 32.000000]
+            input: false
+            classes: "t-body regular white-wild-sand-50-text"
+            components:
+                UITextComponent:
+                    text: "#crew:skills/forceTraining/eliteExp"
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+        -   prototype: "CurrencyWithDiscount/CurrencyWithDiscount"
+            name: "CurrencyWithDiscount"
+            position: [114.000000, 0.000000]
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                UIDataParamsComponent:
+                    args:
+                        "resource": "when not isNull(model) -> model.eliteExp, null"
+    -   class: "UIControl"
+        name: "RightPart"
+        position: [259.000000, 0.000000]
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+            LinearLayout:
+                spacing: 32.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfMaxChild"
+        children:
+        -   class: "UIControl"
+            name: "PriceWrapper"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   prototype: "Currencies/Resources"
+                name: "Resources"
+                components:
+                    Anchor:
+                        rightAnchorEnabled: true
+                    UIDataParamsComponent:
+                        args:
+                            "visible": "canAfford"
+                            "price": "acceleration.price"
+            -   class: "UIControl"
+                name: "NotEnough"
+                size: [32.000000, 32.000000]
+                input: false
+                classes: "t-body regular white-wild-sand-50-text"
+                components:
+                    UITextComponent:
+                        text: "#crew:skills/hint/notEnoughItems"
+                        colorInheritType: "COLOR_IGNORE_PARENT"
+                    Anchor:
+                        rightAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["visible", "not canAfford"]
+        -   prototype: "Button/Button"
+            name: "ButtonPositive"
+            position: [233.000000, 0.000000]
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "caption": "localize(\"#crew:skills/skillDescription/speedUp\")"
+                        "type": "eButtonType.POSITIVE"
+                        "size": "eButtonSize.NORMAL"
+                        "enabled": "canAfford"
+                    eventActions:
+                    - ["ON_CLICK_BUTTON", "ACCELERATE_SKILL_ACTION", ""]

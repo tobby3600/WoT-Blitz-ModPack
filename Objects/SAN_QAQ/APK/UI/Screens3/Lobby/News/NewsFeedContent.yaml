@@ -1,0 +1,193 @@
+Header:
+    version: 140
+ImportedPackages:
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "NewsContent"
+    size: [1265.000000, 412.000000]
+    input: false
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/Lobby/News/News.animation"
+        UIOpacityComponent:
+            opacity: 0.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "markReadIsVisible", "false", "true"]
+            - ["NewsNotificationsViewModel", "model", "{ }", "{ \"mobileLines\" = [ { \"items\" = [ { \"rssItemIndex\" = 0; \"cardSize\" = eNewsCardSize.M; \"item\" = { \"title\" = \"one\"; }; }; { \"rssItemIndex\" = 1; \"cardSize\" = eNewsCardSize.M; \"item\" = { \"title\" = \"two\"; }; }; ]; }; { \"items\" = [ { \"rssItemIndex\" = 2; \"item\" = { \"title\" = \"three\"; }; }; ]; }; ]; }"]
+            events:
+            - "CHANGE_SCROLL_POSITION_NS(int position)"
+            - "CHANGE_POSITION_SELECTED_ITEM"
+            - "NEWS_TAB_INIT"
+            - "SCROLL_TO_SELECTED_ITEM"
+            - "SELECTED_ITEM_CHANGE"
+            - "CHANGE_POSITION_CONTENT"
+            - "ON_MARK_READ_CLICK"
+            - "SELECTED_ITEM_WAS_CHANGED"
+        UIDataLocalVarsComponent:
+            data:
+            - ["int", "scrollPosition", "0"]
+            - ["int", "scrollPositionNS", "-1"]
+            - ["int", "currentSelectedItem", "when isGamepad -> model.selectedItem, -1"]
+        UIDataOnEventComponent0:
+            eventName: "SCROLL_EVENT"
+            modelFieldExpression: "scrollPosition"
+            dataExpression: "int(_event)"
+        UIDataOnEventComponent1:
+            eventName: "SELECTED_ITEM_CHANGE"
+            modelFieldExpression: "currentSelectedItem"
+            dataExpression: "when isGamepad -> _event, -1"
+        UIDataOnEventComponent2:
+            eventName: "CHANGE_POSITION_SELECTED_ELEMENT"
+            modelFieldExpression: "scrollPositionNS"
+            dataExpression: "int(_event)"
+        UIEventOnDataComponent0:
+            watchedDataExpression: "scrollPosition"
+            eventName: "CHANGE_POSITION_CONTENT"
+            eventData: "scrollPosition"
+        UIEventOnDataComponent1:
+            watchedDataExpression: "currentSelectedItem"
+            eventName: "SELECTED_ITEM_WAS_CHANGED"
+            eventData: "currentSelectedItem"
+        UIEventOnDataComponent2:
+            watchedDataExpression: "scrollPositionNS"
+            eventName: "CHANGE_SCROLL_POSITION_NS"
+            eventData: "scrollPositionNS"
+    children:
+    -   class: "UIScrollView"
+        name: "UIScrollView"
+        size: [1265.000000, 763.000000]
+        autoUpdate: true
+        components:
+            ClipContent:
+                top: false
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIScrollViewContainer"
+            name: "scrollContainerControl"
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    rightAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
+                UILayoutEventComponent:
+                    positionChangedEvent: "SCROLL_EVENT"
+                    positionChangedEventData: "_position.Y"
+                UISwitchBarComponent:
+                    onSelectElement: "SELECTED_ITEM_CHANGE"
+                    onSelectElementData: "_selectedElement"
+                    moveSelectionMode: "Dpad"
+            bindings:
+            - ["UISwitchBarComponent.selectedElement", "currentSelectedItem"]
+            - ["UISwitchBarComponent.unselectedId", "-1"]
+            children:
+            -   class: "UIControl"
+                name: "VerticalList"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "TopDown"
+                        padding: "24; 24"
+                        spacing: 16.000000
+                    SizePolicy:
+                        horizontalPolicy: "Formula"
+                        horizontalFormula: "when parent <= 1232 -> 800, parent <= 1504 -> 1072, 1344"
+                        verticalPolicy: "PercentOfChildrenSum"
+                    UILayoutEventComponent:
+                        sizeChangedEvent: "ON_SCROLL_SIZE_CHANGE"
+                        sizeChangedEventData: "_size"
+                    UIRepeatComponent:
+                        control: "~res:/UI/Screens3/Lobby/News/MobileLine.yaml"
+                        dataContainer: "model.mobileLines"
+                        args:
+                            "selectedItem": "currentSelectedItem"
+                            "line": "_item"
+                        eventActions:
+                        - ["CHANGE_POSITION_SELECTED_ITEM", "CHANGE_POSITION_SELECTED_ITEM", "_event"]
+                        - ["ON_TOUCH_UP_INSIDE", "ON_TOUCH_UP_INSIDE", ""]
+                    UIIdentifierComponent:
+                        id: "news_cards"
+                bindings:
+                - ["visible", "not Empty(model.mobileLines)"]
+            -   class: "UIControl"
+                name: "ScrollPositionControl"
+                size: [1.000000, 1.000000]
+                input: false
+                components:
+                    UIAttachLayoutSlaveComponent:
+                        attachId: "SELECTED_CARD"
+                        masterAlign: "BottomLeft"
+                        slaveAlign: "BottomLeft"
+                    UILayoutEventComponent:
+                        positionChangedEvent: "CHANGE_POSITION_SELECTED_ELEMENT"
+                        positionChangedEventData: "_position.Y"
+        -   class: "UIControl"
+            name: "leftSpace"
+            position: [0.000000, 0.000000]
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    horizontalMax: 80.000000
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "markReadButton"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                        bottomAnchor: 16.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfMaxChild"
+                    UIChildComponent0:
+                        condition: "markReadIsVisible"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+                        args:
+                            "sound": "eButtonSound.CANCEL"
+                            "isBgVisible": "false"
+                            "imageSize": "48"
+                            "image": "\"~res:/Gfx/Lobby/icons/icon_mark_news_read\""
+                        eventActions:
+                        - ["ON_CLICK_BUTTON", "ON_MARK_READ_CLICK", ""]
+    -   prototype: "VerticalScrollBar/VerticalScrollBar"
+        name: "VerticalScrollBar"
+        classes: "notch-tightly-right-inset"
+        components:
+            IgnoreLayout: {}
+            UIAnchorSafeAreaComponent: {}
+            UIScrollBarComponent:
+                delegate: "../UIScrollView"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/SafeArea.style.yaml"
+    -   class: "UIControl"
+        name: "PopoverContainer"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                bottomAnchorEnabled: true
+                bottomAnchor: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Popover.yaml"
+                args:
+                    "popoverText": "localize(\"#news:noUnreadNews\")"

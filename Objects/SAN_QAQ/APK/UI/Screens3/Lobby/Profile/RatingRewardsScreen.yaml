@@ -2,6 +2,7 @@ Header:
     version: 161
 ImportedPackages:
 - "~res:/UI/Screens3/Common/HorizontalScrollBar.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "RatingRewardsScreen"
@@ -562,7 +563,7 @@ Slots:
                                     UITextComponent: {}
                                     UIShadowComponent:
                                         blurType: "Gauss"
-                                        textureScale: 0.500000
+                                        texturescale: 0.250000
                                         color: [1.000000, 0.164706, 0.000000, 1.000000]
                                         canBeDelayed: true
                                     Anchor:
@@ -752,27 +753,6 @@ Slots:
             position: [116.000000, 4.000000]
             input: false
             components:
-                Background:
-                    usePostProcessedSprite: true
-                UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                    needClearAlphaAfterRender: true
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent1:
-                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent2:
-                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
                 Anchor:
                     vCenterAnchorEnabled: true
                 LinearLayout: {}
@@ -781,6 +761,8 @@ Slots:
                     verticalPolicy: "FixedSize"
                     verticalValue: 12.000000
             children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
             -   class: "UIControl"
                 name: "Progress_bronze"
                 input: false

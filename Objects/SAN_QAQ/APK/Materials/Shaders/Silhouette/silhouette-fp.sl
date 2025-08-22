@@ -15,7 +15,5 @@ fragment_out fp_main(fragment_in input)
 
 	output.color = silhouetteColor;
 
-	#include "color-grading.slh"
-
 	return output;
 }

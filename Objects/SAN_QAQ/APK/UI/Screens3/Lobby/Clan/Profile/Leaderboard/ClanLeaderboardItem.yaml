@@ -1,34 +1,12 @@
 Header:
     version: 152
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ClanLeaderboardItem"
     size: [340.000000, 200.000000]
     components:
-        Background:
-            usePostProcessedSprite: true
-        UIPostProcessTextureComponent0:
-            materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-            needClearAlphaAfterRender: true
-            needDepth: true
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent1:
-            materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent2:
-            materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIRoundedCornersComponent:
-            radius: "4;4;0;0"
         Anchor:
             bottomAnchorEnabled: true
         LinearLayout:
@@ -37,7 +15,6 @@ Prototypes:
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
             verticalPolicy: "FixedSize"
-            verticalValue: 200.000000
         UIDataParamsComponent:
             params:
             - ["SessionDataModel", "session", "null", "{ }"]
@@ -51,14 +28,15 @@ Prototypes:
             data:
             - ["bool", "isSelf", "when not isNull(playerInfo) -> session.dbid == playerInfo.nameModel.dbId, false"]
         Sound: {}
+    bindings:
+    - ["SizePolicy.verticalValue", "when not isNull(playerInfo) -> proportion * 58 + 130, 0"]
     children:
-    -   class: "UIControl"
-        name: "Spacer"
-        input: false
+    -   prototype: "BlurModified/BlurModified"
+        name: "Blur"
         components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfParent"
+            UIDataParamsComponent:
+                args:
+                    "roundCorner": "\"4;4;0;0\""
     -   class: "UIControl"
         name: "PlayerInfoHolder"
         classes: "button-open-sound"
@@ -99,7 +77,7 @@ Prototypes:
         - ["UIOpacityComponent.opacity", "when not isNull(playerInfo) -> 0.7500000, 0.250000"]
         - ["UIGradientComponent.startColor", "startColor"]
         - ["UIGradientComponent.finishColor", "endColor"]
-        - ["SizePolicy.verticalValue", "proportion * (108 - 50) + 50"]
+        - ["SizePolicy.verticalValue", "proportion * 58 + 50"]
         children:
         -   class: "UIControl"
             name: "GradientBorderLeft"
@@ -193,6 +171,8 @@ Prototypes:
                     rightAnchorEnabled: true
                     rightAnchor: 16.000000
                     vCenterAnchorEnabled: true
+                UIOpacityComponent:
+                    ignoreParentOpacity: true
                 LinearLayout: {}
                 SizePolicy:
                     horizontalPolicy: "PercentOfMaxChild"
@@ -261,8 +241,9 @@ Slots:
                     verticalPolicy: "PercentOfMaxChild"
                     verticalMin: 20.000000
             bindings:
+            - ["visible", "not isNull(playerInfo)"]
             - ["classes", "when isSelf -> \"t-body regular yellow-lightning-text\", \"t-body regular white-wild-sand-text\""]
-            - ["UITextComponent.text", "when not isNull(playerInfo) -> playerInfo.nameModel.name, \"\""]
+            - ["UITextComponent.text", "when isSelf -> playerInfo.nameModel.name + localize(\"clanMissions/missionScreen/leaderboard/you\"), playerInfo.nameModel.name"]
         -   class: "UIControl"
             name: "ClanTag"
             visible: false

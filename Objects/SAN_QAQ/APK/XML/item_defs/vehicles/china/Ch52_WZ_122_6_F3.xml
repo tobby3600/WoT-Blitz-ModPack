@@ -17,7 +17,7 @@
 	</invisibility>
 	<repairCost>0</repairCost>
 	<crewXpFactor>1.0</crewXpFactor>
-	<optDevicePreset>defaultPreset</optDevicePreset>
+	<optDevicePreset>drumGunVehiclePreset</optDevicePreset>
 	<consumableSlots>3</consumableSlots>
 	<provisionSlots>3</provisionSlots>
 	<enrichmentBoost>0.0</enrichmentBoost>
@@ -70,7 +70,7 @@
 		<armor>
 			<armor_1>196</armor_1>
 			<armor_2>290</armor_2>
-			<armor_3>94</armor_3>
+			<armor_3>116</armor_3>
 			<armor_4>72</armor_4>
 			<armor_5>20</armor_5>
 			<armor_6>62</armor_6>
@@ -79,7 +79,7 @@
 			<armor_8>5</armor_8>
 			<armor_9>94</armor_9>
 			<armor_10>40</armor_10>
-			<armor_11>153</armor_11>
+			<armor_11>160</armor_11>
 			<armor_12>24</armor_12>
 			<armor_13>290</armor_13>
 			<armor_16>82</armor_16>
@@ -212,7 +212,7 @@
 			<yawLimits>-180 180</yawLimits>
 			<gunPosition>-0.000124 0.399507 1.472978</gunPosition>
 			<armor>
-				<armor_1>230</armor_1>
+				<armor_1>248</armor_1>
 				<armor_2>217</armor_2>
 				<armor_3>136</armor_3>
 				<armor_4>82</armor_4>
@@ -241,6 +241,10 @@
 			</surveyingDeviceHealth>
 			<guns>
 				<_130mm_Type62>shared<maxAmmo>50</maxAmmo>
+					<unlocks>
+						<gun>_130mm_Type62v2<cost>100</cost>
+						</gun>
+					</unlocks>
 					<hitTester>
 						<collisionModel>vehicles/chinese/Ch52_WZ_122_6_F3/collision/Gun_01.model</collisionModel>
 					</hitTester>
@@ -250,7 +254,7 @@
 						<exploded>vehicles/chinese/Ch52_WZ_122_6_F3/crash/lod0/Gun_01.model</exploded>
 					</models>
 					<armor>
-						<armor_1>180<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						<armor_1>220<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_1>
 						<armor_2>160<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_2>
@@ -260,11 +264,11 @@
 						</armor_4>
 						<gun>40</gun>
 					</armor>
-					<shotDispersionRadius>0.44</shotDispersionRadius>
+					<shotDispersionRadius>0.42</shotDispersionRadius>
 					<aimingTime>2.9</aimingTime>
-					<reloadTime>13.2</reloadTime>
+					<reloadTime>12.8</reloadTime>
 					<shotDispersionFactors>
-						<turretRotation>0.18</turretRotation>
+						<turretRotation>0.16</turretRotation>
 						<afterShot>4</afterShot>
 						<whileGunDamaged>2.0</whileGunDamaged>
 					</shotDispersionFactors>
@@ -273,6 +277,7 @@
 					<extraPitchLimits>
 						<back>-18 3 30</back>
 					</extraPitchLimits>
+					<fitsRatingBattle>true</fitsRatingBattle>
 					<shots>
 						<_130mm_Chuan_bei-492>
 							<shell>shared<price>0</price>
@@ -289,6 +294,61 @@
 						</_130mm_Sha_bao-492G>
 					</shots>
 				</_130mm_Type62>
+				<_130mm_Type62v2>shared<maxAmmo>50</maxAmmo>
+					<hitTester>
+						<collisionModel>vehicles/chinese/Ch52_WZ_122_6_F3/collision/Gun_01.model</collisionModel>
+					</hitTester>
+					<models>
+						<undamaged>vehicles/chinese/Ch52_WZ_122_6_F3/normal/lod0/Gun_01.model</undamaged>
+						<destroyed>vehicles/chinese/Ch52_WZ_122_6_F3/crash/lod0/Gun_01.model</destroyed>
+						<exploded>vehicles/chinese/Ch52_WZ_122_6_F3/crash/lod0/Gun_01.model</exploded>
+					</models>
+					<armor>
+						<armor_1>220<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						</armor_1>
+						<armor_2>160<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						</armor_2>
+						<armor_3>80<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						</armor_3>
+						<armor_4>100<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						</armor_4>
+						<gun>40</gun>
+					</armor>
+					<shotDispersionRadius>0.44</shotDispersionRadius>
+					<aimingTime>2.6</aimingTime>
+					<pumpGunMode>true</pumpGunMode>
+					<pumpGunReloadTimes>14 12 10</pumpGunReloadTimes>
+					<reloadTime>36</reloadTime>
+					<clip>
+						<count>3</count>
+						<rate>22</rate>
+					</clip>
+					<shotDispersionFactors>
+						<turretRotation>0.18</turretRotation>
+						<afterShot>4</afterShot>
+						<whileGunDamaged>2.0</whileGunDamaged>
+					</shotDispersionFactors>
+					<invisibilityFactorAtShot>0.225</invisibilityFactorAtShot>
+					<pitchLimits>-18 6</pitchLimits>
+					<extraPitchLimits>
+						<back>-18 3 30</back>
+					</extraPitchLimits>
+					<shots>
+						<_130mm_Chuan_bei-492v2>
+							<shell>shared<price>0</price>
+							</shell>
+						</_130mm_Chuan_bei-492v2>
+						<_130mm_Po-492Fv2>
+							<shell>shared<price>12<gold/>
+								</price>
+							</shell>
+						</_130mm_Po-492Fv2>
+						<_130mm_Sha_bao-492Gv2>
+							<shell>shared<price>0</price>
+							</shell>
+						</_130mm_Sha_bao-492Gv2>
+					</shots>
+				</_130mm_Type62v2>
 			</guns>
 			<emblemSlots>
 				<player>

@@ -1,0 +1,667 @@
+Header:
+    version: 155
+ImportedPackages:
+- "~res:/UI/Screens/Common.yaml"
+- "~res:/UI/Screens/Common/Settings/SettingsCommon.yaml"
+- "~res:/UI/Screens/Options/OptionEditor.yaml"
+- "~res:/UI/Screens/Common/Switch.yaml"
+- "~res:/UI/Screens/Common/Settings/SwitchWithCaptionAndDescription.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "Page"
+    size: [1025.000000, 1107.000000]
+    input: false
+    components:
+        Anchor:
+            leftAnchorEnabled: true
+            rightAnchorEnabled: true
+            topAnchorEnabled: true
+            bottomAnchorEnabled: true
+        UIDataParamsComponent:
+            params:
+            - ["bool", "showChangeLanguageButton", "true", "true"]
+    children:
+    -   class: "UIScrollView"
+        name: "ScrollView"
+        input: false
+        autoUpdate: true
+        components:
+            Background:
+                color: [0.192200, 0.192200, 0.192200, 1.000000]
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                bottomAnchorEnabled: true
+        children:
+        -   class: "UIScrollViewContainer"
+            name: "scrollContainerControl"
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                    spacing: 2.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   class: "UIControl"
+                name: "Container"
+                position: [5.000000, 0.000000]
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        leftAnchor: 5.000000
+                        rightAnchorEnabled: true
+                        rightAnchor: 5.000000
+                    LinearLayout:
+                        orientation: "TopDown"
+                        safeAreaPaddingInset: true
+                        spacing: 1.000000
+                    SizePolicy:
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   prototype: "SettingsCommon/Button"
+                    name: "ChangeLanguageButton"
+                    size: [1015.000000, 80.000000]
+                    classes: "pane-bg touchable settings-button"
+                    components:
+                        StyleSheet:
+                            styles: "~res:/UI/Screens/Lobby/Common/Styles/SectionHeader1.style.yaml;~res:/UI/Screens/Common/Settings/Styles/SettingsCommon.style.yaml;~res:/UI/Screens3/Background.style.yaml;~res:/UI/Screens/Fonts.yaml"
+                    bindings:
+                    - ["visible", "showChangeLanguageButton"]
+                    children:
+                    -   path: "TextContainer"
+                        children:
+                        -   class: "UIStaticText"
+                            name: "CurrentLanguageText"
+                            classes: "header3"
+                            components:
+                                UITextComponent:
+                                    text: "TEST"
+                                    align: ["RIGHT", "VCENTER"]
+                                Anchor:
+                                    leftAnchorEnabled: true
+                                    leftAnchor: 10.000000
+                                    rightAnchorEnabled: true
+                                    rightAnchor: 50.000000
+                                    topAnchorEnabled: true
+                                    vCenterAnchorEnabled: true
+                                    vCenterAnchor: 0.000000
+                                    bottomAnchorEnabled: true
+                        -   class: "UIControl"
+                            name: "Arrow"
+                            components:
+                                Background:
+                                    sprite: "~res:/Gfx/UI/SettingsScreen/arrow_settings"
+                                    colorInherit: "COLOR_REPLACE_ALPHA_ONLY"
+                                Anchor:
+                                    rightAnchorEnabled: true
+                                    rightAnchor: 20.000000
+                                    vCenterAnchorEnabled: true
+                    -   path: "TextContainer/Text"
+                        components:
+                            UITextComponent:
+                                text: "SETTINGS_BUTTON_LANGUAGE"
+                -   prototype: "SettingsCommon/SelectorWithCaptionAndDescription"
+                    name: "BattleChat"
+                    children:
+                    -   path: "TextContainer/GroupCaption"
+                        components:
+                            UITextComponent:
+                                text: "#settings:Other/BattleChat/Title"
+                -   prototype: "SettingsCommon/SliderWithCaption"
+                    name: "MusicVolume"
+                    components:
+                        LinearLayout:
+                            padding: "10.000000"
+                            spacing: 15.000000
+                            dynamicSpacing: false
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            horizontalValue: 100.000000
+                    children:
+                    -   path: "ValueAndCaption"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                        children: []
+                    -   path: "ValueAndCaption/GroupCaption"
+                        components:
+                            UITextComponent:
+                                text: "#settings:Other/MusicVolume/Title"
+                    -   path: "ValueAndCaption/Value"
+                        components:
+                            SizePolicy:
+                                horizontalMin: 54.000000
+                    -   path: "Slider"
+                        components:
+                            Anchor:
+                                rightAnchorEnabled: false
+                                rightAnchor: 0.000000
+                                topAnchorEnabled: false
+                                topAnchor: 0.000000
+                                vCenterAnchorEnabled: true
+                                bottomAnchorEnabled: false
+                                bottomAnchor: 0.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                horizontalMax: 440.000000
+                        children: []
+                -   prototype: "SettingsCommon/SliderWithCaption"
+                    name: "SoundVolume"
+                    components:
+                        LinearLayout:
+                            padding: "10.000000"
+                            spacing: 15.000000
+                            dynamicSpacing: false
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            horizontalValue: 100.000000
+                    children:
+                    -   path: "ValueAndCaption"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                        children: []
+                    -   path: "ValueAndCaption/GroupCaption"
+                        components:
+                            UITextComponent:
+                                text: "#settings:Other/SoundVolume/Title"
+                    -   path: "ValueAndCaption/Value"
+                        components:
+                            SizePolicy:
+                                horizontalMin: 54.000000
+                    -   path: "Slider"
+                        components:
+                            Anchor:
+                                rightAnchorEnabled: false
+                                rightAnchor: 0.000000
+                                topAnchorEnabled: false
+                                topAnchor: 0.000000
+                                vCenterAnchorEnabled: true
+                                bottomAnchorEnabled: false
+                                bottomAnchor: 0.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                horizontalMax: 440.000000
+                        children: []
+                -   prototype: "SwitchWithCaptionAndDescription/SwitchWithCaptionAndDescription"
+                    name: "MuteInBackground"
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                    children:
+                    -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                        components:
+                            UITextComponent:
+                                text: "#settings:Other/MuteInBackground/Title"
+                    -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                        components:
+                            UITextComponent:
+                                text: "#settings:Other/MuteInBackground/Description"
+                -   prototype: "SettingsCommon/SelectorWithCaptionAndDescription"
+                    name: "PushNotificationsMode"
+                    position: [0.000000, 162.000000]
+                    children:
+                    -   path: "TextContainer/GroupCaption"
+                        components:
+                            UITextComponent:
+                                text: "SETTINGS_LABEL_GENERAL_PUSH"
+                -   prototype: "SwitchWithCaptionAndDescription/SwitchWithCaptionAndDescription"
+                    name: "MuteAllChats"
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                    children:
+                    -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                        components:
+                            UITextComponent:
+                                text: "#settings:Other/MuteAllChats/Title"
+                    -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                        components:
+                            UITextComponent:
+                                text: "#settings:Other/MuteAllChats/Description"
+                -   prototype: "SettingsCommon/Row"
+                    name: "Row2"
+                    input: true
+                    components:
+                        LinearLayout:
+                            spacing: 1.000000
+                    children:
+                    -   prototype: "SwitchWithCaptionAndDescription/SwitchWithCaptionAndDescription"
+                        name: "ClanInvites"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                horizontalValue: 50.000000
+                        children:
+                        -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/ClanInvites/Title"
+                        -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/ClanInvites/Description"
+                    -   prototype: "SwitchWithCaptionAndDescription/SwitchWithCaptionAndDescription"
+                        name: "ChatFriendsInvites"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                horizontalValue: 50.000000
+                        children:
+                        -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/ChatFriendsInvites/Title"
+                        -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/ChatFriendsInvites/Description"
+                -   prototype: "SettingsCommon/Row"
+                    name: "Row3"
+                    position: [0.000000, 405.000000]
+                    input: true
+                    components:
+                        LinearLayout:
+                            spacing: 1.000000
+                    children:
+                    -   prototype: "SwitchWithCaptionAndDescription/SwitchWithCaptionAndDescription"
+                        name: "TrainingRoomInvites"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                horizontalValue: 50.000000
+                        children:
+                        -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/TrainingRoomInvites/Title"
+                        -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/TrainingRoomInvites/Description"
+                    -   prototype: "SwitchWithCaptionAndDescription/SwitchWithCaptionAndDescription"
+                        name: "ChatMessagesOnlyFromFriends"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                horizontalValue: 50.000000
+                        children:
+                        -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/ChatMessagesOnlyFromFriends/Title"
+                        -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/ChatMessagesOnlyFromFriends/Description"
+                -   prototype: "SettingsCommon/Row"
+                    name: "Replay"
+                    classes: "ns-hide"
+                    components:
+                        LinearLayout:
+                            spacing: 1.000000
+                            skipInvisible: false
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Background.style.yaml;~res:/UI/Screens/Common/Settings/Styles/NewGeneralOptionsPage.style.yaml"
+                    children:
+                    -   prototype: "SwitchWithCaptionAndDescription/SwitchWithCaptionAndDescription"
+                        name: "WriteReplays"
+                        classes: "row"
+                        components:
+                            Background:
+                                colorInherit: "COLOR_MULTIPLY_ON_PARENT"
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                        children:
+                        -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                            components:
+                                Background:
+                                    colorInherit: "COLOR_MULTIPLY_ON_PARENT"
+                                UITextComponent:
+                                    text: "#settings:Other/WriteReplays/Title"
+                                    colorInheritType: "COLOR_MULTIPLY_ON_PARENT"
+                        -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                            components:
+                                Background:
+                                    colorInherit: "COLOR_MULTIPLY_ON_PARENT"
+                                UITextComponent:
+                                    text: ""
+                                    colorInheritType: "COLOR_MULTIPLY_ON_PARENT"
+                    -   prototype: "SettingsCommon/SliderWithCaption"
+                        name: "ReplaysLimit"
+                        components:
+                            LinearLayout:
+                                spacing: 10.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                        children:
+                        -   path: "ValueAndCaption"
+                            components:
+                                LinearLayout:
+                                    spacing: 5.000000
+                            children: []
+                        -   path: "ValueAndCaption/GroupCaption"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/ReplaysLimit/Title"
+                        -   path: "ValueAndCaption/Value"
+                            components:
+                                SizePolicy:
+                                    horizontalMin: 35.000000
+                        -   path: "Slider"
+                            components:
+                                Anchor:
+                                    rightAnchorEnabled: false
+                                    rightAnchor: 0.000000
+                                    topAnchorEnabled: false
+                                    topAnchor: 0.000000
+                                    vCenterAnchorEnabled: true
+                                    bottomAnchorEnabled: false
+                                    bottomAnchor: 0.000000
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                            children: []
+                -   prototype: "SettingsCommon/Row"
+                    name: "Row4"
+                    input: true
+                    components:
+                        LinearLayout:
+                            spacing: 1.000000
+                    children:
+                    -   prototype: "SwitchWithCaptionAndDescription/SwitchWithCaptionAndDescription"
+                        name: "UseNationalCrewVoices"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                horizontalValue: 50.000000
+                        children:
+                        -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/UseNationalCrewVoices/Title"
+                                    colorInheritType: "COLOR_MULTIPLY_ON_PARENT"
+                        -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/UseNationalCrewVoices/Description"
+                                    colorInheritType: "COLOR_MULTIPLY_ON_PARENT"
+                    -   prototype: "SwitchWithCaptionAndDescription/SwitchWithCaptionAndDescription"
+                        name: "SameControlType"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                horizontalValue: 50.000000
+                        children:
+                        -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/SameControlType/Title"
+                        -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/SameControlType/Description"
+                -   class: "UIControl"
+                    name: "DeviceDependentOptions"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfChildrenSum"
+                        FlowLayout:
+                            hSpacing: 1.000000
+                            vPadding: "0; 1"
+                            vSpacing: 1.000000
+                    children:
+                    -   prototype: "SwitchWithCaptionAndDescription/SwitchWithCaptionAndDescription"
+                        name: "DisplaySpecialOffers"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "Formula"
+                                horizontalFormula: "parent * 0.5 - 0.5"
+                        children:
+                        -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/DisplaySpecialOffers/Title"
+                        -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/DisplaySpecialOffers/Description"
+                    -   prototype: "OptionEditor/EditorRow"
+                        name: "DownloadHDTextures"
+                        classes: "row"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "Formula"
+                                horizontalValue: 50.000000
+                                horizontalFormula: "parent * 0.5 - 0.5"
+                        children:
+                        -   path: "Bg"
+                            components:
+                                Anchor:
+                                    leftAnchor: 0.000000
+                                    rightAnchor: 0.000000
+                        -   path: "Background"
+                            components:
+                                Background:
+                                    colorInherit: "COLOR_MULTIPLY_ON_PARENT"
+                            children: []
+                        -   path: "Background/NameAndDescription/Name"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/DownloadHDTextures/Title"
+                                    colorInheritType: "COLOR_MULTIPLY_ON_PARENT"
+                        -   path: "Background/NameAndDescription/Description"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/DownloadHDTextures/Off/Description"
+                                    colorInheritType: "COLOR_MULTIPLY_ON_PARENT"
+                        -   path: "Background/Editor"
+                            children:
+                            -   prototype: "Switch/Switch"
+                                name: "Switch"
+                                components:
+                                    Anchor:
+                                        leftAnchorEnabled: true
+                                        leftAnchor: 12.000000
+                                        vCenterAnchorEnabled: true
+                                    Sound:
+                                        valueChanged: "GUI/buttons/checkbox"
+                    -   prototype: "OptionEditor/EditorRow"
+                        name: "DownloadFullClient"
+                        classes: "row"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "Formula"
+                                horizontalValue: 50.000000
+                                horizontalFormula: "parent * 0.5 - 0.5"
+                        children:
+                        -   path: "Bg"
+                            components:
+                                Anchor:
+                                    leftAnchor: 0.000000
+                                    rightAnchor: 0.000000
+                        -   path: "Background"
+                            components:
+                                Background:
+                                    colorInherit: "COLOR_MULTIPLY_ON_PARENT"
+                            children: []
+                        -   path: "Background/NameAndDescription/Name"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/DownloadFullClient/Title"
+                                    colorInheritType: "COLOR_MULTIPLY_ON_PARENT"
+                        -   path: "Background/NameAndDescription/Description"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/DownloadFullClient/Off/Description"
+                                    colorInheritType: "COLOR_MULTIPLY_ON_PARENT"
+                        -   path: "Background/Editor"
+                            children:
+                            -   prototype: "Switch/Switch"
+                                name: "Switch"
+                                components:
+                                    Anchor:
+                                        leftAnchorEnabled: true
+                                        leftAnchor: 10.000000
+                                        vCenterAnchorEnabled: true
+                                    Sound:
+                                        valueChanged: "GUI/buttons/checkbox"
+                    -   prototype: "OptionEditor/EditorRow"
+                        name: "WifiDownloadOnly"
+                        classes: "row"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "Formula"
+                                horizontalValue: 50.000000
+                                horizontalFormula: "parent * 0.5 - 0.5"
+                        children:
+                        -   path: "Bg"
+                            components:
+                                Anchor:
+                                    leftAnchor: 0.000000
+                                    rightAnchor: 0.000000
+                        -   path: "Background"
+                            components:
+                                Background:
+                                    colorInherit: "COLOR_MULTIPLY_ON_PARENT"
+                            children: []
+                        -   path: "Background/NameAndDescription/Name"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/WifiDownloadOnly/Title"
+                                    colorInheritType: "COLOR_MULTIPLY_ON_PARENT"
+                        -   path: "Background/NameAndDescription/Description"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/WifiDownloadOnly/On/Description"
+                                    colorInheritType: "COLOR_MULTIPLY_ON_PARENT"
+                        -   path: "Background/Editor"
+                            children:
+                            -   prototype: "Switch/Switch"
+                                name: "Switch"
+                                components:
+                                    Anchor:
+                                        leftAnchorEnabled: true
+                                        leftAnchor: 10.000000
+                                        vCenterAnchorEnabled: true
+                                    Sound:
+                                        valueChanged: "GUI/buttons/checkbox"
+                    -   prototype: "OptionEditor/EditorRow"
+                        name: "PersonalizedAds"
+                        classes: "row"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "Formula"
+                                horizontalValue: 50.000000
+                                horizontalFormula: "parent * 0.5 - 0.5"
+                        children:
+                        -   path: "Bg"
+                            components:
+                                Anchor:
+                                    leftAnchor: 0.000000
+                                    rightAnchor: 0.000000
+                        -   path: "Background"
+                            components:
+                                Background:
+                                    colorInherit: "COLOR_MULTIPLY_ON_PARENT"
+                            children: []
+                        -   path: "Background/NameAndDescription/Name"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/PersonalizedAds/Title"
+                                    colorInheritType: "COLOR_MULTIPLY_ON_PARENT"
+                        -   path: "Background/NameAndDescription/Description"
+                            components:
+                                UITextComponent:
+                                    text: "#settings:Other/PersonalizedAds/Description"
+                                    colorInheritType: "COLOR_MULTIPLY_ON_PARENT"
+                        -   path: "Background/Editor"
+                            children:
+                            -   prototype: "Switch/Switch"
+                                name: "Switch"
+                                components:
+                                    Anchor:
+                                        leftAnchorEnabled: true
+                                        leftAnchor: 10.000000
+                                        vCenterAnchorEnabled: true
+                                    Sound:
+                                        valueChanged: "GUI/buttons/checkbox"
+                -   prototype: "SettingsCommon/Button"
+                    name: "SelectMapButton"
+                    size: [1015.000000, 80.000000]
+                    visible: true
+                    classes: "pane-bg touchable settings-button"
+                    components:
+                        StyleSheet:
+                            styles: "~res:/UI/Screens/Lobby/Common/Styles/SectionHeader1.style.yaml;~res:/UI/Screens/Common/Settings/Styles/SettingsCommon.style.yaml;~res:/UI/Screens3/Background.style.yaml;~res:/UI/Screens/Fonts.yaml"
+                    children:
+                    -   path: "TextContainer"
+                        children:
+                        -   class: "UIStaticText"
+                            name: "SelectMapText"
+                            classes: "header3"
+                            components:
+                                UITextComponent:
+                                    text: "TEST"
+                                    align: ["RIGHT", "VCENTER"]
+                                Anchor:
+                                    leftAnchorEnabled: true
+                                    rightAnchorEnabled: true
+                                    rightAnchor: 50.000000
+                                    topAnchorEnabled: true
+                                    bottomAnchorEnabled: true
+                        -   class: "UIControl"
+                            name: "Arrow"
+                            components:
+                                Background:
+                                    sprite: "~res:/Gfx/UI/SettingsScreen/arrow_settings"
+                                    colorInherit: "COLOR_REPLACE_ALPHA_ONLY"
+                                Anchor:
+                                    rightAnchorEnabled: true
+                                    rightAnchor: 20.000000
+                                    vCenterAnchorEnabled: true
+                    -   path: "TextContainer/Text"
+                        components:
+                            UITextComponent:
+                                text: "MAP"
+                -   prototype: "SettingsCommon/Button"
+                    name: "NetEaseUserAgreementButton"
+                    size: [1015.000000, 80.000000]
+                    classes: "background settings-button netease-content"
+                    components:
+                        StyleSheet:
+                            styles: "~res:/UI/Screens/Lobby/Common/Styles/SectionHeader1.style.yaml;~res:/UI/Screens/Common/Settings/Styles/SettingsCommon.style.yaml;~res:/UI/Screens3/NetEase.style.yaml;~res:/UI/Screens/CommonStyles.yaml"
+                    children:
+                    -   path: "TextContainer"
+                        children:
+                        -   class: "UIControl"
+                            name: "Arrow"
+                            components:
+                                Background:
+                                    sprite: "~res:/Gfx/UI/SettingsScreen/arrow_settings"
+                                    colorInherit: "COLOR_REPLACE_ALPHA_ONLY"
+                                Anchor:
+                                    rightAnchorEnabled: true
+                                    rightAnchor: 20.000000
+                                    vCenterAnchorEnabled: true
+                    -   path: "TextContainer/Text"
+                        components:
+                            UITextComponent:
+                                text: "#settings:NetEaseUserAgreement"
+        -   prototype: "Common/VerticalScrollBar"
+            name: "VerticalScrollBar"
+            classes: "notch-tightly-right-inset"
+            components:
+                Anchor:
+                    rightAnchorEnabled: true
+                    topAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                UIAnchorSafeAreaComponent: {}
+                UIScrollBarComponent:
+                    delegate: ".."
+                StyleSheet:
+                    inheritsStylesFromParent: false
+                    styles: "~res:/UI/Screens3/SafeArea.style.yaml"

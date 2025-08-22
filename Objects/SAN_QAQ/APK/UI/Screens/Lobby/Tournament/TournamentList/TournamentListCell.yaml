@@ -9,6 +9,7 @@ ImportedPackages:
 - "~res:/UI/Screens/Lobby/Tournament/TournamentParticipateLabel.yaml"
 - "~res:/UI/Screens/Lobby/Common/Timer.yaml"
 - "~res:/UI/Screens/Lobby/Common/BroadcastLabel.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIListCell"
     name: "TournamentRegularEntryPrototype"
@@ -129,27 +130,6 @@ Prototypes:
             size: [800.000000, 32.000000]
             input: false
             components:
-                Background:
-                    usePostProcessedSprite: true
-                UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                    needClearAlphaAfterRender: true
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent1:
-                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent2:
-                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
                 LinearLayout:
                     spacing: 1.000000
                 SizePolicy:
@@ -168,6 +148,8 @@ Prototypes:
                         horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "PercentOfParent"
                 children:
+                -   prototype: "BlurModified/BlurModified"
+                    name: "Blur"
                 -   class: "UIStaticText"
                     name: "Title"
                     classes: "header5"
@@ -194,6 +176,8 @@ Prototypes:
                         horizontalValue: 170.000000
                         verticalPolicy: "PercentOfParent"
                 children:
+                -   prototype: "BlurModified/BlurModified"
+                    name: "Blur"
                 -   class: "UIStaticText"
                     name: "Registration"
                     classes: "text2-small"
@@ -219,6 +203,8 @@ Prototypes:
                         horizontalValue: 86.000000
                         verticalPolicy: "PercentOfParent"
                 children:
+                -   prototype: "BlurModified/BlurModified"
+                    name: "Blur"
                 -   class: "UIStaticText"
                     name: "Levels"
                     size: [86.000000, 32.000000]
@@ -245,6 +231,8 @@ Prototypes:
                         horizontalValue: 136.000000
                         verticalPolicy: "PercentOfParent"
                 children:
+                -   prototype: "BlurModified/BlurModified"
+                    name: "Blur"
                 -   class: "UIStaticText"
                     name: "StartTime"
                     size: [136.000000, 32.000000]
@@ -273,6 +261,8 @@ Prototypes:
                         horizontalValue: 146.000000
                         verticalPolicy: "PercentOfParent"
                 children:
+                -   prototype: "BlurModified/BlurModified"
+                    name: "Blur"
                 -   class: "UIStaticText"
                     name: "Prize"
                     size: [146.000000, 32.000000]
@@ -333,6 +323,8 @@ Prototypes:
                 verticalPolicy: "FixedSize"
                 verticalValue: 40.000000
         children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
         -   prototype: "BroadcastLabel/BroadcastLabel"
             name: "BroadcastLabel"
             components:
@@ -495,28 +487,10 @@ Prototypes:
     name: "RegistrationContainer"
     size: [260.000000, 140.000000]
     input: false
+    classes: "registration-shadow-color"
     components:
         Background:
-            usePostProcessedSprite: true
-        UIPostProcessTextureComponent0:
-            materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-            needClearAlphaAfterRender: true
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent1:
-            materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent2:
-            materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
+            drawType: "DRAW_FILL"
         Anchor:
             rightAnchorEnabled: true
             vCenterAnchorEnabled: true
@@ -530,6 +504,8 @@ Prototypes:
         StyleSheet:
             styles: "~res:/UI/Screens/Lobby/Tournament/TournamentList/TournamentListCell.style.yaml;~res:/UI/Screens/Fonts.yaml"
     children:
+    -   prototype: "BlurModified/BlurModified"
+        name: "Blur"
     -   class: "UIStaticText"
         name: "Title"
         classes: "text2-small"
@@ -654,6 +630,8 @@ Prototypes:
                 verticalPolicy: "PercentOfParent"
                 verticalValue: 50.000000
         children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
         -   class: "UIControl"
             name: "LabelsContainer"
             size: [260.000000, 21.000000]
@@ -704,6 +682,8 @@ Prototypes:
                 verticalPolicy: "PercentOfParent"
                 verticalValue: 50.000000
         children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
         -   class: "UIControl"
             name: "LabelsContainer"
             size: [260.000000, 21.000000]

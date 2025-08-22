@@ -1,5 +1,7 @@
 Header:
     version: 150
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "MainReward"
@@ -28,29 +30,6 @@ Prototypes:
         input: false
         classes: "content-area"
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIRoundedCornersComponent:
-                radius: "4"
             Anchor:
                 hCenterAnchorEnabled: true
                 vCenterAnchorEnabled: true
@@ -58,9 +37,17 @@ Prototypes:
                 orientation: "TopDown"
             SizePolicy:
                 horizontalPolicy: "Formula"
-                horizontalFormula: "max(firstChild, 168)"
-                verticalPolicy: "PercentOfParent"
+                horizontalFormula: "max(firstChild, 168) * 1.15"
+                verticalPolicy: "Formula"
+                verticalFormula: "(parent + lastChild) * 1.05"
         children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "bgStyle": "\"white-wild-sand-25-bg\""
+                        "roundCorner": "\"4\""
         -   class: "UIControl"
             name: "label"
             input: false
@@ -116,3 +103,5 @@ Prototypes:
                         "minimum": "progress.progress.minimum"
                         "maximum": "progress.progress.maximum"
                         "value": "progress.progress.value"
+                        "bgStyle": "\"black-50-bg\""
+                        "isBlur": "false"

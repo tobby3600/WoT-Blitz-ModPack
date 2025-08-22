@@ -141,6 +141,7 @@ Prototypes:
                     vCenterAnchorEnabled: true
         -   class: "UIControl"
             name: "rotateControl"
+            position: [150.000000, 150.000000]
             size: [300.000000, 300.000000]
             pivot: [0.500000, 0.500000]
             input: false
@@ -302,7 +303,7 @@ Prototypes:
                     components:
                         UIDynamicAtlasTextComponent:
                             text: "250"
-                            fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+                            fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
                             fontSize: 16.000000
                             align: ["RIGHT", "VCENTER"]
                             shadowOffset: [0.000000, -1.000000]
@@ -317,7 +318,7 @@ Prototypes:
                     components:
                         UIDynamicAtlasTextComponent:
                             text: "#common:Shortening/Meter"
-                            fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+                            fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
                             fontSize: 16.000000
                             align: ["LEFT", "VCENTER"]
                             shadowOffset: [0.000000, -1.000000]
@@ -368,32 +369,12 @@ Prototypes:
                         components:
                             UIDynamicAtlasTextComponent:
                                 text: "11.4"
-                                fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+                                fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
                                 fontSize: 16.000000
                                 align: ["RIGHT", "VCENTER"]
                                 shadowOffset: [0.000000, -1.000000]
                                 availableCharacters: "0123456789."
                                 dynamic: true
-                            SizePolicy:
-                                horizontalPolicy: "FixedSize"
-                                horizontalValue: 40.000000
-                                verticalPolicy: "FixedSize"
-                                verticalValue: 20.000000
-                    -   class: "UIControl"
-                        name: "s"
-                        input: false
-                        components:
-                            Anchor:
-                                leftAnchorEnabled: true
-                                leftAnchor: 15.000000
-                                bottomAnchorEnabled: true
-                                bottomAnchor: -17.500000
-                            UIDynamicAtlasTextComponent:
-                                text: "#common:Shortening/Second"
-                                fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
-                                fontSize: 16.000000
-                                align: ["HCENTER", "VCENTER"]
-                                shadowOffset: [0.000000, -1.000000]
                             SizePolicy:
                                 horizontalPolicy: "FixedSize"
                                 horizontalValue: 40.000000
@@ -449,7 +430,7 @@ Prototypes:
                 components:
                     UIDynamicAtlasTextComponent:
                         text: "11.4"
-                        fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+                        fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
                         fontSize: 14.000000
                         shadowColor: [0.000000, 0.000000, 0.000000, 1.000000]
                         shadowOffset: [1.000000, 1.000000]

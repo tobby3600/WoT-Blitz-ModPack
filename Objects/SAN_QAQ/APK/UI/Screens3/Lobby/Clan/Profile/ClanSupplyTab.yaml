@@ -1,0 +1,119 @@
+Header:
+    version: 152
+Prototypes:
+-   class: "UIControl"
+    name: "ClanSupplyTab"
+    size: [1600.000000, 900.000000]
+    input: false
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+            spacing: 28.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["ClanProfileViewModel", "model", "null", "{ }"]
+            events:
+            - "ShowMemberPopup(int index)"
+            - "ON_SUPPLY_LEVEL_CLICKED(int level)"
+            - "CLAN_PROGRESS_ANIMATION_ENDED"
+            - "PERSONAL_PROGRESS_ANIMATION_ENDED"
+            - "ON_SPEED_UP_BTN_CLICKED"
+        UIDataLocalBindingsComponent:
+            data:
+            - ["ClanSupplyLevelInfo", "clanInfo", "model.supplyViewModel.clanInfo"]
+            - ["ClanSupplyLevelInfo", "personalInfo", "model.supplyViewModel.personalInfo"]
+            - ["int", "maxAccountLevel", "Size(personalInfo.supplyLevelsNeededContribution)"]
+            - ["bool", "maxAccountLevelReached", "when maxAccountLevel > 0 -> personalInfo.currentPoints >= personalInfo.supplyLevelsNeededContribution[maxAccountLevel - 1], false"]
+            - ["int", "currentAccountSupplyLevel", "when maxAccountLevelReached -> maxAccountLevel, max(1, upperBound(personalInfo.supplyLevelsNeededContribution, personalInfo.currentPoints))"]
+            - ["int", "maxClanLevel", "Size(clanInfo.supplyLevelsNeededContribution)"]
+            - ["bool", "maxClanLevelReached", "when maxClanLevel > 0 -> clanInfo.currentPoints >= clanInfo.supplyLevelsNeededContribution[maxClanLevel - 1], false"]
+            - ["int", "currentClanLevel", "when maxClanLevelReached -> maxClanLevel, max(1, upperBound(clanInfo.supplyLevelsNeededContribution, clanInfo.currentPoints))"]
+            - ["vector<TabTextInfo>", "selfClanTabs", "[ { \"text\" = localize(\"Clans/SupplyTab/ClanInfo\"); }; { \"text\" = localize(\"Clans/SupplyTab/PersonalInfo\", { \"level\" = roman(max(1, currentAccountSupplyLevel)); }); }; ]"]
+            - ["vector<TabTextInfo>", "otherClanTabs", "[ { \"text\" = localize(\"Clans/SupplyTab/ClanInfo\"); }; ]"]
+            - ["vector<TabTextInfo>", "tabs", "when model.isSelfClan -> selfClanTabs, otherClanTabs"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Clan/Profile/ClanSupplyTab.actions"
+    children:
+    -   class: "UIControl"
+        name: "SupplyTabs"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+                padding: "-12"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                horizontalValue: 80.000000
+                horizontalMin: 800.000000
+                horizontalMax: 1080.000000
+                verticalPolicy: "FixedSize"
+                verticalValue: 64.000000
+            UIChildComponent0:
+                condition: ""
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Tabs/TextTabsBar.yaml"
+                args:
+                    "bgStyle": "\"\""
+                    "info": "tabs"
+                    "activeTab": "int(model.supplyViewModel.selectedTab)"
+                    "isBlur": "true"
+                eventActions:
+                - ["ON_SELECT_TAB", "ON_CLAN_SUPPLY_TAB_SELECTED", "toEnum(_event, eClanSupplyTab)"]
+    -   class: "UIControl"
+        name: "Content"
+        position: [0.000000, 92.000000]
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                horizontalValue: 80.000000
+                horizontalMin: 800.000000
+                horizontalMax: 1080.000000
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                childType: "kPrototype"
+                condition: "model.supplyViewModel.isLoaded and model.supplyViewModel.selectedTab == eClanSupplyTab.ClanProgress"
+                prototypePath: "~res:/UI/Screens3/Lobby/Clan/Profile/Supply/ClanSupplyClanContent.yaml"
+                args:
+                    "isSelfClan": "model.isSelfClan"
+                    "session": "session"
+                    "currentAccountSupplyLevel": "currentAccountSupplyLevel"
+                    "membersInfo": "model.supplyViewModel.membersSupplyInfo"
+                    "clanInfo": "clanInfo"
+                eventActions:
+                - ["ShowMemberPopup", "ShowMemberPopup", "_event.index"]
+                - ["CLAN_PROGRESS_ANIMATION_ENDED", "CLAN_PROGRESS_ANIMATION_ENDED", ""]
+                - ["ON_SUPPLY_LEVEL_CLICKED", "ON_SUPPLY_LEVEL_CLICKED", "_event.level"]
+            UIChildComponent1:
+                childType: "kPrototype"
+                condition: "model.supplyViewModel.isLoaded and model.supplyViewModel.selectedTab == eClanSupplyTab.PersonalProgress"
+                prototypePath: "~res:/UI/Screens3/Lobby/Clan/Profile/Supply/ClanSupplyPersonalContent.yaml"
+                args:
+                    "isLevelUpInProgress": "model.supplyViewModel.isLevelUpInProgress"
+                    "currentClanLevel": "currentClanLevel"
+                    "personalInfo": "personalInfo"
+                eventActions:
+                - ["ON_SPEED_UP_BTN_CLICKED", "ON_SPEED_UP_BTN_CLICKED", ""]
+                - ["PERSONAL_PROGRESS_ANIMATION_ENDED", "PERSONAL_PROGRESS_ANIMATION_ENDED", ""]
+                - ["ON_SUPPLY_LEVEL_CLICKED", "ON_SUPPLY_LEVEL_CLICKED", "_event.level"]
+            UIChildComponent2:
+                condition: "not model.supplyViewModel.isLoaded"
+                prototypePath: "~res:/UI/Screens3/Lobby/Clan/Profile/ClanProfileLoader.yaml"
+    -   class: "UIControl"
+        name: "NsPanelSpacer"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+                verticalValue: 12.000000
+        bindings:
+        - ["visible", "isGamepad"]

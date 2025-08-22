@@ -40,8 +40,7 @@ fragment_out fp_main(fragment_in input)
 
 	#if SIMPLE_COLOR_RECEIVED_SHADOW_ONLY
 		#if USE_SHADOW_MAP
-			float2 projPos = input.projPos.xy / input.projPos.w;
-			float3 shadowInf = getShadow(input.worldNormalSlope.xyz * (shadowNormalSlopeOffset * input.worldNormalSlope.w) + input.worldPos, projPos, input.worldNormalSlope.w);
+			float3 shadowInf = getShadow(input.worldNormalSlope.xyz * (shadowNormalSlopeOffset * input.worldNormalSlope.w) + input.worldPos, input.projPos.xy / input.projPos.w, input.worldNormalSlope.w);
 			output.color = float4(shadowMapShadowColor.rgb, 1.0 - shadowInf.x);
 
 			#if FLATCOLOR

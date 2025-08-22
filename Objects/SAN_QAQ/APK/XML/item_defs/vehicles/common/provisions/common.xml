@@ -710,7 +710,7 @@
 		<vehicleFilter>
 			<include>
 				<vehicle>
-					<name>european:Pl15_60TP european:Pl08_50TP_prot european:Pl13_53TP_Markowskiego european:Pl11_45TP_Habicha european:Pl05_50TP_Tyszkiewicza germany:VK7201 germany:VK4502P germany:VK4502A germany:PzVI_Tiger_P usa:T57_58 usa:T54E1 usa:T71 usa:T69 usa:M-6-Y usa:M-5-Y usa:M-3-Y usa:M-7-Y ussr:Object_907 germany:Leopard1 germany:Pro_Ag_A germany:Indien_Panzer germany:VK3002DB china:Ch25_121_mod_1971B china:Ch19_121 china:Ch18_WZ-120 china:Ch05_T34_2 china:Ch04_T34_1 germany:G144_Kpz_50t european:Pl21_CS_63 european:Pl22_CS_59 european:Pl23_CS_53 china:Ch59_BZ58_2 japan:J31_Type_5_Ka_Ri china:Ch47_BZ_176 european:It20_Car_Comb_45t other:Oth77_Prowler</name>
+					<name>european:Pl15_60TP european:Pl08_50TP_prot european:Pl13_53TP_Markowskiego european:Pl11_45TP_Habicha european:Pl05_50TP_Tyszkiewicza germany:VK7201 germany:VK4502P germany:VK4502A germany:PzVI_Tiger_P usa:T57_58 usa:T54E1 usa:T71 usa:T69 usa:M-6-Y usa:M-5-Y usa:M-3-Y usa:M-7-Y usa:M46_CL ussr:Object_907 germany:Leopard1 germany:Pro_Ag_A germany:Indien_Panzer germany:VK3002DB china:Ch25_121_mod_1971B china:Ch19_121 china:Ch18_WZ-120 china:Ch05_T34_2 china:Ch04_T34_1 germany:G144_Kpz_50t european:Pl21_CS_63 european:Pl22_CS_59 european:Pl23_CS_53 china:Ch59_BZ58_2 japan:J31_Type_5_Ka_Ri china:Ch47_BZ_176 european:It20_Car_Comb_45t other:Oth77_Prowler</name>
 				</vehicle>
 			</include>
 		</vehicleFilter>

@@ -22,8 +22,9 @@ fragment_out fp_main(fragment_in input)
 
 	output.color = tex2D(tex, input.texCoord) * input.color;
 
-	float lum = dot(output.color.rgb, lumCof);
-	output.color.rgb = lerp(float3(lum, lum, lum), output.color.rgb, saturation);
+	float lum = getLum(output.color.rgb);
+
+	output.color.rgb = lerp(float3(lum, lum, lum), output.color.rgb, saturation * 0.01 + 1.0);
 
 	return output;
 }

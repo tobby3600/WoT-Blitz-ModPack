@@ -1,0 +1,445 @@
+Header:
+    version: 157
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+- "~res:/UI/Screens3/Common/HorizontalScrollBar.yaml"
+- "~res:/UI/Screens3/Lobby/Inventory/Common/BottomInventorySpacer.yaml"
+- "~res:/UI/Screens3/Lobby/Inventory/Common/DynamicTopSpacer.yaml"
+- "~res:/UI/Screens3/Lobby/Inventory/Common/DynamicHorizontalPadding.yaml"
+- "~res:/UI/Screens3/Lobby/Common/BlurDynamic.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "ModulesTree"
+    size: [872.000000, 562.000000]
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/Lobby/ModulesTree/ModulesTreeInit.animation"
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Extra1"
+            keyDownEvent: "SHOW_MODULES"
+        UIVirtualActionEventComponent1:
+            virtualKeyAction: "Extra2"
+            keyDownEvent: "ACTION_PRESSED"
+        UIVirtualActionEventComponent2:
+            virtualKeyAction: "Options"
+            keyDownEvent: "GO_TO_SHOP"
+        Focus:
+            state: "Enabled"
+            requestFocus: true
+        UIDataParamsComponent:
+            params:
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["AccountDataModel", "account", "null", "{ }"]
+            - ["TankModulesTreeModel", "modulesModel", "null", "{ }"]
+            - ["TankParams", "tankParams", "null", "{ }"]
+            - ["bool", "isGeneralPackLoaded", "true", "true"]
+            - ["bool", "panelVisible", "false", "true"]
+            events:
+            - "SHOW_MECHANIC_INFO"
+            - "ON_SHOW_TRADEMARK_CLICKED"
+            - "BACK_EVENT"
+            - "TO_TOP_INFO"
+            - "VEHICLE_INFO"
+            - "CONTINUE"
+            - "SHOW_TANK_MODULES"
+            - "ITEM_SELECTED"
+            - "SHOWCASE_PRESSED"
+            - "MODULES_MAIN_ACTION"
+            - "UPGRADE_TO_TOP"
+            - "PREMIUMIZE"
+            - "DOUBLE_TAP_ACTION"
+        UIDataLocalVarsComponent:
+            data:
+            - ["int", "lastDisplayedTankXp", "-1"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["bool", "isTankPanelAvailable", "modulesModel.currentVehicle.vehicle.status != eVehicleNodeStatus.LOCKED and modulesModel.currentVehicle.vehicle.status != eVehicleNodeStatus.CAN_BE_RESEARCHED"]
+            - ["bool", "isPremiumizeVisible", "(modulesModel.tempPremiumizationPrice.quantity > 0 or modulesModel.permPremiumizationPrice.quantity > 0) and modulesModel.currentVehicle.vehicle.status == eVehicleNodeStatus.OWNED and not modulesModel.currentVehicle.vehicle.tankStatsModel.isPremiumized"]
+            - ["bool", "isToTopVisible", "modulesModel.upgradeToTopPrice.quantity > 0 and modulesModel.currentVehicle.vehicle.status != eVehicleNodeStatus.LOCKED and modulesModel.currentVehicle.vehicle.status != eVehicleNodeStatus.CAN_BE_RESEARCHED"]
+            - ["bool", "isVehInfoVisible", "modulesModel.currentVehicle.vehicle.vehicleDataModel.isPremium == true or modulesModel.currentVehicle.vehicle.vehicleDataModel.isCollectible == true"]
+            - ["eVehicleDescriptionType", "currentDescrType", "when modulesModel.currentVehicle.vehicle.vehicleDataModel.isPremium == true -> eVehicleDescriptionType.PREMIUM, when modulesModel.currentVehicle.vehicle.vehicleDataModel.isCollectible == true -> eVehicleDescriptionType.COLLECTIBLE, when modulesModel.currentVehicle.vehicle.tankStatsModel.isPremiumized == true -> eVehicleDescriptionType.PREMIUMISED, eVehicleDescriptionType.NORMAL"]
+        UIDataLocalControlComponent0:
+            name: "footerContent"
+            prototypePath: "~res:/UI/Screens3/Lobby/ModulesTree/ModulesTreeFooter.yaml"
+            args:
+                "account": "account"
+                "session": "session"
+                "modulesModel": "modulesModel"
+            eventActions:
+            - ["SHOW_MECHANIC_INFO", "SHOW_MECHANIC_INFO", "_event"]
+            - ["SHOWCASE_PRESSED", "SHOWCASE_PRESSED", ""]
+            - ["MODULES_MAIN_ACTION", "MODULES_MAIN_ACTION", ""]
+            - ["SHOW_TANK_MODULES", "SHOW_TANK_MODULES", "_event"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/ModulesTree/ModulesTree.actions"
+        UIDataOnEventComponent0:
+            eventName: "ON_MODULE_PROGRESS_ANIMATION_STARTED"
+            modelFieldExpression: "lastDisplayedTankXp"
+            dataExpression: "modulesModel.currentVehicle.vehicle.xp.quantity"
+    children:
+    -   prototype: "DynamicTopSpacer/DynamicTopSpacer"
+        name: "DynamicTopSpacer"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "panelVisible": "panelVisible"
+    -   class: "UIControl"
+        name: "ContentWrapper"
+        position: [0.000000, 16.000000]
+        input: false
+        classes: "inventory-limited-width"
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            LinearLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Common/Desktop.style.yaml"
+        children:
+        -   class: "UIControl"
+            name: "Content"
+            components:
+                ClipContent:
+                    enabled: true
+                Anchor:
+                    vCenterAnchorEnabled: true
+                LinearLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIScrollView"
+                name: "TreeScrollView"
+                position: [9.000000, -16.000000]
+                input: false
+                autoUpdate: true
+                centerContent: true
+                components:
+                    ClipContent:
+                        enabled: false
+                    Anchor:
+                        topAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "Ignore"
+                children:
+                -   class: "UIScrollViewContainer"
+                    name: "scrollContainerControl"
+                    position: [8.000000, 0.000000]
+                    size: [0.000000, 0.000000]
+                    refreshStylesOnInteract: false
+                    components:
+                        Anchor: {}
+                        LinearLayout:
+                            padding: "16"
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "Formula"
+                            verticalFormula: "max(parent, childrenSum)"
+                    children:
+                    -   class: "UIControl"
+                        name: "TreeContainer"
+                        position: [16.000000, 87.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                leftAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            LinearLayout:
+                                spacing: 39.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfChildrenSum"
+                                verticalPolicy: "Formula"
+                                verticalFormula: "maxChild + 32"
+                            UISwitchBarComponent:
+                                onSelectElement: "ITEM_SELECTED_EVENT"
+                                onSelectElementData: "_selectedElement"
+                                selectionEventType: "TOUCH_UP"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Lobby/ModulesTree/ModulesTree.style.yaml"
+                        bindings:
+                        - ["classes", "when not account.tutorialData.isTutorialActive -> \"modules-switch-selection-dpad\", \"\""]
+                        - ["UISwitchBarComponent.selectedElement", "modulesModel.selectedCompactDescr"]
+                        children:
+                        -   class: "UIControl"
+                            name: "PreviousTanks"
+                            input: false
+                            components:
+                                Anchor:
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "Formula"
+                                    horizontalFormula: "maxChild + 72"
+                                    verticalPolicy: "PercentOfMaxChild"
+                                UIIdentifierComponent:
+                                    id: "previous_tanks"
+                            bindings:
+                            - ["visible", "modulesModel.prevNodes.Size() != 0"]
+                            children:
+                            -   class: "UIControl"
+                                name: "TanksList"
+                                input: false
+                                components:
+                                    Anchor:
+                                        rightAnchorEnabled: true
+                                    LinearLayout:
+                                        orientation: "TopDown"
+                                        spacing: 33.000000
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfMaxChild"
+                                        verticalPolicy: "PercentOfChildrenSum"
+                                    UIRepeatComponent:
+                                        control: "~res:/UI/Screens3/Lobby/ModulesTree/TreeNode.yaml"
+                                        dataContainer: "modulesModel.prevNodes"
+                                        args:
+                                            "isSelected": "modulesModel.selectedCompactDescr == _item.compactDescr"
+                                            "hasTankPath": "true"
+                                            "isLeftToRight": "false"
+                                            "nodeModel": "_item"
+                                        eventActions:
+                                        - ["DOUBLE_TAP_ACTION", "DOUBLE_TAP_ACTION", "_event"]
+                                        - ["SHOW_TANK_MODULES", "SHOW_TANK_MODULES", "_event"]
+                        -   class: "UIControl"
+                            name: "ToPrevTank"
+                            size: [32.000000, 32.000000]
+                            input: false
+                            components:
+                                Anchor:
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfFirstChild"
+                                    verticalPolicy: "PercentOfFirstChild"
+                            bindings:
+                            - ["visible", "modulesModel.prevTankDescr != 0"]
+                            children:
+                            -   class: "UIControl"
+                                name: "Navigation"
+                                size: [32.000000, 32.000000]
+                                input: false
+                                components:
+                                    Anchor:
+                                        rightAnchorEnabled: true
+                                        rightAnchor: -32.000000
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfMaxChild"
+                                        verticalPolicy: "PercentOfMaxChild"
+                                    UIChildComponent0:
+                                        childType: "kOldExpression"
+                                        control: "\"~res:/UI/Screens3/Lobby/ModulesTree/NavigationButton.yaml\""
+                                        args:
+                                            "bgColorStyle": "\"white-wild-sand-15-bg\""
+                                            "showArrows": "true"
+                                            "isLeft": "false"
+                                            "tankDescr": "modulesModel.prevTankDescr"
+                                        eventActions:
+                                        - ["SHOW_TANK_MODULES", "SHOW_TANK_MODULES", "_event"]
+                        -   class: "UIControl"
+                            name: "CurrentTankContainer"
+                            size: [32.000000, 32.000000]
+                            input: false
+                            components:
+                                Anchor:
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfFirstChild"
+                                    verticalPolicy: "PercentOfFirstChild"
+                            children:
+                            -   class: "UIControl"
+                                name: "CurrentTank"
+                                size: [32.000000, 32.000000]
+                                input: false
+                                components:
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                        vCenterAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfMaxChild"
+                                        verticalPolicy: "PercentOfMaxChild"
+                                    UIChildComponent0:
+                                        childType: "kOldExpression"
+                                        control: "when isTankPanelAvailable -> \"~res:/UI/Screens3/Lobby/ModulesTree/TankPanel.yaml\", \"~res:/UI/Screens3/Lobby/ModulesTree/TreeNode.yaml\""
+                                        args:
+                                            "hideClanDiscount": "true"
+                                            "currentLesson": "account.tutorialData.currentLesson"
+                                            "isTutorialActive": "account.tutorialData.isTutorialActive"
+                                            "nodeModel": "modulesModel.currentVehicle"
+                                            "isSelected": "modulesModel.selectedCompactDescr == modulesModel.currentVehicle.compactDescr"
+                                            "serverTime": "session.serverTime"
+                                            "modulesModel": "modulesModel"
+                                            "masterId": "\"NEWBIE_SELL_TANK_CHOOSE\""
+                                        eventActions:
+                                        - ["TO_TOP_INFO", "TO_TOP_INFO", "_event"]
+                                        - ["DOUBLE_TAP_ACTION", "DOUBLE_TAP_ACTION", "_event"]
+                                    UIIdentifierComponent:
+                                        id: "current_tank"
+                            -   class: "UIControl"
+                                name: "ScrollBorder"
+                                size: [32.000000, 32.000000]
+                                input: false
+                                components:
+                                    Anchor:
+                                        leftAnchorEnabled: true
+                                        leftAnchor: -16.000000
+                                        rightAnchorEnabled: true
+                                        rightAnchor: -16.000000
+                                        topAnchorEnabled: true
+                                        topAnchor: -16.000000
+                                        bottomAnchorEnabled: true
+                                        bottomAnchor: -16.000000
+                        -   class: "UIControl"
+                            name: "Modules"
+                            position: [502.000000, 64.000000]
+                            size: [274.000000, 171.000000]
+                            input: false
+                            components:
+                                Anchor:
+                                    leftAnchorEnabled: true
+                                    vCenterAnchorEnabled: true
+                                GridLayout:
+                                    columnWidth: 64.000000
+                                    columnSpacing: 40.000000
+                                    rowHeight: 64.000000
+                                    rowSpacing: 33.000000
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfChildrenSum"
+                                    verticalPolicy: "PercentOfChildrenSum"
+                                UIRepeatComponent:
+                                    control: "~res:/UI/Screens3/Lobby/ModulesTree/TreeNode.yaml"
+                                    dataContainer: "modulesModel.modulesNodes"
+                                    args:
+                                        "currentTutorialHighlight": "account.tutorialData.currentHighlightControl"
+                                        "tutorialOffsetType": "account.tutorialData.stepsData[account.tutorialData.currentHighlightControl].offset"
+                                        "currentLesson": "account.tutorialData.currentLesson"
+                                        "attachId": "when account.tutorialData.currentHighlightControl == eTutorialHighlights.kModule -> \"NEW_TURRET_BENEFITS\", account.tutorialData.currentHighlightControl == eTutorialHighlights.kModuleGun -> \"GUN_UPDATE\", \"\""
+                                        "isTutorialActive": "account.tutorialData.isTutorialActive"
+                                        "isSelected": "modulesModel.selectedCompactDescr == _item.compactDescr"
+                                        "hidePrice": "not isNull(_item.module) and _item.module.price.type == ResourceType.stuff"
+                                        "hasTankPath": "true"
+                                        "tankStatus": "modulesModel.currentVehicle.vehicle.status"
+                                        "tankXp": "modulesModel.currentVehicle.vehicle.xp.quantity"
+                                        "lastDisplayedTankXp": "lastDisplayedTankXp"
+                                        "freeXp": "session.stats.freeXp.quantity"
+                                        "stuffQuantity": "when isNull(_item.module) -> 0, session.artefacts.artefactIds.Contains(_item.module.price.name) -> session.artefacts.artefactIds[_item.module.price.name], 0"
+                                        "nodeModel": "_item"
+                                    eventActions:
+                                    - ["DOUBLE_TAP_ACTION", "DOUBLE_TAP_ACTION", "_event"]
+                                    - ["SHOW_TANK_MODULES", "SHOW_TANK_MODULES", "_event"]
+                                    - ["ON_MODULE_PROGRESS_ANIMATION_STARTED", "ON_MODULE_PROGRESS_ANIMATION_STARTED", ""]
+                                UIIdentifierComponent:
+                                    id: "next_nodes"
+                            bindings:
+                            - ["GridLayout.columnCount", "modulesModel.horizontalSize"]
+                            - ["GridLayout.rowCount", "modulesModel.verticalSize"]
+                        -   class: "UIControl"
+                            name: "RightEdge"
+                            position: [709.000000, -17.000000]
+                            visible: true
+                            input: false
+                            components:
+                                Anchor:
+                                    rightAnchorEnabled: true
+                                    vCenterAnchorEnabled: true
+                                IgnoreLayout:
+                                    enabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 0.000000
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 0.000000
+                -   prototype: "HorizontalScrollBar/HorizontalScrollBar"
+                    name: "HorizontalScrollBar"
+                    visible: false
+                    components:
+                        UIScrollBarComponent:
+                            delegate: ".."
+                -   prototype: "VerticalScrollBar/VerticalScrollBar"
+                    name: "VerticalScrollBar"
+                    components:
+                        UIScrollBarComponent:
+                            delegate: ".."
+            -   class: "UIControl"
+                name: "TankParamsContainer"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    Anchor:
+                        rightAnchorEnabled: true
+                        topAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfLastChild"
+                        verticalPolicy: "Formula"
+                        verticalFormula: "min(parent, lastChild)"
+                children:
+                -   class: "UIControl"
+                    name: "TankParams"
+                    position: [932.000000, 0.000000]
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            rightAnchorEnabled: true
+                            topAnchorEnabled: true
+                            topAnchor: 0.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "Formula"
+                            verticalFormula: "when parent == 0 -> firstChild, min(parent, firstChild)"
+                        UIChildComponent0:
+                            childType: "kOldExpression"
+                            control: "\"~res:/UI/Screens3/Lobby/Common/VehicleParamsPanel/VehicleParamsPanel.yaml\""
+                            args:
+                                "mechanics": "modulesModel.mechanics"
+                                "tutorialData": "account.tutorialData"
+                                "tankParams": "tankParams"
+                                "isGeneralPackLoaded": "isGeneralPackLoaded"
+                            eventActions:
+                            - ["SHOW_MECHANIC_INFO", "SHOW_MECHANIC_INFO", "_event"]
+            -   prototype: "IconButton/IconButton"
+                name: "IconButton"
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        leftAnchor: 16.000000
+                        topAnchorEnabled: true
+                    IgnoreLayout: {}
+                    UIDataParamsComponent:
+                        args:
+                            "locked": "false"
+                            "visible": "isVehInfoVisible"
+                            "isBgVisible": "true"
+                            "image": "\"~res:/Gfx/Lobby/icons/icon_info_xs\""
+                            "type": "eButtonType.SCENE"
+                            "sound": "eButtonSound.OPEN"
+                            "enabled": "true"
+                            "isBlur": "false"
+                        eventActions:
+                        - ["ON_CLICK_BUTTON", "VEHICLE_INFO", "_event"]
+            -   prototype: "DynamicHorizontalPadding/DynamicHorizontalPadding"
+                name: "DynamicHorizontalPadding"
+                classes: "padding only-notch-padding desktop-unvisible"
+    -   prototype: "BottomInventorySpacer/BottomSpacer"
+        name: "BottomSpacer"
+    -   class: "UIControl"
+        name: "Footer"
+        position: [0.000000, 482.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Common/Footer.yaml"
+                args:
+                    "bgStyle": "\"grey-shark-70-bg\""
+                    "content": "footerContent"
+                    "isBlur": "false"

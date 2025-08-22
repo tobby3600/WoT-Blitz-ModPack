@@ -1,0 +1,198 @@
+Header:
+    version: 161
+ImportedPackages:
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+- "~res:/UI/Screens3/Lobby/Inventory/Common/BottomInventorySpacer.yaml"
+- "~res:/UI/Screens3/Lobby/Inventory/Common/DynamicTopSpacer.yaml"
+- "~res:/UI/Screens3/Lobby/Inventory/Common/DynamicHorizontalPadding.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "InventoryItems"
+    size: [809.000000, 737.000000]
+    components:
+        UIAnimationComponent:
+            animations: "ITEM_SELECTED_ANIMATION,~res:/UI/Screens3/Lobby/Inventory/Equipment/Equipment.animation"
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UISwitchBarComponent:
+            onSelectElement: "ITEM_SELECTED_ANIMATION"
+            onSelectElementData: "_selectedElement"
+            selectionEventType: "TOUCH_UP"
+            moveSelectionMode: "HorizontalDpad"
+        UIDataParamsComponent:
+            params:
+            - ["StatsDataModel", "stats", "null", "{ }"]
+            - ["InventoryItemsView", "model", "null", "{ }"]
+            - ["ArtefactProviderModel", "artefacts", "null", "{ }"]
+            - ["TankParams", "tankParams", "null", "{ }"]
+            events:
+            - "ITEM_SELECTED"
+            - "ON_ITEM_SHOP_ACTION"
+            - "ON_AUTO_RESUPPLY_CHANGED(bool isResupplyOn)"
+        UIDataLocalBindingsComponent:
+            data:
+            - ["int", "selectedId", "when isNull(model.selected) -> 0, model.selected.compactDescr"]
+            - ["InventoryItem", "selectedSlotItem", "when model.selectedSlotIndex == -1 -> null, model.slots[model.selectedSlotIndex].item"]
+        UIDataLocalControlComponent0:
+            name: "footerContent"
+            prototypePath: "~res:/UI/Screens3/Lobby/Inventory/Equipment/EquipmentFooter.yaml"
+            args:
+                "artefacts": "artefacts"
+                "stats": "stats"
+                "autoResupply": "model.autoResupply"
+                "state": "when isNull(selectedSlotItem) and model.selected.purchasePrice.resources.Size() == 0 -> eShopFooterState.INSTALL, isNull(selectedSlotItem) -> eShopFooterState.BUY_ENABLED, selectedSlotItem.compactDescr == model.selected.compactDescr and model.selected.purchasePrice.resources.Size() == 0 -> eShopFooterState.UNINSTALL, selectedSlotItem.compactDescr == model.selected.compactDescr -> eShopFooterState.SELL, eShopFooterState.REPLACE"
+                "priceGet": "when model.selectedSlotIndex == -1 -> model.emptyPrice, when isNull(model.slots[model.selectedSlotIndex].item) -> model.emptyPrice, model.slots[model.selectedSlotIndex].item.sellPrice"
+                "pricePay": "when not isNull(selectedSlotItem) -> when selectedSlotItem.compactDescr == model.selected.compactDescr -> model.emptyPrice, model.selected.purchasePrice, model.selected.purchasePrice"
+            eventActions:
+            - ["ON_AUTO_RESUPPLY_CHANGED", "ON_AUTO_RESUPPLY_CHANGED", "_event.isResupplyOn"]
+            - ["ON_CLICK_ACTION", "ON_ITEM_SHOP_ACTION", ""]
+    bindings:
+    - ["UISwitchBarComponent.selectedElement", "selectedId"]
+    children:
+    -   prototype: "DynamicTopSpacer/DynamicTopSpacer"
+        name: "DynamicTopSpacer"
+    -   class: "UIControl"
+        name: "PageContainer"
+        input: false
+        classes: "inventory-limited-width"
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            LinearLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Common/Desktop.style.yaml"
+        children:
+        -   prototype: "DynamicHorizontalPadding/DynamicHorizontalPadding"
+            name: "DynamicHorizontalPadding"
+            classes: "padding fixed-padding desktop-unvisible"
+        -   class: "UIControl"
+            name: "CenterContent"
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIScrollView"
+                name: "ContentArea"
+                autoUpdate: true
+                centerContent: true
+                components:
+                    Background: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "Formula"
+                        verticalFormula: "when parent == 0 -> childrenSum, parent"
+                children:
+                -   class: "UIScrollViewContainer"
+                    name: "scrollContainerControl"
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            horizontalValue: 100.000000
+                            horizontalMax: 664.000000
+                            verticalPolicy: "PercentOfChildrenSum"
+                        FlowLayout:
+                            hPadding: "8"
+                            hDynamicPadding: true
+                            hSpacing: 16.000000
+                            vPadding: "8; 24"
+                            vDynamicPadding: true
+                            vSpacing: 16.000000
+                        UIRepeatComponent:
+                            control: "~res:/UI/Screens3/Lobby/Inventory/InventoryItem/InventoryItem.yaml"
+                            dataContainer: "model.items"
+                            args:
+                                "isInstalled": "_item.slotIndex != -1"
+                                "isSelected": "selectedId == _item.compactDescr"
+                                "inventoryModel": "_item"
+                                "contentType": "eItemPlaceholderContentType.kInventoryContent"
+                                "masterId": "when (_index == 0) -> \"NEWBIE_CONSUMABLES_CHOOSE\", \"\""
+            -   prototype: "VerticalScrollBar/VerticalScrollBar"
+                name: "VerticalScrollBar"
+                position: [348.000000, 0.000000]
+                components:
+                    Anchor:
+                        enabled: true
+                        rightAnchorEnabled: true
+                        rightAnchor: -6.000000
+                        topAnchorEnabled: true
+                        topAnchor: 2.000000
+                        bottomAnchorEnabled: true
+                        bottomAnchor: 2.000000
+                    UIScrollBarComponent:
+                        delegate: "../ContentArea"
+        -   class: "UIControl"
+            name: "Spacer"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 16.000000
+                    verticalPolicy: "PercentOfParent"
+        -   class: "UIControl"
+            name: "RightPanelWrapper"
+            position: [241.000000, 0.000000]
+            size: [557.000000, 397.000000]
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "RightPanel"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "Formula"
+                        verticalFormula: "when parent == 0 -> childrenSum, min(parentRest, childrenSum)"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Lobby/Inventory/Common/RightPanel.yaml"
+                        args:
+                            "content": "RightPanelContent"
+                            "isBlur": "false"
+            -   prototype: "BottomInventorySpacer/BottomSpacer"
+                name: "BottomSpacer"
+        -   prototype: "DynamicHorizontalPadding/DynamicHorizontalPadding"
+            name: "DynamicHorizontalPadding_1"
+            classes: "padding only-notch-padding desktop-unvisible"
+    -   class: "UIControl"
+        name: "Footer"
+        input: false
+        components:
+            LinearLayout:
+                dynamicPadding: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Common/Footer.yaml"
+                args:
+                    "bgStyle": "\"grey-shark-70-bg\""
+                    "content": "footerContent"
+                    "isBlur": "false"
+Slots:
+-   class: "UIControl"
+    name: "RightPanelContent"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfChildrenSum"
+        UIChildComponent0:
+            condition: "not isNull(model.selected)"
+            prototypePath: "~res:/UI/Screens3/Lobby/Inventory/Equipment/EquipmentRightPanelContent.yaml"
+            args:
+                "item": "model.selected"
+                "tankParams": "tankParams"

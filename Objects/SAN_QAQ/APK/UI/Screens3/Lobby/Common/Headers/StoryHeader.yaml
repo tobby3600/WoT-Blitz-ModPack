@@ -1,0 +1,275 @@
+Header:
+    version: 161
+Prototypes:
+-   class: "UIControl"
+    name: "StoryHeader"
+    size: [960.000000, 48.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "FixedSize"
+            verticalValue: 48.000000
+        UIDataParamsComponent:
+            params:
+            - ["LobbyDataModel", "lobby", "null", "{ }"]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["Story", "story", "null", "{ \"name\" = \"2023-NY\"; }"]
+            - ["StoryStepModel", "selectedStep", "null", "{ }"]
+            - ["StoryStringsKeys", "keys", "null", "{ }"]
+            - ["bool", "is3D", "false", "false"]
+            - ["bool", "isBlur", "true", "true"]
+            - ["bool", "isFullScreen", "true", "true"]
+            - ["bool", "showTimer", "true", "true"]
+            - ["eCurrentScreen", "currentScreen", "eCurrentScreen.kUnknown", "eCurrentScreen.kStoryInfo"]
+            - ["string", "bgStyle", "\"\"", "\"\""]
+            events:
+            - "FOOTER_INFO_BUTTON_PRESSED"
+            - "GO_TO_SHOP"
+            - "BACK_EVENT"
+            - "PREMIUM_INFO_EVENT"
+            - "SHOP_BUTTON(eRequiredResource requiredResource)"
+        UIDataLocalVarsComponent:
+            data:
+            - ["map<string,bool>", "hideProxies", "{ \"2023-HALLOWEEN\" = true; }"]
+            - ["map<string,bool>", "hideRightPanel", "{ \"OLIVER2021\" = true; \"NEWCOMERS7X7\" = true; \"NEWCOMERS2020\" = true; }"]
+            - ["map<string,bool>", "hideShopButton", "{ \"NEWCOMERS2020\" = true; }"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["string", "lockName", "\"prx_event_lock\""]
+            - ["bool", "is2024Fame", "story.name == \"2024-FAME\""]
+            - ["bool", "showProxies", "not hideProxies.Contains(story.name)"]
+            - ["bool", "showRightPanel", "not hideRightPanel.Contains(story.name)"]
+            - ["bool", "showShopButton", "not isNull(lobby) and not hideShopButton.Contains(story.name)"]
+            - ["int64", "alertTime", "when story.stage.type == eStageType.PROCESS or story.stage.type == eStageType.BUY -> 3600L, 0L"]
+            - ["string", "priceStuffName1", "when not isNull(selectedStep) and selectedStep.price.Size() >= 1 and not isNull(selectedStep.price[0].stuff) -> selectedStep.price[0].stuff.name, \"\""]
+            - ["string", "priceStuffName2", "when not isNull(selectedStep) and selectedStep.price.Size() >= 2 and not isNull(selectedStep.price[1].stuff) -> selectedStep.price[1].stuff.name, \"\""]
+            - ["string", "priceStuffName3", "when not isNull(selectedStep) and selectedStep.price.Size() == 3 and not isNull(selectedStep.price[2].stuff) -> selectedStep.price[2].stuff.name, \"\""]
+            - ["bool", "showCredits", "when currentScreen == eCurrentScreen.kStoryStepInfo and not isNull(selectedStep) -> (selectedStep.priceTypeMask / int(ePriceTypeMask.Credits) % 2 == 1 or selectedStep.buyoutTypeMask / int(ePriceTypeMask.Credits) % 2 == 1), not isNull(story.tree) -> (story.tree.priceAndBuyoutTypeMask / int(ePriceTypeMask.Credits) % 2 == 1) or is2024Fame, false"]
+            - ["bool", "showGold", "when currentScreen == eCurrentScreen.kStoryStepInfo and not isNull(selectedStep) -> (selectedStep.priceTypeMask / int(ePriceTypeMask.Gold) % 2 == 1 or selectedStep.buyoutTypeMask / int(ePriceTypeMask.Gold) % 2 == 1), not isNull(story.tree) -> (story.tree.priceAndBuyoutTypeMask / int(ePriceTypeMask.Gold) % 2 == 1), false"]
+            - ["bool", "showFreeXp", "when currentScreen == eCurrentScreen.kStoryStepInfo and not isNull(selectedStep) -> (selectedStep.priceTypeMask / int(ePriceTypeMask.FreeXp) % 2 == 1 or selectedStep.buyoutTypeMask / int(ePriceTypeMask.FreeXp) % 2 == 1), not isNull(story.tree) -> (story.tree.priceAndBuyoutTypeMask / int(ePriceTypeMask.FreeXp) % 2 == 1), false"]
+            - ["bool", "showPremium", "when currentScreen == eCurrentScreen.kStoryStepInfo and not isNull(selectedStep) -> (selectedStep.priceTypeMask / int(ePriceTypeMask.Premium) % 2 == 1 or selectedStep.buyoutTypeMask / int(ePriceTypeMask.Premium) % 2 == 1), not isNull(story.tree) -> (story.tree.priceAndBuyoutTypeMask / int(ePriceTypeMask.Premium) % 2 == 1), false"]
+            - ["bool", "showStats", "showCredits or showGold or showFreeXp or showPremium or not story.stage.proxies.Empty()"]
+        UIDataLocalControlComponent0:
+            name: "statsPanel"
+            prototypePath: "~res:/UI/Screens3/Lobby/StatsInfoPanelPrototype.yaml"
+            args:
+                "statsPanelAdditionalContent": "ProxiesPanel"
+                "isLeftStatsPanelAdditionalContent": "true"
+                "statsData": "session.stats"
+                "serverTime": "session.serverTime"
+                "isGeneralPackLoaded": "true"
+                "isTutorialActive": "false"
+                "firstLessonCompleted": "true"
+                "isVisible": "true"
+                "showPremium": "showPremium"
+                "showGold": "showGold"
+                "showCredits": "showCredits"
+                "showFreeXp": "showFreeXp"
+            eventActions:
+            - ["PREMIUM_INFO_EVENT", "PREMIUM_INFO_EVENT", ""]
+            - ["SHOP_BUTTON", "SHOP_BUTTON", "_event.requiredResource"]
+        UIDataLocalControlComponent1:
+            name: "shopButton"
+            prototypePath: "~res:/UI/Screens3/Lobby/Common/Button/ShopButton.yaml"
+            args:
+                "lobby": "lobby"
+                "session": "session"
+            eventActions:
+            - ["GO_TO_SHOP", "GO_TO_SHOP", ""]
+        UIDataLocalControlComponent2:
+            name: "backButton"
+            prototypePath: "~res:/UI/Screens3/Lobby/Common/BackButton.yaml"
+            eventActions:
+            - ["ON_CLICK_BUTTON", "BACK_EVENT", ""]
+        UIDataLocalControlComponent3:
+            name: "content"
+            prototypePath: "~res:/UI/Screens3/Lobby/Common/Headers/HeaderContent.yaml"
+            args:
+                "leftContent": "LeftContent"
+                "rightContent": "when showRightPanel -> RightContent, null"
+                "button": "when showShopButton -> shopButton, null"
+                "backButton": "when isFullScreen -> backButton, null"
+                "contentSpacing": "16"
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Headers/Header.yaml"
+                args:
+                    "bgStyle": "when is3D ->\"black-50-bg\", bgStyle"
+                    "content": "content"
+                    "isFullScreen": "isFullScreen"
+                    "isBlur": "isBlur"
+Slots:
+-   class: "UIControl"
+    name: "LeftContent"
+    size: [250.000000, 48.000000]
+    input: false
+    components:
+        ClipContent: {}
+        Anchor:
+            leftAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "Formula"
+            horizontalFormula: "when parent == 0 -> childrenSum, min(childrenSum, parent)"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfMaxChild"
+        children:
+        -   class: "UIControl"
+            name: "Name"
+            input: false
+            classes: "t-subtitle regular white-wild-sand-text"
+            components:
+                UITextComponent: {}
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "localize(story.resources.strings[keys.title])"]
+        -   class: "UIControl"
+            name: "Delimiter"
+            input: false
+            classes: "t-subtitle regular white-wild-sand-text"
+            components:
+                UITextComponent:
+                    text: "/"
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["visible", "showTimer"]
+        -   class: "UIControl"
+            name: "Timer"
+            input: false
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfFirstChild"
+                UIChildComponent0:
+                    condition: "showTimer"
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Timer.yaml"
+                    args:
+                        "colorStyle": "\"white-wild-sand-50\""
+                        "serverTime": "session.serverTime"
+                        "time": "story.stage.finishTime"
+                        "customIcon": "when story.stage.type == eStageType.PROCESS -> \"~res:/Gfx/Lobby/icons/icon_battles_xs\", story.stage.type == eStageType.BUY -> \"~res:/Gfx/Lobby/icons/icon_coin_s\", story.stage.type == eStageType.INFORM -> \"~res:/Gfx/Lobby/icons/icon_info_xs\", \"\""
+                        "alertTime": "alertTime"
+                        "bgVisible": "false"
+            bindings:
+            - ["visible", "showTimer"]
+        -   class: "UIControl"
+            name: "Icon"
+            input: true
+            classes: "white-wild-sand-50-bg"
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                    vCenterAnchor: 1.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfFirstChild"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["visible", "story.name == \"2025-BD\""]
+            children:
+            -   class: "UIControl"
+                name: "InfoButton"
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfFirstChild"
+                        verticalPolicy: "PercentOfFirstChild"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+                        args:
+                            "isBgVisible": "false"
+                            "image": "\"~res:/Gfx/Lobby/icons/icon_info_xs\""
+                            "imageOpacity": "0.750000"
+                            "sound": "eButtonSound.OPEN"
+                        eventActions:
+                        - ["ON_CLICK_BUTTON", "FOOTER_INFO_BUTTON_PRESSED", ""]
+-   class: "UIControl"
+    name: "ProxiesPanel"
+    size: [184.000000, 48.000000]
+    input: false
+    components:
+        LinearLayout:
+            spacing: 8.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "Proxies"
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfParent"
+            UIRepeatComponent:
+                control: "~res:/UI/Screens3/Lobby/StatsInfoPanelItem.yaml"
+                dataContainer: "story.stage.proxies"
+                args:
+                    "isLocked": "true"
+                    "serverTime": "session.serverTime"
+                    "detailedResource": "_item"
+                    "isVisible": "not isNull(_item.stuff) and not (_item.stuff.name == lockName) and (_item.stuff.type == ArtefactType.proxy_currency or _item.stuff.type == ArtefactType.resource or (currentScreen == eCurrentScreen.kStoryStepInfo and (_item.stuff.name == priceStuffName1 or _item.stuff.name == priceStuffName2 or _item.stuff.name == priceStuffName3)))"
+        bindings:
+        - ["visible", "showProxies"]
+-   class: "UIControl"
+    name: "RightContent"
+    size: [32.000000, 48.000000]
+    input: false
+    components:
+        LinearLayout: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "StatsPanel"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                childType: "kControl"
+                condition: "showStats"
+                control: "statsPanel"
+        bindings:
+        - ["visible", "showStats"]

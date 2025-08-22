@@ -1,7 +1,7 @@
 Header:
     version: 150
 ImportedPackages:
-- "~res:/UI/Screens3/Lobby/Common/IconButtonNoBlur.yaml"
+- "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "Showcase"
@@ -78,6 +78,8 @@ Prototypes:
         customClass: "UIHangar3dView"
         name: "HangarScene"
         components:
+            SceneComponent:
+                drawToFramebuffer: true
             IgnoreLayout: {}
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
@@ -296,7 +298,7 @@ Prototypes:
                         childType: "kControl"
                         condition: "not tankInfoVisible and isValidResource"
                         control: "ResourceInfo"
-            -   prototype: "IconButtonNoBlur/IconButton"
+            -   prototype: "IconButton/IconButton"
                 name: "IconButton"
                 components:
                     SizePolicy: {}
@@ -307,6 +309,7 @@ Prototypes:
                             "type": "eButtonType.OPTIONAL_DARK"
                             "sound": "eButtonSound.CHOOSE"
                             "enabled": "true"
+                            "bgStyle": "\"black-50-bg\""
                         eventActions:
                         - ["ON_CLICK_BUTTON", "FULLSCREEN", ""]
                 bindings:
@@ -506,28 +509,26 @@ Slots:
     -   class: "UIControl"
         name: "Description"
         input: false
-        classes: "t-subtitle regular white-wild-sand-text"
         components:
             RichContent:
-                baseClasses: "t-subtitle regular color=white-wild-sand-70-text"
+                baseClasses: "t-subtitle regular white-wild-sand-70-text"
             RichContentAliases0:
                 aliases:
-                - ["text_white_bold", "<span class=\"t-subtitle bold color=white-wild-sand-text\" />"]
-                - ["text2_white_bold", "<span class=\"t-subtitle bold color=white-wild-sand-text\" />"]
+                - ["text_white_bold", "<span class=\"t-subtitle bold white-wild-sand-text\" />"]
+                - ["text2_white_bold", "<span class=\"t-subtitle bold white-wild-sand-text\" />"]
             Anchor:
                 vCenterAnchorEnabled: true
                 vCenterAnchor: 2.000000
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfChildrenSum"
             FlowLayout:
-                hDynamicPadding: false
                 alignment: "Left"
                 useRtl: true
             StyleSheet:
                 styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
         bindings:
-        - ["RichContent.text", "localize(resourceInfoDescription)"]
+        - ["RichContent.text", "localize(resourceInfoDescription, { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; })"]
 -   class: "UIControl"
     name: "NavigationPanelContent"
     size: [32.000000, 32.000000]

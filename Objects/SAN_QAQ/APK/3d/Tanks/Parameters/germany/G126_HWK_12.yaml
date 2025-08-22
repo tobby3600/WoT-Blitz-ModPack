@@ -3,7 +3,7 @@ resourcesPath:
     bigIconPath: "~res:/Gfx/UI/BigTankIcons/germany-G126_HWK_12"
     blitzModelPath: "Tanks/German/G126_HWK_12.sc2"
     collisionMesh: "CollisionMeshes/germany-G126_HWK_12.sc2"
-    smokeEffectPath: "FX/Exhausts/left-down-front45.sc2"
+    smokeEffectPath: "FX/Exhausts/right-down-front45.sc2"
     fireEffectPathAlive: "FX/SmokeFire_tank_movement_new.sc2"
     fireEffectPathDead: "FX/Fire_and_Smoke.sc2"
     engineSoundPC: "tanks/pc/engine/de/lt"

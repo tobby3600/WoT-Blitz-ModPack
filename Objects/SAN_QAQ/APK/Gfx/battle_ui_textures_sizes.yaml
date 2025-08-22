@@ -27,6 +27,8 @@ textures:
     UI/BattleScreenHUD/texture0@2x.packed: '2048,2048'
     UI/BattleScreenHUD/tournament_hud/texture0.packed: '2048,64'
     UI/BattleScreenHUD/tournament_hud/texture0@2x.packed: '2048,256'
+    UI/BattleScreenHUD/emoji/battle_emoji_qb/texture0.packed: '2048,128'
+    UI/BattleScreenHUD/emoji/battle_emoji_qb/texture0@2x.packed: '2048,512'
     UI/BattleLoadingScreen/gradient-separator.packed: '512, 8'
     UI/BattleLoadingScreen/gradient-separator@2x.packed: '1024, 8'
     UI/BattleLoadingScreen/forgecity/texture0.packed: '1024, 1024'

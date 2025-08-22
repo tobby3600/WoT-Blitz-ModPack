@@ -1,0 +1,86 @@
+Header:
+    version: 134
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "ProgressCheckmarkWithValue"
+    size: [200.000000, 100.000000]
+    input: false
+    components:
+        Anchor:
+            bottomAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "FixedSize"
+            verticalValue: 40.000000
+        UIDataParamsComponent:
+            params:
+            - ["int", "xOffset", "0", "20"]
+            - ["int", "maxValue", "0", "100"]
+            - ["int", "value", "0", "60"]
+            - ["string", "bgStyle", "\"black-25-bg\"", "\"black-25-bg\""]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["float", "percent", "when maxValue > 0.000000 -> 100.000000 * value / maxValue, 0.000000"]
+    bindings:
+    - ["SizePolicy.horizontalValue", "percent"]
+    children:
+    -   class: "UIControl"
+        name: "Mark"
+        size: [100.000000, 40.000000]
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_FILL"
+            Anchor:
+                rightAnchorEnabled: true
+                bottomAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 2.000000
+                verticalPolicy: "FixedSize"
+                verticalValue: 8.000000
+        children:
+        -   class: "UIControl"
+            name: "ProxyPrice"
+            input: false
+            components:
+                Anchor:
+                    enabled: true
+                    hCenterAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                    bottomAnchor: 8.000000
+                LinearLayout:
+                    padding: "4.000000"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 26.000000
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["Anchor.hCenterAnchor", "xOffset"]
+            children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "bgStyle": "bgStyle"
+                            "roundCorner": "\"3\""
+            -   class: "UIControl"
+                name: "PriceAmount"
+                input: false
+                classes: "t-caption bold color=white-wild-sand-text"
+                components:
+                    UITextComponent: {}
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "value"]

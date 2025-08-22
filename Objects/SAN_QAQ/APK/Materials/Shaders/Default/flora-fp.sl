@@ -24,10 +24,6 @@
 	#endif
 #endif
 
-#if FLORA_LOD_TRANSITION
-	#include "lod-transition.slh"
-#endif
-
 fragment_in
 {
 	float3 worldPos : POSITION0;
@@ -134,6 +130,11 @@ fragment_out
 	[material][a] property float alphatestThreshold = 0.0;
 #endif
 
+#if FLORA_LOD_TRANSITION
+	[auto][a] property float2 viewportOffset;
+	[auto][a] property float2 viewportSize;
+#endif
+
 #if FLORA_LOD_TRANSITION_NEAR
 	[material][a] property float2 floraLodTransitionNearRange;
 #endif
@@ -147,7 +148,7 @@ fragment_out fp_main(fragment_in input)
 	fragment_out output;
 
 	float3 worldPos = input.worldPos;
-	float3 projPos = input.projPos.xyz / input.projPos.w;
+	float2 projPos = input.projPos.xy / input.projPos.w;
 
 	#if FLORA_PBR_LIGHTING
 		float4 baseColor = tex2D(baseColorMap, input.texCoord0);
@@ -164,14 +165,21 @@ fragment_out fp_main(fragment_in input)
 
 		#if FLORA_LOD_TRANSITION
 			float toCamDis = length(cameraPosition.xy - worldPos.xy);
+			float lodFactory = 1.0;
+
+			#include "lod-gen-random.slh"
 
 			#if FLORA_LOD_TRANSITION_NEAR
-				alpha *= getLodTransition(projPos.xy, smoothstep(floraLodTransitionNearRange.x, floraLodTransitionNearRange.y, toCamDis));
+				lodParam.x = smoothstep(floraLodTransitionNearRange.x, floraLodTransitionNearRange.y, toCamDis);
+				lodFactory *= lerp(float(lodParam.x + 1.0 <= lodParam.w), float(lodParam.x > lodParam.w), step(0.0, lodParam.x));
 			#endif
 
 			#if FLORA_LOD_TRANSITION_FAR
-				alpha *= getLodTransition(projPos.xy, smoothstep(floraLodTransitionFarRange.x, floraLodTransitionFarRange.y, toCamDis) - 1.0);
+				lodParam.y = smoothstep(floraLodTransitionFarRange.x, floraLodTransitionFarRange.y, toCamDis) - 1.0;
+				lodFactory *= lerp(float(lodParam.y + 1.0 <= lodParam.w), float(lodParam.y > lodParam.w), step(0.0, lodParam.y));
 			#endif
+
+			alpha *= lodFactory;
 		#endif
 
 		#if ALPHATESTVALUE
@@ -182,7 +190,7 @@ fragment_out fp_main(fragment_in input)
 	#endif
 
 	#if DRAW_DEPTH_ONLY
-		float depthColor = projPos.z * 0.5 + 0.5;
+		float depthColor = input.projPos.z / input.projPos.w * 0.5 + 0.5;
 		output.color = float4(depthColor, depthColor, depthColor, depthColor);
 	#else
 		#if FLORA_PBR_LIGHTING
@@ -206,7 +214,7 @@ fragment_out fp_main(fragment_in input)
 		output.color = baseColor;
 
 		#if RECEIVE_SHADOW
-			float3 shadowInf = getShadow(worldPos, projPos.xy, 0.0);
+			float3 shadowInf = getShadow(worldPos, projPos, 0.0);
 		#endif
 
 		#if FLORA_PBR_LIGHTING
@@ -214,14 +222,11 @@ fragment_out fp_main(fragment_in input)
 				float3 N = unpackNormal(tex2D(baseNormalMap, input.texCoord0).ga);
 				N.xy *= floraNormalMapScale;
 				N = normalize(float3(dot(N, input.tangentToWorld0.xyz), dot(N, input.tangentToWorld1.xyz), dot(N, input.tangentToWorld2.xyz)));
-
-				float3 polygonN = normalize(float3(input.tangentToWorld0.z, input.tangentToWorld1.z, input.tangentToWorld2.z));
 			#else
 				float3 N = normalize(input.normal.xyz);
-				float3 polygonN = N;
 			#endif
 
-			float3 L = normalize(mul3Fast0(lightPosition0.xyz, invViewMatrix));
+			float3 L = normalize(mul(float4(lightPosition0.xyz, 0.0), invViewMatrix).xyz);
 			float3 V = normalize(cameraPosition - worldPos);
 			float3 H = normalize(L + V);
 
@@ -284,14 +289,10 @@ fragment_out fp_main(fragment_in input)
 			float roughness = saturate(floraRoughnessMetallic.x);
 			occlusionShadow.x = saturate(occlusionShadow.x);
 
-			output.color.rgb = getPBR(polygonN, N, L, V, H, lightColor0 * lightIntensity0, baseColor.rgb, floraRoughnessMetallic.y, roughness, occlusionShadow.x, occlusionShadow.y, const0List3);
+			output.color.rgb = getPBR(N, L, V, H, lightColor0 * lightIntensity0, baseColor.rgb, floraRoughnessMetallic.y, roughness, occlusionShadow.x, occlusionShadow.y, const0List3);
 			output.color.rgb = toSRGB(output.color.rgb);
 		#elif RECEIVE_SHADOW
 			output.color.rgb *= lerp(shadowMapShadowColor.rgb, const1List3, shadowInf.x);
-		#endif
-
-		#if USE_VERTEX_FOG
-			output.color.rgb = lerp(output.color.rgb, input.varFog.rgb, input.varFog.a);
 		#endif
 
 		#include "color-grading.slh"

@@ -1,0 +1,60 @@
+Header:
+    version: 157
+ImportedPackages:
+- "~res:/UI/Screens/Lobby/LobbyCommon.yaml"
+- "~res:/UI/Screens/Common/StyledMenuButton.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "BasePopup"
+    size: [1024.000000, 768.000000]
+    components:
+        Anchor:
+            leftAnchorEnabled: true
+            rightAnchorEnabled: true
+            topAnchorEnabled: true
+            bottomAnchorEnabled: true
+        StyleSheet:
+            styles: "~res:/UI/Screens/Fonts.yaml;~res:/UI/Screens3/Background.style.yaml"
+    children:
+    -   prototype: "LobbyCommon/DialogBackground"
+        name: "DialogBackground"
+    -   prototype: "StyledMenuButton/StyledMenuButton"
+        name: "BackButton"
+        classes: "button button-color-gray"
+        components:
+            UIInputEventComponent:
+                onTouchUpInside: "BACK_EVENT"
+        children:
+        -   path: "icon"
+            components:
+                Background:
+                    frame: 3
+        -   path: "UnreadNews"
+            classes: "header3 bg-color=unread-icon-bg state=hide-unread-icon"
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                topAnchor: 80.000000
+                bottomAnchorEnabled: true
+        bindings:
+        - ["Anchor.bottomAnchor", "when isGamepad -> 40, 0"]
+    -   class: "UIControl"
+        name: "NavigationPanel"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                bottomAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                condition: "isGamepad"
+                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/LobbyNavigationPanel.yaml"
+                args:
+                    "labels": "{ eNintendoSwitchControls.B = \"Switch/HubridPanel/Lobby/Back\"; }"

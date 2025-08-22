@@ -1,0 +1,134 @@
+Header:
+    version: 155
+ImportedPackages:
+- "~res:/UI/Screens3/Common/HorizontalScrollBar.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "GiftingOfferDialog"
+    size: [960.000000, 640.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["ShopSlider", "slider", "null", "{ }"]
+            events:
+            - "OnPresentRequested(int productId)"
+            - "OnCancelRequested"
+        UIDataLocalVarsComponent:
+            data:
+            - ["int", "selectedProductId", "0"]
+        UIChildComponent0:
+            prototypePath: "~res:/UI/Screens3/Lobby/Common/Dialog/TextDialog.yaml"
+            args:
+                "acceptButtonEnabled": "selectedProductId != 0"
+                "type": "eDialogType.CHOOSE"
+                "contentControl": "Content"
+                "accentButton": "capitalize(localize(\"Gifts/Present\"))"
+                "optionalButton": "\"#common:DialogButton/Cancel\""
+            eventActions:
+            - ["ACCENT_CLICKED", "OnPresentRequested", "selectedProductId"]
+            - ["OPTIONAL_CLICKED", "OnCancelRequested", ""]
+        UIDataOnEventComponent0:
+            eventName: "OnOptionSelected"
+            modelFieldExpression: "selectedProductId"
+            dataExpression: "_event"
+Slots:
+-   class: "UIControl"
+    name: "Content"
+    size: [400.000000, 178.000000]
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+        LinearLayout:
+            orientation: "TopDown"
+            padding: "24; 0"
+            spacing: 30.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfChildrenSum"
+    children:
+    -   class: "UIControl"
+        name: "Label"
+        input: false
+        classes: "t-subtitle regular white-wild-sand-text"
+        components:
+            UITextComponent:
+                text: "shop/GiftingOfferDialog/Title"
+                multiline: "MULTILINE_ENABLED"
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfContent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml"
+    -   class: "UIControl"
+        name: "HorizontalScrollView"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "Formula"
+                verticalFormula: "childrenSum + 20"
+        children:
+        -   class: "UIScrollView"
+            name: "ScrollArea"
+            autoUpdate: true
+            centerContent: true
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    rightAnchorEnabled: true
+                    topAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                    bottomAnchor: 10.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIScrollViewContainer"
+                name: "scrollContainerControl"
+                scrollDirection: "kHorizontal"
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfMaxChild"
+                children:
+                -   class: "UIControl"
+                    name: "Buttons"
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        LinearLayout:
+                            spacing: 16.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "PercentOfMaxChild"
+                        UISwitchBarComponent:
+                            onSelectElement: "OnOptionSelected"
+                            onSelectElementData: "_selectedElement"
+                        UIRepeatComponent:
+                            control: "~res:/UI/Screens3/Lobby/Shop/ShopSlider/ChestGiftOption.yaml"
+                            dataContainer: "slider.products"
+                            args:
+                                "isSelected": "selectedProductId == _item.id"
+                                "session": "session"
+                                "product": "_item"
+                    bindings:
+                    - ["UISwitchBarComponent.selectedElement", "selectedProductId"]
+                    - ["UISwitchBarComponent.unselectedId", "0"]
+        -   prototype: "HorizontalScrollBar/HorizontalScrollBar"
+            name: "HorizontalScrollBar"
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    rightAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                UIScrollBarComponent:
+                    delegate: "../ScrollArea"

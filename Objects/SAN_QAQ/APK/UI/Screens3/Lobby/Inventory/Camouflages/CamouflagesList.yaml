@@ -27,23 +27,12 @@ Prototypes:
             events:
             - "ON_CAMO_CLICKED"
     children:
-    -   class: "UIControl"
+    -   prototype: "BlurModified/BlurModified"
         name: "Bg"
-        size: [32.000000, 32.000000]
-        input: false
         components:
-            Background: {}
-            IgnoreLayout: {}
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfParent"
-        children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
-            components:
-                UIDataParamsComponent:
-                    args:
-                        "bgStyle": "\"black-50-bg\""
+            UIDataParamsComponent:
+                args:
+                    "bgStyle": "\"black-50-bg\""
     -   class: "UIControl"
         name: "VerticalScrollView"
         input: false
@@ -101,5 +90,5 @@ Prototypes:
                     rightAnchor: -12.000000
                     topAnchorEnabled: true
                     bottomAnchorEnabled: true
-                ScrollBarDelegate:
+                UIScrollBarComponent:
                     delegate: "../ScrollArea"

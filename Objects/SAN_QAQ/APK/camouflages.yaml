@@ -8835,6 +8835,192 @@ battlepass59_04:
         spreadingMode: 1
         spreadingProgress: 3.00
     texture: "common/battlepass59_04"
+battlepass60_01:
+    colorMap: "common/images_pbr/battlepass60_01_BC"
+    general:
+        decalTileRotation: 10.0
+    overrideTankNormalMap: true
+    overrideTankRmMap: true
+    previewWith: "usa:M-6-Y"
+    rmMap: "common/images_pbr/battlepass60_01_RM"
+    scale:
+    - 0.4
+    - 0.4
+    specularity: 0.4
+    spreading:
+        progressPower: 1.25
+        spreadingBorderColor:
+        - 2.55
+        - 2.55
+        - 2.55
+        - 1.28
+        spreadingBorderSize: 0.15
+        spreadingMode: 1
+        spreadingProgress: 3.00
+    texture: "common/battlepass60_01"
+battlepass60_02:
+    colorMap: "common/images_pbr/battlepass60_02_BC"
+    decalNormalBlend: 1.0
+    general:
+        decalTileRotation: 60.0
+    normalMap: "common/images_pbr/battlepass60_02_NM"
+    overrideTankNormalMap: true
+    overrideTankRmMap: true
+    previewWith: "usa:M-6-Y"
+    rmMap: "common/images_pbr/battlepass60_02_RM"
+    scale:
+    - 0.3
+    - 0.3
+    specularity: 0.4
+    spreading:
+        progressPower: 1.25
+        spreadingBorderColor:
+        - 2.55
+        - 2.55
+        - 2.55
+        - 1.28
+        spreadingBorderSize: 0.15
+        spreadingMode: 1
+        spreadingProgress: 3.00
+    texture: "common/battlepass60_02"
+battlepass60_03:
+    colorMap: "common/images_pbr/battlepass60_03_BC"
+    decalNormalBlend: 1.0
+    general:
+        decalTileRotation: -10.0
+    normalMap: "common/images_pbr/battlepass60_03_NM"
+    overrideTankNormalMap: true
+    overrideTankRmMap: true
+    previewWith: "usa:M-6-Y"
+    rmMap: "common/images_pbr/battlepass60_03_RM"
+    scale:
+    - 0.4
+    - 0.4
+    specularity: 0.4
+    spreading:
+        progressPower: 1.25
+        spreadingBorderColor:
+        - 2.55
+        - 2.55
+        - 2.55
+        - 1.28
+        spreadingBorderSize: 0.15
+        spreadingMode: 1
+        spreadingProgress: 3.00
+    texture: "common/battlepass60_03"
+battlepass60_04:
+    colorMap: "common/images_pbr/battlepass60_04_BC"
+    decalNormalBlend: 1.0
+    general:
+        decalTileRotation: -30.0
+    normalMap: "common/images_pbr/battlepass60_04_NM"
+    overrideTankNormalMap: true
+    overrideTankRmMap: true
+    previewWith: "usa:M-6-Y"
+    rmMap: "common/images_pbr/battlepass60_04_RM"
+    scale:
+    - 0.35
+    - 0.35
+    specularity: 0.4
+    spreading:
+        progressPower: 1.25
+        spreadingBorderColor:
+        - 2.55
+        - 2.55
+        - 2.55
+        - 1.28
+        spreadingBorderSize: 0.15
+        spreadingMode: 1
+        spreadingProgress: 3.00
+    texture: "common/battlepass60_04"
+battlepass61_01:
+    colorMap: "common/images_pbr/battlepass61_01_BC"
+    general:
+        decalTileRotation: 25.0
+    overrideTankRmMap: true
+    previewWith: "usa:M-6-Y"
+    rmMap: "common/images_pbr/battlepass61_01_RM"
+    scale:
+    - 0.3
+    - 0.3
+    specularity: 0.4
+    spreading:
+        progressPower: 1.25
+        spreadingBorderColor:
+        - 2.55
+        - 2.55
+        - 2.55
+        - 1.28
+        spreadingBorderSize: 0.15
+        spreadingMode: 1
+        spreadingProgress: 3.00
+    texture: "common/battlepass61_01"
+battlepass61_02:
+    colorMap: "common/images_pbr/battlepass61_02_BC"
+    general:
+        decalTileRotation: 30.0
+    overrideTankRmMap: true
+    previewWith: "usa:M-6-Y"
+    rmMap: "common/images_pbr/battlepass61_02_RM"
+    scale:
+    - 0.35
+    - 0.35
+    specularity: 0.4
+    spreading:
+        progressPower: 1.25
+        spreadingBorderColor:
+        - 2.55
+        - 2.55
+        - 2.55
+        - 1.28
+        spreadingBorderSize: 0.15
+        spreadingMode: 1
+        spreadingProgress: 3.00
+    texture: "common/battlepass61_02"
+battlepass61_03:
+    colorMap: "common/images_pbr/battlepass61_03_BC"
+    general:
+        decalTileRotation: 15.0
+    overrideTankRmMap: true
+    previewWith: "usa:M-6-Y"
+    rmMap: "common/images_pbr/battlepass61_03_RM"
+    scale:
+    - 0.45
+    - 0.45
+    specularity: 0.4
+    spreading:
+        progressPower: 1.25
+        spreadingBorderColor:
+        - 2.55
+        - 2.55
+        - 2.55
+        - 1.28
+        spreadingBorderSize: 0.15
+        spreadingMode: 1
+        spreadingProgress: 3.00
+    texture: "common/battlepass61_03"
+battlepass61_04:
+    colorMap: "common/images_pbr/battlepass61_04_BC"
+    general:
+        decalTileRotation: -20.0
+    overrideTankRmMap: true
+    previewWith: "usa:M-6-Y"
+    rmMap: "common/images_pbr/battlepass61_04_RM"
+    scale:
+    - 0.26
+    - 0.26
+    specularity: 0.4
+    spreading:
+        progressPower: 1.25
+        spreadingBorderColor:
+        - 2.55
+        - 2.55
+        - 2.55
+        - 1.28
+        spreadingBorderSize: 0.15
+        spreadingMode: 1
+        spreadingProgress: 3.00
+    texture: "common/battlepass61_04"
 battlepass_2020spy_1:
     albedoFlatColor:
     - 0.7
@@ -22251,6 +22437,18 @@ skin2_a132_t77:
     userString: "#usa_vehicles:A132_T77_Custom_v2"
     previewWith: "usa:A132_T77"
     type: 1
+skin2_a175_atac:
+    customEntities:
+        Skin_02_hull:
+            item: "Skin2_A175_ATAC_hull"
+        Skin_02_turret_01:
+            item: "Skin2_A175_ATAC_turret_01"
+    iconBig: "~res:/Gfx/UI/BigTankIcons/usa-A175_ATAC_skin2.txt"
+    preset: "Skin_02"
+    shortUserString: "#usa_vehicles:A175_ATAC_Custom_short_v2"
+    userString: "#usa_vehicles:A175_ATAC_Custom_v2"
+    previewWith: "usa:A175_ATAC"
+    type: 1
 skin2_a99_t92e1:
     customEntities:
         Skin_02_gun_02_mask:
@@ -22565,8 +22763,8 @@ skin2_gb91_super_conqueror:
             item: "Skin2_GB91_Super_Conqueror_turret_01"
     iconBig: "~res:/Gfx/UI/BigTankIcons/british-GB91_Super_Conqueror_skin2.txt"
     preset: "Skin_02"
-    shortUserString: "#uk_vehicles:GB91_Super_Conqueror_Custom_short_v2"
-    userString: "#uk_vehicles:GB91_Super_Conqueror_Custom_v2"
+    shortUserString: "#gb_vehicles:GB91_Super_Conqueror_Custom_short_v2"
+    userString: "#gb_vehicles:GB91_Super_Conqueror_Custom_v2"
     previewWith: "uk:GB91_Super_Conqueror"
     type: 1
 skin2_gb97_chimera:
@@ -22601,8 +22799,8 @@ skin2_gb_fv301:
             item: "Skin2_GB_FV301_turret_01"
     iconBig: "~res:/Gfx/UI/BigTankIcons/british-GB_FV301_skin2.txt"
     preset: "Skin_02"
-    shortUserString: "#uk_vehicles:GB_FV301_Custom_short_v2"
-    userString: "#uk_vehicles:GB_FV301_Custom_v2"
+    shortUserString: "#gb_vehicles:GB_FV301_Custom_short_v2"
+    userString: "#gb_vehicles:GB_FV301_Custom_v2"
     previewWith: "uk:GB_FV301"
     type: 1
 skin2_gb83_4005:
@@ -23364,6 +23562,10 @@ skin3_chieftain_mk6:
     customEntities:
         Skin_02_gun_01:
             item: "Skin2_Chieftain_Mk6_gun_01"
+        Skin_02_hull:
+            item: "Skin2_Chieftain_Mk6_hull"
+        Skin_02_turret_01:
+            item: "Skin2_Chieftain_Mk6_turret_01"
         Skin_03_hull:
             item: "Skin3_Chieftain_Mk6_hull"
         Skin_03_turret_01:
@@ -23477,6 +23679,104 @@ skin3_grille_15_l63:
     shortUserString: "#germany_vehicles:G121_Grille_15_L63_Custom_short_v3"
     userString: "#germany_vehicles:G121_Grille_15_L63_Custom_v3"
     previewWith: "germany:G121_Grille_15_L63"
+    type: 1
+skin3_is_3:
+    customEntities:
+        Skin_02_gun_01:
+            item: "Skin3_IS_3_gun_01"
+        Skin_02_gun_02:
+            item: "Skin3_IS_3_gun_02"
+        Skin_02_gun_03:
+            item: "Skin3_IS_3_gun_03"
+        Skin_02_gun_04:
+            item: "Skin3_IS_3_gun_04"
+        Skin_02_gun_05:
+            item: "Skin3_IS_3_gun_05"
+        Skin_02_gun_06:
+            item: "Skin3_IS_3_gun_06"
+        Skin_02_gun_07:
+            item: "Skin3_IS_3_gun_07"
+        Skin_02_gun_08:
+            item: "Skin3_IS_3_gun_08"
+        Skin_02_hull:
+            item: "Skin3_IS_3_hull"
+        Skin_02_turret_01:
+            item: "Skin3_IS_3_turret_01"
+        Skin_02_turret_02:
+            item: "Skin3_IS_3_turret_02"
+        Skin_03_gun_01_mask:
+            item: "Skin3_IS_3_gun_01_mask"
+        Skin_03_gun_02_mask:
+            item: "Skin3_IS_3_gun_02_mask"
+        Skin_03_gun_03_mask:
+            item: "Skin3_IS_3_gun_03_mask"
+        Skin_03_gun_04_mask:
+            item: "Skin3_IS_3_gun_04_mask"
+        Skin_03_gun_05_mask:
+            item: "Skin3_IS_3_gun_05_mask"
+        Skin_03_gun_06_mask:
+            item: "Skin3_IS_3_gun_06_mask"
+        Skin_03_gun_07_mask:
+            item: "Skin3_IS_3_gun_07_mask"
+        Skin_03_gun_08_mask:
+            item: "Skin3_IS_3_gun_08_mask"
+        hull_ny19_Fish_0:
+            item: "set_empty_dummy"
+        hull_ny19_Guitar_0:
+            item: "set_empty_dummy"
+        hull_ny19_KitchenStuff_0:
+            item: "set_empty_dummy"
+        hull_ny19_Ladder_0:
+            item: "set_empty_dummy"
+        set_maxim_mg_08:
+            item: "set_empty_dummy"
+        turret_01_hw18_AT_Missile:
+            item: "set_empty_dummy"
+        turret_01_hw18_Pumpkin:
+            item: "set_empty_dummy"
+        turret_01_ny19_CinemaCamera_0:
+            item: "set_empty_dummy"
+        turret_01_ny19_Cinema_0:
+            item: "set_empty_dummy"
+        turret_01_ny19_Music_0:
+            item: "set_empty_dummy"
+        turret_02_hw18_AT_Missile:
+            item: "set_empty_dummy"
+        turret_02_hw18_Pumpkin:
+            item: "set_empty_dummy"
+        turret_01_Lamp_0:
+            item: "Lamp_lamp"
+        turret_01_Large_0:
+            item: "Box_gun_03_Large"
+        turret_01_Large_1:
+            item: "Box_gun_02_Large"
+        turret_01_Small_0:
+            item: "Thing_bag_small"
+        turret_01_Small_1:
+            item: "Fire_extinguiher_small"
+        turret_02_Lamp_0:
+            item: "Lamp_lamp"
+        turret_02_Large_0:
+            item: "Box_gun_02_Large"
+        turret_02_Large_1:
+            item: "Box_gun_03_Large"
+        turret_02_Small_0:
+            item: "Fire_extinguiher_small"
+        turret_02_Small_1:
+            item: "Thing_bag_small"
+        hull_ny19_Dices:
+            item: "NY19_Dices_grey"
+        hull_ny19_blitz_logo:
+            item: "NY19_Blitz_logo"
+        turret_01_ny19_Guitar_0:
+            item: "NY19_Guitar"
+        turret_02_ny19_Guitar_0:
+            item: "NY19_Guitar"
+    iconBig: "~res:/Gfx/UI/BigTankIcons/ussr-IS_3_skin3.txt"
+    preset: "Skin_03"
+    shortUserString: "#ussr_vehicles:IS-3_Custom_short_v3"
+    userString: "#ussr_vehicles:IS-3_Custom_v3"
+    previewWith: "ussr:IS-3"
     type: 1
 skin3_m48a1:
     customEntities:
@@ -23814,6 +24114,10 @@ skin_Chieftain_Mk6:
             item: "Skin2_Chieftain_Mk6_hull"
         Skin_02_turret_01:
             item: "Skin2_Chieftain_Mk6_turret_01"
+        Skin_03_hull:
+            item: "Skin3_Chieftain_Mk6_hull"
+        Skin_03_turret_01:
+            item: "Skin3_Chieftain_Mk6_turret_01"
     iconBig: "~res:/Gfx/UI/BigTankIcons/british-GB84_Chieftain_Mk6_skin.txt"
     preset: "Chieftain_Mk6_skin"
     shortUserString: "#gb_vehicles:GB84_Chieftain_Mk6_Custom_short"
@@ -24633,6 +24937,18 @@ skin_a153_xm66f:
     userString: "#usa_vehicles:A153_XM66F_Custom"
     previewWith: "usa:A153_XM66F"
     type: 1
+skin_a175_atac:
+    customEntities:
+        Skin_01_hull:
+            item: "Skin_A175_ATAC_hull"
+        Skin_01_turret_01:
+            item: "Skin_A175_ATAC_turret_01"
+    iconBig: "~res:/Gfx/UI/BigTankIcons/usa-A175_ATAC_skin.txt"
+    preset: "Skin_01"
+    shortUserString: "#usa_vehicles:A175_ATAC_Custom_short"
+    userString: "#usa_vehicles:A175_ATAC_Custom"
+    previewWith: "usa:A175_ATAC"
+    type: 1
 skin_a68_t28d:
     customEntities:
         SlotType3:
@@ -25000,6 +25316,22 @@ skin_ch56_bz_74_1:
     userString: "#china_vehicles:Ch56_BZ_74_1_Custom"
     previewWith: "china:Ch56_BZ_74_1"
     type: 1
+skin_ch57_bzt_70:
+    customEntities:
+        Skin_01_gun_01:
+            item: "Skin_Ch57_BZT_70_gun_01"
+        Skin_01_gun_01_mask:
+            item: "Skin_Ch57_BZT_70_gun_01_mask"
+        Skin_01_hull:
+            item: "Skin_Ch57_BZT_70_hull"
+        Skin_01_turret_01:
+            item: "Skin_Ch57_BZT_70_turret_01"
+    iconBig: "~res:/Gfx/UI/BigTankIcons/china-Ch57_BZT_70_skin.txt"
+    preset: "Skin_01"
+    shortUserString: "#china_vehicles:Ch57_BZT_70_Custom_short"
+    userString: "#china_vehicles:Ch57_BZT_70_Custom"
+    previewWith: "china:Ch57_BZT_70"
+    type: 1
 skin_ch59_bz58_2:
     customEntities:
         Skin_01_gun_01:
@@ -25291,6 +25623,18 @@ skin_f117_alt_proto_amx_30:
     userString: "#france_vehicles:F117_Alt_Proto_AMX_30_Custom"
     previewWith: "france:F117_Alt_Proto_AMX_30"
     type: 1
+skin_f127_elc_amx_901_proto:
+    customEntities:
+        Skin_01_hull:
+            item: "Skin_F127_ELC_AMX_901_Proto_hull"
+        Skin_01_turret_01:
+            item: "Skin_F127_ELC_AMX_901_Proto_turret_01"
+    iconBig: "~res:/Gfx/UI/BigTankIcons/france-F127_ELC_AMX_901_Proto_skin.txt"
+    preset: "Skin_01"
+    shortUserString: "#france_vehicles:F127_ELC_AMX_901_Proto_Custom_short"
+    userString: "#france_vehicles:F127_ELC_AMX_901_Proto_Custom"
+    previewWith: "france:F127_ELC_AMX_901_Proto"
+    type: 1
 skin_f34_arl_v39_bp:
     customEntities:
         F34_ARL_V39_BP_mskin_gun:
@@ -25304,6 +25648,28 @@ skin_f34_arl_v39_bp:
     shortUserString: "#france_vehicles:F34_ARL_V39_BP_Custom_short"
     userString: "#france_vehicles:F34_ARL_V39_BP_Custom"
     previewWith: "france:F34_ARL_V39_BP"
+    type: 1
+skin_f36_amx_ac_mle1948:
+    customEntities:
+        Skin_01_gun_01:
+            item: "Skin_F36_AMX_AC_Mle1948_gun_01"
+        Skin_01_gun_01_mask:
+            item: "Skin_F36_AMX_AC_Mle1948_gun_01_mask"
+        Skin_01_gun_02:
+            item: "Skin_F36_AMX_AC_Mle1948_gun_02"
+        Skin_01_gun_02_mask:
+            item: "Skin_F36_AMX_AC_Mle1948_gun_02_mask"
+        Skin_01_gun_03:
+            item: "Skin_F36_AMX_AC_Mle1948_gun_03"
+        Skin_01_gun_03_mask:
+            item: "Skin_F36_AMX_AC_Mle1948_gun_03_mask"
+        Skin_01_hull:
+            item: "Skin_F36_AMX_AC_Mle1948_hull"
+    iconBig: "~res:/Gfx/UI/BigTankIcons/france-F36_AMX_AC_Mle1948_skin.txt"
+    preset: "Skin_01"
+    shortUserString: "#france_vehicles:AMX_AC_Mle1948_Custom_short"
+    userString: "#france_vehicles:AMX_AC_Mle1948_Custom"
+    previewWith: "france:AMX_AC_Mle1948"
     type: 1
 skin_f84_somua_sm:
     iconBig: "~res:/Gfx/UI/BigTankIcons/france-F84_Somua_SM_skin.txt"
@@ -25483,6 +25849,8 @@ skin_g165_erich_koncep:
     customEntities:
         Skin_01_gun_01_mask:
             item: "Skin_G165_Erich_Koncept_gun_01_mask"
+        Skin_01_gun_02_mask:
+            item: "Skin_G165_Erich_Koncept_gun_02_mask"
         Skin_01_hull:
             item: "Skin_G165_Erich_Koncept_hull"
     iconBig: "~res:/Gfx/UI/BigTankIcons/germany-G165_Erich_Koncept_skin.txt"
@@ -25683,8 +26051,8 @@ skin_gb110_fv4201_chieftain_prototype:
             item: "Skin_GB110_FV4201_Chieftain_Prototype_turret_01"
     iconBig: "~res:/Gfx/UI/BigTankIcons/british-GB110_FV4201_Chieftain_Prototype_skin.txt"
     preset: "Skin_01"
-    shortUserString: "#uk_vehicles:GB110_FV4201_Chieftain_Prototype_Custom_short"
-    userString: "#uk_vehicles:GB110_FV4201_Chieftain_Prototype_Custom"
+    shortUserString: "#gb_vehicles:GB110_FV4201_Chieftain_Prototype_Custom_short"
+    userString: "#gb_vehicles:GB110_FV4201_Chieftain_Prototype_Custom"
     previewWith: "uk:GB110_FV4201_Chieftain_Prototype"
     type: 1
 skin_gb111_charlemagne:
@@ -27443,8 +27811,6 @@ skin_volar:
     type: 1
 skin_waffentrager_iv:
     customEntities:
-        Slot_0:
-            item: "Bat_Halloween_anim"
         SlotType4:
             item: "Skin_Waffentrager_IV_hull"
         SlotType5_gun_01:

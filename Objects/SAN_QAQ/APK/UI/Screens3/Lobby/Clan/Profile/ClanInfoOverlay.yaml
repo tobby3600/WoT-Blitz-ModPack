@@ -1,0 +1,371 @@
+Header:
+    version: 151
+ImportedPackages:
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "ClanInfoOverlay"
+    size: [1300.000000, 800.000000]
+    input: false
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "isChina", "false", "false"]
+            - ["Clan", "clan", "null", "{ \"motto\" = \"®Ǟǟ°¾Ä¾♥\"; }"]
+            - ["bool", "wasPushed", "true", "true"]
+            events: []
+        UIDataLocalVarsComponent:
+            data:
+            - ["int", "contentHeight", "0"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["int", "overallH", "contentHeight + 80"]
+        UIDataOnEventComponent0:
+            eventName: "ContentHeightChanged"
+            modelFieldExpression: "contentHeight"
+            dataExpression: "_event"
+    children:
+    -   class: "UIControl"
+        name: "Overlay"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Overlay/OverlayBasic.yaml"
+                args:
+                    "title": "\"Clans/Profile/Info/Header\""
+                    "hideHeader": "false"
+                    "alighBgCenter": "false"
+                    "isFooterVisible": "true"
+                    "wasPushed": "wasPushed"
+                    "contentHeight": "overallH"
+                    "content": "Content"
+                eventActions:
+                - ["BACK_EVENT", "BACK_EVENT", ""]
+Slots:
+-   class: "UIControl"
+    name: "Content"
+    size: [1024.000000, 768.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "ContentWrapper"
+        input: false
+        components:
+            LinearLayout:
+                dynamicPadding: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "ScrollWrapper"
+            input: false
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                    vCenterAnchor: -12.000000
+                LinearLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "Formula"
+                    verticalFormula: "parent - 40"
+            children:
+            -   class: "UIScrollView"
+                name: "UIScrollView"
+                autoUpdate: true
+                centerContent: true
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   class: "UIScrollViewContainer"
+                    name: "scrollContainerControl"
+                    refreshStylesOnInteract: false
+                    scrollDirection: "kVertical"
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfChildrenSum"
+                        UILayoutEventComponent:
+                            sizeChangedEvent: "ContentHeightChanged"
+                            sizeChangedEventData: "int(_size.Y)"
+                    children:
+                    -   class: "UIControl"
+                        name: "Content"
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            LinearLayout:
+                                orientation: "TopDown"
+                                spacing: 8.000000
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 600.000000
+                                verticalPolicy: "PercentOfChildrenSum"
+                            UILayoutEventComponent: {}
+                        children:
+                        -   class: "UIControl"
+                            name: "Emblem"
+                            input: false
+                            components:
+                                Background:
+                                    drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                                UIOpacityComponent: {}
+                                UIUrlImageComponent: {}
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    verticalPolicy: "FixedSize"
+                            bindings:
+                            - ["UIUrlImageComponent.imageUrl", "clan.emblem.url"]
+                        -   class: "UIControl"
+                            name: "Spacer"
+                            input: false
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 8.000000
+                        -   class: "UIControl"
+                            name: "Name"
+                            input: false
+                            components:
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfMaxChild"
+                                    verticalPolicy: "PercentOfMaxChild"
+                                UIChildComponent0:
+                                    prototypePath: "~res:/UI/Screens3/Lobby/Clan/Common/ClanNameWithTag.yaml"
+                                    args:
+                                        "tag": "when not isNull(clan) -> clan.tag, \"\""
+                                        "name": "when not isNull(clan) -> clan.name, \"\""
+                        -   class: "UIControl"
+                            name: "ClanChinaID"
+                            input: false
+                            components:
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                LinearLayout:
+                                    spacing: 4.000000
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfChildrenSum"
+                                    verticalPolicy: "PercentOfMaxChild"
+                            bindings:
+                            - ["visible", "isChina"]
+                            children:
+                            -   class: "UIControl"
+                                name: "Text"
+                                input: false
+                                classes: "t-body bold color=white-wild-sand-text"
+                                components:
+                                    UITextComponent:
+                                        text: "Clans/Profile/ID"
+                                        colorInheritType: "COLOR_IGNORE_PARENT"
+                                        multiline: "MULTILINE_ENABLED"
+                                        fitting: "FITTING_POINTS"
+                                        align: ["LEFT", "TOP"]
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfContent"
+                                        verticalPolicy: "PercentOfContent"
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                            -   class: "UIControl"
+                                name: "Value"
+                                input: false
+                                classes: "t-body regular color=white-wild-sand-text"
+                                components:
+                                    UITextComponent:
+                                        colorInheritType: "COLOR_IGNORE_PARENT"
+                                        multiline: "MULTILINE_ENABLED"
+                                        fitting: "FITTING_POINTS"
+                                        align: ["LEFT", "TOP"]
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfContent"
+                                        verticalPolicy: "PercentOfContent"
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                                bindings:
+                                - ["UITextComponent.text", "when not isNull(clan) -> str(clan.clanId), \"\""]
+                        -   class: "UIControl"
+                            name: "Motto"
+                            input: false
+                            classes: "t-subtitle regular color=white-wild-sand-70-text"
+                            components:
+                                UITextComponent: {}
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                            bindings:
+                            - ["visible", "clan.motto != \"\" and not isChina"]
+                            - ["UITextComponent.text", "clan.motto"]
+                        -   class: "UIControl"
+                            name: "Languages"
+                            input: false
+                            components:
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 800.000000
+                                    horizontalMax: 800.000000
+                                    verticalPolicy: "PercentOfChildrenSum"
+                                FlowLayout:
+                                    alignment: "Center"
+                                UIRepeatComponent:
+                                    control: "~res:/UI/Screens3/Lobby/Clan/Profile/ClanInfoOverlayLangItem.yaml"
+                                    dataContainer: "clan.languages"
+                                    args:
+                                        "isMultiline": "true"
+                                        "needSeparator": "_index + 1 < clan.languages.Size()"
+                                        "langCode": "_item"
+                            bindings:
+                            - ["visible", "not isChina and clan.languages.Size() > 0"]
+                        -   class: "UIControl"
+                            name: "Spacer_2"
+                            input: false
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 8.000000
+                        -   class: "UIControl"
+                            name: "CreationTime"
+                            input: false
+                            classes: "t-overline bold color=white-wild-sand-text"
+                            components:
+                                UITextComponent:
+                                    colorInheritType: "COLOR_IGNORE_PARENT"
+                                    align: ["LEFT", "VCENTER"]
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                            bindings:
+                            - ["UITextComponent.text", "localize(\"Clans/Profile/Info/CreationDate\", { \"date\" = date(clan.creationTime); })"]
+                        -   class: "UIControl"
+                            name: "Spacer_3"
+                            input: false
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 8.000000
+                        -   class: "UIControl"
+                            name: "MembersCount"
+                            input: false
+                            classes: "t-overline bold color=white-wild-sand-text"
+                            components:
+                                UITextComponent:
+                                    colorInheritType: "COLOR_IGNORE_PARENT"
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                            bindings:
+                            - ["UITextComponent.text", "localize(\"Clans/Profile/Info/Members\") + \" \" + str(clan.membersInfo.count)"]
+                        -   class: "UIControl"
+                            name: "Goal"
+                            input: false
+                            components:
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                LinearLayout:
+                                    spacing: 8.000000
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfChildrenSum"
+                                    verticalPolicy: "PercentOfMaxChild"
+                            bindings:
+                            - ["visible", "isChina"]
+                            children:
+                            -   class: "UIControl"
+                                name: "Title"
+                                input: false
+                                classes: "t-overline bold color=white-wild-sand-text"
+                                components:
+                                    UITextComponent:
+                                        text: "Clans/Goals/Info/Text"
+                                        colorInheritType: "COLOR_IGNORE_PARENT"
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfContent"
+                                        verticalPolicy: "PercentOfContent"
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                            -   class: "UIControl"
+                                name: "Name"
+                                input: false
+                                classes: "t-overline bold color=white-wild-sand-text"
+                                components:
+                                    UITextComponent:
+                                        colorInheritType: "COLOR_IGNORE_PARENT"
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfContent"
+                                        verticalPolicy: "PercentOfContent"
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                                bindings:
+                                - ["UITextComponent.text", "localize(str(clan.goal, eClanGoals, \"LocalizationKey\"))"]
+                        -   class: "UIControl"
+                            name: "Spacer_1"
+                            input: false
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 16.000000
+                        -   class: "UIControl"
+                            name: "Description"
+                            input: false
+                            classes: "t-body regular color=white-wild-sand-70-text"
+                            components:
+                                UITextComponent:
+                                    colorInheritType: "COLOR_IGNORE_PARENT"
+                                    multiline: "MULTILINE_ENABLED"
+                                    align: ["HCENTER"]
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 600.000000
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                            bindings:
+                            - ["visible", "not isChina and clan.description != \"\""]
+                            - ["UITextComponent.text", "clan.description"]
+            -   prototype: "VerticalScrollBar/VerticalScrollBar"
+                name: "VerticalScrollBar"
+                components:
+                    UIScrollBarComponent:
+                        delegate: "../UIScrollView"
+                children:
+                -   path: "slider"
+                    visible: true
+                    children: []

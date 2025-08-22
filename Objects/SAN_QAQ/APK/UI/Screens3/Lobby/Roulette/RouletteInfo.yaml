@@ -1,0 +1,220 @@
+Header:
+    version: 157
+ImportedPackages:
+- "~res:/UI/Screens3/Common/HorizontalScrollBar.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "RouletteInfo"
+    size: [1200.000000, 600.000000]
+    exclusiveInput: true
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        ModalInput: {}
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Escape"
+            keyDownEvent: "BackEvent"
+        UIShortcutEventComponent:
+            shortcuts: "BackEvent,Escape;BackEvent,Back"
+        UIDataParamsComponent:
+            params:
+            - ["RouletteDescription", "roulette", "null", "{ }"]
+            events:
+            - "BACK_EVENT"
+        UIChildComponent0:
+            prototypePath: "~res:/UI/Screens3/Lobby/Common/Overlay/Overlay.yaml"
+            args:
+                "titleContent": "Header"
+                "content": "Content"
+            eventActions:
+            - ["BACK_EVENT", "BACK_EVENT", ""]
+Slots:
+-   class: "UIControl"
+    name: "Content"
+    size: [900.000000, 800.000000]
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+        LinearLayout:
+            orientation: "TopDown"
+            spacing: 140.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfChildrenSum"
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+        children:
+        -   class: "UIControl"
+            name: "DescriptionLabel"
+            input: false
+            classes: "t-overline bold color=white-wild-sand-text"
+            components:
+                UITextComponent:
+                    colorInheritType: "COLOR_IGNORE_PARENT"
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "capitalize(localize(\"Roulette/DescriptionTitle\"))"]
+        -   class: "UIControl"
+            name: "Spacer_1"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 0.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 38.000000
+        -   class: "UIControl"
+            name: "DescriptionHolder"
+            input: false
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    leftAnchor: 16.000000
+                    rightAnchorEnabled: true
+                    rightAnchor: 16.000000
+                SizePolicy:
+                    horizontalPolicy: "Ignore"
+                    verticalPolicy: "PercentOfMaxChild"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/RichTextContent.yaml"
+                    args:
+                        "key": "roulette.description.stuff.stuff.description"
+        -   class: "UIControl"
+            name: "Spacer"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 0.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 48.000000
+        -   class: "UIControl"
+            name: "PricesWrapper"
+            input: false
+            classes: "black-25-bg"
+            components:
+                Background:
+                    drawType: "DRAW_FILL"
+                LinearLayout:
+                    orientation: "TopDown"
+                    padding: "16"
+                    spacing: 8.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfChildrenSum"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+            children:
+            -   class: "UIControl"
+                name: "Label"
+                input: false
+                classes: "t-overline bold color=white-wild-sand-text"
+                components:
+                    UITextComponent:
+                        colorInheritType: "COLOR_IGNORE_PARENT"
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "capitalize(localize(\"Roulette/PriceForSpin\"))"]
+            -   class: "UIControl"
+                name: "HorizontalScrollView"
+                size: [200.000000, 200.000000]
+                input: false
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        leftAnchor: 16.000000
+                        rightAnchorEnabled: true
+                        rightAnchor: 16.000000
+                    SizePolicy:
+                        horizontalPolicy: "Ignore"
+                        verticalPolicy: "Formula"
+                        verticalFormula: "maxChild + 20"
+                children:
+                -   class: "UIScrollView"
+                    name: "ScrollArea"
+                    autoUpdate: true
+                    centerContent: true
+                    components:
+                        Anchor:
+                            leftAnchorEnabled: true
+                            rightAnchorEnabled: true
+                            topAnchorEnabled: true
+                            bottomAnchorEnabled: true
+                            bottomAnchor: 10.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfMaxChild"
+                    children:
+                    -   class: "UIScrollViewContainer"
+                        name: "scrollContainerControl"
+                        scrollDirection: "kHorizontal"
+                        components:
+                            LinearLayout: {}
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfChildrenSum"
+                                verticalPolicy: "PercentOfMaxChild"
+                            UIRepeatComponent:
+                                control: "~res:/UI/Screens3/Lobby/Roulette/RoulettePriceItem.yaml"
+                                dataContainer: "roulette.description.prices"
+                                args:
+                                    "selected": "_index == roulette.state.currentStep"
+                                    "price": "_item"
+                                    "step": "_index + 1"
+                -   prototype: "HorizontalScrollBar/HorizontalScrollBar"
+                    name: "HorizontalScrollBar"
+                    components:
+                        Anchor:
+                            leftAnchorEnabled: true
+                            rightAnchorEnabled: true
+                            bottomAnchorEnabled: true
+                        UIScrollBarComponent:
+                            delegate: "../ScrollArea"
+-   class: "UIControl"
+    name: "Header"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "FixedSize"
+            verticalValue: 80.000000
+    children:
+    -   class: "UIControl"
+        name: "Title"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                topAnchorEnabled: true
+                topAnchor: 32.000000
+            LinearLayout:
+                spacing: 16.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Chests/ChestTite.yaml"
+                args:
+                    "title": "localize(roulette.description.stuff.stuff.title)"

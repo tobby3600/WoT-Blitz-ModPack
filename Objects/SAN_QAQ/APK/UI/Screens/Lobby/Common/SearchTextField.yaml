@@ -1,0 +1,96 @@
+Header:
+    version: 155
+ImportedPackages:
+- "~res:/UI/Screens/Fonts.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
+Prototypes:
+-   class: "UIControl"
+    customClass: "UISearchTextField"
+    name: "SearchTextField"
+    size: [480.000000, 50.000000]
+    components:
+        UIDataParamsComponent:
+            params:
+            - ["bool", "isBlur", "true", "true"]
+        StyleSheet:
+            inheritsStylesFromParent: true
+            styles: "~res:/UI/Screens/Lobby/Common/SearchTextField.yaml"
+    children:
+    -   prototype: "BlurModified/BlurModified"
+        name: "Blur"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "isBlur": "isBlur"
+                    "roundCorner": "\"4\""
+    -   class: "UIControl"
+        name: "Background"
+        size: [480.000000, 50.000000]
+        components:
+            Background:
+                drawType: "DRAW_STRETCH_BOTH"
+                sprite: "~res:/Gfx/UI/CommonUIElements/search_back"
+                leftRightStretchCap: 4.000000
+                topBottomStretchCap: 4.000000
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                useRtl: true
+        children:
+        -   class: "UIControl"
+            name: "SearchIcon"
+            size: [50.000000, 50.000000]
+            visible: true
+            components:
+                Background:
+                    sprite: "~res:/Gfx/UI/CommonUIElements/search_icon"
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 50.000000
+        -   class: "UITextField"
+            customClass: "UITextFieldWithHint"
+            name: "TextField"
+            size: [380.000000, 50.000000]
+            classes: "text-field-2"
+            textalign: ["LEFT", "VCENTER"]
+            maxLength: 25
+            returnKeyType: "RETURN_KEY_SEARCH"
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                Focus:
+                    state: "Enabled"
+                StyleSheet:
+                    inheritsStylesFromParent: true
+                    styles: "~res:/UI/Screens3/FontsForTextField.style.yaml"
+            children:
+            -   class: "UIStaticText"
+                name: "Hint"
+                classes: "text2"
+                components:
+                    UITextComponent:
+                        color: [0.647059, 0.725490, 0.800000, 1.000000]
+                        align: ["HCENTER", "VCENTER"]
+                    Anchor:
+                        leftAnchorEnabled: true
+                        rightAnchorEnabled: true
+                        rightAnchor: 60.000000
+                        topAnchorEnabled: true
+                        bottomAnchorEnabled: true
+        -   class: "UIControl"
+            name: "Clear"
+            position: [430.000000, 0.000000]
+            size: [50.000000, 50.000000]
+            input: true
+            components:
+                Background:
+                    drawType: "DRAW_ALIGNED"
+                    sprite: "~res:/Gfx/UI/CommonUIElements/InputClear"
+                Anchor:
+                    vCenterAnchorEnabled: true

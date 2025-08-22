@@ -79,7 +79,7 @@ vertex_out vp_main(vertex_in input)
 
 	#if SIMPLE_COLOR_RECEIVED_SHADOW_ONLY_ENABLED
 		float3 lightColor = flatColor.rgb * 0.5 + float3(0.25, 0.25, 0.25);
-		float3 N = normalize(mul3Fast0(input.normal, worldViewInvTransposeMatrix));
+		float3 N = normalize(mul(float4(input.normal, 0.0), worldViewInvTransposeMatrix).xyz);
 		float3 L = toLightDir;
 
 		float NdotL = saturate(dot(N, L));

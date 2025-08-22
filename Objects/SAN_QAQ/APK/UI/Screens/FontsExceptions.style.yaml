@@ -6,26 +6,26 @@ StyleSheets:
 -   selectors:
     - ".header5.news.Phone.zh-Hans"
     properties:
-        text-fontPath: "~res:/Fonts/XinGothic-TC-W6.otf"
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
         text-fontSize: 24.000000
         text-lineHeight: 31.000000
         text-baseLine: 6.000000
 -   selectors:
     - ".text2-small.news.Phone.zh-Hans"
     properties:
-        text-fontPath: "~res:/Fonts/XinGothic-TC-W6.otf"
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
         text-fontSize: 21.000000
         text-baseLine: 5.000000
 -   selectors:
     - ".text2-small.news.zh-Hans"
     properties:
-        text-fontPath: "~res:/Fonts/XinGothic-TC-W6.otf"
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
         text-fontSize: 16.000000
         text-baseLine: 5.000000
 -   selectors:
     - ".header5.news.zh-Hans"
     properties:
-        text-fontPath: "~res:/Fonts/XinGothic-TC-W6.otf"
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
         text-fontSize: 16.000000
         text-lineHeight: 21.000000
         text-baseLine: 5.000000
@@ -75,7 +75,7 @@ StyleSheets:
 -   selectors:
     - ".header5.news.Phone.zh-Hans"
     properties:
-        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
 -   selectors:
     - ".text2-small.news.Phone"
     properties:
@@ -115,7 +115,7 @@ StyleSheets:
 -   selectors:
     - ".text2-small.news.Phone.zh-Hans"
     properties:
-        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
         text-lineHeight: 27.000000
         text-baseLine: 6.000000
 -   selectors:
@@ -127,24 +127,24 @@ StyleSheets:
 -   selectors:
     - ".header5.netease.news.Phone.zh-Hans"
     properties:
-        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
         text-fontSize: 25.000000
         text-lineHeight: 33.000000
         text-baseLine: 7.000000
 -   selectors:
     - ".text2-small.netease.news.Phone.zh-Hans"
     properties:
-        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
         text-fontSize: 15.000000
         text-lineHeight: 20.000000
 -   selectors:
     - ".text2-small.netease.news.zh-Hans"
     properties:
-        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
         text-fontSize: 16.000000
 -   selectors:
     - ".header5.netease.news.zh-Hans"
     properties:
-        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
         text-fontSize: 17.000000
         text-lineHeight: 22.000000

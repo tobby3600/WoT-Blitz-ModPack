@@ -145,7 +145,7 @@ Prototypes:
             Update:
                 updateInvisible: true
         bindings:
-        - ["visible", "not (selectedTab == ePageType.TeamEffectiveness)"]
+        - ["visible", "not (showOverlay and selectedTab == ePageType.TeamEffectiveness)"]
         - ["SceneComponent.scene3d", "battleResultsScene"]
     -   class: "UIControl"
         name: "Blur"
@@ -181,8 +181,6 @@ Prototypes:
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
-            Update:
-                updateInvisible: true
         bindings:
         - ["UIOpacityComponent.opacity", "when selectedTab == ePageType.TeamEffectiveness -> 1, blurOpacity"]
     -   class: "UIControl"
@@ -226,38 +224,46 @@ Prototypes:
                 children:
                 -   class: "UIControl"
                     name: "BgWin1"
-                    size: [32.000000, 32.000000]
                     input: false
                     components:
                         UIOpacityComponent:
                             opacity: 0.000000
-                        UITextComponent: {}
+                        RichContent: {}
                         Anchor:
                             leftAnchorEnabled: true
                             leftAnchor: 0.000000
                         SizePolicy:
-                            horizontalPolicy: "PercentOfContent"
-                            verticalPolicy: "PercentOfContent"
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "PercentOfChildrenSum"
+                        FlowLayout:
+                            alignment: "Center"
+                            hSpacing: 5.000000
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml"
                     bindings:
-                    - ["classes", "\"white-wild-sand-text bold\" + \" \" + bgWinStyle"]
-                    - ["UITextComponent.text", "capitalize(localize(when results.battleResult == BattleResult.WIN -> \"#battle_results:Result/Victory\", results.battleResult == BattleResult.LOSE -> \"#battle_results:Result/Defeat\", \"#battle_results:Result/Draw\"))"]
+                    - ["RichContent.text", "capitalize(localize(when results.battleResult == BattleResult.WIN -> \"#battle_results:Result/Victory\", results.battleResult == BattleResult.LOSE -> \"#battle_results:Result/Defeat\", \"#battle_results:Result/Draw\"))"]
+                    - ["RichContent.baseClasses", "\"white-wild-sand-text bold\" + \" \" + bgWinStyle"]
                 -   class: "UIControl"
                     name: "BgWin2"
-                    size: [32.000000, 32.000000]
                     input: false
                     components:
                         UIOpacityComponent:
                             opacity: 0.000000
-                        UITextComponent: {}
+                        RichContent: {}
                         Anchor:
                             leftAnchorEnabled: true
                             leftAnchor: 0.000000
                         SizePolicy:
-                            horizontalPolicy: "PercentOfContent"
-                            verticalPolicy: "PercentOfContent"
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "PercentOfChildrenSum"
+                        FlowLayout:
+                            alignment: "Center"
+                            hSpacing: 5.000000
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml"
                     bindings:
-                    - ["classes", "\"white-wild-sand-text bold\" + \" \" + bgWinStyle"]
-                    - ["UITextComponent.text", "capitalize(localize(when results.battleResult == BattleResult.WIN -> \"#battle_results:Result/Victory\", results.battleResult == BattleResult.LOSE -> \"#battle_results:Result/Defeat\", \"#battle_results:Result/Draw\"))"]
+                    - ["RichContent.text", "capitalize(localize(when results.battleResult == BattleResult.WIN -> \"#battle_results:Result/Victory\", results.battleResult == BattleResult.LOSE -> \"#battle_results:Result/Defeat\", \"#battle_results:Result/Draw\"))"]
+                    - ["RichContent.baseClasses", "\"white-wild-sand-text bold\" + \" \" + bgWinStyle"]
     -   class: "UIControl"
         name: "Content"
         size: [32.000000, 32.000000]
@@ -522,7 +528,6 @@ Prototypes:
                             "image": "when isGamepad -> \"~res:/Gfx/Lobby/icons/nintendo-switch/icon_switch_right_m\", \"~res:/Gfx/Lobby/icons/icon_arrow_s\""
                             "value": "nextButtonProgress"
                             "rounded": "true"
-                            "roundCorner": "\"100\""
                             "type": "eButtonType.OPTIONAL_DARK"
                         eventActions:
                         - ["ON_CLICK_BUTTON", "NEXT_EVENT_FROM_BUTTON", ""]

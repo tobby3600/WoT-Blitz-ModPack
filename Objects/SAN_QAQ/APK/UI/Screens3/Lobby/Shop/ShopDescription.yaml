@@ -1,0 +1,57 @@
+Header:
+    version: 140
+ImportedPackages:
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "ShopDescription"
+    size: [370.000000, 616.000000]
+    input: false
+    components:
+        LinearLayout:
+            spacing: 4.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["int", "controlsLimit", "500", "500"]
+            - ["string", "text", "\"offer text description\"", "\"Шрифтовые алиасы:\nТекст по умолчанию\n<regular>[regular] текст</regular>\n<highlighted>[highlighted] текст</highlighted>\n<premium-tank-name>[premium-tank-name] текст</premium-tank-name>\n<collectible-tank-name>[collectible-tank-name] текст</collectible-tank-name>\n<regular-tank-name>[regular-tank-name] текст</regular-tank-name>\n<space/>[space] принудительный пробел\n<br/>\nСписок<ul><li>1000 <gold/></li><li>5 слотов</li><li><heavy/><lvl-10/>AMX 23-45 heavy a lot of text more water you gotta be strong and smart to beat it</li></ul>\nВалюты:\n<gold/>[gold] Золото\n<credits/>[credits] Кредиты\n<free-xp/>[free-xp] Свободка\n<elite-xp/>[elite-xp] Элитный опыт\n<xp/>[xp] Опыт\n<crew-xp/>[crew-xp] Опыт экипажа\n<vehicle/>[vehicle] Техника\n<unlock/>[unlock] Кастомизация\n<premium/>[premium] Премиум\n<br/>\n\nФлаги наций:\n<ussr/>[ussr]\n<germany/>[germany]\n<usa/>[usa]\n<china/>[china]\n<france/>[france]\n<uk/>[uk]\n<japan/>[japan]\n<european/>[european]\n<other/>[other]\n<br/>\n\nФлаги субнаций:\n<finland/>[finland]\n<poland/>[poland]\n<sweden/>[sweden]\n<italy/>[italy]\n<australia/>[australia]\n<canada/>[canada]\n<czech/>[czech]\n<br/>\n\nУровни:\n<lvl-1/>[lvl-1]\n<lvl-2/>[lvl-2]\n<lvl-3/>[lvl-3]\n<lvl-4/>[lvl-4]\n<lvl-5/>[lvl-5]\n<lvl-6/>[lvl-6]\n<lvl-7/>[lvl-7]\n<lvl-8/>[lvl-8]\n<lvl-9/>[lvl-9]\n<lvl-10/>[lvl-10]\n<lvl-1-premium/>[lvl-1-premium]\n<lvl-2-premium/>[lvl-2-premium]\n<lvl-3-premium/>[lvl-3-premium]\n<lvl-4-premium/>[lvl-4-premium]\n<lvl-5-premium/>[lvl-5-premium]\n<lvl-6-premium/>[lvl-6-premium]\n<lvl-7-premium/>[lvl-7-premium]\n<lvl-8-premium/>[lvl-8-premium]\n<lvl-9-premium/>[lvl-9-premium]\n<lvl-10-premium/>[lvl-10-premium]\n<lvl-1-collectible/>[lvl-1-collectible]\n<lvl-2-collectible/>[lvl-2-collectible]\n<lvl-3-collectible/>[lvl-3-collectible]\n<lvl-4-collectible/>[lvl-4-collectible]\n<lvl-5-collectible/>[lvl-5-collectible]\n<lvl-6-collectible/>[lvl-6-collectible]\n<lvl-7-collectible/>[lvl-7-collectible]\n<lvl-8-collectible/>[lvl-8-collectible]\n<lvl-9-collectible/>[lvl-9-collectible]\n<lvl-10-collectible/>[lvl-10-collectible]\n<br/>\n\nКлассы техники:\n<light/>[light]\n<medium/>[medium]\n<heavy/>[heavy]\n<at-spg/>[at-spg]\n<light-premium/>[light-premium]\n<medium-premium/>[medium-premium]\n<heavy-premium/>[heavy-premium]\n<at-spg-premium/>[at-spg-premium]\n<light-collectible/>[light-collectible]\n<medium-collectible/>[medium-collectible]\n<heavy-collectible/>[heavy-collectible]\n<at-spg-collectible/>[at-spg-collectible]\n<light-elite/>[light-elite]\n<medium-elite/>[medium-elite]\n<heavy-elite/>[heavy-elite]\n<at-spg-elite/>[at-spg-elite]\n<light-premium-elite/>[light-premium-elite]\n<medium-premium-elite/>[medium-premium-elite]\n<heavy-premium-elite/>[heavy-premium-elite]\n<at-spg-premium-elite/>[at-spg-premium-elite]\n<light-collectible-elite/>[light-collectible-elite]\n<medium-collectible-elite/>[medium-collectible-elite]\n<heavy-collectible-elite/>[heavy-collectible-elite]\n<at-spg-collectible-elite/><space/>[at-spg-collectible-elite]\""]
+    children:
+    -   class: "UIScrollView"
+        name: "UIScrollView"
+        size: [32.000000, 32.000000]
+        autoUpdate: true
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIScrollViewContainer"
+            name: "scrollContainerControl"
+            refreshStylesOnInteract: false
+            scrollDirection: "kVertical"
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   class: "UIControl"
+                name: "Content"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfChildrenSum"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Lobby/Shop/RichTextWrappers/ShopRichText.yaml"
+                        args:
+                            "controlsLimit": "controlsLimit"
+                            "text": "text"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+    -   prototype: "VerticalScrollBar/VerticalScrollBar"
+        name: "VerticalScrollBar"
+        components:
+            UIScrollBarComponent:
+                delegate: "../UIScrollView"

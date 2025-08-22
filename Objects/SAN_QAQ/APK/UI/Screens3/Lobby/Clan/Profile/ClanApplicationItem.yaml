@@ -1,5 +1,7 @@
 Header:
     version: 155
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ClanApplicationItem"
@@ -54,6 +56,12 @@ Prototypes:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
         children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "bgStyle": "when isSelf -> \"gold-shining-20-bg\", \"\""
         -   class: "UIControl"
             name: "Bg"
             size: [32.000000, 32.000000]
@@ -72,20 +80,9 @@ Prototypes:
             bindings:
             - ["UIUrlImageComponent.imageUrl", "model.playerInfo.profileBgUrl"]
         -   class: "UIControl"
-            name: "Highlight"
-            input: false
-            components:
-                Background: {}
-                IgnoreLayout: {}
-                SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "PercentOfParent"
-            bindings:
-            - ["classes", "when isSelf -> \"white-wild-sand-25-bg\", \"white-wild-sand-15-bg\""]
-        -   class: "UIControl"
             name: "Hover"
             input: false
-            classes: "hover  white-wild-sand-10-bg"
+            classes: "hover white-wild-sand-10-bg"
             components:
                 Background:
                     drawType: "DRAW_STRETCH_BOTH"
@@ -199,7 +196,7 @@ Prototypes:
                                 verticalPolicy: "PercentOfContent"
                         bindings:
                         - ["classes", "when isSelf -> \"t-overline bold yellow-lightning-text\", \"t-overline bold white-wild-sand-text\""]
-                        - ["UITextComponent.text", "when isLoadingName -> localize(\"Loading...\"), model.playerInfo.nameModel.name"]
+                        - ["UITextComponent.text", "when isLoadingName -> localize(\"Loading...\"), isSelf -> model.playerInfo.nameModel.name + localize(\"clanMissions/missionScreen/leaderboard/you\"), model.playerInfo.nameModel.name"]
             -   class: "UIControl"
                 name: "Battles"
                 input: false

@@ -42,7 +42,6 @@ Prototypes:
                 components:
                     UITextComponent:
                         text: "CAPS REGULAR"
-                        fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
                         fontSize: 11.000000
                         colorInheritType: "COLOR_IGNORE_PARENT"
                     SizePolicy:
@@ -113,13 +112,12 @@ Prototypes:
                     components:
                         UITextComponent:
                             text: "321"
-                            fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+                            fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
                             fontSize: 13.000000
                             lineHeight: 15.000000
                             baseLine: 2.000000
                         SizePolicy:
                             horizontalPolicy: "PercentOfContent"
-                            horizontalValue: 125.000000
                             verticalPolicy: "PercentOfContent"
                 -   class: "UIControl"
                     name: "M"
@@ -128,7 +126,7 @@ Prototypes:
                     components:
                         UITextComponent:
                             text: "#common:Shortening/Meter"
-                            fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+                            fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
                             fontSize: 13.000000
                             lineHeight: 15.000000
                             baseLine: 2.000000

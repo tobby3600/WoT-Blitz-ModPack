@@ -58,6 +58,7 @@ Prototypes:
         UIDataLocalBindingsComponent:
             data:
             - ["int", "rowWidth", "when screenWidth < 1280 -> 471, 618"]
+            - ["int", "tableWidth", "rowWidth * 2 + 1"]
             - ["TeamData", "emptyRow", "{ }"]
             - ["vector<TeamData>", "myTeamData", "teamData.my.dataSort"]
             - ["vector<TeamData>", "enemyTeamData", "teamData.enemy.dataSort"]
@@ -95,7 +96,6 @@ Prototypes:
                     verticalPolicy: "PercentOfParent"
         -   class: "UIControl"
             name: "Table"
-            size: [32.000000, 32.000000]
             input: false
             refreshStylesOnInteract: false
             components:
@@ -107,7 +107,7 @@ Prototypes:
                     verticalPolicy: "Formula"
                     verticalFormula: "when parent == 0 -> childrenSum, min(parentRest, childrenSum)"
             bindings:
-            - ["SizePolicy.horizontalValue", "(rowWidth * 2) + 1"]
+            - ["SizePolicy.horizontalValue", "tableWidth"]
             children:
             -   class: "UIControl"
                 name: "TableNavHolder"
@@ -120,7 +120,7 @@ Prototypes:
                         verticalPolicy: "FixedSize"
                         verticalValue: 48.000000
                 bindings:
-                - ["SizePolicy.horizontalValue", "(rowWidth * 2) + 1"]
+                - ["SizePolicy.horizontalValue", "tableWidth"]
                 children:
                 -   class: "UIControl"
                     name: "TableNav"
@@ -139,7 +139,7 @@ Prototypes:
                             verticalPolicy: "FixedSize"
                             verticalValue: 48.000000
                     bindings:
-                    - ["SizePolicy.horizontalValue", "(rowWidth * 2) + 1"]
+                    - ["SizePolicy.horizontalValue", "tableWidth"]
                     children:
                     -   class: "UIControl"
                         name: "MyTeam"
@@ -276,11 +276,12 @@ Prototypes:
                                         verticalValue: 48.000000
                                     UIChildComponent0:
                                         condition: "(not (gameplayMode == eGameMode.Rating)) and (not (gameplayMode == eGameMode.Training))"
-                                        prototypePath: "~res:/UI/Screens3/Lobby/Common/SortButton/IconSortButtonNoBlur.yaml"
+                                        prototypePath: "~res:/UI/Screens3/Lobby/Common/SortButton/IconSortButton.yaml"
                                         args:
                                             "isSelected": "selectedFilter == int(eTeamEffectivenessFilterType.Xp)"
                                             "inverseSort": "inverseSortXp"
                                             "iconPath": "\"~res:/Gfx/Lobby/icons/icon_exp_s\""
+                                            "isVisible": "false"
                                         eventActions:
                                         - ["ON_CLICK_SORT_BUTTON", "ON_CLICK_SORT_BUTTON", "eTeamEffectivenessFilterType.Xp"]
                                 bindings:
@@ -297,11 +298,12 @@ Prototypes:
                                         verticalPolicy: "FixedSize"
                                         verticalValue: 48.000000
                                     UIChildComponent0:
-                                        prototypePath: "~res:/UI/Screens3/Lobby/Common/SortButton/IconSortButtonNoBlur.yaml"
+                                        prototypePath: "~res:/UI/Screens3/Lobby/Common/SortButton/IconSortButton.yaml"
                                         args:
-                                            "isSelected": "selectedFilter == 1"
+                                            "isSelected": "selectedFilter == int(eTeamEffectivenessFilterType.Kills)"
                                             "inverseSort": "inverseSortKill"
                                             "iconPath": "\"~res:/Gfx/Lobby/icons/icon_destroyed-tank_s\""
+                                            "isVisible": "false"
                                         eventActions:
                                         - ["ON_CLICK_SORT_BUTTON", "ON_CLICK_SORT_BUTTON", "eTeamEffectivenessFilterType.Kills"]
                             -   class: "UIControl"
@@ -316,11 +318,12 @@ Prototypes:
                                         verticalPolicy: "FixedSize"
                                         verticalValue: 48.000000
                                     UIChildComponent0:
-                                        prototypePath: "~res:/UI/Screens3/Lobby/Common/SortButton/IconSortButtonNoBlur.yaml"
+                                        prototypePath: "~res:/UI/Screens3/Lobby/Common/SortButton/IconSortButton.yaml"
                                         args:
-                                            "isSelected": "selectedFilter == 0"
+                                            "isSelected": "selectedFilter == int(eTeamEffectivenessFilterType.Damage)"
                                             "inverseSort": "inverseSortDmg"
                                             "iconPath": "\"~res:/Gfx/Lobby/icons/icon_damage_s\""
+                                            "isVisible": "false"
                                         eventActions:
                                         - ["ON_CLICK_SORT_BUTTON", "ON_CLICK_SORT_BUTTON", "eTeamEffectivenessFilterType.Damage"]
                     -   class: "UIControl"
@@ -392,12 +395,13 @@ Prototypes:
                                         verticalPolicy: "FixedSize"
                                         verticalValue: 48.000000
                                     UIChildComponent0:
-                                        prototypePath: "~res:/UI/Screens3/Lobby/Common/SortButton/IconSortButtonNoBlur.yaml"
+                                        prototypePath: "~res:/UI/Screens3/Lobby/Common/SortButton/IconSortButton.yaml"
                                         args:
                                             "isSelected": "selectedFilter == 0"
                                             "inverseSort": "inverseSortDmg"
                                             "iconPath": "\"~res:/Gfx/Lobby/icons/icon_damage_s\""
                                             "isIconFliped": "true"
+                                            "isVisible": "false"
                                         eventActions:
                                         - ["ON_CLICK_SORT_BUTTON", "ON_CLICK_SORT_BUTTON", "eTeamEffectivenessFilterType.Damage"]
                             -   class: "UIControl"
@@ -411,12 +415,13 @@ Prototypes:
                                         verticalPolicy: "FixedSize"
                                         verticalValue: 48.000000
                                     UIChildComponent0:
-                                        prototypePath: "~res:/UI/Screens3/Lobby/Common/SortButton/IconSortButtonNoBlur.yaml"
+                                        prototypePath: "~res:/UI/Screens3/Lobby/Common/SortButton/IconSortButton.yaml"
                                         args:
                                             "isSelected": "selectedFilter == 1"
                                             "inverseSort": "inverseSortKill"
                                             "iconPath": "\"~res:/Gfx/Lobby/icons/icon_destroyed-tank_s\""
                                             "isIconFliped": "true"
+                                            "isVisible": "false"
                                         eventActions:
                                         - ["ON_CLICK_SORT_BUTTON", "ON_CLICK_SORT_BUTTON", "eTeamEffectivenessFilterType.Kills"]
                             -   class: "UIControl"
@@ -432,11 +437,12 @@ Prototypes:
                                         verticalValue: 48.000000
                                     UIChildComponent0:
                                         condition: "(not (gameplayMode == eGameMode.Rating)) and (not (gameplayMode == eGameMode.Training))"
-                                        prototypePath: "~res:/UI/Screens3/Lobby/Common/SortButton/IconSortButtonNoBlur.yaml"
+                                        prototypePath: "~res:/UI/Screens3/Lobby/Common/SortButton/IconSortButton.yaml"
                                         args:
                                             "isSelected": "selectedFilter == int(eTeamEffectivenessFilterType.Xp)"
                                             "inverseSort": "inverseSortXp"
                                             "iconPath": "\"~res:/Gfx/Lobby/icons/icon_exp_s\""
+                                            "isVisible": "false"
                                         eventActions:
                                         - ["ON_CLICK_SORT_BUTTON", "ON_CLICK_SORT_BUTTON", "eTeamEffectivenessFilterType.Xp"]
                                 bindings:
@@ -516,7 +522,7 @@ Prototypes:
                         verticalPolicy: "Formula"
                         verticalFormula: "when parent == 0 -> childrenSum, min(parentRest, childrenSum)"
                 bindings:
-                - ["SizePolicy.horizontalValue", "(rowWidth * 2) + 1"]
+                - ["SizePolicy.horizontalValue", "tableWidth"]
                 children:
                 -   class: "UIControl"
                     name: "TopHorSeparator"
@@ -535,7 +541,7 @@ Prototypes:
                         StyleSheet:
                             styles: "~res:/UI/Screens3/Color.style.yaml"
                     bindings:
-                    - ["SizePolicy.horizontalValue", "(rowWidth * 2) + 1"]
+                    - ["SizePolicy.horizontalValue", "tableWidth"]
                     children:
                     -   class: "UIControl"
                         name: "Separators"
@@ -550,7 +556,7 @@ Prototypes:
                                 verticalPolicy: "FixedSize"
                                 verticalValue: 1.000000
                         bindings:
-                        - ["SizePolicy.horizontalValue", "(rowWidth * 2) - 111"]
+                        - ["SizePolicy.horizontalValue", "tableWidth - 112"]
                         children:
                         -   class: "UIControl"
                             name: "LeftWrapper"
@@ -695,9 +701,9 @@ Prototypes:
                         SizePolicy:
                             horizontalPolicy: "FixedSize"
                             verticalPolicy: "Formula"
-                            verticalFormula: "when parent == 0 -> maxChild, min(min((when enoughSpaceForTenVsTen -> 560, 392), maxChild), parentRest)"
+                            verticalFormula: "when parent == 0 -> childrenSum, min(parentRest, firstChild)"
                     bindings:
-                    - ["SizePolicy.horizontalValue", "(rowWidth * 2) + 1"]
+                    - ["SizePolicy.horizontalValue", "tableWidth"]
                     children:
                     -   class: "UIScrollViewContainer"
                         name: "scrollContainerControl"
@@ -709,10 +715,9 @@ Prototypes:
                                 spacing: 1.000000
                             SizePolicy:
                                 horizontalPolicy: "FixedSize"
-                                verticalPolicy: "FixedSize"
+                                verticalPolicy: "PercentOfMaxChild"
                         bindings:
-                        - ["SizePolicy.horizontalValue", "(rowWidth * 2) + 1"]
-                        - ["SizePolicy.verticalValue", "when (myTeamPayers >= enemyTeamPlayers) and (myTeamPayers > 7) -> myTeamPayers * 56, (enemyTeamPlayers >= myTeamPayers) and (enemyTeamPlayers > 7) -> enemyTeamPlayers * 56, 392"]
+                        - ["SizePolicy.horizontalValue", "tableWidth"]
                         children:
                         -   class: "UIControl"
                             name: "MyCommandRows"
@@ -722,7 +727,7 @@ Prototypes:
                             components:
                                 SizePolicy:
                                     horizontalPolicy: "FixedSize"
-                                    verticalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfChildrenSum"
                                 UIRepeatComponent:
                                     control: "~res:/UI/Screens3/Lobby/BattleResults/TeamEffectiveness/CommandRow.yaml"
                                     dataContainer: "teamData.teamTable"
@@ -758,7 +763,7 @@ Prototypes:
                             components:
                                 SizePolicy:
                                     horizontalPolicy: "FixedSize"
-                                    verticalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfChildrenSum"
                                 UIRepeatComponent:
                                     control: "~res:/UI/Screens3/Lobby/BattleResults/TeamEffectiveness/CommandRow.yaml"
                                     dataContainer: "teamData.teamTable"
@@ -887,8 +892,7 @@ Prototypes:
                                     hCenterAnchorEnabled: true
                                     vCenterAnchorEnabled: true
                                 SizePolicy:
-                                    horizontalPolicy: "FixedSize"
-                                    horizontalValue: 48.000000
+                                    horizontalPolicy: "PercentOfContent"
                                     verticalPolicy: "FixedSize"
                                     verticalValue: 20.000000
                             bindings:
@@ -928,8 +932,7 @@ Prototypes:
                                     hCenterAnchorEnabled: true
                                     vCenterAnchorEnabled: true
                                 SizePolicy:
-                                    horizontalPolicy: "FixedSize"
-                                    horizontalValue: 48.000000
+                                    horizontalPolicy: "PercentOfContent"
                                     verticalPolicy: "FixedSize"
                                     verticalValue: 20.000000
                             bindings:

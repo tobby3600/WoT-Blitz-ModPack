@@ -147,17 +147,15 @@ fragment_out fp_main(fragment_in input)
 				#if RETRIEVE_FRAG_DEPTH_AVAILABLE
 					#include "depth-diff.slh"
 
-					float distanceDifference = depthPosition.x / max(depthPosition.y, 0.0001) - depthPosition.z / max(depthPosition.w, 0.0001);
+					float distanceDifference = depthPosition.x / max(depthPosition.y, 1e-4) - depthPosition.z / max(depthPosition.w, 1e-4);
 					coastLine = saturate(saturate(abs(distanceDifference * 2.0) / projPos.z) * (-length(waveOffset) * 2.5 + 1.5));
 					fresnel *= coastLine;
 					waveOffset *= coastLine;
 				#endif
 
-				float derivativeScale = 2.0 - abs(V.z);
 				float2 reflectionTexCoord = waveOffset * reflectionDistortion + (input.reflectionPos.xy / input.reflectionPos.z * 0.5 + const05List2);
-				float2 ddxUV = ddx(reflectionTexCoord) * derivativeScale;
-				float2 ddyUV = ddy(reflectionTexCoord) * derivativeScale;
-				float3 reflectionColor = tex2Dlod(dynamicReflection, reflectionTexCoord, max(log2(max(length(ddxUV), length(ddyUV))), log2(max(abs(ddxUV.x * ddyUV.y - ddxUV.y * ddyUV.x), 0.00000001)) * 0.5)).rgb;
+				float4 ddxyUV = float4(ddx(reflectionTexCoord), ddy(reflectionTexCoord)) * (2.0 - abs(V.z));
+				float3 reflectionColor = tex2Dlod(dynamicReflection, reflectionTexCoord, max(log2(max(length(ddxyUV.xy), length(ddxyUV.zw))), log2(max(abs(ddxyUV.x * ddxyUV.w - ddxyUV.y * ddxyUV.z), 1e-8)) * 0.5)).rgb;
 				output.color.rgb = reflectionColor * reflectionTintColor;
 
 				#if SPECULAR

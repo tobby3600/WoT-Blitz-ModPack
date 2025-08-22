@@ -2,6 +2,7 @@ Header:
     version: 144
 ImportedPackages:
 - "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "AchievementsTab"
@@ -69,21 +70,30 @@ Prototypes:
             refreshStylesOnInteract: false
             components:
                 SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "PercentOfChildrenSum"
+                    horizontalPolicy: "PercentOfLastChild"
+                    verticalPolicy: "PercentOfLastChild"
                 UILayoutEventComponent:
                     positionChangedEvent: "OnScrollContentPositionChanged"
                     positionChangedEventData: "_position.Y"
             children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "bgStyle": "\"grey-shark-70-bg\""
+                            "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "Content"
                 input: false
                 components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
                     LinearLayout:
                         orientation: "TopDown"
                         padding: "16"
                     SizePolicy:
-                        horizontalPolicy: "PercentOfParent"
+                        horizontalPolicy: "PercentOfMaxChild"
                         verticalPolicy: "PercentOfChildrenSum"
                 children:
                 -   class: "UIControl"
@@ -181,29 +191,6 @@ Prototypes:
                     name: "Divider"
                     input: false
                     components:
-                        Background:
-                            usePostProcessedSprite: true
-                        UIPostProcessTextureComponent0:
-                            materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                            needClearAlphaAfterRender: true
-                            scale: 0.500000
-                            useVirtualCoordinateSystem: true
-                            minFilter: "Linear"
-                            magFilter: "Linear"
-                        UIPostProcessTextureComponent1:
-                            materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                            scale: 0.500000
-                            useVirtualCoordinateSystem: true
-                            minFilter: "Linear"
-                            magFilter: "Linear"
-                        UIPostProcessTextureComponent2:
-                            materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                            scale: 0.500000
-                            useVirtualCoordinateSystem: true
-                            minFilter: "Linear"
-                            magFilter: "Linear"
-                        UIRoundedCornersComponent:
-                            radius: "8"
                         Anchor:
                             hCenterAnchorEnabled: true
                         SizePolicy:
@@ -229,29 +216,6 @@ Prototypes:
                     name: "Achievements"
                     input: false
                     components:
-                        Background:
-                            usePostProcessedSprite: true
-                        UIPostProcessTextureComponent0:
-                            materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                            needClearAlphaAfterRender: true
-                            scale: 0.500000
-                            useVirtualCoordinateSystem: true
-                            minFilter: "Linear"
-                            magFilter: "Linear"
-                        UIPostProcessTextureComponent1:
-                            materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                            scale: 0.500000
-                            useVirtualCoordinateSystem: true
-                            minFilter: "Linear"
-                            magFilter: "Linear"
-                        UIPostProcessTextureComponent2:
-                            materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                            scale: 0.500000
-                            useVirtualCoordinateSystem: true
-                            minFilter: "Linear"
-                            magFilter: "Linear"
-                        UIRoundedCornersComponent:
-                            radius: "8"
                         Anchor:
                             hCenterAnchorEnabled: true
                         SizePolicy:
@@ -269,8 +233,8 @@ Prototypes:
                             - ["ON_PRESSED", "ShowAchievementInfo", "_event.achievementName"]
                             elementNameExpression: "_item.name"
                             loadingPolicy: "Lazy"
-                            loadingDistance: 120.000000
-                            unloadingDistance: 240.000000
+                            loadingDistance: 0.000000
+                            unloadingDistance: 0.000000
     -   prototype: "VerticalScrollBar/VerticalScrollBar"
         name: "VerticalScrollBar"
         components:
@@ -279,5 +243,5 @@ Prototypes:
                 rightAnchor: 9.000000
                 topAnchorEnabled: true
                 bottomAnchorEnabled: true
-            ScrollBarDelegate:
+            UIScrollBarComponent:
                 delegate: "../ScrollArea"

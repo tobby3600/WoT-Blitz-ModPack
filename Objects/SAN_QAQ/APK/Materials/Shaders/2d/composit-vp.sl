@@ -31,7 +31,7 @@ vertex_out vp_main(vertex_in input)
 {
 	vertex_out output;
 
-	output.localPos = mul4Fast1(input.localPos.xyz, worldViewProjMatrix);
+	output.localPos = mul(float4(input.localPos.xyz, 1.0), worldViewProjMatrix);
 
 	#if CLAMP
 		output.texCoord0 = float4(clamp(input.texCoord0, const0List2, maskMaxUV), clamp(input.texCoord1, const0List2, detailMaxUV));

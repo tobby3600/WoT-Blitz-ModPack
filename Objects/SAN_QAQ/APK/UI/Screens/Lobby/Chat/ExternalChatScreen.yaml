@@ -13,6 +13,7 @@ ImportedPackages:
 - "~res:/UI/Styles/ButtonSoundStyles.yaml"
 - "~res:/UI/Screens/Lobby/Chat/FormingTournamentTeam.yaml"
 - "~res:/UI/Styles/NetEaseStyles.yaml"
+- "~res:/UI/Screens3/Common/OverlayBlur.yaml"
 StyleSheets:
 -   selectors:
     - ".limit-nick-name.Phone"
@@ -1268,33 +1269,16 @@ Prototypes:
         name: "contactPopupBackground"
         size: [1024.000000, 768.000000]
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
             Anchor:
                 leftAnchorEnabled: true
                 rightAnchorEnabled: true
                 topAnchorEnabled: true
                 bottomAnchorEnabled: true
         children:
+        -   prototype: "OverlayBlur/BlurAndFade"
+            name: "Blur"
+            component:
+                IgnoreLayout: {}
         -   prototype: "Common/PopUp"
             name: "PopUp"
             input: false
@@ -1435,27 +1419,6 @@ Prototypes:
         position: [0.000000, 0.000000]
         size: [1024.000000, 768.000000]
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
             Anchor:
                 leftAnchorEnabled: true
                 leftAnchor: 0.000000
@@ -1466,6 +1429,10 @@ Prototypes:
                 bottomAnchorEnabled: true
                 bottomAnchor: 0.000000
         children:
+        -   prototype: "OverlayBlur/BlurAndFade"
+            name: "Blur"
+            component:
+                IgnoreLayout: {}
         -   prototype: "Common/PopUp"
             name: "PopUp"
             input: false

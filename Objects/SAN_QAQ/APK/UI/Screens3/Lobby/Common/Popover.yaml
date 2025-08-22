@@ -13,11 +13,14 @@ Prototypes:
             verticalPolicy: "PercentOfMaxChild"
         UIDataParamsComponent:
             params:
-            - ["string", "buttonCaption", "\"\"", "\"ПОДРОБНЕЕ\""]
-            - ["eButtonType", "buttonType", "eButtonType.NO_BG", "eButtonType.NO_BG"]
+            - ["bool", "isBlur", "true", "true"]
             - ["bool", "isShowButton", "false", "true"]
+            - ["eButtonType", "buttonType", "eButtonType.NO_BG", "eButtonType.NO_BG"]
+            - ["string", "bgStyle", "\"grey-shark-70-bg\"", "\"grey-shark-70-bg\""]
+            - ["string", "buttonCaption", "\"\"", "\"ПОДРОБНЕЕ\""]
             - ["string", "popoverText", "localize(\"Текст поповера находится тут\")", "localize(\"Текст поповера находится тут\")"]
             - ["string", "popoverTextStyle", "\"\"", "\"\""]
+            - ["string", "roundCorner", "\"16\"", "\"16\""]
             events:
             - "ON_POPOVER_BUTTON_CLICKED"
         UIActionComponent:
@@ -38,22 +41,14 @@ Prototypes:
                 verticalPolicy: "Formula"
                 verticalFormula: "lastChild + 20"
         children:
-        -   class: "UIControl"
+        -   prototype: "BlurModified/BlurModified"
             name: "Background"
-            input: false
             components:
-                Anchor:
-                    hCenterAnchorEnabled: true
-                    vCenterAnchorEnabled: true
-                SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "PercentOfParent"
-                children:
-                -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
-                    components:
-                        args:
-                            "roundCorner": "\"28\""
+                UIDataParamsComponent:
+                    args:
+                        "isBlur": "isBlur"
+                        "bgStyle": "bgStyle"
+                        "roundCorner": "roundCorner"
         -   class: "UIControl"
             name: "InvisibleWrapper"
             size: [32.000000, 32.000000]

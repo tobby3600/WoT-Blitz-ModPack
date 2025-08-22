@@ -1,0 +1,133 @@
+Header:
+    version: 161
+Prototypes:
+-   class: "UIControl"
+    name: "SimpleContent"
+    size: [240.000000, 400.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfMaxChild"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "nintendoSwitch", "false", "false"]
+            - ["bool", "initializationEnded", "false", "true"]
+            - ["ShopProduct", "product", "null", "{ }"]
+            - ["int64", "serverTime", "0L", "100L"]
+            - ["bool", "arabicLocalization", "false", "false"]
+            - ["bool", "debugMode", "false", "false"]
+            - ["float", "shopScrollBottomOffset", "0.000000", "40.000000"]
+            - ["float", "shopScrollTopOffset", "0.000000", "48.000000"]
+            - ["bool", "isAtLeastMediumDevice", "false", "true"]
+            - ["bool", "available", "false", "true"]
+        UIDataLocalVarsComponent:
+            data:
+            - ["string", "flagPath", "\"~res:/Gfx/Lobby/flags/flag_tutor-tank_\""]
+    children:
+    -   class: "UIControl"
+        name: "Items"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+            UIChildComponent0:
+                childType: "kControl"
+                condition: "not isNull(product.vehicle)"
+                control: "TankContent"
+            UIChildComponent1:
+                childType: "kControl"
+                condition: "product.content.Size() == 1"
+                control: "BigItem"
+            UIChildComponent2:
+                childType: "kControl"
+                control: "MediumItems"
+Slots:
+-   class: "UIControl"
+    name: "MediumItems"
+    size: [240.000000, 208.000000]
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+            vCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfChildrenSum"
+        FlowLayout:
+            hDynamicPadding: true
+            alignment: "Center"
+            hDynamicSpacing: true
+        UIRepeatComponent:
+            control: "~res:/UI/Screens3/Lobby/Shop/ShopProduct/SimpleContent/MediumContentItem.yaml"
+            dataContainer: "product.content"
+            args:
+                "small": "product.content.Size() > 4"
+                "visible": "_index < 6"
+                "resource": "_item"
+-   class: "UIControl"
+    name: "BigItem"
+    size: [300.000000, 0.000000]
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+            vCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfMaxChild"
+            verticalPolicy: "PercentOfChildrenSum"
+        UIChildComponent0:
+            prototypePath: "~res:/UI/Screens3/Lobby/Story/Components/Steps/SizeL.yaml"
+            args:
+                "label": "when not isNull(product.bonus) -> (when product.content[0].type == ResourceType.stuff -> \"x\" + str(product.content[0].stuff.quantity - product.bonus.amount), not isNull(product.content[0].basic) -> str(product.content[0].basic.quantity - product.bonus.amount), \"\"), \"\""
+                "reward": "product.content[0]"
+-   class: "UIControl"
+    name: "TankContent"
+    size: [300.000000, 0.000000]
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfMaxChild"
+            verticalPolicy: "FixedSize"
+            verticalValue: 160.000000
+    children:
+    -   class: "UIControl"
+        name: "VehicleBgLong"
+        input: false
+        components:
+            UITextureComponent:
+                materialPath: "~res:/Materials.custom/2d.Textured.Saturation.material"
+                materialParams: "saturation,25"
+                drawType: "DRAW_SCALE_PROPORTIONAL"
+                perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+            UIOpacityComponent:
+                opacity: 0.500000
+            Anchor:
+                hCenterAnchorEnabled: true
+                topAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 230.000000
+                verticalPolicy: "PercentOfContent"
+        bindings:
+        - ["UITextureComponent.spritePath", "when empty(product.vehicle.info.subnation) -> flagPath + str(product.vehicle.info.nation, eNation, \"autotests\"), flagPath + product.vehicle.info.subnation"]
+    -   class: "UIControl"
+        name: "Tank"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                topAnchorEnabled: true
+                topAnchor: 20.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                childType: "kPrototype"
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Detailed/VehicleBig.yaml"
+                args:
+                    "iconWithCamo": "product.vehicleCamoIcon"
+                    "vehicle": "product.vehicle"

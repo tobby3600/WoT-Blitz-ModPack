@@ -4,6 +4,7 @@ ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Common/Button.yaml"
 - "~res:/UI/Screens3/Lobby/Common/InfoIcon.yaml"
 - "~res:/UI/Screens3/Common/Loaders/LoaderCircle.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "RatingScreen"
@@ -65,13 +66,14 @@ Prototypes:
             - ["string", "totalPlayers", "when hasRatingPosition -> \"/ \" + str1000Separated(profile.ratingSeasonInfo.totalPlayers), localize(\"ratingBattles/calibration/ratingPlaceholder\")"]
             - ["string", "playerPosition", "when hasRatingPosition -> str1000Separated(profile.ratingSeasonInfo.ratingPosition), localize(\"ratingBattles/calibration/ratingPlaceholder\")"]
         UIChildComponent0:
-            prototypePath: "~res:/UI/Screens3/Lobby/Common/Overlay/OverlayRatingScreen.yaml"
+            prototypePath: "~res:/UI/Screens3/Lobby/Common/Overlay/Overlay.yaml"
             args:
                 "rightCornerContent": "RightCornerContent"
                 "hasCustomBg": "true"
                 "wasPushed": "true"
                 "content": "SliderContent"
                 "imageFromClient": "\"~res:/Gfx/Lobby/backgrounds/bg_sparks\""
+                "modifiedBg": "true"
             eventActions:
             - ["BACK_EVENT", "BACK_EVENT", ""]
             - ["OVERLAY_OPEN_FINISH", "OVERLAY_OPEN_FINISH", ""]
@@ -126,37 +128,20 @@ Slots:
         size: [514.000000, 179.000000]
         input: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIRoundedCornersComponent:
-                radius: "8"
             LinearLayout:
                 orientation: "TopDown"
                 spacing: -27.000000
             IgnoreLayout: {}
             SizePolicy:
-                horizontalPolicy: "PercentOfParent"
+                horizontalPolicy: "PercentOfMaxChild"
                 verticalPolicy: "PercentOfChildrenSum"
         children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "Icon"
             input: false
@@ -187,8 +172,7 @@ Slots:
                 Anchor:
                     leftAnchorEnabled: true
                 SizePolicy:
-                    horizontalPolicy: "FixedSize"
-                    horizontalValue: 360.000000
+                    horizontalPolicy: "PercentOfContent"
                     verticalPolicy: "PercentOfContent"
                 StyleSheet:
                     styles: "~res:/UI/Screens3/Font.style.yaml"
@@ -247,17 +231,22 @@ Slots:
                     horizontalPolicy: "PercentOfChildrenSum"
                     verticalPolicy: "PercentOfMaxChild"
             children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "NoRatingText"
                 input: false
                 components:
-                    RichContent:
-                        baseClasses: "t-body regular white-wild-sand-text"
                     Anchor:
                         vCenterAnchorEnabled: true
+                    RichContent:
+                        baseClasses: "t-body regular white-wild-sand-text"
                     SizePolicy:
-                        horizontalPolicy: "FixedSize"
-                        horizontalValue: 270.000000
+                        horizontalPolicy: "PercentOfChildrenSum"
                         verticalPolicy: "PercentOfChildrenSum"
                     FlowLayout:
                         alignment: "Right"
@@ -433,6 +422,12 @@ Slots:
             bindings:
             - ["visible", "isCalibration"]
             children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "Top"
                 input: false
@@ -498,7 +493,7 @@ Slots:
                                 horizontalPolicy: "PercentOfChildrenSum"
                                 verticalPolicy: "PercentOfMaxChild"
                             StyleSheet:
-                                styles: "~res:/UI/Screens3/Font.style.yaml"
+                                styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
                         children:
                         -   class: "UIControl"
                             name: "Left"
@@ -679,32 +674,33 @@ Slots:
             name: "ProgressBarWrapper"
             input: false
             components:
-                Background:
-                    usePostProcessedSprite: true
-                UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                    needClearAlphaAfterRender: true
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent1:
-                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent2:
-                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "FixedSize"
                     verticalValue: 10.000000
             children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+            -   class: "UIControl"
+                name: "Fade"
+                input: false
+                components:
+                    Anchor:
+                        rightAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    Background:
+                        drawType: "DRAW_FILL"
+                    LinearLayout: {}
+                    UIGradientComponent:
+                        startColor: [0.117647, 0.133333, 0.137255, 1.000000]
+                        finishColor: [0.117647, 0.133333, 0.137255, 0.000000]
+                        orientation: "RightToLeft"
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 12.000000
+                bindings:
+                - ["SizePolicy.horizontalValue", "when screenSizeX == 800 -> 155, 199"]
             -   class: "UIControl"
                 name: "Progress"
                 input: false
@@ -1233,12 +1229,18 @@ Slots:
                         horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "PercentOfMaxChild"
                 children:
+                -   prototype: "BlurModified/BlurModified"
+                    name: "Blur"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "roundCorner": "\"8\""
                 -   class: "UIControl"
                     name: "CalibrationRating"
                     input: false
                     components:
                         Anchor:
-                            topAnchorEnabled: true
+                            vCenterAnchorEnabled: true
                         LinearLayout:
                             orientation: "TopDown"
                             spacing: -48.000000
@@ -1324,6 +1326,8 @@ Slots:
                     position: [136.000000, 0.000000]
                     input: false
                     components:
+                        Anchor:
+                            vCenterAnchorEnabled: true
                         LinearLayout:
                             spacing: 16.000000
                         SizePolicy:
@@ -1352,7 +1356,7 @@ Slots:
                     input: false
                     components:
                         Anchor:
-                            topAnchorEnabled: true
+                            vCenterAnchorEnabled: true
                         LinearLayout:
                             orientation: "TopDown"
                             spacing: -48.000000
@@ -1476,10 +1480,18 @@ Slots:
                         horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "PercentOfMaxChild"
                 children:
+                -   prototype: "BlurModified/BlurModified"
+                    name: "Blur"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "roundCorner": "\"8\""
                 -   class: "UIControl"
                     name: "Battles"
                     input: false
                     components:
+                        Anchor:
+                            vCenterAnchorEnabled: true
                         LinearLayout:
                             orientation: "TopDown"
                             spacing: 16.000000
@@ -1585,6 +1597,8 @@ Slots:
                     name: "Wins"
                     input: false
                     components:
+                        Anchor:
+                            vCenterAnchorEnabled: true
                         LinearLayout:
                             orientation: "TopDown"
                             spacing: 16.000000
@@ -1666,120 +1680,163 @@ Slots:
         bindings:
         - ["visible", "not isCalibration"]
     -   class: "UIControl"
-        name: "CamoReward"
+        name: "BottomWrapper"
         input: false
         components:
             Anchor:
                 hCenterAnchorEnabled: true
             LinearLayout:
-                spacing: -16.000000
-            SizePolicy:
-                horizontalPolicy: "PercentOfChildrenSum"
-                verticalPolicy: "FixedSize"
-                verticalValue: 88.000000
-        bindings:
-        - ["visible", "hasCamoReward and not isNoRating"]
-        children:
-        -   class: "UIControl"
-            name: "PlatinumCamo"
-            input: false
-            components:
-                SizePolicy:
-                    horizontalPolicy: "FixedSize"
-                    horizontalValue: 64.000000
-                    verticalPolicy: "FixedSize"
-                    verticalValue: 64.000000
-                UIChildComponent0:
-                    condition: "not isNull(model.platinumCamo) and not isNull(model.platinumCamo.unlock)"
-                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Detailed/UnlockIcon.yaml"
-                    args:
-                        "league": "eLeague.PLATINUM"
-                        "unlock": "model.platinumCamo.unlock"
-        -   class: "UIControl"
-            name: "DiamondCamo"
-            input: false
-            components:
-                Anchor:
-                    topAnchorEnabled: true
-                    topAnchor: 16.000000
-                SizePolicy:
-                    horizontalPolicy: "FixedSize"
-                    horizontalValue: 64.000000
-                    verticalPolicy: "FixedSize"
-                    verticalValue: 64.000000
-                UIChildComponent0:
-                    condition: "not isNull(model.diamondCamo) and not isNull(model.diamondCamo.unlock)"
-                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Detailed/UnlockIcon.yaml"
-                    args:
-                        "league": "eLeague.DIAMOND"
-                        "unlock": "model.diamondCamo.unlock"
-    -   class: "UIControl"
-        name: "FavouriteTanks"
-        size: [32.000000, 32.000000]
-        input: false
-        components:
-            LinearLayout:
                 orientation: "TopDown"
             SizePolicy:
-                horizontalPolicy: "PercentOfParent"
+                horizontalPolicy: "PercentOfMaxChild"
+                horizontalValue: 105.000000
                 verticalPolicy: "PercentOfChildrenSum"
         bindings:
         - ["visible", "not isNoRating"]
         children:
-        -   class: "UIControl"
-            name: "Description"
-            input: false
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
             components:
-                RichContent:
-                    baseClasses: "t-body regular white-wild-sand-50-text"
-                RichContentAliases0:
-                    aliases:
-                    - ["text_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
-                Anchor:
-                    hCenterAnchorEnabled: true
-                SizePolicy:
-                    horizontalPolicy: "FixedSize"
-                    horizontalValue: 492.000000
-                    verticalPolicy: "PercentOfChildrenSum"
-                FlowLayout:
-                    alignment: "Center"
-                    hSpacing: 5.000000
-                    skipInvisible: true
-                    useRtl: true
-                StyleSheet:
-                    styles: "~res:/UI/Screens3/Font.style.yaml"
-            bindings:
-            - ["RichContent.text", "localize(\"ratingBattles/infoScreen/camouflageCondition\")"]
+                UIDataParamsComponent:
+                    args:
+                        "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "Spacer"
             size: [32.000000, 32.000000]
             input: false
             components:
+                Anchor:
+                    hCenterAnchorEnabled: true
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "FixedSize"
-                    verticalValue: 24.000000
+                    verticalValue: 16.000000
         -   class: "UIControl"
-            name: "Tanks"
-            position: [0.000000, 76.000000]
+            name: "CamoReward"
             input: false
             components:
                 Anchor:
                     hCenterAnchorEnabled: true
                 LinearLayout:
-                    spacing: 16.000000
+                    spacing: -16.000000
                 SizePolicy:
                     horizontalPolicy: "PercentOfChildrenSum"
-                    verticalPolicy: "PercentOfMaxChild"
-                UIRepeatComponent:
-                    control: "~res:/UI/Screens3/Lobby/Profile/Common/FavoriteTank.yaml"
-                    dataContainer: "model.ratingInfoPerLevels"
-                    args:
-                        "rating": "model.rating"
-                        "battlesCountOnLevel": "_item.battlesCount"
-                        "level": "_item.level"
-                        "model": "_item.favoriteVehicle"
-                    elementNameExpression: "str(_item.level)"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 88.000000
+            bindings:
+            - ["visible", "hasCamoReward"]
+            children:
+            -   class: "UIControl"
+                name: "PlatinumCamo"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 64.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 64.000000
+                    UIChildComponent0:
+                        condition: "not isNull(model.platinumCamo) and not isNull(model.platinumCamo.unlock)"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Detailed/UnlockIcon.yaml"
+                        args:
+                            "league": "eLeague.PLATINUM"
+                            "unlock": "model.platinumCamo.unlock"
+            -   class: "UIControl"
+                name: "DiamondCamo"
+                input: false
+                components:
+                    Anchor:
+                        topAnchorEnabled: true
+                        topAnchor: 16.000000
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 64.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 64.000000
+                    UIChildComponent0:
+                        condition: "not isNull(model.diamondCamo) and not isNull(model.diamondCamo.unlock)"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Detailed/UnlockIcon.yaml"
+                        args:
+                            "league": "eLeague.DIAMOND"
+                            "unlock": "model.diamondCamo.unlock"
+        -   class: "UIControl"
+            name: "FavouriteTanks"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                LinearLayout:
+                    orientation: "TopDown"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   class: "UIControl"
+                name: "Description"
+                input: false
+                components:
+                    RichContent:
+                        baseClasses: "t-body regular white-wild-sand-50-text"
+                    RichContentAliases0:
+                        aliases:
+                        - ["text_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 492.000000
+                        verticalPolicy: "PercentOfChildrenSum"
+                    FlowLayout:
+                        alignment: "Center"
+                        hSpacing: 5.000000
+                        skipInvisible: true
+                        useRtl: true
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["RichContent.text", "localize(\"ratingBattles/infoScreen/camouflageCondition\")"]
+            -   class: "UIControl"
+                name: "Spacer"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 24.000000
+            -   class: "UIControl"
+                name: "Tanks"
+                position: [0.000000, 76.000000]
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    LinearLayout:
+                        spacing: 16.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfMaxChild"
+                    UIRepeatComponent:
+                        control: "~res:/UI/Screens3/Lobby/Profile/Common/FavoriteTank.yaml"
+                        dataContainer: "model.ratingInfoPerLevels"
+                        args:
+                            "rating": "model.rating"
+                            "battlesCountOnLevel": "_item.battlesCount"
+                            "level": "_item.level"
+                            "model": "_item.favoriteVehicle"
+                        elementNameExpression: "str(_item.level)"
+        -   class: "UIControl"
+            name: "Spacer"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 16.000000
     -   class: "UIControl"
         name: "BottomSpacing"
         size: [32.000000, 32.000000]

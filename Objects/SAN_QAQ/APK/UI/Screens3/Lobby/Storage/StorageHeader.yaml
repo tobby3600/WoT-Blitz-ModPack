@@ -1,0 +1,110 @@
+Header:
+    version: 142
+Prototypes:
+-   class: "UIControl"
+    name: "StorageHeader"
+    size: [1024.000000, 48.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfMaxChild"
+        UIDataParamsComponent:
+            params:
+            - ["string", "subtitle", "\"\"", "\"\""]
+            - ["LobbyDataModel", "lobby", "null", "{ }"]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["bool", "isGeneralPackLoaded", "true", "true"]
+            - ["bool", "isTutorialActive", "false", "false"]
+            - ["bool", "firstLessonCompleted", "true", "true"]
+            events:
+            - "GO_TO_SHOP"
+            - "PREMIUM_INFO_EVENT"
+            - "BACK_EVENT"
+            - "SHOP_BUTTON(eRequiredResource requiredResource)"
+        UIChildComponent0:
+            prototypePath: "~res:/UI/Screens3/Lobby/Common/Headers/BaseHeader.yaml"
+            args:
+                "bgStyle": "\"grey-shark-70-bg\""
+                "showBackButton": "true"
+                "leftContent": "LeftContent"
+                "session": "session"
+                "lobby": "lobby"
+                "isGeneralPackLoaded": "isGeneralPackLoaded"
+                "isTutorialActive": "isTutorialActive"
+                "firstLessonCompleted": "firstLessonCompleted"
+                "isBackButtonInitiallyClickable": "true"
+                "showStatsPanel": "false"
+                "showShopButton": "true"
+                "isFullScreen": "true"
+                "isBlur": "false"
+Slots:
+-   class: "UIControl"
+    name: "LeftContent"
+    size: [256.000000, 48.000000]
+    input: false
+    components:
+        LinearLayout: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "ScreenNameWrapper"
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                spacing: 4.000000
+            SizePolicy:
+                horizontalPolicy: "Formula"
+                horizontalFormula: "when parent == 0 -> childrenSum, min(childrenSum, parentRest)"
+                verticalPolicy: "PercentOfMaxChild"
+        children:
+        -   class: "UIControl"
+            name: "TItle"
+            input: false
+            classes: "t-subtitle regular white-wild-sand-text"
+            components:
+                UITextComponent:
+                    text: "storage/Title"
+                    fitting: "FITTING_POINTS"
+                    align: ["LEFT", "VCENTER"]
+                SizePolicy:
+                    horizontalPolicy: "Formula"
+                    horizontalFormula: "when parent == 0 -> content, min(parentRest, content)"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+        -   class: "UIControl"
+            name: "Delimiter"
+            input: false
+            classes: "t-subtitle regular white-wild-sand-50-text"
+            components:
+                UITextComponent:
+                    text: "/"
+                    fitting: "FITTING_POINTS"
+                    align: ["LEFT", "VCENTER"]
+                SizePolicy:
+                    horizontalPolicy: "Formula"
+                    horizontalFormula: "when parent == 0 -> content, min(parentRest, content)"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+        -   class: "UIControl"
+            name: "Subtitle"
+            input: false
+            classes: "t-subtitle regular white-wild-sand-50-text"
+            components:
+                UITextComponent:
+                    fitting: "FITTING_POINTS"
+                    align: ["LEFT", "VCENTER"]
+                SizePolicy:
+                    horizontalPolicy: "Formula"
+                    horizontalFormula: "when parent == 0 -> content, min(parentRest, content)"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "subtitle"]

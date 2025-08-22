@@ -250,7 +250,7 @@ Prototypes:
                     components:
                         UIDynamicAtlasTextComponent:
                             text: "250"
-                            fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+                            fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
                             fontSize: 16.000000
                             align: ["RIGHT", "VCENTER"]
                             shadowOffset: [0.000000, -1.000000]
@@ -266,7 +266,7 @@ Prototypes:
                     components:
                         UIDynamicAtlasTextComponent:
                             text: "#common:Shortening/Meter"
-                            fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+                            fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
                             fontSize: 16.000000
                             align: ["LEFT", "VCENTER"]
                             shadowOffset: [0.000000, -1.000000]
@@ -318,7 +318,7 @@ Prototypes:
                         components:
                             UIDynamicAtlasTextComponent:
                                 text: "11.4"
-                                fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+                                fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
                                 fontSize: 16.000000
                                 align: ["RIGHT", "VCENTER"]
                                 shadowOffset: [0.000000, -1.000000]
@@ -384,7 +384,7 @@ Prototypes:
                 components:
                     UIDynamicAtlasTextComponent:
                         text: "11.4"
-                        fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+                        fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
                         fontSize: 14.000000
                         shadowColor: [0.000000, 0.000000, 0.000000, 1.000000]
                         shadowOffset: [1.000000, 1.000000]

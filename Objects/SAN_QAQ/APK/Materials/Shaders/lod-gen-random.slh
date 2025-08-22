@@ -1,0 +1,4 @@
+float4 lodParam = const0List4;
+lodParam.xy = floor((projPos * 0.5 + const05List2) * viewportSize + viewportOffset);
+lodParam.z = fmod(dot(lodParam.xy, float2(347.83451793, 3343.28371963)), 10000.0);
+lodParam.w = frac(cos(lodParam.z) * 1000.0);

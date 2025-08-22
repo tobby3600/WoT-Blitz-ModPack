@@ -1,20 +1,24 @@
 Header:
     version: 161
 ImportedPackages:
-- "~res:/UI/Screens/Common/LoadingControlNoFade.yaml"
+- "~res:/UI/Screens/Common/LoadingControl.yaml"
 - "~res:/UI/Screens3/PreLogin/Version.yaml"
 - "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
--   prototype: "LoadingControlNoFade/LoadingControlNoFade"
+-   prototype: "LoadingControl/LoadingControl"
     name: "ConnectingScreen"
     components:
         UIDataParamsComponent:
             events:
             - "ICP_NUMBER_LINK_PRESS"
     children:
+    -   path: "FadeBackground"
+        visible: false
     -   class: "UIControl"
         name: "FadesWrapper"
         input: false
+        classes: "netease-content"
         components:
             Anchor:
                 hCenterAnchorEnabled: true
@@ -22,6 +26,8 @@ Prototypes:
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/NetEase.style.yaml;~res:/UI/Screens3/Color.style.yaml"
         children:
         -   class: "UIControl"
             name: "BackButtonFade"
@@ -39,8 +45,6 @@ Prototypes:
                     horizontalValue: 480.000000
                     verticalPolicy: "FixedSize"
                     verticalValue: 480.000000
-                StyleSheet:
-                    styles: "~res:/UI/Screens3/Color.style.yaml"
         -   class: "UIControl"
             name: "TopFade"
             input: false
@@ -57,11 +61,8 @@ Prototypes:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "PercentOfParent"
                     verticalValue: 50.000000
-                StyleSheet:
-                    styles: "~res:/UI/Screens3/Color.style.yaml"
         -   class: "UIControl"
             name: "BottomFade"
-            position: [0.000000, 514.000000]
             input: false
             classes: "black-35-bg"
             components:
@@ -76,37 +77,14 @@ Prototypes:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "PercentOfParent"
                     verticalValue: 50.000000
-                StyleSheet:
-                    styles: "~res:/UI/Screens3/Color.style.yaml"
     -   prototype: "Version/Version"
         name: "Version"
     -   class: "UIControl"
         name: "AOGASControl"
+        position: [406.000000, 16.000000]
+        classes: "netease-content"
         input: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIRoundedCornersComponent:
-                radius: "8"
             Anchor:
                 hCenterAnchorEnabled: true
                 topAnchorEnabled: true
@@ -118,9 +96,13 @@ Prototypes:
                 verticalValue: 125.000000
             UIChildComponent0:
                 prototypePath: "~res:/UI/Screens3/PreLogin/AOGASControl.yaml"
-                args:
-                    "description": "localize(\"#SAN_QAQ_ModPack/Description\")"
-                    "header": "localize(\"#SAN_QAQ_ModPack/Header\")"
+        children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "roundCorner": "\"8\""
     -   class: "UIControl"
         name: "LoginInfoPanel"
         position: [262.000000, 309.000000]
@@ -222,30 +204,8 @@ Prototypes:
         position: [336.000000, 616.000000]
         size: [265.000000, 220.000000]
         input: false
+        classes: "netease-content"
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIRoundedCornersComponent:
-                radius: "8"
             Anchor:
                 hCenterAnchorEnabled: true
                 bottomAnchorEnabled: true
@@ -261,7 +221,15 @@ Prototypes:
                 verticalValue: 125.000000
             StyleSheet:
                 styles: "~res:/UI/Screens3/NetEase.style.yaml"
+        bindings:
+        - ["Anchor.bottomAnchor", "when (screenHeight > 640 and screenHeight < 1023) -> 16.000000, screenHeight * 0.060000"]
         children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "SelfRegulatoryConvention"
             input: false
@@ -397,8 +365,6 @@ Prototypes:
                     styles: "~res:/UI/Screens3/Font.style.yaml"
     -   prototype: "IconButton/IconButton"
         name: "AgeRatingIconButton"
-        size: [0.000000, 0.000000]
-        visible: false
         components:
             Anchor:
                 bottomAnchorEnabled: true

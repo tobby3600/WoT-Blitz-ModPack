@@ -48,7 +48,7 @@
 #endif
 
 #if SOFT_SKINNING
-	__forceinline float3 softSkinnedPosition(float3 position, float4 indices, float4 weights)
+	__forceinline float4 softSkinnedPosition(float3 position, float4 indices, float4 weights)
 	{
 		float4 skinnedPosition = const0List4;
 
@@ -67,7 +67,7 @@
 			weights = weights.yzwx;
 		}
 
-		return skinnedPosition.xyz / skinnedPosition.w;
+		return float4(skinnedPosition.xyz / skinnedPosition.w, 1.0);
 	}
 
 	__forceinline float3 softSkinnedNormal(float3 n, float4 indices, float4 weights)
@@ -114,7 +114,7 @@
 		return float3x3(normalize(finalT), normalize(finalB), normalize(finalN));
 	}
 #elif HARD_SKINNING
-	__forceinline float3 hardSkinnedPosition(float3 position, float index)
+	__forceinline float4 hardSkinnedPosition(float3 position, float index)
 	{
 		int jIndex = int(index);
 
@@ -122,7 +122,7 @@
 		float4 jQ = jointQuaternions[jIndex];
 		float3 tmp = cross(jQ.xyz, position) * 2.0;
 
-		return (tmp * jQ.w + (position + cross(jQ.xyz, tmp))) * jP.w + jP.xyz;
+		return float4((tmp * jQ.w + (position + cross(jQ.xyz, tmp))) * jP.w + jP.xyz, 1.0);
 	}
 
 	__forceinline float3 hardSkinnedNormal(float3 n, float index)
@@ -145,12 +145,12 @@
 #endif
 
 #if WAVE_ANIMATION
-	inline float3 wave(float3 pos, float2 uv, float time)
+	inline float4 wave(float3 pos, float2 uv, float time)
 	{
 		float offset = dot(pos, const1List3);
 		float2 phase = float2(uv.x * 0.5, -uv.x * uv.y);
 		float3 cosOff = cos(float3(time * 4.35 + offset, time * 9.36 + offset, time * 6.6 + offset));
 
-		return float3(cosOff.x * phase.x + pos.x, cosOff.y * phase.x + (phase.y * 0.9 + pos.y), cosOff.z * phase.x + pos.z);
+		return float1(cosOff.x * phase.x + pos.x, cosOff.y * phase.x + (phase.y * 0.9 + pos.y), cosOff.z * phase.x + pos.z, 1.0);
 	}
 #endif

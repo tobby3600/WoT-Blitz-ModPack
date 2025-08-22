@@ -3,16 +3,17 @@ Header:
 ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Common/Button.yaml"
 - "~res:/UI/Screens3/Lobby/Profile/Common/PlayerInfo/PlayerInfo.yaml"
-- "~res:/UI/Screens3/Lobby/Profile/Common/PlayerInfo/PlayerInfoButton.yaml"
 - "~res:/UI/Screens3/Lobby/Profile/Common/StatCell.yaml"
-- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
 - "~res:/UI/Screens3/Lobby/Profile/Common/MaxDamage.yaml"
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "BriefTab"
     size: [1093.000000, 1100.000000]
     input: false
     components:
+        UIPostProcessSourceComponent0: {}
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
             verticalPolicy: "PercentOfParent"
@@ -21,6 +22,7 @@ Prototypes:
             - ["bool", "isWgc", "false", "false"]
             - ["AccountDataModel", "account", "null", "{ }"]
             - ["ProfileViewModel", "profile", "null", "{ }"]
+            - ["string", "maskProfile", "\"\"", "\"\""]
             events:
             - "CHANGE_AVATAR"
             - "CHANGE_NAME"
@@ -51,6 +53,8 @@ Prototypes:
             - ["bool", "isInClan", "when isNull(profile.clanInfo.clan) -> false, true"]
             - ["eClanApiError", "lastClanApiError", "profile.clanInfo.lastClanApiError"]
             - ["bool", "showClanError", "lastClanApiError == eClanApiError.InternalServerError or lastClanApiError == eClanApiError.ServerOnMaintenance"]
+    bindings:
+    - ["UIPostProcessSourceComponent0.id", "maskProfile"]
     children:
     -   class: "UIScrollView"
         name: "UIScrollView"
@@ -102,164 +106,124 @@ Prototypes:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfChildrenSum"
                     children:
-                    -   prototype: "PlayerInfo/PlayerInfo"
-                        name: "PlayerInfo"
-                        components:
-                            Background:
-                                usePostProcessedSprite: true
-                            UIPostProcessTextureComponent0:
-                                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                                needClearAlphaAfterRender: true
-                                scale: 0.500000
-                                useVirtualCoordinateSystem: true
-                                minFilter: "Linear"
-                                magFilter: "Linear"
-                            UIPostProcessTextureComponent1:
-                                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                                scale: 0.500000
-                                useVirtualCoordinateSystem: true
-                                minFilter: "Linear"
-                                magFilter: "Linear"
-                            UIPostProcessTextureComponent2:
-                                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                                scale: 0.500000
-                                useVirtualCoordinateSystem: true
-                                minFilter: "Linear"
-                                magFilter: "Linear"
-                            UIRoundedCornersComponent:
-                                radius: "8"
-                            SizePolicy:
-                                horizontalPolicy: "PercentOfParent"
-                                verticalPolicy: "PercentOfMaxChild"
-                            UIDataParamsComponent:
-                                args:
-                                    "tutorialData": "account.tutorialData"
-                                    "avatar": "profile.playerAvatar"
-                                    "clanName": "clanName"
-                                    "clanTag": "when isNull(profile.clanInfo.clan) -> \"\", profile.clanInfo.clan.tag"
-                                    "isPremium": "profile.stats.isPremiumAccount"
-                                    "newAvatarsCount": "profile.newAvatarsCount"
-                                    "playerName": "profile.playerNameData.name"
-                                    "playerProfileType": "profile.profileType"
-                                    "rating": "profile.rating"
-                                    "ratingSeasonInfo": "profile.ratingSeasonInfo"
-                    -   prototype: "PlayerInfoButton/PlayerInfo"
-                        name: "PlayerInfo"
-                        components:
-                            SizePolicy:
-                                horizontalPolicy: "PercentOfParent"
-                            UIDataParamsComponent:
-                                args:
-                                    "showChangeAvatarButton": "isSelfProfile"
-                                    "showChangeNameButton": "isSelfProfile and not isWgc"
-                                    "showSendMessageButton": "not isSelfProfile and not profile.isChatBlocked"
-                                    "showAddFriendButton": "profile.profileType == ePlayerProfileType.NON_FRIEND or profile.profileType == ePlayerProfileType.FRIENDSHIP_INCOMING"
-                                    "showRemoveFriendButton": "profile.profileType == ePlayerProfileType.FRIEND or profile.profileType == ePlayerProfileType.FRIENDSHIP_OUTCOMING"
-                                    "showShowProfileButton": "false"
-                                    "showReportPlayerButton": "not isSelfProfile and profile.isShowReportPlayerButton"
-                                eventActions:
-                                - ["CHANGE_AVATAR", "CHANGE_AVATAR", "_event"]
-                                - ["CHANGE_NAME", "CHANGE_NAME", "_event"]
-                                - ["SEND_MESSAGE", "SEND_MESSAGE", "_event"]
-                                - ["ADD_FRIEND", "ADD_FRIEND", "_event"]
-                                - ["REMOVE_FRIEND", "REMOVE_FRIEND", "_event"]
-                                - ["SHOW_RATING", "SHOW_RATING", "_event"]
-                                - ["SHOW_AVATAR_INFO", "SHOW_AVATAR_INFO", "_event"]
-                        children:
-                        -   path: "PlayerInfo/ActionButtons/ChangeName"
-                            components:
-                                UIAttachLayoutMasterComponent:
-                                    attachId: "CHANGE_PROFILE_NAME_BUTTON"
-                            children: []
-                        -   path: "PlayerInfo/ActionButtons/ReportPlayer"
-                            components:
-                                UIDataParamsComponent:
-                                    args:
-                                        "enabled": "showReportPlayerButton"
-                                        "caption": "strReportPlayer"
-                                        "locked": "false"
-                                        "size": "eButtonSize.NORMAL"
-                                        "sound": "eButtonSound.OPEN"
-                                        "type": "eButtonType.OPTIONAL_LIGHT"
-                            bindings:
-                            - ["visible", "enabled"]
-                            children: []
                     -   class: "UIControl"
-                        name: "CreationTime"
-                        position: [400.000000, 0.000000]
-                        input: false
-                        visible: true
-                        classes: "t-caption regular color=white-wild-sand-text"
+                        name: "TopContent"
                         components:
-                            Background:
-                                usePostProcessedSprite: true
-                            UIPostProcessTextureComponent0:
-                                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                                needClearAlphaAfterRender: true
-                                scale: 0.500000
-                                useVirtualCoordinateSystem: true
-                                minFilter: "Linear"
-                                magFilter: "Linear"
-                            UIPostProcessTextureComponent1:
-                                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                                scale: 0.500000
-                                useVirtualCoordinateSystem: true
-                                minFilter: "Linear"
-                                magFilter: "Linear"
-                            UIPostProcessTextureComponent2:
-                                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                                scale: 0.500000
-                                useVirtualCoordinateSystem: true
-                                minFilter: "Linear"
-                                magFilter: "Linear"
-                            UIRoundedCornersComponent:
-                                radius: "4"
-                            UITextComponent:
-                                colorInheritType: "COLOR_IGNORE_PARENT"
-                                align: ["HCENTER", "VCENTER"]
-                            Anchor:
-                                hCenterAnchorEnabled: true
-                            SizePolicy:
-                                horizontalPolicy: "PercentOfContent"
-                                verticalPolicy: "PercentOfContent"
-                            StyleSheet:
-                                styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
-                        bindings:
-                        - ["UITextComponent.text", "localize(\"Profile/AccountCreationDate\", { \"date\" = date(profile.dossier.creationTime); })"]
-                    -   class: "UIControl"
-                        name: "Stats"
-                        position: [0.000000, 188.000000]
-                        input: false
-                        components:
-                            Background:
-                                usePostProcessedSprite: true
-                            UIPostProcessTextureComponent0:
-                                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                                needClearAlphaAfterRender: true
-                                scale: 0.500000
-                                useVirtualCoordinateSystem: true
-                                minFilter: "Linear"
-                                magFilter: "Linear"
-                            UIPostProcessTextureComponent1:
-                                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                                scale: 0.500000
-                                useVirtualCoordinateSystem: true
-                                minFilter: "Linear"
-                                magFilter: "Linear"
-                            UIPostProcessTextureComponent2:
-                                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                                scale: 0.500000
-                                useVirtualCoordinateSystem: true
-                                minFilter: "Linear"
-                                magFilter: "Linear"
-                            UIRoundedCornersComponent:
-                                radius: "8"
                             LinearLayout:
                                 orientation: "TopDown"
                             SizePolicy:
                                 horizontalPolicy: "PercentOfParent"
                                 verticalPolicy: "PercentOfChildrenSum"
                         children:
+                        -   prototype: "BlurModified/BlurModified"
+                            name: "Blur"
+                            components:
+                                UIDataParamsComponent:
+                                    args:
+                                        "isBlur": "false"
+                                        "bgStyle": "\"white-wild-sand-15-bg\""
+                                        "roundCorner": "\"8\""
+                        -   class: "UIControl"
+                            name: "Spacer"
+                            input: false
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 16.000000
+                        -   prototype: "PlayerInfo/PlayerInfo"
+                            name: "PlayerInfo"
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                UIDataParamsComponent:
+                                    args:
+                                        "tutorialData": "account.tutorialData"
+                                        "avatar": "profile.playerAvatar"
+                                        "clanName": "clanName"
+                                        "clanTag": "when isNull(profile.clanInfo.clan) -> \"\", profile.clanInfo.clan.tag"
+                                        "isPremium": "profile.stats.isPremiumAccount"
+                                        "newAvatarsCount": "profile.newAvatarsCount"
+                                        "playerName": "profile.playerNameData.name"
+                                        "playerProfileType": "profile.profileType"
+                                        "rating": "profile.rating"
+                                        "ratingSeasonInfo": "profile.ratingSeasonInfo"
+                                        "showAddFriendButton": "profile.profileType == ePlayerProfileType.NON_FRIEND or profile.profileType == ePlayerProfileType.FRIENDSHIP_INCOMING"
+                                        "showChangeAvatarButton": "isSelfProfile"
+                                        "showChangeNameButton": "isSelfProfile and not isWgc"
+                                        "showRemoveFriendButton": "profile.profileType == ePlayerProfileType.FRIEND or profile.profileType == ePlayerProfileType.FRIENDSHIP_OUTCOMING"
+                                        "showSendMessageButton": "not isSelfProfile and not profile.isChatBlocked"
+                                        "showShowProfileButton": "false"
+                                        "showReportPlayerButton": "not isSelfProfile and profile.isShowReportPlayerButton"
+                                    eventActions:
+                                    - ["CHANGE_AVATAR", "CHANGE_AVATAR", "_event"]
+                                    - ["CHANGE_NAME", "CHANGE_NAME", "_event"]
+                                    - ["SEND_MESSAGE", "SEND_MESSAGE", "_event"]
+                                    - ["ADD_FRIEND", "ADD_FRIEND", "_event"]
+                                    - ["REMOVE_FRIEND", "REMOVE_FRIEND", "_event"]
+                                    - ["SHOW_RATING", "SHOW_RATING", "_event"]
+                                    - ["SHOW_AVATAR_INFO", "SHOW_AVATAR_INFO", "_event"]
+                            children:
+                            -   path: "PlayerInfo/ActionButtons/ChangeName"
+                                components:
+                                    UIAttachLayoutMasterComponent:
+                                        attachId: "CHANGE_PROFILE_NAME_BUTTON"
+                                children: []
+                            -   path: "PlayerInfo/ActionButtons/ReportPlayer"
+                                children: []
+                        -   class: "UIControl"
+                            name: "Spacer"
+                            input: false
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 24.000000
+                        -   class: "UIControl"
+                            name: "CreationTime"
+                            input: false
+                            classes: "t-caption regular color=white-wild-sand-text"
+                            components:
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                    vCenterAnchorEnabled: true
+                                UITextComponent:
+                                    colorInheritType: "COLOR_IGNORE_PARENT"
+                                    align: ["HCENTER", "TOP"]
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                            bindings:
+                            - ["UITextComponent.text", "localize(\"Profile/AccountCreationDate\", { \"date\" = date(profile.dossier.creationTime); })"]
+                        -   class: "UIControl"
+                            name: "Spacer"
+                            input: false
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 16.000000
+                    -   class: "UIControl"
+                        name: "Stats"
+                        position: [0.000000, 188.000000]
+                        input: false
+                        components:
+                            LinearLayout:
+                                orientation: "TopDown"
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        children:
+                        -   prototype: "BlurModified/BlurModified"
+                            name: "Blur"
+                            components:
+                                UIDataParamsComponent:
+                                    args:
+                                        "isBlur": "false"
+                                        "bgStyle": "\"white-wild-sand-15-bg\""
+                                        "roundCorner": "\"8\""
                         -   class: "UIControl"
                             name: "DividerHolder"
                             input: false
@@ -458,6 +422,15 @@ Prototypes:
                                                 styles: "~res:/UI/Screens3/Font.style.yaml"
                                         bindings:
                                         - ["UITextComponent.text", "str(profile.dossier.vehicleDossiersCut.Size())"]
+                        -   class: "UIControl"
+                            name: "Spacer_2"
+                            size: [32.000000, 32.000000]
+                            input: false
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 56.000000
                     -   class: "UIControl"
                         name: "Achievements"
                         input: false
@@ -467,30 +440,15 @@ Prototypes:
                             SizePolicy:
                                 horizontalPolicy: "PercentOfParent"
                                 verticalPolicy: "PercentOfChildrenSum"
-                            Background:
-                                usePostProcessedSprite: true
-                            UIPostProcessTextureComponent0:
-                                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                                needClearAlphaAfterRender: true
-                                scale: 0.500000
-                                useVirtualCoordinateSystem: true
-                                minFilter: "Linear"
-                                magFilter: "Linear"
-                            UIPostProcessTextureComponent1:
-                                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                                scale: 0.500000
-                                useVirtualCoordinateSystem: true
-                                minFilter: "Linear"
-                                magFilter: "Linear"
-                            UIPostProcessTextureComponent2:
-                                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                                scale: 0.500000
-                                useVirtualCoordinateSystem: true
-                                minFilter: "Linear"
-                                magFilter: "Linear"
-                            UIRoundedCornersComponent:
-                                radius: "8"
                         children:
+                        -   prototype: "BlurModified/BlurModified"
+                            name: "Blur"
+                            components:
+                                UIDataParamsComponent:
+                                    args:
+                                        "isBlur": "false"
+                                        "bgStyle": "\"white-wild-sand-15-bg\""
+                                        "roundCorner": "\"8\""
                         -   class: "UIControl"
                             name: "DividerHolder"
                             input: false
@@ -566,27 +524,37 @@ Prototypes:
                                     verticalPolicy: "FixedSize"
                             bindings:
                             - ["SizePolicy.verticalValue", "when achievementsSize > 0 -> 16, 32"]
-                    -   prototype: "Button/Button"
-                        name: "MoreButton"
-                        components:
-                            Anchor:
-                                hCenterAnchorEnabled: true
-                            SizePolicy:
-                                horizontalPolicy: "FixedSize"
-                                horizontalValue: 176.000000
-                            UIDataParamsComponent:
-                                args:
-                                    "locked": "false"
-                                    "caption": "localize(\"profile/Achievements/Button\")"
-                                    "type": "eButtonType.OPTIONAL_LIGHT"
-                                    "size": "eButtonSize.NORMAL"
-                                    "sound": "eButtonSound.OPEN"
-                                    "enabled": "true"
-                                    "multiline": "false"
-                                eventActions:
-                                - ["ON_CLICK_BUTTON", "SHOW_ACHIEVEMENTS", ""]
-                        bindings:
-                        - ["visible", "enabled"]
+                        -   prototype: "Button/Button"
+                            name: "MoreButton"
+                            components:
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 196.000000
+                                UIDataParamsComponent:
+                                    args:
+                                        "locked": "false"
+                                        "caption": "localize(\"profile/Achievements/Button\")"
+                                        "type": "eButtonType.OPTIONAL_LIGHT"
+                                        "size": "eButtonSize.NORMAL"
+                                        "sound": "eButtonSound.OPEN"
+                                        "enabled": "true"
+                                        "multiline": "false"
+                                        "isBlur": "false"
+                                    eventActions:
+                                    - ["ON_CLICK_BUTTON", "SHOW_ACHIEVEMENTS", ""]
+                            bindings:
+                            - ["visible", "enabled"]
+                        -   class: "UIControl"
+                            name: "Spacer_2"
+                            input: false
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "FixedSize"
+                            bindings:
+                            - ["SizePolicy.verticalValue", "when achievementsSize > 0 -> 16, 24"]
                     -   class: "UIControl"
                         name: "ClanInfo"
                         input: false
@@ -597,32 +565,17 @@ Prototypes:
                             SizePolicy:
                                 horizontalPolicy: "PercentOfParent"
                                 verticalPolicy: "PercentOfChildrenSum"
-                            Background:
-                                usePostProcessedSprite: true
-                            UIPostProcessTextureComponent0:
-                                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                                needClearAlphaAfterRender: true
-                                scale: 0.500000
-                                useVirtualCoordinateSystem: true
-                                minFilter: "Linear"
-                                magFilter: "Linear"
-                            UIPostProcessTextureComponent1:
-                                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                                scale: 0.500000
-                                useVirtualCoordinateSystem: true
-                                minFilter: "Linear"
-                                magFilter: "Linear"
-                            UIPostProcessTextureComponent2:
-                                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                                scale: 0.500000
-                                useVirtualCoordinateSystem: true
-                                minFilter: "Linear"
-                                magFilter: "Linear"
-                            UIRoundedCornersComponent:
-                                radius: "8"
                         bindings:
                         - ["visible", "isClanSectionVisible"]
                         children:
+                        -   prototype: "BlurModified/BlurModified"
+                            name: "Blur"
+                            components:
+                                UIDataParamsComponent:
+                                    args:
+                                        "isBlur": "false"
+                                        "bgStyle": "\"white-wild-sand-15-bg\""
+                                        "roundCorner": "\"8\""
                         -   class: "UIControl"
                             name: "DividerHolder"
                             input: false
@@ -932,7 +885,7 @@ Prototypes:
                                         vCenterAnchorEnabled: true
                                     SizePolicy:
                                         horizontalPolicy: "FixedSize"
-                                        horizontalValue: 176.000000
+                                        horizontalValue: 196.000000
                                     UIDataParamsComponent:
                                         args:
                                             "locked": "false"
@@ -952,7 +905,7 @@ Prototypes:
                                         vCenterAnchorEnabled: true
                                     SizePolicy:
                                         horizontalPolicy: "FixedSize"
-                                        horizontalValue: 176.000000
+                                        horizontalValue: 196.000000
                                     UIDataParamsComponent:
                                         args:
                                             "locked": "false"
@@ -969,10 +922,10 @@ Prototypes:
                                 name: "InviteToClanButton"
                                 components:
                                     Anchor:
-                                        hCenterAnchorEnabled: true
+                                        vCenterAnchorEnabled: true
                                     SizePolicy:
                                         horizontalPolicy: "FixedSize"
-                                        horizontalValue: 176.000000
+                                        horizontalValue: 196.000000
                                     UIDataParamsComponent:
                                         args:
                                             "caption": "localize(\"profile/Clan/Button/InvetiToClan\")"
@@ -984,6 +937,24 @@ Prototypes:
                                         - ["ON_CLICK_BUTTON", "INVITE_TO_CLAN", ""]
                                 bindings:
                                 - ["visible", "enabled"]
+                            -   class: "UIControl"
+                                name: "Spacer"
+                                size: [32.000000, 32.000000]
+                                input: false
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 2.000000
+                                        verticalPolicy: "PercentOfParent"
+                        -   class: "UIControl"
+                            name: "Spacer"
+                            size: [32.000000, 32.000000]
+                            input: false
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 16.000000
                     -   class: "UIControl"
                         name: "Tournaments"
                         position: [0.000000, 804.000000]
@@ -1011,6 +982,9 @@ Prototypes:
                                         "size": "eButtonSize.NORMAL"
                                         "sound": "eButtonSound.OPEN"
                                         "enabled": "true"
+                                        "isBlur": "false"
+                                        "isCustBg": "true"
+                                        "maskStyle": "\"white-wild-sand-15-bg\""
                                     eventActions:
                                     - ["ON_CLICK_BUTTON", "SHOW_PLAYER_TEAMS", ""]
                             bindings:

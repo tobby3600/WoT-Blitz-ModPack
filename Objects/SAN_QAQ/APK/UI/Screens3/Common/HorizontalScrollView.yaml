@@ -1,0 +1,61 @@
+Header:
+    version: 138
+ImportedPackages:
+- "~res:/UI/Screens3/Common/HorizontalScrollBar.yaml"
+Prototypes:
+-   class: "UIScrollView"
+    name: "ScrollView"
+    size: [200.000000, 200.000000]
+    autoUpdate: true
+    components:
+        ClipContent: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["control", "content", "null", "null"]
+            - ["bool", "disableInput", "false", "false"]
+            - ["bool", "isClipEnabled", "true", "true"]
+            - ["int", "bottomDistance", "2", "2"]
+            - ["eSizePolicy", "verticalPolicy", "eSizePolicy.PercentOfParent", "eSizePolicy.PercentOfParent"]
+            - ["bool", "centerContent", "false", "false"]
+            events:
+            - "SCROLL_POSITION_CHANGED(vector2 position)"
+            - "ON_SCROLL_VIEW_TOUCH"
+    bindings:
+    - ["centerContent", "centerContent"]
+    - ["ClipContent.enabled", "isClipEnabled"]
+    - ["SizePolicy.verticalPolicy", "verticalPolicy"]
+    children:
+    -   class: "UIScrollViewContainer"
+        name: "scrollContainerControl"
+        refreshStylesOnInteract: false
+        scrollDirection: "kHorizontal"
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+            UILayoutEventComponent:
+                positionChangedEvent: "SCROLL_POSITION_CHANGED"
+                positionChangedEventData: "_position"
+            UIInputEventComponent:
+                onTouchUpInside: "ON_SCROLL_VIEW_TOUCH"
+            UIChildComponent0:
+                childType: "kControl"
+                condition: "not isNull(content)"
+                control: "content"
+        bindings:
+        - ["input", "not disableInput"]
+        - ["SizePolicy.verticalPolicy", "verticalPolicy"]
+    -   prototype: "HorizontalScrollBar/HorizontalScrollBar"
+        name: "HorizontalScrollBar"
+        components:
+            Anchor: {}
+            UIScrollBarComponent:
+                delegate: ".."
+        bindings:
+        - ["Anchor.bottomAnchor", "bottomDistance"]
+        children:
+        -   path: "slider"
+            bindings:
+            - ["input", "not disableInput"]
+            children: []

@@ -60,7 +60,7 @@ Prototypes:
             - ["bool", "playerReadyForPrebattle", "playerInPrebattle and prebattle.accountInfo.isReady and not isNull(prebattle.accountInfo.tank)"]
             - ["bool", "thisTankSelectedForPrebattle", "playerReadyForPrebattle and prebattle.accountInfo.tank.tankDescriptor.rawDescr == tank.info.tankDescriptor.rawDescr"]
             - ["string", "blockHint", "when tank.lockReason == LOCK_REASON.ON_ARENA -> localize(\"hangar/Footer/TankCell/InBattle\"), tank.lockReason == LOCK_REASON.IN_QUEUE -> localize(\"hangar/Footer/TankCell/InQueue\"), broken -> localize(\"hangar/Footer/TankCell/RepairRequired\"), not tank.allowedForGameMode -> localize(\"hangar/Footer/TankCell/Mismatch\"), tank.needsTopMastery -> localize(\"hangar/Footer/TankCell/CrewTrainingRequired\"), tank.needsTopModules -> localize(\"hangar/Footer/TankCell/TopModulesRequired\"), \"\""]
-            - ["string", "materialParams", "when blocked -> \"saturation,0\", \"saturation,1\""]
+            - ["string", "materialParams", "when blocked -> \"saturation,-100\", \"saturation,0\""]
             - ["bool", "firstTeammateSelectedTank", "playerInPrebattle and prebattle.settings.prebattleType == PrebattleType.SQUAD and prebattle.squadTeamMateInfos.Size() > 0 and prebattle.squadTeamMateInfos[0].isReady and not isNull(prebattle.squadTeamMateInfos[0].tank)"]
             - ["bool", "secondTeammateSelectedTank", "playerInPrebattle and prebattle.settings.prebattleType == PrebattleType.SQUAD and prebattle.squadTeamMateInfos.Size() > 1 and prebattle.squadTeamMateInfos[1].isReady and not isNull(prebattle.squadTeamMateInfos[1].tank)"]
             - ["bool", "showSquadMatchHint", "showStatus and (firstTeammateSelectedTank or secondTeammateSelectedTank) and not playerReadyForPrebattle"]
@@ -144,7 +144,7 @@ Prototypes:
             bindings:
             - ["visible", "empty(tank.iconBackground)"]
             - ["UITextureComponent.spritePath", "nationFlagIcon"]
-            - ["UITextureComponent.materialParams", "materialParams"]
+            - ["UITextureComponent.materialParams", "when blocked -> \"saturation,-100\", \"saturation,25\""]
         -   class: "UIControl"
             name: "TankBackground"
             input: false

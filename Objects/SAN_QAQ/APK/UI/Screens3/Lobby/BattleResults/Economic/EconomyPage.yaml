@@ -2,6 +2,7 @@ Header:
     version: 161
 ImportedPackages:
 - "~res:/UI/Screens3/Common/HorizontalScrollBar.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "EconomyPage"
@@ -125,36 +126,20 @@ Prototypes:
                     name: "TankInfoContent"
                     input: false
                     components:
-                        Background:
-                            usePostProcessedSprite: true
-                        UIPostProcessTextureComponent0:
-                            materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                            needClearAlphaAfterRender: true
-                            scale: 0.500000
-                            useVirtualCoordinateSystem: true
-                            minFilter: "Linear"
-                            magFilter: "Linear"
-                        UIPostProcessTextureComponent1:
-                            materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                            scale: 0.500000
-                            useVirtualCoordinateSystem: true
-                            minFilter: "Linear"
-                            magFilter: "Linear"
-                        UIPostProcessTextureComponent2:
-                            materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                            scale: 0.500000
-                            useVirtualCoordinateSystem: true
-                            minFilter: "Linear"
-                            magFilter: "Linear"
-                        UIRoundedCornersComponent:
-                            radius: "8"
                         LinearLayout:
                             spacing: 8.000000
                         SizePolicy:
-                            horizontalPolicy: "Formula"
-                            horizontalFormula: "max(parent-32, 448)"
+                            horizontalPolicy: "PercentOfChildrenSum"
                             verticalPolicy: "PercentOfMaxChild"
+                    bindings:
+                    - ["SizePolicy.horizontalMax", "max(parent - 32, 448)"]
                     children:
+                    -   prototype: "BlurModified/BlurModified"
+                        name: "Blur"
+                        components:
+                            UIDataParamsComponent:
+                                args:
+                                    "roundCorner": "\"8\""
                     -   class: "UIControl"
                         name: "TankRankWrapper"
                         input: false
@@ -196,7 +181,7 @@ Prototypes:
                                 spacing: 8.000000
                                 skipInvisible: false
                             SizePolicy:
-                                horizontalPolicy: "PercentOfParent"
+                                horizontalPolicy: "PercentOfMaxChild"
                                 verticalPolicy: "PercentOfChildrenSum"
                         children:
                         -   class: "UIControl"
@@ -224,7 +209,8 @@ Prototypes:
                                 UITextComponent:
                                     multiline: "MULTILINE_ENABLED"
                                 SizePolicy:
-                                    horizontalPolicy: "PercentOfParent"
+                                    horizontalPolicy: "PercentOfContent"
+                                    horizontalMax: 896.000000
                                     verticalPolicy: "PercentOfContent"
                                 StyleSheet:
                                     styles: "~res:/UI/Screens3/Font.style.yaml"
@@ -237,29 +223,6 @@ Prototypes:
                 size: [200.000000, 128.000000]
                 input: false
                 components:
-                    Background:
-                        usePostProcessedSprite: true
-                    UIPostProcessTextureComponent0:
-                        materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                        needClearAlphaAfterRender: true
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent1:
-                        materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent2:
-                        materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIRoundedCornersComponent:
-                        radius: "8"
                     Anchor:
                         leftAnchorEnabled: true
                         bottomAnchorEnabled: true
@@ -386,29 +349,6 @@ Prototypes:
             size: [432.000000, 380.000000]
             input: false
             components:
-                Background:
-                    usePostProcessedSprite: true
-                UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                    needClearAlphaAfterRender: true
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent1:
-                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent2:
-                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIRoundedCornersComponent:
-                    radius: "8"
                 Anchor:
                     hCenterAnchorEnabled: true
                     topAnchorEnabled: true
@@ -423,6 +363,12 @@ Prototypes:
             - ["Anchor.hCenterAnchor", "when contentSizeY > 880 -> -64, 0"]
             - ["LinearLayout.spacing", "when contentSizeY > 880 -> 64, 32"]
             children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "XpBlock"
                 size: [32.000000, 32.000000]
@@ -506,8 +452,12 @@ Prototypes:
                                 - ["visible", "int(results.economics.xpFactor) > 1 and results.economics.totalXp.base > 0"]
                     -   class: "UIControl"
                         name: "XpCurrencyWrapper"
-                        size: [32.000000, 56.000000]
                         input: false
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfChildrenSum"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 56.000000
                         children:
                         -   class: "UIControl"
                             name: "XpCurrency"
@@ -826,8 +776,12 @@ Prototypes:
                                 - ["visible", "int(results.economics.creditsFactor) > 1 and results.economics.earnedCredits.base > 0"]
                     -   class: "UIControl"
                         name: "CreditsCurrencyWrapper"
-                        size: [32.000000, 56.000000]
                         input: false
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfChildrenSum"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 56.000000
                         children:
                         -   class: "UIControl"
                             name: "CreditsCurrency"

@@ -2,6 +2,7 @@ Header:
     version: 151
 ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Common/ProgressBar.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "BattlePassTask"
@@ -11,7 +12,6 @@ Prototypes:
             animations: "_INIT,~res:/UI/Screens3/Lobby/TaskJournal/Animations/BattlePassTaskInit.animation"
         SizePolicy:
             horizontalPolicy: "Formula"
-            horizontalValue: 528.000000
             horizontalFormula: "min(max(parent / 2 - 8, 396), 528)"
             verticalPolicy: "FixedSize"
             verticalValue: 124.000000
@@ -27,6 +27,7 @@ Prototypes:
             - ["bool", "showPremiumQuestUnlock", "false", "true"]
             - ["bool", "refreshMode", "false", "false"]
             - ["bool", "isActive", "true", "true"]
+            - ["bool", "isBlur", "true", "true"]
             - ["int", "index", "0", "0"]
             - ["TaskJournalTaskView", "task", "null", "{ \"title\" = localize(\"missionJournal/battlePass/topDamage_end_1\"); \"isQuestLocked\" = false; \"totalProgress\" = 6; \"oldProgress\" = 6; \"currentProgress\" = 5; \"stageTaken\" = 0; \"filter\" = { \"vehicleNations\" = [ eNation.USSR; ]; \"vehicleTypes\" = [ eTankClass.TANK_CLASS_MEDIUM; ]; }; }"]
             events:
@@ -48,9 +49,9 @@ Prototypes:
             - ["int", "animationStageTaken", "task.stageTaken"]
             - ["int", "animationIterator", "0"]
             - ["float", "opacityActive", "1.000000"]
-            - ["float", "opacityTaken", "0.7500000"]
+            - ["float", "opacityTaken", "0.500000"]
             - ["float", "opacityInactiveStage", "0.500000"]
-            - ["float", "opacityInactive", "0.500000"]
+            - ["float", "opacityInactive", "0.250000"]
             - ["bool", "isTaken", "animationStageTaken == task.stageNeededProgress.Size()"]
             - ["float", "displayingProgress", "when isTaken -> float(task.currentProgress), float(task.oldProgress)"]
             - ["float", "opacity", "when not isActive -> opacityInactive, isTaken -> opacityTaken, opacityActive"]
@@ -85,40 +86,27 @@ Prototypes:
     - ["input", "isActive and not isReplaceAnimation"]
     - ["UIAttachLayoutMasterComponent.attachId", "when task.isPremiumQuest -> \"BPWP_PREMIUM_TASK\", \"\""]
     children:
+    -   prototype: "BlurModified/BlurModified"
+        name: "Blur"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "isBlur": "isBlur"
+                    "bgStyle": "when not isActive -> \"black-50-bg\", isTaken -> \"black-25-bg\", \"white-wild-sand-15-bg\""
+                    "blurScale": "when not isActive -> 0.750000, isTaken -> 0.500000, 0.250000"
     -   class: "UIControl"
         name: "Bg"
         size: [32.000000, 32.000000]
         input: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
+            UIOpacityComponent: {}
             ClipContent: {}
             Anchor: {}
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
-                horizontalValue: 100.000000
                 verticalPolicy: "PercentOfParent"
-            StyleSheet:
-                styles: "~res:/UI/Screens3/Color.style.yaml"
+        bindings:
+        - ["UIOpacityComponent.opacity", "when isReplaceAnimation -> 1.000000, opacity"]
         children:
         -   class: "UIControl"
             name: "LeftGradient"
@@ -329,6 +317,7 @@ Prototypes:
                                 "progressColor": "when task.isPremiumQuest -> \"orange-orange-peel-bg\", \"blue-curious-blue-bg\""
                                 "value": "int(displayingProgress * 100)"
                                 "maximum": "task.stageNeededProgress[displayingStageIndex] * 100"
+                                "isBlur": "false"
                     children:
                     -   path: "Gradient"
                         classes: "white-wild-sand-25-bg"

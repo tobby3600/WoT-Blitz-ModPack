@@ -153,12 +153,10 @@ fragment_out fp_main(fragment_in input)
 
 		#if PBR_SPEEDTREE
 			float2 roughnessAO = tex2D(roughnessAOMap, texCoord).ga;
-			float3 baseNormal = unpackNormal(tex2D(baseNormalMap, texCoord).ga);
-			baseNormal.xy *= normalScale;
-
-			float3 polygonN = normalize(float3(input.tangentToWorld0.z, input.tangentToWorld1.z, input.tangentToWorld2.z));
-			float3 N = normalize(float3(dot(baseNormal, input.tangentToWorld0.xyz), dot(baseNormal, input.tangentToWorld1.xyz), dot(baseNormal, input.tangentToWorld2.xyz)));
-			float3 L = normalize(mul3Fast0(lightPosition0.xyz, invViewMatrix));
+			float3 N = unpackNormal(tex2D(baseNormalMap, texCoord).ga);
+			N.xy *= normalScale;
+			N = normalize(float3(dot(N, input.tangentToWorld0.xyz), dot(N, input.tangentToWorld1.xyz), dot(N, input.tangentToWorld2.xyz)));
+			float3 L = normalize(mul(float4(lightPosition0.xyz, 0.0), invViewMatrix).xyz);
 			float3 V = normalize(cameraPosition - float3(input.tangentToWorld0.w, input.tangentToWorld1.w, input.tangentToWorld2.w));
 			float3 H = normalize(L + V);
 
@@ -173,14 +171,10 @@ fragment_out fp_main(fragment_in input)
 			baseColor.rgb = saturate(baseColor.rgb);
 			roughnessAO.x = saturate(roughnessAO.x);
 
-			output.color.rgb = getPBR(polygonN, N, L, V, H, lightColor0 * lightIntensity0, baseColor.rgb, metallness, roughnessAO.x, occlusion, shadow, const0List3);
+			output.color.rgb = getPBR(N, L, V, H, lightColor0 * lightIntensity0, baseColor.rgb, metallness, roughnessAO.x, occlusion, shadow, const0List3);
 			output.color.rgb = toSRGB(output.color.rgb);
 		#elif RECEIVE_SHADOW
 			output.color.rgb *= lerp(shadowMapShadowColor.rgb, const1List3, shadowInf.x);
-		#endif
-
-		#if USE_VERTEX_FOG
-			output.color.rgb = lerp(output.color.rgb, input.varFog.rgb, input.varFog.a);
 		#endif
 
 		#include "color-grading.slh"

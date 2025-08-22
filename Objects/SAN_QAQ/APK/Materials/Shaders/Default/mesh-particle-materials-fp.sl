@@ -194,14 +194,12 @@ fragment_out fp_main(fragment_in input)
 		output.color.rgb *= lerp(shadowMapShadowColor.rgb, const1List3, shadowInf.x);
 	#endif
 
-	#if USE_VERTEX_FOG
-		output.color.rgb = lerp(output.color.rgb, input.varFog.rgb, input.varFog.a);
-	#endif
+	#include "color-grading.slh"
 
 	#if RETRIEVE_FRAG_DEPTH_AVAILABLE && SOFT_PARTICLES
 		#include "depth-diff.slh"
 
-		float distanceDifference = max(depthPosition.x / max(depthPosition.y, 0.0001) - depthPosition.z / max(depthPosition.w, 0.0001), 0.0);
+		float distanceDifference = max(depthPosition.x / max(depthPosition.y, 1e-4) - depthPosition.z / max(depthPosition.w, 1e-4), 0.0);
 		float scale = exp2((-distanceDifference * distanceDifference) * (depthDifferenceSlope * _LOG2_E));
 
 		#if BLENDING == BLENDING_ADDITIVE
@@ -210,8 +208,6 @@ fragment_out fp_main(fragment_in input)
 			output.color.a -= output.color.a * scale;
 		#endif
 	#endif
-
-	#include "color-grading.slh"
 
 	return output;
 }

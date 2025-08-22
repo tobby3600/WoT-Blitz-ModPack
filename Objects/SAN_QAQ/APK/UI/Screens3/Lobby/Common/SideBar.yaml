@@ -27,22 +27,12 @@ Prototypes:
             events:
             - "ON_CLICK_BACK"
     children:
-    -   class: "UIControl"
+    -   prototype: "BlurModified/BlurModified"
         name: "Background"
-        input: false
         components:
-            Background: {}
-            IgnoreLayout: {}
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfParent"
-        children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
-            components:
-                UIDataParamsComponent:
-                    args:
-                        "bgStyle": "bgStyle"
+            UIDataParamsComponent:
+                args:
+                    "bgStyle": "bgStyle"
     -   class: "UIControl"
         name: "SafeAreaInsetLeft"
         input: false

@@ -1,0 +1,114 @@
+Header:
+    version: 141
+Prototypes:
+-   class: "UIControl"
+    name: "AvatarsHeader"
+    size: [960.000000, 48.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfMaxChild"
+        UIDataParamsComponent:
+            params:
+            - ["map<string,ResourceDetailed>", "proxies", "null", "{ \"a\" = { }; \"b\" = { \"type\" = ResourceType.premium; }; \"c\" = { \"type\" = ResourceType.premium; }; }"]
+            - ["LobbyDataModel", "lobby", "null", "{ }"]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            events:
+            - "GO_TO_SHOP"
+            - "PREMIUM_INFO_EVENT"
+            - "BACK_EVENT"
+            - "SHOP_BUTTON(eRequiredResource requiredResource)"
+        UIDataLocalControlComponent0:
+            name: "content"
+            prototypePath: "~res:/UI/Screens3/Lobby/Common/Headers/HeaderContent.yaml"
+            args:
+                "leftContent": "LeftContent"
+                "rightContent": "RightContent"
+                "button": "shopButton"
+                "backButton": "backButton"
+        UIDataLocalControlComponent1:
+            name: "backButton"
+            prototypePath: "~res:/UI/Screens3/Lobby/Common/BackButton.yaml"
+            eventActions:
+            - ["ON_CLICK_BUTTON", "BACK_EVENT", ""]
+        UIDataLocalControlComponent2:
+            name: "shopButton"
+            prototypePath: "~res:/UI/Screens3/Lobby/Common/Button/ShopButton.yaml"
+            args:
+                "lobby": "lobby"
+                "session": "session"
+            eventActions:
+            - ["GO_TO_SHOP", "GO_TO_SHOP", ""]
+        UIChildComponent0:
+            prototypePath: "~res:/UI/Screens3/Lobby/Common/Headers/Header.yaml"
+            args:
+                "isFullScreen": "true"
+                "content": "content"
+                "bgStyle": "\"grey-shark-70-bg\""
+Slots:
+-   class: "UIControl"
+    name: "LeftContent"
+    size: [256.000000, 48.000000]
+    input: false
+    components:
+        LinearLayout: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "ScreenNameWrapper"
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                spacing: 4.000000
+            SizePolicy:
+                horizontalPolicy: "Formula"
+                horizontalFormula: "when parent == 0 -> childrenSum, min(childrenSum, parentRest)"
+                verticalPolicy: "PercentOfMaxChild"
+        children:
+        -   class: "UIControl"
+            name: "TItle"
+            input: false
+            classes: "t-subtitle regular white-wild-sand-text"
+            components:
+                UITextComponent:
+                    text: "avatars/Title"
+                    fitting: "FITTING_POINTS"
+                    align: ["LEFT", "VCENTER"]
+                SizePolicy:
+                    horizontalPolicy: "Formula"
+                    horizontalFormula: "when parent == 0 -> content, min(parentRest, content)"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+-   class: "UIControl"
+    name: "RightContent"
+    size: [32.000000, 48.000000]
+    input: false
+    components:
+        LinearLayout:
+            spacing: 8.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "AvatarProxy"
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfParent"
+            UIRepeatComponent:
+                control: "~res:/UI/Screens3/Lobby/Common/Resource/CurrencyAdapter.yaml"
+                dataContainer: "proxies"
+                args:
+                    "resource": "_item"

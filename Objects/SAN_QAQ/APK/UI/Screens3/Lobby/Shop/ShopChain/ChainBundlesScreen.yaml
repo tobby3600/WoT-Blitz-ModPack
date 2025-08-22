@@ -2,6 +2,7 @@ Header:
     version: 161
 ImportedPackages:
 - "~res:/UI/Screens3/Common/HorizontalScrollBar.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ChainBundlesScreen"
@@ -29,6 +30,7 @@ Prototypes:
             - ["ChainBundlesScreenData", "viewData", "null", "{ }"]
             - ["ShopChain", "chain", "null", "{ \"name\" = \"Test-Chain-title\"; \"products\" = [ { \"name\" = \"bundle-1\"; \"bonus\" = { \"amount\" = 111; }; \"chainLockerTimes\" = 0; }; { \"name\" = \"bundle-2\"; \"bonus\" = { \"amount\" = 111; }; \"chainLockerTimes\" = 0; }; { \"name\" = \"bundle-3\"; \"bonus\" = { \"amount\" = 111; }; \"chainLockerTimes\" = 1; }; ]; }"]
             - ["bool", "arabicLocalization", "false", "true"]
+            - ["bool", "showBackButton", "true", "true"]
             - ["ResourceModel", "blackTicket", "{ \"type\" = ResourceType.stuff; \"icon\" = \"~res:/Gfx/UI/StorageItemIcons/TopUp2017/black_ticket\"; }", "{ \"type\" = ResourceType.stuff; \"icon\" = \"~res:/Gfx/UI/StorageItemIcons/TopUp2017/black_ticket\"; \"quantity\" = 99999; }"]
             events:
             - "ON_PRODUCT_CLICKED(int id)"
@@ -99,7 +101,7 @@ Prototypes:
                         "bgStyle": "\"black-15-bg\""
                         "lobby": "lobby"
                         "leftContent": "ChainBundlesHeader"
-                        "showBackButton": "true"
+                        "showBackButton": "showBackButton"
                         "isFullScreen": "true"
                         "statsPanelAdditionalContent": "BlacketPanel"
                         "showPremium": "false"
@@ -175,7 +177,7 @@ Prototypes:
                             prototypePath: "~res:/UI/Screens3/Lobby/Common/Timer.yaml"
                             args:
                                 "bgVisible": "true"
-                                "bgColorStyle": "\"grey-shark-60-bg\""
+                                "bgColorStyle": "\"white-wild-sand-25-bg\""
                                 "serverTime": "session.serverTime"
                                 "time": "chain.promoExpiresAt"
                                 "alertTime": "3600L"
@@ -227,34 +229,11 @@ Prototypes:
                             autoUpdate: true
                             centerContent: true
                             components:
-                                Background:
-                                    usePostProcessedSprite: true
-                                UIPostProcessTextureComponent0:
-                                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                                    needClearAlphaAfterRender: true
-                                    scale: 0.500000
-                                    useVirtualCoordinateSystem: true
-                                    minFilter: "Linear"
-                                    magFilter: "Linear"
-                                UIPostProcessTextureComponent1:
-                                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                                    scale: 0.500000
-                                    useVirtualCoordinateSystem: true
-                                    minFilter: "Linear"
-                                    magFilter: "Linear"
-                                UIPostProcessTextureComponent2:
-                                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                                    scale: 0.500000
-                                    useVirtualCoordinateSystem: true
-                                    minFilter: "Linear"
-                                    magFilter: "Linear"
-                                UIRoundedCornersComponent:
-                                    radius: "8"
-                                ClipContent:
-                                    enabled: false
                                 Anchor:
                                     bottomAnchorEnabled: true
                                     bottomAnchor: 10.000000
+                                ClipContent:
+                                    enabled: false
                                 SizePolicy:
                                     horizontalPolicy: "PercentOfParent"
                                     verticalPolicy: "PercentOfMaxChild"
@@ -268,6 +247,12 @@ Prototypes:
                                         horizontalPolicy: "PercentOfLastChild"
                                         verticalPolicy: "PercentOfMaxChild"
                                 children:
+                                -   prototype: "BlurModified/BlurModified"
+                                    name: "Blur"
+                                    components:
+                                        UIDataParamsComponent:
+                                            args:
+                                                "roundCorner": "\"8\""
                                 -   class: "UIControl"
                                     name: "ShopChainBundle"
                                     input: false

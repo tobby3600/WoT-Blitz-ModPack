@@ -1,0 +1,195 @@
+Header:
+    version: 155
+ImportedPackages:
+- "~res:/UI/Screens/Common.yaml"
+- "~res:/UI/Screens/Lobby/LobbyCommon.yaml"
+- "~res:/UI/Screens/Common/StyledButton.yaml"
+- "~res:/UI/Screens/Common/StyledBackButton.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "SurveyDialog"
+    size: [1024.000000, 768.000000]
+    components:
+        Anchor:
+            leftAnchorEnabled: true
+            rightAnchorEnabled: true
+            topAnchorEnabled: true
+            bottomAnchorEnabled: true
+        ModalInput: {}
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Escape"
+            keyDownEvent: "CLOSE_NOTIFICATION"
+        UIShortcutEventComponent:
+            shortcuts: "CLOSE_NOTIFICATION, Back; CLOSE_NOTIFICATION, Escape"
+        UIDataParamsComponent:
+            params:
+            - ["string", "title", "\"Опрос для избранных игроков!\"", "\"Опрос для избранных игроков!\""]
+            - ["string", "description", "\"Пожалуйста, ответьте на несколько вопросов от разработчиков. Это займёт меньше минуты времени.\"", "\"Пожалуйста, ответьте на несколько вопросов от разработчиков. Это займёт меньше минуты времени.\""]
+            - ["string", "acceptText", "\"ПРОЙТИ ОПРОС\"", "\"ПРОЙТИ ОПРОС\""]
+            - ["string", "skipText", "\"Пройти опрос позже\"", "\"Пройти опрос позже\""]
+            events:
+            - "CLOSE_NOTIFICATION"
+            - "TAKE_SURVEY"
+            - "SKIP_SURVEY"
+    children:
+    -   prototype: "LobbyCommon/DialogBackground"
+        name: "DialogBackground"
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                bottomAnchorEnabled: true
+        children:
+        -   prototype: "StyledBackButton/StyledBackButton"
+            name: "backButton"
+            classes: "button button-color-gray button-close-sound"
+            components:
+                UIInputEventComponent:
+                    onTouchUpInside: "CLOSE_NOTIFICATION"
+        -   class: "UIControl"
+            name: "dialog"
+            components:
+                Background:
+                    drawType: "DRAW_STRETCH_BOTH"
+                    sprite: "~res:/Gfx/UI/CommonUIElements/PopupBackMiddle"
+                    leftRightStretchCap: 4.000000
+                    topBottomStretchCap: 4.000000
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                    vCenterAnchor: 60.000000
+                LinearLayout:
+                    orientation: "TopDown"
+                    padding: "20.000000"
+                    spacing: 20.000000
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 512.000000
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   class: "UIControl"
+                name: "logoContainer"
+                size: [380.000000, 75.000000]
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                children:
+                -   class: "UIControl"
+                    name: "logo"
+                    size: [380.000000, 75.000000]
+                    input: false
+                    components:
+                        Background:
+                            sprite: "~res:/Gfx/UI/LobbyCommon/BlitzLogo"
+                            align: ["HCENTER", "BOTTOM"]
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            topAnchorEnabled: true
+                            topAnchor: 20.000000
+            -   class: "UIControl"
+                name: "dialogHeader"
+                input: false
+                classes: "header1 text-color-white"
+                components:
+                    UITextComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens/Fonts.yaml"
+                bindings:
+                - ["UITextComponent.text", "title"]
+            -   class: "UIControl"
+                name: "dialogText"
+                input: false
+                classes: "text2 text-color-blue"
+                components:
+                    UITextComponent:
+                        multiline: "MULTILINE_ENABLED"
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 470.000000
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens/Fonts.yaml"
+                bindings:
+                - ["UITextComponent.text", "description"]
+            -   prototype: "StyledButton/StyledButton"
+                name: "acceptButton"
+                classes: "button button-color-green button-close-sound"
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        leftAnchor: 20.000000
+                        rightAnchorEnabled: true
+                        rightAnchor: 20.000000
+                    UIInputEventComponent:
+                        onTouchUpInside: "TAKE_SURVEY"
+                    StyleSheet:
+                        styles: "~res:/UI/Styles/ButtonStyle.yaml;~res:/UI/Screens/Fonts.yaml;~res:/UI/Styles/ButtonSoundStyles.yaml"
+                children:
+                -   path: "Caption"
+                    components:
+                        UITextComponent: {}
+                    bindings:
+                    - ["UITextComponent.text", "acceptText"]
+        -   class: "UIControl"
+            name: "skipSurveyButton"
+            classes: "button button-close-sound"
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                    bottomAnchor: 25.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfMaxChild"
+                UIInputEventComponent:
+                    onTouchUpInside: "SKIP_SURVEY"
+                Sound: {}
+                StyleSheet:
+                    styles: "~res:/UI/Styles/ButtonStyle.yaml;~res:/UI/Styles/ButtonSoundStyles.yaml"
+            children:
+            -   class: "UIControl"
+                name: "text"
+                input: false
+                classes: "text2 text-color-blue"
+                components:
+                    UITextComponent:
+                        colorInheritType: "COLOR_MULTIPLY_ON_PARENT"
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens/Fonts.yaml"
+                bindings:
+                - ["UITextComponent.text", "skipText"]
+                children:
+                -   class: "UIControl"
+                    name: "line"
+                    input: false
+                    classes: "color-blue"
+                    components:
+                        Background:
+                            drawType: "DRAW_FILL"
+                            colorInherit: "COLOR_MULTIPLY_ON_PARENT"
+                        Anchor:
+                            bottomAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 1.000000
+                        StyleSheet:
+                            styles: "~res:/UI/Styles/ColorStyles.yaml"

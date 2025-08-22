@@ -16,6 +16,8 @@ Prototypes:
             verticalPolicy: "PercentOfMaxChild"
         UIDataParamsComponent:
             params:
+            - ["string", "bgStyle", "\"\"", "\"\""]
+            - ["string", "roundCorner", "\"4\"", "\"4\""]
             - ["string", "nextKey", "\"#hangar:NewsPopup/Next\"", "\"#hangar:NewsPopup/Next\""]
             - ["string", "previousKey", "\"#hangar:NewsPopup/Back\"", "\"#hangar:NewsPopup/Back\""]
             - ["int", "selectedItem", "0", "0"]
@@ -47,6 +49,7 @@ Prototypes:
                     "sound": "eButtonSound.CHOOSE"
                     "enabled": "selectedItem != 0"
                     "iconFlip": "FLIP_HORIZONTAL"
+                    "maskStyle": "bgStyle"
                 eventActions:
                 - ["ON_CLICK_BUTTON", "GO_TO_BACK", ""]
         children:
@@ -58,29 +61,6 @@ Prototypes:
         components:
             Anchor:
                 vCenterAnchorEnabled: true
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIRoundedCornersComponent:
-                radius: "8"
             SizePolicy:
                 horizontalPolicy: "PercentOfMaxChild"
                 verticalPolicy: "PercentOfMaxChild"
@@ -89,6 +69,8 @@ Prototypes:
                 args:
                     "selectedItem": "selectedItem"
                     "points": "points"
+                    "bgStyle": "bgStyle"
+                    "roundCorner": "roundCorner"
                 eventActions:
                 - ["CHANGED_SELECTED_ITEM", "CHANGED_SELECTED_ITEM", "_event"]
     -   prototype: "TextIconButton/Button"
@@ -108,6 +90,7 @@ Prototypes:
                     "size": "eButtonSize.NORMAL"
                     "sound": "eButtonSound.CHOOSE"
                     "enabled": "nextKeyEnabled"
+                    "maskStyle": "bgStyle"
                 eventActions:
                 - ["ON_CLICK_BUTTON", "GO_TO_NEXT", ""]
         children:

@@ -1,5 +1,7 @@
 Header:
     version: 144
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "EfficiencyRow"
@@ -17,7 +19,6 @@ Prototypes:
             verticalPolicy: "PercentOfFirstChild"
         UIDataParamsComponent:
             params:
-            - ["bool", "isLineVisible", "true", "true"]
             - ["VehInteractionData", "vehInteractionData", "null", "{ \"damage_dealt\" = 3456; \"damage_assisted_track\" = 234; \"damage_assisted_radio\" = 45; \"hits\" = 4; \"vehicle\" = { \"tankDescriptor\" = { \"rawDescr\" = 0; }; \"technicalName\" = \"tank\"; \"name\" = \"tank1\"; \"shortName\" = \"tank2\"; \"smallIconPath\" = \"\"; \"bigIconPath\" = \"\"; \"shopIconPath\" = \"\"; \"nation\" = eNation.JAPAN; \"level\" = 1; \"tankClass\" = eTankClass.TANK_CLASS_MEDIUM; \"isCollectible\" = false; \"isPremium\" = false; \"isTestTank\" = false; \"consumableSlots\" = 0; \"provisionSlots\" = 0; \"isInShop\" = true; }; \"spotted\" = 1; \"deathReason\" = ATTACK_REASONS.FIRE; \"destroyedPartsContainer\" = { eDestroyedParts.engine_destroyed = 3; eDestroyedParts.echassis_destroyed = 3; eDestroyedParts.ammobay_crit = 3; eDestroyedParts.ammobay_destroyed = 3; eDestroyedParts.fueltank_crit = 3; eDestroyedParts.driver = 1; eDestroyedParts.gunner = 2; eDestroyedParts.loader = 2; }; }"]
     children:
     -   class: "UIControl"
@@ -33,37 +34,22 @@ Prototypes:
                 useRtl: true
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "Formula"
+                verticalFormula: "maxChild + 26"
         children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "TankAndPlayer"
             size: [32.000000, 32.000000]
             input: false
             components:
-                Background:
-                    usePostProcessedSprite: true
-                UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                    needClearAlphaAfterRender: true
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent1:
-                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent2:
-                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIRoundedCornersComponent:
-                    radius: "0;0;8;8;"
-                Anchor: {}
+                Anchor:
+                    vCenterAnchorEnabled: true
                 LinearLayout:
                     orientation: "TopDown"
                     spacing: 8.000000
@@ -76,11 +62,11 @@ Prototypes:
                 size: [32.000000, 32.000000]
                 input: false
                 components:
-                    UIOpacityComponent:
-                        opacity: 0.750000
                     Anchor:
                         leftAnchorEnabled: true
                         useRtl: true
+                    UIOpacityComponent:
+                        opacity: 0.750000
                     SizePolicy:
                         horizontalPolicy: "PercentOfFirstChild"
                         verticalPolicy: "PercentOfFirstChild"
@@ -116,32 +102,9 @@ Prototypes:
             size: [32.000000, 32.000000]
             input: false
             components:
-                Background:
-                    usePostProcessedSprite: true
-                UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                    needClearAlphaAfterRender: true
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent1:
-                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent2:
-                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIRoundedCornersComponent:
-                    radius: "8"
                 Anchor:
                     hCenterAnchorEnabled: true
-                    topAnchorEnabled: true
+                    vCenterAnchorEnabled: true
                 LinearLayout:
                     orientation: "TopDown"
                     spacing: 12.000000
@@ -555,31 +518,9 @@ Prototypes:
             size: [32.000000, 32.000000]
             input: false
             components:
-                Background:
-                    usePostProcessedSprite: true
-                UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                    needClearAlphaAfterRender: true
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent1:
-                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent2:
-                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIRoundedCornersComponent:
-                    radius: "8"
                 Anchor:
                     rightAnchorEnabled: true
+                    vCenterAnchorEnabled: true
                 LinearLayout:
                     orientation: "TopDown"
                     spacing: 16.000000
@@ -630,53 +571,3 @@ Prototypes:
                             "colorStyle": "str(_key, eDestroyedParts, \"color\")"
                             "quantity": "vehInteractionData.destroyedPartsContainer[_key]"
                             "icon": "str(_key, eDestroyedParts, \"icon\")"
-        -   class: "UIControl"
-            name: "TopBoldLine"
-            input: false
-            classes: "white-wild-sand-15-bg"
-            components:
-                Background: {}
-                Anchor:
-                    bottomAnchorEnabled: true
-                IgnoreLayout: {}
-                SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "FixedSize"
-                    verticalValue: 1.000000
-                StyleSheet:
-                    styles: "~res:/UI/Screens3/Color.style.yaml"
-            bindings:
-            - ["visible", "isLineVisible"]
-            children:
-            -   class: "UIControl"
-                name: "Blur"
-                input: false
-                components:
-                    Background:
-                        usePostProcessedSprite: true
-                    UIPostProcessTextureComponent0:
-                        materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                        needClearAlphaAfterRender: true
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent1:
-                        materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent2:
-                        materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    Anchor:
-                        bottomAnchorEnabled: true
-                    IgnoreLayout: {}
-                    SizePolicy:
-                        horizontalPolicy: "PercentOfParent"
-                        verticalPolicy: "FixedSize"
-                        verticalValue: 1.000000

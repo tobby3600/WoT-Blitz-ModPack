@@ -1,0 +1,718 @@
+Header:
+    version: 153
+ImportedPackages:
+- "~res:/UI/Screens/Common/StyledButton.yaml"
+- "~res:/UI/Screens/Common/ScrollBar.yaml"
+- "~res:/UI/Screens/Common/DebugUIOptionItem.yaml"
+- "~res:/UI/Screens/Common/DebugUIOptionsDialogSection.yaml"
+Prototypes:
+-   class: "UIControl"
+    customClass: "DraggableDialog"
+    name: "OptionsDialog"
+    size: [620.000000, 530.000000]
+    components:
+        Background:
+            drawType: "DRAW_STRETCH_BOTH"
+            sprite: "~res:/Gfx/UI/CommonUIElements/PopupBackMiddle"
+            leftRightStretchCap: 5.000000
+            topBottomStretchCap: 5.000000
+        Anchor:
+            hCenterAnchorEnabled: true
+            vCenterAnchorEnabled: true
+        LinearLayout:
+            orientation: "TopDown"
+            padding: "10.000000"
+            spacing: 20.000000
+        ModalInput: {}
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Escape"
+            keyDownEvent: "onCancel"
+        UIShortcutEventComponent:
+            shortcuts: "onCancel, Escape; onCancel, Back"
+        UIDataParamsComponent:
+            params:
+            - ["DebugUIOptions", "options", "null", "{ }"]
+        StyleSheet:
+            styles: "~res:/UI/Screens/Fonts.yaml"
+    children:
+    -   class: "UIControl"
+        name: "Header"
+        size: [620.000000, 40.000000]
+        input: false
+        classes: "header4"
+        components:
+            UITextComponent:
+                text: "Debug UI Options"
+    -   class: "UIControl"
+        name: "Content"
+        position: [0.000000, 70.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "VerticalScrollView"
+            size: [200.000000, 200.000000]
+            input: false
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    leftAnchor: 10.000000
+                    rightAnchorEnabled: true
+                    rightAnchor: 10.000000
+                    topAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                StyleSheet:
+                    inheritsStylesFromParent: true
+                    styles: "~res:/UI/Screens/Common/ScrollBar.yaml"
+            children:
+            -   class: "UIScrollView"
+                name: "ScrollArea"
+                autoUpdate: true
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        rightAnchorEnabled: true
+                        rightAnchor: 10.000000
+                        topAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                children:
+                -   class: "UIScrollViewContainer"
+                    name: "scrollContainerControl"
+                    components:
+                        LinearLayout:
+                            orientation: "TopDown"
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfChildrenSum"
+                    children:
+                    -   prototype: "DebugUIOptionsDialogSection/Section"
+                        name: "ControlLocation"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        children:
+                        -   path: "Header/Header"
+                            components:
+                                UITextComponent:
+                                    text: "Control Location"
+                        -   path: "Content"
+                            components:
+                                LinearLayout:
+                                    orientation: "TopDown"
+                                SizePolicy:
+                                    verticalPolicy: "PercentOfMaxChild"
+                            children:
+                            -   prototype: "DebugUIOptionItem/DebugUIOptionItem"
+                                name: "ControlLocation"
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                        verticalPolicy: "PercentOfMaxChild"
+                                    UIDataParamsComponent:
+                                        args:
+                                            "buttonInsteadToggle": "false"
+                                            "name": "\"Control Location\""
+                                            "enabled": "options.controlLocationEnabled"
+                                            "description": "\"Dialog with controls hierarchy under cursor will be opened by pressing the right mouse button or tapping with two fingers on the screen. CUSTOM option should be enabled for control selection.\""
+                                        eventActions:
+                                        - ["ON_OPTION_CLICKED", "", ""]
+                                        - ["ON_OPTION_CHANGED", "ON_CONTROL_PATH_VALUE_CHANGED", "_event.isEnabled"]
+                                children:
+                                -   path: "ContentLinearLayout"
+                                    components:
+                                        SizePolicy:
+                                            verticalPolicy: "PercentOfMaxChild"
+                                            verticalValue: 140.000000
+                                    children: []
+                                -   path: "ContentLinearLayout/TextVerticalLayout"
+                                    components:
+                                        Anchor:
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            verticalPolicy: "PercentOfChildrenSum"
+                                    children: []
+                                -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "name"]
+                                -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "description"]
+                    -   prototype: "DebugUIOptionsDialogSection/Section"
+                        name: "LayoutSystem"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        children:
+                        -   path: "Content"
+                            components:
+                                LinearLayout:
+                                    orientation: "TopDown"
+                                SizePolicy:
+                                    verticalPolicy: "PercentOfChildrenSum"
+                            children:
+                            -   prototype: "DebugUIOptionItem/DebugUIOptionItem"
+                                name: "Processed"
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                    UIDataParamsComponent:
+                                        args:
+                                            "buttonInsteadToggle": "false"
+                                            "name": "\"Processed\""
+                                            "enabled": "options.engineOptions[eDebugUIOptionType.kLayoutControlPressed].enabled"
+                                            "description": "\"Highlight control processed by layout system without changing size and position\""
+                                        eventActions:
+                                        - ["ON_OPTION_CLICKED", "", ""]
+                                        - ["ON_OPTION_CHANGED", "ON_OPTION_CHANGED", "_event.isEnabled, eDebugUIOptionType.kLayoutControlPressed"]
+                                children:
+                                -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "name"]
+                                -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "description"]
+                            -   prototype: "DebugUIOptionItem/DebugUIOptionItem"
+                                name: "Modified"
+                                position: [0.000000, 80.000000]
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                    UIDataParamsComponent:
+                                        args:
+                                            "buttonInsteadToggle": "false"
+                                            "name": "\"Modified\""
+                                            "enabled": "options.engineOptions[eDebugUIOptionType.kLayoutControlModified].enabled"
+                                            "description": "\"Highlight when layout system changed control size or pozition\""
+                                        eventActions:
+                                        - ["ON_OPTION_CLICKED", "", ""]
+                                        - ["ON_OPTION_CHANGED", "ON_OPTION_CHANGED", "_event.isEnabled, eDebugUIOptionType.kLayoutControlModified"]
+                                children:
+                                -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "name"]
+                                -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "description"]
+                            -   prototype: "DebugUIOptionItem/DebugUIOptionItem"
+                                name: "ModifiedText"
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                    UIDataParamsComponent:
+                                        args:
+                                            "buttonInsteadToggle": "false"
+                                            "name": "\"Modified Text\""
+                                            "enabled": "options.engineOptions[eDebugUIOptionType.kLayoutControlTextModified].enabled"
+                                            "description": "\"Highlight when layout system changed control text. It may lead to relayout of a big part of the screen\""
+                                        eventActions:
+                                        - ["ON_OPTION_CLICKED", "", ""]
+                                        - ["ON_OPTION_CHANGED", "ON_OPTION_CHANGED", "_event.isEnabled, eDebugUIOptionType.kLayoutControlTextModified"]
+                                children:
+                                -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "name"]
+                                -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "description"]
+                    -   prototype: "DebugUIOptionsDialogSection/Section"
+                        name: "StyleScheetSystem"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        children:
+                        -   path: "Header/Header"
+                            components:
+                                UITextComponent:
+                                    text: "Style Sheet System"
+                        -   path: "Content"
+                            components:
+                                LinearLayout:
+                                    orientation: "TopDown"
+                                SizePolicy:
+                                    verticalPolicy: "PercentOfChildrenSum"
+                            children:
+                            -   prototype: "DebugUIOptionItem/DebugUIOptionItem"
+                                name: "ProcessedControl"
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                    UIDataParamsComponent:
+                                        args:
+                                            "buttonInsteadToggle": "false"
+                                            "name": "\"Processed\""
+                                            "enabled": "options.engineOptions[eDebugUIOptionType.kStyleProcessed].enabled"
+                                            "description": "\"Highlight control processed by style sheet system\""
+                                        eventActions:
+                                        - ["ON_OPTION_CHANGED", "ON_OPTION_CHANGED", "_event.isEnabled, eDebugUIOptionType.kStyleProcessed"]
+                                children:
+                                -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "name"]
+                                -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "description"]
+                            -   prototype: "DebugUIOptionItem/DebugUIOptionItem"
+                                name: "ClassesNotInUse"
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                    UIDataParamsComponent:
+                                        args:
+                                            "buttonInsteadToggle": "false"
+                                            "name": "\"Classes not in use\""
+                                            "enabled": "options.engineOptions[eDebugUIOptionType.kNotInUseClass].enabled"
+                                            "description": "\"Highlight control that has classes not mentioned in any style\""
+                                        eventActions:
+                                        - ["ON_OPTION_CHANGED", "ON_OPTION_CHANGED", "_event.isEnabled, eDebugUIOptionType.kNotInUseClass"]
+                                children:
+                                -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "name"]
+                                -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "description"]
+                    -   prototype: "DebugUIOptionsDialogSection/Section"
+                        name: "DataBindingSystem"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        children:
+                        -   path: "Header/Header"
+                            components:
+                                UITextComponent:
+                                    text: "Data Binding System"
+                        -   path: "Content"
+                            components:
+                                LinearLayout:
+                                    orientation: "TopDown"
+                                SizePolicy:
+                                    verticalPolicy: "PercentOfChildrenSum"
+                            children:
+                            -   prototype: "DebugUIOptionItem/DebugUIOptionItem"
+                                name: "ReadFromModel"
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                    UIDataParamsComponent:
+                                        args:
+                                            "buttonInsteadToggle": "false"
+                                            "name": "\"Read From Model\""
+                                            "enabled": "options.engineOptions[eDebugUIOptionType.kDataBindingReadFromModel].enabled"
+                                            "description": "\"Highlight control when data is read from model\""
+                                        eventActions:
+                                        - ["ON_OPTION_CHANGED", "ON_OPTION_CHANGED", "_event.isEnabled, eDebugUIOptionType.kDataBindingReadFromModel"]
+                                children:
+                                -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "name"]
+                                -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "description"]
+                            -   prototype: "DebugUIOptionItem/DebugUIOptionItem"
+                                name: "WriteToModel"
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                    UIDataParamsComponent:
+                                        args:
+                                            "buttonInsteadToggle": "false"
+                                            "name": "\"Write To Model\""
+                                            "enabled": "options.engineOptions[eDebugUIOptionType.kDataBindingWriteToModel].enabled"
+                                            "description": "\"Highlight control when data is written to model. Control containing parent model will be highlighted too\""
+                                        eventActions:
+                                        - ["ON_OPTION_CHANGED", "ON_OPTION_CHANGED", "_event.isEnabled, eDebugUIOptionType.kDataBindingWriteToModel"]
+                                children:
+                                -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "name"]
+                                -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "description"]
+                            -   prototype: "DebugUIOptionItem/DebugUIOptionItem"
+                                name: "HasModel"
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                    UIDataParamsComponent:
+                                        args:
+                                            "buttonInsteadToggle": "false"
+                                            "name": "\"Has Model\""
+                                            "enabled": "options.engineOptions[eDebugUIOptionType.kDataBindingHasModel].enabled"
+                                            "description": "\"Highlight control that has a model\""
+                                        eventActions:
+                                        - ["ON_OPTION_CHANGED", "ON_OPTION_CHANGED", "_event.isEnabled, eDebugUIOptionType.kDataBindingHasModel"]
+                                children:
+                                -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "name"]
+                                -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "description"]
+                            -   prototype: "DebugUIOptionItem/DebugUIOptionItem"
+                                name: "HasBinding"
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                    UIDataParamsComponent:
+                                        args:
+                                            "buttonInsteadToggle": "false"
+                                            "name": "\"Has Binding\""
+                                            "enabled": "options.engineOptions[eDebugUIOptionType.kDataBindingHasBinding].enabled"
+                                            "description": "\"Highlight control with properties binded to the model\""
+                                        eventActions:
+                                        - ["ON_OPTION_CHANGED", "ON_OPTION_CHANGED", "_event.isEnabled, eDebugUIOptionType.kDataBindingHasBinding"]
+                                children:
+                                -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "name"]
+                                -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "description"]
+                    -   prototype: "DebugUIOptionsDialogSection/Section"
+                        name: "Input"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        children:
+                        -   path: "Header/Header"
+                            components:
+                                UITextComponent:
+                                    text: "Input"
+                        -   path: "Content"
+                            components:
+                                LinearLayout:
+                                    orientation: "TopDown"
+                                SizePolicy:
+                                    verticalPolicy: "PercentOfChildrenSum"
+                            children:
+                            -   prototype: "DebugUIOptionItem/DebugUIOptionItem"
+                                name: "ControlWithInput"
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                    UIDataParamsComponent:
+                                        args:
+                                            "buttonInsteadToggle": "false"
+                                            "name": "\"Control With Input\""
+                                            "enabled": "options.engineOptions[eDebugUIOptionType.kWithInputEnabled].enabled"
+                                            "description": "\"Highlight controls that can handle input\""
+                                        eventActions:
+                                        - ["ON_OPTION_CHANGED", "ON_OPTION_CHANGED", "_event.isEnabled, eDebugUIOptionType.kWithInputEnabled"]
+                                children:
+                                -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "name"]
+                                -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "description"]
+                            -   prototype: "DebugUIOptionItem/DebugUIOptionItem"
+                                name: "EnableFocusMode"
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                    UIDataParamsComponent:
+                                        args:
+                                            "readOnly": "not options.focusModeAllowed"
+                                            "buttonInsteadToggle": "false"
+                                            "name": "\"Enable Focus Mode\""
+                                            "enabled": "options.engineOptions[eDebugUIOptionType.kEnableFocusMode].enabled"
+                                            "description": "\"Navigation with focus on gamepad devices.\""
+                                        eventActions:
+                                        - ["ON_OPTION_CLICKED", "", ""]
+                                        - ["ON_OPTION_CHANGED", "ON_OPTION_CHANGED", "_event.isEnabled, eDebugUIOptionType.kEnableFocusMode"]
+                                children:
+                                -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "name"]
+                                -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "description"]
+                            -   prototype: "DebugUIOptionItem/DebugUIOptionItem"
+                                name: "DebugDrawFocus"
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                    UIDataParamsComponent:
+                                        args:
+                                            "readOnly": "false"
+                                            "buttonInsteadToggle": "false"
+                                            "name": "\"Debug Draw Focus\""
+                                            "enabled": "options.engineOptions[eDebugUIOptionType.kDebugDrawFocus].enabled"
+                                            "description": "\"Render white rect above focused control.\""
+                                        eventActions:
+                                        - ["ON_OPTION_CLICKED", "", ""]
+                                        - ["ON_OPTION_CHANGED", "ON_OPTION_CHANGED", "_event.isEnabled, eDebugUIOptionType.kDebugDrawFocus"]
+                                children:
+                                -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "name"]
+                                -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "description"]
+                    -   prototype: "DebugUIOptionsDialogSection/Section"
+                        name: "Other"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        children:
+                        -   path: "Header/Header"
+                            components:
+                                UITextComponent:
+                                    text: "Other"
+                        -   path: "Content"
+                            components:
+                                LinearLayout:
+                                    orientation: "TopDown"
+                                SizePolicy:
+                                    verticalPolicy: "PercentOfChildrenSum"
+                            children:
+                            -   prototype: "DebugUIOptionItem/DebugUIOptionItem"
+                                name: "ControlHighlighting"
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                    UIDataParamsComponent:
+                                        args:
+                                            "buttonInsteadToggle": "false"
+                                            "name": "\"Control Highlighting\""
+                                            "enabled": "options.engineOptions[eDebugUIOptionType.kCustom].enabled"
+                                            "description": "\"Highlight control by system request\""
+                                        eventActions:
+                                        - ["ON_OPTION_CLICKED", "", ""]
+                                        - ["ON_OPTION_CHANGED", "ON_OPTION_CHANGED", "_event.isEnabled, eDebugUIOptionType.kCustom"]
+                                children:
+                                -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "name"]
+                                -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "description"]
+                            -   prototype: "DebugUIOptionItem/DebugUIOptionItem"
+                                name: "ShowUIProfiler"
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                    UIDataParamsComponent:
+                                        args:
+                                            "buttonInsteadToggle": "true"
+                                            "name": "\"UI Profiler\""
+                                            "enabled": "true"
+                                            "description": "\"Open UI Profiler Dialog\""
+                                        eventActions:
+                                        - ["ON_OPTION_CLICKED", "ON_SHOW_UI_PROFILER", ""]
+                                        - ["ON_OPTION_CHANGED", "", ""]
+                                children:
+                                -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "name"]
+                                -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["visible", "not empty(description)"]
+                                    - ["UITextComponent.text", "description"]
+                            -   prototype: "DebugUIOptionItem/DebugUIOptionItem"
+                                name: "ShowLayoutSystemDetails"
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                    UIDataParamsComponent:
+                                        args:
+                                            "buttonInsteadToggle": "true"
+                                            "name": "\"Layout Details\""
+                                            "enabled": "true"
+                                            "description": "\"Open Layout System Details Dialog\""
+                                        eventActions:
+                                        - ["ON_OPTION_CLICKED", "ON_SHOW_SYSTEM_DETAILS", ""]
+                                        - ["ON_OPTION_CHANGED", "", ""]
+                                children:
+                                -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "name"]
+                                -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["visible", "not empty(description)"]
+                                    - ["UITextComponent.text", "description"]
+                            -   prototype: "DebugUIOptionItem/DebugUIOptionItem"
+                                name: "ShowStyleSystemDetails"
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                    UIDataParamsComponent:
+                                        args:
+                                            "buttonInsteadToggle": "true"
+                                            "name": "\"Style Details\""
+                                            "enabled": "true"
+                                            "description": "\"Open Style System Details Dialog\""
+                                        eventActions:
+                                        - ["ON_OPTION_CLICKED", "OnShowStyleSystemDetails", ""]
+                                        - ["ON_OPTION_CHANGED", "", ""]
+                                children:
+                                -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "name"]
+                                -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["visible", "not empty(description)"]
+                                    - ["UITextComponent.text", "description"]
+                            -   prototype: "DebugUIOptionItem/DebugUIOptionItem"
+                                name: "ShowIssueNavigator"
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                    UIDataParamsComponent:
+                                        args:
+                                            "buttonInsteadToggle": "true"
+                                            "name": "\"Issue Navigator\""
+                                            "enabled": "true"
+                                            "description": "\"Open Issue And Assert Navigator\""
+                                        eventActions:
+                                        - ["ON_OPTION_CLICKED", "ON_SHOW_ISSUE_NAVIGATOR", ""]
+                            -   prototype: "DebugUIOptionItem/DebugUIOptionItem"
+                                name: "CrazyMouse"
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                    UIDataParamsComponent:
+                                        args:
+                                            "buttonInsteadToggle": "true"
+                                            "name": "\"Crazy Mouse\""
+                                            "enabled": "true"
+                                            "description": "\"'Crazy Mouse' mode generator random input events\""
+                                        eventActions:
+                                        - ["ON_OPTION_CLICKED", "ON_CRAZY_TOUCH", ""]
+                                children:
+                                -   path: "ContentLinearLayout/TextVerticalLayout/GroupCaption"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["UITextComponent.text", "name"]
+                                -   path: "ContentLinearLayout/TextVerticalLayout/Description"
+                                    components:
+                                        UITextComponent: {}
+                                    bindings:
+                                    - ["visible", "not empty(description)"]
+                                    - ["UITextComponent.text", "description"]
+            -   prototype: "ScrollBar/VerticalScrollBar"
+                name: "VerticalScrollBar"
+                components:
+                    Anchor:
+                        rightAnchorEnabled: true
+                        topAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                    UIScrollBarComponent:
+                        delegate: "../ScrollArea"
+    -   class: "UIControl"
+        name: "Footer"
+        position: [102.000000, 242.000000]
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                bottomAnchorEnabled: true
+                bottomAnchor: 20.000000
+            LinearLayout:
+                dynamicPadding: true
+                spacing: 10.000000
+            SizePolicy:
+                verticalPolicy: "PercentOfFirstChild"
+        children:
+        -   prototype: "StyledButton/StyledButton"
+            name: "cancelButton"
+            size: [192.000000, 64.000000]
+            components:
+                UIInputEventComponent:
+                    onTouchUpInside: "onCancel"
+            children:
+            -   path: "Caption"
+                components:
+                    UITextComponent:
+                        text: "Cancel"
+        -   prototype: "StyledButton/StyledButton"
+            name: "okButton"
+            size: [192.000000, 64.000000]
+            components:
+                UIInputEventComponent:
+                    onTouchUpInside: "onOk"
+            children:
+            -   path: "Caption"
+                components:
+                    UITextComponent:
+                        text: "OK"

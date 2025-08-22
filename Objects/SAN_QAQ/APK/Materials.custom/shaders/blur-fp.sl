@@ -21,34 +21,50 @@ fragment_out fp_main(fragment_in input)
 {
 	fragment_out output;
 
-	const float2 gWeightsOffsets[9];
-	gWeightsOffsets[0] = float2(0.10855, 0.66293);
-	gWeightsOffsets[1] = float2(0.13135, 2.47904);
-	gWeightsOffsets[2] = float2(0.10406, 4.46232);
-	gWeightsOffsets[3] = float2(0.07216, 6.44568);
-	gWeightsOffsets[4] = float2(0.04380, 8.42917);
-	gWeightsOffsets[5] = float2(0.02328, 10.41281);
-	gWeightsOffsets[6] = float2(0.01083, 12.39664);
-	gWeightsOffsets[7] = float2(0.00441, 14.38072);
-	gWeightsOffsets[8] = float2(0.00157, 16.36501);
+	#ifdef BLUR_LITE
+		#define BLUR_STEP 5
+	#else
+		#define BLUR_STEP 9
+	#endif
+
+	const float2 kernelParams[BLUR_STEP];
+
+	#ifdef BLUR_LITE
+		kernelParams[0] = float2(0.66051, 0.14161);
+		kernelParams[1] = float2(2.46556, 0.16111);
+		kernelParams[2] = float2(4.43823, 0.11007);
+		kernelParams[3] = float2(6.41127, 0.06048);
+		kernelParams[4] = float2(8.38483, 0.02673);
+	#else
+		kernelParams[0] = float2(0.66293, 0.10855);
+		kernelParams[1] = float2(2.47904, 0.13135);
+		kernelParams[2] = float2(4.46232, 0.10406);
+		kernelParams[3] = float2(6.44568, 0.07216);
+		kernelParams[4] = float2(8.42917, 0.04380);
+		kernelParams[5] = float2(10.41281, 0.02328);
+		kernelParams[6] = float2(12.39664, 0.01083);
+		kernelParams[7] = float2(14.38072, 0.00441);
+		kernelParams[8] = float2(16.36501, 0.00157);
+	#endif
 
 	float3 blurColor = const0List3;
+	float4 offset = const0List4;
 
 	#ifdef VBLUR
-		float2 pixelOffset = float2(pixelSize.x, 0.0);
+		offset.x = pixelSize.x;
 	#else
-		float2 pixelOffset = float2(0.0, pixelSize.y);
+		offset.y = pixelSize.y;
 	#endif
 
 	[unroll]
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < BLUR_STEP; i++)
 	{
-		float2 offset = pixelOffset * gWeightsOffsets[i].y;
-		blurColor += tex2D(tex, clamp(input.texCoord + offset, const0List2, maxUV)).xyz * gWeightsOffsets[i].x;
-		blurColor += tex2D(tex, clamp(input.texCoord - offset, const0List2, maxUV)).xyz * gWeightsOffsets[i].x;
+		offset.zw = offset.xy * kernelParams[i].x;
+		blurColor += tex2D(tex, clamp(input.texCoord + offset.zw, const0List2, maxUV)).xyz * kernelParams[i].y;
+		blurColor += tex2D(tex, clamp(input.texCoord - offset.zw, const0List2, maxUV)).xyz * kernelParams[i].y;
 	}
 
-	output.color = float4(blurColor, 1.0) * input.color;
+	output.color = input.color * float4(blurColor, 1.0);
 
 	return output;
 }

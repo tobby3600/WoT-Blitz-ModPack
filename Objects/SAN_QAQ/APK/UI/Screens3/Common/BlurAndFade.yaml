@@ -5,7 +5,6 @@ ImportedPackages:
 Prototypes:
 -   class: "UIControl"
     name: "BlurAndFade"
-    size: [200.000000, 100.000000]
     input: false
     components:
         SizePolicy:
@@ -24,24 +23,12 @@ Prototypes:
     -   prototype: "Blur/Blur"
         name: "Blur"
         components:
-            Background:
-                drawType: "DRAW_SCALE_TO_RECT"
-            UIOpacityComponent: {}
-            UIPostProcessTextureComponent0:
-                scale: 0.250000
-                needDepth: true
-                renderRequestingType: "ALWAYS"
-            UIPostProcessTextureComponent1:
-                scale: 0.250000
-                renderRequestingType: "ALWAYS"
-            UIPostProcessTextureComponent2:
-                scale: 0.250000
-                renderRequestingType: "ALWAYS"
-            Update:
-                updateInvisible: true
             Anchor:
                 hCenterAnchorEnabled: true
                 vCenterAnchorEnabled: true
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+            UIOpacityComponent: {}
         bindings:
         - ["UIOpacityComponent.opacity", "blurOpacity"]
     -   class: "UIControl"
@@ -49,11 +36,11 @@ Prototypes:
         input: false
         classes: "black-bg"
         components:
-            Background: {}
-            UIOpacityComponent: {}
             Anchor:
                 hCenterAnchorEnabled: true
                 vCenterAnchorEnabled: true
+            Background: {}
+            UIOpacityComponent: {}
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"

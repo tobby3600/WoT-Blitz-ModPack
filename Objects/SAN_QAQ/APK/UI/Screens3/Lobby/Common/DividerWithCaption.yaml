@@ -1,0 +1,82 @@
+Header:
+    version: 155
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "DividerWithCaption"
+    size: [300.000000, 27.000000]
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+        LinearLayout:
+            spacing: 24.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfMaxChild"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "isBlur", "false", "false"]
+            - ["string", "bgStyle", "\"\"", "\"\""]
+            - ["string", "style", "\"t-caps bold white-wild-sand-text\"", "\"t-caps bold white-wild-sand-text\""]
+            - ["string", "text", "\"#Caption\"", "\"#Caption\""]
+            - ["float", "opacity", "0.250000", "0.250000"]
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Font.style.yaml"
+    children:
+    -   prototype: "BlurModified/BlurModified"
+        name: "Blur"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "isBlur": "isBlur"
+                    "bgStyle": "bgStyle"
+                    "roundCorner": "\"4\""
+    -   class: "UIControl"
+        name: "LeftLine"
+        size: [32.000000, 1.000000]
+        input: false
+        classes: "white-wild-sand-bg"
+        components:
+            Background: {}
+            UIOpacityComponent: {}
+            UIGradientComponent:
+                startColor: [0.960784, 0.960784, 0.960784, 1.000000]
+                finishColor: [0.960784, 0.960784, 0.960784, 0.000000]
+                orientation: "RightToLeft"
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+        bindings:
+        - ["UIOpacityComponent.opacity", "opacity"]
+    -   class: "UIControl"
+        name: "Caption"
+        input: false
+        components:
+            UITextComponent: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfContent"
+        bindings:
+        - ["classes", "style"]
+        - ["UITextComponent.text", "text"]
+    -   class: "UIControl"
+        name: "RightLine"
+        size: [32.000000, 1.000000]
+        input: false
+        classes: "white-wild-sand-bg"
+        components:
+            Background: {}
+            UIOpacityComponent: {}
+            UIGradientComponent:
+                startColor: [0.960784, 0.960784, 0.960784, 1.000000]
+                finishColor: [0.960784, 0.960784, 0.960784, 0.000000]
+                orientation: "LeftToRight"
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+        bindings:
+        - ["UIOpacityComponent.opacity", "opacity"]

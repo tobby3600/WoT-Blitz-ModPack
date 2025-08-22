@@ -90,14 +90,14 @@ vertex_out vp_main(vertex_in input)
 	vertex_out output;
 
 	float3 localPos = input.localPos.xyz;
-	output.localPos = mul4Fast1(localPos, worldViewProjMatrix);
+	output.localPos = mul(float4(localPos, 1.0), worldViewProjMatrix);
 
 	#if FORCE_2D_MODE
 		output.localPos.z = 0.0;
 	#endif
 
 	#if (!DRAW_WATER_DEFORMATION && RECEIVE_SHADOW) || USE_VERTEX_FOG
-		float3 worldPos = mul3Fast1(localPos, worldMatrix);
+		float3 worldPos = mul(float4(localPos, 1.0), worldMatrix).xyz;
 	#endif
 
 	#if RETRIEVE_FRAG_DEPTH_AVAILABLE && SOFT_PARTICLES
@@ -108,7 +108,7 @@ vertex_out vp_main(vertex_in input)
 
 	#if !DRAW_WATER_DEFORMATION && RECEIVE_SHADOW
 		float3 shadowInf = getShadow(worldPos, output.localPos.xy / output.localPos.w, 0.0);
-		output.shadowColor = lerp(shadowMapShadowColor.rgb, const1List3, shadowInf.x);
+		output.shadowColor = lerp(shadowMapShadowColor.rgb, const1List3, shadowInf.x * 0.5);
 	#endif
 
 	output.texCoord0.xy = input.texCoord0;
@@ -122,7 +122,8 @@ vertex_out vp_main(vertex_in input)
 	#endif
 
 	#if PARTICLES_FLOWMAP
-		float2 flowPhase = frac(float2(input.texCoord2.z, input.texCoord2.z + 0.5)) - const05List2;
+		float f = frac(input.texCoord2.z);
+		float2 flowPhase = float2(f - 0.5, f - step(0.5, f));
 		output.texCoord1.w = abs(flowPhase.x) * 2.0;
 		output.texCoord2 = float4(input.texCoord2.xy, flowPhase * input.texCoord2.w);
 	#endif
@@ -139,7 +140,7 @@ vertex_out vp_main(vertex_in input)
 
 	#if USE_VERTEX_FOG
 		float3 camPos = cameraPosition;
-		float3 eyePos = mul3Fast1(localPos, worldViewMatrix);
+		float3 eyePos = mul(float4(localPos, 1.0), worldViewMatrix).xyz;
 		float3 toCamDir = camPos - worldPos;
 		float3 toLightDir = -eyePos * lightPosition0.w + lightPosition0.xyz;
 		float toLightDis = length(toLightDir);

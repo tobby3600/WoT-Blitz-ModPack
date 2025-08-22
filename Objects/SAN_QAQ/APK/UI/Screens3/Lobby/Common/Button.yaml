@@ -19,22 +19,25 @@ Prototypes:
         UIDataParamsComponent:
             params:
             - ["TutorialDataModel", "tutorialData", "null", "{ }"]
-            - ["control", "timerContent", "null", "null"]
-            - ["control", "rightContent", "null", "null"]
-            - ["control", "leftBadge", "null", "null"]
+            - ["bool", "enabled", "true", "true"]
+            - ["bool", "inputDisabled", "false", "false"]
+            - ["bool", "isBlur", "true", "true"]
+            - ["bool", "isCustBg", "false", "false"]
+            - ["bool", "isCapitalize", "false", "false"]
+            - ["bool", "isEmitSound", "false", "false"]
             - ["bool", "isExternalLink", "false", "true"]
             - ["bool", "isLoading", "false", "false"]
-            - ["bool", "isEmitSound", "false", "false"]
             - ["bool", "locked", "false", "false"]
-            - ["string", "caption", "\"\"", "\"BUTTON\""]
-            - ["eButtonType", "type", "eButtonType.POSITIVE", "eButtonType.OPTIONAL_LIGHT"]
+            - ["bool", "soundDisable", "false", "false"]
+            - ["control", "leftBadge", "null", "null"]
+            - ["control", "rightContent", "null", "null"]
+            - ["control", "timerContent", "null", "null"]
             - ["eButtonSize", "size", "eButtonSize.NORMAL", "eButtonSize.SMALL"]
             - ["eButtonSound", "sound", "eButtonSound.UNKNOWN", "eButtonSound.CANCEL"]
-            - ["bool", "enabled", "true", "true"]
+            - ["eButtonType", "type", "eButtonType.POSITIVE", "eButtonType.OPTIONAL_LIGHT"]
+            - ["string", "caption", "\"\"", "\"BUTTON\""]
             - ["string", "iconPath", "\"\"", "when isGamepad -> \"~res:/Gfx/Lobby/icons/nintendo-switch/icon_switch_x_m\", \"\""]
-            - ["bool", "soundDisable", "false", "false"]
-            - ["bool", "inputDisabled", "false", "false"]
-            - ["bool", "isCapitalize", "false", "false"]
+            - ["string", "maskStyle", "\"\"", "\"\""]
             events:
             - "ON_CLICK_BUTTON"
         UIDataLocalBindingsComponent:
@@ -42,7 +45,7 @@ Prototypes:
             - ["eButtonSound", "soundType", "when soundDisable -> eButtonSound.UNKNOWN, sound != eButtonSound.UNKNOWN -> sound, type == eButtonType.POSITIVE or type == eButtonType.NO_BG or type == eButtonType.NO_BG_WHITE or type == eButtonType.SCENE -> eButtonSound.OPEN, type == eButtonType.ALTERNATIVE -> eButtonSound.OK, type == eButtonType.ALTERNATIVE -> eButtonSound.OK, type == eButtonType.NEGATIVE -> eButtonSound.SELL, eButtonSound.CANCEL"]
             - ["string", "soundStyle", "when locked or isLoading -> \"\", soundType == eButtonSound.OPEN -> \"button-open-sound\", soundType == eButtonSound.OK -> \"button-ok-sound\", soundType == eButtonSound.CANCEL -> \"button-cancel-sound\", soundType == eButtonSound.SELL -> \"button-sell-sound\", soundType == eButtonSound.BUY -> \"button-buy-sound\", soundType == eButtonSound.CLOSE -> \"button-close-sound\", \"\""]
             - ["bool", "isColoredButton", "type == eButtonType.POSITIVE or type == eButtonType.ALTERNATIVE or type == eButtonType.NEGATIVE or type == eButtonType.SPECIAL"]
-            - ["string", "bgStyle", "str(type, eButtonType, \"color_style\")"]
+            - ["string", "bgStyle", "when isBlur or isCustBg -> maskStyle, str(type, eButtonType, \"color_style\")"]
             - ["string", "coloredButtonType", "str(type, eButtonType, \"sprite_name\")"]
         UIChildComponent0:
             condition: "isLoading"
@@ -104,12 +107,13 @@ Prototypes:
                 - ["visible", "not (type == eButtonType.NO_BG or type == eButtonType.NO_BG_WHITE)"]
                 children:
                 -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
+                    name: "BasicBackground"
                     components:
-                        args:
-                            "bgStyle": "bgStyle"
-                    bindings:
-                    - ["visible", "not isColoredButton"]
+                        UIDataParamsComponent:
+                            args:
+                                "isVisible": "not isColoredButton"
+                                "isBlur": "isBlur"
+                                "bgStyle": "bgStyle"
                 -   class: "UIControl"
                     name: "Shadows"
                     pivot: [0.500000, 0.200000]

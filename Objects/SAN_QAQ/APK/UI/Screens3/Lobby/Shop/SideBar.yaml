@@ -1,5 +1,7 @@
 Header:
     version: 153
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "SideBar"
@@ -45,37 +47,8 @@ Prototypes:
             watchedDataExpression: "tempAnchor"
             eventName: "AnimateCurrentAnchor"
     children:
-    -   class: "UIControl"
+    -   prototype: "BlurModified/BlurModified"
         name: "Bg"
-        input: false
-        components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            IgnoreLayout: {}
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfParent"
-            StyleSheet:
-                styles: "~res:/UI/Screens3/Color.style.yaml"
     -   class: "UIControl"
         name: "SafeAreaInsetLeft"
         input: false

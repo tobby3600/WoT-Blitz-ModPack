@@ -136,7 +136,7 @@ Prototypes:
             - ["bool", "hasSubtitle", "quest.subtitle != \"\""]
             - ["string", "urlImage", "when isFailed and quest.urlImageFailure != \"\" -> quest.urlImageFailure, quest.urlImage"]
             - ["bool", "showGrayscale", "isFailed and quest.urlImageFailure == \"\""]
-            - ["float", "saturation", "when showGrayscale -> 0.000000, 1.000000"]
+            - ["float", "saturation", "when showGrayscale -> -100.000000, 0.000000"]
             - ["string", "defaultImage", "when isStagedQuest -> \"~res:/Gfx/Lobby/backgrounds/bg_gold_stuff_quest\", \"~res:/Gfx/Lobby/backgrounds/bg_staff-quest\""]
             - ["int", "rewardHorizontalSize", "140"]
             - ["int", "rightRewardBlockHorizontalSize", "when quest.rewardsList.alternativeRewards.Size() > 0 -> (quest.rewardsList.alternativeRewards[1UL].resources.Size() * rewardHorizontalSize), 0"]
@@ -428,6 +428,12 @@ Slots:
                 horizontalValue: 620.000000
                 verticalPolicy: "PercentOfChildrenSum"
         children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "Background"
             input: false
@@ -441,13 +447,6 @@ Slots:
                     verticalPolicy: "PercentOfParent"
             bindings:
             - ["Background.color", "when quest.status == eQuestStatus.Completed -> rgb(8112203), rgb(12988180)"]
-            children:
-            -   prototype: "BlurModified/BlurModified"
-                name: "Blur"
-                components:
-                    UIDataParamsComponent:
-                        args:
-                            "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "IconWrapper"
             position: [280.000000, -33.000000]
@@ -512,10 +511,19 @@ Slots:
                 bindings:
                 - ["visible", "quest.iconType == 4"]
         -   class: "UIControl"
+            name: "Spacer"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 8.000000
+        -   class: "UIControl"
             name: "NotStartedInfo"
             input: false
             components:
                 Anchor:
+                    hCenterAnchorEnabled: true
                     topAnchorEnabled: true
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
@@ -530,14 +538,13 @@ Slots:
                 name: "Description"
                 size: [32.000000, 32.000000]
                 input: false
-                classes: "t-headline bold color=white-wild-sand-text"
                 components:
-                    UITextComponent:
-                        colorInheritType: "COLOR_IGNORE_PARENT"
-                        multiline: "MULTILINE_ENABLED"
-                        fitting: "FITTING_REDUCE"
-                        align: ["HCENTER", "VCENTER"]
-                        useRtlAlign: "USE_BY_SYSTEM"
+                    RichContent:
+                        baseClasses: "t-headline regular white-wild-sand-70-text"
+                    RichContentAliases0:
+                        aliases:
+                        - ["text_white_bold", "<span class=\"t-headline bold white-wild-sand-text\" />"]
+                        - ["text2_white_bold", "<span class=\"t-headline bold white-wild-sand-text\" />"]
                     Anchor:
                         hCenterAnchorEnabled: true
                         bottomAnchorEnabled: true
@@ -547,10 +554,15 @@ Slots:
                         horizontalValue: 86.000000
                         verticalPolicy: "FixedSize"
                         verticalValue: 64.000000
+                    FlowLayout:
+                        hDynamicPadding: true
+                        alignment: "Center"
+                        hSpacing: 4.000000
+                        useRtl: true
                     StyleSheet:
                         styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
                 bindings:
-                - ["UITextComponent.text", "localize(quest.title, { \"highlight_start\" = \"\"; \"highlight_end\" = \"\"; })"]
+                - ["RichContent.text", "localize(quest.title, { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; })"]
         -   class: "UIControl"
             name: "ActiveInfoContainer"
             input: false
@@ -583,28 +595,31 @@ Slots:
                     name: "Description"
                     size: [32.000000, 32.000000]
                     input: false
-                    classes: "t-body bold color=white-wild-sand-text"
                     components:
-                        UITextComponent:
-                            colorInheritType: "COLOR_IGNORE_PARENT"
-                            multiline: "MULTILINE_ENABLED"
-                            fitting: "FITTING_REDUCE"
-                            align: ["LEFT", "BOTTOM"]
-                            useRtlAlign: "USE_BY_SYSTEM"
+                        RichContent:
+                            baseClasses: "t-body regular white-wild-sand-70-text"
+                        RichContentAliases0:
+                            aliases:
+                            - ["text_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                            - ["text2_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
                         Anchor:
-                            leftAnchorEnabled: true
+                            hCenterAnchorEnabled: true
                             bottomAnchorEnabled: true
                             bottomAnchor: 20.000000
-                            useRtl: true
                         SizePolicy:
                             horizontalPolicy: "FixedSize"
                             horizontalValue: 400.000000
                             verticalPolicy: "FixedSize"
                             verticalValue: 40.000000
+                        FlowLayout:
+                            hDynamicPadding: true
+                            alignment: "Center"
+                            hSpacing: 4.000000
+                            useRtl: true
                         StyleSheet:
                             styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
                     bindings:
-                    - ["UITextComponent.text", "localize(quest.title, { \"highlight_start\" = \"\"; \"highlight_end\" = \"\"; })"]
+                    - ["RichContent.text", "localize(quest.title, { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; })"]
                 -   class: "UIControl"
                     name: "ProgressValue"
                     size: [32.000000, 32.000000]
@@ -709,6 +724,7 @@ Slots:
                                 "minimum": "0"
                                 "offset": "0"
                                 "value": "quest.currentProgress * 100"
+                                "isBlur": "false"
                             eventActions:
                             - ["AnimationFinished", "ON_PROGRESS_ANIMATED", "index"]
         -   class: "UIControl"
@@ -729,6 +745,8 @@ Slots:
                     horizontalPolicy: "FixedSize"
                     horizontalValue: 800.000000
                     verticalPolicy: "PercentOfMaxChild"
+            bindings:
+            - ["visible", "hasParams"]
             children:
             -   class: "UIControl"
                 name: "Params"
@@ -751,6 +769,8 @@ Slots:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "FixedSize"
                     verticalValue: 8.000000
+            bindings:
+            - ["visible", "hasParams"]
         -   class: "UIControl"
             name: "GetProxyDescription"
             visible: true
@@ -773,6 +793,8 @@ Slots:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "FixedSize"
                     verticalValue: 8.000000
+            bindings:
+            - ["visible", "not empty(quest.getProxyDescription)"]
 -   class: "UIControl"
     name: "ButtonsBlock"
     input: false
@@ -994,6 +1016,7 @@ Slots:
                         "timerSize": "eTimerSize.Medium"
                         "time": "quest.time"
                         "serverTime": "when isStarted -> session.serverTime, 0L"
+                        "bgVisible": "true"
     -   class: "UIControl"
         name: "TimeInfoShort"
         input: false
@@ -1044,6 +1067,7 @@ Slots:
                         "timerSize": "eTimerSize.Medium"
                         "time": "quest.time"
                         "serverTime": "when isStarted -> session.serverTime, 0L"
+                        "bgVisible": "true"
 -   class: "UIControl"
     name: "SingleRewardContent"
     size: [960.000000, 640.000000]
@@ -1130,29 +1154,6 @@ Slots:
         name: "RewardsContainer"
         input: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIRoundedCornersComponent:
-                radius: "8"
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
             LinearLayout:
                 dynamicPadding: true
                 spacing: 20.000000
@@ -1465,29 +1466,6 @@ Slots:
             name: "Rewards"
             input: false
             components:
-                Background:
-                    usePostProcessedSprite: true
-                UIRoundedCornersComponent:
-                    radius: "8"
-                UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                    needClearAlphaAfterRender: true
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent1:
-                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent2:
-                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
                 Anchor:
                     hCenterAnchorEnabled: true
                     vCenterAnchorEnabled: true
@@ -1500,6 +1478,12 @@ Slots:
             bindings:
             - ["visible", "hasRewards"]
             children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "Header"
                 input: false
@@ -1919,6 +1903,12 @@ Slots:
                         horizontalPolicy: "PercentOfMaxChild"
                         verticalPolicy: "PercentOfChildrenSum"
                 children:
+                -   prototype: "BlurModified/BlurModified"
+                    name: "Blur"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "roundCorner": "\"8\""
                 -   class: "UIControl"
                     name: "Background"
                     input: false
@@ -1932,59 +1922,76 @@ Slots:
                             verticalPolicy: "PercentOfParent"
                     bindings:
                     - ["Background.color", "when quest.status == eQuestStatus.Completed -> rgb(8112203), rgb(12988180)"]
-                    children:
-                    -   prototype: "BlurModified/BlurModified"
-                        name: "Blur"
-                        components:
-                            UIDataParamsComponent:
-                                args:
-                                    "roundCorner": "\"8\""
+                -   class: "UIControl"
+                    name: "Spacer"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 8.000000
+                    bindings:
+                    - ["visible", "not hasSubtitle"]
                 -   class: "UIControl"
                     name: "Description"
                     size: [32.000000, 32.000000]
                     input: false
-                    classes: "t-headline bold color=white-wild-sand-text"
                     components:
-                        UITextComponent:
-                            colorInheritType: "COLOR_IGNORE_PARENT"
-                            multiline: "MULTILINE_ENABLED"
-                            fitting: "FITTING_REDUCE"
-                            align: ["HCENTER", "VCENTER"]
-                            useRtlAlign: "USE_BY_SYSTEM"
                         RichContent:
-                            baseClasses: "t-subtitle regular color=white-wild-sand-text"
+                            baseClasses: "t-headline regular white-wild-sand-70-text"
+                        RichContentAliases0:
+                            aliases:
+                            - ["text_white_bold", "<span class=\"t-headline bold white-wild-sand-text\" />"]
+                            - ["text2_white_bold", "<span class=\"t-headline bold white-wild-sand-text\" />"]
                         Anchor:
                             hCenterAnchorEnabled: true
                         SizePolicy:
                             horizontalPolicy: "FixedSize"
                             horizontalValue: 600.000000
                             verticalPolicy: "Formula"
-                            verticalFormula: "when (hasParams) -> content + 24, content + 40"
+                            verticalFormula: "when hasParams -> childrenSum + 24, childrenSum + 40"
+                        FlowLayout:
+                            hDynamicPadding: true
+                            alignment: "Center"
+                            hSpacing: 4.000000
+                            useRtl: true
                         StyleSheet:
                             styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
                     bindings:
                     - ["visible", "not hasSubtitle"]
-                    - ["UITextComponent.text", "localize(quest.title, { \"highlight_start\" = \"\"; \"highlight_end\" = \"\"; \"stage_progress\" = quest.totalProgress; })"]
+                    - ["RichContent.text", "localize(quest.title, { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; \"stage_progress\" = quest.totalProgress; })"]
                 -   class: "UIControl"
-                    name: "Spacer1_1"
+                    name: "Spacer1"
                     input: false
                     components:
                         SizePolicy:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "FixedSize"
-                            verticalValue: 16.000000
+                            verticalValue: 8.000000
                     bindings:
                     - ["visible", "not hasSubtitle and hasParams"]
+                -   class: "UIControl"
+                    name: "Spacer_1"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 8.000000
+                    bindings:
+                    - ["visible", "hasSubtitle"]
                 -   class: "UIControl"
                     name: "BodyRegular"
                     input: false
                     tag: -1
                     components:
                         RichContent:
-                            baseClasses: "t-caption regular color=white-wild-sand-text"
+                            baseClasses: "t-caption regular white-wild-sand-70-text"
                         RichContentAliases0:
                             aliases:
                             - ["info_button", "<control control=\"~res:/UI/Screens3/Lobby/Common/IconButton.yaml\" args1=\"image=infoButtonImagePath\" args2=\"isBgVisible=false\" args3=\"imageSize=16\" args4=\"buttonSize=16\"/>"]
+                            - ["text_white_bold", "<span class=\"t-caption bold white-wild-sand-text\" />"]
+                            - ["text2_white_bold", "<span class=\"t-caption bold white-wild-sand-text\" />"]
                         Anchor:
                             hCenterAnchorEnabled: true
                         SizePolicy:
@@ -2000,7 +2007,17 @@ Slots:
                             styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
                     bindings:
                     - ["visible", "hasSubtitle"]
-                    - ["RichContent.text", "localize(quest.subtitle)"]
+                    - ["RichContent.text", "localize(quest.subtitle, { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; )"]
+                -   class: "UIControl"
+                    name: "Spacer1_1"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 8.000000
+                    bindings:
+                    - ["visible", "hasSubtitle and hasParams"]
                 -   class: "UIControl"
                     name: "ParamsContainer"
                     input: false
@@ -2027,6 +2044,16 @@ Slots:
                                     "filter": "quest.filter"
                         bindings:
                         - ["Anchor.bottomAnchor", "when hasSubtitle -> 8, 16"]
+                -   class: "UIControl"
+                    name: "Spacer2"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 8.000000
+                    bindings:
+                    - ["visible", "hasSubtitle and hasParams"]
                 -   class: "UIControl"
                     name: "GetProxyDescription"
                     visible: true
@@ -2109,6 +2136,7 @@ Slots:
                                 "timerSize": "eTimerSize.Medium"
                                 "time": "quest.time"
                                 "serverTime": "when isStarted -> session.serverTime, 0L"
+                                "bgVisible": "true"
         -   class: "UIControl"
             name: "Stages"
             input: false
@@ -2116,29 +2144,6 @@ Slots:
                 UIOpacityComponent: {}
                 Anchor:
                     hCenterAnchorEnabled: true
-                Background:
-                    usePostProcessedSprite: true
-                UIRoundedCornersComponent:
-                    radius: "8"
-                UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                    needClearAlphaAfterRender: true
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent1:
-                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent2:
-                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
                 LinearLayout:
                     orientation: "TopDown"
                 SizePolicy:
@@ -2146,6 +2151,12 @@ Slots:
                     horizontalFormula: "parent - 30"
                     verticalPolicy: "PercentOfChildrenSum"
             children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "Background"
                 input: false
@@ -2361,6 +2372,7 @@ Slots:
                                             "minimum": "0"
                                             "offset": "0"
                                             "value": "quest.stagesInfo.adjustedCurrentProgress * progressBarCoefficient"
+                                            "isBlur": "false"
                             -   class: "UIControl"
                                 name: "Rewards"
                                 input: false
@@ -2388,6 +2400,7 @@ Slots:
                                             "isRewardTaken": "index + 1 >= quest.stagesInfo.stageTaken"
                                             "allowSizeEvents": "initAnimationFinished"
                                             "attachId": "\"quest_\" + str(index) + \"_reward_\" + \"\" + \"_index_\" + str(_index)"
+                                            "isBlur": "false"
                                         eventActions:
                                         - ["StuffQuestStageSizeChanged", "StuffQuestStageSizeChanged", "_event.id, _event.size"]
                                         - ["ON_REWARD_CLICKED", "ON_REWARD_CLICKED", "\"\", _index"]
@@ -2486,6 +2499,8 @@ Slots:
             - ["medalOskin", "<control class=\"\" control=\"~res:/UI/Screens3/Lobby/Common/Resource/CurrencyPrivate.yaml\" args1=\"forceHideValue=true\" args2=\"icon=medalOskin\" args3=\"type=ResourceType.achievement\" args4=\"currencySize=eCurrencySize.HUGE_PROXY\"/>"]
             - ["medalFadin", "<control class=\"\" control=\"~res:/UI/Screens3/Lobby/Common/Resource/CurrencyPrivate.yaml\" args1=\"forceHideValue=true\" args2=\"icon=medalFadin\" args3=\"type=ResourceType.achievement\" args4=\"currencySize=eCurrencySize.HUGE_PROXY\"/>"]
             - ["highCaliber", "<control class=\"\" control=\"~res:/UI/Screens3/Lobby/Common/Resource/CurrencyPrivate.yaml\" args1=\"forceHideValue=true\" args2=\"icon=highCaliber\" args3=\"type=ResourceType.achievement\" args4=\"currencySize=eCurrencySize.HUGE_PROXY\"/>"]
+            - ["text_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+            - ["text2_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
         SizePolicy:
             horizontalPolicy: "PercentOfChildrenSum"
             horizontalMax: 700.000000
@@ -2496,5 +2511,5 @@ Slots:
         StyleSheet:
             styles: "~res:/UI/Screens3/Font.style.yaml"
     bindings:
-    - ["RichContent.text", "localize(quest.getProxyDescription)"]
-    - ["RichContent.baseClasses", "\"t-body regular color=white-wild-sand-text\""]
+    - ["RichContent.baseClasses", "\"t-body regular white-wild-sand-70-text\""]
+    - ["RichContent.text", "localize(quest.getProxyDescription, { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; })"]

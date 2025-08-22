@@ -1,0 +1,62 @@
+Header:
+    version: 151
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "Paginator"
+    components:
+        LinearLayout: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "PercentOfMaxChild"
+        UISwitchBarComponent:
+            onSelectElement: "CHANGED_SELECTED_ITEM"
+            onSelectElementData: "_selectedElement"
+            selectionEventType: "TOUCH_UP"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "invert", "false", "false"]
+            - ["bool", "isBlur", "true", "true"]
+            - ["bool", "progressVisible", "false", "true"]
+            - ["float", "progress", "0.000000", "0.750000"]
+            - ["int", "PointCellHeight", "32", "32"]
+            - ["int", "PointCellWidth", "20", "20"]
+            - ["int", "pointCount", "0", "0"]
+            - ["int", "pointSize", "8", "4"]
+            - ["int", "progressSize", "0", "0"]
+            - ["int", "selectedItem", "0", "0"]
+            - ["string", "bgStyle", "\"\"", "\"\""]
+            - ["string", "progressIcon", "\"\"", "\"\""]
+            - ["string", "roundCorner", "\"4\"", \"4\"]
+            - ["vector<int>", "points", "[ ]", "[ 0; 1; 2; 3; 4; 5; ]"]
+            events:
+            - "CHANGED_SELECTED_ITEM"
+        UIDataLocalBindingsComponent:
+            data:
+            - ["vector<bool>", "generatedPoint", "generateVector(pointCount)"]
+        UIRepeatComponent:
+            control: "~res:/UI/Screens3/Lobby/Common/Paginator/Point.yaml"
+            dataContainer: "when not points.Empty() -> points, generatedPoint"
+            args:
+                "pointSize": "pointSize"
+                "number": "_index"
+                "isSelected": "selectedItem == _index"
+                "PointCellWidth": "PointCellWidth"
+                "PointCellHeight": "PointCellHeight"
+                "progressVisible": "progressVisible"
+                "progress": "progress"
+                "invert": "invert"
+                "progressSize": "progressSize"
+                "progressIcon": "progressIcon"
+    bindings:
+    - ["UISwitchBarComponent.selectedElement", "selectedItem"]
+    children:
+    -   prototype: "BlurModified/BlurModified"
+        name: "Blur"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "isBlur": "isBlur"
+                    "bgStyle": "bgStyle"
+                    "roundCorner": "roundCorner"

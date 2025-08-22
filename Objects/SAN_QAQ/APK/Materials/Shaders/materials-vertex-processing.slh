@@ -1,18 +1,18 @@
 #if WAVE_ANIMATION
-	float3 worldPos = mul3Fast1(wave(input.localPos, input.texCoord0, -globalTime), worldMatrix);
+	float3 worldPos = mul(wave(input.localPos, input.texCoord0, -globalTime), worldMatrix).xyz;
 #elif WIND_ANIMATION
-	float3 worldPos = mul3Fast1(float3(windOscillationParams * (input.flexibility * 2.25) + input.localPos.xy, input.localPos.z), worldMatrix);
+	float3 worldPos = mul(float4(windOscillationParams * (input.flexibility * 2.25) + input.localPos.xy, input.localPos.z, 1.0), worldMatrix).xyz;
 #elif HARD_SKINNING
-	float3 localPos = hardSkinnedPosition(input.localPos.xyz, input.index);
+	float4 localPos = hardSkinnedPosition(input.localPos.xyz, input.index);
 #elif SOFT_SKINNING
-	float3 localPos = softSkinnedPosition(input.localPos.xyz, input.indices, input.weights);
+	float4 localPos = softSkinnedPosition(input.localPos.xyz, input.indices, input.weights);
 #else
-	float3 localPos = input.localPos.xyz;
+	float4 localPos = float4(input.localPos.xyz, 1.0);
 #endif
 
 #if !WAVE_ANIMATION && !WIND_ANIMATION
 	#if USE_VERTEX_DISPLACEMENT
-		localPos += input.normal * (tex2Dlod(vertexDisplacementMap, vertexDisplacementMapUVSpeed * globalTime + (input.texCoord1 * vertexDisplacementMapUVOffsetScale.zw + vertexDisplacementMapUVOffsetScale.xy), 0.0).r * vertexDisplacementScale * input.color0.r);
+		localPos.xyz += input.normal * (tex2Dlod(vertexDisplacementMap, vertexDisplacementMapUVSpeed * globalTime + (input.texCoord1 * vertexDisplacementMapUVOffsetScale.zw + vertexDisplacementMapUVOffsetScale.xy), 0.0).r * vertexDisplacementScale * input.color0.r);
 	#endif
 
 	#if VERTEX_VERTICAL_OFFSET
@@ -51,24 +51,24 @@
 		segmentDir += (segmentDir * 0.5 + (sideDir - segmentDir)) * blendDir;
 	#endif
 
-	float3 worldPos = mul3Fast1(localPos, worldMatrix);
+	float3 worldPos = mul(localPos, worldMatrix).xyz;
 
 	#if NEEDS_LOCAL_POSITION
 		float3 displacePos = input.localPos.xyz;
 
 		#if INSTANCED_CHAIN
-			displacePos = localPos;
+			displacePos = localPos.xyz;
 		#endif
 	#endif
 #endif
 
 #if !DRAW_DEPTH_ONLY
 	float3 camPos = cameraPosition;
-	float3 eyePos = mul3Fast1(worldPos, viewMatrix);
+	float3 eyePos = mul(float4(worldPos, 1.0), viewMatrix).xyz;
 	float3 viewPos = -eyePos;
 #endif
 
-output.localPos = mul4Fast1(worldPos, viewProjMatrix);
+output.localPos = mul(float4(worldPos, 1.0), viewProjMatrix);
 output.projPos = output.localPos;
 
 #if FORCE_2D_MODE

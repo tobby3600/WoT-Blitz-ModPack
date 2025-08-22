@@ -1,0 +1,178 @@
+Header:
+    version: 130
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/BadgeHolder.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "Item"
+    size: [88.000000, 72.000000]
+    components:
+        UIAnimationComponent:
+            animations: "START_SELECTED_ANIMATION,~res:/UI/Screens3/Lobby/Common/Sidebar/SidebarItem/SideBarItemSelect.animation"
+        Anchor:
+            hCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "FixedSize"
+            verticalValue: 72.000000
+        UIAttachLayoutMasterComponent: {}
+        UIInputEventComponent:
+            onTouchUpInside: "ON_PRESSED"
+            blockDuplicatedEvents: true
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Perform"
+            keyDownEvent: "ON_PRESSED_TAB"
+            keyDownEventData: "switchId"
+        Focus: {}
+        UIShortcutEventComponent: {}
+        UISwitchBarElementComponent: {}
+        UIDataParamsComponent:
+            params:
+            - ["int", "switchId", "0", "0"]
+            - ["bool", "hoverOff", "false", "false"]
+            - ["eCurrentScreen", "currentScreen", "eCurrentScreen.kUnknown", "eCurrentScreen.kUnknown"]
+            - ["string", "attachId", "\"\"", "\"\""]
+            - ["bool", "select", "false", "true"]
+            - ["string", "icon", "\"\"", "\"~res:/Gfx/UI/Hangar/SidebarIcons\""]
+            - ["string", "textureParams", "\"saturation,0\"", "\"saturation,0\""]
+            - ["bool", "lock", "false", "true"]
+            - ["string", "lockIcon", "\"~res:/Gfx/UI/LobbyCommon/lock_small\"", "\"~res:/Gfx/UI/LobbyCommon/lock_small\""]
+            - ["int", "frame", "0", "0"]
+            - ["string", "badge", "\"\"", "\"44\""]
+            - ["eBadgeType", "badgeType", "eBadgeType.Digit", "eBadgeType.Digit"]
+            - ["bool", "inputEnabled", "true", "true"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["string", "lockIconStyle", "when currentScreen == eCurrentScreen.kHangar -> \"white-wild-sand-50-bg\", \"white-wild-sand-70-bg\""]
+            - ["string", "badgeEmpty", "when badgeType == eBadgeType.Camouflage -> \" \", \"\""]
+            - ["string", "stateStyle", "\"sidebar-item \""]
+            - ["string", "lockedState", "when lock -> \" locked\", \"\""]
+            - ["string", "style", "stateStyle + lockedState"]
+        UIEventOnDataComponent0:
+            watchedDataExpression: "select"
+            ifExpression: "true"
+            eventName: "START_SELECTED_ANIMATION"
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Lobby/Common/Sidebar/SidebarItem/SideBarItem.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+    bindings:
+    - ["selected", "select"]
+    - ["input", "inputEnabled"]
+    - ["classes", "style"]
+    - ["UIAttachLayoutMasterComponent.attachId", "attachId"]
+    - ["UISwitchBarElementComponent.id", "switchId"]
+    children:
+    -   class: "UIControl"
+        name: "HoverBg"
+        input: false
+        classes: "hover black-15-bg"
+        components:
+            Background:
+                drawType: "DRAW_FILL"
+            UIOpacityComponent: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Lobby/Common/Sidebar/SidebarItem/SideBarItem.style.yaml"
+        bindings:
+        - ["visible", "not hoverOff"]
+    -   class: "UIControl"
+        name: "PressedBg"
+        input: false
+        classes: "pressed-bg black-35-bg"
+        components:
+            Background:
+                drawType: "DRAW_FILL"
+            UIOpacityComponent: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Lobby/Common/Sidebar/SidebarItem/SideBarItem.style.yaml"
+    -   class: "UIControl"
+        name: "Selection"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Sidebar/SidebarItem/SideBarSelector.yaml"
+    -   class: "UIControl"
+        name: "IconWrapper"
+        position: [44.000000, 36.000000]
+        size: [32.000000, 32.000000]
+        pivot: [0.500000, 0.500000]
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfFirstChild"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Lobby/Common/Sidebar/SidebarItem/SideBarItem.style.yaml"
+        children:
+        -   class: "UIControl"
+            name: "Icon"
+            size: [32.000000, 32.000000]
+            input: false
+            classes: "content white-wild-sand-bg"
+            components:
+                UITextureComponent:
+                    materialPath: "~res:/Materials.custom/2d.Textured.Saturation.material"
+                    drawType: "DRAW_SCALE_PROPORTIONAL"
+                    perPixelAccuracy: "PER_PIXEL_ACCURACY_FORCED"
+                UIOpacityComponent: {}
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 48.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 48.000000
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Lobby/Common/Sidebar/SidebarItem/SideBarItem.style.yaml"
+            bindings:
+            - ["UITextureComponent.spritePath", "icon"]
+            - ["UITextureComponent.materialParams", "textureParams"]
+        -   class: "UIControl"
+            name: "Lock"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_SCALE_PROPORTIONAL"
+                    sprite: "~res:/Gfx/Lobby/icons/icon_lock"
+                Anchor:
+                    rightAnchorEnabled: true
+                    rightAnchor: -8.000000
+                    bottomAnchorEnabled: true
+                    bottomAnchor: -8.000000
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 24.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 24.000000
+                UIAttachLayoutMasterComponent:
+                    attachId: "HINT"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["visible", "lock"]
+            - ["classes", "lockIconStyle"]
+        -   prototype: "BadgeHolder/BadgeHolder"
+            name: "BadgeHolder"
+            components:
+                Anchor:
+                    rightAnchorEnabled: true
+                    topAnchorEnabled: true
+                UIDataParamsComponent:
+                    args:
+                        "type": "badgeType"
+                        "value": "when lock -> badgeEmpty, badge"
+            bindings:
+            - ["Anchor.rightAnchor", "when type != eBadgeType.Live and value == \" \" -> 4, -8"]
+            - ["Anchor.topAnchor", "when type != eBadgeType.Live and value == \" \" -> 4, -8"]

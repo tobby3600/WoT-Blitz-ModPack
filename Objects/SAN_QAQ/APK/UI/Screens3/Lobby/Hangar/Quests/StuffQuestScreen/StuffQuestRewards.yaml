@@ -1,0 +1,421 @@
+Header:
+    version: 155
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/BlurLite.yaml"
+- "~res:/UI/Screens3/Common/HorizontalScrollBar.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "StuffQuestRewards"
+    size: [698.000000, 160.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfFirstChild"
+        UILayoutEventComponent:
+            sizeChangedEvent: "ON_SIZE_CHANGED"
+            sizeChangedEventData: "_size"
+        UIDataParamsComponent:
+            params:
+            - ["int", "questIndex", "0", "0"]
+            - ["QuestRewards", "rewards", "null", "{ }"]
+            - ["string", "bgSource", "\"\"", "\"\""]
+            - ["bool", "showGlow", "false", "true"]
+            - ["bool", "showBlur", "true", "true"]
+            - ["bool", "showScroll", "true", "true"]
+            - ["bool", "showShadow", "true", "true"]
+            - ["bool", "reverseOrder", "false", "false"]
+            - ["bool", "inputEnabled", "true", "true"]
+            events:
+            - "ON_REWARD_CLICKED(int index)"
+        UIDataLocalVarsComponent:
+            data:
+            - ["vector2", "size", "vec2(0, 0)"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["bool", "needScroll", "rewards.resources.Size() * 140 > size.X"]
+            - ["string", "id", "\"quest_\" + str(questIndex) + \"_reward_\" + rewards.id"]
+        UIChildComponent0:
+            childType: "kControl"
+            condition: "showScroll"
+            control: "MaskedContent"
+        UIChildComponent1:
+            childType: "kControl"
+            condition: "not showScroll"
+            control: "Rewards"
+        UIDataOnEventComponent0:
+            eventName: "ON_SIZE_CHANGED"
+            modelFieldExpression: "size"
+            dataExpression: "_event"
+Slots:
+-   class: "UIControl"
+    name: "Rewards"
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+            vCenterAnchorEnabled: true
+            vCenterAnchor: -2.000000
+        LinearLayout: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "FixedSize"
+            verticalValue: 144.000000
+        UIRepeatComponent:
+            control: "~res:/UI/Screens3/Lobby/Hangar/Quests/StuffQuestScreen/StuffQuestReward.yaml"
+            dataContainer: "rewards.resources"
+            args:
+                "inputEnabled": "inputEnabled"
+                "resource": "_item"
+                "attachId": "id + \"_index_\" + str(_index)"
+            eventActions:
+            - ["ON_REWARD_CLICKED", "ON_REWARD_CLICKED", "_index"]
+            elementNameExpression: "id + \"_index_\" + str(_index)"
+    bindings:
+    - ["LinearLayout.orientation", "when reverseOrder -> eOrientation.RightToLeft, eOrientation.LeftToRight"]
+-   class: "UIControl"
+    name: "MaskedContent"
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "Formula"
+            horizontalFormula: "parent + 40"
+            verticalPolicy: "FixedSize"
+            verticalValue: 160.000000
+    children:
+    -   class: "UIControl"
+        name: "Mask"
+        visible: false
+        input: false
+        components:
+            UIPostProcessSourceComponent0: {}
+            LinearLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["UIPostProcessSourceComponent0.id", "\"Mask\" + id"]
+        children:
+        -   class: "UIControl"
+            name: "Left"
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_SCALE_TO_RECT"
+                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 100.000000
+                    verticalPolicy: "PercentOfParent"
+        -   class: "UIControl"
+            name: "Centre"
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_FILL"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+        -   class: "UIControl"
+            name: "Right"
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_SCALE_TO_RECT"
+                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                    spriteModification: ["FLIP_HORIZONTAL"]
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 100.000000
+                    verticalPolicy: "PercentOfParent"
+    -   class: "UIControl"
+        name: "MaskedContent"
+        visible: true
+        input: false
+        components:
+            UIPostProcessSourceComponent0: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+                verticalValue: 160.000000
+        bindings:
+        - ["UIPostProcessSourceComponent0.id", "\"Masked\" + id"]
+        children:
+        -   prototype: "BlurLite/BlurLite"
+            name: "BlurLite"
+            components:
+                UIPostProcessInputComponent: {}
+                UIPostProcessTextureComponent0:
+                    needClear: true
+            bindings:
+            - ["visible", "showBlur"]
+            - ["UIPostProcessInputComponent.id", "bgSource"]
+        -   class: "UIControl"
+            name: "BgAlternative"
+            input: false
+            components:
+                Background:
+                    usePostProcessedSprite: true
+                UIPostProcessInputComponent: {}
+                UIPostProcessTextureComponent0:
+                    materialPath: "~res:/Materials/2d.Textured.material"
+                    needClear: true
+                    useVirtualCoordinateSystem: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            bindings:
+            - ["visible", "not showBlur"]
+            - ["UIPostProcessInputComponent.id", "bgSource"]
+        -   class: "UIControl"
+            name: "Shadow"
+            input: false
+            classes: "black-35-bg"
+            components:
+                Background: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["visible", "showShadow"]
+        -   class: "UIScrollView"
+            name: "RewardsScrollContainer"
+            position: [76.000000, 0.000000]
+            input: false
+            autoUpdate: true
+            centerContent: true
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "Formula"
+                    horizontalFormula: "parent - 4"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "RadialGradient"
+                input: false
+                components:
+                    UIOpacityComponent:
+                        opacity: 0.500000
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                    LinearLayout: {}
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        horizontalValue: 80.000000
+                        verticalPolicy: "PercentOfParent"
+                        verticalValue: 80.000000
+                bindings:
+                - ["visible", "showGlow"]
+                children:
+                -   class: "UIControl"
+                    name: "LeftRadialGradient"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_SCALE_TO_RECT"
+                            sprite: "~res:/Gfx/Lobby/backgrounds/bg_radial-gradient_quarter"
+                            spriteModification: ["FLIP_HORIZONTAL", "FLIP_VERTICAL"]
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                    bindings:
+                    - ["Background.color", "rgb(12988180)"]
+                -   class: "UIControl"
+                    name: "RightRadialGradient"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_SCALE_TO_RECT"
+                            sprite: "~res:/Gfx/Lobby/backgrounds/bg_radial-gradient_quarter"
+                            spriteModification: ["FLIP_VERTICAL"]
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                    bindings:
+                    - ["Background.color", "rgb(12988180)"]
+            -   class: "UIControl"
+                name: "RadialGradient2"
+                input: false
+                components:
+                    UIOpacityComponent:
+                        opacity: 0.650000
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                    LinearLayout: {}
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        horizontalValue: 40.000000
+                        verticalPolicy: "PercentOfParent"
+                        verticalValue: 40.000000
+                bindings:
+                - ["visible", "showGlow"]
+                children:
+                -   class: "UIControl"
+                    name: "LeftRadialGradient"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_SCALE_TO_RECT"
+                            sprite: "~res:/Gfx/Lobby/backgrounds/bg_radial-gradient_quarter"
+                            spriteModification: ["FLIP_HORIZONTAL", "FLIP_VERTICAL"]
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                    bindings:
+                    - ["Background.color", "rgb(15430181)"]
+                -   class: "UIControl"
+                    name: "RightRadialGradient"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_SCALE_TO_RECT"
+                            sprite: "~res:/Gfx/Lobby/backgrounds/bg_radial-gradient_quarter"
+                            spriteModification: ["FLIP_VERTICAL"]
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                    bindings:
+                    - ["Background.color", "rgb(15430181)"]
+            -   class: "UIScrollViewContainer"
+                name: "scrollContainerControl"
+                scrollDirection: "kHorizontal"
+                components:
+                    LinearLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 160.000000
+                bindings:
+                - ["input", "showScroll"]
+                children:
+                -   class: "UIControl"
+                    name: "LeftMaskSpacer"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 60.000000
+                            verticalPolicy: "PercentOfParent"
+                -   class: "UIControl"
+                    name: "Rewards"
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                            vCenterAnchor: -2.000000
+                        LinearLayout: {}
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 144.000000
+                        UIChildComponent0:
+                            childType: "kControl"
+                            condition: "showScroll and needScroll"
+                            control: "Rewards"
+                    bindings:
+                    - ["LinearLayout.orientation", "when reverseOrder -> eOrientation.RightToLeft, eOrientation.LeftToRight"]
+                -   class: "UIControl"
+                    name: "RightMaskSpacer"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 60.000000
+                            verticalPolicy: "PercentOfParent"
+            -   prototype: "HorizontalScrollBar/HorizontalScrollBar"
+                name: "HorizontalScrollBar"
+                components:
+                    Anchor:
+                        leftAnchor: 60.000000
+                        rightAnchor: 60.000000
+                        bottomAnchor: 2.000000
+                    UIScrollBarComponent:
+                        delegate: ".."
+                bindings:
+                - ["visible", "showScroll"]
+        -   class: "UIControl"
+            name: "AlphaFill"
+            input: false
+            components:
+                UITextureComponent:
+                    spritePath: "~res:/Gfx/Lobby/backgrounds/bg_fill"
+                    materialPath: "~res:/Materials/2d.AlphaFill.material"
+                    drawType: "DRAW_SCALE_TO_RECT"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            bindings:
+            - ["visible", "showShadow"]
+        -   class: "UIControl"
+            name: "Mask"
+            input: false
+            components:
+                Background:
+                    usePostProcessedSprite: true
+                UIPostProcessInputComponent: {}
+                UIPostProcessTextureComponent0:
+                    materialPath: "~res:/Materials.custom/2d.Textured.AlphaMask.material"
+                    needClear: true
+                    useVirtualCoordinateSystem: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            bindings:
+            - ["UIPostProcessInputComponent.id", "\"Mask\" + id"]
+    -   class: "UIControl"
+        name: "BgUnderMask"
+        visible: true
+        input: false
+        components:
+            Background:
+                usePostProcessedSprite: true
+            UIPostProcessInputComponent: {}
+            UIPostProcessTextureComponent0:
+                materialPath: "~res:/Materials/2d.Textured.material"
+                needClear: true
+                useVirtualCoordinateSystem: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["UIPostProcessInputComponent.id", "bgSource"]
+    -   class: "UIControl"
+        name: "MaskedTexture"
+        visible: true
+        input: false
+        components:
+            Background:
+                usePostProcessedSprite: true
+            UIPostProcessInputComponent: {}
+            UIPostProcessTextureComponent0:
+                materialPath: "~res:/Materials/2d.Textured.Alphablend.material"
+                needClear: true
+                useVirtualCoordinateSystem: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["UIPostProcessInputComponent.id", "\"Masked\" + id"]
+    -   class: "UIControl"
+        name: "RewardsOverScroll"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                childType: "kControl"
+                condition: "showScroll and not needScroll"
+                control: "Rewards"

@@ -10,7 +10,7 @@ Prototypes:
         LinearLayout:
             spacing: 8.000000
         SizePolicy:
-            horizontalPolicy: "PercentOfParent"
+            horizontalPolicy: "PercentOfChildrenSum"
             verticalPolicy: "PercentOfMaxChild"
         UIDataParamsComponent:
             params:

@@ -12,12 +12,7 @@ Material:
             enabled: false
         Forward:
         DepthOnly:
-            enabled: false
+            enabled: true
+            ConsiderOnlyDefines: [ VEGETATION_BEND, FLORA_WAVE_ANIMATION, HEIGHTMAP_FLOAT_TEXTURE ]
         ShadowMap:
             enabled: false
-    Presets:
-        ForceDrawDepthPrepass:
-            Passes:
-                DepthOnly:
-                    enabled: true
-                    ConsiderOnlyDefines: [ VEGETATION_BEND, FLORA_WAVE_ANIMATION, HEIGHTMAP_FLOAT_TEXTURE ]

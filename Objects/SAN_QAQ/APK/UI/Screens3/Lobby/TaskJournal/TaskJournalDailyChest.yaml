@@ -1,5 +1,7 @@
 Header:
     version: 161
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "TaskJournalDailyChest"
@@ -93,7 +95,7 @@ Prototypes:
             bindings:
             - ["UITextureComponent.spritePath", "\"~res:/Gfx/UI/TaskJournal/Extended/Chests_\" + str(index + 1)"]
             - ["UITextureComponent.frame", "imageFrame"]
-            - ["UITextureComponent.materialParams", "when isOpened -> \"hue,0;saturation,0;value,0\", \"hue,0;saturation,1;value,0\""]
+            - ["UITextureComponent.materialParams", "when isOpened -> \"saturation,-100\", \"saturation,0\""]
     -   class: "UIControl"
         name: "Mark"
         input: false
@@ -113,31 +115,7 @@ Prototypes:
             name: "ProxyPrice"
             input: false
             components:
-                Background:
-                    usePostProcessedSprite: true
-                UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                    needClearAlphaAfterRender: true
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent1:
-                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent2:
-                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIRoundedCornersComponent:
-                    radius: "3"
                 Anchor:
-                    enabled: true
                     hCenterAnchorEnabled: true
                     bottomAnchorEnabled: true
                     bottomAnchor: 8.000000
@@ -150,6 +128,13 @@ Prototypes:
                 StyleSheet:
                     styles: "~res:/UI/Screens3/Color.style.yaml"
             children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "bgStyle": "black-25-bg"
+                            "roundCorner": "\"3\""
             -   class: "UIControl"
                 name: "PriceAmount"
                 input: false

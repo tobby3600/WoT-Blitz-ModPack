@@ -58,7 +58,7 @@ vertex_out
 		float4 texCoord1 : TEXCOORD1;
 	#endif
 
-	#if RECEIVE_SHADOW || VERTEX_COLOR
+	#if RECEIVE_SHADOW || (HARD_SKINNING && TILED_DECAL_MASK)
 		float4 texCoord2 : TEXCOORD2;
 	#endif
 
@@ -70,8 +70,8 @@ vertex_out
 		float4 aniCamo : TEXCOORD4;
 	#endif
 
-	#if HARD_SKINNING && TILED_DECAL_MASK
-		float index : TEXCOORD5;
+	#if VERTEX_COLOR
+		float4 vertexColor : COLOR0;
 	#endif
 };
 
@@ -140,9 +140,9 @@ vertex_out vp_main(vertex_in input)
 		normal = tbn[2];
 	#endif
 
-	float3 t = normalize(mul3Fast0(tangent, worldInvTransposeMatrix));
-	float3 b = normalize(mul3Fast0(binormal, worldInvTransposeMatrix));
-	float3 n = normalize(mul3Fast0(normal, worldInvTransposeMatrix));
+	float3 t = normalize(mul(float4(tangent, 0.0), worldInvTransposeMatrix).xyz);
+	float3 b = normalize(mul(float4(binormal, 0.0), worldInvTransposeMatrix).xyz);
+	float3 n = normalize(mul(float4(normal, 0.0), worldInvTransposeMatrix).xyz);
 
 	#if NEEDS_LOCAL_POSITION
 		output.displacePos.xyz = float4(displacePos, input.normal.z);
@@ -184,11 +184,15 @@ vertex_out vp_main(vertex_in input)
 	#endif
 
 	#if RECEIVE_SHADOW
-		output.texCoord2.xyz = float3(dot(toLightDir, normalize(mul3Fast0(tangent, worldViewInvTransposeMatrix))), dot(toLightDir, normalize(mul3Fast0(binormal, worldViewInvTransposeMatrix))), dot(toLightDir, normalize(mul3Fast0(normal, worldViewInvTransposeMatrix))));
+		output.texCoord2.xyz = float3(dot(toLightDir, normalize(mul(float4(tangent, 0.0), worldViewInvTransposeMatrix).xyz)), dot(toLightDir, normalize(mul(float4(binormal, 0.0), worldViewInvTransposeMatrix).xyz)), dot(toLightDir, normalize(mul(float4(normal, 0.0), worldViewInvTransposeMatrix).xyz)));
+	#endif
+
+	#if HARD_SKINNING && TILED_DECAL_MASK
+		output.texCoord2.w = jointToDecalTextureMapping[int(clamp(input.index, 0.0, 3.0))];
 	#endif
 
 	#if VERTEX_COLOR
-		output.texCoord2.w = input.color0.a;
+		output.vertexColor = input.color0;
 	#endif
 
 	#if USE_VERTEX_FOG
@@ -199,10 +203,6 @@ vertex_out vp_main(vertex_in input)
 
 	#if TILED_DECAL_MASK
 		#include "decal-mask.slh"
-	#endif
-
-	#if HARD_SKINNING && TILED_DECAL_MASK
-		output.index = jointToDecalTextureMapping[int(clamp(input.index, 0.0, 3.0))];
 	#endif
 
 	return output;

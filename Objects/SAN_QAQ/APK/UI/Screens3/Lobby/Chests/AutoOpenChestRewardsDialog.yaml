@@ -77,14 +77,10 @@ Prototypes:
                 UIOpacityComponent:
                     opacity: 0.500000
                 UIPostProcessTextureComponent0:
-                    scale: 0.250000
-                    needDepth: true
                     renderRequestingType: "ON_SIZE_CHANGED"
                 UIPostProcessTextureComponent1:
-                    scale: 0.250000
                     renderRequestingType: "ON_SIZE_CHANGED"
                 UIPostProcessTextureComponent2:
-                    scale: 0.250000
                     renderRequestingType: "ON_SIZE_CHANGED"
                 Anchor:
                     hCenterAnchorEnabled: true

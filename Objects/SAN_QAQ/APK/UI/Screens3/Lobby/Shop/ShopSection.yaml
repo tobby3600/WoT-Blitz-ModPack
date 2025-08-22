@@ -1,5 +1,7 @@
 Header:
     version: 161
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ShopSection"
@@ -63,6 +65,12 @@ Prototypes:
         UIActionComponent:
             actionsPath: "~res:/UI/Screens3/Lobby/Shop/ShopSection.actions"
     children:
+    -   prototype: "BlurModified/BlurModified"
+        name: "Blur"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "roundCorner": "\"16\""
     -   class: "UIControl"
         name: "PremShopBanner"
         input: false
@@ -106,48 +114,28 @@ Prototypes:
                 hCenterAnchorEnabled: true
             SizePolicy:
                 horizontalPolicy: "Formula"
-                horizontalFormula: "firstChild + 64"
-                verticalPolicy: "PercentOfFirstChild"
+                horizontalFormula: "firstChild + 96"
+                verticalPolicy: "Formula"
+                verticalFormula: "firstChild + 48"
             UIChildComponent0:
                 childType: "kControl"
                 condition: "smallScreen"
                 control: "SmallScreenChildren"
             UIChildComponent1:
                 childType: "kControl"
+                condition: "not smallScreen"
                 control: "DefaultChildren"
 Slots:
 -   class: "UIControl"
     name: "SmallScreenChildren"
     input: false
     components:
-        Background:
-            usePostProcessedSprite: true
-        UIPostProcessTextureComponent0:
-            materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-            needClearAlphaAfterRender: true
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent1:
-            materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent2:
-            materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIRoundedCornersComponent:
-            radius: "16"
+        Anchor:
+            hCenterAnchorEnabled: true
         SizePolicy:
             horizontalPolicy: "FixedSize"
             horizontalValue: 792.000000
-            verticalPolicy: "Formula"
-            verticalFormula: "childrenSum + 16"
+            verticalPolicy: "PercentOfChildrenSum"
         FlowLayout:
             hSpacing: 36.000000
             vSpacing: 24.000000
@@ -203,34 +191,12 @@ Slots:
     name: "DefaultChildren"
     input: false
     components:
-        Background:
-            usePostProcessedSprite: true
-        UIPostProcessTextureComponent0:
-            materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-            needClearAlphaAfterRender: true
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent1:
-            materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent2:
-            materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIRoundedCornersComponent:
-            radius: "16"
+        Anchor:
+            hCenterAnchorEnabled: true
         SizePolicy:
             horizontalPolicy: "FixedSize"
             horizontalValue: 1104.000000
-            verticalPolicy: "Formula"
-            verticalFormula: "childrenSum + 32"
+            verticalPolicy: "PercentOfChildrenSum"
         FlowLayout:
             hSpacing: 48.000000
             vSpacing: 36.000000

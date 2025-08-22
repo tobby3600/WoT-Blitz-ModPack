@@ -216,7 +216,7 @@ Prototypes:
                     classes: "header4 text-color-orange"
                     components:
                         UITextComponent:
-                            text: "炸"
+                            text: "爆炸"
             -   prototype: "StyledButton/StyledButton"
                 name: "Fire"
                 size: [50.000000, 50.000000]
@@ -231,7 +231,7 @@ Prototypes:
                     classes: "header4 text-color-orange"
                     components:
                         UITextComponent:
-                            text: "火"
+                            text: "着火"
             -   prototype: "StyledButton/StyledButton"
                 name: "Hit"
                 size: [50.000000, 50.000000]
@@ -247,7 +247,7 @@ Prototypes:
                     classes: "header4 text-color-orange"
                     components:
                         UITextComponent:
-                            text: "打"
+                            text: "受击"
         -   class: "UIControl"
             name: "Main"
             input: false
@@ -499,7 +499,7 @@ Prototypes:
                     topAnchorEnabled: true
                     bottomAnchorEnabled: true
                 UIAnchorSafeAreaComponent: {}
-                ScrollBarDelegate:
+                UIScrollBarComponent:
                     delegate: "../ScrollArea"
                 StyleSheet:
                     styles: "~res:/UI/Screens3/SafeArea.style.yaml"

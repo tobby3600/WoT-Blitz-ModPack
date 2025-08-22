@@ -4,7 +4,6 @@ Prototypes:
 -   class: "UIControl"
     name: "KeyArt"
     size: [1024.000000, 768.000000]
-    visible: true
     input: false
     components:
         Anchor:
@@ -34,17 +33,16 @@ Prototypes:
                 verticalFormula: "max(parentSize.X / size.X, parentSize.Y / size.Y)"
         children:
         -   class: "UIControl"
-            name: "1"
+            name: "sprite"
             position: [0.000000, 0.000000]
             size: [1024.000000, 768.000000]
             input: false
             components:
-                Background:
-                    drawType: "DRAW_SCALE_TO_RECT"
-                    frame: 0
                 Anchor:
                     hCenterAnchorEnabled: true
                     vCenterAnchorEnabled: true
+                Background:
+                    drawType: "DRAW_SCALE_TO_RECT"
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "PercentOfParent"

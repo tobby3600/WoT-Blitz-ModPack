@@ -104,14 +104,17 @@ Prototypes:
                 StyleSheet:
                     styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
             children:
-            -   prototype: "BlurModified/BlurModified"
+            -   class: "UIControl"
                 name: "TopBlock"
                 input: false
                 components:
                     SizePolicy:
                         horizontalPolicy: "PercentOfParent"
-                        verticalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 72.000000
                 children:
+                -   prototype: "BlurModified/BlurModified"
+                    name: "Blur"
                 -   class: "UIControl"
                     name: "Back"
                     input: false
@@ -120,7 +123,6 @@ Prototypes:
                             vCenterAnchorEnabled: true
                         SizePolicy:
                             horizontalPolicy: "PercentOfMaxChild"
-                            horizontalValue: 100.000000
                             verticalPolicy: "PercentOfMaxChild"
                         UIChildComponent0:
                             prototypePath: "~res:/UI/Screens3/Lobby/Common/BackButton.yaml"
@@ -134,8 +136,7 @@ Prototypes:
                         UITextComponent:
                             align: ["HCENTER", "VCENTER"]
                         SizePolicy:
-                            horizontalPolicy: "Formula"
-                            horizontalFormula: "parent"
+                            horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfParent"
                     bindings:
                     - ["UITextComponent.text", "localize(\"Clans/Search/Title\")"]
@@ -143,29 +144,6 @@ Prototypes:
                 name: "BottomBlock"
                 input: false
                 components:
-                    Background:
-                        usePostProcessedSprite: true
-                    UIPostProcessTextureComponent0:
-                        materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                        needClearAlphaAfterRender: true
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent1:
-                        materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent2:
-                        materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIRoundedCornersComponent:
-                        radius: "4"
                     Anchor:
                         hCenterAnchorEnabled: true
                     LinearLayout: {}
@@ -192,6 +170,7 @@ Prototypes:
                                 "text": "model.searchString"
                                 "textFieldType": "eTextFieldType.Search"
                                 "isVisible": "true"
+                                "isBlur": "true"
                             eventActions:
                             - ["EDIT_ENDED", "EDIT_ENDED", "_event"]
                         UIDataLocalBindingsComponent:

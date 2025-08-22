@@ -1,0 +1,723 @@
+Header:
+    version: 157
+Prototypes:
+-   class: "UIControl"
+    name: "GroupArea"
+    input: false
+    components:
+        Anchor:
+            leftAnchorEnabled: true
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            verticalPolicy: "FixedSize"
+        UIDataParamsComponent:
+            params:
+            - ["int64", "serverTime", "0L", "0L"]
+            - ["int", "sectionWidth", "0", "340"]
+            - ["ShopGroup", "group", "null", "{ }"]
+            - ["vector2", "paddingSize", "vec2(0, 0)", "vec2(16, 16)"]
+            - ["vector2", "spacerSize", "vec2(0, 0)", "vec2(16, 0)"]
+            - ["vector2", "itemSize", "vec2(0, 0)", "vec2(300, 400)"]
+            - ["int", "itemsInLine", "3", "3"]
+            - ["int", "startIndex", "0", "0"]
+            - ["bool", "debugMode", "false", "true"]
+            events:
+            - "GO_TO_GROUP"
+        UIDataLocalVarsComponent:
+            data:
+            - ["int", "extendedOffset", "54"]
+            - ["int", "titleHeight", "36"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["int", "basicStartLineHeight", "int(itemSize.Y + spacerSize.Y * 0.500000)"]
+            - ["color", "groupColor", "rgba(group.data.color.red * 255.000000, group.data.color.green * 255.000000, group.data.color.blue * 255.000000, group.data.color.alpha)"]
+            - ["int", "offset", "when itemsInLine == 3 -> 4, 16"]
+            - ["int", "currentOffset", "(when group.size.extended -> extendedOffset, 0) + (when group.size.hasOffset -> -offset, 0)"]
+            - ["int", "endIndex", "when not isNull(group) -> startIndex + group.size.trueSize - 1, startIndex"]
+            - ["int", "fullEndIndex", "when (endIndex + 1) % itemsInLine > 0 -> endIndex + itemsInLine - (endIndex % itemsInLine) - 1, endIndex"]
+            - ["int", "fullStartIndex", "startIndex - (startIndex % itemsInLine)"]
+            - ["int", "lineCount", "int((fullEndIndex - fullStartIndex) / itemsInLine) + 1"]
+            - ["bool", "oneLineSmall", "lineCount == 1 and not (endIndex - startIndex == itemsInLine)"]
+            - ["int", "startLineHeight", "basicStartLineHeight + int(spacerSize.Y * 0.500000) + (when lineCount == 1 -> currentOffset, 0)"]
+            - ["int", "overallWidth", "when oneLineSmall -> int((endIndex - startIndex + 1) * itemSize.X + (endIndex - startIndex) * spacerSize.X + paddingSize.X * 2), sectionWidth"]
+            - ["int", "overallHeigth", "basicStartLineHeight + titleHeight + currentOffset + int(when lineCount == 1 -> spacerSize.Y * 0.500000, when lineCount == 2 -> spacerSize.Y * 1.500000 + itemSize.Y, itemSize.Y * (lineCount - 1) + spacerSize.Y * (lineCount - 0.500000))"]
+            - ["int", "emptyStartWidth", "when fullStartIndex == startIndex -> 0, int((startIndex - fullStartIndex) * itemSize.X + (startIndex - fullStartIndex - 1) * spacerSize.X + spacerSize.X)"]
+            - ["int", "emptyEndWidth", "when fullEndIndex == endIndex -> 0, int((fullEndIndex - endIndex) * itemSize.X + (fullEndIndex - endIndex - 1) * spacerSize.X + spacerSize.X)"]
+            - ["int", "endLineHeight", "when lineCount > 1 -> int(spacerSize.Y + itemSize.Y) + currentOffset, 0"]
+            - ["int", "firstLineEnd", "when lineCount > 1 -> 0, int((itemsInLine - (endIndex % itemsInLine) - 1) * itemSize.X + (itemsInLine - endIndex % itemsInLine - 2) * spacerSize.X + paddingSize.X + spacerSize.X * 0.500000)"]
+            - ["int", "leftAnchor", "when startIndex == 0 or oneLineSmall -> int(paddingSize.X), int(paddingSize.X) + emptyStartWidth"]
+            - ["bool", "customStartBorder", "lineCount > 1 and not (startIndex == fullStartIndex)"]
+    bindings:
+    - ["Anchor.leftAnchor", "-leftAnchor"]
+    - ["SizePolicy.horizontalValue", "overallWidth"]
+    - ["SizePolicy.verticalValue", "overallHeigth"]
+    children:
+    -   class: "UIControl"
+        name: "Spacer"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 0.000000
+                verticalPolicy: "FixedSize"
+        bindings:
+        - ["SizePolicy.verticalValue", "titleHeight"]
+    -   class: "UIControl"
+        name: "Source"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "Content"
+            input: false
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "StartLine"
+                input: false
+                components:
+                    LinearLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "FixedSize"
+                bindings:
+                - ["SizePolicy.verticalValue", "startLineHeight"]
+                children:
+                -   class: "UIControl"
+                    name: "EmptyStart"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            verticalPolicy: "FixedSize"
+                    bindings:
+                    - ["visible", "not oneLineSmall"]
+                    - ["SizePolicy.horizontalValue", "emptyStartWidth"]
+                -   class: "UIControl"
+                    name: "Start"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                    children:
+                    -   class: "UIControl"
+                        name: "Name"
+                        input: true
+                        components:
+                            Anchor:
+                                topAnchorEnabled: true
+                                topAnchor: -30.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfMaxChild"
+                                verticalPolicy: "PercentOfMaxChild"
+                            UIInputEventComponent:
+                                onTouchUpInside: "SavePost"
+                            UIChildComponent0:
+                                childType: "kControl"
+                                control: "GroupName"
+                    -   class: "UIControl"
+                        name: "StartContent"
+                        input: false
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfParent"
+                            UIChildComponent0:
+                                prototypePath: "~res:/UI/Screens3/Lobby/Shop/Group/GroupItem.yaml"
+                                args:
+                                    "leftAnchor": "when oneLineSmall -> 0, -emptyStartWidth"
+                                    "background": "when customStartBorder -> BgWithoutBorder, BgDefault"
+                        children:
+                        -   class: "UIControl"
+                            name: "CustomBorder"
+                            input: false
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfParent"
+                                UIChildComponent0:
+                                    childType: "kControl"
+                                    condition: "customStartBorder"
+                                    control: "Border"
+                -   class: "UIControl"
+                    name: "End"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            verticalPolicy: "FixedSize"
+                    bindings:
+                    - ["visible", "not oneLineSmall"]
+                    - ["SizePolicy.horizontalValue", "firstLineEnd"]
+            -   class: "UIControl"
+                name: "BetweenContent"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    UIChildComponent0:
+                        condition: "lineCount > 2"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Shop/Group/GroupItem.yaml"
+                        args:
+                            "topAnchor": "-startLineHeight"
+                            "background": "when customStartBorder -> BgWithoutBorder, BgDefault"
+                bindings:
+                - ["visible", "lineCount > 2"]
+                children:
+                -   class: "UIControl"
+                    name: "CustomBorder"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            verticalPolicy: "FixedSize"
+                        UIChildComponent0:
+                            childType: "kControl"
+                            condition: "customStartBorder and lineCount > 2"
+                            control: "Border"
+                    bindings:
+                    - ["SizePolicy.horizontalValue", "emptyStartWidth"]
+                    - ["SizePolicy.verticalValue", "overallHeigth - startLineHeight - titleHeight"]
+            -   class: "UIControl"
+                name: "EndLine"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfMaxChild"
+                    UIChildComponent0:
+                        childType: "kControl"
+                        condition: "lineCount > 1"
+                        control: "EndLine"
+                bindings:
+                - ["visible", "lineCount > 1"]
+Slots:
+-   class: "UIControl"
+    name: "EndLine"
+    input: false
+    components:
+        LinearLayout: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "FixedSize"
+    bindings:
+    - ["visible", ""]
+    - ["SizePolicy.verticalValue", "endLineHeight"]
+    children:
+    -   class: "UIControl"
+        name: "EndContent"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Shop/Group/GroupItem.yaml"
+                args:
+                    "topAnchor": "-(overallHeigth - endLineHeight - titleHeight)"
+                    "background": "when customStartBorder -> BgWithoutBorder, BgDefault"
+        children:
+        -   class: "UIControl"
+            name: "CustomBorder"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    verticalPolicy: "PercentOfParent"
+                UIChildComponent0:
+                    childType: "kControl"
+                    condition: "customStartBorder and lineCount == 2"
+                    control: "Border"
+            bindings:
+            - ["SizePolicy.horizontalValue", "min(emptyStartWidth, overallWidth - emptyEndWidth)"]
+    -   class: "UIControl"
+        name: "EmptyEnd"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+        bindings:
+        - ["SizePolicy.horizontalValue", "emptyEndWidth"]
+-   class: "UIControl"
+    name: "GroupName"
+    input: false
+    components:
+        LinearLayout:
+            spacing: 8.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "PercentOfMaxChild"
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfLastChild"
+        children:
+        -   class: "UIControl"
+            name: "Glow"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                LinearLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "Formula"
+                    horizontalFormula: "parent + 32"
+                    verticalPolicy: "Formula"
+                    verticalFormula: "maxChild"
+            children:
+            -   class: "UIControl"
+                name: "Left"
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "Top"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_ALIGNED"
+                            sprite: "~res:/Gfx/Lobby/backgrounds/grade_glow_right"
+                            spriteModification: ["FLIP_HORIZONTAL"]
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                    bindings:
+                    - ["Background.color", "groupColor"]
+                -   class: "UIControl"
+                    name: "Bottom"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_ALIGNED"
+                            sprite: "~res:/Gfx/Lobby/backgrounds/grade_glow_right"
+                            spriteModification: ["FLIP_HORIZONTAL", "FLIP_VERTICAL"]
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                    bindings:
+                    - ["Background.color", "groupColor"]
+            -   class: "UIControl"
+                name: "Center"
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "TopDown"
+                        dynamicSpacing: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   class: "UIControl"
+                    name: "Top"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_SCALE_TO_RECT"
+                            sprite: "~res:/Gfx/Lobby/backgrounds/grade_glow_center"
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfContent"
+                    bindings:
+                    - ["Background.color", "groupColor"]
+                -   class: "UIControl"
+                    name: "Bottom"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_SCALE_TO_RECT"
+                            sprite: "~res:/Gfx/Lobby/backgrounds/grade_glow_center"
+                            spriteModification: ["FLIP_VERTICAL"]
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfContent"
+                    bindings:
+                    - ["Background.color", "groupColor"]
+            -   class: "UIControl"
+                name: "Right"
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "Top"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_ALIGNED"
+                            sprite: "~res:/Gfx/Lobby/backgrounds/grade_glow_right"
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                    bindings:
+                    - ["Background.color", "groupColor"]
+                -   class: "UIControl"
+                    name: "Bottom"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_ALIGNED"
+                            sprite: "~res:/Gfx/Lobby/backgrounds/grade_glow_right"
+                            spriteModification: ["FLIP_VERTICAL"]
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                    bindings:
+                    - ["Background.color", "groupColor"]
+        -   class: "UIControl"
+            name: "Border"
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_STRETCH_BOTH"
+                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_border_1px_r4"
+                    leftRightStretchCap: 4.000000
+                    topBottomStretchCap: 4.000000
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "Formula"
+                    horizontalFormula: "maxChild + 12"
+                    verticalPolicy: "Formula"
+                    verticalFormula: "maxChild + 8"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["Background.color", "groupColor"]
+            children:
+            -   class: "UIControl"
+                name: "GradeName"
+                input: false
+                components:
+                    UITextComponent:
+                        colorInheritType: "COLOR_IGNORE_PARENT"
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        horizontalMin: 24.000000
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["classes", "\"t-caps bold\""]
+                - ["UITextComponent.text", "group.data.name"]
+                - ["UITextComponent.color", "groupColor"]
+    -   class: "UIControl"
+        name: "TimerContent"
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                condition: "group.data.promo"
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Timer.yaml"
+                args:
+                    "timerSize": "eTimerSize.Small"
+                    "time": "group.data.promoExpiresAt"
+                    "serverTime": "serverTime"
+                    "bgVisible": "true"
+                    "bgColorStyle": "\"white-wild-sand-25-bg\""
+    -   class: "UIControl"
+        name: "Control"
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            UIChildComponent0:
+                childType: "kControl"
+                condition: "debugMode"
+                control: "DebugInfo"
+-   class: "UIControl"
+    name: "BgDefault"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            verticalPolicy: "FixedSize"
+    bindings:
+    - ["SizePolicy.horizontalValue", "overallWidth"]
+    - ["SizePolicy.verticalValue", "overallHeigth - 36"]
+    children:
+    -   class: "UIControl"
+        name: "GradientColored"
+        visible: true
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+                sprite: "~res:/Gfx/Lobby/backgrounds/bg_radial-gradient_512"
+            UIOpacityComponent:
+                opacity: 0.750000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["Background.color", "groupColor"]
+    -   class: "UIControl"
+        name: "Gradient"
+        visible: true
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+                sprite: "~res:/Gfx/Lobby/backgrounds/bg_radial-gradient_512"
+            UIOpacityComponent:
+                opacity: 0.250000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+    -   class: "UIControl"
+        name: "Border"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                childType: "kControl"
+                control: "Border"
+-   class: "UIControl"
+    name: "BgWithoutBorder"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            verticalPolicy: "FixedSize"
+    bindings:
+    - ["SizePolicy.horizontalValue", "overallWidth"]
+    - ["SizePolicy.verticalValue", "overallHeigth - 36"]
+    children:
+    -   class: "UIControl"
+        name: "GradientColored"
+        visible: true
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+                sprite: "~res:/Gfx/Lobby/backgrounds/bg_radial-gradient_512"
+            UIOpacityComponent:
+                opacity: 0.750000
+            UIRoundedCornersComponent:
+                radius: " 4;0;0;0;"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["Background.color", "groupColor"]
+    -   class: "UIControl"
+        name: "Gradient"
+        visible: true
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+                sprite: "~res:/Gfx/Lobby/backgrounds/bg_radial-gradient_512"
+            UIOpacityComponent:
+                opacity: 0.100000
+            UIRoundedCornersComponent:
+                radius: " 4;0;0;0;"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+-   class: "UIControl"
+    name: "Border"
+    size: [300.000000, 400.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "BorderHColored"
+        visible: true
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+                sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                spriteModification: ["FLIP_HORIZONTAL"]
+            UIOpacityComponent:
+                opacity: 0.750000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+                verticalValue: 1.000000
+        bindings:
+        - ["Background.color", "groupColor"]
+    -   class: "UIControl"
+        name: "BorderH"
+        visible: true
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+                sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                spriteModification: ["FLIP_HORIZONTAL"]
+            UIOpacityComponent:
+                opacity: 0.250000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+                verticalValue: 1.000000
+    -   class: "UIControl"
+        name: "BorderVColored"
+        visible: true
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+                sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_vertical_0-100"
+                spriteModification: ["FLIP_VERTICAL"]
+            UIOpacityComponent:
+                opacity: 0.750000
+            Anchor:
+                topAnchorEnabled: true
+                topAnchor: 1.000000
+                bottomAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 1.000000
+                verticalPolicy: "Ignore"
+        bindings:
+        - ["Background.color", "groupColor"]
+    -   class: "UIControl"
+        name: "BorderV"
+        visible: true
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+                sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_vertical_0-100"
+                spriteModification: ["FLIP_VERTICAL"]
+            UIOpacityComponent:
+                opacity: 0.250000
+            Anchor:
+                topAnchorEnabled: true
+                topAnchor: 1.000000
+                bottomAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 1.000000
+                verticalPolicy: "Ignore"
+-   class: "UIControl"
+    name: "DebugInfo"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        Anchor:
+            leftAnchorEnabled: true
+            leftAnchor: 10.000000
+            vCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfFirstChild"
+            verticalPolicy: "PercentOfFirstChild"
+    children:
+    -   class: "UIControl"
+        name: "GoToGroupButton"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+                args:
+                    "type": "eButtonType.POSITIVE"
+                    "image": "\"~res:/Gfx/Lobby/icons/icon_external-link_square\""
+                eventActions:
+                - ["ON_CLICK_BUTTON", "GO_TO_GROUP", ""]
+    -   class: "UIControl"
+        name: "Info"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                topAnchorEnabled: true
+                topAnchor: -30.000000
+            IgnoreLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfLastChild"
+                verticalPolicy: "PercentOfLastChild"
+        children:
+        -   class: "UIControl"
+            name: "Bg"
+            input: false
+            classes: "grey-shark-bg"
+            components:
+                Background: {}
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "Formula"
+                    horizontalFormula: "parent + 8"
+                    verticalPolicy: "PercentOfParent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+        -   class: "UIControl"
+            name: "Id"
+            input: false
+            classes: "t-subtitle bold white-wild-sand-text"
+            components:
+                UITextComponent: {}
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "group.id"]

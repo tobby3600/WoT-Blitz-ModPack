@@ -1,0 +1,250 @@
+Header:
+    version: 152
+ImportedPackages:
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "DropRates"
+    size: [800.000000, 400.000000]
+    exclusiveInput: true
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        ModalInput: {}
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Escape"
+            keyDownEvent: "BackEvent"
+        UIShortcutEventComponent:
+            shortcuts: "BackEvent,Escape;BackEvent,Back"
+        UIDataParamsComponent:
+            params:
+            - ["control", "additionalContent", "null", "null"]
+            - ["ArtefactGrade", "grade", "ArtefactGrade.unknown", "ArtefactGrade.unique"]
+            - ["string", "title", "\"\"", "\"Chest\""]
+            - ["bool", "showCompensations", "false", "false"]
+            - ["control", "content", "null", "null"]
+            events:
+            - "BACK_EVENT"
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Chests/DropRates.actions"
+    children:
+    -   class: "UIControl"
+        name: "BlurAndFade"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Common/OverlayBlur.yaml"
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 12.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "Header"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 80.000000
+            children:
+            -   class: "UIControl"
+                name: "CloseButton"
+                input: false
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        leftAnchor: 16.000000
+                        topAnchorEnabled: true
+                        topAnchor: 16.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfMaxChild"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+                        args:
+                            "hasSound": "false"
+                            "type": "eButtonType.OPTIONAL_LIGHT"
+                            "image": "\"~res:/Gfx/Shared/icons/icon_close_n\""
+                            "isBgVisible": "false"
+                        eventActions:
+                        - ["ON_CLICK_BUTTON", "BackEvent", ""]
+            -   class: "UIControl"
+                name: "Title"
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        topAnchorEnabled: true
+                        topAnchor: 32.000000
+                    LinearLayout:
+                        spacing: 16.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfMaxChild"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Lobby/Chests/ChestTite.yaml"
+                        args:
+                            "title": "title"
+                            "grade": "grade"
+        -   class: "UIControl"
+            name: "AdditionalContent"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 800.000000
+                    verticalPolicy: "PercentOfMaxChild"
+                UIChildComponent0:
+                    childType: "kControl"
+                    condition: "not isNull(additionalContent)"
+                    control: "additionalContent"
+            bindings:
+            - ["visible", "not isNull(additionalContent)"]
+        -   class: "UIControl"
+            name: "Content"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "VerticalScrollView"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet: {}
+                children:
+                -   class: "UIScrollView"
+                    name: "ScrollArea"
+                    autoUpdate: true
+                    centerContent: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            topAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 800.000000
+                            verticalPolicy: "PercentOfParent"
+                    children:
+                    -   class: "UIScrollViewContainer"
+                        name: "scrollContainerControl"
+                        scrollDirection: "kVertical"
+                        components:
+                            LinearLayout:
+                                orientation: "TopDown"
+                                padding: "6; 0"
+                                spacing: 8.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        children:
+                        -   class: "UIControl"
+                            name: "Title"
+                            input: false
+                            classes: "white-wild-sand-15-bg"
+                            components:
+                                Background:
+                                    drawType: "DRAW_FILL"
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                LinearLayout:
+                                    padding: "16"
+                                    useRtl: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 48.000000
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
+                            children:
+                            -   class: "UIControl"
+                                name: "spacer"
+                                input: false
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                        verticalPolicy: "FixedSize"
+                                        verticalValue: 0.000000
+                            -   class: "UIControl"
+                                name: "compensations"
+                                input: false
+                                classes: "t-caps bold color=white-wild-sand-text"
+                                components:
+                                    UITextComponent:
+                                        colorInheritType: "COLOR_IGNORE_PARENT"
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                        vCenterAnchorEnabled: true
+                                    IgnoreLayout: {}
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfContent"
+                                        verticalPolicy: "PercentOfContent"
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                                bindings:
+                                - ["visible", "showCompensations"]
+                                - ["UITextComponent.text", "capitalize(localize(\"storage/Items/Compensations\"))"]
+                            -   class: "UIControl"
+                                name: "chances"
+                                input: false
+                                classes: "t-caps bold color=white-wild-sand-text"
+                                components:
+                                    UITextComponent:
+                                        colorInheritType: "COLOR_IGNORE_PARENT"
+                                    Anchor:
+                                        vCenterAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfContent"
+                                        verticalPolicy: "PercentOfContent"
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                                bindings:
+                                - ["UITextComponent.text", "capitalize(localize(\"storage/Items/Chest/DropRates\"))"]
+                        -   class: "UIControl"
+                            name: "ContentHolder"
+                            input: false
+                            components:
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "Formula"
+                                    horizontalFormula: "parent - 32"
+                                    verticalPolicy: "PercentOfMaxChild"
+                                UIChildComponent0:
+                                    childType: "kControl"
+                                    condition: "not isNull(content)"
+                                    control: "content"
+                -   prototype: "VerticalScrollBar/VerticalScrollBar"
+                    name: "VerticalScrollBar"
+                    components:
+                        Anchor:
+                            rightAnchorEnabled: true
+                            rightAnchor: 4.000000
+                            topAnchorEnabled: true
+                        UIScrollBarComponent:
+                            delegate: "../ScrollArea"
+        -   class: "UIControl"
+            name: "Footer"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 16.000000

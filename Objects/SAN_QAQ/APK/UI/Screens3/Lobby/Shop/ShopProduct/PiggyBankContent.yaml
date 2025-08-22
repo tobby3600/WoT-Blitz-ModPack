@@ -1,0 +1,166 @@
+Header:
+    version: 155
+Prototypes:
+-   class: "UIControl"
+    name: "PiggyBankContent"
+    size: [240.000000, 47.000000]
+    input: false
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/Lobby/Shop/ShopProduct/PiggyBankContent.animation"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "FixedSize"
+            verticalValue: 47.000000
+        UIDataParamsComponent:
+            params:
+            - ["PiggyBankState", "piggy", "null", "{ }"]
+            events:
+            - "PIGGY_BANK_SAVE_PROGRESS(int stuffDescr)"
+            - "PIGGY_BANK_STAGE_PROGRESS(int stuffDescr)"
+        UIDataLocalVarsComponent:
+            data:
+            - ["float", "progressAnimationTime", "1.000000"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Shop/ShopProduct/PiggyBankContent.actions"
+    children:
+    -   class: "UIParticles"
+        name: "PiggyFill_Gold"
+        scale: [1.300000, 1.300000]
+        input: false
+        effectPath: "~res:/3d/FX/UI/GoldCoins.sc2"
+        autoStart: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                bottomAnchorEnabled: true
+                bottomAnchor: 250.000000
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 4.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfChildrenSum"
+        children:
+        -   class: "UIControl"
+            name: "Caption"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                LinearLayout:
+                    spacing: 2.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfMaxChild"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            children:
+            -   class: "UIControl"
+                name: "Text"
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    LinearLayout:
+                        spacing: 5.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfMaxChild"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                children:
+                -   class: "UIControl"
+                    name: "CurrentProgress"
+                    input: false
+                    components:
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfMaxChild"
+                        UIChildComponent0:
+                            prototypePath: "~res:/UI/Screens3/Lobby/Hangar/Offers/PRMP/AnimatedNumber/AnimatedNumber.yaml"
+                            args:
+                                "animationTime": "progressAnimationTime"
+                                "initialNumber": "piggy.previousQuantity"
+                                "targetNumber": "piggy.stagedQuantity"
+                                "textStyle": "\"t-headline bold white-wild-sand-text\""
+                            eventActions:
+                            - ["NUMBER_ANIMATION_FINISHED", "NUMBER_ANIMATION_FINISHED", ""]
+                -   class: "UIControl"
+                    name: "Delimiter"
+                    input: false
+                    classes: "t-headline bold white-wild-sand-text"
+                    components:
+                        UITextComponent:
+                            text: "/"
+                            colorInheritType: "COLOR_IGNORE_PARENT"
+                            useRtlAlign: "USE_BY_CONTENT"
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                -   class: "UIControl"
+                    name: "MaxAmount"
+                    input: false
+                    classes: "t-headline bold white-wild-sand-text"
+                    components:
+                        UITextComponent:
+                            colorInheritType: "COLOR_IGNORE_PARENT"
+                            useRtlAlign: "USE_BY_CONTENT"
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                    bindings:
+                    - ["UITextComponent.text", "shortStr(piggy.max.quantity)"]
+            -   class: "UIControl"
+                name: "Icon"
+                input: false
+                components:
+                    UITextureComponent:
+                        drawType: "DRAW_SCALE_PROPORTIONAL"
+                        perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 24.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 24.000000
+                bindings:
+                - ["UITextureComponent.spritePath", "when piggy.max.type == ResourceType.gold -> \"~res:/Gfx/Lobby/currency/currency_gold_m\", piggy.max.type == ResourceType.credits -> \"~res:/Gfx/Lobby/currency/currency_silver_m\", piggy.max.type == ResourceType.free_xp -> \"~res:/Gfx/Lobby/currency/currency_free-xp_m\", piggy.max.type == ResourceType.premium -> \"~res:/Gfx/Lobby/currency/currency_premium_m\", \"\""]
+        -   class: "UIControl"
+            name: "Progress"
+            size: [160.000000, 4.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 4.000000
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/ProgressBarAnimated.yaml"
+                    args:
+                        "roundCorners": "true"
+                        "minimum": "0"
+                        "maximum": "piggy.max.quantity"
+                        "value": "piggy.stagedQuantity"
+                        "previousValue": "piggy.previousQuantity"
+                        "animationTime": "progressAnimationTime"
+                        "startAnimation": "true"
+                        "animateOnInit": "true"
+                        "isBlur": "false"
+                    eventActions:
+                    - ["VALUE_CHANGED", "ON_PROGRESS_VALUE_CHANGED", "_event.value"]
+                    - ["AnimationFinished", "ON_ANIMATION_FINISHED", ""]

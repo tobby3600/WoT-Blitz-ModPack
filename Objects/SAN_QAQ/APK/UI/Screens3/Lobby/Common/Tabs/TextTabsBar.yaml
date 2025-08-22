@@ -1,27 +1,33 @@
 Header:
     version: 153
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "TextTabsBar"
     size: [800.000000, 64.000000]
     input: false
     components:
+        Anchor:
+            hCenterAnchorEnabled: true
         UIAnimationComponent:
             animations: "_INIT,~res:/UI/Screens3/Lobby/Common/Tabs/TextTabsBar.animation"
         SizePolicy:
-            horizontalPolicy: "PercentOfParent"
-            verticalPolicy: "FixedSize"
-            verticalValue: 64.000000
+            verticalPolicy: "PercentOfMaxChild"
         UIDataParamsComponent:
             params:
-            - ["string", "badgeAttachId", "\"\"", "\"\""]
-            - ["bool", "zeroCounterVisible", "false", "false"]
-            - ["int", "activeTab", "0", "1"]
-            - ["vector<TabTextInfo>", "info", "null", "[ { \"isLocked\" = true; }; { \"counter\" = 5; \"isLocked\" = true; }; { \"isLocked\" = true; }; ]"]
-            - ["string", "attachID", "\"TAB_ATTACH_ID\"", "\"TAB_ATTACH_ID\""]
             - ["bool", "animatedLabel", "false", "true"]
-            - ["int", "labelTab", "0", "1"]
+            - ["bool", "isBlur", "false", "false"]
+            - ["bool", "zeroCounterVisible", "false", "false"]
             - ["control", "labelControl", "null", "TestLabel"]
+            - ["int", "activeTab", "0", "1"]
+            - ["int", "labelTab", "0", "1"]
+            - ["string", "attachID", "\"TAB_ATTACH_ID\"", "\"TAB_ATTACH_ID\""]
+            - ["string", "badgeAttachId", "\"\"", "\"\""]
+            - ["string", "bgStyle", "\"\"", "\"black-15-bg\""]
+            - ["string", "roundCorner", "\"4\"", "\"4\""]
+            - ["vector<TabTextInfo>", "info", "null", "[ { \"isLocked\" = true; }; { \"counter\" = 5; \"isLocked\" = true; }; { \"isLocked\" = true; }; ]"]
+            - ["eSizePolicy", "hSizePolicy", "eSizePolicy.PercentOfMaxChild", "eSizePolicy.PercentOfMaxChild"]
             events:
             - "ON_SELECT_TAB"
         UIDataLocalVarsComponent:
@@ -44,38 +50,17 @@ Prototypes:
         UIEventOnDataComponent3:
             watchedDataExpression: "screenHeight"
             eventName: "MoveSelectInPlace"
+    bindings:
+    - ["SizePolicy.horizontalPolicy", "hSizePolicy"]
     children:
-    -   class: "UIControl"
+    -   prototype: "BlurModified/BlurModified"
         name: "Bg"
-        input: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIRoundedCornersComponent:
-                radius: "8"
-            UIOpacityComponent: {}
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfParent"
+            UIDataParamsComponent:
+                args:
+                    "isBlur": "isBlur"
+                    "bgStyle": "bgStyle"
+                    "roundCorner": "roundCorner"
     -   class: "UIScrollView"
         name: "TabsScrollView"
         input: false
@@ -87,16 +72,19 @@ Prototypes:
                 top: false
                 bottom: false
             Anchor:
-                bottomAnchorEnabled: true
-                bottomAnchor: -8.000000
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
             SizePolicy:
-                horizontalPolicy: "PercentOfParent"
+                horizontalPolicy: "Formula"
+                horizontalFormula: "childrenSum + 24"
                 verticalPolicy: "Formula"
                 verticalFormula: "maxChild + 16"
         children:
         -   class: "UIScrollViewContainer"
             name: "scrollContainerControl"
             components:
+                Anchor:
+                    hCenterAnchorEnabled: true
                 LinearLayout: {}
                 SizePolicy:
                     horizontalPolicy: "PercentOfChildrenSum"

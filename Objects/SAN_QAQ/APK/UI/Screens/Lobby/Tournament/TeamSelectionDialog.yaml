@@ -1,0 +1,178 @@
+Header:
+    version: 157
+ImportedPackages:
+- "~res:/UI/Screens/DialogView.yaml"
+- "~res:/UI/Screens/Lobby/Tournament/TeamsList.yaml"
+- "~res:/UI/Screens/Lobby/Clan/ClanEmblem.yaml"
+- "~res:/UI/Screens/Lobby/Tournament/CellSelectionFrame.yaml"
+Prototypes:
+-   prototype: "DialogView/WarningDialog"
+    name: "TeamSelectionDialog"
+    components:
+        ModalInput:
+            enabled: false
+        StyleSheet:
+            styles: "~res:/UI/Screens/DialogView.style.yaml;~res:/UI/Screens/Fonts.yaml;~res:/UI/Screens3/Background.style.yaml;~res:/UI/Screens/Lobby/Tournament/TeamSelectionDialog.style.yaml;~res:/UI/Styles/Clans/ClansStyles.yaml"
+    children:
+    -   path: "Dialog"
+        classes: "base-dialog without-header"
+        children: []
+    -   path: "Dialog/Content/InfoContent"
+        size: [460.000000, 242.000000]
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+                dynamicPadding: true
+        children:
+        -   class: "UIStaticText"
+            name: "Title"
+            size: [460.000000, 0.000000]
+            classes: "header3 text-color-white"
+            components:
+                UITextComponent:
+                    colorInheritType: "COLOR_IGNORE_PARENT"
+                    multiline: "MULTILINE_ENABLED"
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    topAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfContent"
+        -   prototype: "TeamsList/TeamsListContainer"
+            name: "TeamsListContainer"
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   path: "Content"
+                components:
+                    SizePolicy:
+                        verticalPolicy: "PercentOfFirstChild"
+                children: []
+            -   path: "Content/TeamsList"
+                size: [460.000000, 192.000000]
+                components:
+                    SizePolicy:
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 192.000000
+            -   path: "Content/ScrollBar"
+                components:
+                    UIScrollBarComponent:
+                        delegate: "../TeamsList"
+                children: []
+    -   path: "Dialog/Content/Buttons/OkButton/Caption"
+        components:
+            UITextComponent:
+                text: "tournaments/Button/Invite"
+-   class: "UIListCell"
+    name: "TeamEntry"
+    size: [350.000000, 64.000000]
+    input: false
+    classes: "selectable registration-type-tag=clan-reg"
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+        StyleSheet:
+            styles: "~res:/UI/Styles/ButtonStyle.yaml;~res:/UI/Screens/Fonts.yaml;~res:/UI/Screens/CommonStyles.yaml;~res:/UI/Screens/Lobby/Tournament/TeamSelectionDialog.style.yaml;~res:/UI/Styles/Clans/ClansStyles.yaml"
+    children:
+    -   class: "UIControl"
+        name: "Button"
+        size: [350.000000, 64.000000]
+        classes: "button"
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "Back"
+            size: [350.000000, 64.000000]
+            input: false
+            classes: "panel-background"
+            components:
+                Background:
+                    drawType: "DRAW_FILL"
+                    colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+        -   class: "UIControl"
+            name: "Content"
+            size: [350.000000, 64.000000]
+            input: false
+            components:
+                LinearLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "ClanDescr"
+                size: [250.000000, 64.000000]
+                input: false
+                components:
+                    LinearLayout:
+                        padding: "10.000000"
+                        spacing: 10.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   prototype: "ClanEmblem/ClanEmblem"
+                    name: "ClanEmblem"
+                    size: [32.000000, 32.000000]
+                    components:
+                        Background:
+                            drawType: "DRAW_SCALE_TO_RECT"
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                -   class: "UIStaticText"
+                    name: "Tag"
+                    size: [52.000000, 64.000000]
+                    classes: "header3 clan-tag"
+                    components:
+                        UITextComponent:
+                            text: "[AS-S]"
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfParent"
+                -   class: "UIStaticText"
+                    name: "Name"
+                    size: [126.000000, 64.000000]
+                    classes: "header3"
+                    components:
+                        UITextComponent:
+                            text: "TEST Team Name"
+                            fitting: "FITTING_POINTS"
+                            align: ["LEFT", "VCENTER"]
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+            -   class: "UIStaticText"
+                name: "Players"
+                size: [100.000000, 64.000000]
+                classes: "header3 text-color-blue"
+                components:
+                    UITextComponent:
+                        text: "7"
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 100.000000
+                        verticalPolicy: "PercentOfParent"
+    -   class: "UIControl"
+        name: "bottomSelector"
+        size: [350.000000, 1.000000]
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_FILL"
+                color: [1.000000, 1.000000, 1.000000, 0.141176]
+                perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                bottomAnchorEnabled: true
+            IgnoreLayout: {}
+    -   prototype: "CellSelectionFrame/SelectionFrame"
+        name: "SelectionFrame"

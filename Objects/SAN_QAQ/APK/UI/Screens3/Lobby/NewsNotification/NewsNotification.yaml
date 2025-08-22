@@ -1,0 +1,393 @@
+Header:
+    version: 140
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+- "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+- "~res:/UI/Screens3/Common/OverlayBlur.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "NewsNotification"
+    size: [960.000000, 640.000000]
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        ModalInput: {}
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Escape"
+            keyDownEvent: "CLOSE_EVENT"
+        UIVirtualActionEventComponent1:
+            virtualKeyAction: "Perform"
+            keyDownEvent: "ENTER_EVENT"
+        UIVirtualActionEventComponent2:
+            virtualKeyAction: "ActionLeft"
+            keyDownEvent: "GO_TO_BACK_BY_SHORTCUT"
+        UIVirtualActionEventComponent3:
+            virtualKeyAction: "ActionRight"
+            keyDownEvent: "GO_TO_NEXT_BY_SHORTCUT"
+        UIDataParamsComponent:
+            params:
+            - ["vector<RSSItem>", "news", "null", "[ { \"title\" = \"Невозмутимый Löwe\"; \"description\" = \"Движется вальяжно, отбивает снаряды, как мух, пронзает 234 мм брони! Едва заметная E-25. Кружит по полям, дарит 2635 ед. «тепла» в минуту, но не подпускает близко. Изящная точность и звериная сила. Командуй противоположностями, побеждай в любой ситуации!\"; \"link\" = \"\"; \"guid\" = \"\"; \"iconUrl\" = \"\"; \"pubDate\" = \"\"; \"_pubDateUTC\" = 0L; \"_expirationDateUTC\" = 0L; \"showTimes\" = 1; \"seen\" = false; }; { \"title\" = \"News2\"; \"description\" = \"description 2\"; \"link\" = \"\"; \"guid\" = \"\"; \"iconUrl\" = \"\"; \"pubDate\" = \"\"; \"_pubDateUTC\" = 0L; \"_expirationDateUTC\" = 0L; \"showTimes\" = 1; \"seen\" = false; }; { \"title\" = \"News3\"; \"description\" = \"description 3\"; \"link\" = \"\"; \"guid\" = \"\"; \"iconUrl\" = \"\"; \"pubDate\" = \"\"; \"_pubDateUTC\" = 0L; \"_expirationDateUTC\" = 0L; \"showTimes\" = 1; \"seen\" = false; }; ]"]
+            - ["vector<int>", "indexes", "null", "[ 0; 1; 2; ]"]
+            events:
+            - "CHANGED_SELECTED_ITEM"
+            - "ON_BUTTON_ITEM_PRESSED"
+            - "BACK_EVENT"
+        UIDataLocalVarsComponent:
+            data:
+            - ["bool", "showFade", "false"]
+            - ["int", "selectedItem", "0"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["vector<string>", "shopTabs", "[ \"iap\"; \"premium\"; \"vehicles\"; \"bundles\"; \"specials\"; \"gold\"; \"freexp\"; \"credits\"; ]"]
+            - ["bool", "positiveButton", "when Empty(news) -> false, Contains(shopTabs, news[selectedItem].handlerName)"]
+            - ["bool", "paginatorIsVisible", "not Empty(news) and Size(news) > 1"]
+            - ["string", "buttonCaption", "when positiveButton -> localize(\"#hangar:NewsPopup/ToStore\"), localize(\"#hangar:NewsPopup/Details\")"]
+            - ["eButtonType", "buttonType", "when positiveButton -> eButtonType.POSITIVE, eButtonType.ALTERNATIVE"]
+            - ["string", "urlImage", "when Empty(news) -> \"\", news[selectedItem].iconUrl"]
+            - ["string", "description", "when Empty(news) -> \"\", news[selectedItem].description"]
+            - ["vector<int>", "newsIndexes", "[ 0; 1; 2; 3; 4; 5; 6; 7; 8; 9; 10; ]"]
+            - ["string", "header", "when Empty(news) -> \"\", news[selectedItem].title"]
+            - ["string", "headerStyle", "when description.empty() -> \"white-wild-sand-text\", \"yellow-lightning-text\""]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/NewsNotification/NewsNotification.actions"
+        UIDataOnEventComponent0:
+            eventName: "SHOW_FADE"
+            modelFieldExpression: "showFade"
+            dataExpression: "_event"
+        UIDataOnEventComponent1:
+            eventName: "CHANGED_SELECTED_ITEM"
+            modelFieldExpression: "selectedItem"
+            dataExpression: "_event"
+        UIDataOnEventComponent2:
+            eventName: "GO_TO_BACK"
+            modelFieldExpression: "selectedItem"
+            dataExpression: "when selectedItem == 0 -> selectedItem, selectedItem - 1"
+        UIDataOnEventComponent3:
+            eventName: "GO_TO_NEXT"
+            modelFieldExpression: "selectedItem"
+            dataExpression: "when selectedItem == Size(indexes) - 1 -> 0, selectedItem + 1"
+        UIEventOnDataComponent0:
+            watchedDataExpression: "showFade"
+            ifExpression: "showFade == true"
+            eventName: "ON_BUTTON_ITEM_PRESSED"
+            eventData: "news[selectedItem].url"
+        UIEventOnDataComponent1:
+            watchedDataExpression: "selectedItem"
+            eventName: "CHANGED_SELECTED_ITEM"
+            eventData: "selectedItem"
+    children:
+    -   class: "UIControl"
+        name: "Bg"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+            UIUrlImageComponent:
+                upscaleForHighResolution: false
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["UIUrlImageComponent.imageUrl", "urlImage"]
+    -   class: "UIControl"
+        name: "Fade"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "Top"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    topAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "One"
+                size: [32.000000, 32.000000]
+                input: false
+                classes: "black-50-bg"
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_PROPORTIONAL"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_radial-gradient_quarter"
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 400.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 400.000000
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "Two"
+                size: [32.000000, 32.000000]
+                input: false
+                classes: "black-50-bg"
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_PROPORTIONAL"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_radial-gradient_quarter"
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 280.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 280.000000
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+        -   class: "UIControl"
+            name: "Left"
+            size: [32.000000, 32.000000]
+            input: false
+            classes: "black-50-bg"
+            components:
+                Background:
+                    drawType: "DRAW_SCALE_TO_RECT"
+                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                    spriteModification: ["FLIP_HORIZONTAL"]
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    horizontalValue: 50.000000
+                    horizontalMax: 600.000000
+                    verticalPolicy: "PercentOfParent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+        -   class: "UIControl"
+            name: "Bottom"
+            size: [32.000000, 32.000000]
+            input: false
+    -   class: "UIControl"
+        name: "CloseButtonWrapper"
+        position: [0.000000, 16.000000]
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                topAnchorEnabled: true
+                topAnchor: 16.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfMaxChild"
+            UIAnchorSafeAreaComponent:
+                leftSafeInset: "INSET"
+                rightSafeInset: "INSET"
+        children:
+        -   prototype: "IconButton/IconButton"
+            name: "CloseButton"
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    leftAnchor: 16.000000
+                    vCenterAnchorEnabled: true
+                UIAnchorSafeAreaComponent:
+                    leftSafeInset: "INSET"
+                    rightSafeInset: "INSET"
+                UIDataParamsComponent:
+                    args:
+                        "sound": "eButtonSound.CLOSE"
+                        "image": "\"~res:/Gfx/Shared/icons/icon_close_n\""
+                        "isBgVisible": "false"
+                    eventActions:
+                    - ["ON_CLICK_BUTTON", "CLOSE_EVENT_FROM_BUTTON", ""]
+    -   class: "UIControl"
+        name: "ContentWrapper"
+        position: [0.000000, 292.000000]
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                bottomAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+                padding: "24"
+                spacing: 10.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+        children:
+        -   class: "UIControl"
+            name: "BottomFade"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "Constant"
+                position: [143.000000, -377.000000]
+                input: false
+                classes: "black-50-bg"
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_TO_RECT"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_vertical_0-100"
+                    Anchor:
+                        leftAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "Formula"
+                        verticalFormula: "screenHeight * 0.66"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "Content"
+                input: false
+                classes: "black-50-bg"
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_TO_RECT"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_vertical_0-100"
+                    Anchor:
+                        bottomAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+        -   class: "UIControl"
+            name: "Content"
+            position: [0.000000, 24.000000]
+            size: [500.000000, 240.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                LinearLayout:
+                    orientation: "LeftToRight"
+                    padding: "24"
+                    dynamicSpacing: true
+                SizePolicy:
+                    horizontalPolicy: "Formula"
+                    horizontalFormula: "parent - (safeAreaInsets.left + safeAreaInsets.right)"
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   class: "UIControl"
+                name: "Left"
+                position: [107.000000, 48.000000]
+                size: [616.000000, 192.000000]
+                components:
+                    Anchor:
+                        bottomAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        horizontalMax: 640.000000
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "Header"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        UITextComponent:
+                            multiline: "MULTILINE_ENABLED"
+                        SizePolicy:
+                            horizontalPolicy: "Formula"
+                            horizontalFormula: "when parent == 0 -> content, min(parent, content)"
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml"
+                    bindings:
+                    - ["classes", "\"t-title bold align-left \" + headerStyle"]
+                    - ["UITextComponent.text", "header"]
+                -   class: "UIControl"
+                    name: "Spacer"
+                    position: [0.000000, 72.000000]
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 16.000000
+                    bindings:
+                    - ["visible", "not description.empty()"]
+                -   class: "UIControl"
+                    name: "Description"
+                    position: [0.000000, 88.000000]
+                    size: [32.000000, 32.000000]
+                    input: false
+                    classes: "t-headline regular align-left white-wild-sand-text"
+                    components:
+                        UITextComponent:
+                            multiline: "MULTILINE_ENABLED"
+                        SizePolicy:
+                            horizontalPolicy: "Formula"
+                            horizontalFormula: "when parent == 0 -> content+1, min(parent, content+1)"
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml"
+                    bindings:
+                    - ["UITextComponent.text", "description"]
+                -   class: "UIControl"
+                    name: "Spacer_1"
+                    position: [0.000000, 72.000000]
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 32.000000
+                    bindings:
+                    - ["visible", "paginatorIsVisible"]
+                -   class: "UIControl"
+                    name: "Paginator"
+                    position: [0.000000, 204.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            leftAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfMaxChild"
+                        UIChildComponent0:
+                            prototypePath: "~res:/UI/Screens3/Lobby/Common/Paginator/PaginatorWithButtons.yaml"
+                            args:
+                                "selectedItem": "selectedItem"
+                                "points": "indexes"
+                                "bgStyle": "\"white-wild-sand-25-bg\""
+                            eventActions:
+                            - ["GO_TO_NEXT", "GO_TO_NEXT", ""]
+                            - ["GO_TO_BACK", "GO_TO_BACK", ""]
+                            - ["CHANGED_SELECTED_ITEM", "CHANGED_SELECTED_ITEM", "_event"]
+                    bindings:
+                    - ["visible", "paginatorIsVisible"]
+            -   prototype: "Button/Button"
+                name: "ConfirmButton"
+                components:
+                    Anchor:
+                        bottomAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 164.000000
+                    UIDataParamsComponent:
+                        args:
+                            "caption": "buttonCaption"
+                            "type": "buttonType"
+                        eventActions:
+                        - ["ON_CLICK_BUTTON", "ON_BUTTON_PRESSED", ""]
+                children:
+                -   path: "TapArea/Content/CaptionWrapper/Caption"
+                    position: [18.000000, 2.000000]
+    -   prototype: "OverlayBlur/BlurAndFade"
+        name: "BlurAndFadeForSwitch"
+        bindings:
+        - ["visible", "showFade and isGamepad"]
