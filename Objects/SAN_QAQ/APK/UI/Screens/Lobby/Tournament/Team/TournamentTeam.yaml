@@ -110,29 +110,6 @@ Prototypes:
             size: [244.000000, 54.000000]
             input: false
             components:
-                Background:
-                    usePostProcessedSprite: true
-                UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                    needClearAlphaAfterRender: true
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent1:
-                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent2:
-                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIRoundedCornersComponent:
-                    radius: "8"
                 Anchor:
                     hCenterAnchorEnabled: true
                     vCenterAnchorEnabled: true
@@ -140,8 +117,16 @@ Prototypes:
                     orientation: "TopDown"
                 SizePolicy:
                     horizontalPolicy: "PercentOfMaxChild"
+                    horizontalValue: 115.000000
                     verticalPolicy: "PercentOfChildrenSum"
+                    verticalValue: 125.000000
             children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "TitleTexts"
                 size: [180.000000, 31.000000]
@@ -149,6 +134,7 @@ Prototypes:
                 components:
                     Anchor:
                         hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
                     LinearLayout:
                         dynamicPadding: true
                         spacing: 5.000000
@@ -189,7 +175,7 @@ Prototypes:
                     Anchor:
                         hCenterAnchorEnabled: true
                     SizePolicy:
-                        horizontalPolicy: "PercentOfParent"
+                        horizontalPolicy: "PercentOfContent"
                         verticalPolicy: "PercentOfContent"
         -   class: "UIControl"
             name: "RightContent"
@@ -280,29 +266,6 @@ Prototypes:
                     size: [222.000000, 119.000000]
                     input: false
                     components:
-                        Background:
-                            usePostProcessedSprite: true
-                        UIPostProcessTextureComponent0:
-                            materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                            needClearAlphaAfterRender: true
-                            scale: 0.500000
-                            useVirtualCoordinateSystem: true
-                            minFilter: "Linear"
-                            magFilter: "Linear"
-                        UIPostProcessTextureComponent1:
-                            materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                            scale: 0.500000
-                            useVirtualCoordinateSystem: true
-                            minFilter: "Linear"
-                            magFilter: "Linear"
-                        UIPostProcessTextureComponent2:
-                            materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                            scale: 0.500000
-                            useVirtualCoordinateSystem: true
-                            minFilter: "Linear"
-                            magFilter: "Linear"
-                        UIRoundedCornersComponent:
-                            radius: "10"
                         LinearLayout:
                             orientation: "TopDown"
                             spacing: 5.000000
@@ -328,11 +291,6 @@ Prototypes:
                         size: [222.000000, 50.000000]
                         input: false
                         components:
-                            Background:
-                                drawType: "DRAW_STRETCH_BOTH"
-                                sprite: "~res:/Gfx/UI/Hangar/PopupTile"
-                                leftRightStretchCap: 10.000000
-                                topBottomStretchCap: 10.000000
                             Anchor:
                                 topAnchorEnabled: true
                                 topAnchor: -5.000000
@@ -342,6 +300,13 @@ Prototypes:
                                 verticalPolicy: "FixedSize"
                                 verticalValue: 50.000000
                         children:
+                        -   prototype: "BlurModified/BlurModified"
+                            name: "Blur"
+                            components:
+                                UIDataParamsComponent:
+                                    args:
+                                        "bgStyle": "\"black-50-bg\""
+                                        "roundCorner": "\"10\""
                         -   class: "UIControl"
                             name: "BattleStartsTimer"
                             visible: true
@@ -381,7 +346,6 @@ Prototypes:
                         size: [234.000000, 105.000000]
                         input: false
                         components:
-                            Background: {}
                             Anchor:
                                 topAnchorEnabled: true
                                 topAnchor: -5.000000
@@ -712,7 +676,7 @@ Prototypes:
                                         name: "TicketContainerBack"
                                         size: [75.000000, 38.000000]
                                         input: false
-                                        classes: "background-light"
+                                        classes: "panel-background=background-light"
                                         components:
                                             Background:
                                                 drawType: "DRAW_FILL"

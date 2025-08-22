@@ -122,20 +122,20 @@ vertex_out vp_main(vertex_in input)
 		localPos += input.normal * (vertexAnimationValue * input.vertexAnimationAmplitude);
 	#endif
 
-	float3 worldPos = mul3Fast1(localPos, worldMatrix);
+	float3 worldPos = mul(float4(localPos, 1.0), worldMatrix).xyz;
 
 	#if PARTICLES_FRESNEL_TO_ALPHA || RECEIVE_SHADOW
-		float3 worldNormal = normalize(mul3Fast0(input.normal, worldMatrix));
+		float3 worldNormal = normalize(mul(float4(input.normal, 0.0), worldMatrix).xyz);
 	#endif
 
 	#if RECEIVE_SHADOW || USE_VERTEX_FOG
-		float3 eyePos = mul3Fast1(worldPos, viewMatrix);
+		float3 eyePos = mul(float4(worldPos, 1.0), viewMatrix).xyz;
 		float3 toLightDir = -eyePos * lightPosition0.w + lightPosition0.xyz;
 		float toLightDis = length(toLightDir);
 		toLightDir *= 1.0 / toLightDis;
 	#endif
 
-	output.localPos = mul4Fast1(worldPos, viewProjMatrix);
+	output.localPos = mul(float4(worldPos, 1.0), viewProjMatrix);
 
 	#if RECEIVE_SHADOW || (RETRIEVE_FRAG_DEPTH_AVAILABLE && SOFT_PARTICLES)
 		output.projPos = output.localPos;
@@ -163,7 +163,8 @@ vertex_out vp_main(vertex_in input)
 	#endif
 
 	#if PARTICLES_FLOWMAP
-		float2 flowPhase = frac(float2(input.flowSpeedAndOffset.x, input.flowSpeedAndOffset.x + 0.5)) - const05List2;
+		float f = frac(input.flowSpeedAndOffset.x);
+		float2 flowPhase = float2(f - 0.5, f - step(0.5, f));
 		output.texCoord1.w = abs(flowPhase.x) * 2.0;
 		output.texCoord2 = float4(input.texCoord0.x * input.flowMapRect.z + input.flowMapRect.x, input.texCoord0.y * input.flowMapRect.w + input.flowMapRect.y, flowPhase * input.flowSpeedAndOffset.y);
 	#endif

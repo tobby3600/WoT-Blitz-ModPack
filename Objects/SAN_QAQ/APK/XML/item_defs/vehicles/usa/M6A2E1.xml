@@ -62,7 +62,7 @@
 			<rates>5.0 10.0 25.0</rates>
 		</exhaust>
 		<turretPositions>
-			<turret>0.000000 0.894872 0.831463</turret>
+			<turret>0.000001 2.213035 0.659116</turret>
 		</turretPositions>
 		<hitTester>
 			<collisionModel>vehicles/american/A45_M6A2E1/collision/Hull.model</collisionModel>
@@ -72,14 +72,18 @@
 			<armor_2>198.7</armor_2>
 			<armor_3>45.8</armor_3>
 			<armor_4>42.7</armor_4>
-			<armor_5>45.8</armor_5>
-			<armor_6>26</armor_6>
+			<armor_5>26</armor_5>
+			<armor_6>42</armor_6>
 			<armor_7>26</armor_7>
 			<armor_8>0</armor_8>
-			<armor_9>26<vehicleDamageFactor>0.0</vehicleDamageFactor>
-			</armor_9>
-			<armor_10>198.7</armor_10>
-			<armor_11>26</armor_11>
+			<armor_9>100</armor_9>
+			<armor_10>26<vehicleDamageFactor>0.0</vehicleDamageFactor>
+			</armor_10>
+			<armor_11>45.8</armor_11>
+			<armor_12>42.7</armor_12>
+			<armor_13>26</armor_13>
+			<armor_14>198.7</armor_14>
+			<armor_16>45.8</armor_16>
 		</armor>
 		<primaryArmor>armor_1 armor_3 armor_4</primaryArmor>
 		<weight>36550</weight>
@@ -177,7 +181,7 @@
 				<mud>largeTankMud</mud>
 			</effects>
 			<sound>/vehicles/tanks/treads/treads_3</sound>
-			<hullPosition>0.000000 1.22993 0.000000</hullPosition>
+			<hullPosition>0.000000 0.000000 0.000000</hullPosition>
 			<hitTester>
 				<collisionModel>vehicles/american/A45_M6A2E1/collision/Chassis.model</collisionModel>
 			</hitTester>
@@ -221,18 +225,20 @@
 				<collisionModel>vehicles/american/A45_M6A2E1/collision/Turret_01.model</collisionModel>
 			</hitTester>
 			<yawLimits>-180 180</yawLimits>
-			<gunPosition>0.000000 0.6 1.3</gunPosition>
+			<gunPosition>-0.000001 0.520412 1.230288</gunPosition>
 			<armor>
 				<armor_1>198.7</armor_1>
-				<armor_2>0</armor_2>
-				<armor_3>92.6</armor_3>
+				<armor_2>42.7</armor_2>
+				<armor_3>100</armor_3>
 				<armor_4>216.4</armor_4>
-				<armor_5>92.6</armor_5>
-				<armor_6>42.7</armor_6>
+				<armor_5>42.7</armor_5>
+				<armor_6>92.6</armor_6>
 				<armor_7>26</armor_7>
 				<armor_8>0</armor_8>
-				<armor_9>42.7</armor_9>
+				<armor_9>92.6</armor_9>
 				<armor_10>10.4</armor_10>
+				<armor_11>198.7</armor_11>
+				<armor_16>92.6</armor_16>
 			</armor>
 			<primaryArmor>armor_1 armor_3 armor_4</primaryArmor>
 			<weight>12000</weight>
@@ -264,8 +270,10 @@
 						</armor_1>
 						<armor_2>92.6<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_2>
-						<armor_3>42.7<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						<armor_3>92.6<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_3>
+						<armor_4>10<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						</armor_4>
 						<gun>45</gun>
 					</armor>
 					<shotDispersionRadius>0.42</shotDispersionRadius>

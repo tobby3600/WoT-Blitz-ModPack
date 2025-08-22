@@ -437,14 +437,20 @@ StyleSheets:
     properties:
         text-fontPath: "~res:/Fonts/XinGothic-TC-W6.otf"
 -   selectors:
-    - ".bold.zh-Hans"
-    - ".regular.zh-Hans"
     - ".light.zh-Hans"
-    - ".bold.force-zh-Hans.force-zh-Hans"
-    - ".regular.force-zh-Hans.force-zh-Hans"
     - ".light.force-zh-Hans.force-zh-Hans"
     properties:
-        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W3.otf"
+-   selectors:
+    - ".regular.zh-Hans"
+    - ".regular.force-zh-Hans.force-zh-Hans"
+    properties:
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
+-   selectors:
+    - ".bold.zh-Hans"
+    - ".bold.force-zh-Hans.force-zh-Hans"
+    properties:
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W12.otf"
 -   selectors:
     - ".bold.ko"
     - ".regular.ko"
@@ -827,36 +833,3 @@ StyleSheets:
     - ".light.force-hi.force-hi"
     properties:
         text-fontPath: "~res:/Fonts/NotoSans-Regular.ttf"
--   selectors:
-    - ".AVICII-18"
-    - ".AVICII-18.zh-Hans"
-    - ".AVICII-18.zh-Hans.not-localize"
-    - ".AVICII-18.force-zh-Hans.force-zh-Hans"
-    properties:
-        text-fontPath: "~res:/Fonts/AVICII.ttf"
-        text-fontSize: 18.000000
-        text-letterSpacing: 0.250000
-        text-ascendScale: 0.650000
-        text-descendScale: 0.350000
--   selectors:
-    - ".AVICII-36"
-    - ".AVICII-36.zh-Hans"
-    - ".AVICII-36.zh-Hans.not-localize"
-    - ".AVICII-36.force-zh-Hans.force-zh-Hans"
-    properties:
-        text-fontPath: "~res:/Fonts/AVICII.ttf"
-        text-fontSize: 36.000000
-        text-letterSpacing: 0.250000
-        text-ascendScale: 0.650000
-        text-descendScale: 0.350000
--   selectors:
-    - ".XinGothic-SC-W6-36"
-    - ".XinGothic-SC-W6-36.zh-Hans"
-    - ".XinGothic-SC-W6-36.zh-Hans.not-localize"
-    - ".XinGothic-SC-W6-36.force-zh-Hans.force-zh-Hans"
-    properties:
-        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
-        text-fontSize: 36.000000
-        text-letterSpacing: 0.250000
-        text-ascendScale: 0.650000
-        text-descendScale: 0.350000

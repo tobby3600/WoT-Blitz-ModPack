@@ -174,9 +174,9 @@ vertex_out vp_main(vertex_in input)
 			normal = tbn[2];
 		#endif
 
-		float3 t = normalize(mul3Fast0(tangent, worldViewInvTransposeMatrix));
-		float3 b = normalize(mul3Fast0(binormal, worldViewInvTransposeMatrix));
-		float3 n = normalize(mul3Fast0(normal, worldViewInvTransposeMatrix));
+		float3 t = normalize(mul(float4(tangent, 0.0), worldViewInvTransposeMatrix).xyz);
+		float3 b = normalize(mul(float4(binormal, 0.0), worldViewInvTransposeMatrix).xyz);
+		float3 n = normalize(mul(float4(normal, 0.0), worldViewInvTransposeMatrix).xyz);
 
 		output.tangentToView0 = float4(t.x, b.x, n.x, viewPos.x);
 		output.tangentToView1 = float4(t.y, b.y, n.y, viewPos.y);
@@ -185,9 +185,9 @@ vertex_out vp_main(vertex_in input)
 		output.toCamDir = float3(dot(viewPos, t), dot(viewPos, b), dot(viewPos, n));
 
 		#if RECEIVE_SHADOW
-			t = normalize(mul3Fast0(tangent, worldInvTransposeMatrix));
-			b = normalize(mul3Fast0(binormal, worldInvTransposeMatrix));
-			n = normalize(mul3Fast0(normal, worldInvTransposeMatrix));
+			t = normalize(mul(float4(tangent, 0.0), worldInvTransposeMatrix).xyz);
+			b = normalize(mul(float4(binormal, 0.0), worldInvTransposeMatrix).xyz);
+			n = normalize(mul(float4(normal, 0.0), worldInvTransposeMatrix).xyz);
 
 			output.tangentToWorld0 = float4(t.x, b.x, n.x, worldPos.x);
 			output.tangentToWorld1 = float4(t.y, b.y, n.y, worldPos.y);
@@ -205,11 +205,11 @@ vertex_out vp_main(vertex_in input)
 			normal = hardSkinnedNormal(normal, input.index);
 		#endif
 
-		float3 N = normalize(mul3Fast0(normal, worldViewInvTransposeMatrix));
+		float3 N = normalize(mul(float4(normal, 0.0), worldViewInvTransposeMatrix).xyz);
 		float NdotL = saturate(dot(N, L));
 
 		#if RECEIVE_SHADOW
-			output.worldNormalSlope = float4(normalize(mul3Fast0(input.normal, worldInvTransposeMatrix)), 1.0 - NdotL);
+			output.worldNormalSlope = float4(normalize(mul(float4(input.normal, 0.0), worldInvTransposeMatrix).xyz), 1.0 - NdotL);
 		#endif
 
 		#if SIMPLE_BLINN_PHONG
@@ -222,7 +222,7 @@ vertex_out vp_main(vertex_in input)
 			float VdotH = saturate(dot(V, H));
 
 			output.diffuseVector = lightColor0 * (NdotL * _INVERSE_PI);
-			output.specularVector = float4(lerp(metalFresnelReflectance, const1List3, pow5Exp(NdotV)) * (NdotL * inSpecularity / (VdotH * VdotH + 0.0001)), NdotH);
+			output.specularVector = float4(lerp(metalFresnelReflectance, const1List3, pow5Exp(NdotV)) * (NdotL * inSpecularity / (VdotH * VdotH + 1e-4)), NdotH);
 
 			#if MAX_POINT_LIGHTS > 0
 				output.diffuseVector += getBlinnPhongPointLight(pointLights[0].w, pointLights[2], pointLights[0].xyz + viewPos, N);
@@ -271,7 +271,7 @@ vertex_out vp_main(vertex_in input)
 	#endif
 
 	#if !ENVIRONMENT_MAPPING_NORMALMAP && ENVIRONMENT_MAPPING
-		output.texCoord2.xyz = reflect(normalize(-toCamDir), normalize(mul3Fast0(input.normal, worldInvTransposeMatrix)));
+		output.texCoord2.xyz = reflect(normalize(-toCamDir), normalize(mul(float4(input.normal, 0.0), worldInvTransposeMatrix).xyz));
 	#endif
 
 	#if HARD_SKINNING && TILED_DECAL_MASK

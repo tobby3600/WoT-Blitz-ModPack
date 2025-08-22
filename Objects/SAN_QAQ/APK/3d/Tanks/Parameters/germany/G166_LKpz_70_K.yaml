@@ -103,7 +103,7 @@ detachedTurret:
         shouldClipGun: true
         clippingPlaneZPos: 1.610509
         textureScaleFactor: 0.591547
-mechanics: [{name: "LTCamo"}]
+mechanics: [{name: "LTCamo"}, {name: "ImprovedDetection"}, {name: "AlteredSpotDuration"}]
 armorScale:
     gun_01:
         pushNormalsScale: true

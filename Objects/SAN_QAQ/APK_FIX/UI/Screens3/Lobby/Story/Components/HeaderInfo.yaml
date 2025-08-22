@@ -1,0 +1,121 @@
+Header:
+    version: 157
+Prototypes:
+-   class: "UIControl"
+    name: "HeaderInfo"
+    size: [960.000000, 48.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfLastChild"
+        UIDataParamsComponent:
+            params:
+            - ["StoryScreenViewModel", "storyView", "null", "{ }"]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["LobbyDataModel", "lobby", "null", "{ }"]
+            - ["StoryStringsKeys", "keys", "null", "{ }"]
+            - ["bool", "isLastDay", "false", "false"]
+            - ["float", "vSize", "208.000000", "208.000000"]
+            events:
+            - "OpenRatingScreen"
+            - "GO_TO_SHOP"
+            - "BACK_EVENT"
+            - "SHOW_TASK_JOURNAL"
+            - "SHOW_BOOSTERS"
+            - "START_QUEST_BUTTON_PRESSED"
+            - "SHOP_BUTTON(eRequiredResource requiredResource)"
+        UIDataLocalVarsComponent:
+            data:
+            - ["map<string,bool>", "hideStoryTimer", "{ \"BLACK2021\" = true; \"RRS2022\" = true; \"2023-BTTU\" = true; }"]
+            - ["map<string,bool>", "is3D", "{ \"2024-SHERI\" = true; \"2023-SHERI\" = true; \"season_6\" = true; }"]
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+        bindings:
+        - ["SizePolicy.verticalValue", "vSize"]
+        children:
+        -   class: "UIControl"
+            name: "Bg"
+            input: false
+            classes: "black-bg"
+            components:
+                Background:
+                    drawType: "DRAW_STRETCH_BOTH"
+                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_vertical_0-100"
+                    spriteModification: ["FLIP_VERTICAL"]
+                    perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                UIOpacityComponent:
+                    opacity: 0.500000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                    verticalValue: 150.000000
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+        -   class: "UIControl"
+            name: "Description"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "SafeArea"
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "Formula"
+                        horizontalFormula: "parent - safeAreaInsets.left - safeAreaInsets.right - 48"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 116.000000
+                bindings:
+                - ["Anchor.bottomAnchor", "28"]
+                children:
+                -   class: "UIControl"
+                    name: "Content"
+                    input: false
+                    components:
+                        Anchor:
+                            topAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfFirstChild"
+                        UIChildComponent0:
+                            prototypePath: "~res:/UI/Screens3/Lobby/Story/Components/StoryDescription.yaml"
+                            args:
+                                "story": "storyView.story"
+                                "keys": "keys"
+                                "serverTime": "session.serverTime"
+                                "isLastDay": "isLastDay"
+    -   class: "UIControl"
+        name: "HeaderHolder"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                childType: "kPrototype"
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Headers/StoryHeader.yaml"
+                args:
+                    "story": "storyView.story"
+                    "session": "session"
+                    "lobby": "lobby"
+                    "keys": "keys"
+                    "showTimer": "not hideStoryTimer.Contains(storyView.story.name)"
+                    "is3D": "is3D.Contains(storyView.story.name)"
+                    "currentScreen": "eCurrentScreen.kStory"
+                eventActions:
+                - ["GO_TO_SHOP", "GO_TO_SHOP", ""]
+                - ["BACK_EVENT", "BACK_EVENT", ""]
+                - ["SHOP_BUTTON", "SHOP_BUTTON", "_event.requiredResource"]

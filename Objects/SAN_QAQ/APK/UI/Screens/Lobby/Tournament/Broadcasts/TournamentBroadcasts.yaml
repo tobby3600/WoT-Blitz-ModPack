@@ -1,0 +1,269 @@
+Header:
+    version: 157
+ImportedPackages:
+- "~res:/UI/Screens/Lobby/Tournament/TournamentBackground.yaml"
+- "~res:/UI/Screens/Lobby/Tournament/TournamentBackButton.yaml"
+- "~res:/UI/Screens/Common/ScrollBar.yaml"
+- "~res:/UI/Screens/Lobby/Common/BroadcastLabel.yaml"
+Prototypes:
+-   class: "UIListCell"
+    name: "BroadcastEntryProto"
+    classes: "button live-status=live-on"
+    components:
+        Background:
+            colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
+        ClipContent: {}
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalValue: 320.000000
+            verticalPolicy: "FixedSize"
+            verticalValue: 180.000000
+        StyleSheet:
+            styles: "~res:/UI/Styles/ButtonStyle.yaml;~res:/UI/Screens/Fonts.yaml;~res:/UI/Screens/Lobby/Tournament/Broadcasts/Styles/BroadcastsStyles.yaml"
+    children:
+    -   class: "UIControl"
+        name: "Back"
+        position: [0.000000, 0.000000]
+        size: [680.000000, 200.000000]
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_FILL"
+                color: [0.000000, 0.000000, 0.000000, 1.000000]
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                vCenterAnchorEnabled: true
+                bottomAnchorEnabled: true
+            LinearLayout: {}
+    -   class: "UIControl"
+        name: "ImageBroadcast"
+        position: [0.000000, 0.000000]
+        size: [680.000000, 200.000000]
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                vCenterAnchorEnabled: true
+                bottomAnchorEnabled: true
+            LinearLayout: {}
+    -   class: "UIControl"
+        name: "Shadow"
+        position: [0.000000, 168.000000]
+        size: [320.000000, 52.000000]
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+                sprite: "~res:/Gfx/UI/Tournament/broadcast_gradient.psd"
+                colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
+            Anchor:
+                leftAnchorEnabled: true
+                leftAnchor: -2.000000
+                rightAnchorEnabled: true
+                rightAnchor: -2.000000
+                bottomAnchorEnabled: true
+                bottomAnchor: -2.000000
+            SizePolicy:
+                verticalPolicy: "Formula"
+                verticalFormula: "lastChild + 40"
+        children:
+        -   class: "UIControl"
+            name: "Shadow"
+            position: [0.000000, 168.000000]
+            size: [320.000000, 52.000000]
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_SCALE_TO_RECT"
+                    sprite: "~res:/Gfx/UI/Tournament/broadcast_gradient.psd"
+                    colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
+                Anchor:
+                    bottomAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+        -   class: "UIStaticText"
+            name: "BroadcastTitle"
+            size: [105.000000, 32.000000]
+            classes: "header3 text-color-white"
+            components:
+                UITextComponent:
+                    text: "Text"
+                    colorInheritType: "COLOR_MULTIPLY_ALPHA_ONLY"
+                    multiline: "MULTILINE_ENABLED"
+                    align: ["LEFT", "BOTTOM"]
+                Anchor:
+                    leftAnchorEnabled: true
+                    leftAnchor: 10.000000
+                    rightAnchorEnabled: true
+                    rightAnchor: 10.000000
+                    bottomAnchorEnabled: true
+                    bottomAnchor: 10.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfContent"
+    -   prototype: "BroadcastLabel/BroadcastLabel"
+        name: "BroadcastLabel"
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+                rightAnchor: 10.000000
+                topAnchorEnabled: true
+                topAnchor: 10.000000
+            StyleSheet:
+                inheritsStylesFromParent: true
+                styles: "~res:/UI/Screens/Lobby/Tournament/Broadcasts/Styles/BroadcastsStyles.yaml"
+-   class: "UIControl"
+    name: "Shadow"
+    position: [0.000000, 168.000000]
+    size: [320.000000, 52.000000]
+    input: false
+    components:
+        Background:
+            drawType: "DRAW_SCALE_TO_RECT"
+            sprite: "~res:/Gfx/UI/Tournament/gradient_text.psd"
+            colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
+        Anchor:
+            bottomAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "Formula"
+            verticalFormula: "maxChild + 20"
+-   class: "UIControl"
+    name: "Screen"
+    size: [1024.000000, 768.000000]
+    input: false
+    components:
+        Anchor:
+            leftAnchorEnabled: true
+            rightAnchorEnabled: true
+            topAnchorEnabled: true
+            bottomAnchorEnabled: true
+        StyleSheet:
+            styles: "~res:/UI/Screens/Lobby/Tournament/Broadcasts/TournamentBroadcasts.yaml;~res:/UI/Styles/ButtonStyle.yaml;~res:/UI/Screens/Fonts.yaml;~res:/UI/Styles/DesktopStyles.yaml"
+    children:
+    -   prototype: "TournamentBackground/EffectsContainer"
+        name: "EffectsContainer"
+    -   class: "UIControl"
+        name: "View"
+        position: [0.000000, 0.000000]
+        size: [1024.000000, 768.000000]
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                bottomAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+                safeAreaPaddingInset: true
+                spacing: 20.000000
+        children:
+        -   class: "UIControl"
+            name: "Header"
+            size: [1024.000000, 80.000000]
+            input: false
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    rightAnchorEnabled: true
+            children:
+            -   class: "UIControl"
+                name: "TitleShadow"
+                position: [0.000000, 0.000000]
+                size: [1024.000000, 80.000000]
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_TO_RECT"
+                        sprite: "~res:/Gfx/UI/Tournament/gradient"
+                    Anchor:
+                        leftAnchorEnabled: true
+                        rightAnchorEnabled: true
+                        topAnchorEnabled: true
+                        vCenterAnchorEnabled: false
+            -   prototype: "TournamentBackButton/BackButton"
+                name: "BackButton"
+            -   class: "UIControl"
+                name: "Title"
+                size: [239.000000, 31.000000]
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        hCenterAnchor: 9.000000
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIStaticText"
+                    name: "Title"
+                    classes: "header1"
+                    components:
+                        UITextComponent:
+                            text: "tournaments/StreamingScreen/Header"
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+        -   class: "UIControl"
+            name: "Container"
+            position: [237.000000, 100.000000]
+            size: [550.000000, 668.000000]
+            input: false
+            classes: "limited-width"
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    horizontalValue: 80.000000
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIScrollView"
+                name: "UIScrollView"
+                autoUpdate: true
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        rightAnchorEnabled: true
+                        rightAnchor: 10.000000
+                        topAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                children:
+                -   class: "UIScrollViewContainer"
+                    name: "scrollContainerControl"
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfChildrenSum"
+                        FlowLayout:
+                            hDynamicPadding: true
+                            hSpacing: 30.000000
+                            vSpacing: 30.000000
+                    children:
+                    -   prototype: "BroadcastEntryProto"
+                        name: "BroadcastEntry"
+            -   prototype: "ScrollBar/VerticalScrollBar"
+                name: "VerticalScrollBar"
+                components:
+                    Anchor:
+                        rightAnchorEnabled: true
+                        topAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                    UIScrollBarComponent:
+                        delegate: "../UIScrollView"
+-   prototype: "BroadcastEntryProto"
+    name: "BroadcastEntry"

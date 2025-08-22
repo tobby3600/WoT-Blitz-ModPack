@@ -108,6 +108,7 @@ Prototypes:
                         UIDataParamsComponent:
                             args:
                                 "bgStyle": "when pastStage -> \"grey-shark-70-bg\", \"\""
+                                "roundCorner": "\"7\""
             -   class: "UIControl"
                 name: "BgCorrect"
                 input: false
@@ -133,7 +134,7 @@ Prototypes:
                     components:
                         UIDataParamsComponent:
                             args:
-                                "bgStyle": "bgStyle"
+                                "roundCorner": "\"7\""
             -   class: "UIControl"
                 name: "Index"
                 input: false

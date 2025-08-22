@@ -1,0 +1,241 @@
+Header:
+    version: 157
+ImportedPackages:
+- "~res:/UI/Screens/Lobby/Common/Resource/ResourceSmall.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "Line"
+    size: [2.000000, 62.000000]
+    input: false
+    classes: "panel-background"
+    components:
+        Background:
+            drawType: "DRAW_FILL"
+            color: [1.000000, 1.000000, 1.000000, 0.000000]
+            colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
+        Anchor:
+            rightAnchorEnabled: true
+            vCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalValue: 2.000000
+            verticalPolicy: "PercentOfParent"
+        StyleSheet:
+            styles: "~res:/UI/Screens/CommonStyles.yaml"
+-   class: "UIListCell"
+    name: "LoadingCell"
+    size: [1024.000000, 67.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIStaticText"
+        name: "LoadingLabel"
+        size: [1024.000000, 67.000000]
+        classes: "text1 text-color-blue"
+        components:
+            UITextComponent:
+                text: "Loading..."
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens/Fonts.yaml"
+-   class: "UIListCell"
+    name: "RewardCell"
+    size: [512.000000, 67.000000]
+    input: false
+    components:
+        LinearLayout: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "FixedSize"
+            verticalValue: 67.000000
+        StyleSheet:
+            styles: "~res:/UI/Screens/Lobby/Tournament/Reward/ListRewardCell.style.yaml;~res:/UI/Styles/ButtonStyle.yaml;~res:/UI/Screens/CommonStyles.yaml;~res:/UI/Screens/Fonts.yaml"
+    children:
+    -   class: "UIListCell"
+        name: "Button"
+        size: [512.000000, 65.000000]
+        classes: "button"
+        components:
+            LinearLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+                verticalValue: 65.000000
+        children:
+        -   class: "UIControl"
+            name: "PlaceBack"
+            size: [90.000000, 65.000000]
+            input: false
+            classes: "panel-background"
+            components:
+                Background:
+                    drawType: "DRAW_FILL"
+                    colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 90.000000
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+            -   class: "UIControl"
+                name: "Place"
+                size: [90.000000, 65.000000]
+                input: false
+                classes: "place=place-3"
+                components:
+                    Background: {}
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 90.000000
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   class: "UIStaticText"
+                    name: "TextPlace"
+                    size: [90.000000, 65.000000]
+                    classes: "header3 text-color-white"
+                    components:
+                        UITextComponent:
+                            colorInheritType: "COLOR_IGNORE_PARENT"
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+        -   prototype: "Line"
+            name: "Line"
+        -   class: "UIControl"
+            name: "PersonalReward"
+            input: false
+            classes: "panel-background"
+            components:
+                Background:
+                    drawType: "DRAW_FILL"
+                    colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+            -   class: "UIControl"
+                name: "Content"
+                input: false
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        leftAnchor: 20.000000
+                        rightAnchorEnabled: true
+                        rightAnchor: 20.000000
+                        topAnchorEnabled: true
+                        topAnchor: 5.000000
+                        vCenterAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                        bottomAnchor: 5.000000
+                    LinearLayout:
+                        orientation: "TopDown"
+                        dynamicPadding: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   class: "UIControl"
+                    name: "data"
+                    input: false
+                    components:
+                        Anchor: {}
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfFirstChild"
+                    children:
+                    -   class: "UIControl"
+                        name: "RewardContainer"
+                        size: [71.000000, 32.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                rightAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfChildrenSum"
+                                verticalPolicy: "PercentOfMaxChild"
+                        children:
+                        -   prototype: "ResourceSmall/ResourceSmall"
+                            name: "Reward"
+                -   class: "UIStaticText"
+                    name: "Additional"
+                    size: [169.000000, 23.000000]
+                    classes: "text2 text-color-blue"
+                    components:
+                        UITextComponent:
+                            text: "tournaments/TournamentRewardsScreen/ExtraRewards"
+                            colorInheritType: "COLOR_IGNORE_PARENT"
+                            align: ["RIGHT", "VCENTER"]
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfContent"
+        -   prototype: "Line"
+            name: "LineDynamic"
+        -   class: "UIControl"
+            name: "TeamReward"
+            input: false
+            classes: "panel-background"
+            components:
+                Background:
+                    drawType: "DRAW_FILL"
+                    colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+            -   class: "UIControl"
+                name: "Content"
+                input: false
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        leftAnchor: 20.000000
+                        rightAnchorEnabled: true
+                        rightAnchor: 20.000000
+                        topAnchorEnabled: true
+                        topAnchor: 5.000000
+                        vCenterAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                        bottomAnchor: 5.000000
+                    LinearLayout:
+                        orientation: "TopDown"
+                        dynamicPadding: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   class: "UIControl"
+                    name: "data"
+                    input: false
+                    components:
+                        Anchor: {}
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfFirstChild"
+                    children:
+                    -   prototype: "ResourceSmall/ResourceSmall"
+                        name: "RewardContainer"
+                        components:
+                            Anchor:
+                                rightAnchorEnabled: true
+                -   class: "UIStaticText"
+                    name: "Additional"
+                    size: [169.000000, 23.000000]
+                    classes: "text2 text-color-blue"
+                    components:
+                        UITextComponent:
+                            text: "tournaments/TournamentRewardsScreen/ExtraRewards"
+                            colorInheritType: "COLOR_IGNORE_PARENT"
+                            align: ["RIGHT", "VCENTER"]
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfContent"

@@ -1,5 +1,5 @@
 Header:
-    version: "108"
+    version: 108
 ImportedPackages:
 - "~res:/UI/Screens3/Lobby/ModulesTree/PremiumizeTypeCell.yaml"
 - "~res:/UI/Screens3/Lobby/Common/RichText.yaml"
@@ -12,7 +12,7 @@ Prototypes:
     components:
         LinearLayout:
             orientation: "TopDown"
-            spacing: 64.000000
+            spacing: 8.000000
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
             verticalPolicy: "PercentOfChildrenSum"
@@ -27,34 +27,29 @@ Prototypes:
         input: false
         components:
             RichContent:
-                baseClasses: "t-body regular color=white-wild-sand-70-text"
+                baseClasses: "t-body regular white-wild-sand-70-text"
             RichContentAliases0:
                 aliases:
                 - ["text_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
                 - ["text2_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
-            Anchor:
-                hCenterAnchorEnabled: true
-                topAnchorEnabled: true
-                useRtl: false
             FlowLayout:
-                hDynamicPadding: false
+                hDynamicPadding: true
                 hSpacing: 4.000000
-                useRtl: false
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfChildrenSum"
             StyleSheet:
                 styles: "~res:/UI/Screens3/Font.style.yaml"
         bindings:
-        - ["RichContent.text", "localize(\"storage/Items/VehicleCertificate/Confirmation/VehicleInHangar\", { \"vehicleName\" = localize(tankName); })"]
+        - ["RichContent.text", "localize(\"storage/Items/VehicleCertificate/Confirmation/VehicleInHangar\", { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; \"vehicleName\" = localize(tankName); })"]
     -   class: "UIControl"
         name: "TotalPrice"
+        position: [148.000000, 42.000000]
         size: [32.000000, 32.000000]
         input: false
         components:
             Anchor:
                 hCenterAnchorEnabled: true
-                bottomAnchorEnabled: true
             SizePolicy:
                 horizontalPolicy: "PercentOfChildrenSum"
                 verticalPolicy: "PercentOfChildrenSum"

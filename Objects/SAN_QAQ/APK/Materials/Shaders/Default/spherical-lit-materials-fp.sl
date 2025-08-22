@@ -196,10 +196,6 @@ fragment_out fp_main(fragment_in input)
 		output.color.rgb *= lerp(shadowMapShadowColor.rgb, const1List3, shadowInf.x);
 	#endif
 
-	#if USE_VERTEX_FOG
-		output.color.rgb = lerp(output.color.rgb, input.varFog.rgb, input.varFog.a);
-	#endif
-
 	#include "color-grading.slh"
 
 	return output;

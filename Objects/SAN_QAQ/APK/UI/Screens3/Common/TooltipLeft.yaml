@@ -1,7 +1,7 @@
 Header:
     version: "83"
 ImportedPackages:
-- "~res:/UI/Screens3/Lobby/Common/ButtonNoBlur.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
 - "~res:/UI/Screens3/Lobby/Common/Resource/Currency.yaml"
 Prototypes:
 -   class: "UIControl"
@@ -37,7 +37,7 @@ Prototypes:
         UIDataLocalsComponent:
             locals:
             - ["string", "alignStyle", "when isAlignLeft -> \" text-align-left\", \" text-align-center\""]
-            - ["string", "textStyle", "\"t-subtitle regular \" + \"color=white-wild-sand-70-text\" + alignStyle"]
+            - ["string", "textStyle", "\"t-subtitle regular \" + colorClass + alignStyle"]
             - ["string", "titleStyle", "\"t-subtitle bold \" + colorClass + alignStyle"]
             - ["string", "selectedSide", "\"\""]
     bindings:
@@ -124,6 +124,11 @@ Prototypes:
                     horizontalPolicy: "PercentOfChildrenSum"
                     horizontalMax: 368.000000
                     verticalPolicy: "PercentOfChildrenSum"
+                FlowLayout:
+                    hDynamicPadding: true
+                    alignment: "Center"
+                    hSpacing: 4.000000
+                    useRtl: true
                 StyleSheet:
                     styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Common/PopupMenu.style.yaml"
             bindings:
@@ -162,7 +167,7 @@ Prototypes:
             bindings:
             - ["visible", "buttonVisible"]
             children:
-            -   prototype: "ButtonNoBlur/Button"
+            -   prototype: "Button/Button"
                 name: "ButtonOptionalDarkSmall"
                 components:
                     Anchor:
@@ -173,6 +178,7 @@ Prototypes:
                             "type": "eButtonType.OPTIONAL_DARK"
                             "size": "eButtonSize.SMALL"
                             "enabled": "true"
+                            "isBlur": "false"
                         eventActions:
                         - ["ON_CLICK_BUTTON", "CONTINUE", ""]
         -   class: "UIControl"

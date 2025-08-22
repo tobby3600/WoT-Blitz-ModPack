@@ -1,0 +1,118 @@
+Header:
+    version: 143
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/TaskJournal/Clan/ClanTasksGroup.yaml"
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "ClanTasks"
+    size: [800.000000, 600.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "isButtonsLocked", "false", "true"]
+            - ["bool", "isScrollEnabled", "true", "true"]
+            - ["int64", "dailyResetTime", "0L", "0L"]
+            - ["int64", "weeklyResetTime", "0L", "0L"]
+            - ["int64", "serverTime", "0L", "0L"]
+            - ["vector<TaskJournalTaskView>", "dailyTasks", "[ ]", "[ { }; { }; { }; ]"]
+            - ["vector<TaskJournalTaskView>", "weeklyTasks", "[ ]", "[ { }; { }; { }; ]"]
+            - ["vector<TaskJournalTaskView>", "rewardsTakenTasks", "[ ]", "[ { }; { }; { }; ]"]
+            events:
+            - "CLAN_TASKS_COLLECT_QUEST(string slotId)"
+            - "ON_CLAN_TASK_REWARD_CLICKED(eClanTasksGroup group, string slotId, int rewardIndex)"
+    children:
+    -   class: "UIControl"
+        name: "ScrollableContent"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+                verticalFormula: "parent"
+        children:
+        -   class: "UIScrollView"
+            name: "UIScrollView"
+            size: [800.000000, 800.000000]
+            autoUpdate: true
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIScrollViewContainer"
+                name: "scrollContainerControl"
+                position: [0.000000, 78.000000]
+                scrollDirection: "kVertical"
+                components:
+                    Anchor: {}
+                    LinearLayout:
+                        orientation: "TopDown"
+                        spacing: 24.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfChildrenSum"
+                bindings:
+                - ["enabled", "isScrollEnabled"]
+                children:
+                -   prototype: "ClanTasksGroup/ClanTasksGroup"
+                    name: "DailyTasks"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "isButtonsLocked": "isButtonsLocked"
+                                "group": "eClanTasksGroup.Daily"
+                                "resetTime": "dailyResetTime"
+                                "serverTime": "serverTime"
+                                "tasks": "dailyTasks"
+                            eventActions:
+                            - ["CLAN_TASKS_COLLECT_QUEST", "CLAN_TASKS_COLLECT_QUEST", "_event.slotId"]
+                            - ["ON_CLAN_TASK_REWARD_CLICKED", "ON_CLAN_TASK_REWARD_CLICKED", "_event.group, _event.slotId, _event.rewardIndex"]
+                -   prototype: "ClanTasksGroup/ClanTasksGroup"
+                    name: "WeeklyTasks"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "isButtonsLocked": "isButtonsLocked"
+                                "group": "eClanTasksGroup.Weekly"
+                                "resetTime": "weeklyResetTime"
+                                "serverTime": "serverTime"
+                                "tasks": "weeklyTasks"
+                            eventActions:
+                            - ["CLAN_TASKS_COLLECT_QUEST", "CLAN_TASKS_COLLECT_QUEST", "_event.slotId"]
+                            - ["ON_CLAN_TASK_REWARD_CLICKED", "ON_CLAN_TASK_REWARD_CLICKED", "_event.group, _event.slotId, _event.rewardIndex"]
+                -   prototype: "ClanTasksGroup/ClanTasksGroup"
+                    name: "RewardsTakenTasks"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "isButtonsLocked": "isButtonsLocked"
+                                "group": "eClanTasksGroup.Taken"
+                                "resetTime": "0L"
+                                "serverTime": "0L"
+                                "tasks": "rewardsTakenTasks"
+                            eventActions:
+                            - ["CLAN_TASKS_COLLECT_QUEST", "CLAN_TASKS_COLLECT_QUEST", "_event.slotId"]
+                            - ["ON_CLAN_TASK_REWARD_CLICKED", "ON_CLAN_TASK_REWARD_CLICKED", "_event.group, _event.slotId, _event.rewardIndex"]
+        -   prototype: "VerticalScrollBar/VerticalScrollBar"
+            name: "VerticalScrollBar"
+            components:
+                Anchor:
+                    rightAnchorEnabled: true
+                    rightAnchor: -8.000000
+                    topAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                IgnoreLayout: {}
+                UIScrollBarComponent:
+                    delegate: "../UIScrollView"
+            children:
+            -   path: "slider"
+                visible: true
+                children: []

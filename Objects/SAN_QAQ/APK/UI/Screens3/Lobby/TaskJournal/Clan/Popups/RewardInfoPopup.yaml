@@ -1,7 +1,7 @@
 Header:
     version: 138
 ImportedPackages:
-- "~res:/UI/Screens3/Common/PopupMenuWithMultiResourcesOriginal.yaml"
+- "~res:/UI/Screens3/Common/PopupMenuWithMultiResources.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "RewardInfoPopup"
@@ -38,7 +38,7 @@ Prototypes:
             - ["string", "unreachedRewardDescription", "localize(\"clanMissions/tooltips/clanReward/unreachedReward\")"]
             - ["string", "description", "when serverTime < resetTime -> (when proxyLeft <= 0 -> timeDescription, proxyDescription), (when proxyLeft > 0 -> unreachedRewardDescription, tasksLeft <= 0 -> reachedRewardDescription, lockedRewardDescription)"]
     children:
-    -   prototype: "PopupMenuWithMultiResourcesOriginal/Slave"
+    -   prototype: "PopupMenuWithMultiResources/Slave"
         name: "Slave"
         components:
             UIDataParamsComponent:
@@ -74,6 +74,8 @@ Slots:
                 baseClasses: "t-body regular color=white-wild-sand-50-text"
             RichContentAliases0:
                 aliases:
+                - ["text_white_bold", "<span class=\"t-body bold color=white-wild-sand-text\" />"]
+                - ["text2_white_bold", "<span class=\"t-body bold color=white-wild-sand-text\" />"]
                 - ["price", "<object class=\"XP\" name=\"Price\" path=\"~res:/UI/Screens/Lobby/Common/Price.yaml\" prototype=\"Price\" />"]
                 - ["proxy", "<control control=\"~res:/UI/Screens3/Lobby/Common/Resource/Currency.yaml\" args1=\"resource=proxyResource\" args2=\"hideGrade=true\" args3=\"currencySize=eCurrencySize.BODY\"/>"]
             Anchor:
@@ -91,4 +93,4 @@ Slots:
             StyleSheet:
                 styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Common/PopupMenu.style.yaml"
         bindings:
-        - ["RichContent.text", "localize(description)"]
+        - ["RichContent.text", "localize(description, { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; })"]

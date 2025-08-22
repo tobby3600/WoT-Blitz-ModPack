@@ -1,0 +1,654 @@
+Header:
+    version: 157
+ImportedPackages:
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "DefaultOffer"
+    size: [1260.000000, 640.000000]
+    input: false
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/Lobby/Hangar/Offers/PRMP/DefaultOffer.animation"
+        Anchor:
+            leftAnchorEnabled: true
+            rightAnchorEnabled: true
+            topAnchorEnabled: true
+            bottomAnchorEnabled: true
+        UIDataParamsComponent:
+            params:
+            - ["bool", "nsb", "false", "false"]
+            - ["bool", "isInfoOffer", "false", "false"]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["BasicOffer", "offer", "null", "{ }"]
+            - ["int64", "endTime", "0L", "100L"]
+            - ["bool", "timeLimited", "false", "true"]
+            - ["bool", "persistent", "false", "true"]
+            - ["bool", "showChances", "false", "true"]
+            - ["bool", "isCurrentOffer", "false", "true"]
+            - ["string", "taxMessage", "\"\"", "\"All prices include tax\""]
+            events:
+            - "ON_REWARD_CLICKED(ResourceDetailed resource, string attachId)"
+            - "ON_CHEST_INFO_CLICKED(int chestDescr)"
+            - "OFFER_ACTION"
+        UIDataLocalVarsComponent:
+            data:
+            - ["int", "contentHeight", "0"]
+            - ["bool", "contentShown", "false"]
+            - ["int", "maxScreenWidth", "1200"]
+            - ["int", "maxContentHeight", "600"]
+            - ["int", "centerSpacerWidth", "0"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["bool", "gradientVisible", "not isNull(offer) and not (offer.gradientColor.alpha == 0)"]
+            - ["bool", "freeProduct", "offer.offeredProduct.salePrice.resources.Empty()"]
+            - ["bool", "showFullPrice", "not freeProduct and offer.offeredProduct.fullPriceValid"]
+            - ["bool", "remainingLabelVisible", "offer.offeredProduct.xTimed and (persistent or offer.offeredProduct.availableAmount == 0)"]
+            - ["bool", "realCurrency", "not isNull(offer) and not (offer.offeredProduct.salePrice.resources.Empty()) and offer.offeredProduct.salePrice.resources[0].type == ResourceType.real_currency"]
+            - ["bool", "priceVisible", "when isNull(offer) -> false, not (offer.buttonText.empty()) -> true, isInfoOffer -> false, nsb and realCurrency -> true, offer.offeredProduct.shopProduct.content.Size() == 1 and not isNull(offer.offeredProduct.shopProduct.content[0].stuff) and offer.offeredProduct.shopProduct.content[0].stuff.type == ArtefactType.chest -> true, false"]
+            - ["bool", "isChectProduct", "not isNull(offer) and not isNull(offer.offeredProduct) and not isNull(offer.offeredProduct.shopProduct) and not isNull(offer.offeredProduct.shopProduct.chestInfo)"]
+            - ["bool", "isBigScreen", "screenHeight > 1200"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Hangar/Offers/PRMP/DefaultOffer.actions"
+        UIDataOnEventComponent0:
+            eventName: "CenterSpacerSizeChanged"
+            modelFieldExpression: "centerSpacerWidth"
+            dataExpression: "int(_event)"
+        UIDataOnEventComponent1:
+            eventName: "ContentSizeChanged"
+            modelFieldExpression: "contentHeight"
+            dataExpression: "when int(_event) == 0 -> contentHeight, int(_event)"
+        UIEventOnDataComponent0:
+            watchedDataExpression: "isCurrentOffer"
+            eventName: "OnOfferShown"
+    children:
+    -   class: "UIControl"
+        name: "Gradient"
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_FILL"
+            UIGradientComponent:
+                startColor: [0.000000, 0.000000, 0.000000, 0.666667]
+                finishColor: [0.000000, 0.000000, 0.000000, 0.000000]
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                horizontalValue: 50.000000
+                verticalPolicy: "PercentOfParent"
+    -   class: "UIControl"
+        name: "ContentWrapper"
+        input: false
+        components:
+            ClipContent: {}
+            LinearLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "SpacerWrapper"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "Gradient"
+                input: false
+                components:
+                    Anchor:
+                        rightAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                        vCenterAnchor: -30.000000
+                    Background:
+                        drawType: "DRAW_SCALE_TO_RECT"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                        spriteModification: []
+                    UIOpacityComponent:
+                        opacity: 0.600000
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 200.000000
+                        verticalPolicy: "FixedSize"
+                bindings:
+                - ["visible", "gradientVisible"]
+                - ["Background.color", "rgba(offer.gradientColor.red * 255.000000, offer.gradientColor.green * 255.000000, offer.gradientColor.blue * 255.000000, offer.gradientColor.alpha)"]
+                - ["SizePolicy.verticalValue", "contentHeight + 48"]
+        -   class: "UIControl"
+            name: "LeftContentWrapper"
+            input: false
+            components:
+                Anchor:
+                    enabled: true
+                    hCenterAnchorEnabled: true
+                    topAnchorEnabled: true
+                    topAnchor: 80.000000
+                    bottomAnchorEnabled: true
+                    bottomAnchor: 140.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfLastChild"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "roundCorner": "\"8\""
+            -   class: "UIControl"
+                name: "CustomGradient"
+                input: false
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        rightAnchorEnabled: false
+                        vCenterAnchorEnabled: true
+                    Background:
+                        drawType: "DRAW_SCALE_TO_RECT"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                        spriteModification: ["FLIP_HORIZONTAL"]
+                    UIOpacityComponent:
+                        opacity: 0.600000
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        verticalPolicy: "FixedSize"
+                bindings:
+                - ["visible", "gradientVisible"]
+                - ["Background.color", "rgba(offer.gradientColor.red * 255.000000, offer.gradientColor.green * 255.000000, offer.gradientColor.blue * 255.000000, offer.gradientColor.alpha)"]
+                - ["SizePolicy.horizontalValue", "614 + centerSpacerWidth"]
+                - ["SizePolicy.verticalValue", "contentHeight + 48"]
+            -   class: "UIControl"
+                name: "LeftContent"
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        verticalPolicy: "Formula"
+                        verticalFormula: "when parent == 0 -> childrenSum, min(min(parentRest, childrenSum), maxContentHeight)"
+                    UILayoutEventComponent:
+                        sizeChangedEvent: "ContentSizeChanged"
+                        sizeChangedEventData: "_size.Y"
+                bindings:
+                - ["LinearLayout.dynamicPadding", "isInfoOffer"]
+                - ["SizePolicy.horizontalValue", "when screenWidth > maxScreenWidth -> 568, 420"]
+                children:
+                -   class: "UIControl"
+                    name: "DescriptionWrapper"
+                    input: false
+                    components:
+                        LinearLayout: {}
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 364.000000
+                            verticalPolicy: "PercentOfMaxChild"
+                    children:
+                    -   class: "UIControl"
+                        name: "TagHolder"
+                        input: false
+                        components:
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfMaxChild"
+                                verticalPolicy: "PercentOfMaxChild"
+                            UIChildComponent0:
+                                condition: "not empty(offer.shortDescription)"
+                                prototypePath: "~res:/UI/Screens3/Lobby/Hangar/Offers/PRMP/Common/OfferShortDescription.yaml"
+                                args:
+                                    "description": "offer.shortDescription"
+                        bindings:
+                        - ["visible", "not empty(offer.shortDescription)"]
+                    -   class: "UIControl"
+                        name: "Spacer"
+                        input: false
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 0.000000
+                        bindings:
+                        - ["visible", "not empty(offer.shortDescription)"]
+                    -   class: "UIControl"
+                        name: "TimerHolder"
+                        input: false
+                        components:
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfMaxChild"
+                                verticalPolicy: "PercentOfMaxChild"
+                            UIChildComponent0:
+                                condition: "timeLimited"
+                                prototypePath: "~res:/UI/Screens3/Lobby/Common/GoldTimer.yaml"
+                                args:
+                                    "colorStyle": "\"yellow-submarine\""
+                                    "serverTime": "session.serverTime"
+                                    "forcedBold": "true"
+                                    "timerSize": "eTimerSize.Medium"
+                                    "time": "endTime"
+                        bindings:
+                        - ["visible", "timeLimited"]
+                -   class: "UIControl"
+                    name: "Spacer"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 0.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 4.000000
+                -   class: "UIControl"
+                    name: "Title"
+                    input: false
+                    classes: "t-content-h2 bold color=white-wild-sand-text"
+                    components:
+                        UITextComponent:
+                            colorInheritType: "COLOR_IGNORE_PARENT"
+                            fitting: "FITTING_REDUCE"
+                            align: ["LEFT", "VCENTER"]
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["UITextComponent.text", "localize(offer.title)"]
+                -   class: "UIControl"
+                    name: "Spacer"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 0.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 4.000000
+                -   class: "UIControl"
+                    name: "DetailedDescriptionHolder"
+                    input: false
+                    components:
+                        ClipContent: {}
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfMaxChild"
+                            verticalMax: 102.000000
+                        UIChildComponent0:
+                            prototypePath: "~res:/UI/Screens3/Lobby/Hangar/Offers/PRMP/Common/OfferTextDescription.yaml"
+                            args:
+                                "basicTextStyle": "\"t-body regular white-wild-sand-text\""
+                                "text": "offer.detailedDescription"
+                -   class: "UIControl"
+                    name: "Spacer"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 0.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 8.000000
+                -   class: "UIControl"
+                    name: "ContainerInfoWrapper"
+                    input: false
+                    components:
+                        LinearLayout: {}
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfMaxChild"
+                    bindings:
+                    - ["visible", "not isNull(offer) and not isNull(offer.offeredProduct) and not isNull(offer.offeredProduct.shopProduct) and not isNull(offer.offeredProduct.shopProduct.chestInfo)"]
+                    children:
+                    -   class: "UIControl"
+                        name: "ContainerLabel"
+                        input: false
+                        classes: "t-caps bold color=white-wild-sand-text"
+                        components:
+                            UITextComponent:
+                                colorInheritType: "COLOR_IGNORE_PARENT"
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfContent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                        bindings:
+                        - ["UITextComponent.text", "capitalize(localize(\"storage/Items/Contents\"))"]
+                    -   class: "UIControl"
+                        name: "InfoButtonWrapper"
+                        input: false
+                        components:
+                            ClipContent: {}
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 28.000000
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 24.000000
+                        bindings:
+                        - ["visible", "showChances"]
+                        children:
+                        -   class: "UIControl"
+                            name: "InfoButton"
+                            input: false
+                            components:
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                    vCenterAnchorEnabled: true
+                                    vCenterAnchor: -2.000000
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfMaxChild"
+                                    verticalPolicy: "PercentOfMaxChild"
+                                UIChildComponent0:
+                                    condition: "showChances and not isNull(offer) and not isNull(offer.offeredProduct) and not isNull(offer.offeredProduct.shopProduct) and not offer.offeredProduct.shopProduct.content.Empty()"
+                                    prototypePath: "~res:/UI/Screens3/Lobby/Common/InfoIcon.yaml"
+                                    eventActions:
+                                    - ["ON_CLICK_BUTTON", "ON_CHEST_INFO_CLICKED", "offer.offeredProduct.shopProduct.content[0].stuff.itemCompactDescr"]
+                -   class: "UIControl"
+                    name: "ContentWrapper"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "Formula"
+                            verticalFormula: "when parent == 0 -> childrenSum, min(parentRest, childrenSum)"
+                    children:
+                    -   class: "UIScrollView"
+                        name: "UIScrollView"
+                        refreshStylesOnInteract: false
+                        autoUpdate: true
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                verticalPolicy: "Formula"
+                                verticalFormula: "when parent == 0 -> childrenSum, min(parentRest, childrenSum)"
+                        bindings:
+                        - ["SizePolicy.horizontalValue", "when screenWidth > maxScreenWidth -> 566, 376"]
+                        children:
+                        -   class: "UIScrollViewContainer"
+                            name: "scrollContainerControl"
+                            refreshStylesOnInteract: false
+                            scrollDirection: "kVertical"
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfChildrenSum"
+                            children:
+                            -   class: "UIControl"
+                                name: "BundleContent"
+                                input: false
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                        verticalPolicy: "PercentOfMaxChild"
+                                    UIChildComponent0:
+                                        childType: "kControl"
+                                        condition: "isInfoOffer"
+                                    UIChildComponent1:
+                                        childType: "kControl"
+                                        condition: "not isNull(offer) and not isNull(offer.offeredProduct) and not isNull(offer.offeredProduct.shopProduct) and not isNull(offer.offeredProduct.shopProduct.chestInfo)"
+                                        control: "ChestList"
+                                    UIChildComponent2:
+                                        childType: "kControl"
+                                        condition: "not isNull(offer)"
+                                        control: "StuffList"
+                                bindings:
+                                - ["visible", "contentShown"]
+                    -   prototype: "VerticalScrollBar/VerticalScrollBar"
+                        name: "VerticalScrollBar"
+                        refreshStylesOnInteract: false
+                        components:
+                            Anchor:
+                                leftAnchorEnabled: true
+                                rightAnchorEnabled: false
+                                topAnchorEnabled: true
+                            IgnoreLayout: {}
+                            SizePolicy:
+                                verticalPolicy: "Ignore"
+                            UIScrollBarComponent:
+                                delegate: "../UIScrollView"
+                        bindings:
+                        - ["Anchor.leftAnchor", "when screenWidth > maxScreenWidth -> 568, 378"]
+                -   class: "UIControl"
+                    name: "Spacer"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 0.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 8.000000
+                -   class: "UIControl"
+                    name: "RemainingProducts"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfFirstChild"
+                            verticalPolicy: "PercentOfFirstChild"
+                        UIChildComponent0:
+                            condition: "remainingLabelVisible"
+                            prototypePath: "~res:/UI/Screens3/Lobby/Hangar/Offers/PRMP/Common/XTimeLabel.yaml"
+                            args:
+                                "product": "offer.offeredProduct"
+                    bindings:
+                    - ["visible", "remainingLabelVisible"]
+        -   class: "UIControl"
+            name: "Spacer"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    horizontalMin: 21.000000
+                    horizontalMax: 145.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 0.000000
+        -   class: "UIControl"
+            name: "RightContentWrapper"
+            input: false
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                    vCenterAnchor: -30.000000
+                LinearLayout:
+                    orientation: "TopDown"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   class: "UIControl"
+                name: "ProductImage"
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_PROPORTIONAL"
+                        align: ["HCENTER", "BOTTOM"]
+                    UIUrlImageComponent:
+                        placeholderScenePath: "~res:/UI/Screens/Common/LoadingControl.yaml"
+                        placeholderControlName: "LoadingControl"
+                    Anchor:
+                        rightAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        verticalPolicy: "FixedSize"
+                bindings:
+                - ["UIUrlImageComponent.imageUrl", "offer.productImageUrl"]
+                - ["SizePolicy.horizontalValue", "when isBigScreen -> 600, 386"]
+                - ["SizePolicy.verticalValue", "when isBigScreen -> 600, 386"]
+        -   class: "UIControl"
+            name: "Spacer"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 0.000000
+                UILayoutEventComponent:
+                    sizeChangedEvent: "SpacerSizeChanged"
+                    sizeChangedEventData: "_size.X"
+    -   class: "UIControl"
+        name: "PriceContainer"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                bottomAnchorEnabled: true
+                bottomAnchor: 72.000000
+            LinearLayout:
+                orientation: "TopDown"
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfChildrenSum"
+        bindings:
+        - ["visible", "not isInfoOffer"]
+        children:
+        -   class: "UIControl"
+            name: "TaxMessage"
+            input: false
+            classes: "t-caps regular white-wild-sand-text"
+            components:
+                UITextComponent: {}
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["visible", "not empty(taxMessage) and not offer.offeredProduct.salePrice.resources.Empty() and offer.offeredProduct.salePrice.resources[0].type == ResourceType.real_currency"]
+            - ["UITextComponent.text", "taxMessage"]
+        -   class: "UIControl"
+            name: "Pricing"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                LinearLayout:
+                    orientation: "TopDown"
+                    dynamicPadding: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfChildrenSum"
+            bindings:
+            - ["visible", "not freeProduct"]
+            children:
+            -   class: "UIControl"
+                name: "FullPrice"
+                input: false
+                components:
+                    UIOpacityComponent:
+                        opacity: 0.600000
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfFirstChild"
+                        verticalPolicy: "PercentOfFirstChild"
+                    UIChildComponent0:
+                        condition: "showFullPrice"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Currencies.yaml"
+                        args:
+                            "crossOut": "true"
+                            "currencySize": "eCurrencySize.BIG_BOLD"
+                            "price": "offer.offeredProduct.fullPrice"
+                            "showDiscount": "false"
+                bindings:
+                - ["visible", "showFullPrice"]
+            -   class: "UIControl"
+                name: "SalePrice"
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfFirstChild"
+                        verticalPolicy: "PercentOfFirstChild"
+                    UIChildComponent0:
+                        condition: "priceVisible"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Currencies.yaml"
+                        args:
+                            "currencySize": "eCurrencySize.HUGE_BOLD"
+                            "price": "offer.offeredProduct.salePrice"
+                bindings:
+                - ["visible", "priceVisible"]
+        -   class: "UIControl"
+            name: "FreeLabel"
+            input: false
+            classes: "t-headline bold white-wild-sand-text"
+            components:
+                UITextComponent:
+                    text: "shop/FreeBundle"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["visible", "freeProduct"]
+Slots:
+-   class: "UIControl"
+    name: "StuffList"
+    size: [400.000000, 216.000000]
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+            bottomAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfChildrenSum"
+        FlowLayout:
+            hPadding: "4"
+            hSpacing: 8.000000
+            vPadding: "4; 0"
+            vSpacing: 8.000000
+        UILayoutEventComponent:
+            sizeChangedEvent: "StuffSizeChanged"
+            sizeChangedEventData: "int(_size.Y)"
+        UIRepeatComponent:
+            control: "~res:/UI/Screens3/Lobby/Chests/ChestContentItem.yaml"
+            dataContainer: "offer.offeredProduct.shopProduct.content"
+            args:
+                "isBgVisible": "false"
+                "ownedItem": "not isNull(_item.vehicle) and PlayerHasTank(session.playerTanks.tanks, _item.vehicle.info.tankDescriptor)"
+                "attachId": "str(offer.offeredProduct.shopProduct.id) + \"_\" + str(_index)"
+                "animate": "not contentShown"
+                "resource": "_item"
+                "index": "_index"
+            eventActions:
+            - ["ON_REWARD_CLICKED", "ON_REWARD_CLICKED", "_event, str(offer.offeredProduct.shopProduct.id) + \"_\" + str(_index)"]
+-   class: "UIControl"
+    name: "ChestList"
+    size: [400.000000, 552.000000]
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+            bottomAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfChildrenSum"
+        FlowLayout:
+            hPadding: "4"
+            hSpacing: 8.000000
+            vPadding: "4; 0"
+            vSpacing: 8.000000
+        UIRepeatComponent:
+            control: "~res:/UI/Screens3/Lobby/Chests/ChestContentItem.yaml"
+            dataContainer: "offer.offeredProduct.shopProduct.chestInfo.dropList"
+            args:
+                "isBgVisible": "false"
+                "ownedItem": "not isNull(_item.resource.vehicle) and PlayerHasTank(session.playerTanks.tanks, _item.resource.vehicle.info.tankDescriptor)"
+                "attachId": "str(offer.offeredProduct.shopProduct.id) + \"_\" + str(_index)"
+                "max": "_item.max"
+                "min": "_item.min"
+                "resource": "_item.resource"
+                "animate": "not contentShown"
+                "index": "_index"
+            eventActions:
+            - ["ON_REWARD_CLICKED", "ON_REWARD_CLICKED", "_event, str(offer.offeredProduct.shopProduct.id) + \"_\" + str(_index)"]

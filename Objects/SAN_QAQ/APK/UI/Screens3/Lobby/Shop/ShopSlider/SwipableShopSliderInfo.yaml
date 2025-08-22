@@ -257,6 +257,7 @@ Slots:
                         "enabled": "true"
                         "locked": "false"
                         "iconFlip": "FLIP_HORIZONTAL"
+                        "maskStyle": "\"white-wild-sand-25-bg\""
                     eventActions:
                     - ["ON_CLICK_BUTTON", "PREVIOUS_PRODUCT", ""]
         -   class: "UIControl"
@@ -276,29 +277,6 @@ Slots:
                 components:
                     Anchor:
                         hCenterAnchorEnabled: true
-                    Background:
-                        usePostProcessedSprite: true
-                    UIPostProcessTextureComponent0:
-                        materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                        needClearAlphaAfterRender: true
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent1:
-                        materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent2:
-                        materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIRoundedCornersComponent:
-                        radius: "8"
                     SizePolicy:
                         horizontalPolicy: "PercentOfMaxChild"
                         verticalPolicy: "PercentOfMaxChild"
@@ -307,6 +285,7 @@ Slots:
                         args:
                             "selectedItem": "currentIndex"
                             "pointCount": "pageCount"
+                            "bgStyle": "\"white-wild-sand-25-bg\""
                         eventActions:
                         - ["CHANGED_SELECTED_ITEM", "CHANGED_SELECTED_ITEM", "_event"]
         -   class: "UIControl"
@@ -332,6 +311,7 @@ Slots:
                         "enabled": "true"
                         "locked": "false"
                         "iconFlip": "0"
+                        "maskStyle": "\"white-wild-sand-25-bg\""
                     eventActions:
                     - ["ON_CLICK_BUTTON", "NEXT_PRODUCT", ""]
         -   class: "UIControl"

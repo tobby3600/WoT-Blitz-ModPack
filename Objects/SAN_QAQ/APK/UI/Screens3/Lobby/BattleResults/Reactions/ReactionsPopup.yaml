@@ -57,7 +57,7 @@ Prototypes:
         components:
             Background:
                 drawType: "DRAW_FILL"
-                color: [0.000000, 0.000000, 0.000000, 0.501961]
+                color: [0.000000, 0.000000, 0.000000, 0.6000000]
             Anchor:
                 hCenterAnchorEnabled: true
                 vCenterAnchorEnabled: true

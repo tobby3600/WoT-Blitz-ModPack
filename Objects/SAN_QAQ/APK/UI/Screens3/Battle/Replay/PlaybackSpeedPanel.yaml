@@ -4,7 +4,7 @@ Prototypes:
 -   class: "UIControl"
     name: "Panel"
     size: [176.000000, 50.000000]
-    input: true
+    input: false
     components:
         SizePolicy:
             horizontalPolicy: "FixedSize"
@@ -67,7 +67,7 @@ Prototypes:
         name: "List"
         size: [32.000000, 32.000000]
         pivot: [0.000000, 1.000000]
-        input: true
+        input: false
         components:
             LinearLayout:
                 orientation: "BottomUp"

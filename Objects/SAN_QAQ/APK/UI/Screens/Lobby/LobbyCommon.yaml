@@ -4,6 +4,7 @@ ImportedPackages:
 - "~res:/UI/Screens/Common.yaml"
 - "~res:/UI/Screens/Common/StyledMenuButton.yaml"
 - "~res:/UI/Screens/Common/UnreadIcon.yaml"
+- "~res:/UI/Screens3/Common/OverlayBlur.yaml"
 - "~res:/UI/Styles/BackgroundStyles.yaml"
 StyleSheets:
 -   selectors:
@@ -88,60 +89,6 @@ Prototypes:
     size: [200.000000, 200.000000]
     input: false
     components:
-        Background:
-            usePostProcessedSprite: true
-        UIPostProcessTextureComponent0:
-            materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-            needClearAlphaAfterRender: true
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent1:
-            materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent2:
-            materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        Anchor:
-            leftAnchorEnabled: true
-            rightAnchorEnabled: true
-            topAnchorEnabled: true
-            bottomAnchorEnabled: true
-        StyleSheet:
-            inheritsStylesFromParent: true
-            styles: "~res:/UI/Screens/Lobby/LobbyCommon.yaml"
--   class: "UIControl"
-    name: "DialogBackground"
-    size: [200.000000, 200.000000]
-    components:
-        Background:
-            usePostProcessedSprite: true
-        UIPostProcessTextureComponent0:
-            materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-            needClearAlphaAfterRender: true
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent1:
-            materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent2:
-            materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
         Anchor:
             leftAnchorEnabled: true
             rightAnchorEnabled: true
@@ -151,14 +98,20 @@ Prototypes:
             inheritsStylesFromParent: true
             styles: "~res:/UI/Screens/Lobby/LobbyCommon.yaml"
     children:
-    -   class: "UIControl"
-        name: "Darkness"
-        components:
-            Background:
-                drawType: "DRAW_FILL"
-                color: [0.047100, 0.086300, 0.113700, 0.584300]
-            Anchor:
-                leftAnchorEnabled: true
-                rightAnchorEnabled: true
-                topAnchorEnabled: true
-                bottomAnchorEnabled: true
+    -   prototype: "OverlayBlur/BlurAndFade"
+        name: "BlurAndFade"
+-   class: "UIControl"
+    name: "DialogBackground"
+    size: [200.000000, 200.000000]
+    components:
+        Anchor:
+            leftAnchorEnabled: true
+            rightAnchorEnabled: true
+            topAnchorEnabled: true
+            bottomAnchorEnabled: true
+        StyleSheet:
+            inheritsStylesFromParent: true
+            styles: "~res:/UI/Screens/Lobby/LobbyCommon.yaml"
+    children:
+    -   prototype: "OverlayBlur/BlurAndFade"
+        name: "BlurAndFade"

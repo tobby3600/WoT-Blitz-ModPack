@@ -1,0 +1,308 @@
+Header:
+    version: 161
+Prototypes:
+-   class: "UIControl"
+    name: "StoryButton"
+    input: false
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/Lobby/Hangar/Story/StoryButtonOnInit.animation"
+        SizePolicy:
+            horizontalPolicy: "PercentOfFirstChild"
+            verticalPolicy: "PercentOfFirstChild"
+        UIDataParamsComponent:
+            params:
+            - ["string", "storyName", "\"\"", "\"\""]
+            - ["int", "badgeProxyCount", "0", "0"]
+            - ["bool", "isLoadingMinorInfo", "false", "false"]
+            - ["bool", "isAnimated", "false", "true"]
+            - ["string", "imagePath", "\"\"", "\"~res:/Gfx/Lobby/events/event_2020-halloween_button_grade1\""]
+            - ["string", "imageUrl", "\"\"", "\"https://stufficons.wgcdn.co/Gfx2/avatar_srr7_anim/230922_112504_710078.webp\""]
+            - ["int", "imageVerticalOffset", "0", "0"]
+            - ["int64", "serverTime", "1561565973L", "1561565973L"]
+            - ["int64", "alertTime", "0L", "3600L"]
+            - ["int64", "finishTime", "0L", "1561565973L + 3500L"]
+            - ["bool", "isReady", "false", "false"]
+            - ["int", "minimum", "0", "0"]
+            - ["int", "maximum", "100", "100"]
+            - ["int", "value", "0", "25"]
+            - ["bool", "showTimer", "true", "true"]
+            - ["bool", "showProgress", "false", "true"]
+            - ["string", "timerIcon", "\"\"", "\"\""]
+            - ["control", "imageOverlay", "null", "null"]
+            - ["control", "imageUnderlay", "null", "null"]
+            - ["eScreenSizeType", "deviceType", "eScreenSizeType.Large", "eScreenSizeType.Small"]
+            - ["string", "masterId", "\"\"", "\"\""]
+            - ["bool", "hasInput", "true", "true"]
+            events:
+            - "ON_TOUCH"
+        UIDataLocalVarsComponent:
+            data:
+            - ["bool", "showBadge", "storyName == \"2025-TK-CL-INFO\" and badgeProxyCount == 0"]
+            - ["vector4", "ltrbSafeZone", "vec4(4.000000, 4.000000, 4.000000, 4.000000)"]
+            - ["vector2", "imageSize", "vec2(96.000000, 96.000000)"]
+            - ["float", "iconBrightness", "0.000000"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Hangar/Story/StoryButton.actions"
+    children:
+    -   class: "UIControl"
+        name: "ContentHolder"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/ButtonDecorator.yaml"
+                args:
+                    "content": "Content"
+                    "sound": "eButtonSound.OPEN"
+                    "isSelected": "false"
+                    "ltrbSafeZone": "ltrbSafeZone"
+                    "masterId": "masterId"
+                    "hasInput": "hasInput"
+                eventActions:
+                - ["PUSH", "PUSH", "_event.scale, _event.opacity, _event.time"]
+                - ["PULL", "PULL", "_event.time"]
+                - ["HOVER", "HOVER", "_event.brightness, _event.time"]
+                - ["CANCEL_HOVER", "CANCEL_HOVER", "_event.time"]
+                - ["ON_TOUCH", "ON_TOUCH", ""]
+    -   class: "UIControl"
+        name: "Loading"
+        enabled: false
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "FixedSize"
+            UIChildComponent0:
+                condition: "isLoadingMinorInfo"
+                prototypePath: "~res:/UI/Screens3/Common/LoadingOverlay.yaml"
+                args:
+                    "inputEnabled": "false"
+    -   class: "UIControl"
+        name: "Badge"
+        input: false
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+                rightAnchor: 10.000000
+                topAnchorEnabled: true
+                topAnchor: 14.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                condition: "showBadge"
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Badge.yaml"
+                args:
+                    "type": "eBadgeType.Gift"
+                    "value": "\"\""
+Slots:
+-   class: "UIControl"
+    name: "Content"
+    input: false
+    components:
+        UIOpacityComponent:
+            opacity: 1.000000
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfFirstChild"
+            verticalPolicy: "PercentOfChildrenSum"
+    children:
+    -   class: "UIControl"
+        name: "ImageWrapper"
+        pivot: [0.500000, 0.500000]
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "FixedSize"
+        bindings:
+        - ["SizePolicy.horizontalValue", "imageSize.X"]
+        - ["SizePolicy.verticalValue", "imageSize.Y"]
+        children:
+        -   class: "UIControl"
+            name: "Content"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            bindings:
+            - ["Anchor.vCenterAnchor", "imageVerticalOffset"]
+            children:
+            -   class: "UIControl"
+                name: "Underlay"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    UIChildComponent0:
+                        childType: "kControl"
+                        condition: "not isNull(imageUnderlay)"
+                        control: "imageUnderlay"
+            -   class: "UIControl"
+                name: "Image"
+                input: false
+                components:
+                    UITextureComponent:
+                        materialPath: "~res:/Materials.custom/2d.Textured.HSV.material"
+                        drawType: "DRAW_SCALE_PROPORTIONAL"
+                        perPixelAccuracy: "PER_PIXEL_ACCURACY_FORCED"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                bindings:
+                - ["visible", "empty(imageUrl)"]
+                - ["UITextureComponent.spritePath", "imagePath"]
+                - ["UITextureComponent.materialParams", "\"value,\" + str(int(iconBrightness))"]
+            -   class: "UIControl"
+                name: "ImageUrl"
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                        perPixelAccuracy: "PER_PIXEL_ACCURACY_FORCED"
+                    UIUrlImageComponent:
+                        placeholderScenePath: "~res:/UI/Screens3/Common/LoadingOverlay.yaml"
+                        placeholderControlName: "LoadingOverlay"
+                        checkUpdate: true
+                        imageLoadedEvent: "STORY_IMAGE_LOADED"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                bindings:
+                - ["visible", "not empty(imageUrl)"]
+                - ["UIUrlImageComponent.imageUrl", "imageUrl"]
+            -   class: "UIControl"
+                name: "Overlay"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    UIChildComponent0:
+                        childType: "kControl"
+                        condition: "not isNull(imageOverlay)"
+                        control: "imageOverlay"
+    -   class: "UIControl"
+        name: "TimerAndProgressWrapper"
+        position: [0.000000, 96.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfFirstChild"
+        bindings:
+        - ["visible", "showProgress or showTimer"]
+        children:
+        -   class: "UIControl"
+            name: "TimerAndProgress"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                LinearLayout:
+                    skipInvisible: false
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfChildrenSum"
+            bindings:
+            - ["LinearLayout.orientation", "when showTimer -> eOrientation.TopDown, eOrientation.BottomUp"]
+            children:
+            -   class: "UIControl"
+                name: "TimerWrapper"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "Formula"
+                        horizontalValue: 80.000000
+                        horizontalFormula: "when maxChild < 80 -> 80, maxChild > imageSize.X + ltrbSafeZone.X + ltrbSafeZone.Z -> imageSize.X + ltrbSafeZone.X + ltrbSafeZone.Z, maxChild"
+                        verticalPolicy: "Formula"
+                        verticalFormula: "max(maxChild, 24)"
+                bindings:
+                - ["visible", "showTimer"]
+                children:
+                -   class: "UIControl"
+                    name: "TimerHolder"
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfFirstChild"
+                            verticalPolicy: "PercentOfFirstChild"
+                        UIChildComponent0:
+                            childType: "kPrototype"
+                            prototypePath: "~res:/UI/Screens3/Lobby/Common/Timer.yaml"
+                            args:
+                                "serverTime": "serverTime"
+                                "time": "finishTime"
+                                "alertTime": "alertTime"
+                                "customIcon": "timerIcon"
+                                "bgVisible": "true"
+                                "bgColorStyle": "\"black-50-bg\""
+                    bindings:
+                    - ["visible", "not isReady"]
+                -   class: "UIControl"
+                    name: "ClaimLabel"
+                    input: false
+                    classes: "t-caption bold white-wild-sand-text"
+                    components:
+                        UITextComponent:
+                            text: "blitz_birthday_event/get_reward/button"
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml"
+                    bindings:
+                    - ["visible", "isReady"]
+            -   class: "UIControl"
+                name: "ProgressBarWrapper"
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "Formula"
+                        verticalFormula: "lastChild + 4"
+                bindings:
+                - ["visible", "not isReady and showProgress"]
+                children:
+                -   class: "UIControl"
+                    name: "ProgressBarHolder"
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "Formula"
+                            horizontalFormula: "parent - 4"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 4.000000
+                        UIChildComponent0:
+                            prototypePath: "~res:/UI/Screens3/Lobby/Common/ProgressBar.yaml"
+                            args:
+                                "minimum": "minimum"
+                                "maximum": "maximum"
+                                "value": "value"
+                                "progressColor": "\"yellow-chalky-bg\""
+                                "roundCorners": "true"
+                                "showGradient": "false"
+                                "bgStyle": "\"black-50-bg\""

@@ -1,0 +1,242 @@
+Header:
+    version: 161
+Prototypes:
+-   class: "UIControl"
+    name: "ContentScreen"
+    size: [960.000000, 640.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["StoryScreenViewModel", "viewModel", "null", "{ \"contentScreen\" = eCurrentScreen.kStory; }"]
+            - ["AppDataModel", "app", "null", "{ }"]
+            - ["SessionDataModel", "session", "null", "{ \"serverTime\" = 0L; \"stats\" = { \"balanceSynchronized\" = true; \"gold\" = { \"type\" = ResourceType.gold; \"quantity\" = 125000; }; \"freeXp\" = { \"type\" = ResourceType.free_xp; \"quantity\" = 2789456; }; }; }"]
+            - ["AccountDataModel", "account", "null", "{ }"]
+            - ["LobbyDataModel", "lobby", "null", "{ }"]
+            - ["StoryStringsKeys", "keys", "null", "{ }"]
+            events:
+            - "DESELECT"
+            - "SHOP_BUTTON(eRequiredResource requiredResource)"
+            - "GO_TO_SHOP"
+            - "PREMIUM_INFO_EVENT"
+            - "BACK_EVENT"
+            - "COMPLETE_STEP(bool isChest)"
+            - "SHOW_STORY_INFO"
+            - "SELECT_STEP(int id)"
+            - "SELECT_COMPOSITE_STEP(string name)"
+            - "SHOW_CHEST_INFO(int id)"
+            - "SHOW_STEP_INFO(int id)"
+            - "SELECT_STORY(string storyName)"
+        UIDataLocalVarsComponent:
+            data:
+            - ["string", "paidPassGroupName", "\"shopBundle\""]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["string", "bundleTitle", "when viewModel.selectedStory.resources.strings.Contains(\"bundleTitle\") -> viewModel.selectedStory.resources.strings[\"bundleTitle\"], \"\""]
+            - ["string", "extendedBundleTitle", "when viewModel.selectedStory.resources.strings.Contains(\"extendedBundleTitle\") -> viewModel.selectedStory.resources.strings[\"extendedBundleTitle\"], \"\""]
+            - ["StoryStepGroupViewModel", "paidPassGroup", "when not isNull(viewModel.treeViewModel) and viewModel.treeViewModel.groups.Contains(paidPassGroupName) -> viewModel.treeViewModel.groups[paidPassGroupName], null"]
+            - ["bool", "showFooter", "viewModel.contentScreen != eCurrentScreen.kStoryInfo and viewModel.contentScreen != eCurrentScreen.SeasonProgression and not ((not isNull(viewModel.selectedStory.tree) and viewModel.selectedStory.tree.isDone) or viewModel.selectedStory.isFinished) and not (viewModel.selectedStory.name == \"NEWCOMERS2020\" or viewModel.selectedStory.name == \"NEWCOMERS7X7\" or viewModel.selectedStory.name == \"2025-BD\")"]
+            - ["bool", "hideHeader", "((StartsWith(viewModel.selectedStory.name, \"2023-SRR\") or StartsWith(viewModel.selectedStory.name, \"2024-SRR\") or StartsWith(viewModel.selectedStory.name, \"2025-SRR\")) and viewModel.contentScreen == eCurrentScreen.kStory) or (viewModel.selectedStory.name == \"NEWCOMERS2020\" and ((not isNull(viewModel.selectedStory.tree) and viewModel.selectedStory.tree.isDone) or viewModel.selectedStory.isFinished))"]
+            - ["bool", "showHeader", "(viewModel.selectedStory.name != \"NEWCOMERS7X7\" or not ((not isNull(viewModel.selectedStory.tree) and viewModel.selectedStory.tree.isDone) or viewModel.selectedStory.isFinished)) and viewModel.contentScreen != eCurrentScreen.StoryIntro and viewModel.contentScreen != eCurrentScreen.SeasonProgression and not hideHeader"]
+            - ["bool", "isLastDay", "viewModel.selectedStory.stage.finishTime - session.serverTime < 86400L"]
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "HeaderOverContent"
+            position: [0.000000, 0.000000]
+            size: [790.000000, 100.000000]
+            input: false
+            components:
+                LinearLayout:
+                    orientation: "BottomUp"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "ContentScreenHolder"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    UIChildComponent0:
+                        condition: "viewModel.contentScreen == eCurrentScreen.kStoryInfo and not viewModel.selectedStory.isFinished"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Story/ContentScreens/InfoScreen.yaml"
+                        args:
+                            "viewModel": "viewModel.infoViewModel"
+                            "isFullScreen": "viewModel.isFullScreen"
+                    UIChildComponent1:
+                        childType: "kOldExpression"
+                        condition: "viewModel.selectedStory.isFinished or (not isNull(viewModel.selectedStory.tree) and viewModel.selectedStory.tree.isDone)"
+                        control: "when viewModel.selectedStory.resources.strings.Contains(keys.doneScreen.path) and not empty(viewModel.selectedStory.resources.strings[keys.doneScreen.path]) -> viewModel.selectedStory.resources.strings[keys.doneScreen.path], \"~res:/UI/Screens3/Lobby/Story/Components/DoneScreen.yaml\""
+                        args:
+                            "story": "viewModel.selectedStory"
+                            "keys": "keys"
+                            "treeView": "viewModel.treeViewModel"
+                            "vehicle": "when viewModel.selectedStory.name == \"NEWCOMERS2020\" -> viewModel.selectedStory.tree.steps[4].rewards[0UL].vehicle, null"
+                            "isFullScreen": "viewModel.isFullScreen"
+                            "show3dScene": "false"
+                        eventActions:
+                        - ["RETURN_TO_HANGAR", "BACK_EVENT", ""]
+                        - ["CLOSE", "BACK_EVENT", ""]
+                    UIChildComponent2:
+                        childType: "kOldExpression"
+                        condition: "(viewModel.contentScreen == eCurrentScreen.kStory or viewModel.contentScreen == eCurrentScreen.SeasonProgression) and not viewModel.selectedStory.isFinished and viewModel.selectedStory.resources.strings.Contains(viewModel.selectedStory.stage.name + keys.stage.treePath)"
+                        control: "viewModel.selectedStory.resources.strings[viewModel.selectedStory.stage.name + keys.stage.treePath]"
+                        args:
+                            "viewModel": "viewModel"
+                            "session": "session"
+                            "app": "app"
+                            "rating": "viewModel.rating"
+                            "isGfx2": "viewModel.isGfx2"
+                            "highlightControl": "account.tutorialData.currentHighlightControl"
+                            "keys": "keys"
+                        eventActions:
+                        - ["COMPLETE_STEP_PRESSED", "COMPLETE_STEP", "_event.isChest"]
+                        - ["BACK_EVENT", "BACK_EVENT", ""]
+                        - ["DESELECT", "DESELECT", ""]
+                        - ["SELECT_STEP", "SELECT_STEP", "_event.id"]
+                        - ["SELECT_COMPOSITE_STEP", "SELECT_COMPOSITE_STEP", "_event.name"]
+                        - ["SHOW_CHEST_INFO", "SHOW_CHEST_INFO", "_event.id"]
+                        - ["SHOP_BUTTON", "SHOP_BUTTON", "_event.requiredResource"]
+                        - ["SHOW_STEP_INFO", "SHOW_STEP_INFO", "_event.id"]
+                    UIChildComponent3:
+                        condition: "viewModel.contentScreen == eCurrentScreen.kStoryStepInfo"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Story/ContentScreens/StepInfoScreen.yaml"
+                        args:
+                            "viewModel": "viewModel"
+                            "session": "session"
+                            "lobby": "lobby"
+                            "keys": "keys"
+                    UIChildComponent4:
+                        childType: "kOldExpression"
+                        condition: "viewModel.contentScreen == eCurrentScreen.StoryIntro and not viewModel.selectedStory.isFinished and viewModel.selectedStory.resources.strings.Contains(keys.introScreen.path) and not empty(viewModel.selectedStory.resources.strings[keys.introScreen.path])"
+                        control: "viewModel.selectedStory.resources.strings[keys.introScreen.path]"
+                        args:
+                            "story": "viewModel.selectedStory"
+                        eventActions:
+                        - ["CANCEL", "CLOSE_INTRO", ""]
+            -   class: "UIControl"
+                name: "Header"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfFirstChild"
+                    UIChildComponent0:
+                        childType: "kPrototype"
+                        condition: "showHeader"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Headers/StoryHeader.yaml"
+                        args:
+                            "story": "viewModel.selectedStory"
+                            "selectedStep": "when not isNull(viewModel.treeViewModel) and not isNull(viewModel.treeViewModel.selectedStep) -> viewModel.treeViewModel.selectedStep.step, null"
+                            "session": "session"
+                            "lobby": "lobby"
+                            "keys": "keys"
+                            "currentScreen": "viewModel.contentScreen"
+                            "isFullScreen": "viewModel.isFullScreen"
+                            "isBlur": "viewModel.contentScreen != eCurrentScreen.kStoryStepInfo"
+                            "bgStyle": "when viewModel.contentScreen == eCurrentScreen.kStoryStepInfo -> \"white-wild-sand-15-bg\", \"\""
+                        eventActions:
+                        - ["FOOTER_INFO_BUTTON_PRESSED", "SHOW_STORY_INFO", ""]
+                        - ["PREMIUM_INFO_EVENT", "PREMIUM_INFO_EVENT", ""]
+                        - ["SHOP_BUTTON", "SHOP_BUTTON", "_event.requiredResource"]
+                        - ["GO_TO_SHOP", "GO_TO_SHOP", ""]
+                        - ["BACK_EVENT", "BACK_EVENT", ""]
+                bindings:
+                - ["visible", "showHeader"]
+        -   class: "UIControl"
+            name: "DescriptionWrapper"
+            input: false
+            components:
+                Anchor: {}
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 208.000000
+            bindings:
+            - ["visible", "viewModel.contentScreen == eCurrentScreen.kStory and not (viewModel.selectedStory.tree.isDone or viewModel.selectedStory.isFinished) and not StartsWith(viewModel.selectedStory.name, \"2023-SRR\") and not StartsWith(viewModel.selectedStory.name, \"2024-SRR\") and not StartsWith(viewModel.selectedStory.name, \"2025-SRR\")"]
+            children:
+            -   class: "UIControl"
+                name: "SafeArea"
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "Formula"
+                        horizontalFormula: "parent - (when viewModel.isFullScreen -> safeAreaInsets.left, 0) - safeAreaInsets.right - 48"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 116.000000
+                bindings:
+                - ["Anchor.bottomAnchor", "28"]
+                children:
+                -   class: "UIControl"
+                    name: "DescriptionHolder"
+                    input: false
+                    components:
+                        Anchor:
+                            topAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfFirstChild"
+                        UIChildComponent0:
+                            condition: "viewModel.contentScreen == eCurrentScreen.kStory and not (viewModel.selectedStory.tree.isDone or viewModel.selectedStory.isFinished)"
+                            prototypePath: "~res:/UI/Screens3/Lobby/Story/Components/StoryDescription.yaml"
+                            args:
+                                "bundleTitle": "bundleTitle"
+                                "extendedBundleTitle": "extendedBundleTitle"
+                                "story": "viewModel.selectedStory"
+                                "challenge": "viewModel.treeViewModel.challenge"
+                                "keys": "keys"
+                                "serverTime": "session.serverTime"
+                                "isLastDay": "isLastDay"
+        -   class: "UIControl"
+            name: "Footer"
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfFirstChild"
+                UIChildComponent0:
+                    childType: "kPrototype"
+                    condition: "showFooter"
+                    prototypePath: "~res:/UI/Screens3/Lobby/Story/Footer.yaml"
+                    args:
+                        "bundleTitle": "bundleTitle"
+                        "extendedBundleTitle": "extendedBundleTitle"
+                        "bonusStep": "when (not isNull(viewModel.treeViewModel.selectedStep) and not isNull(viewModel.treeViewModel.selectedStep.stepWithBonus)) -> viewModel.treeViewModel.selectedStep.stepWithBonus.bonus, null"
+                        "isBonusFinished": "when (not isNull(viewModel.treeViewModel.selectedStep) and not isNull(viewModel.treeViewModel.selectedStep.stepWithBonus)) -> viewModel.treeViewModel.selectedStep.stepWithBonus.bonus.isFinished, false"
+                        "isBundleObtained": "when not isNull(paidPassGroup) -> (when not isNull(paidPassGroup.steps[100]) -> paidPassGroup.steps[100].shopBundleStep.isObtained, false) or (when not isNull(paidPassGroup.steps[101]) -> paidPassGroup.steps[101].shopBundleStep.isObtained, false), false"
+                        "story": "viewModel.selectedStory"
+                        "statsData": "session.stats"
+                        "selectedStep": "when not isNull(viewModel.treeViewModel.selectedStep) -> viewModel.treeViewModel.selectedStep.step, null"
+                        "bgStyle": "when viewModel.contentScreen == eCurrentScreen.kStoryStepInfo -> \"white-wild-sand-15-bg\", \"\""
+                    eventActions:
+                    - ["OPEN_STORE", "OPEN_STORE", "_event.eventShop"]
+                    - ["OPEN_EXCHANGE_DIALOG", "OPEN_EXCHANGE_DIALOG", ""]
+                    - ["BUY_QUEST_BOOSTER", "BUY_QUEST_BOOSTER", ""]
+                    - ["BUY_GOLD_STEP", "BUY_GOLD_STEP", ""]
+                    - ["FOOTER_LOCKED_BUTTON_PRESSED", "SHOW_LOCKED_REASON", ""]
+                    - ["FOOTER_COMPLETE_BUTTON_PRESSED", "COMPLETE_STEP", "_event.isChest"]
+                    - ["OPEN_TASK_JOURNAL", "OPEN_TASK_JOURNAL", "_event.tab"]
+                    - ["OPEN_REWARD_INFO", "OPEN_REWARD_INFO", ""]
+                    - ["OPEN_BATTLEPASS", "OPEN_BATTLEPASS", ""]
+                    - ["FOOTER_INFO_BUTTON_PRESSED", "SHOW_STORY_INFO", ""]
+                    - ["TO_STORE_DIALOG", "TO_STORE_DIALOG", "_event.requiredResource"]
+            bindings:
+            - ["visible", "showFooter"]

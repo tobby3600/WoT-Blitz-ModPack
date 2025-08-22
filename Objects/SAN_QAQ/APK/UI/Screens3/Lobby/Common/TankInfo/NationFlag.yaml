@@ -1,0 +1,40 @@
+Header:
+    version: 130
+Prototypes:
+-   class: "UIControl"
+    name: "NationFlag"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalValue: 24.000000
+            verticalPolicy: "FixedSize"
+            verticalValue: 20.000000
+        UIDataParamsComponent:
+            params:
+            - ["eNation", "nation", "eNation.UNKNOWN", "eNation.EUROPEAN"]
+            - ["string", "subnation", "\"\"", "\"\""]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["string", "nationSprite", "when nation == eNation.USA -> \"usa\", nation == eNation.GERMANY -> \"germany\", nation == eNation.USSR -> \"ussr\", nation == eNation.UK -> \"uk\", nation == eNation.JAPAN -> \"japan\", nation == eNation.CHINA -> \"china\", nation == eNation.FRANCE -> \"france\", nation == eNation.EUROPEAN -> \"european\", nation == eNation.OTHER -> \"other\", \"\""]
+            - ["string", "subnationSprite", "when subnation == \"finland\" -> \"finland\", subnation == \"poland\" -> \"poland\", subnation == \"sweden\" -> \"sweden\", subnation == \"italy\" -> \"italy\", subnation == \"australia\" -> \"australia\", subnation == \"canada\" -> \"canada\", subnation == \"czech\" -> \"czech\", \"\""]
+            - ["string", "finalSprite", "when empty(subnationSprite) -> nationSprite, subnationSprite"]
+    children:
+    -   class: "UIControl"
+        name: "Flag"
+        input: false
+        components:
+            UITextureComponent:
+                materialPath: "~res:/Materials.custom/2d.Textured.Saturation.material"
+                materialParams: "saturation,25"
+                drawType: "DRAW_SCALE_TO_RECT"
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 24.000000
+                verticalPolicy: "FixedSize"
+                verticalValue: 16.000000
+        bindings:
+        - ["UITextureComponent.spritePath", "\"~res:/Gfx/Lobby/flags/flag_text_\" + (finalSprite)"]

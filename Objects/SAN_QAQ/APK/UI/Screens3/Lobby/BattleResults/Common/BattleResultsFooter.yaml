@@ -1,5 +1,7 @@
 Header:
     version: 155
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "BattleResultsFooter"
@@ -49,7 +51,7 @@ Prototypes:
             - ["string", "finishReasonStr", "when results.finishReason == FinishReason.UNKNOWN -> \"#battle_results:Reason_unknown\", results.finishReason == FinishReason.EXTERMINATION and results.battleResult == BattleResult.WIN -> \"#battle_results:Reason_extermination_Win\", results.finishReason == FinishReason.EXTERMINATION and results.battleResult == BattleResult.LOSE -> \"#battle_results:Reason_extermination_Lose\", results.finishReason == FinishReason.EXTERMINATION and results.battleResult == BattleResult.TIE -> \"#battle_results:Reason_extermination_Tie\", results.finishReason == FinishReason.BASE and results.battleResult == BattleResult.WIN -> \"#battle_results:Reason_base_Win\", results.finishReason == FinishReason.BASE and results.battleResult == BattleResult.LOSE -> \"#battle_results:Reason_base_Lose\", results.finishReason == FinishReason.BASE and results.battleResult == BattleResult.TIE -> \"#battle_results:Reason_base_Tie\", results.finishReason == FinishReason.TIMEOUT -> \"#battle_results:Reason_timeout\", results.finishReason == FinishReason.FAILURE -> \"#battle_results:Reason_failure\", results.finishReason == FinishReason.TECHNICAL -> \"#battle_results:Reason_technical\", results.finishReason == FinishReason.WIN_POINTS and results.battleResult == BattleResult.WIN -> \"#battle_results:Reason_MaxScore_Win\", results.finishReason == FinishReason.WIN_POINTS and results.battleResult == BattleResult.LOSE -> \"#battle_results:Reason_MaxScore_Lose\", results.finishReason == FinishReason.WIN_POINTS and results.battleResult == BattleResult.TIE -> \"#battle_results:Reason_MaxScore_Tie\", results.finishReason == FinishReason.SUPERMACY_OUT_OF_TIME and results.battleResult == BattleResult.WIN -> \"#battle_results:Reason_BiggerScore_Win\", results.finishReason == FinishReason.SUPERMACY_OUT_OF_TIME and results.battleResult == BattleResult.LOSE -> \"#battle_results:Reason_BiggerScore_Lose\", results.finishReason == FinishReason.SUPERMACY_OUT_OF_TIME and results.battleResult == BattleResult.TIE -> \"#battle_results:Reason_BiggerScore_Tie\", results.finishReason == FinishReason.CHOSEN_DRAW_WINNER -> drawWinReasonStr, \"\""]
             - ["string", "gameModeStr", "when gameplayMode == eGameMode.Regular -> \"ratingBattles/battleType/regular\", gameplayMode == eGameMode.Training -> \"#battle_results:TrainingRoom/ScreenName\", gameplayMode == eGameMode.Tournament -> \"battleResults/Footer/Tournament\", gameplayMode == eGameMode.Tutorial -> \"battleResults/Footer/Tutorial\", gameplayMode == eGameMode.NewbieTutorialNeo -> \"battleResults/Footer/Tutorial\", gameplayMode == eGameMode.Rating -> \"ratingBattles/battleType/rating\", gameplayMode == eGameMode.Arcade -> \"madGamesEvent/battleType/madGames\", gameplayMode == eGameMode.Scuffle -> \"battleType/ScuffleBattle\", gameplayMode == eGameMode.HellGames -> \"hangar/battleType/hellgamesHeader\", gameplayMode == eGameMode.Lunar -> \"hangar/battleType/moonFightHeader\", gameplayMode == eGameMode.NanoMaps -> \"hangar/battleType/nanomapsHeader\", gameplayMode == eGameMode.Vampiric -> \"hangar/battleType/vampiricHeader\", gameplayMode == eGameMode.BossMode -> \"hangar/battleType/bossmodeHeader\", gameplayMode == eGameMode.Gravitizing -> \"hangar/battleType/gravitizingHeader\", gameplayMode == eGameMode.TenVsTen -> \"hangar/battleType/tenvstenHeader\", gameplayMode == eGameMode.Clan -> \"battleResults/Footer/Tournament\", \"\""]
             - ["string", "gameTypeStr", "when results.gameType == eArenaGameplayType.domination -> \"battleType/EncounterBattle\", results.gameType == eArenaGameplayType.supremacy -> \"#arenas:type/supremacy/name\", \"\""]
-            - ["string", "deathReasonStr", "when results.battleStats.deathReason == ATTACK_REASONS.NOT_KILLED -> localize(\"#battle_results:ATTACK_REASONS_NOT_KILLED\"), results.battleStats.deathReason == ATTACK_REASONS.ATTACK -> localize(\"shortProfile/Footer/Destroyer\") + \" \" + localize(\"#common:Symbol/Rhombus\") , results.battleStats.deathReason == ATTACK_REASONS.FIRE -> \"#battle_results:ATTACK_REASONS_FIRE\", results.battleStats.deathReason == ATTACK_REASONS.RAMMING -> \"#battle_results:ATTACK_REASONS_RAMMING\", results.battleStats.deathReason == ATTACK_REASONS.WORLD_COLLISION -> \"#battle_results:ATTACK_REASONS_WORLD_COLLISION\", results.battleStats.deathReason == ATTACK_REASONS.DROWNING -> \"#battle_results:ATTACK_REASONS_DROWNING\", results.battleStats.deathReason == ATTACK_REASONS.LIFESTEAL -> \"#battle_results:ATTACK_REASONS_NOT_KILLED\", \"\""]
+            - ["string", "deathReasonStr", "when results.battleStats.deathReason == ATTACK_REASONS.NOT_KILLED -> localize(\"#battle_results:ATTACK_REASONS_NOT_KILLED\"), results.battleStats.deathReason == ATTACK_REASONS.ATTACK -> localize(\"shortProfile/Footer/Destroyer\") + \" \" + localize(\"#common:Symbol/Rhombus\"), results.battleStats.deathReason == ATTACK_REASONS.FIRE -> \"#battle_results:ATTACK_REASONS_FIRE\", results.battleStats.deathReason == ATTACK_REASONS.RAMMING -> \"#battle_results:ATTACK_REASONS_RAMMING\", results.battleStats.deathReason == ATTACK_REASONS.WORLD_COLLISION -> \"#battle_results:ATTACK_REASONS_WORLD_COLLISION\", results.battleStats.deathReason == ATTACK_REASONS.DROWNING -> \"#battle_results:ATTACK_REASONS_DROWNING\", results.battleStats.deathReason == ATTACK_REASONS.LIFESTEAL -> \"#battle_results:ATTACK_REASONS_NOT_KILLED\", \"\""]
         UIActionComponent:
             actionsPath: "~res:/UI/Screens3/Lobby/BattleResults/Common/BattleResultsFooter.actions"
         UIEventOnDataComponent0:
@@ -94,8 +96,6 @@ Prototypes:
                 size: [0.000000, 80.000000]
                 input: false
                 components:
-                    UIOpacityComponent:
-                        opacity: 1.000000
                     Anchor:
                         leftAnchorEnabled: true
                         vCenterAnchorEnabled: true
@@ -103,10 +103,18 @@ Prototypes:
                         orientation: "TopDown"
                         spacing: 4.000000
                     SizePolicy:
-                        horizontalPolicy: "FixedSize"
-                        horizontalValue: 373.000000
+                        horizontalPolicy: "PercentOfMaxChild"
                         verticalPolicy: "PercentOfChildrenSum"
+                    UIOpacityComponent:
+                        opacity: 1.000000
                 children:
+                -   prototype: "BlurModified/BlurModified"
+                    name: "Blur"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "isBlur": "selectedTab != ePageType.TeamEffectiveness"
+                                "roundCorner": "\"8;8;0;0\""
                 -   class: "UIControl"
                     name: "Description"
                     position: [0.000000, 0.000000]
@@ -119,10 +127,8 @@ Prototypes:
                         Anchor:
                             bottomAnchorEnabled: true
                         SizePolicy:
-                            horizontalPolicy: "FixedSize"
-                            horizontalValue: 373.000000
-                            verticalPolicy: "FixedSize"
-                            verticalValue: 20.000000
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
                         StyleSheet:
                             styles: "~res:/UI/Screens3/Font.style.yaml"
                     bindings:
@@ -258,13 +264,13 @@ Prototypes:
                 pivot: [0.500000, 0.500000]
                 input: false
                 components:
-                    UIOpacityComponent:
-                        opacity: 1.000000
                     Anchor:
                         vCenterAnchorEnabled: true
                     SizePolicy:
                         horizontalPolicy: "PercentOfMaxChild"
                         verticalPolicy: "PercentOfMaxChild"
+                    UIOpacityComponent:
+                        opacity: 1.000000
                     UIChildComponent0:
                         condition: "not isTutorialInProgress"
                         prototypePath: "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
@@ -272,13 +278,11 @@ Prototypes:
                             "sound": "eButtonSound.OPEN"
                             "imageSize": "32"
                             "image": "\"~res:/Gfx/Lobby/icons/icon_statistic_m\""
-                            "isBgVisible": "true"
+                            "isBgVisible": "selectedTab != ePageType.TeamEffectiveness"
                         eventActions:
                         - ["ON_CLICK_BUTTON", "OVERLAY_STATISTIC_SHOW_LOCAL", ""]
                     UIIdentifierComponent:
                         id: "statistics_button"
-                bindings:
-                - ["visible", "selectedTab == ePageType.TeamEffectiveness and selectedTab != ePageType.Economy"]
             -   class: "UIControl"
                 name: "ReplayButton"
                 size: [32.000000, 32.000000]
@@ -286,13 +290,13 @@ Prototypes:
                 pivot: [0.500000, 0.500000]
                 input: false
                 components:
-                    UIOpacityComponent:
-                        opacity: 1.000000
                     Anchor:
                         vCenterAnchorEnabled: true
                     SizePolicy:
                         horizontalPolicy: "PercentOfMaxChild"
                         verticalPolicy: "PercentOfMaxChild"
+                    UIOpacityComponent:
+                        opacity: 1.000000
                     UIAttachLayoutMasterComponent:
                         attachId: "REPLAY_BUTTON"
                     UIChildComponent0:
@@ -301,13 +305,13 @@ Prototypes:
                             "sound": "eButtonSound.OPEN"
                             "imageSize": "32"
                             "image": "\"~res:/Gfx/Lobby/icons/icon_replay_m\""
-                            "isBgVisible": "true"
+                            "isBgVisible": "false"
                         eventActions:
                         - ["ON_CLICK_BUTTON", "START_REPLAY_LOCAL", ""]
                     UIIdentifierComponent:
                         id: "replay_button"
                 bindings:
-                - ["visible", "selectedTab == ePageType.TeamEffectiveness and selectedTab != ePageType.Economy and results.observerMode == ObserverMode.None and not nsb and isReplaysAvailable"]
+                - ["visible", "selectedTab == ePageType.TeamEffectiveness and results.observerMode == ObserverMode.None and not nsb and isReplaysAvailable"]
             -   class: "UIControl"
                 name: "ShareButton"
                 size: [32.000000, 32.000000]
@@ -315,13 +319,13 @@ Prototypes:
                 pivot: [0.500000, 0.500000]
                 input: false
                 components:
-                    UIOpacityComponent:
-                        opacity: 1.000000
                     Anchor:
                         vCenterAnchorEnabled: true
                     SizePolicy:
                         horizontalPolicy: "PercentOfMaxChild"
                         verticalPolicy: "PercentOfMaxChild"
+                    UIOpacityComponent:
+                        opacity: 1.000000
                     UIAttachLayoutMasterComponent:
                         attachId: "SHARE_BATTLE_RESULTS"
                     UIChildComponent0:
@@ -333,12 +337,12 @@ Prototypes:
                             "badgeType": "eBadgeType.Gift"
                             "sound": "eButtonSound.OPEN"
                             "image": "\"~res:/Gfx/Lobby/icons/icon_share_m\""
-                            "isBgVisible": "true"
+                            "isBgVisible": "false"
                         eventActions:
                         - ["ON_CLICK_BUTTON", "START_SHARE_LOCAL", ""]
                     UILayerComponent: {}
                 bindings:
-                - ["visible", "selectedTab == ePageType.TeamEffectiveness and selectedTab != ePageType.Economy and isSharingAvailable"]
+                - ["visible", "selectedTab == ePageType.TeamEffectiveness and isSharingAvailable"]
                 - ["UILayerComponent.layer", "when needHiglightShareBattleResults -> 1, 0"]
         -   class: "UIControl"
             name: "BattleInfoWrapper"
@@ -366,8 +370,6 @@ Prototypes:
                     size: [32.000000, 32.000000]
                     input: false
                     components:
-                        UIOpacityComponent:
-                            opacity: 1.000000
                         Anchor:
                             rightAnchorEnabled: true
                             rightAnchor: 0.000000
@@ -375,6 +377,8 @@ Prototypes:
                         LinearLayout:
                             orientation: "TopDown"
                             spacing: 6.000000
+                        UIOpacityComponent:
+                            opacity: 1.000000
                         SizePolicy:
                             horizontalPolicy: "PercentOfMaxChild"
                             verticalPolicy: "PercentOfChildrenSum"
@@ -556,20 +560,26 @@ Prototypes:
                     size: [32.000000, 32.000000]
                     input: false
                     components:
-                        UIOpacityComponent:
-                            opacity: 1.000000
                         Anchor:
                             rightAnchorEnabled: true
                             rightAnchor: 0.000000
                             vCenterAnchorEnabled: true
                         LinearLayout:
                             orientation: "TopDown"
+                        UIOpacityComponent:
+                            opacity: 1.000000
                         SizePolicy:
                             horizontalPolicy: "PercentOfMaxChild"
                             verticalPolicy: "PercentOfChildrenSum"
                     bindings:
                     - ["visible", "selectedTab == ePageType.Efficiency"]
                     children:
+                    -   prototype: "BlurModified/BlurModified"
+                        name: "Blur"
+                        components:
+                            UIDataParamsComponent:
+                                args:
+                                    "roundCorner": "\"1;8;8;8\""
                     -   class: "UIControl"
                         name: "TankNameContent"
                         position: [0.000000, 0.000000]
@@ -618,29 +628,6 @@ Prototypes:
                                 size: [32.000000, 32.000000]
                                 input: false
                                 components:
-                                    Background:
-                                        usePostProcessedSprite: true
-                                    UIPostProcessTextureComponent0:
-                                        materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                                        needClearAlphaAfterRender: true
-                                        scale: 0.500000
-                                        useVirtualCoordinateSystem: true
-                                        minFilter: "Linear"
-                                        magFilter: "Linear"
-                                    UIPostProcessTextureComponent1:
-                                        materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                                        scale: 0.500000
-                                        useVirtualCoordinateSystem: true
-                                        minFilter: "Linear"
-                                        magFilter: "Linear"
-                                    UIPostProcessTextureComponent2:
-                                        materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                                        scale: 0.500000
-                                        useVirtualCoordinateSystem: true
-                                        minFilter: "Linear"
-                                        magFilter: "Linear"
-                                    UIRoundedCornersComponent:
-                                        radius: "1"
                                     Anchor:
                                         hCenterAnchorEnabled: true
                                         hCenterAnchor: 1.000000

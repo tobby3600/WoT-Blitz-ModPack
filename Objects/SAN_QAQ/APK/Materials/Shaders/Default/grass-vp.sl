@@ -139,7 +139,7 @@ vertex_out vp_main(vertex_in input)
 	float finalScale = (densityScale * input.tilePos.z) * (lerp(1.0, toCamDirScale.x, grassBendWeight) * lerp(input.tilePos.w, 1.0, step(abs(input.switchLodIndex - input.localPos.w), 0.1)));
 	worldPos = lerp(pivotPos, worldPos, finalScale);
 
-	output.localPos = mul4Fast1(worldPos, viewProjMatrix);
+	output.localPos = mul(float4(worldPos, 1.0), viewProjMatrix);
 	output.localPos.z = lerp(output.localPos.z, 100000.0, step(finalScale, 0.001));
 
 	#if !DRAW_DEPTH_ONLY
@@ -150,16 +150,16 @@ vertex_out vp_main(vertex_in input)
 		output.texCoord = float4(input.texCoord.xy, worldPos.xy);
 		output.vegetationColor = float4(vegetationColor.rgb, worldPos.z);
 
-		float3 eyePos = mul3Fast1(worldPos, viewMatrix);
+		float3 eyePos = mul(float4(worldPos, 1.0), viewMatrix).xyz;
 		float3 viewPos = -eyePos;
 		float3 toLightDir = viewPos * lightPosition0.w + lightPosition0.xyz;
 		float toLightDis = length(toLightDir);
 		toLightDir /= toLightDis;
 
 		#if VEGETATION_LIT
-			float3 t = normalize(mul3Fast0(input.tangent, worldViewInvTransposeMatrix));
-			float3 b = normalize(mul3Fast0(input.binormal, worldViewInvTransposeMatrix));
-			float3 n = normalize(mul3Fast0(input.normal, worldViewInvTransposeMatrix));
+			float3 t = normalize(mul(float4(input.tangent, 0.0), worldViewInvTransposeMatrix).xyz);
+			float3 b = normalize(mul(float4(input.binormal, 0.0), worldViewInvTransposeMatrix).xyz);
+			float3 n = normalize(mul(float4(input.normal, 0.0), worldViewInvTransposeMatrix).xyz);
 
 			output.toLightDir = float3(dot(toLightDir, t), dot(toLightDir, b), dot(toLightDir, n));
 			output.toCamDir = float3(dot(viewPos, t), dot(viewPos, b), dot(viewPos, n));

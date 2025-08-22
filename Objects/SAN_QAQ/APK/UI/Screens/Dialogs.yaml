@@ -1,5 +1,5 @@
 Header:
-    version: "56"
+    version: 56
 ImportedPackages:
 - "~res:/UI/Screens/Common.yaml"
 - "~res:/UI/Screens/Common/StyledButton.yaml"
@@ -8,7 +8,7 @@ ImportedPackages:
 - "~res:/UI/Screens/Fonts.yaml"
 - "~res:/UI/Styles/BackgroundStyles.yaml"
 - "~res:/UI/Screens/Lobby/Common/Timer.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
+- "~res:/UI/Screens3/Common/OverlayBlur.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ErrorDialogNoButton"
@@ -24,12 +24,10 @@ Prototypes:
             inheritsStylesFromParent: true
             styles: "~res:/UI/Screens/Dialogs.yaml"
     children:
-    -   prototype: "BlurModified/BlurModified"
-        name: "Blur"
+    -   prototype: "OverlayBlur/BlurAndFade"
+        name: "BlurAndFade"
         components:
-            UIDataParamsComponent:
-                args:
-                    "bgStyle": "\"screen-background\""
+            IgnoreLayout: {}
     -   prototype: "Common/Dialog"
         name: "Dialog"
         size: [500.000000, 370.000000]

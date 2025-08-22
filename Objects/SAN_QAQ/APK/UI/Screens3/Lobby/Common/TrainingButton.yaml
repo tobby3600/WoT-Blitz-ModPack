@@ -93,15 +93,11 @@ Prototypes:
                     name: "ButtonWrapper"
                     size: [208.000000, 62.000000]
                     input: false
-                    classes: "white-wild-sand-15-bg"
                     components:
-                        Background: {}
                         UIOpacityComponent: {}
                         SizePolicy:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfParent"
-                        StyleSheet:
-                            styles: "~res:/UI/Screens3/Color.style.yaml;"
                     bindings:
                     - ["UIOpacityComponent.opacity", "buttonOpacity"]
                     children:

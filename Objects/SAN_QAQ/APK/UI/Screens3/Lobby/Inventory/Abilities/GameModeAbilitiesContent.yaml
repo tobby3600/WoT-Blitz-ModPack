@@ -1,0 +1,158 @@
+Header:
+    version: 142
+ImportedPackages:
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+- "~res:/UI/Screens3/Lobby/Inventory/Common/DynamicTopSpacer.yaml"
+- "~res:/UI/Screens3/Lobby/Inventory/Common/DynamicHorizontalPadding.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "AbilitiesItems"
+    size: [960.000000, 835.000000]
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+            spacing: 16.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["StatsDataModel", "stats", "null", "{ }"]
+            - ["AbilityItemsView", "model", "null", "{ }"]
+            - ["ArtefactProviderModel", "artefacts", "null", "{ }"]
+            events:
+            - "ITEM_SELECTED"
+        UIDataLocalBindingsComponent:
+            data:
+            - ["int", "selectedId", "when isNull(model.selected) -> 0, model.selected.compactDescr"]
+    children:
+    -   prototype: "DynamicTopSpacer/DynamicTopSpacer"
+        name: "DynamicTopSpacer"
+        components:
+            SizePolicy:
+                verticalPolicy: "Formula"
+    -   class: "UIControl"
+        name: "PageContainer"
+        position: [0.000000, 51.000000]
+        size: [1107.000000, 681.000000]
+        input: false
+        classes: "inventory-limited-width"
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            LinearLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Common/Desktop.style.yaml"
+        children:
+        -   prototype: "DynamicHorizontalPadding/DynamicHorizontalPadding"
+            name: "DynamicHorizontalPadding"
+            classes: "padding fixed-padding desktop-unvisible"
+        -   class: "UIControl"
+            name: "CenterContent"
+            position: [16.000000, 0.000000]
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIScrollView"
+                name: "ContentArea"
+                autoUpdate: true
+                centerContent: true
+                components:
+                    Background: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "Formula"
+                        verticalFormula: "when parent == 0 -> childrenSum, parent"
+                children:
+                -   class: "UIScrollViewContainer"
+                    name: "scrollContainerControl"
+                    components:
+                        UIAnimationComponent:
+                            animations: "ABILITY_SELECTED_ANIMATION,~res:/UI/Screens3/Lobby/Inventory/Abilities/GameModeAbilitiesContent.animation"
+                        LinearLayout:
+                            orientation: "TopDown"
+                            padding: "24"
+                            spacing: 16.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfChildrenSum"
+                        UISwitchBarComponent:
+                            onSelectElement: "ABILITY_SELECTED_ANIMATION"
+                            onSelectElementData: "_selectedElement"
+                            selectionEventType: "TOUCH_UP"
+                        UIRepeatComponent:
+                            control: "~res:/UI/Screens3/Lobby/Inventory/Abilities/AbilitiesGroup.yaml"
+                            dataContainer: "model.abilityGroups"
+                            args:
+                                "selectedGroupId": "model.selectedGroupId"
+                                "selectedCompDescr": "selectedId"
+                                "groupCriteria": "model.groupByCriteria"
+                                "group": "_item"
+                            eventActions:
+                            - ["ABILITY_SELECTED", "ABILITY_SELECTED", "_item"]
+                    bindings:
+                    - ["UISwitchBarComponent.selectedElement", "selectedId"]
+            -   prototype: "VerticalScrollBar/VerticalScrollBar"
+                name: "VerticalScrollBar"
+                position: [348.000000, 0.000000]
+                components:
+                    Anchor:
+                        enabled: true
+                        rightAnchorEnabled: true
+                        rightAnchor: -6.000000
+                        topAnchorEnabled: true
+                        topAnchor: 2.000000
+                        bottomAnchorEnabled: true
+                        bottomAnchor: 2.000000
+                    UIScrollBarComponent:
+                        delegate: "../ContentArea"
+        -   class: "UIControl"
+            name: "Spacer"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 16.000000
+                    verticalPolicy: "PercentOfParent"
+        -   class: "UIControl"
+            name: "RightPanel"
+            position: [596.000000, 0.000000]
+            size: [348.000000, 32.000000]
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "Formula"
+                    verticalFormula: "when parent == 0 -> childrenSum, min(parentRest, childrenSum)"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Inventory/Common/RightPanel.yaml"
+                    args:
+                        "content": "RightPanelContent"
+        -   prototype: "DynamicHorizontalPadding/DynamicHorizontalPadding"
+            name: "DynamicHorizontalPadding_1"
+            classes: "padding only-notch-padding desktop-unvisible"
+Slots:
+-   class: "UIControl"
+    name: "RightPanelContent"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfChildrenSum"
+        UIChildComponent0:
+            condition: "not isNull(model.selected)"
+            prototypePath: "~res:/UI/Screens3/Lobby/Inventory/Abilities/AbilityRightPanelContent.yaml"
+            args:
+                "item": "model.selected"
+CustomData:
+    Guides:
+        AbilitiesItems:
+            Vertical:
+            - -584.000000

@@ -1,9 +1,9 @@
 Header:
     version: 157
 ImportedPackages:
+- "~res:/UI/Screens/Common.yaml"
 - "~res:/UI/Screens/Hangar/HangarBaseScreen.yaml"
 - "~res:/UI/Screens/Lobby/Clan/ClanEmblem.yaml"
-- "~res:/UI/Screens/Common.yaml"
 - "~res:/UI/Screens/Lobby/Common/RichText.yaml"
 Prototypes:
 -   prototype: "HangarBaseScreen/Screen"
@@ -174,7 +174,7 @@ Prototypes:
                                 rightAnchor: -15.000000
                                 topAnchorEnabled: true
                                 bottomAnchorEnabled: true
-                            ScrollBarDelegate:
+                            UIScrollBarComponent:
                                 delegate: "../TeamsList"
                     -   class: "UIStaticText"
                         name: "LoadingLabel"
@@ -250,6 +250,9 @@ Prototypes:
         size: [924.000000, 64.000000]
         classes: "button"
         components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"

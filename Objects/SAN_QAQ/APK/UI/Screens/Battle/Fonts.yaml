@@ -115,7 +115,7 @@ StyleSheets:
 -   selectors:
     - ".text3-small-battle.zh-Hans"
     properties:
-        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
         text-shadowoffset: [1.000000, 1.000000]
         text-shadowColor: [0.000000, 0.000000, 0.000000, 1.000000]
 -   selectors:
@@ -174,7 +174,7 @@ StyleSheets:
 -   selectors:
     - ".bold-text-loading-small.zh-Hans"
     properties:
-        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W12.otf"
         text-shadowoffset: [1.000000, 1.000000]
         text-shadowColor: [0.000000, 0.000000, 0.000000, 1.000000]
 -   selectors:
@@ -232,7 +232,7 @@ StyleSheets:
 -   selectors:
     - ".text-arena-state.zh-Hans"
     properties:
-        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
         text-lineHeight: 65.000000
         text-baseLine: 14.000000
         text-shadowoffset: [1.000000, 1.000000]
@@ -295,7 +295,7 @@ StyleSheets:
 -   selectors:
     - ".text-countdown-before-battle.zh-Hans"
     properties:
-        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
         text-lineHeight: 90.000000
         text-baseLine: 19.000000
         text-shadowoffset: [1.000000, 1.000000]
@@ -359,7 +359,7 @@ StyleSheets:
 -   selectors:
     - ".text-marker-damage-points.zh-Hans"
     properties:
-        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
         text-fontSize: 15.000000
         text-lineHeight: 20.000000
         text-shadowoffset: [1.000000, 1.000000]
@@ -420,7 +420,7 @@ StyleSheets:
 -   selectors:
     - ".cursor-small-font.zh-Hans"
     properties:
-        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
         text-shadowoffset: [1.000000, 1.000000]
         text-shadowColor: [0.000000, 0.000000, 0.000000, 1.000000]
 -   selectors:

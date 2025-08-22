@@ -19,6 +19,7 @@ Prototypes:
             vCenterAnchorEnabled: true
         LinearLayout:
             spacing: 12.000000
+        UIPostProcessSourceComponent0: {}
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
             horizontalValue: 96.000000
@@ -31,6 +32,7 @@ Prototypes:
             - ["SessionDataModel", "session", "null", "{ }"]
             - ["LobbyDataModel", "lobby", "null", "{ }"]
             - ["TaskJournal", "model", "null", "{ }"]
+            - ["string", "maskTaskJournal", "\"\"", "\"\""]
             events:
             - "ON_TASK_REWARD_CLICKED(string slotId, int rewardIndex)"
             - "APPLY_QUEST_PRESSED(string slotId)"
@@ -60,6 +62,8 @@ Prototypes:
             eventName: "ANIMATE_PROGRESS"
         StyleSheet:
             styles: "~res:/UI/Screens3/Common/Desktop.style.yaml"
+    bindings:
+    - ["UIPostProcessSourceComponent0.id", "maskTaskJournal"]
     children:
     -   class: "UIControl"
         name: "DailyAndTasksContainer"
@@ -78,30 +82,14 @@ Prototypes:
         -   class: "UIControl"
             name: "DailyProgressBar"
             input: false
+            classes: "white-wild-sand-15-bg"
             components:
                 Background:
-                    usePostProcessedSprite: true
-                UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                    needClearAlphaAfterRender: true
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent1:
-                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent2:
-                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIRoundedCornersComponent:
-                    radius: "5;5;0;0;"
+                    drawType: "DRAW_STRETCH_BOTH"
+                    sprite: "~res:/Gfx/UI/TaskJournal/Basic/Back.psd"
+                    colorInherit: "COLOR_IGNORE_PARENT"
+                    leftRightStretchCap: 5.000000
+                    topBottomStretchCap: 5.000000
                 Anchor:
                     leftAnchorEnabled: true
                 SizePolicy:
@@ -161,6 +149,7 @@ Prototypes:
                             args:
                                 "maximum": "int(maxDailyProgress * 100.000000)"
                                 "value": "int(displayingDailyProgress * 100.000000)"
+                                "isBlur": "false"
                     children:
                     -   class: "UIControl"
                         name: "CurrentProgressIndicator"
@@ -426,7 +415,7 @@ Prototypes:
                             topAnchorEnabled: true
                             bottomAnchorEnabled: true
                         IgnoreLayout: {}
-                        ScrollBarDelegate:
+                        UIScrollBarComponent:
                             delegate: "../UIScrollView"
                     children:
                     -   path: "slider"
@@ -436,28 +425,10 @@ Prototypes:
         name: "WeeklyContainer"
         position: [712.000000, 0.000000]
         input: false
+        classes: "white-wild-sand-15-bg"
         components:
             Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
+                drawType: "DRAW_FILL"
             UIRoundedCornersComponent:
                 radius: "5"
             LinearLayout:
@@ -468,8 +439,8 @@ Prototypes:
                 horizontalPolicy: "Formula"
                 horizontalFormula: "maxChild + 32"
                 verticalPolicy: "Formula"
-                verticalMax: 600.000000
                 verticalFormula: "min(parent, childrenSum + 40)"
+                verticalMax: 600.000000
             UIAttachLayoutMasterComponent:
                 attachId: "TASK_JOURNAL_WEEKLY_KEY_REWARDS"
             StyleSheet:

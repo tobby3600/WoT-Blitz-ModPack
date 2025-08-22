@@ -132,6 +132,7 @@
 		<Maybach_HL_234WM>185</Maybach_HL_234WM>
 		<MB_507_G167>186</MB_507_G167>
 		<General_Motors_6V51T>187</General_Motors_6V51T>
+		<Maybach_HL_210_TRM_P45_Quby>188</Maybach_HL_210_TRM_P45_Quby>
 	</ids>
 	<shared>
 		<Maybach_HL_108TR>
@@ -2017,5 +2018,19 @@
 			<repairCost>0</repairCost>
 			<fireStartingChance>0.15</fireStartingChance>
 		</MB_507_G167>
+		<Maybach_HL_210_TRM_P45_Quby>
+			<userString>#germany_vehicles:Maybach_HL_210_TRM_P45_Quby</userString>
+			<description>#germany_vehicles:Maybach_HL_210_TRM_P45_Quby_descr</description>
+			<tags/>
+			<level>8</level>
+			<price>0</price>
+			<sound/>
+			<power>660</power>
+			<weight>800</weight>
+			<maxHealth>240</maxHealth>
+			<maxRegenHealth>120</maxRegenHealth>
+			<repairCost>0</repairCost>
+			<fireStartingChance>0.18</fireStartingChance>
+		</Maybach_HL_210_TRM_P45_Quby>
 	</shared>
 </root>

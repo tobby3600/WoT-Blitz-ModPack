@@ -1,0 +1,75 @@
+Header:
+    version: 143
+ImportedPackages:
+- "~res:/UI/Screens3/Common/HorizontalScrollBar.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "TankCounters"
+    size: [700.000000, 166.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfMaxChild"
+        UIDataParamsComponent:
+            params:
+            - ["RankState", "prevRankState", "null", "{ }"]
+            - ["RankState", "rankState", "null", "{ }"]
+            - ["int", "vehicleId", "0", "0"]
+            - ["TanksRankConfigurationModel", "rankConfig", "null", "{ }"]
+            events:
+            - "OnCounterClicked"
+        UIDataLocalVarsComponent:
+            data:
+            - ["vector<int>", "emptyVector", "[ ]"]
+    children:
+    -   class: "UIScrollView"
+        name: "ScrollArea"
+        autoUpdate: true
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "Formula"
+                horizontalFormula: "min(parent, maxChild)"
+                verticalPolicy: "PercentOfMaxChild"
+        children:
+        -   class: "UIScrollViewContainer"
+            name: "scrollContainerControl"
+            scrollDirection: "kHorizontal"
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "Content"
+                input: false
+                components:
+                    LinearLayout:
+                        orientation: "LeftToRight"
+                        spacing: 12.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfMaxChild"
+                    UIRepeatComponent:
+                        control: "~res:/UI/Screens3/Lobby/Inventory/TankProgress/TankCounter.yaml"
+                        dataContainer: "when rankConfig.countersInfo.vehicles.Contains(vehicleId) -> rankConfig.countersInfo.vehicles[vehicleId].slots, emptyVector"
+                        args:
+                            "counterId": "_item"
+                            "state": "rankState"
+                            "countersInfo": "rankConfig.countersInfo"
+                            "slotIndex": "_key"
+                            "prevState": "prevRankState"
+                            "vehicleId": "vehicleId"
+                        eventActions:
+                        - ["OnCounterClicked", "OnCounterClicked", "_item"]
+    -   prototype: "HorizontalScrollBar/HorizontalScrollBar"
+        name: "HorizontalScrollBar"
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                bottomAnchorEnabled: true
+            UIScrollBarComponent:
+                delegate: "../ScrollArea"

@@ -7,6 +7,12 @@
 	[material][a] property float aniCamoWaveLength = 1.0;
 	[material][a] property float aniCamoWaveSpeed = 2.5;
 	[material][a] property float aniCamoWidth = 0.15;
+
+	float aniCamoInvSmooth = 1.0 / aniCamoSmooth;
+	float aniCamoHalfWidth = aniCamoWidth * aniCamoInvSmooth * 0.5;
+	float windowOffset = (aniCamoAmplitude * sin(globalTime * aniCamoSpeed) + aniCamoMiddle) * aniCamoInvSmooth;
+	float windowPhase = cos(input.localPos.y * aniCamoWaveLength + globalTime * aniCamoWaveSpeed) * 0.5 + 0.5;
+	output.aniCamo = float4(windowOffset - aniCamoHalfWidth - 1.0, windowOffset + aniCamoHalfWidth, aniCamoInvSmooth, windowPhase * aniCamoPower);
 #endif
 
 output.texCoord0.zw = output.texCoord0.xy * decalTileCoordScale;
@@ -17,12 +23,4 @@ output.texCoord0.zw = output.texCoord0.xy * decalTileCoordScale;
 	#elif !SOFT_SKINNING
 		output.texCoord0.zw = getTexCoordsTransform1(output.texCoord0.zw);
 	#endif
-#endif
-
-#if TILED_DECAL_ANIMATED_EMISSION
-	float aniCamoInvSmooth = 1.0 / aniCamoSmooth;
-	float aniCamoHalfWidth = aniCamoWidth * aniCamoInvSmooth * 0.5;
-	float windowOffset = (aniCamoAmplitude * sin(globalTime * aniCamoSpeed) + aniCamoMiddle) * aniCamoInvSmooth;
-	float windowPhase = cos(input.localPos.y * aniCamoWaveLength + globalTime * aniCamoWaveSpeed) * 0.5 + 0.5;
-	output.aniCamo = float4(windowOffset - aniCamoHalfWidth - 1.0, windowOffset + aniCamoHalfWidth, aniCamoInvSmooth, windowPhase * aniCamoPower);
 #endif

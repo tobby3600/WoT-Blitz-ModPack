@@ -21,6 +21,7 @@
 		<AN_GRC_8>59</AN_GRC_8>
 		<AN_VRC_12A>60</AN_VRC_12A>
 		<SCR_508A>61</SCR_508A>
+		<SCR_508CL>62</SCR_508CL>
 		<AN_VRC-7>63</AN_VRC-7>
 		<SCR_508_BP>64</SCR_508_BP>
 		<NewTank_Radio>65</NewTank_Radio>
@@ -278,6 +279,18 @@
 			<maxRegenHealth>1</maxRegenHealth>
 			<repairCost>0</repairCost>
 		</SCR_508A>
+		<SCR_508CL>
+			<userString>#usa_vehicles:SCR_508CL</userString>
+			<description>#usa_vehicles:SCR_508CL_descr</description>
+			<tags/>
+			<level>1</level>
+			<price>0</price>
+			<weight>1</weight>
+			<distance>1</distance>
+			<maxHealth>1</maxHealth>
+			<maxRegenHealth>1</maxRegenHealth>
+			<repairCost>0</repairCost>
+		</SCR_508CL>
 		<AN_VRC-7>
 			<userString>#usa_vehicles:AN_VRC-7</userString>
 			<description>#usa_vehicles:AN_VRC-7_descr</description>

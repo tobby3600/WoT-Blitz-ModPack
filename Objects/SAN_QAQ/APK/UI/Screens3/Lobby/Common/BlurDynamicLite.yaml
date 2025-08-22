@@ -14,21 +14,22 @@ Prototypes:
             minFilter: "Linear"
             magFilter: "Linear"
         UIPostProcessTextureComponent1:
-            materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
+            materialPath: "~res:/Materials.custom/2d.Textured.BlurLite.material"
             needClearAlphaAfterRender: true
-            scale: 0.500000
+            needDepth: true
+            scale: 0.250000
             useVirtualCoordinateSystem: true
             minFilter: "Linear"
             magFilter: "Linear"
         UIPostProcessTextureComponent2:
-            materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-            scale: 0.500000
+            materialPath: "~res:/Materials.custom/2d.Textured.HBlurLite.material"
+            scale: 0.250000
             useVirtualCoordinateSystem: true
             minFilter: "Linear"
             magFilter: "Linear"
         UIPostProcessTextureComponent3:
             materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-            scale: 0.500000
+            scale: 0.250000
             useVirtualCoordinateSystem: true
             minFilter: "Linear"
             magFilter: "Linear"

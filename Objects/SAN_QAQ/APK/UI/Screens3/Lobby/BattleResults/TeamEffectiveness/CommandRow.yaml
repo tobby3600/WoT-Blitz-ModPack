@@ -1,0 +1,904 @@
+Header:
+    version: 151
+Prototypes:
+-   class: "UIControl"
+    name: "CommandRow"
+    size: [474.000000, 0.000000]
+    components:
+        UIOpacityComponent: {}
+        Anchor:
+            leftAnchor: 0.000000
+            hCenterAnchor: 0.000000
+            rightAnchor: 0.000000
+            topAnchorEnabled: true
+            topAnchor: 0.000000
+            vCenterAnchor: 0.000000
+            bottomAnchor: 0.000000
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            verticalPolicy: "FixedSize"
+            verticalValue: 56.000000
+        UIAttachLayoutMasterComponent: {}
+        UIInputEventComponent:
+            onTouchDown: "OnTouchDown"
+            onTouchUpInside: "OnTouchUpInside"
+            onTouchUpOutside: "OnTouchUpOutside"
+            onInputCanceled: "OnTouchUpOutside"
+            onHoverSet: "OnHoverStart"
+            onHoverRemoved: "OnHoverEnd"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "blockedInput", "false", "true"]
+            - ["TanksRankConfigurationModel", "rankConfig", "null", "{ }"]
+            - ["bool", "timeExpired", "false", "false"]
+            - ["bool", "isReactionsAvailable", "true", "true"]
+            - ["eGameMode", "gameMode", "eGameMode.Rating", "eGameMode.Rating"]
+            - ["bool", "empty", "false", "false"]
+            - ["int", "item", "0", "0"]
+            - ["int", "index", "0", "0"]
+            - ["int", "dataSize", "0", "0"]
+            - ["TeamData", "data", "null", "{ \"item\" = 4; \"isAccount\" = false; \"isAlive\" = true; \"playerName\" = { \"playerName\" = \"Konstantinopolsky_Konstantin\"; \"playerClan\" = \"ORLCY\"; }; \"vehicleName\" = \"#usa_vehicles:T110_Custom\"; }"]
+            - ["bool", "isEnemy", "false", "false"]
+            - ["bool", "isSessionPlayerResults", "true", "true"]
+            events:
+            - "ShowReactionLimitPopupWithParam(bool isEnemy, int index)"
+            - "ShowAccountReaction"
+            - "SET_LIKE(LikeData likeData, TeamData data)"
+            - "SHOW_SHORT_PROFILE"
+        UIDataLocalVarsComponent:
+            data:
+            - ["int", "personalXPValue", "data.xp"]
+            - ["float", "bazeTime", "0.100000"]
+            - ["int", "rowHeight", "56"]
+            - ["int", "realPositionAnchor", "index * rowHeight"]
+            - ["int", "realPositionAnchorReverse", "(dataSize - 1 - index) * rowHeight"]
+            - ["int", "startPosition", "item * rowHeight"]
+            - ["float", "timeMyAnimation", "(dataSize - item) * (item - index) * 2 * bazeTime"]
+            - ["float", "timeToWaitSecondStep", "(dataSize - item) * 2 * bazeTime"]
+            - ["string", "tankTextAlign", "when isEnemy -> \"align-right\", \"align-left\""]
+            - ["int", "personalDmgValue", "data.dmg"]
+            - ["bool", "isStopped", "false"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["int", "rowWidth", "when screenWidth < 1280 -> 471, 618"]
+            - ["int", "vehicleId", "data.vehicleId"]
+            - ["LikeData", "likeData", "{ \"index\" = index; \"isEnemy\" = isEnemy; \"vehicleId\" = vehicleId; }"]
+            - ["int", "rightContentPading", "when screenWidth < 1280 -> 0, 16"]
+            - ["int", "rightContentSpacing", "when gameMode != eGameMode.Rating and (screenWidth < 1280) -> 16, gameMode != eGameMode.Rating and (screenWidth >= 1280) -> 24, gameMode == eGameMode.Rating and (screenWidth < 1280) -> 8, 24"]
+            - ["string", "tankNameColor", "when data.isAccount -> \"yellow-lightning-text\", data.isTeammate -> \"yellow-chalky-text\", \"white-wild-sand-text\""]
+            - ["string", "tankNameStyle", "\"t-body bold\" + \" \" + tankNameColor"]
+            - ["string", "playerNameStyle", "\"t-body regular\" + \" \" + tankNameColor"]
+            - ["float", "textOpacity", "when data.isAlive -> 1.000000, 0.500000"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/BattleResults/TeamEffectiveness/CommandRow.actions"
+        UIDataOnEventComponent0:
+            eventName: "DATA_CHANGED"
+            modelFieldExpression: "personalDmgValue"
+            dataExpression: "data.dmg"
+        UIDataOnEventComponent1:
+            eventName: "DATA_XP_CHANGED"
+            modelFieldExpression: "personalXPValue"
+            dataExpression: "data.xp"
+        UIEventOnDataComponent0:
+            watchedDataExpression: "data.dmg"
+            eventName: "DATA_CHANGED"
+        UIEventOnDataComponent1:
+            watchedDataExpression: "data.xp"
+            eventName: "DATA_XP_CHANGED"
+        UIEventOnDataComponent2:
+            watchedDataExpression: "data.isReactionForAccount"
+            ifExpression: "data.reactionForAccountUpdated and data.isReactionForAccount"
+            eventName: "AccountReceiveReaction"
+        UIIdentifierComponent:
+            id: "player_info_row"
+            params:
+            - ["string", "player_name", "data.playerName.playerName"]
+    bindings:
+    - ["visible", "blockedInput"]
+    - ["input", "not empty and not blockedInput"]
+    - ["UIOpacityComponent.opacity", "when blockedInput -> 1, 0"]
+    - ["SizePolicy.horizontalValue", "rowWidth"]
+    - ["UIAttachLayoutMasterComponent.attachId", "when isEnemy -> index + 100, index + 200"]
+    children:
+    -   class: "UIControl"
+        name: "Bg"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+                sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+            UIOpacityComponent:
+                opacity: 0.200000
+            Anchor: {}
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "FixedSize"
+                verticalValue: 56.000000
+        bindings:
+        - ["visible", "not blockedInput"]
+        - ["Background.spriteModification", "when isEnemy -> 1, 0"]
+        - ["Background.color", "when data.isAlive -> rgba(245, 245, 245, 255), rgba(153, 27, 15, 1)"]
+        - ["Anchor.leftAnchorEnabled", "isEnemy"]
+        - ["Anchor.rightAnchorEnabled", "not isEnemy"]
+        - ["SizePolicy.horizontalValue", "rowWidth - rowHeight"]
+    -   class: "UIControl"
+        name: "CustomBg"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "FixedSize"
+                verticalValue: 56.000000
+            UIChildComponent0:
+                condition: "not empty(data.profileBg)"
+                prototypePath: "~res:/UI/Screens3/Lobby/BattleResults/TeamEffectiveness/CustomBg.yaml"
+                args:
+                    "data.isAlive": "data.isAlive"
+                    "profileBg": "data.profileBg"
+                    "isEnemy": "isEnemy"
+        bindings:
+        - ["SizePolicy.horizontalValue", "rowWidth"]
+    -   class: "UIControl"
+        name: "Separator"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+                sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                color: [0.960784, 0.960784, 0.960784, 0.250980]
+            Anchor:
+                bottomAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "FixedSize"
+                verticalValue: 1.000000
+        bindings:
+        - ["visible", "not blockedInput"]
+        - ["Background.spriteModification", "when isEnemy -> 1, 0"]
+        - ["Anchor.leftAnchorEnabled", "when isEnemy -> true, false"]
+        - ["Anchor.rightAnchorEnabled", "when isEnemy -> false, true"]
+        - ["SizePolicy.horizontalValue", "rowWidth - rowHeight"]
+    -   class: "UIControl"
+        name: "Hover"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+                sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                color: [0.000000, 0.000000, 0.000000, 0.101961]
+            UIOpacityComponent:
+                opacity: 0.000000
+            Anchor: {}
+            IgnoreLayout: {}
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "FixedSize"
+                verticalValue: 56.000000
+        bindings:
+        - ["Background.spriteModification", "when isEnemy -> 1, 0"]
+        - ["Anchor.leftAnchorEnabled", "when isEnemy -> true, false"]
+        - ["Anchor.rightAnchorEnabled", "when isEnemy -> false, true"]
+        - ["SizePolicy.horizontalValue", "rowWidth - rowHeight"]
+    -   class: "UIControl"
+        name: "TapArea"
+        size: [32.000000, 32.000000]
+        pivot: [0.500000, 0.500000]
+        input: false
+        components:
+            UIOpacityComponent:
+                opacity: 1.000000
+            Anchor:
+                leftAnchor: 0.000000
+                hCenterAnchor: 0.000000
+                rightAnchor: 0.000000
+                topAnchorEnabled: true
+                topAnchor: 0.000000
+                vCenterAnchor: 0.000000
+                bottomAnchor: 0.000000
+            LinearLayout:
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "FixedSize"
+                verticalValue: 56.000000
+        bindings:
+        - ["Anchor.leftAnchorEnabled", "not isEnemy"]
+        - ["Anchor.rightAnchorEnabled", "isEnemy"]
+        - ["LinearLayout.orientation", "when isEnemy -> 0, 1"]
+        - ["SizePolicy.horizontalValue", "rowWidth"]
+        children:
+        -   class: "UIControl"
+            name: "RightContent"
+            position: [242.000000, 0.000000]
+            size: [232.000000, 56.000000]
+            input: false
+            components:
+                UIOpacityComponent: {}
+                LinearLayout:
+                    padding: "4; 8"
+                    spacing: 8.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 56.000000
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml;"
+            bindings:
+            - ["visible", "not empty"]
+            - ["LinearLayout.orientation", "when not isEnemy -> 1, 4"]
+            children:
+            -   class: "UIControl"
+                name: "Relations"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 68.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 56.000000
+                bindings:
+                - ["visible", "isSessionPlayerResults"]
+                - ["enabled", "isReactionsAvailable"]
+                children:
+                -   class: "UIControl"
+                    name: "RelationsTapArea"
+                    size: [32.000000, 32.000000]
+                    scale: [1.000000, 1.000000]
+                    pivot: [0.500000, 0.500000]
+                    input: false
+                    components:
+                        UIOpacityComponent:
+                            opacity: 1.000000
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfFirstChild"
+                            verticalPolicy: "PercentOfFirstChild"
+                        UIChildComponent0:
+                            prototypePath: "~res:/UI/Screens3/Lobby/BattleResults/Reactions/HorizontalReactionCard.yaml"
+                            args:
+                                "isNotAllowedReactionsAnimation": "data.isNotAllowedReactionsAnimation"
+                                "blocked": "blockedInput"
+                                "masterId": "data.vehicleId"
+                                "index": "index"
+                                "isAccontSetReaction": "data.isReactionFromAccount"
+                                "timeExpired": "timeExpired"
+                                "icon": "when data.isReactionFromAccount -> data.reactionIconsFromAccount.smallIcon, \"\""
+                                "value": "data.totalReactionCount"
+                            eventActions:
+                            - ["ShowReactionsPopup", "ShowReactionsPopup", ""]
+                            - ["ShowReactionLimitPopup", "ShowReactionLimitPopup", ""]
+                        UIIdentifierComponent:
+                            id: "reaction_icon"
+                    bindings:
+                    - ["visible", "isReactionsAvailable"]
+            -   class: "UIControl"
+                name: "RatingHolder"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    LinearLayout:
+                        dynamicPadding: true
+                        spacing: 2.000000
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 56.000000
+                    UIChildComponent0:
+                        childType: "kControl"
+                        condition: "gameMode == eGameMode.Rating"
+                        control: "Rating"
+                bindings:
+                - ["visible", "gameMode == eGameMode.Rating"]
+                - ["SizePolicy.horizontalValue", "when isSessionPlayerResults -> 72, 92"]
+            -   class: "UIControl"
+                name: "Xp"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    UIOpacityComponent: {}
+                    UITextComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 48.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 56.000000
+                bindings:
+                - ["visible", "not (gameMode == eGameMode.Rating) and not (gameMode == eGameMode.Training)"]
+                - ["classes", "tankNameStyle + \" \" + \"not-localize\""]
+                - ["UIOpacityComponent.opacity", "textOpacity"]
+                - ["UITextComponent.text", "when data.xp == 0 -> \"–\", str1000Separated(personalXPValue)"]
+            -   class: "UIControl"
+                name: "Kills"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    UIOpacityComponent: {}
+                    UITextComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 48.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 56.000000
+                bindings:
+                - ["classes", "tankNameStyle + \" \" + \"not-localize\""]
+                - ["UIOpacityComponent.opacity", "textOpacity"]
+                - ["UITextComponent.text", "when data.kills == 0 -> \"\", data.kills"]
+            -   class: "UIControl"
+                name: "Damage"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    UIOpacityComponent: {}
+                    UITextComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 48.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 56.000000
+                bindings:
+                - ["classes", "tankNameStyle + \" \" + \"not-localize\""]
+                - ["UIOpacityComponent.opacity", "textOpacity"]
+                - ["UITextComponent.text", "when data.dmg == 0 -> \"–\", str1000Separated(personalDmgValue)"]
+        -   class: "UIControl"
+            name: "LeftContent"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                LinearLayout:
+                    padding: "2;0"
+                    spacing: 8.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 56.000000
+            bindings:
+            - ["visible", "not empty"]
+            - ["LinearLayout.orientation", "when not isEnemy -> 4, 1"]
+            children:
+            -   class: "UIControl"
+                name: "PlayerAvatarWrapper"
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 48.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 48.000000
+                children:
+                -   class: "UIControl"
+                    name: "PlayerAvatar"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        UIOpacityComponent: {}
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 48.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 48.000000
+                        UIChildComponent0:
+                            prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/PlayerAvatar.yaml"
+                            args:
+                                "animated": "true"
+                                "interactive": "false"
+                                "avatar": "data.avatar"
+                                "size": "eAvatarSize.MEDIUM"
+                    bindings:
+                    - ["UIOpacityComponent.opacity", "when data.isAlive -> 1, 0.500000"]
+                -   class: "UIControl"
+                    name: "ReactionBg"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_ALIGNED"
+                            sprite: "~res:/Gfx/Lobby/avatars/avatar_active_48"
+                        UIOpacityComponent:
+                            opacity: 0.000000
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 48.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 48.000000
+                    bindings:
+                    - ["visible", "data.isReactionForAccount"]
+                -   class: "UIControl"
+                    name: "Reaction"
+                    scale: [1.000000, 1.000000]
+                    pivot: [0.500000, 0.500000]
+                    input: false
+                    components:
+                        UIOpacityComponent:
+                            opacity: 0.000000
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            bottomAnchorEnabled: true
+                            bottomAnchor: -24.000000
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 48.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 48.000000
+                        UIChildComponent0:
+                            condition: "data.isReactionForAccount and data.reactionForAccountUpdated"
+                            prototypePath: "~res:/UI/Screens3/Lobby/BattleResults/Reactions/ReactionIcon.yaml"
+                            args:
+                                "icon": "data.reactionIconsForAccount.smallIcon"
+                                "size": "48"
+                    bindings:
+                    - ["visible", "data.isReactionForAccount"]
+            -   class: "UIControl"
+                name: "Squad"
+                size: [16.000000, 18.000000]
+                input: false
+                components:
+                    Anchor:
+                        topAnchorEnabled: true
+                        topAnchor: 4.000000
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 16.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 18.000000
+                bindings:
+                - ["visible", "data.isSquadAlly"]
+                - ["Anchor.leftAnchorEnabled", "when isEnemy -> false, true"]
+                - ["Anchor.rightAnchorEnabled", "when isEnemy -> true, false"]
+                children:
+                -   class: "UIControl"
+                    name: "Back"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_SCALE_TO_RECT"
+                            sprite: "~res:/Gfx/Lobby/backgrounds/bg_icon-squad-number"
+                            color: [0.117647, 0.133333, 0.137255, 1.000000]
+                            perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 16.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 18.000000
+                -   class: "UIControl"
+                    name: "Front"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_SCALE_TO_RECT"
+                            perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                        UIOpacityComponent: {}
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 16.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 18.000000
+                    bindings:
+                    - ["Background.sprite", "str(data.squadType, eSquadType, \"icon\")"]
+                    - ["Background.color", "when (data.isAccount or data.isTeammate) -> rgba(255, 194, 38, 255), rgba(245, 245, 245, 178)"]
+                    - ["UIOpacityComponent.opacity", "when data.isAlive -> 1, 0.500000"]
+            -   class: "UIControl"
+                name: "NameContainer"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "TankNameWrapper"
+                    input: false
+                    components:
+                        Anchor:
+                            leftAnchorEnabled: true
+                        LinearLayout:
+                            spacing: 4.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfMaxChild"
+                    bindings:
+                    - ["Anchor.leftAnchor", "when data.tankRank > 0 -> -2, 0"]
+                    - ["LinearLayout.orientation", "when not isEnemy -> 4, 1"]
+                    children:
+                    -   class: "UIControl"
+                        name: "TankRank"
+                        input: false
+                        components:
+                            UIOpacityComponent: {}
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                                vCenterAnchor: 1.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfChildrenSum"
+                                verticalPolicy: "PercentOfChildrenSum"
+                            UIChildComponent0:
+                                condition: "data.tankRank > 0"
+                                prototypePath: "~res:/UI/Screens3/Lobby/Inventory/TankProgress/TankRankSmall.yaml"
+                                args:
+                                    "grade": "when rankConfig.grades.Contains(data.tankRank) -> rankConfig.grades[data.tankRank], eTankRankGrade.Common"
+                                    "rank": "data.tankRank"
+                        bindings:
+                        - ["visible", "data.tankRank > 0"]
+                        - ["UIOpacityComponent.opacity", "textOpacity"]
+                    -   class: "UIControl"
+                        name: "TankName"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            UIOpacityComponent: {}
+                            UITextComponent:
+                                fitting: "FITTING_POINTS"
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfContent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+                        bindings:
+                        - ["classes", "tankNameStyle"]
+                        - ["UIOpacityComponent.opacity", "textOpacity"]
+                        - ["UITextComponent.text", "localize(data.vehicleName)"]
+                        - ["UITextComponent.align", "when isEnemy -> eAlign.RIGHT, eAlign.LEFT"]
+                -   class: "UIControl"
+                    name: "PlayerNameWrapper"
+                    size: [200.000000, 32.000000]
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfMaxChild"
+                    children:
+                    -   class: "UIControl"
+                        name: "PlayerName"
+                        size: [200.000000, 32.000000]
+                        input: false
+                        components:
+                            UIOpacityComponent: {}
+                            LinearLayout: {}
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfMaxChild"
+                            UIChildComponent0:
+                                prototypePath: "~res:/UI/Screens3/Lobby/Common/PlayerNameCanFitting.yaml"
+                                args:
+                                    "playerNameStyle": "playerNameStyle"
+                                    "clanTagStyle": "playerNameStyle"
+                                    "playerNameSize": "ePlayerSize.kNormal"
+                                    "clanTag": "data.playerName.playerClan"
+                                    "playerName": "data.playerName.playerName"
+                        bindings:
+                        - ["UIOpacityComponent.opacity", "textOpacity"]
+                        - ["LinearLayout.orientation", "when isEnemy -> 1, 0"]
+    -   class: "UIControl"
+        name: "SelectionHolder"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "FixedSize"
+                verticalValue: 56.000000
+            UIChildComponent0:
+                childType: "kControl"
+                condition: "data.isAccount"
+                control: "Selection"
+        bindings:
+        - ["SizePolicy.horizontalValue", "rowWidth"]
+    -   class: "UIControl"
+        name: "ReactionSelectionHolder"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "FixedSize"
+                verticalValue: 56.000000
+            UIChildComponent0:
+                childType: "kControl"
+                condition: "data.reactionForAccountUpdated and data.isReactionForAccount"
+                control: "ReactionSelection"
+        bindings:
+        - ["SizePolicy.horizontalValue", "rowWidth"]
+Slots:
+-   class: "UIControl"
+    name: "Rating"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            verticalPolicy: "FixedSize"
+            verticalValue: 56.000000
+    bindings:
+    - ["visible", "gameMode == eGameMode.Rating"]
+    - ["SizePolicy.horizontalValue", "when isSessionPlayerResults -> 72, 92"]
+    children:
+    -   class: "UIControl"
+        name: "RaitingWrapper"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            LinearLayout:
+                spacing: 2.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "Left"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 40.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 56.000000
+            children:
+            -   class: "UIControl"
+                name: "dataRatingCurrentRating"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    UIOpacityComponent: {}
+                    UITextComponent: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "FixedSize"
+                bindings:
+                - ["visible", "data.rating.state != eBattleRatingState.CALIBRATION"]
+                - ["classes", "tankNameStyle + \" \" + \"not-localize\""]
+                - ["UIOpacityComponent.opacity", "textOpacity"]
+                - ["UITextComponent.text", "str1000Separated(data.rating.currentRating)"]
+                - ["SizePolicy.verticalValue", "rowHeight"]
+            -   class: "UIControl"
+                name: "CalibrationIcon"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_PROPORTIONAL"
+                        sprite: "~res:/Gfx/Lobby/leagues/league_icon_calibration_m"
+                        perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                    UIOpacityComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 40.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 40.000000
+                bindings:
+                - ["visible", "data.rating.state == eBattleRatingState.CALIBRATION"]
+                - ["UIOpacityComponent.opacity", "when data.isAlive -> 0.750000, 0.500000"]
+        -   class: "UIControl"
+            name: "UpDownMark"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_ALIGNED"
+                    perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                UIOpacityComponent: {}
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 8.000000
+                    verticalPolicy: "PercentOfContent"
+            bindings:
+            - ["visible", "data.rating.difference != 0"]
+            - ["classes", "when data.rating.difference > 0 -> \"green-green-bg\", \"red-red-bg\""]
+            - ["Background.sprite", "when data.rating.state != eBattleRatingState.CALIBRATION -> \"~res:/Gfx/Lobby/backgrounds/bg_triangle.psd\", \"\""]
+            - ["Background.spriteModification", "when data.rating.difference > 0 -> 0, 2"]
+            - ["UIOpacityComponent.opacity", "when data.isAlive -> 1, 0.750000"]
+        -   class: "UIControl"
+            name: "Right"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 56.000000
+            bindings:
+            - ["visible", "data.rating.difference != 0"]
+            children:
+            -   class: "UIControl"
+                name: "RatingDiff"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    UIOpacityComponent: {}
+                    UITextComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                bindings:
+                - ["visible", "data.rating.state != eBattleRatingState.CALIBRATION and data.rating.difference != 0"]
+                - ["classes", "(when data.rating.difference > 0 -> \"t-body green-green-text\", \"t-body red-red-text\") + \" \" + \"bold not-localize\""]
+                - ["UIOpacityComponent.opacity", "textOpacity"]
+                - ["UITextComponent.text", "abs(data.rating.difference)"]
+            -   class: "UIControl"
+                name: "CalibrationText"
+                size: [32.000000, 32.000000]
+                input: false
+                classes: "t-body bold white-wild-sand-50-text"
+                components:
+                    UITextComponent:
+                        text: "– "
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfParent"
+                bindings:
+                - ["visible", "data.rating.state == eBattleRatingState.CALIBRATION"]
+-   class: "UIControl"
+    name: "Selection"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        UIOpacityComponent:
+            opacity: 0.000000
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            verticalPolicy: "FixedSize"
+            verticalValue: 56.000000
+    bindings:
+    - ["SizePolicy.horizontalValue", "rowWidth"]
+    children:
+    -   class: "UIControl"
+        name: "Top"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+                sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                color: [1.000000, 0.615686, 0.000000, 1.000000]
+            Anchor:
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "FixedSize"
+                verticalValue: 1.000000
+        bindings:
+        - ["SizePolicy.horizontalValue", "rowWidth - rowHeight"]
+    -   class: "UIControl"
+        name: "Right"
+        input: false
+        components:
+            Background:
+                color: [1.000000, 0.615686, 0.000000, 1.000000]
+            Anchor:
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 1.000000
+                verticalPolicy: "FixedSize"
+        bindings:
+        - ["SizePolicy.verticalValue", "rowHeight"]
+    -   class: "UIControl"
+        name: "Bottom"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+                sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                color: [1.000000, 0.615686, 0.000000, 1.000000]
+            Anchor:
+                rightAnchorEnabled: true
+                bottomAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "FixedSize"
+                verticalValue: 1.000000
+        bindings:
+        - ["SizePolicy.horizontalValue", "rowWidth - rowHeight"]
+-   class: "UIControl"
+    name: "ReactionSelection"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        UIOpacityComponent:
+            opacity: 0.000000
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            verticalPolicy: "FixedSize"
+            verticalValue: 56.000000
+    bindings:
+    - ["SizePolicy.horizontalValue", "rowWidth"]
+    children:
+    -   class: "UIControl"
+        name: "Top"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+                sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                color: [0.450980, 0.819608, 1.000000, 1.000000]
+            Anchor:
+                topAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "FixedSize"
+                verticalValue: 1.000000
+        bindings:
+        - ["Background.spriteModification", "isEnemy"]
+        - ["Anchor.leftAnchorEnabled", "isEnemy"]
+        - ["Anchor.rightAnchorEnabled", "not isEnemy"]
+        - ["SizePolicy.horizontalValue", "rowWidth - rowHeight"]
+    -   class: "UIControl"
+        name: "Right"
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_FILL"
+                color: [0.450980, 0.819608, 1.000000, 1.000000]
+            Anchor:
+                topAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 1.000000
+                verticalPolicy: "FixedSize"
+        bindings:
+        - ["Anchor.leftAnchorEnabled", "isEnemy"]
+        - ["Anchor.rightAnchorEnabled", "not isEnemy"]
+        - ["SizePolicy.verticalValue", "rowHeight"]
+    -   class: "UIControl"
+        name: "Bottom"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+                sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                color: [0.450980, 0.819608, 1.000000, 1.000000]
+            Anchor:
+                bottomAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "FixedSize"
+                verticalValue: 1.000000
+        bindings:
+        - ["Background.spriteModification", "isEnemy"]
+        - ["Anchor.leftAnchorEnabled", "isEnemy"]
+        - ["Anchor.rightAnchorEnabled", "not isEnemy"]
+        - ["SizePolicy.horizontalValue", "rowWidth - rowHeight"]

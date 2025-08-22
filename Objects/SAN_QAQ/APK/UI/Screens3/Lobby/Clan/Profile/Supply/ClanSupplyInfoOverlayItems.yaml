@@ -1,0 +1,82 @@
+Header:
+    version: 151
+ImportedPackages:
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "ClanSupplyInfoOverlayItems"
+    size: [960.000000, 600.000000]
+    input: false
+    components:
+        Anchor:
+            leftAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["float", "point", "0.000000", "0.000000"]
+            - ["vector<ClanDiscountInfo>", "discounts", "null", "[ { }; { }; { }; { }; { }; { }; { }; { }; { }; ]"]
+            events:
+            - "ON_SUPPLY_ITEM_CLICKED(int index)"
+    bindings:
+    - ["Anchor.leftAnchor", "point"]
+    children:
+    -   class: "UIScrollView"
+        name: "ScrollArea"
+        size: [857.000000, 427.000000]
+        autoUpdate: true
+        components:
+            ClipContent:
+                left: false
+                right: false
+            LinearLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIScrollViewContainer"
+            name: "scrollContainerControl"
+            scrollDirection: "kVertical"
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   class: "UIControl"
+                name: "Discounts"
+                input: false
+                components:
+                    GridLayout:
+                        direction: "LeftRight"
+                        columnWidth: 120.000000
+                        columnDynamicPadding: true
+                        columnSpacing: 16.000000
+                        columnDynamicSpacing: false
+                        dynamicRowCalulation: "byControls"
+                        rowHeight: 160.000000
+                        rowPadding: "16"
+                        rowSpacing: 16.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfChildrenSum"
+                    UIRepeatComponent:
+                        control: "~res:/UI/Screens3/Lobby/Clan/Profile/Supply/ClanSupplyItemWrapper.yaml"
+                        dataContainer: "discounts"
+                        args:
+                            "enableInputForTank": "true"
+                            "discountInfo": "_item"
+                            "isBig": "true"
+                        eventActions:
+                        - ["ON_SUPPLY_ITEM_CLICKED", "ON_SUPPLY_ITEM_CLICKED", "_index"]
+                bindings:
+                - ["GridLayout.dynamicColumnCalulation", "when discounts.Size() <= 5 -> eTypeCountCalculation.byControls, eTypeCountCalculation.bySize"]
+        -   prototype: "VerticalScrollBar/VerticalScrollBar"
+            name: "VerticalScrollBar"
+            components:
+                Anchor:
+                    rightAnchor: 0.000000
+                    topAnchor: 16.000000
+                    bottomAnchor: 16.000000
+                UIScrollBarComponent:
+                    delegate: ".."

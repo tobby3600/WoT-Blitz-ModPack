@@ -159,7 +159,7 @@ Prototypes:
                     hCenterAnchorEnabled: true
                 SizePolicy:
                     horizontalPolicy: "Formula"
-                    horizontalFormula: "max((parent- safeAreaInsets.left - safeAreaInsets.right) * 0.96 , 820)"
+                    horizontalFormula: "max((parent - safeAreaInsets.left - safeAreaInsets.right) * 0.96, 820)"
                     verticalPolicy: "FixedSize"
                     verticalValue: 32.000000
                 StyleSheet:
@@ -214,8 +214,7 @@ Prototypes:
                         topAnchorEnabled: true
                         topAnchor: -16.000000
                     SizePolicy:
-                        horizontalPolicy: "Formula"
-                        horizontalFormula: "parent / 1.5"
+                        horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "FixedSize"
                         verticalValue: 64.000000
                     UIChildComponent0:
@@ -223,12 +222,13 @@ Prototypes:
                         args:
                             "badgeAttachId": "badgeAttachId"
                             "activeTab": "model.selectedIndex"
-                            "bgStyle": ""
+                            "bgStyle": "\"white-wild-sand-15-bg\""
                             "info": "model.tabTextInfo"
                             "attachID": "\"BPWP_TABS\""
                             "animatedLabel": "(not model.usePremiumBpAsLicense and (not model.haveLicense or not model.previousHaveLicense)) or (model.usePremiumBpAsLicense and (not model.havePremBp or not model.previousHavePremBp))"
                             "labelTab": "model.activatedIndex"
                             "labelControl": "when (not model.usePremiumBpAsLicense and (not model.haveLicense or not model.previousHaveLicense)) or (model.usePremiumBpAsLicense and (not model.havePremBp or not model.previousHavePremBp)) -> ActiveStateLabel, null"
+                            "isBlur": "true"
 Slots:
 -   class: "UIControl"
     name: "ActiveStateLabel"

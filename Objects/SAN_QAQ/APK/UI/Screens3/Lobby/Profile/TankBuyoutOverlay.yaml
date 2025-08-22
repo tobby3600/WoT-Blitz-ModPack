@@ -23,8 +23,12 @@ Prototypes:
             - ["int", "itemSpacer", "2"]
             - ["int", "itemHeight", "80"]
             - ["int", "footerSpace", "16"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["string", "blurTankBuyout", "\"blurTankBuyout\""]
+            - ["string", "maskTankBuyout", "\"maskTankBuyout\""]
         UIChildComponent0:
-            prototypePath: "~res:/UI/Screens3/Lobby/Common/Overlay/OverlayModifiedOptimizeBasic.yaml"
+            prototypePath: "~res:/UI/Screens3/Lobby/Common/Overlay/OverlayBasic.yaml"
             args:
                 "headerCurrencies": "headerCurrencies"
                 "hideHeader": "true"
@@ -33,6 +37,10 @@ Prototypes:
                 "contentHeight": "(itemHeight + itemSpacer) * tankListModel.tanks.Size() + headerHeight + footerSpace"
                 "content": "TankBuyoutOverlayContent"
                 "imageFromClient": "\"~res:/Gfx/UI/ProfileScreen/tank_buyout_bg\""
+                "modifiedBg": "true"
+                "isBlurMask": "true"
+                "blurOverlay": "blurTankBuyout"
+                "maskOverlay": "maskTankBuyout"
             eventActions:
             - ["BACK_EVENT", "BACK_EVENT", ""]
 Slots:
@@ -45,38 +53,18 @@ Slots:
             hCenterAnchorEnabled: true
         LinearLayout:
             orientation: "TopDown"
+        UIPostProcessSourceComponent0: {}
         SizePolicy:
             horizontalPolicy: "Formula"
             horizontalFormula: "max(640, parent - 40)"
             verticalPolicy: "PercentOfParent"
+    bindings:
+    - ["UIPostProcessSourceComponent0.id", "maskTankBuyout"]
     children:
     -   class: "UIControl"
         name: "Header"
         input: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIRoundedCornersComponent:
-                radius: "8"
             LinearLayout:
                 orientation: "TopDown"
                 padding: "28"
@@ -111,9 +99,10 @@ Slots:
                 RichContentAliases0:
                     aliases:
                     - ["text_white_bold", "<span class=\"t-body bold color=white-wild-sand-text\" />"]
-                    - ["white_bold", "<span class=\"t-body bold color=white-wild-sand-text\" />"]
-                    - ["orange", "<span class=\"t-body regular color=orange-orange-peel-text\" />"]
+                    - ["white_bold", "<span class=\"t-subtitle bold color=white-wild-sand-text\" />"]
                     - ["yellow_bold", "<span class=\"t-body bold color=yellow-lightning-text\" />"]
+                    - ["orange", "<span class=\"t-body regular color=orange-orange-peel-text\" />"]
+                    - ["rare", "<span class=\"t-body regular color=blue-curious-blue-text\" />"]
                 Anchor:
                     hCenterAnchorEnabled: true
                     vCenterAnchorEnabled: true
@@ -188,6 +177,8 @@ Slots:
                                     "isSelected": "tankListModel.sortMode == eTankSortMode.SORT_BY_LEVEL"
                                     "inverseSort": "tankListModel.inverseSort"
                                     "iconPath": "\"~res:/Gfx/Lobby/icons/icon_tank-levels_s\""
+                                    "isBlur": "false"
+                                    "bgStyle": "\"white-wild-sand-15-bg\""
                                 eventActions:
                                 - ["ON_CLICK_SORT_BUTTON", "SWITCH_SORT_TYPE", "eTankSortMode.SORT_BY_LEVEL"]
                     -   class: "UIControl"
@@ -203,6 +194,8 @@ Slots:
                                     "isSelected": "tankListModel.sortMode == eTankSortMode.SORT_BY_CLASS"
                                     "inverseSort": "tankListModel.inverseSort"
                                     "iconPath": "\"~res:/Gfx/Lobby/icons/icon_tank-tiers_s\""
+                                    "isBlur": "false"
+                                    "bgStyle": "\"white-wild-sand-15-bg\""
                                 eventActions:
                                 - ["ON_CLICK_SORT_BUTTON", "SWITCH_SORT_TYPE", "eTankSortMode.SORT_BY_CLASS"]
                     -   class: "UIControl"
@@ -218,6 +211,8 @@ Slots:
                                     "isSelected": "tankListModel.sortMode == eTankSortMode.SORT_BY_NATION"
                                     "inverseSort": "tankListModel.inverseSort"
                                     "iconPath": "\"~res:/Gfx/Lobby/icons/icon_tank-nations_s\""
+                                    "isBlur": "false"
+                                    "bgStyle": "\"white-wild-sand-15-bg\""
                                 eventActions:
                                 - ["ON_CLICK_SORT_BUTTON", "SWITCH_SORT_TYPE", "eTankSortMode.SORT_BY_NATION"]
                 -   class: "UIControl"
@@ -257,6 +252,8 @@ Slots:
                                     "isSelected": "tankListModel.sortMode == eTankSortMode.SORT_BY_BATTLES"
                                     "inverseSort": "tankListModel.inverseSort"
                                     "iconPath": "\"~res:/Gfx/Lobby/icons/icon_battles_s\""
+                                    "isBlur": "false"
+                                    "bgStyle": "\"white-wild-sand-15-bg\""
                                 eventActions:
                                 - ["ON_CLICK_SORT_BUTTON", "SWITCH_SORT_TYPE", "eTankSortMode.SORT_BY_BATTLES"]
                     -   class: "UIControl"
@@ -275,6 +272,8 @@ Slots:
                                     "isSelected": "tankListModel.sortMode == eTankSortMode.SORT_BY_WINS"
                                     "inverseSort": "tankListModel.inverseSort"
                                     "iconPath": "\"~res:/Gfx/Lobby/icons/icon_victory_s\""
+                                    "isBlur": "false"
+                                    "bgStyle": "\"white-wild-sand-15-bg\""
                                 eventActions:
                                 - ["ON_CLICK_SORT_BUTTON", "SWITCH_SORT_TYPE", "eTankSortMode.SORT_BY_WINS"]
                     -   class: "UIControl"
@@ -291,6 +290,8 @@ Slots:
                                     "inverseSort": "tankListModel.inverseSort"
                                     "isSelected": "tankListModel.sortMode == eTankSortMode.SORT_BY_SELL_DATE"
                                     "text": "localize(\"buyout_tank/overlay/date\")"
+                                    "isBlur": "false"
+                                    "bgStyle": "\"white-wild-sand-15-bg\""
                                 eventActions:
                                 - ["ON_CLICK_SORT_BUTTON", "SWITCH_SORT_TYPE", "eTankSortMode.SORT_BY_SELL_DATE"]
                             StyleSheet:
@@ -309,6 +310,8 @@ Slots:
                                     "inverseSort": "tankListModel.inverseSort"
                                     "isSelected": "tankListModel.sortMode == eTankSortMode.SORT_BY_PRICE"
                                     "text": "localize(\"buyout_tank/overlay/price\")"
+                                    "isBlur": "false"
+                                    "bgStyle": "\"white-wild-sand-15-bg\""
                                 eventActions:
                                 - ["ON_CLICK_SORT_BUTTON", "SWITCH_SORT_TYPE", "eTankSortMode.SORT_BY_PRICE"]
                             StyleSheet:
@@ -365,8 +368,8 @@ Slots:
                             - ["ON_BUYOUT_CLICKED", "ON_BUYOUT_CLICKED", "_event"]
                             elementNameExpression: "format(\"TankCell:%(tNation):%(tName)\", { \"tNation\" = str(_item.nationID, eNation, \"autotests\"); \"tName\" = _item.vehicleDataModel.technicalName; })"
                             loadingPolicy: "Lazy"
-                            loadingDistance: 50.000000
-                            unloadingDistance: 100.000000
+                            loadingDistance: 160.000000
+                            unloadingDistance: 320.000000
             -   prototype: "VerticalScrollBar/VerticalScrollBar"
                 name: "VerticalScrollBar"
                 components:
@@ -376,9 +379,8 @@ Slots:
                         topAnchorEnabled: true
                         bottomAnchorEnabled: true
                     IgnoreLayout: {}
-                    ScrollBarDelegate:
+                    UIScrollBarComponent:
                         delegate: "../UIScrollView"
                 children:
                 -   path: "slider"
                     visible: true
-                    children: []

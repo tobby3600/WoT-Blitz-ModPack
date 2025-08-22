@@ -2,6 +2,7 @@ Header:
     version: 157
 ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Common/SideBar.yaml"
+- "~res:/UI/Screens3/Common/BlurMask.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "TaskJournalScreen"
@@ -47,6 +48,9 @@ Prototypes:
             - ["bool", "noClanDataVisible", "model.activeTab == eTaskJournalTab.Clan and not isInClan"]
             - ["bool", "showClanApiError", "model.activeTab == eTaskJournalTab.Clan and not isInClan and (lastClanApiError == eClanApiError.InternalServerError or lastClanApiError == eClanApiError.ExternalServerError or lastClanApiError == eClanApiError.ServerOnMaintenance)"]
             - ["bool", "showCustomBg", "model.activeTab == eTaskJournalTab.Personal or (model.activeTab == eTaskJournalTab.BattlePass and isBattlePassTabVisible) or (model.activeTab == eTaskJournalTab.Clan and isInClan and not showClanApiError) or noClanDataVisible or showClanApiError"]
+            - ["string", "backgroundTaskJournal", "\"backgroundTaskJournal\""]
+            - ["string", "blurTaskJournal", "\"blurTaskJournal\""]
+            - ["string", "maskTaskJournal", "\"maskTaskJournal\""]
         UIDataLocalControlComponent0:
             name: "headerContent"
             prototypePath: "~res:/UI/Screens3/Lobby/Common/Headers/TitleWithSubtitle.yaml"
@@ -88,6 +92,7 @@ Prototypes:
             Background:
                 drawType: "DRAW_STRETCH_BOTH"
             IgnoreLayout: {}
+            UIPostProcessSourceComponent0: {}
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
@@ -106,6 +111,16 @@ Prototypes:
         bindings:
         - ["visible", "showCustomBg"]
         - ["Background.sprite", "when (noClanDataVisible or showClanApiError) and app.sDlc.isGeneralPackLoaded -> \"~res:/Gfx/UI/TaskJournal/Extended/no_clan_artwork\", \"\""]
+        - ["UIPostProcessSourceComponent0.id", "backgroundTaskJournal"]
+    -   prototype: "BlurMask/BlurMask"
+        name: "Blur"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "isBlurMask": "model.activeTab != eTaskJournalTab.BattlePass"
+                    "background": "backgroundTaskJournal"
+                    "blur": "blurTaskJournal"
+                    "mask": "maskTaskJournal"
     -   class: "UIControl"
         name: "ContentAndHeader"
         size: [32.000000, 32.000000]
@@ -130,7 +145,7 @@ Prototypes:
                         "session": "session"
                         "lobby": "lobby"
                         "leftContent": "headerContent"
-                        "bgStyle": ""
+                        "bgStyle": "\"white-wild-sand-15-bg\""
                         "isGeneralPackLoaded": "app.sDlc.isGeneralPackLoaded"
                         "showBackButton": "false"
                         "isBackButtonInitiallyClickable": "false"
@@ -168,6 +183,7 @@ Prototypes:
                         "cache": "cache"
                         "session": "session"
                         "lobby": "lobby"
+                        "maskTaskJournal": "maskTaskJournal"
                 UIChildComponent1:
                     childType: "kPrototype"
                     condition: "isInClan and not showClanApiError and model.activeTab == eTaskJournalTab.Clan"
@@ -177,6 +193,7 @@ Prototypes:
                         "model": "model"
                         "session": "session"
                         "account": "account"
+                        "maskTaskJournal": "maskTaskJournal"
                 UIChildComponent2:
                     condition: "model.activeTab == eTaskJournalTab.Personal and model.questsLevel <= 1"
                     prototypePath: "~res:/UI/Screens3/Lobby/TaskJournal/Newbie/TaskJournalNewbieTab.yaml"
@@ -186,6 +203,7 @@ Prototypes:
                         "session": "session"
                         "model": "model"
                         "account": "account"
+                        "maskTaskJournal": "maskTaskJournal"
                         "isDeveloperUI": "app.constants.developerUI"
                 UIChildComponent3:
                     condition: "model.activeTab == eTaskJournalTab.BattlePass and isBattlePassTabVisible"
@@ -228,8 +246,9 @@ Prototypes:
             UIDataParamsComponent:
                 args:
                     "backButtonLayer": "when account.tutorialData.currentHighlightControl == eTutorialHighlights.kBack -> 1, 0"
-                    "bgStyle": ""
+                    "bgStyle": "\"white-wild-sand-15-bg\""
                     "content": "SidebarButtons"
+                    "isBlur": "false"
                 eventActions:
                 - ["ON_CLICK_BACK", "BACK_EVENT", ""]
 Slots:

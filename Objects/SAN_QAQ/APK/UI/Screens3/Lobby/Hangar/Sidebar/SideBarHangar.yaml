@@ -54,7 +54,7 @@ Prototypes:
         UIDataLocalBindingsComponent:
             data:
             - ["bool", "isTutorialActive", "account.tutorialData.isTutorialActive"]
-            - ["bool", "isSquadEnabled", "account.prebattleModel.settings.prebattleType == PrebattleType.SQUAD and account.prebattleModel.squadTeamMateInfos.Size() > 0"]
+            - ["bool", "isSquadEnabled", "account.prebattleModel.settings.prebattleType == PrebattleType.SQUAD and not isNull(account.prebattleModel.squadTeamMateInfos)"]
             - ["bool", "isPlayerProfileEnabled", "app.sDlc.isGeneralPackLoaded"]
             - ["float", "panelBgOpacity", "when squadSubMenuShow or communitySubMenuShow -> 0.980000, 0.700000"]
         UIDataOnEventComponent0:
@@ -147,9 +147,13 @@ Prototypes:
     children:
     -   class: "UIControl"
         name: "SubMenu"
+        position: [88.000000, 0.000000]
         input: false
         components:
             ClipContent: {}
+            Anchor:
+                leftAnchorEnabled: true
+                leftAnchor: 88.000000
             SizePolicy:
                 horizontalPolicy: "Formula"
                 horizontalFormula: "screenWidth"
@@ -164,13 +168,13 @@ Prototypes:
             components:
                 SizePolicy:
                     horizontalPolicy: "Formula"
-                    horizontalFormula: "screenWidth + 88"
+                    horizontalFormula: "screenWidth"
                     verticalPolicy: "PercentOfParent"
                 UIInputEventComponent:
                     onTouchUpInside: "HIDE_COMMUNITY_PANEL"
                 UIChildAnimatedSwitchingComponent:
                     switchPolicy: "kAfterRemovingAnimation"
-                    keepUpdateBindings: true
+                    keepUpdateBindings: false
                 UIChildComponent0:
                     childType: "kOldExpression"
                     control: "when communitySubMenuShow -> \"~res:/UI/Screens3/Lobby/Hangar/Sidebar/CommunityPanel/CommunityList.yaml\", \"\""
@@ -185,6 +189,7 @@ Prototypes:
             - ["input", "communitySubMenuShow"]
         -   class: "UIControl"
             name: "SquadSubMenu"
+            position: [0.000000, 0.000000]
             classes: "button-cancel-sound"
             components:
                 SizePolicy:
@@ -195,7 +200,7 @@ Prototypes:
                     onTouchUpInside: "HIDE_SQUAD_PANEL"
                 UIChildAnimatedSwitchingComponent:
                     switchPolicy: "kAfterRemovingAnimation"
-                    keepUpdateBindings: true
+                    keepUpdateBindings: false
                 UIChildComponent0:
                     childType: "kOldExpression"
                     control: "when squadSubMenuShow -> \"~res:/UI/Screens3/Lobby/Hangar/SquadPanel/SquadPanel.yaml\", \"\""
@@ -220,21 +225,12 @@ Prototypes:
                 horizontalPolicy: "PercentOfChildrenSum"
                 verticalPolicy: "PercentOfParent"
         children:
-        -   class: "UIControl"
+        -   prototype: "BlurModified/BlurModified"
             name: "Bg"
-            input: false
-            classes: "black-50-bg"
             components:
-                Background: {}
-                IgnoreLayout: {}
-                SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "PercentOfParent"
-                StyleSheet:
-                    styles: "~res:/UI/Screens3/Color.style.yaml"
-            children:
-            -   prototype: "BlurModified/BlurModified"
-                name: "Blur"
+                UIDataParamsComponent:
+                    args:
+                        "bgStyle": "\"black-50-bg\""
         -   class: "UIControl"
             name: "SafeAreaInsetLeft"
             input: false

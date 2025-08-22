@@ -1,0 +1,122 @@
+Header:
+    version: 153
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "HangarCustomizationShowcase"
+    size: [1024.000000, 768.000000]
+    input: false
+    components:
+        UIAnimationComponent:
+            animations: "BACK_EVENT,~res:/UI/Screens3/Lobby/Showcase/BackEvent.animation"
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        ModalInput: {}
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Options"
+            keyDownEvent: "GO_TO_SHOP"
+        UIVirtualActionEventComponent1:
+            virtualKeyAction: "Escape"
+            keyDownEvent: "BACK_EVENT"
+        UIShortcutEventComponent:
+            shortcuts: "BACK_EVENT, Escape; BACK_EVENT, Back;"
+        UIDataParamsComponent:
+            params:
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["AppDataModel", "app", "null", "{ }"]
+            - ["AccountDataModel", "account", "null", "{ }"]
+            - ["LobbyDataModel", "lobby", "null", "{ }"]
+    children:
+    -   class: "UI3DView"
+        customClass: "UIHangar3dView"
+        name: "HangarScene"
+        components:
+            SceneComponent:
+                drawToFramebuffer: true
+            IgnoreLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            UITextComponent: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "HeaderWrapper"
+            input: false
+            components:
+                UIOpacityComponent: {}
+                LinearLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "Background"
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: false
+                        rightAnchorEnabled: true
+                        topAnchorEnabled: true
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        horizontalFormula: "parent + 88 + safeAreaInsets.left"
+                        verticalPolicy: "PercentOfMaxChild"
+                children:
+                -   class: "UIControl"
+                    name: "TopLinearGradient"
+                    position: [36.000000, 0.000000]
+                    input: false
+                    classes: "black-70-bg"
+                    components:
+                        Background:
+                            drawType: "DRAW_SCALE_TO_RECT"
+                            sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_vertical_0-100"
+                            spriteModification: ["FLIP_VERTICAL"]
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            topAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 384.000000
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "Header"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfFirstChild"
+                    UIChildComponent0:
+                        childType: "kPrototype"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Headers/HangarHeader.yaml"
+                        args:
+                            "isBackButtonHasSounds": "false"
+                            "session": "session"
+                            "lobby": "lobby"
+                            "playerName": "session.playerName"
+                            "clanTag": "when not isNull(session.clanInfo.clan) -> session.clanInfo.clan.tag, \"\""
+                            "isGeneralPackLoaded": "app.sDlc.isGeneralPackLoaded"
+                            "isTutorialActive": "account.tutorialData.isTutorialActive"
+                            "firstLessonCompleted": "account.tutorialData.currentLesson > eTutorialLesson.kTurretUnlock"
+                            "showBackButton": "true"
+                            "isFullScreen": "true"
+                        eventActions:
+                        - ["GO_TO_SHOP", "GO_TO_SHOP", ""]
+                        - ["SHOP_BUTTON", "SHOP_BUTTON", "_event.requiredResource"]
+                        - ["BACK_EVENT", "BACK_EVENT", ""]
+                        - ["SHOW_ACHIEVEMENTS", "SHOW_ACHIEVEMENTS", ""]
+                        - ["PREMIUM_INFO_EVENT", "PREMIUM_INFO_EVENT", ""]

@@ -21,9 +21,8 @@ fragment_out fp_main(fragment_in input)
 {
 	fragment_out output;
 
-	float alpha = tex2D(tex, input.texCoord).a;
-
-	output.color = float4(input.color.rgb, input.color.a * lerp(alpha, 1.0, step(0.0, alpha)));
+	output.color = input.color;
+	output.color.a *= tex2D(tex, input.texCoord).a > 0.0 ? 1.0 : 0.0;
 
 	return output;
 }

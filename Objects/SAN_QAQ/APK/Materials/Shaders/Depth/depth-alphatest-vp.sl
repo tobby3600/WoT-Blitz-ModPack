@@ -92,8 +92,8 @@ vertex_out vp_main(vertex_in input)
 	#endif
 
 	#if FLOWMAP
-		float scaledTime = globalTime * flowAnimSpeed;
-		float2 flowPhase = frac(float2(scaledTime, scaledTime + 0.5)) - const05List2;
+		float f = frac(globalTime * flowAnimSpeed);
+		float2 flowPhase = float2(f - 0.5, f - step(0.5, f));
 		output.texCoord1.xyz = float3(flowPhase * flowAnimOffset, abs(flowPhase.x) * 2.0);
 	#endif
 

@@ -1,0 +1,398 @@
+Header:
+    version: 143
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/Vehicle/VehicleInfo.yaml"
+- "~res:/UI/Screens3/Lobby/Common/CheckMark.yaml"
+- "~res:/UI/Screens3/Lobby/ModulesTree/TankXpSmall.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Selection.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Resource/Currency.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "TankNode"
+    selected: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalValue: 176.000000
+            verticalPolicy: "FixedSize"
+            verticalValue: 64.000000
+        UIInputEventComponent:
+            onTouchUpInside: "TAP_ACTION"
+            onTouchUpInsideData: "id"
+            onDoubleTouch: "DOUBLE_TAP_ACTION"
+            onDoubleTouchData: "id"
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Extra1"
+            keyDownEvent: "TAP_ACTION"
+        Focus:
+            focusSetEvent: "TANK_FOCUSED"
+            focusSetEventData: "vehicle.vehicleDataModel.tankDescriptor.rawDescr"
+        UISwitchBarElementComponent: {}
+        UIDataParamsComponent:
+            params:
+            - ["bool", "hideClanDiscount", "false", "false"]
+            - ["bool", "hideDiscount", "false", "false"]
+            - ["bool", "soundOpen", "false", "false"]
+            - ["int", "id", "0", "0"]
+            - ["bool", "isSelected", "false", "true"]
+            - ["VehicleNodeModel", "vehicle", "null", "{ \"vehicleDataModel\" = { \"isPremium\" = false; \"isCollectible\" = false; }; \"purchasePrice\" = { \"quantity\" = 0; \"discount\" = { \"value\" = 0.0; }; }; \"status\" = eVehicleNodeStatus.CAN_BE_PURCHASED; }"]
+            - ["bool", "clickable", "true", "true"]
+            - ["bool", "focusable", "false", "false"]
+            - ["bool", "requestFocus", "false", "false"]
+            events:
+            - "TANK_FOCUSED(int descr)"
+            - "TAP_ACTION"
+        UIDataLocalBindingsComponent:
+            data:
+            - ["eNation", "nation", "vehicle.vehicleDataModel.nation"]
+            - ["string", "subnation", "vehicle.vehicleDataModel.subnation"]
+            - ["string", "nationFlag", "when subnation == \"\" -> (when nation == eNation.USSR -> \"ussr\", nation == eNation.GERMANY -> \"germany\", nation == eNation.USA -> \"usa\", nation == eNation.CHINA -> \"china\", nation == eNation.FRANCE -> \"france\", nation == eNation.UK -> \"uk\", nation == eNation.JAPAN -> \"japan\", nation == eNation.OTHER -> \"other\", \"other\"), subnation"]
+            - ["string", "soundStyle", "when soundOpen -> \"button-open-sound\", \"button-choose-sound\""]
+            - ["ResourceModel", "price", "when vehicle.status == eVehicleNodeStatus.CAN_BE_PURCHASED or vehicle.status == eVehicleNodeStatus.NOT_ENOUGH_MONEY -> vehicle.purchasePrice, vehicle.researchPrice"]
+            - ["bool", "tankDiscountVisible", "vehicle.status != eVehicleNodeStatus.OWNED and price.discount.value > 0.000000 and not hideDiscount and (not hideClanDiscount or price.discount.reason != eDiscountReason.CLAN_SUPPLY)"]
+            - ["string", "bgColorStyle", "when vehicle.vehicleDataModel.isCollectible -> (when vehicle.status == eVehicleNodeStatus.OWNED -> \"grey-shark-70-bg\", \"blue-curious-blue-bg\"), when vehicle.vehicleDataModel.isPremium -> (when vehicle.status == eVehicleNodeStatus.OWNED -> \"grey-shark-70-bg\", \"orange-meteor-bg\"), when vehicle.status == eVehicleNodeStatus.LOCKED or vehicle.status == eVehicleNodeStatus.CAN_BE_RESEARCHED -> \"white-wild-sand-15-bg\", when vehicle.status == eVehicleNodeStatus.CAN_BE_PURCHASED or vehicle.status == eVehicleNodeStatus.NOT_ENOUGH_MONEY -> \"grey-shark-70-bg\", when vehicle.status == eVehicleNodeStatus.OWNED -> \"grey-shark-70-bg\", \"white-wild-sand-15-bg\""]
+            - ["string", "hoverStyle", "when vehicle.vehicleDataModel.isPremium and vehicle.status != eVehicleNodeStatus.OWNED -> \"black-10-bg\", \"white-wild-sand-5-bg\""]
+            - ["eVehicleDescriptionType", "descrType", "when vehicle.vehicleDataModel.isPremium == true -> eVehicleDescriptionType.PREMIUM, when vehicle.vehicleDataModel.isCollectible == true -> eVehicleDescriptionType.COLLECTIBLE, when vehicle.tankStatsModel.isPremiumized == true -> eVehicleDescriptionType.PREMIUMISED, eVehicleDescriptionType.NORMAL"]
+            - ["string", "tankNameColor", "when vehicle.vehicleDataModel.isPremium and vehicle.status == eVehicleNodeStatus.OWNED or vehicle.tankStatsModel.isPremiumized -> \"yellow-lightning-text\", when vehicle.vehicleDataModel.isCollectible and vehicle.status == eVehicleNodeStatus.OWNED -> \"blue-rimmi-text\", \"white-wild-sand-text\""]
+            - ["bool", "showDiscount", "not hideDiscount and (not hideClanDiscount or price.discount.reason != eDiscountReason.CLAN_SUPPLY)"]
+        UIChildComponent0:
+            condition: "requestFocus"
+            prototypePath: "~res:/UI/Screens3/Lobby/TanksTechTree/FocusedTank.yaml"
+        UIIdentifierComponent:
+            id: "tank_node"
+            params:
+            - ["string", "type", "str(int(descrType), eVehicleDescriptionType)"]
+            - ["int", "price", "int(price.quantity)"]
+            - ["string", "nation", "toLowerCaseNotForLocalizedText(str(int(vehicle.vehicleDataModel.nation), eNation))"]
+            - ["int", "level", "vehicle.vehicleDataModel.level"]
+            - ["string", "status", "str(int(vehicle.status), eVehicleNodeStatus)"]
+            - ["bool", "is_elite", "vehicle.tankStatsModel.isElite"]
+            - ["bool", "is_premiumized", "vehicle.tankStatsModel.isPremiumized"]
+    bindings:
+    - ["input", "clickable or focusable"]
+    - ["classes", "\"tank-node \" + soundStyle"]
+    - ["Focus.state", "when focusable -> eFocusState.GamepadOnly, eFocusState.Disabled"]
+    - ["Focus.requestFocus", "requestFocus"]
+    - ["UISwitchBarElementComponent.id", "id"]
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        position: [88.000000, 32.000000]
+        pivot: [0.500000, 0.500000]
+        input: false
+        classes: "content-area"
+        components:
+            UIOpacityComponent: {}
+            Anchor:
+                enabled: true
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                bottomAnchorEnabled: true
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Lobby/ModulesTree/TankNode.style.yaml"
+        children:
+        -   class: "UIControl"
+            name: "Background"
+            input: false
+            components:
+                Background: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["classes", "bgColorStyle"]
+        -   class: "UIControl"
+            name: "FlagHolder"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                UIChildComponent0:
+                    childType: "kControl"
+                    condition: "vehicle.status == eVehicleNodeStatus.OWNED"
+                    control: "NationFlag"
+        -   class: "UIControl"
+            name: "TankBackgroundHolder"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                UIChildComponent0:
+                    childType: "kControl"
+                    condition: "vehicle.status == eVehicleNodeStatus.OWNED"
+                    control: "TankBackground"
+        -   class: "UIControl"
+            name: "Hover"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Background: {}
+                UIOpacityComponent: {}
+                Anchor:
+                    leftAnchorEnabled: true
+                    rightAnchorEnabled: true
+                    topAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Lobby/ModulesTree/TankNode.style.yaml"
+            bindings:
+            - ["classes", "\"hover \" + hoverStyle"]
+        -   class: "UIControl"
+            name: "TankIcon"
+            position: [39.500000, 8.000000]
+            size: [97.000000, 60.000000]
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                    perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    topAnchorEnabled: true
+                    bottomAnchorEnabled: true
+            bindings:
+            - ["Background.sprite", "vehicle.vehicleDataModel.bigIconPath"]
+        -   class: "UIControl"
+            name: "Focus"
+            size: [97.000000, 48.000000]
+            input: false
+            classes: "focus"
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    rightAnchorEnabled: true
+                    topAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Selection.yaml"
+        -   prototype: "Selection/Selection"
+            name: "Selection"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "isVisible": "isSelected"
+        -   class: "UIControl"
+            name: "BottomWrapper"
+            position: [0.000000, 48.000000]
+            input: false
+            components:
+                Anchor:
+                    bottomAnchorEnabled: true
+                LinearLayout:
+                    padding: "4"
+                    spacing: 8.000000
+                    dynamicSpacing: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 24.000000
+            children:
+            -   class: "UIControl"
+                name: "NameWrapper"
+                input: false
+                components:
+                    LinearLayout:
+                        spacing: 2.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   class: "UIControl"
+                    name: "PremializedIcon"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    classes: "yellow-lightning-bg"
+                    components:
+                        Background:
+                            drawType: "DRAW_ALIGNED"
+                            sprite: "~res:/Gfx/Lobby/icons/icon_timer"
+                            perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 20.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 24.000000
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["visible", "vehicle.tankStatsModel.premiumizationEnd > 0L"]
+                -   class: "UIControl"
+                    name: "TankName"
+                    input: false
+                    components:
+                        UITextComponent:
+                            colorInheritType: "COLOR_IGNORE_PARENT"
+                            fitting: "FITTING_POINTS"
+                            align: ["LEFT", "VCENTER"]
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "Formula"
+                            horizontalFormula: "min(parentRest, content)"
+                            verticalPolicy: "PercentOfContent"
+                        UIIdentifierComponent:
+                            id: "tank_name"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["classes", "\"t-caption bold \" + tankNameColor"]
+                    - ["UITextComponent.text", "localize(vehicle.vehicleDataModel.shortName)"]
+            -   class: "UIControl"
+                name: "PriceContainer"
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfFirstChild"
+                        verticalPolicy: "PercentOfFirstChild"
+                    UIChildComponent0:
+                        condition: "vehicle.status != eVehicleNodeStatus.OWNED"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Currency.yaml"
+                        args:
+                            "forceFullValue": "false"
+                            "resource": "price"
+                            "plusVisible": "false"
+                            "serverTime": "0L"
+                            "isPlusTopPaneVisible": "false"
+                            "canAfford": "true"
+                            "forButton": "false"
+                            "currencySize": "eCurrencySize.SMALL"
+        -   prototype: "CheckMark/CheckMark"
+            name: "CheckMark"
+            position: [160.000000, 56.000000]
+            size: [24.000000, 24.000000]
+            components:
+                Anchor:
+                    rightAnchorEnabled: true
+                    rightAnchor: -8.000000
+                    bottomAnchorEnabled: true
+                    bottomAnchor: -8.000000
+                UIDataParamsComponent:
+                    args:
+                        "isVisible": "vehicle.status == eVehicleNodeStatus.OWNED"
+        -   class: "UIControl"
+            name: "XpAndDiscount"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    rightAnchorEnabled: true
+                    topAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   class: "UIControl"
+                name: "Wrapper"
+                position: [-2.000000, -8.000000]
+                size: [186.000000, 32.000000]
+                input: false
+                components:
+                    Anchor:
+                        rightAnchorEnabled: true
+                        topAnchorEnabled: true
+                        topAnchor: -8.000000
+                    LinearLayout:
+                        orientation: "TopDown"
+                        spacing: 1.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                children:
+                -   class: "UIControl"
+                    name: "Discount"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            rightAnchorEnabled: true
+                            rightAnchor: -8.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfFirstChild"
+                            verticalPolicy: "PercentOfFirstChild"
+                        UIChildComponent0:
+                            childType: "kOldExpression"
+                            condition: "tankDiscountVisible"
+                            control: "\"~res:/UI/Screens3/Common/DiscountLabel.yaml\""
+                            args:
+                                "discount": "price.discount.value"
+                    bindings:
+                    - ["visible", "tankDiscountVisible"]
+                -   class: "UIControl"
+                    name: "Spacer"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        SizePolicy:
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 11.000000
+                    bindings:
+                    - ["visible", "not tankDiscountVisible"]
+                -   class: "UIControl"
+                    name: "XpContainer"
+                    position: [0.000000, 12.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            rightAnchorEnabled: true
+                            rightAnchor: 4.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfFirstChild"
+                            verticalPolicy: "PercentOfFirstChild"
+                        UIChildComponent0:
+                            condition: "vehicle.xp.quantity > 0"
+                            prototypePath: "~res:/UI/Screens3/Lobby/ModulesTree/TankXpSmall.yaml"
+                            args:
+                                "resource": "vehicle.xp"
+                                "isElite": "vehicle.tankStatsModel.isElite"
+                    bindings:
+                    - ["visible", "vehicle.status == eVehicleNodeStatus.OWNED or vehicle.xp.quantity > 0"]
+        -   prototype: "VehicleInfo/VehicleInfo"
+            name: "VehicleInfo"
+            position: [0.000000, 2.000000]
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    leftAnchor: 4.000000
+                    topAnchorEnabled: true
+                    topAnchor: 2.000000
+                UIDataParamsComponent:
+                    args:
+                        "class": "vehicle.vehicleDataModel.tankClass"
+                        "level": "vehicle.vehicleDataModel.level"
+                        "type": "descrType"
+                        "elite": "vehicle.tankStatsModel.isElite"
+Slots:
+-   class: "UIControl"
+    name: "NationFlag"
+    size: [176.000000, 64.000000]
+    input: false
+    components:
+        UITextureComponent:
+            materialPath: "~res:/Materials.custom/2d.Textured.Saturation.material"
+            materialParams: "saturation,25"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    bindings:
+    - ["visible", "not vehicle.vehicleDataModel.isCustomBackgroundImage"]
+    - ["UITextureComponent.spritePath", "\"~res:/Gfx/Lobby/flags/flag_tank-node_\" + nationFlag"]
+-   class: "UIControl"
+    name: "TankBackground"
+    size: [176.000000, 64.000000]
+    input: false
+    components:
+        UITextureComponent: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    bindings:
+    - ["visible", "vehicle.vehicleDataModel.isCustomBackgroundImage"]
+    - ["UITextureComponent.spritePath", "vehicle.vehicleDataModel.statisticBackgroundImagePath"]

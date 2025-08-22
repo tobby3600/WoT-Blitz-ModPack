@@ -2,6 +2,7 @@ Header:
     version: 152
 ImportedPackages:
 - "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ClanSupplyClanContent"
@@ -158,30 +159,6 @@ Prototypes:
                     name: "ProgressInfo"
                     input: false
                     components:
-                        Background:
-                            usePostProcessedSprite: true
-                        UIPostProcessTextureComponent0:
-                            materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                            needClearAlphaAfterRender: true
-                            needDepth: true
-                            scale: 0.500000
-                            useVirtualCoordinateSystem: true
-                            minFilter: "Linear"
-                            magFilter: "Linear"
-                        UIPostProcessTextureComponent1:
-                            materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                            scale: 0.500000
-                            useVirtualCoordinateSystem: true
-                            minFilter: "Linear"
-                            magFilter: "Linear"
-                        UIPostProcessTextureComponent2:
-                            materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                            scale: 0.500000
-                            useVirtualCoordinateSystem: true
-                            minFilter: "Linear"
-                            magFilter: "Linear"
-                        UIRoundedCornersComponent:
-                            radius: "0;0;4;4"
                         Anchor:
                             hCenterAnchorEnabled: true
                         LinearLayout:
@@ -192,6 +169,12 @@ Prototypes:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfChildrenSum"
                     children:
+                    -   prototype: "BlurModified/BlurModified"
+                        name: "Blur"
+                        components:
+                            UIDataParamsComponent:
+                                args:
+                                    "roundCorner": "\"0;0;4;4\""
                     -   class: "UIControl"
                         name: "Fade"
                         input: false
@@ -355,30 +338,6 @@ Prototypes:
                             name: "RightPart"
                             input: false
                             components:
-                                Background:
-                                    usePostProcessedSprite: true
-                                UIPostProcessTextureComponent0:
-                                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                                    needClearAlphaAfterRender: true
-                                    needDepth: true
-                                    scale: 0.500000
-                                    useVirtualCoordinateSystem: true
-                                    minFilter: "Linear"
-                                    magFilter: "Linear"
-                                UIPostProcessTextureComponent1:
-                                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                                    scale: 0.500000
-                                    useVirtualCoordinateSystem: true
-                                    minFilter: "Linear"
-                                    magFilter: "Linear"
-                                UIPostProcessTextureComponent2:
-                                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                                    scale: 0.500000
-                                    useVirtualCoordinateSystem: true
-                                    minFilter: "Linear"
-                                    magFilter: "Linear"
-                                UIRoundedCornersComponent:
-                                    radius: "8"
                                 Anchor:
                                     bottomAnchorEnabled: true
                                 LinearLayout:
@@ -471,37 +430,13 @@ Prototypes:
                     rightAnchor: -4.000000
                     topAnchorEnabled: true
                     bottomAnchorEnabled: true
-                ScrollBarDelegate:
+                UIScrollBarComponent:
                     delegate: "../ScrollArea"
 Slots:
 -   class: "UIControl"
     name: "NotAvailableWrapper"
     input: false
     components:
-        Background:
-            usePostProcessedSprite: true
-        UIPostProcessTextureComponent0:
-            materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-            needClearAlphaAfterRender: true
-            needDepth: true
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent1:
-            materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent2:
-            materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIRoundedCornersComponent:
-            radius: "4"
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
             verticalPolicy: "PercentOfParent"
@@ -555,30 +490,6 @@ Slots:
             input: false
             classes: "t-body regular white-wild-sand-50-text"
             components:
-                Background:
-                    usePostProcessedSprite: true
-                UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                    needClearAlphaAfterRender: true
-                    needDepth: true
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent1:
-                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent2:
-                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIRoundedCornersComponent:
-                    radius: "4"
                 UITextComponent: {}
                 SizePolicy:
                     horizontalPolicy: "FixedSize"
@@ -604,30 +515,6 @@ Slots:
                 input: false
                 classes: "t-body regular white-wild-sand-50-text"
                 components:
-                    Background:
-                        usePostProcessedSprite: true
-                    UIPostProcessTextureComponent0:
-                        materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                        needClearAlphaAfterRender: true
-                        needDepth: true
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent1:
-                        materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent2:
-                        materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIRoundedCornersComponent:
-                        radius: "4"
                     UITextComponent: {}
                     SizePolicy:
                         horizontalPolicy: "FixedSize"
@@ -642,30 +529,6 @@ Slots:
                 input: false
                 classes: "t-body regular white-wild-sand-50-text"
                 components:
-                    Background:
-                        usePostProcessedSprite: true
-                    UIPostProcessTextureComponent0:
-                        materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                        needClearAlphaAfterRender: true
-                        needDepth: true
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent1:
-                        materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent2:
-                        materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIRoundedCornersComponent:
-                        radius: "4"
                     UITextComponent: {}
                     SizePolicy:
                         horizontalPolicy: "FixedSize"

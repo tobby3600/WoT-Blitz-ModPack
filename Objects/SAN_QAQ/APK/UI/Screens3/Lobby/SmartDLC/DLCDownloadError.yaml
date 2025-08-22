@@ -1,5 +1,5 @@
 Header:
-    version: "83"
+    version: 83
 ImportedPackages:
 - "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
@@ -64,7 +64,6 @@ Prototypes:
                 size: [300.000000, 58.000000]
                 input: false
                 components:
-                    Background: {}
                     UIOpacityComponent: {}
                     SizePolicy:
                         horizontalPolicy: "PercentOfParent"

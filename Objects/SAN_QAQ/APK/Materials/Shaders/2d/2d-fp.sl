@@ -69,8 +69,8 @@ fragment_out fp_main(fragment_in input)
 	#endif
 
 	#if GRAYSCALE
-		float lum = dot(output.color.rgb, lumCof);
-		output.color.rgb = float3(lum, lum, lum);
+		output.color.r = getLum(output.color.rgb);
+		output.color.rgb = output.color.rrr;
 	#endif
 
 	return output;

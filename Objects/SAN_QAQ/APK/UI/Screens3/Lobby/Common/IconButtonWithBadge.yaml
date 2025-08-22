@@ -16,9 +16,8 @@ Prototypes:
             onTouchUpInside: "ON_CLICK_BUTTON"
         UIDataParamsComponent:
             params:
-            - ["float", "blurOpacity", "1.000000", "1.000000"]
             - ["bool", "locked", "false", "false"]
-            - ["bool", "isBgVisible", "true", "true"]
+            - ["bool", "isBlur", "true", "true"]
             - ["bool", "visible", "true", "true"]
             - ["string", "image", "\"\"", "\"~res:/Gfx/UI/Training/icon_refresh.psd\""]
             - ["eButtonType", "type", "eButtonType.OPTIONAL_LIGHT", "eButtonType.OPTIONAL_LIGHT"]
@@ -26,6 +25,7 @@ Prototypes:
             - ["bool", "enabled", "true", "true"]
             - ["eBadgeType", "badgeType", "eBadgeType.Digit", "eBadgeType.Digit"]
             - ["string", "badgeValue", "\"\"", "\"44\""]
+            - ["string", "bgStyle", "\"\"", "\"\""]
             events:
             - "ON_CLICK_BUTTON"
         UIDataLocalBindingsComponent:
@@ -33,7 +33,7 @@ Prototypes:
             - ["string", "hoverStyle", "(when isBgVisible -> \"button-fade \", \"button-fade-non-hide \") + (when type == eButtonType.OPTIONAL_DARK or type == eButtonType.SCENE -> \"black-10-bg\", \"white-wild-sand-10-bg\")"]
             - ["eButtonSound", "soundType", "when sound != eButtonSound.UNKNOWN -> sound, type == eButtonType.POSITIVE or type == eButtonType.NO_BG or type == eButtonType.NO_BG_WHITE -> eButtonSound.OPEN, type == eButtonType.ALTERNATIVE -> eButtonSound.OK, type == eButtonType.ALTERNATIVE -> eButtonSound.OK, type == eButtonType.NEGATIVE -> eButtonSound.SELL, eButtonSound.CANCEL"]
             - ["string", "soundStyle", "when soundType == eButtonSound.OPEN -> \"button-open-sound\", soundType == eButtonSound.OK -> \"button-ok-sound\", soundType == eButtonSound.CANCEL -> \"button-cancel-sound\", soundType == eButtonSound.SELL -> \"button-sell-sound\", soundType == eButtonSound.BUY -> \"button-buy-sound\", soundType == eButtonSound.CHOOSE -> \"button-choose-sound\", soundType == eButtonSound.CHECKBOX -> \"button-checkbox-sound\", soundType == eButtonSound.CLOSE -> \"button-close-sound\", \"\""]
-            - ["string", "bgStyle", "when type == eButtonType.OPTIONAL_LIGHT -> \"white-wild-sand-15-bg\", type == eButtonType.OPTIONAL_DARK -> \"black-25-bg\", \"\""]
+            - ["string", "maskStyle", "when type == eButtonType.OPTIONAL_LIGHT -> \"white-wild-sand-15-bg\", type == eButtonType.OPTIONAL_DARK -> \"black-25-bg\", \"\""]
         Sound: {}
         StyleSheet:
             styles: "~res:/UI/Screens3/ButtonSound.style.yaml"
@@ -75,23 +75,13 @@ Prototypes:
                     topAnchorEnabled: true
                     bottomAnchorEnabled: true
             children:
-            -   class: "UIControl"
+            -   prototype: "BlurModified/BlurModified"
                 name: "Background"
-                input: false
                 components:
-                    IgnoreLayout: {}
-                    SizePolicy:
-                        horizontalPolicy: "PercentOfParent"
-                        verticalPolicy: "PercentOfParent"
-                        verticalFormula: "safeAreaInsets.left"
-                children:
-                -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
-                    components:
-                        UIDataParamsComponent:
-                            args:
-                                "bgStyle": "bgStyle"
-                                "blurOpacity": "blurOpacity"
+                    UIDataParamsComponent:
+                        args:
+                            "isBlur": "isBlur"
+                            "bgStyle": "when isBlur -> bgStyle, maskStyle"
             -   class: "UIControl"
                 name: "Fade"
                 input: false
@@ -108,6 +98,7 @@ Prototypes:
                     StyleSheet:
                         styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Lobby/Common/Button.style.yaml"
                 bindings:
+                - ["visible", "not isBlur"]
                 - ["classes", "hoverStyle"]
             -   class: "UIControl"
                 name: "Icon"

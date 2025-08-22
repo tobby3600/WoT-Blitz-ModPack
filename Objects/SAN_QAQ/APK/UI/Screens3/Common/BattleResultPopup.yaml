@@ -67,14 +67,10 @@ Prototypes:
                     drawType: "DRAW_SCALE_TO_RECT"
                 UIOpacityComponent: {}
                 UIPostProcessTextureComponent0:
-                    scale: 0.250000
-                    needDepth: true
                     renderRequestingType: "ON_SIZE_CHANGED"
                 UIPostProcessTextureComponent1:
-                    scale: 0.250000
                     renderRequestingType: "ON_SIZE_CHANGED"
                 UIPostProcessTextureComponent2:
-                    scale: 0.250000
                     renderRequestingType: "ON_SIZE_CHANGED"
                 Anchor:
                     hCenterAnchorEnabled: true

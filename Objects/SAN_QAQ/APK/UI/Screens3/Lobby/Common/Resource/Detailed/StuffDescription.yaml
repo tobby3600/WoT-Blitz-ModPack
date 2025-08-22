@@ -1,0 +1,1900 @@
+Header:
+    version: 161
+Prototypes:
+-   class: "UIControl"
+    name: "StuffDescription"
+    size: [340.000000, 1145.500000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfFirstChild"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "showLifetimeFromStuff", "false", "false"]
+            - ["bool", "hideContains", "false", "false"]
+            - ["bool", "hideCombine", "false", "false"]
+            - ["bool", "hideQuantity", "false", "false"]
+            - ["bool", "isIconLeft", "false", "false"]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["LobbyDataModel", "lobby", "null", "{ }"]
+            - ["StuffResourceWithDescription", "resource", "null", "{ \"questInfo\" = { \"filter\" = { \"gameplayTypes\" = [ eArenaGameplayType.supremacy; ]; \"gamemodeTypes\" = [ eGameMode.Regular; eGameMode.BossMode; eGameMode.Rating; eGameMode.Arcade; eGameMode.HellGames; eGameMode.Lunar; eGameMode.NanoMaps; eGameMode.Vampiric; eGameMode.TenVsTen; ]; \"vehicleNations\" = [ eNation.USA; eNation.USSR; eNation.FRANCE; eNation.JAPAN; ]; \"vehicleTypes\" = [ eTankClass.TANK_CLASS_MEDIUM; eTankClass.TANK_CLASS_HEAVY; eTankClass.TANK_CLASS_AT_SPG; ]; \"vehicles\" = [ { \"shortName\" = \"#usa_vehicles:T110_Custom\"; }; { \"shortName\" = \"#usa_vehicles:T110_Custom\"; }; { \"shortName\" = \"#japan_vehicles:ST_B1_Custom\"; }; { \"shortName\" = \"#france_vehicles:AMX_50_68t_Custom\"; }; { \"shortName\" = \"#france_vehicles:F68_AMX_Chasseur_de_char_46\"; }; { \"shortName\" = \"#france_vehicles:RenaultFT_AC\"; }; { \"shortName\" = \"#usa_vehicles:A100_T49_short\"; }; { \"shortName\" = \"#usa_vehicles:_90mm_Gun_T132E3\"; }; { \"shortName\" = \"#usa_vehicles:Chassis_A100_T49_2\"; }; { \"shortName\" = \"#france_vehicles:ARL_V39\"; }; { \"shortName\" = \"#usa_vehicles:Turret_1_M6A2E1_exp\"; }; { \"shortName\" = \"#france_vehicles:_90mm_canon_DCA_45_AC\"; }; ]; \"vehicleLevels\" = [ 1; 2; 3; ]; \"isTournament\" = true; }; }; }"]
+            - ["bool", "isInstalled", "false", "false"]
+            - ["bool", "isSuitable", "true", "true"]
+            - ["bool", "isReactionIconNormalSize", "false", "false"]
+        UIDataLocalVarsComponent:
+            data:
+            - ["set<int>", "emptyLevels", "[ ]"]
+            - ["set<eNation>", "emptyNations", "[ ]"]
+            - ["vector<ChestDrop>", "emptyDrop", "[ ]"]
+            - ["vector<ResourceModel>", "emptyResources", "[ ]"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["bool", "isReactions", "not isNull(resource.reactionsPackInfo)"]
+            - ["bool", "isQuest", "not isNull(resource.questInfo)"]
+            - ["bool", "isMultiStageQuest", "isQuest and Size(resource.questInfo.stagesInfo.stages) > 0"]
+            - ["bool", "isMultirewardQuest", "isQuest and Size(resource.questInfo.rewardsList.alternativeRewards) > 0"]
+            - ["bool", "isRTL", "localize(\"LANGUAGE_CODE\") == \"ar\""]
+            - ["bool", "hasCombine", "not isNull(resource.progressInfo) and not isNull(resource.progressInfo.target)"]
+            - ["int", "combineRatio", "max(1, when hasCombine -> resource.progressInfo.maxAmount, 1)"]
+            - ["bool", "canCombine", "resource.stuff.quantity >= combineRatio"]
+            - ["StuffResource", "combineTarget", "when hasCombine -> resource.progressInfo.target, null"]
+            - ["int", "combineProgressNeeded", "when not hasCombine -> 0, when canCombine -> 0, resource.progressInfo.maxAmount - resource.stuff.quantity"]
+            - ["string", "combineLeftText", "when not hasCombine -> \"\", when canCombine -> localize(\"StuffInfo/Combine/Spend\"), localize(\"StuffInfo/Combine/NeedMore\", { \"count\" = combineProgressNeeded; })"]
+            - ["bool", "isChest", "not isNull(resource.chestInfo)"]
+            - ["vector<VehicleResource>", "applyToVehicles", "when not isNull(resource.stuff.coupon) and resource.stuff.coupon.appliesToVehicles.Size() > 0 -> resource.stuff.coupon.appliesToVehicles, null"]
+            - ["VehicleDataModel", "applyToVehicle", "when not isNull(resource.stuff.victoryMultiplier) -> resource.stuff.victoryMultiplier.restriction.vehicle, null"]
+            - ["bool", "isApplyToFeatures", "(not isNull(resource.stuff.victoryMultiplier) and (resource.stuff.victoryMultiplier.restriction.levels.Size() > 0 or resource.stuff.victoryMultiplier.restriction.nations.Size() > 0 or not isNull(resource.stuff.victoryMultiplier.restriction.vehicle))) or (not isNull(resource.stuff.coupon) and (resource.stuff.coupon.appliesToNations.Size() > 0 or resource.stuff.coupon.appliesToLevels.Size() > 0 or resource.stuff.coupon.appliesToVehicles.Size() > 0))"]
+            - ["bool", "isSubscription", "not isNull(resource.subscriptionInfo)"]
+            - ["bool", "isSubscriptionActive", "isSubscription and not isNull(lobby.subscription) and resource.subscriptionInfo.name == lobby.subscription.stuffName"]
+            - ["int", "subscriptionActiveStage", "when isSubscriptionActive -> lobby.subscription.currentStageIndex, 0"]
+            - ["int", "requiredTankRank", "when not isNull(resource) and not isNull(resource.stuff) and not isNull(resource.stuff.coupon) and not resource.stuff.coupon.appliesToUnlocks.Empty() -> resource.stuff.coupon.appliesToUnlocks[0].tankRank, 0"]
+            - ["string", "addtionalInfoText", "when isNull(resource.stuff) or resource.stuff.type != ArtefactType.decoration or isSuitable -> \"\", when isInstalled -> localize(\"storage/Items/Hangar_decoration/Unsuitable_item_info\") + \"\n\" + localize(\"storage/Items/Hangar_decoration/Unsuitable_item_installed\"), localize(\"storage/Items/Hangar_decoration/Unsuitable_item_info\")"]
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+                padding: "8"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+        children:
+        -   class: "UIControl"
+            name: "TitleSection"
+            position: [0.000000, 8.000000]
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
+                UIChildComponent0:
+                    childType: "kControl"
+                    condition: "isIconLeft"
+                    control: "LeftHeader"
+                UIChildComponent1:
+                    childType: "kControl"
+                    condition: "not isIconLeft"
+                    control: "NormalHeader"
+        -   class: "UIControl"
+            name: "TankRank"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
+                UIChildComponent0:
+                    childType: "kControl"
+                    condition: "requiredTankRank > 0"
+                    control: "TankRankWrapper"
+        -   class: "UIControl"
+            name: "InfoSection"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                LinearLayout:
+                    useRtl: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfLastChild"
+                UIChildComponent0:
+                    childType: "kControl"
+                    control: "Descriptions"
+            children:
+            -   class: "UIControl"
+                name: "Spacer"
+                size: [96.000000, 32.000000]
+                input: false
+                bindings:
+                - ["visible", "isIconLeft"]
+        -   class: "UIControl"
+            name: "BottomSpacer"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    bottomAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 32.000000
+Slots:
+-   class: "UIControl"
+    name: "VehicleName"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfChildrenSum"
+        FlowLayout:
+            hSpacing: 6.000000
+            useRtl: true
+    children:
+    -   class: "UIControl"
+        name: "Spacer"
+        size: [8.000000, 8.000000]
+        input: false
+    -   class: "UIControl"
+        name: "Flag"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                condition: "not isNull(applyToVehicle)"
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/TankInfo/NationFlag.yaml"
+                args:
+                    "subnation": "applyToVehicle.subnation"
+                    "nation": "applyToVehicle.nation"
+    -   class: "UIControl"
+        name: "Tier"
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                childType: "kPrototype"
+                condition: "not isNull(applyToVehicle)"
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Vehicle/VehicleInfo.yaml"
+                args:
+                    "class": "applyToVehicle.tankClass"
+                    "level": "applyToVehicle.level"
+                    "type": "when applyToVehicle.isPremium -> eVehicleDescriptionType.PREMIUM, applyToVehicle.isCollectible -> eVehicleDescriptionType.COLLECTIBLE, eVehicleDescriptionType.NORMAL"
+                    "elite": "false"
+    -   class: "UIControl"
+        name: "Name"
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                condition: "not isNull(applyToVehicle)"
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Vehicle/VehicleName.yaml"
+                args:
+                    "textStyle": "\"t-caption bold\""
+                    "isShortName": "true"
+                    "vehicle": "applyToVehicle"
+-   class: "UIControl"
+    name: "VehicleNames"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfChildrenSum"
+        UIRepeatComponent:
+            control: "~res:/UI/Screens3/Lobby/Common/Resource/Detailed/StuffDescriptionTankName.yaml"
+            dataContainer: "applyToVehicles"
+            args:
+                "vehicle": "_item.info"
+-   class: "UIControl"
+    name: "LeftHeader"
+    size: [500.000000, 32.000000]
+    input: false
+    components:
+        LinearLayout:
+            spacing: 16.000000
+            useRtl: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            horizontalMin: 300.000000
+            verticalPolicy: "PercentOfMaxChild"
+    children:
+    -   class: "UIControl"
+        name: "ResourceImage"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 80.000000
+                verticalPolicy: "FixedSize"
+                verticalValue: 97.000000
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Detailed/StuffIcon.yaml"
+                args:
+                    "stuff": "resource.stuff"
+    -   class: "UIControl"
+        name: "RightPart"
+        position: [96.000000, 0.000000]
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+                padding: "16"
+                spacing: 2.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+        children:
+        -   class: "UIControl"
+            name: "GradeAndCounter"
+            input: false
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    useRtl: true
+                LinearLayout:
+                    spacing: 8.000000
+                    useRtl: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "GradeWrapper"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "Formula"
+                        verticalFormula: "min(24, childrenSum)"
+                bindings:
+                - ["visible", "resource.stuff.grade != ArtefactGrade.unknown"]
+                children:
+                -   class: "UIControl"
+                    name: "Grade"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "PercentOfChildrenSum"
+                        UIChildComponent0:
+                            prototypePath: "~res:/UI/Screens3/Lobby/Common/GradesSmall.yaml"
+                            args:
+                                "grade": "resource.stuff.grade"
+            -   class: "UIControl"
+                name: "ItemCount"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfChildrenSum"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/ItemCount.yaml"
+                        args:
+                            "count": "resource.stuff.quantity"
+                            "roundedCorners": "true"
+                bindings:
+                - ["visible", "not (hideQuantity or resource.stuff.quantity <= 1)"]
+        -   class: "UIControl"
+            name: "Spacer1"
+            size: [8.000000, 8.000000]
+            input: false
+            bindings:
+            - ["visible", "resource.stuff.grade != ArtefactGrade.unknown"]
+        -   class: "UIControl"
+            name: "ResourceName"
+            input: false
+            classes: "regular t-subtitle white-wild-sand-text"
+            components:
+                UITextComponent:
+                    multiline: "MULTILINE_ENABLED"
+                    align: ["LEFT", "VCENTER"]
+                    useRtlAlign: "USE_BY_SYSTEM"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "localize(resource.stuff.title)"]
+        -   class: "UIControl"
+            name: "Spacer"
+            size: [16.000000, 16.000000]
+            input: false
+            bindings:
+            - ["visible", "resource.stuff.description != \"\""]
+        -   class: "UIControl"
+            name: "Description"
+            input: false
+            components:
+                RichContent:
+                    baseClasses: "regular t-body white-wild-sand-70-text"
+                RichContentAliases0:
+                    aliases:
+                    - ["text_blue", "<span class=\"t-body regular blue-rimmi-text\" />"]
+                    - ["text_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                    - ["text2_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                Anchor:
+                    leftAnchorEnabled: true
+                    hCenterAnchorEnabled: false
+                    rightAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                    useRtl: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    horizontalMax: 368.000000
+                    verticalPolicy: "PercentOfChildrenSum"
+                FlowLayout:
+                    hDynamicPadding: false
+                    alignment: "Left"
+                    hSpacing: 4.000000
+                    useRtl: true
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["RichContent.text", "localize(resource.stuff.description, { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; \"stage_progress\" = (when not isNull(resource.questInfo) -> str(resource.questInfo.totalProgress), \"\"); })"]
+        -   class: "UIControl"
+            name: "TimeToExecute"
+            input: false
+            components:
+                RichContent:
+                    baseClasses: "regular t-body white-wild-sand-70-text"
+                RichContentAliases0:
+                    aliases:
+                    - ["text_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                    - ["text2_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    horizontalMax: 368.000000
+                    verticalPolicy: "PercentOfChildrenSum"
+                FlowLayout:
+                    hSpacing: 4.000000
+                    useRtl: true
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["visible", "isQuest"]
+            - ["RichContent.text", "when isQuest -> localize(\"storage/Items/StuffQuest/TimeToExecute\", { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; \"time\" = timeDiff(resource.stuff.quest.time); }), \"\""]
+-   class: "UIControl"
+    name: "NormalHeader"
+    size: [500.000000, 97.000000]
+    input: false
+    components:
+        LinearLayout:
+            spacing: 16.000000
+            useRtl: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfMaxChild"
+    children:
+    -   class: "UIControl"
+        name: "ResourceImage"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 80.000000
+                verticalPolicy: "FixedSize"
+                verticalValue: 97.000000
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Detailed/StuffIcon.yaml"
+                args:
+                    "stuff": "resource.stuff"
+    -   class: "UIControl"
+        name: "RightPart"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+                padding: "16"
+                spacing: 2.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+        children:
+        -   class: "UIControl"
+            name: "GradeAndCounter"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    useRtl: true
+                LinearLayout:
+                    spacing: 8.000000
+                    useRtl: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "GradeWrapper"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "Formula"
+                        verticalFormula: "min(childrenSum, 24)"
+                bindings:
+                - ["visible", "resource.stuff.grade != ArtefactGrade.unknown"]
+                children:
+                -   class: "UIControl"
+                    name: "Grade"
+                    input: false
+                    components:
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "PercentOfChildrenSum"
+                        UIChildComponent0:
+                            prototypePath: "~res:/UI/Screens3/Lobby/Common/GradesSmall.yaml"
+                            args:
+                                "grade": "resource.stuff.grade"
+            -   class: "UIControl"
+                name: "ItemCount"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfChildrenSum"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/ItemCount.yaml"
+                        args:
+                            "count": "resource.stuff.quantity"
+                            "roundedCorners": "true"
+                bindings:
+                - ["visible", "not (hideQuantity or resource.stuff.quantity <= 1)"]
+        -   class: "UIControl"
+            name: "Spacer1"
+            size: [8.000000, 8.000000]
+            input: false
+            bindings:
+            - ["visible", "resource.stuff.description != \"\" and resource.stuff.grade != ArtefactGrade.unknown"]
+        -   class: "UIControl"
+            name: "ResourceName"
+            size: [32.000000, 32.000000]
+            input: false
+            classes: "regular t-subtitle white-wild-sand-text"
+            components:
+                UITextComponent:
+                    multiline: "MULTILINE_ENABLED"
+                    align: ["LEFT", "VCENTER"]
+                    useRtlAlign: "USE_BY_SYSTEM"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "localize(resource.stuff.title)"]
+-   class: "UIControl"
+    name: "Descriptions"
+    size: [400.000000, 472.500000]
+    input: false
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+            spacing: 32.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfChildrenSum"
+    children:
+    -   class: "UIControl"
+        name: "AddtionInfoSection"
+        size: [348.000000, 568.000000]
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+        bindings:
+        - ["visible", "addtionalInfoText != \"\""]
+        children:
+        -   class: "UIControl"
+            name: "Info"
+            position: [0.000000, 98.000000]
+            input: false
+            components:
+                RichContent:
+                    baseClasses: "regular t-body"
+                RichContentAliases0:
+                    aliases:
+                    - ["red_text", "<span class=\"t-body regular red-red-text\" />"]
+                    - ["text_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                    - ["text2_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                Anchor:
+                    leftAnchorEnabled: true
+                    hCenterAnchorEnabled: false
+                    rightAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                    useRtl: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    horizontalMax: 368.000000
+                    verticalPolicy: "PercentOfChildrenSum"
+                FlowLayout:
+                    hDynamicPadding: false
+                    alignment: "Left"
+                    hSpacing: 4.000000
+                    useRtl: true
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["RichContent.text", "localize(addtionalInfoText, { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; })"]
+    -   class: "UIControl"
+        name: "MainDescriptionSection"
+        size: [348.000000, 568.000000]
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+        bindings:
+        - ["visible", "not isIconLeft and resource.stuff.description != \"\""]
+        children:
+        -   class: "UIControl"
+            name: "Title"
+            size: [32.000000, 32.000000]
+            visible: false
+            input: false
+            classes: "bold t-caps white-wild-sand-text"
+            components:
+                UITextComponent:
+                    multiline: "MULTILINE_ENABLED"
+                    align: ["LEFT", "VCENTER"]
+                    useRtlAlign: "USE_BY_SYSTEM"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "capitalize(localize(\"storage/Items/Description\"))"]
+        -   class: "UIControl"
+            name: "Description"
+            position: [0.000000, 98.000000]
+            input: false
+            components:
+                RichContent:
+                    baseClasses: "regular t-body white-wild-sand-70-text"
+                RichContentAliases0:
+                    aliases:
+                    - ["text_blue", "<span class=\"t-body regular blue-rimmi-text\" />"]
+                    - ["text_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                    - ["text2_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                Anchor:
+                    leftAnchorEnabled: true
+                    hCenterAnchorEnabled: false
+                    rightAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                    useRtl: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    horizontalMax: 368.000000
+                    verticalPolicy: "PercentOfChildrenSum"
+                FlowLayout:
+                    hDynamicPadding: false
+                    alignment: "Left"
+                    hSpacing: 4.000000
+                    useRtl: true
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["RichContent.text", "localize(resource.stuff.description, { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; \"stage_progress\" = (when not isNull(resource.questInfo) -> str(resource.questInfo.totalProgress), \"\"); })"]
+        -   class: "UIControl"
+            name: "ParamsContainer"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                LinearLayout:
+                    orientation: "TopDown"
+                    padding: "12"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfFirstChild"
+            bindings:
+            - ["visible", "isQuest"]
+            children:
+            -   class: "UIControl"
+                name: "Params"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfFirstChild"
+                    UIChildComponent0:
+                        condition: "isQuest"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Detailed/StuffQuestParams.yaml"
+                        args:
+                            "filter": "resource.questInfo.filter"
+        -   class: "UIControl"
+            name: "TimeToExecute"
+            input: false
+            components:
+                RichContent:
+                    baseClasses: "regular t-body white-wild-sand-70-text"
+                RichContentAliases0:
+                    aliases:
+                    - ["text_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                    - ["text2_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    horizontalMax: 368.000000
+                    verticalPolicy: "PercentOfChildrenSum"
+                FlowLayout:
+                    hSpacing: 4.000000
+                    useRtl: true
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["visible", "isQuest"]
+            - ["RichContent.text", "when isQuest -> localize(\"storage/Items/StuffQuest/TimeToExecute\", { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; \"time\" = timeDiff(resource.stuff.quest.time); }), \"\""]
+    -   class: "UIControl"
+        name: "StuffQuestSubtitle"
+        size: [348.000000, 568.000000]
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+        bindings:
+        - ["visible", "not isNull(resource.questInfo) and resource.questInfo.subtitle != \"\""]
+        children:
+        -   class: "UIControl"
+            name: "Title"
+            size: [32.000000, 32.000000]
+            input: false
+            classes: "bold t-caps white-wild-sand-text"
+            components:
+                UITextComponent:
+                    multiline: "MULTILINE_ENABLED"
+                    align: ["LEFT", "VCENTER"]
+                    useRtlAlign: "USE_BY_SYSTEM"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "capitalize(localize(\"storage/Items/Description\"))"]
+        -   class: "UIControl"
+            name: "Description"
+            position: [0.000000, 98.000000]
+            input: false
+            components:
+                RichContent:
+                    baseClasses: "regular t-body white-wild-sand-70-text"
+                RichContentAliases0:
+                    aliases:
+                    - ["text_blue", "<span class=\"t-body regular blue-rimmi-text\" />"]
+                    - ["text_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                    - ["text2_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                Anchor:
+                    leftAnchorEnabled: true
+                    hCenterAnchorEnabled: false
+                    rightAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                    useRtl: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    horizontalMax: 368.000000
+                    verticalPolicy: "PercentOfChildrenSum"
+                FlowLayout:
+                    hDynamicPadding: false
+                    alignment: "Left"
+                    hSpacing: 4.000000
+                    useRtl: true
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["RichContent.text", "localize((when not isNull(resource.questInfo) and resource.questInfo.subtitle != \"\" -> resource.questInfo.subtitle, \"\"), { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; })"]
+    -   class: "UIControl"
+        name: "ProgressSection"
+        size: [348.000000, 568.000000]
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+        bindings:
+        - ["visible", "not isNull(resource.progressInfo) and not hasCombine"]
+        children:
+        -   class: "UIControl"
+            name: "TitleSection"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                LinearLayout:
+                    spacing: 10.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "Title"
+                size: [32.000000, 32.000000]
+                input: false
+                classes: "bold t-caps white-wild-sand-text"
+                components:
+                    UITextComponent:
+                        multiline: "MULTILINE_ENABLED"
+                        align: ["LEFT", "VCENTER"]
+                        useRtlAlign: "USE_BY_SYSTEM"
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "capitalize(localize(\"storage/Items/Amount\"))"]
+            -   class: "UIControl"
+                name: "ItemCount"
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "Formula"
+                        horizontalFormula: "when lastChild + 8 < 24 -> 24, lastChild + 8"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 24.000000
+                children:
+                -   class: "UIControl"
+                    name: "Background"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    classes: "gray-cape-cod-bg"
+                    components:
+                        Background: {}
+                        UIRoundedCornersComponent:
+                            radius: "3"
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                -   class: "UIControl"
+                    name: "Count"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    classes: "white-wild-sand-text bold t-overline"
+                    components:
+                        UITextComponent: {}
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfParent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["UITextComponent.text", "when not isNull(resource.progressInfo) -> str(resource.stuff.quantity) + \" / \" + str(resource.progressInfo.maxAmount), \"\""]
+        -   class: "UIControl"
+            name: "ProgressBar"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 4.000000
+                UIChildComponent0:
+                    condition: "not isNull(resource.progressInfo)"
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/ProgressBar.yaml"
+                    args:
+                        "maximum": "when not isNull(resource.progressInfo) -> resource.progressInfo.maxAmount, 0"
+                        "value": "when not isNull(resource.progressInfo) -> min(resource.progressInfo.maxAmount, resource.stuff.quantity), 0"
+                        "isBlur": "false"
+    -   class: "UIControl"
+        name: "CombineSection"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+        bindings:
+        - ["visible", "hasCombine and not hideCombine"]
+        children:
+        -   class: "UIControl"
+            name: "Title"
+            size: [32.000000, 32.000000]
+            input: false
+            classes: "bold t-caps white-wild-sand-text"
+            components:
+                UITextComponent:
+                    multiline: "MULTILINE_ENABLED"
+                    useRtlAlign: "USE_BY_SYSTEM"
+                Anchor:
+                    leftAnchorEnabled: true
+                    useRtl: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "capitalize(localize(\"storage/Items/Combining\"))"]
+        -   class: "UIControl"
+            name: "Content"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                LinearLayout:
+                    spacing: 60.000000
+                    useRtl: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "LeftPart"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "WrittenAcquired"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        LinearLayout:
+                            spacing: 32.000000
+                            useRtl: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfMaxChild"
+                    children:
+                    -   class: "UIControl"
+                        name: "WrittenOff"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                bottomAnchorEnabled: true
+                            LinearLayout:
+                                orientation: "TopDown"
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfLastChild"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        children:
+                        -   class: "UIControl"
+                            name: "WrittenOffTitle"
+                            input: false
+                            components:
+                                ClipContent: {}
+                                RichContent:
+                                    baseClasses: "regular t-caption white-wild-sand-70-text"
+                                RichContentAliases0:
+                                    aliases:
+                                    - ["text_blue", "<span class=\"t-caption regular blue-rimmi-text\" />"]
+                                    - ["text_white_bold", "<span class=\"bold t-caption white-wild-sand-text\" />"]
+                                    - ["text2_white_bold", "<span class=\"bold t-caption white-wild-sand-text\" />"]
+                                    - ["text_red_bold", "<span class=\"bold t-caption red-red-text\" />"]
+                                Anchor:
+                                    enabled: true
+                                    leftAnchorEnabled: true
+                                    hCenterAnchorEnabled: false
+                                    rightAnchorEnabled: false
+                                    vCenterAnchorEnabled: true
+                                    useRtl: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 160.000000
+                                    verticalPolicy: "PercentOfMaxChild"
+                                FlowLayout:
+                                    hDynamicPadding: false
+                                    alignment: "Left"
+                                    hSpacing: 4.000000
+                                    useRtl: true
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                            bindings:
+                            - ["RichContent.text", "localize(combineLeftText, { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; })"]
+                        -   class: "UIControl"
+                            name: "ImageAndCounterWrapper"
+                            position: [0.000000, 20.000000]
+                            size: [32.000000, 32.000000]
+                            input: false
+                            components:
+                                LinearLayout:
+                                    spacing: 8.000000
+                                    useRtl: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfChildrenSum"
+                                    verticalPolicy: "PercentOfMaxChild"
+                            children:
+                            -   class: "UIControl"
+                                name: "ItemCount"
+                                size: [32.000000, 32.000000]
+                                input: false
+                                components:
+                                    Anchor:
+                                        vCenterAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfChildrenSum"
+                                        verticalPolicy: "PercentOfChildrenSum"
+                                    UIChildComponent0:
+                                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/ItemCount.yaml"
+                                        args:
+                                            "count": "when canCombine -> resource.stuff.quantity / combineRatio * combineRatio, resource.stuff.quantity"
+                                            "roundedCorners": "true"
+                            -   class: "UIControl"
+                                name: "ResourceImage"
+                                size: [32.000000, 32.000000]
+                                input: false
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 40.000000
+                                        verticalPolicy: "FixedSize"
+                                        verticalValue: 48.500000
+                                    UIChildComponent0:
+                                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Detailed/StuffIcon.yaml"
+                                        args:
+                                            "stuff": "resource.stuff"
+                    -   class: "UIControl"
+                        name: "Arrow"
+                        position: [72.000000, 18.000000]
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                                vCenterAnchor: 10.000000
+                        children:
+                        -   class: "UIControl"
+                            name: "IconLeft"
+                            pivot: [0.500000, 0.500000]
+                            angle: 180.000000
+                            input: false
+                            classes: "content white-wild-sand-50-bg"
+                            components:
+                                Background:
+                                    drawType: "DRAW_SCALE_PROPORTIONAL"
+                                    sprite: "~res:/Gfx/Lobby/icons/icon_arrow-back"
+                                UIOpacityComponent: {}
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 24.000000
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 24.000000
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Lobby/Common/BackButton.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                            bindings:
+                            - ["visible", "not isRTL"]
+                        -   class: "UIControl"
+                            name: "IconRight"
+                            pivot: [0.500000, 0.500000]
+                            angle: 180.000000
+                            input: false
+                            classes: "content white-wild-sand-50-bg"
+                            components:
+                                Background:
+                                    drawType: "DRAW_SCALE_PROPORTIONAL"
+                                    sprite: "~res:/Gfx/Lobby/icons/icon_arrow-back"
+                                    spriteModification: ["FLIP_HORIZONTAL"]
+                                UIOpacityComponent: {}
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 24.000000
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 24.000000
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Lobby/Common/BackButton.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                            bindings:
+                            - ["visible", "isRTL"]
+                    -   class: "UIControl"
+                        name: "Acquired"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                bottomAnchorEnabled: true
+                            LinearLayout:
+                                orientation: "TopDown"
+                                useRtl: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfLastChild"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        children:
+                        -   class: "UIControl"
+                            name: "AcquiredTitle"
+                            size: [32.000000, 32.000000]
+                            input: false
+                            classes: "regular t-overline white-wild-sand-70-text"
+                            components:
+                                UITextComponent:
+                                    text: "StuffInfo/Combine/Get"
+                                    multiline: "MULTILINE_ENABLED"
+                                Anchor:
+                                    leftAnchorEnabled: true
+                                    useRtl: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+                        -   class: "UIControl"
+                            name: "ImageAndCounterWrapper"
+                            position: [0.000000, 20.000000]
+                            size: [32.000000, 32.000000]
+                            input: false
+                            components:
+                                LinearLayout:
+                                    spacing: 8.000000
+                                    useRtl: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfChildrenSum"
+                                    verticalPolicy: "PercentOfMaxChild"
+                            children:
+                            -   class: "UIControl"
+                                name: "ItemCount"
+                                size: [32.000000, 32.000000]
+                                input: false
+                                components:
+                                    Anchor:
+                                        vCenterAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfChildrenSum"
+                                        verticalPolicy: "PercentOfChildrenSum"
+                                    UIChildComponent0:
+                                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/ItemCount.yaml"
+                                        args:
+                                            "count": "when canCombine -> resource.stuff.quantity / combineRatio, 1"
+                                            "roundedCorners": "true"
+                            -   class: "UIControl"
+                                name: "ResourceImage"
+                                size: [32.000000, 32.000000]
+                                input: false
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 40.000000
+                                        verticalPolicy: "FixedSize"
+                                        verticalValue: 48.500000
+                                    UIChildComponent0:
+                                        condition: "hasCombine"
+                                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Detailed/StuffIcon.yaml"
+                                        args:
+                                            "stuff": "combineTarget"
+                -   class: "UIControl"
+                    name: "CombineRatio"
+                    input: false
+                    components:
+                        ClipContent: {}
+                        RichContent:
+                            baseClasses: "regular t-caption white-wild-sand-70-text"
+                        RichContentAliases0:
+                            aliases:
+                            - ["text_blue", "<span class=\"t-caption regular blue-rimmi-text\" />"]
+                            - ["text_white_bold", "<span class=\"bold t-caption white-wild-sand-text\" />"]
+                            - ["text2_white_bold", "<span class=\"bold t-caption white-wild-sand-text\" />"]
+                        Anchor:
+                            leftAnchorEnabled: true
+                            hCenterAnchorEnabled: false
+                            rightAnchorEnabled: true
+                            rightAnchor: -48.000000
+                            vCenterAnchorEnabled: true
+                            useRtl: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "PercentOfMaxChild"
+                        FlowLayout:
+                            hDynamicPadding: false
+                            alignment: "Left"
+                            hSpacing: 4.000000
+                            useRtl: true
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["RichContent.text", "localize(\"StuffInfo/Combine/CombineRatio\", { \"ratio\" = str(combineRatio); })"]
+            -   class: "UIControl"
+                name: "CombineButton"
+                position: [284.000000, 44.250000]
+                size: [48.000000, 48.000000]
+                pivot: [0.500000, 0.500000]
+                angle: -90.000000
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 48.000000
+                        verticalPolicy: "PercentOfChildrenSum"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+                        args:
+                            "type": "when canCombine -> eButtonType.POSITIVE, eButtonType.OPTIONAL_DARK"
+                            "image": "\"~res:/Gfx/Lobby/icons/icon_arrow_s\""
+                            "isBlur": "false"
+                        eventActions:
+                        - ["ON_CLICK_BUTTON", "ON_ACTION", "eArtefactAction.Combine"]
+    -   class: "UIControl"
+        name: "FeaturesSection"
+        size: [348.000000, 568.000000]
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 0.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+        bindings:
+        - ["visible", "resource.features != \"\" or isApplyToFeatures"]
+        children:
+        -   class: "UIControl"
+            name: "Title"
+            size: [32.000000, 32.000000]
+            input: false
+            classes: "bold t-caps white-wild-sand-text"
+            components:
+                UITextComponent:
+                    multiline: "MULTILINE_ENABLED"
+                    align: ["LEFT", "VCENTER"]
+                    useRtlAlign: "USE_BY_SYSTEM"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "capitalize(localize(\"storage/Items/Features\"))"]
+        -   class: "UIControl"
+            name: "Spacer"
+            size: [8.000000, 8.000000]
+            input: false
+        -   class: "UIControl"
+            name: "Features"
+            input: false
+            components:
+                RichContent:
+                    baseClasses: "regular t-body white-wild-sand-70-text"
+                RichContentAliases0:
+                    aliases:
+                    - ["text_blue", "<span class=\"t-body regular blue-rimmi-text\" />"]
+                    - ["text_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                    - ["text2_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                Anchor:
+                    leftAnchorEnabled: true
+                    hCenterAnchorEnabled: false
+                    rightAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                    useRtl: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    horizontalMax: 368.000000
+                    verticalPolicy: "PercentOfChildrenSum"
+                FlowLayout:
+                    hDynamicPadding: false
+                    alignment: "Left"
+                    hSpacing: 4.000000
+                    useRtl: true
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["RichContent.text", "localize(resource.features, { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; })"]
+        -   class: "UIControl"
+            name: "ApplyTo"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                    spacing: 4.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   class: "UIControl"
+                name: "Levels"
+                input: false
+                components:
+                    RichContent:
+                        baseClasses: "regular t-body white-wild-sand-70-text"
+                    RichContentAliases0:
+                        aliases:
+                        - ["text_blue", "<span class=\"t-body regular blue-rimmi-text\" />"]
+                        - ["text_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                        - ["text2_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                    Anchor:
+                        enabled: true
+                        leftAnchorEnabled: true
+                        hCenterAnchorEnabled: false
+                        rightAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                        useRtl: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfChildrenSum"
+                    FlowLayout:
+                        hDynamicPadding: false
+                        alignment: "Left"
+                        hSpacing: 4.000000
+                        useRtl: true
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["visible", "resource.features == \"\" and ((not isNull(resource.stuff.victoryMultiplier) and resource.stuff.victoryMultiplier.restriction.levels.Size() > 0) or (not isNull(resource.stuff.coupon) and resource.stuff.coupon.appliesToLevels.Size() > 0))"]
+                - ["RichContent.text", "localize(\"storage/Items/CamouflageCertificate/Features\", { \"coupon.levels\" = (when not isNull(resource.stuff.victoryMultiplier) and resource.stuff.victoryMultiplier.restriction.levels.Size() > 0 -> join(resource.stuff.victoryMultiplier.restriction.levels, \",\", 10), not isNull(resource.stuff.coupon) and resource.stuff.coupon.appliesToLevels.Size() > 0 -> join(resource.stuff.coupon.appliesToLevels, \",\", 10), \"\"); })"]
+            -   class: "UIControl"
+                name: "Nations"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    LinearLayout:
+                        useRtl: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfMaxChild"
+                bindings:
+                - ["visible", "(not isNull(resource.stuff.victoryMultiplier) and resource.stuff.victoryMultiplier.restriction.nations.Size() > 0) or (not isNull(resource.stuff.coupon) and resource.stuff.coupon.appliesToNations.Size() > 0)"]
+                children:
+                -   class: "UIControl"
+                    name: "NationsText"
+                    input: false
+                    components:
+                        RichContent:
+                            baseClasses: "regular t-body white-wild-sand-70-text"
+                        RichContentAliases0:
+                            aliases:
+                            - ["text_blue", "<span class=\"t-body regular blue-rimmi-text\" />"]
+                            - ["text_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                            - ["text2_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                        Anchor:
+                            enabled: true
+                            leftAnchorEnabled: true
+                            hCenterAnchorEnabled: false
+                            rightAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                            useRtl: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "PercentOfChildrenSum"
+                        FlowLayout:
+                            hDynamicPadding: false
+                            alignment: "Left"
+                            hSpacing: 4.000000
+                            useRtl: true
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["RichContent.text", "localize(\"storage/Items/certificate_x5_exp_on_victory/Nations/Features\", { \"certificate_victory_multiplier.restriction.nations\" = \"\"; })"]
+                -   class: "UIControl"
+                    name: "Flags"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        LinearLayout:
+                            spacing: 4.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "PercentOfMaxChild"
+                        UIRepeatComponent:
+                            control: "~res:/UI/Screens3/Lobby/Common/TankInfo/NationFlag.yaml"
+                            dataContainer: "when not isNull(resource.stuff.victoryMultiplier) -> resource.stuff.victoryMultiplier.restriction.nations, not isNull(resource.stuff.coupon) -> resource.stuff.coupon.appliesToNations, emptyNations"
+                            args:
+                                "nation": "_item"
+                        UIChildAnimatedSwitchingComponent: {}
+            -   class: "UIControl"
+                name: "Vehicle"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfChildrenSum"
+                bindings:
+                - ["visible", "not isNull(applyToVehicle) or not isNull(applyToVehicles)"]
+                children:
+                -   class: "UIControl"
+                    name: "VehicleText"
+                    input: false
+                    components:
+                        RichContent:
+                            baseClasses: "regular t-body white-wild-sand-70-text"
+                        RichContentAliases0:
+                            aliases:
+                            - ["text_blue", "<span class=\"t-body regular blue-rimmi-text\" />"]
+                            - ["text_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                            - ["text2_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                        Anchor:
+                            enabled: true
+                            leftAnchorEnabled: true
+                            hCenterAnchorEnabled: false
+                            rightAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                            useRtl: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "PercentOfChildrenSum"
+                        FlowLayout:
+                            hDynamicPadding: false
+                            alignment: "Left"
+                            hSpacing: 4.000000
+                            useRtl: true
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["RichContent.text", "localize(\"storage/certificate_victory_multiplier/AppliesTo\")"]
+                -   class: "UIControl"
+                    name: "VehicleName"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfChildrenSum"
+                        FlowLayout:
+                            hSpacing: 6.000000
+                            useRtl: true
+                        UIChildComponent0:
+                            childType: "kControl"
+                            condition: "not isNull(applyToVehicle)"
+                            control: "VehicleName"
+                        UIChildComponent1:
+                            childType: "kControl"
+                            condition: "not isNull(applyToVehicles)"
+                            control: "VehicleNames"
+    -   class: "UIControl"
+        name: "ObtainingMethodsSection"
+        size: [348.000000, 568.000000]
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+        bindings:
+        - ["visible", "resource.obtainingMethods != \"\""]
+        children:
+        -   class: "UIControl"
+            name: "Title"
+            size: [32.000000, 32.000000]
+            input: false
+            classes: "bold t-caps white-wild-sand-text"
+            components:
+                UITextComponent:
+                    multiline: "MULTILINE_ENABLED"
+                    align: ["LEFT", "VCENTER"]
+                    useRtlAlign: "USE_BY_SYSTEM"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "capitalize(localize(\"storage/Items/Obtainment\"))"]
+        -   class: "UIControl"
+            name: "ObtainingsMethods"
+            input: false
+            components:
+                RichContent:
+                    baseClasses: "regular t-body white-wild-sand-70-text"
+                RichContentAliases0:
+                    aliases:
+                    - ["text_blue", "<span class=\"t-body regular blue-rimmi-text\" />"]
+                    - ["text_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                    - ["text2_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                Anchor:
+                    leftAnchorEnabled: true
+                    hCenterAnchorEnabled: false
+                    rightAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                    useRtl: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    horizontalMax: 368.000000
+                    verticalPolicy: "PercentOfChildrenSum"
+                FlowLayout:
+                    hDynamicPadding: false
+                    alignment: "Left"
+                    hSpacing: 4.000000
+                    useRtl: true
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["RichContent.text", "localize(resource.obtainingMethods, { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; })"]
+    -   class: "UIControl"
+        name: "ContainSection"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+        bindings:
+        - ["visible", "isChest and not hideContains"]
+        children:
+        -   class: "UIControl"
+            name: "TitleWrarpper"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    useRtl: true
+                LinearLayout:
+                    spacing: 4.000000
+                    useRtl: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfFirstChild"
+            children:
+            -   class: "UIControl"
+                name: "Title"
+                size: [32.000000, 32.000000]
+                input: false
+                classes: "bold t-caps white-wild-sand-text"
+                components:
+                    UITextComponent:
+                        multiline: "MULTILINE_ENABLED"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "capitalize(localize(\"storage/Items/Contents\"))"]
+            -   class: "UIControl"
+                name: "Icon"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfMaxChild"
+                    UIChildComponent0:
+                        condition: "resource.hasMoreInfo"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Button/ClickableInfoIconButton.yaml"
+                        args:
+                            "sound": "eButtonSound.OPEN"
+                        eventActions:
+                        - ["ON_CLICK_BUTTON", "SHOW_DROP_RATES", ""]
+        -   class: "UIControl"
+            name: "DropList"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                    spacing: 4.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfChildrenSum"
+                UIRepeatComponent:
+                    control: "~res:/UI/Screens3/Lobby/Chests/DropRow.yaml"
+                    dataContainer: "when isChest -> resource.chestInfo.dropList, emptyDrop"
+                    args:
+                        "drop": "_item"
+    -   class: "UIControl"
+        name: "QuestRewardSection"
+        position: [0.000000, 904.000000]
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+        bindings:
+        - ["visible", "isQuest"]
+        children:
+        -   class: "UIControl"
+            name: "Title"
+            size: [32.000000, 32.000000]
+            input: false
+            classes: "bold t-caps white-wild-sand-text"
+            components:
+                UITextComponent:
+                    multiline: "MULTILINE_ENABLED"
+                    align: ["LEFT", "VCENTER"]
+                    useRtlAlign: "USE_BY_SYSTEM"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "capitalize(localize(\"storage/Items/QuestRewards\"))"]
+        -   class: "UIControl"
+            name: "QuestMainRewards"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                LinearLayout:
+                    orientation: "TopDown"
+                    spacing: 4.000000
+                SizePolicy:
+                    horizontalPolicy: "Formula"
+                    horizontalFormula: "parent - 8"
+                    verticalPolicy: "PercentOfChildrenSum"
+                UIRepeatComponent:
+                    control: "~res:/UI/Screens3/Lobby/Common/Resource/Detailed/RewardRow.yaml"
+                    dataContainer: "when isMultiStageQuest -> resource.questInfo.stagesInfo.stages, isMultirewardQuest -> resource.questInfo.rewardsList.alternativeRewards[0UL].resources, isQuest -> resource.questInfo.rewardsList.successRewards.resources, emptyDrop"
+                    args:
+                        "resource": "when isMultiStageQuest -> _item.basic.reward, _item"
+            bindings:
+            - ["Anchor.leftAnchor", "when isMultirewardQuest -> 8, 0"]
+        -   class: "UIControl"
+            name: "AlternativeRewardSeparator"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 12.000000
+            bindings:
+            - ["visible", "isMultirewardQuest and resource.questInfo.rewardsList.alternativeRewards.Size() > 1"]
+            children:
+            -   class: "UIControl"
+                name: "CaptionBold"
+                input: false
+                classes: "bold t-caps white-wild-sand-50-text"
+                components:
+                    UITextComponent:
+                        colorInheritType: "COLOR_IGNORE_PARENT"
+                        align: ["LEFT", "VCENTER"]
+                    Anchor:
+                        leftAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "capitalize(localize(\"StuffQuest/MultiReward/Or\"))"]
+        -   class: "UIControl"
+            name: "QuestAlternativeRewards"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                LinearLayout:
+                    orientation: "TopDown"
+                    spacing: 4.000000
+                SizePolicy:
+                    horizontalPolicy: "Formula"
+                    horizontalFormula: "parent - 8"
+                    verticalPolicy: "PercentOfChildrenSum"
+                UIRepeatComponent:
+                    control: "~res:/UI/Screens3/Lobby/Common/Resource/Detailed/RewardRow.yaml"
+                    dataContainer: "when isMultirewardQuest -> resource.questInfo.rewardsList.alternativeRewards[1UL].resources, emptyDrop"
+                    args:
+                        "resource": "_item"
+            bindings:
+            - ["visible", "isMultirewardQuest and resource.questInfo.rewardsList.alternativeRewards.Size() > 1"]
+            - ["Anchor.leftAnchor", "when isMultirewardQuest -> 8, 0"]
+    -   class: "UIControl"
+        name: "SubscriptionInfo"
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+        bindings:
+        - ["visible", "isSubscriptionActive"]
+        children:
+        -   class: "UIControl"
+            name: "Header"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                LinearLayout:
+                    spacing: 8.000000
+                    useRtl: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "Title"
+                input: false
+                classes: "bold t-caps white-wild-sand-text"
+                components:
+                    UITextComponent:
+                        multiline: "MULTILINE_ENABLED"
+                        align: ["LEFT", "VCENTER"]
+                        useRtlAlign: "USE_BY_SYSTEM"
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "when isSubscription -> capitalize(localize(\"storage/Items/Subscription/NextReward\")), \"\""]
+        -   class: "UIControl"
+            name: "NextReward"
+            visible: false
+            input: false
+            components:
+                LinearLayout:
+                    orientation: "LeftToRight"
+                    spacing: 16.000000
+                    useRtl: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
+                UIRepeatComponent:
+                    control: "~res:/UI/Screens3/Lobby/Subscription/SubscriptionReward.yaml"
+                    dataContainer: "when isSubscription -> resource.subscriptionInfo.stages[subscriptionActiveStage].rewards, emptyResources"
+                    args:
+                        "attachId": "resource.subscriptionInfo.name + \"_\" + str(_index)"
+                        "resource": "_item"
+                    eventActions:
+                    - ["ON_CURRENCY_CLICKED", "ON_REWARD_CLICKED", "_item, _event"]
+        -   class: "UIControl"
+            name: "NextRewardTimer"
+            input: false
+            components:
+                LinearLayout:
+                    orientation: "LeftToRight"
+                    spacing: 4.000000
+                    useRtl: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
+            bindings:
+            - ["visible", "isSubscriptionActive"]
+            children:
+            -   class: "UIControl"
+                name: "Text"
+                input: false
+                classes: "regular t-body white-wild-sand-70-text"
+                components:
+                    UITextComponent:
+                        text: "subscription/rewardScreen/nextRewardTime"
+                        colorInheritType: "COLOR_IGNORE_PARENT"
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "Timer"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                        useRtl: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfChildrenSum"
+                    UIChildComponent0:
+                        condition: "isSubscriptionActive"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Timer.yaml"
+                        args:
+                            "time": "when isSubscriptionActive -> lobby.subscription.nextRewardTime, resource.expiringTime"
+                            "serverTime": "session.serverTime"
+                bindings:
+                - ["visible", "isSubscriptionActive"]
+    -   class: "UIControl"
+        name: "TimerSection"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+        bindings:
+        - ["visible", "when isSubscriptionActive -> true, resource.stuff.lifetime > 0L"]
+        children:
+        -   class: "UIControl"
+            name: "Title"
+            size: [32.000000, 32.000000]
+            input: false
+            classes: "bold t-caps white-wild-sand-text"
+            components:
+                UITextComponent:
+                    multiline: "MULTILINE_ENABLED"
+                    align: ["LEFT", "VCENTER"]
+                    useRtlAlign: "USE_BY_SYSTEM"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "when isSubscriptionActive -> capitalize(localize(\"storage/Items/Subscription/ExpiryPeriod\")), capitalize(localize(\"storage/Items/TemporaryItem/Countdown\"))"]
+        -   class: "UIControl"
+            name: "Timer"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    useRtl: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfChildrenSum"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Timer.yaml"
+                    args:
+                        "time": "when isSubscriptionActive -> lobby.subscription.subscriptionEnd, when showLifetimeFromStuff -> resource.stuff.lifetime, resource.expiringTime"
+                        "serverTime": "when showLifetimeFromStuff -> 0L, session.serverTime"
+                        "isBlur": "false"
+    -   class: "UIControl"
+        name: "ReactionSectionHolder"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                childType: "kControl"
+                condition: "isReactions"
+                control: "ReactionSection"
+        bindings:
+        - ["visible", "isReactions"]
+-   class: "UIControl"
+    name: "TankRankWrapper"
+    input: false
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+            padding: "0; 16"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfChildrenSum"
+    children:
+    -   class: "UIControl"
+        name: "TankRank"
+        input: false
+        components:
+            Anchor:
+                enabled: true
+                leftAnchorEnabled: true
+                hCenterAnchorEnabled: false
+                rightAnchorEnabled: true
+                vCenterAnchorEnabled: true
+                useRtl: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfChildrenSum"
+            UIChildComponent0:
+                condition: "requiredTankRank > 0"
+                prototypePath: "~res:/UI/Screens3/Lobby/Inventory/TankProgress/TankRankConditionLabel.yaml"
+                args:
+                    "baseFontColor": "\"white-wild-sand-70-text\""
+                    "rankConfig": "session.rankConfig"
+                    "requiredTankRank": "requiredTankRank"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+-   class: "UIControl"
+    name: "ReactionSection"
+    size: [400.000000, 152.000000]
+    input: false
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+            spacing: 16.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfChildrenSum"
+    children:
+    -   class: "UIControl"
+        name: "Title"
+        size: [32.000000, 32.000000]
+        input: false
+        classes: "bold t-caps white-wild-sand-text"
+        components:
+            UITextComponent:
+                multiline: "MULTILINE_ENABLED"
+                align: ["LEFT", "VCENTER"]
+                useRtlAlign: "USE_BY_SYSTEM"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfContent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml"
+        bindings:
+        - ["UITextComponent.text", "capitalize(localize(\"storage/Items/Reactions\"))"]
+    -   class: "UIControl"
+        name: "ReactionsPack"
+        input: false
+        components:
+            GridLayout:
+                columnCount: 5
+                columnSpacing: 8.000000
+                rowCount: 2
+                rowSpacing: 8.000000
+                useRtl: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+            UIRepeatComponent:
+                control: "~res:/UI/Screens3/Lobby/BattleResults/Reactions/ReactionIcon.yaml"
+                dataContainer: "resource.reactionsPackInfo.reactions"
+                args:
+                    "size": "when isReactionIconNormalSize -> 64, 56"
+                    "icon": "when isReactionIconNormalSize -> _item.icons.normalIcon, _item.icons.smallIcon"
+        bindings:
+        - ["GridLayout.columnWidth", "when isReactionIconNormalSize -> 64, 56"]
+        - ["GridLayout.rowHeight", "when isReactionIconNormalSize -> 64, 56"]

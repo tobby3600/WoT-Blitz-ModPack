@@ -15,36 +15,26 @@ Prototypes:
             params:
             - ["int", "textPaddings", "4", "4"]
             - ["int", "left", "0", "2"]
-            - ["float", "blurScale", "0.500000", "0.500000"]
-            - ["string", "roundCorner", "\"0\"", "\"0\""]
+            - ["int", "hMaxSize", "99999", "99999"]
+            - ["bool", "isBlur", "true", "true"]
             - ["bool", "isShort", "false", "false"]
             - ["bool", "isInfinite", "false", "false"]
             - ["string", "bgStyle", "\"\"", "\"red-tamarillo-bg\""]
             - ["string", "textStyle", "\"t-caption bold white-wild-sand-text\"", "\"t-caption bold white-wild-sand-text\""]
             - ["string", "label", "\"Story/Step/Repeats/Left\"", "\"Story/Step/Repeats/Left\""]
-            - ["int", "hMaxSize", "99999", "99999"]
+            - ["string", "roundCorner", "\"4\"", "\"4\""]
     bindings:
     - ["LinearLayout.padding", "textPaddings"]
     children:
-    -   class: "UIControl"
+    -   prototype: "BlurModified/BlurModified"
         name: "Background"
-        input: false
-        visible: true
         components:
-            Background: {}
-            IgnoreLayout: {}
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfParent"
-        children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
-            components:
-                UIDataParamsComponent:
-                    args:
-                        "bgStyle": "bgStyle"
-                        "blurScale": "blurScale"
-                        "roundCorner": "roundCorner"
+            UIDataParamsComponent:
+                args:
+                    "isVisible": "not empty(bgStyle)"
+                    "isBlur": "isBlur"
+                    "bgStyle": "bgStyle"
+                    "roundCorner": "roundCorner"
     -   class: "UIControl"
         name: "Content"
         input: false

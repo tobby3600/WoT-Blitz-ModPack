@@ -21,7 +21,6 @@ Prototypes:
     children:
     -   class: "UIControl"
         name: "Button"
-        classes: "button"
         components:
             Background:
                 colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
@@ -33,7 +32,7 @@ Prototypes:
             name: "Back"
             size: [350.000000, 64.000000]
             input: false
-            classes: "panel-background"
+            classes: "button panel-background"
             components:
                 Background:
                     drawType: "DRAW_FILL"
@@ -207,13 +206,16 @@ Prototypes:
             name: "FreeText"
             classes: "text2 text-color-blue"
             components:
-                Background:
-                    colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
                 UITextComponent:
                     text: "tournaments/TeamDescrScreen/Members/PlaceAvailable"
+                    align: ["HCENTER", "VCENTER"]
+                    colorInheritType: "COLOR_IGNORE_PARENT"
                 SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "PercentOfParent"
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
     -   prototype: "CellSelectionFrame/SelectionFrame"
         name: "SelectionFrame"
     -   class: "UIControl"

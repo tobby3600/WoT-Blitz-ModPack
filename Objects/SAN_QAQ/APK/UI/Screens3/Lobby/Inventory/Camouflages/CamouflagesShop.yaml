@@ -195,22 +195,13 @@ Prototypes:
                         bindings:
                         - ["visible", "hasCertificate"]
                         children:
-                        -   class: "UIControl"
-                            name: "Background"
-                            size: [32.000000, 32.000000]
-                            input: false
+                        -   prototype: "BlurModified/BlurModified"
+                            name: "BackGround"
                             components:
-                                SizePolicy:
-                                    horizontalPolicy: "PercentOfParent"
-                                    verticalPolicy: "PercentOfParent"
-                            children:
-                            -   prototype: "BlurModified/BlurModified"
-                                name: "Blur"
-                                components:
-                                    UIDataParamsComponent:
-                                        args:
-                                            "bgStyle": "\"black-50-bg\""
-                                            "roundCorner": "\"4\""
+                                UIDataParamsComponent:
+                                    args:
+                                        "bgStyle": "\"black-50-bg\""
+                                        "roundCorner": "\"4\""
                         -   class: "UIControl"
                             name: "BodyKitHolder"
                             size: [86.000000, 104.000000]
@@ -242,15 +233,10 @@ Prototypes:
                 name: "FooterWrapper"
                 input: false
                 components:
-                    Background:
-                        drawType: "DRAW_FILL"
-                        color: [0.000000, 0.000000, 0.000000, 0.501961]
                     UIOpacityComponent: {}
                     SizePolicy:
                         horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "PercentOfFirstChild"
-                    StyleSheet:
-                        styles: "~res:/UI/Screens3/Color.style.yaml"
                 bindings:
                 - ["visible", "not isNull(camouflages.selectedCamo)"]
                 children:
@@ -267,5 +253,5 @@ Prototypes:
                             prototypePath: "~res:/UI/Screens3/Common/Footer.yaml"
                             args:
                                 "content": "when not isNull(camouflages.selectedCamo) -> footerContent, null"
-                                "bgStyle": "\"\""
+                                "bgStyle": "\"black-50-bg\""
                                 "desktopStyle": "\"\""

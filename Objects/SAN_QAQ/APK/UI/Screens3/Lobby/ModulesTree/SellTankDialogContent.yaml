@@ -1,9 +1,9 @@
 Header:
-    version: "92"
+    version: 92
 ImportedPackages:
 - "~res:/UI/Screens3/Lobby/ModulesTree/PremiumizeTypeCell.yaml"
 - "~res:/UI/Screens3/Lobby/Common/RichText.yaml"
-- "~res:/UI/Screens3/Lobby/Common/Button/TextIconButtonNoBlur.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Button/TextIconButton.yaml"
 Controls:
 -   class: "UIControl"
     name: "SellTankDialogContent"
@@ -79,7 +79,7 @@ Controls:
         bindings:
         - ["visible", "expandVisible"]
         children:
-        -   prototype: "TextIconButtonNoBlur/Button"
+        -   prototype: "TextIconButton/Button"
             name: "Button"
             components:
                 UIDataParamsComponent:
@@ -94,6 +94,7 @@ Controls:
                         "enabled": "true"
                         "locked": "false"
                         "iconFlip": "FLIP_VERTICAL"
+                        "isBlur": "false"
                     eventActions:
                     - ["ON_CLICK_BUTTON", "EXPAND_PRESSED", ""]
             children:

@@ -1,10 +1,9 @@
 Header:
-    version: "101"
+    version: 161
 ImportedPackages:
-- "~res:/UI/Screens3/Lobby/Hangar/Sidebar/CommunityPanel/CommunityItem.yaml"
 - "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
 - "~res:/UI/Screens3/Common/BlurModified.yaml"
-Controls:
+Prototypes:
 -   class: "UIControl"
     name: "CommunityPanel"
     size: [348.000000, 490.000000]
@@ -22,8 +21,8 @@ Controls:
             - ["vector<string>", "communityContainer", "null", "[ \"VK\"; \"FACEBOOK\"; \"YOUTUBE\"; \"TWITTER\"; \"INSTAGRAM\"; \"VIBER\"; \"PORTAL\"; \"WARGAMING\"; \"GIFTSHOP\"; \"DISCORD\"; \"NONE\"; ]"]
             events:
             - "COMMUNITY_SELECT"
-        UIDataLocalsComponent:
-            locals:
+        UIDataLocalVarsComponent:
+            data:
             - ["int", "panelWidth", "348"]
         StyleSheet:
             styles: "~res:/UI/Screens3/Color.style.yaml"
@@ -46,23 +45,12 @@ Controls:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "PercentOfParent"
             children:
-            -   class: "UIControl"
+            -   prototype: "BlurModified/BlurModified"
                 name: "Bg"
-                size: [32.000000, 32.000000]
-                input: false
-                classes: "black-50-bg"
                 components:
-                    Background: {}
-                    IgnoreLayout: {}
-                    SizePolicy:
-                        horizontalPolicy: "Formula"
-                        horizontalFormula: "parent + 88"
-                        verticalPolicy: "PercentOfParent"
-                    StyleSheet:
-                        styles: "~res:/UI/Screens3/Color.style.yaml"
-                children:
-                -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
+                    UIDataParamsComponent:
+                        args:
+                            "bgStyle": "\"black-50-bg\""
             -   class: "UIScrollViewContainer"
                 name: "scrollContainerControl"
                 components:
@@ -105,15 +93,14 @@ Controls:
                                 styles: "~res:/UI/Screens3/Font.style.yaml"
                 -   class: "UIControl"
                     name: "Vk"
-                    position: [0.000000, 60.000000]
                     input: false
                     components:
                         SizePolicy:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfMaxChild"
                         UIChildComponent0:
-                            childType: "kOldExpression"
-                            control: "when communityContainer.Contains(\"VK\") -> \"~res:/UI/Screens3/Lobby/Hangar/Sidebar/CommunityPanel/CommunityItem.yaml\", \"\""
+                            condition: "communityContainer.Contains(\"VK\")"
+                            prototypePath: "~res:/UI/Screens3/Lobby/Hangar/Sidebar/CommunityPanel/CommunityItem.yaml"
                             args:
                                 "text": "localize(\"#community:VK\")"
                                 "frame": "2"
@@ -122,16 +109,14 @@ Controls:
                             - ["COMMUNITY_SELECT", "COMMUNITY_SELECT", "\"VK\""]
                 -   class: "UIControl"
                     name: "Fb"
-                    position: [0.000000, 132.000000]
-                    size: [32.000000, 32.000000]
                     input: false
                     components:
                         SizePolicy:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfMaxChild"
                         UIChildComponent0:
-                            childType: "kOldExpression"
-                            control: "when communityContainer.Contains(\"FACEBOOK\") -> \"~res:/UI/Screens3/Lobby/Hangar/Sidebar/CommunityPanel/CommunityItem.yaml\", \"\""
+                            condition: "communityContainer.Contains(\"Facebook\")"
+                            prototypePath: "~res:/UI/Screens3/Lobby/Hangar/Sidebar/CommunityPanel/CommunityItem.yaml"
                             args:
                                 "text": "localize(\"#community:FB\")"
                                 "frame": "3"
@@ -140,16 +125,14 @@ Controls:
                             - ["COMMUNITY_SELECT", "COMMUNITY_SELECT", "\"FACEBOOK\""]
                 -   class: "UIControl"
                     name: "Youtube"
-                    position: [0.000000, 204.000000]
-                    size: [32.000000, 32.000000]
                     input: false
                     components:
                         SizePolicy:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfMaxChild"
                         UIChildComponent0:
-                            childType: "kOldExpression"
-                            control: "when communityContainer.Contains(\"YOUTUBE\") -> \"~res:/UI/Screens3/Lobby/Hangar/Sidebar/CommunityPanel/CommunityItem.yaml\", \"\""
+                            condition: "communityContainer.Contains(\"Youtube\")"
+                            prototypePath: "~res:/UI/Screens3/Lobby/Hangar/Sidebar/CommunityPanel/CommunityItem.yaml"
                             args:
                                 "text": "localize(\"#community:Youtube\")"
                                 "frame": "1"
@@ -158,16 +141,14 @@ Controls:
                             - ["COMMUNITY_SELECT", "COMMUNITY_SELECT", "\"YOUTUBE\""]
                 -   class: "UIControl"
                     name: "Twitter"
-                    position: [0.000000, 276.000000]
-                    size: [32.000000, 32.000000]
                     input: false
                     components:
                         SizePolicy:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfMaxChild"
                         UIChildComponent0:
-                            childType: "kOldExpression"
-                            control: "when communityContainer.Contains(\"TWITTER\") -> \"~res:/UI/Screens3/Lobby/Hangar/Sidebar/CommunityPanel/CommunityItem.yaml\", \"\""
+                            condition: "communityContainer.Contains(\"Twitter\")"
+                            prototypePath: "~res:/UI/Screens3/Lobby/Hangar/Sidebar/CommunityPanel/CommunityItem.yaml"
                             args:
                                 "text": "localize(\"#community:Twitter\")"
                                 "frame": "6"
@@ -176,16 +157,14 @@ Controls:
                             - ["COMMUNITY_SELECT", "COMMUNITY_SELECT", "\"TWITTER\""]
                 -   class: "UIControl"
                     name: "Instagram"
-                    position: [0.000000, 348.000000]
-                    size: [32.000000, 32.000000]
                     input: false
                     components:
                         SizePolicy:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfMaxChild"
                         UIChildComponent0:
-                            childType: "kOldExpression"
-                            control: "when communityContainer.Contains(\"INSTAGRAM\") -> \"~res:/UI/Screens3/Lobby/Hangar/Sidebar/CommunityPanel/CommunityItem.yaml\", \"\""
+                            condition: "communityContainer.Contains(\"Instagram\")"
+                            prototypePath: "~res:/UI/Screens3/Lobby/Hangar/Sidebar/CommunityPanel/CommunityItem.yaml"
                             args:
                                 "text": "localize(\"#community:Instagram\")"
                                 "frame": "4"
@@ -194,16 +173,14 @@ Controls:
                             - ["COMMUNITY_SELECT", "COMMUNITY_SELECT", "\"INSTAGRAM\""]
                 -   class: "UIControl"
                     name: "Discord"
-                    position: [0.000000, 420.000000]
-                    size: [32.000000, 32.000000]
                     input: false
                     components:
                         SizePolicy:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfMaxChild"
                         UIChildComponent0:
-                            childType: "kOldExpression"
-                            control: "when communityContainer.Contains(\"DISCORD\") -> \"~res:/UI/Screens3/Lobby/Hangar/Sidebar/CommunityPanel/CommunityItem.yaml\", \"\""
+                            condition: "communityContainer.Contains(\"DISCORD\")"
+                            prototypePath: "~res:/UI/Screens3/Lobby/Hangar/Sidebar/CommunityPanel/CommunityItem.yaml"
                             args:
                                 "text": "localize(\"#community:Discord\")"
                                 "frame": "9"
@@ -212,16 +189,14 @@ Controls:
                             - ["COMMUNITY_SELECT", "COMMUNITY_SELECT", "\"DISCORD\""]
                 -   class: "UIControl"
                     name: "Viber"
-                    position: [0.000000, 492.000000]
-                    size: [32.000000, 32.000000]
                     input: false
                     components:
                         SizePolicy:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfMaxChild"
                         UIChildComponent0:
-                            childType: "kOldExpression"
-                            control: "when communityContainer.Contains(\"VIBER\") -> \"~res:/UI/Screens3/Lobby/Hangar/Sidebar/CommunityPanel/CommunityItem.yaml\", \"\""
+                            condition: "communityContainer.Contains(\"VIBER\")"
+                            prototypePath: "~res:/UI/Screens3/Lobby/Hangar/Sidebar/CommunityPanel/CommunityItem.yaml"
                             args:
                                 "text": "localize(\"#community:Viber\")"
                                 "frame": "5"
@@ -230,17 +205,14 @@ Controls:
                             - ["COMMUNITY_SELECT", "COMMUNITY_SELECT", "\"VIBER\""]
                 -   class: "UIControl"
                     name: "Portal"
-                    position: [0.000000, 564.000000]
-                    size: [32.000000, 32.000000]
                     input: false
                     components:
                         SizePolicy:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfMaxChild"
                         UIChildComponent0:
-                            childType: "kOldExpression"
-                            condition: "not isGamepad"
-                            control: "when communityContainer.Contains(\"PORTAL\") -> \"~res:/UI/Screens3/Lobby/Hangar/Sidebar/CommunityPanel/CommunityItem.yaml\", \"\""
+                            condition: "not isGamepad and communityContainer.Contains(\"Portal\")"
+                            prototypePath: "~res:/UI/Screens3/Lobby/Hangar/Sidebar/CommunityPanel/CommunityItem.yaml"
                             args:
                                 "text": "localize(\"#community:Portal\")"
                                 "frame": "7"
@@ -249,17 +221,14 @@ Controls:
                             - ["COMMUNITY_SELECT", "COMMUNITY_SELECT", "\"PORTAL\""]
                 -   class: "UIControl"
                     name: "WargamingNet"
-                    position: [0.000000, 636.000000]
-                    size: [32.000000, 32.000000]
                     input: false
                     components:
                         SizePolicy:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfMaxChild"
                         UIChildComponent0:
-                            childType: "kOldExpression"
-                            condition: "not isGamepad"
-                            control: "when communityContainer.Contains(\"WARGAMING\") -> \"~res:/UI/Screens3/Lobby/Hangar/Sidebar/CommunityPanel/CommunityItem.yaml\", \"\""
+                            condition: "not isGamepad and communityContainer.Contains(\"WARGAMING\")"
+                            prototypePath: "~res:/UI/Screens3/Lobby/Hangar/Sidebar/CommunityPanel/CommunityItem.yaml"
                             args:
                                 "text": "localize(\"#community:WargamingNet\")"
                                 "frame": "8"
@@ -269,7 +238,7 @@ Controls:
         -   prototype: "VerticalScrollBar/VerticalScrollBar"
             name: "VerticalScrollBar"
             components:
-                ScrollBarDelegate:
+                UIScrollBarComponent:
                     delegate: "../ScrollArea"
         -   class: "UIControl"
             name: "SubMenuSeparator"

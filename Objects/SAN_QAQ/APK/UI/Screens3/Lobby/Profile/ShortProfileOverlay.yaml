@@ -4,6 +4,7 @@ ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Common/PlayerName.yaml"
 - "~res:/UI/Screens3/Lobby/Common/Button.yaml"
 - "~res:/UI/Screens3/Lobby/Profile/Common/ShortProfileTableCell.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ShortProfileOverlay"
@@ -100,29 +101,6 @@ Slots:
         name: "TopBlock"
         input: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIRoundedCornersComponent:
-                radius: "8"
             Anchor:
                 hCenterAnchorEnabled: true
             LinearLayout:
@@ -132,6 +110,12 @@ Slots:
                 horizontalFormula: "parent - 128"
                 verticalPolicy: "PercentOfMaxChild"
         children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "Vehicle"
             input: false
@@ -227,6 +211,7 @@ Slots:
                         args:
                             "sound": "eButtonSound.OPEN"
                             "image": "\"~res:/Gfx/Lobby/icons/icon_attention_s\""
+                            "isBlur": "false"
                         eventActions:
                         - ["ON_CLICK_BUTTON", "OnClickReportsButton", ""]
                 bindings:
@@ -243,38 +228,21 @@ Slots:
         name: "StatsBlock"
         input: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIRoundedCornersComponent:
-                radius: "8"
             Anchor:
-                rightAnchorEnabled: true
+                hCenterAnchorEnabled: true
             LinearLayout:
                 spacing: 24.000000
             SizePolicy:
                 horizontalPolicy: "Formula"
-                horizontalFormula: "parent - 64"
+                horizontalFormula: "parent - 128"
                 verticalPolicy: "PercentOfMaxChild"
         children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "BaseStats"
             input: false
@@ -423,123 +391,291 @@ Slots:
                         condition: "not isNull(shortProfile.tankDossier) and session.rankConfig.countersInfo.vehicles.Contains(vehicleId)"
                         control: "VehicleCountersWrapper"
     -   class: "UIControl"
-        name: "Spacer2"
+        name: "Spacer1"
         input: false
         components:
             SizePolicy:
                 verticalPolicy: "FixedSize"
                 verticalValue: 32.000000
     -   class: "UIControl"
-        name: "CurrentBattleBlockTitle"
+        name: "CurrentBattleBlock"
         input: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIRoundedCornersComponent:
-                radius: "4"
             Anchor:
                 hCenterAnchorEnabled: true
             LinearLayout:
-                spacing: 16.000000
+                orientation: "TopDown"
+                spacing: 4.000000
             SizePolicy:
                 horizontalPolicy: "Formula"
                 horizontalFormula: "parent - 128"
-                verticalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfChildrenSum"
         children:
-        -   class: "UIControl"
-            name: "LeftLine"
-            input: false
-            classes: "white-wild-sand-25-bg"
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
             components:
-                Background: {}
+                UIDataParamsComponent:
+                    args:
+                        "roundCorner": "\"8\""
+        -   class: "UIControl"
+            name: "CurrentBattleBlockTitle"
+            input: false
+            components:
                 Anchor:
-                    vCenterAnchorEnabled: true
+                    hCenterAnchorEnabled: true
+                LinearLayout:
+                    spacing: 16.000000
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "FixedSize"
-                    verticalValue: 1.000000
-                StyleSheet:
-                    styles: "~res:/UI/Screens3/Color.style.yaml"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "LeftLine"
+                input: false
+                classes: "white-wild-sand-25-bg"
+                components:
+                    Background: {}
+                    UIGradientComponent:
+                        startColor: [0.960784, 0.960784, 0.960784, 1.000000]
+                        finishColor: [0.960784, 0.960784, 0.960784, 0.000000]
+                        orientation: "RightToLeft"
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 1.000000
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "Label"
+                input: false
+                classes: "t-overline bold white-wild-sand-text"
+                components:
+                    UITextComponent: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "capitalize(localize(\"shortProfile/currentBattleStats\"))"]
+            -   class: "UIControl"
+                name: "RightLine"
+                input: false
+                classes: "white-wild-sand-25-bg"
+                components:
+                    Background: {}
+                    UIGradientComponent:
+                        startColor: [0.960784, 0.960784, 0.960784, 1.000000]
+                        finishColor: [0.960784, 0.960784, 0.960784, 0.000000]
+                        orientation: "LeftToRight"
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 1.000000
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
         -   class: "UIControl"
-            name: "Label"
+            name: "Spacer1"
             input: false
-            classes: "t-overline bold white-wild-sand-text"
             components:
-                UITextComponent: {}
                 SizePolicy:
-                    horizontalPolicy: "PercentOfContent"
-                    verticalPolicy: "PercentOfContent"
-                StyleSheet:
-                    styles: "~res:/UI/Screens3/Font.style.yaml"
-            bindings:
-            - ["UITextComponent.text", "capitalize(localize(\"shortProfile/currentBattleStats\"))"]
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 4.000000
         -   class: "UIControl"
-            name: "RightLine"
+            name: "Stats"
             input: false
-            classes: "white-wild-sand-25-bg"
             components:
-                Background: {}
                 Anchor:
-                    vCenterAnchorEnabled: true
+                    hCenterAnchorEnabled: true
+                LinearLayout:
+                    padding: "16"
+                    spacing: 8.000000
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "FixedSize"
-                    verticalValue: 1.000000
-                StyleSheet:
-                    styles: "~res:/UI/Screens3/Color.style.yaml"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "LeftColumn"
+                position: [15.000000, 0.000000]
+                input: false
+                components:
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        horizontalValue: 100.000000
+                        verticalPolicy: "Formula"
+                        verticalFormula: "max(parent, childrenSum)"
+                children:
+                -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
+                    name: "Shots"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "titleStyle": "\"t-body regular white-wild-sand-50-text\""
+                                "separatorStyle": "\"white-wild-sand-15-bg\""
+                                "visible": "true"
+                                "name": "localize(\"#battle_results:DetailsPage/StatisticPage/Shots\")"
+                                "value": "str1000Separated(stats.shotsFired)"
+                                "showBottomSeparator": "true"
+                -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
+                    name: "DamageDealt"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "titleStyle": "\"t-body regular white-wild-sand-50-text\""
+                                "separatorStyle": "\"white-wild-sand-15-bg\""
+                                "visible": "true"
+                                "name": "localize(\"#battle_results:DetailsPage/StatisticPage/DamageDealt\")"
+                                "value": "str1000Separated(stats.damageDealt)"
+                                "showBottomSeparator": "true"
+                -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
+                    name: "Hits"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "titleStyle": "\"t-body regular white-wild-sand-50-text\""
+                                "separatorStyle": "\"white-wild-sand-15-bg\""
+                                "visible": "true"
+                                "name": "localize(\"#battle_results:DetailsPage/StatisticPage/HitsAndPierced\")"
+                                "value": "str1000Separated(stats.piercingHits) + \" / \" + str1000Separated(stats.hits)"
+                                "showBottomSeparator": "true"
+                -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
+                    name: "VehiclesCount"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "titleStyle": "\"t-body regular white-wild-sand-50-text\""
+                                "separatorStyle": "\"white-wild-sand-15-bg\""
+                                "visible": "true"
+                                "name": "localize(\"#battle_results:DetailsPage/StatisticPage/DamagedAndKills\")"
+                                "value": "str1000Separated(stats.vehiclesDamaged) + \" / \" + str1000Separated(stats.vehiclesDestroyed)"
+                                "showBottomSeparator": "true"
+                -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
+                    name: "AssistDamage"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "titleStyle": "\"t-body regular white-wild-sand-50-text\""
+                                "visible": "true"
+                                "name": "localize(\"#battle_results:DetailsPage/StatisticPage/DamageAssisted\")"
+                                "value": "str1000Separated(stats.assistDamage)"
+                                "showBottomSeparator": "false"
+            -   class: "UIControl"
+                name: "RightColumn"
+                position: [461.000000, 0.000000]
+                input: false
+                components:
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        horizontalValue: 100.000000
+                        verticalPolicy: "Formula"
+                        verticalFormula: "max(parent, childrenSum)"
+                children:
+                -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
+                    name: "ReceivedHits"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "titleStyle": "\"t-body regular white-wild-sand-50-text\""
+                                "separatorStyle": "\"white-wild-sand-15-bg\""
+                                "visible": "true"
+                                "name": "localize(\"#battle_results:DetailsPage/StatisticPage/ShotsReceived\")"
+                                "value": "str1000Separated(stats.receivedHits)"
+                                "showBottomSeparator": "true"
+                -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
+                    name: "ReceivedPiercingHits"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "titleStyle": "\"t-body regular white-wild-sand-50-text\""
+                                "separatorStyle": "\"white-wild-sand-15-bg\""
+                                "visible": "true"
+                                "name": "localize(\"#battle_results:DetailsPage/StatisticPage/PiercedReceived\")"
+                                "value": "str1000Separated(stats.receivedPiercingHits)"
+                                "showBottomSeparator": "true"
+                -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
+                    name: "ReceivedHitsNoDmg"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "titleStyle": "\"t-body regular white-wild-sand-50-text\""
+                                "separatorStyle": "\"white-wild-sand-15-bg\""
+                                "visible": "true"
+                                "name": "localize(\"#battle_results:DetailsPage/StatisticPage/NoDamageShotsReceived\")"
+                                "value": "str1000Separated(stats.receivedNoDmgHits)"
+                                "showBottomSeparator": "true"
+                -   class: "UIControl"
+                    name: "Spacer"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
+                    name: "CapturePoints"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "titleStyle": "\"t-body regular white-wild-sand-50-text\""
+                                "separatorStyle": "\"white-wild-sand-15-bg\""
+                                "visible": "gameType == eArenaGameplayType.domination"
+                                "name": "localize(\"#battle_results:DetailsPage/StatisticPage/ScoreEarned\")"
+                                "value": "str1000Separated(stats.capturePoints)"
+                                "showBottomSeparator": "true"
+                -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
+                    name: "DroppedCapturePoints"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "titleStyle": "\"t-body regular white-wild-sand-50-text\""
+                                "separatorStyle": "\"white-wild-sand-15-bg\""
+                                "visible": "gameType == eArenaGameplayType.domination"
+                                "name": "localize(\"#battle_results:DetailsPage/StatisticPage/ScoreDetracted\")"
+                                "value": "str1000Separated(stats.defendingPoints)"
+                                "showBottomSeparator": "false"
+                -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
+                    name: "SupremacyPointsEarned"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "titleStyle": "\"t-body regular white-wild-sand-50-text\""
+                                "separatorStyle": "\"white-wild-sand-15-bg\""
+                                "visible": "gameType == eArenaGameplayType.supremacy"
+                                "name": "localize(\"#battle_results:DetailsPage/StatisticPage/ScoreEarned\")"
+                                "value": "str1000Separated(stats.supremacyPointsEarned)"
+                                "showBottomSeparator": "true"
+                -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
+                    name: "SupremacyPointsStolen"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "titleStyle": "\"t-body regular white-wild-sand-50-text\""
+                                "visible": "gameType == eArenaGameplayType.supremacy"
+                                "name": "localize(\"#battle_results:DetailsPage/StatisticPage/ScoreDetracted\")"
+                                "value": "str1000Separated(stats.supremacyPointsStolen)"
+                                "showBottomSeparator": "false"
     -   class: "UIControl"
-        name: "Spacer1"
+        name: "Spacer2"
         input: false
         components:
             SizePolicy:
                 verticalPolicy: "FixedSize"
                 verticalValue: 16.000000
+        bindings:
+        - ["visible", "hasMedals"]
     -   class: "UIControl"
         name: "MedalsWrapper"
         input: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIRoundedCornersComponent:
-                radius: "8"
+            Anchor:
+                hCenterAnchorEnabled: true
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "FixedSize"
@@ -547,6 +683,12 @@ Slots:
         bindings:
         - ["visible", "hasMedals"]
         children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "Strip"
             input: false
@@ -579,6 +721,8 @@ Slots:
                             drawType: "DRAW_FILL"
                         UIGradientComponent:
                             orientation: "RightToLeft"
+                        UIRoundedCornersComponent:
+                            radius: "8;0;8;0"
                         SizePolicy:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfParent"
@@ -594,6 +738,8 @@ Slots:
                             drawType: "DRAW_FILL"
                         UIGradientComponent:
                             orientation: "LeftToRight"
+                        UIRoundedCornersComponent:
+                            radius: "0;8;0;8"
                         SizePolicy:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfParent"
@@ -769,215 +915,6 @@ Slots:
                     eventActions:
                     - ["ON_ACHIEVEMENT_PRESSED", "OnShowAchievementInfo", "_event"]
                     - ["ON_RIBBON_PRESSED", "OnShowRibbonInfo", "_event"]
-    -   class: "UIControl"
-        name: "Spacer2"
-        input: false
-        components:
-            SizePolicy:
-                verticalPolicy: "FixedSize"
-                verticalValue: 32.000000
-        bindings:
-        - ["visible", "hasMedals"]
-    -   class: "UIControl"
-        name: "Stats"
-        input: false
-        components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIRoundedCornersComponent:
-                radius: "8"
-            Anchor:
-                hCenterAnchorEnabled: true
-            LinearLayout:
-                padding: "16"
-                spacing: 8.000000
-            SizePolicy:
-                horizontalPolicy: "Formula"
-                horizontalFormula: "parent - 128"
-                verticalPolicy: "PercentOfMaxChild"
-        children:
-        -   class: "UIControl"
-            name: "LeftColumn"
-            position: [15.000000, 0.000000]
-            input: false
-            components:
-                LinearLayout:
-                    orientation: "TopDown"
-                SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    horizontalValue: 100.000000
-                    verticalPolicy: "Formula"
-                    verticalFormula: "max(parent, childrenSum)"
-            children:
-            -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
-                name: "Shots"
-                components:
-                    UIDataParamsComponent:
-                        args:
-                            "titleStyle": "\"t-body regular white-wild-sand-50-text\""
-                            "separatorStyle": "\"white-wild-sand-15-bg\""
-                            "visible": "true"
-                            "name": "localize(\"#battle_results:DetailsPage/StatisticPage/Shots\")"
-                            "value": "str1000Separated(stats.shotsFired)"
-                            "showBottomSeparator": "true"
-            -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
-                name: "DamageDealt"
-                components:
-                    UIDataParamsComponent:
-                        args:
-                            "titleStyle": "\"t-body regular white-wild-sand-50-text\""
-                            "separatorStyle": "\"white-wild-sand-15-bg\""
-                            "visible": "true"
-                            "name": "localize(\"#battle_results:DetailsPage/StatisticPage/DamageDealt\")"
-                            "value": "str1000Separated(stats.damageDealt)"
-                            "showBottomSeparator": "true"
-            -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
-                name: "Hits"
-                components:
-                    UIDataParamsComponent:
-                        args:
-                            "titleStyle": "\"t-body regular white-wild-sand-50-text\""
-                            "separatorStyle": "\"white-wild-sand-15-bg\""
-                            "visible": "true"
-                            "name": "localize(\"#battle_results:DetailsPage/StatisticPage/HitsAndPierced\")"
-                            "value": "str1000Separated(stats.piercingHits) + \" / \" + str1000Separated(stats.hits)"
-                            "showBottomSeparator": "true"
-            -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
-                name: "VehiclesCount"
-                components:
-                    UIDataParamsComponent:
-                        args:
-                            "titleStyle": "\"t-body regular white-wild-sand-50-text\""
-                            "separatorStyle": "\"white-wild-sand-15-bg\""
-                            "visible": "true"
-                            "name": "localize(\"#battle_results:DetailsPage/StatisticPage/DamagedAndKills\")"
-                            "value": "str1000Separated(stats.vehiclesDamaged) + \" / \" + str1000Separated(stats.vehiclesDestroyed)"
-                            "showBottomSeparator": "true"
-            -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
-                name: "AssistDamage"
-                components:
-                    UIDataParamsComponent:
-                        args:
-                            "titleStyle": "\"t-body regular white-wild-sand-50-text\""
-                            "visible": "true"
-                            "name": "localize(\"#battle_results:DetailsPage/StatisticPage/DamageAssisted\")"
-                            "value": "str1000Separated(stats.assistDamage)"
-                            "showBottomSeparator": "false"
-        -   class: "UIControl"
-            name: "RightColumn"
-            position: [461.000000, 0.000000]
-            input: false
-            components:
-                LinearLayout:
-                    orientation: "TopDown"
-                SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    horizontalValue: 100.000000
-                    verticalPolicy: "Formula"
-                    verticalFormula: "max(parent, childrenSum)"
-            children:
-            -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
-                name: "ReceivedHits"
-                components:
-                    UIDataParamsComponent:
-                        args:
-                            "titleStyle": "\"t-body regular white-wild-sand-50-text\""
-                            "separatorStyle": "\"white-wild-sand-15-bg\""
-                            "visible": "true"
-                            "name": "localize(\"#battle_results:DetailsPage/StatisticPage/ShotsReceived\")"
-                            "value": "str1000Separated(stats.receivedHits)"
-                            "showBottomSeparator": "true"
-            -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
-                name: "ReceivedPiercingHits"
-                components:
-                    UIDataParamsComponent:
-                        args:
-                            "titleStyle": "\"t-body regular white-wild-sand-50-text\""
-                            "separatorStyle": "\"white-wild-sand-15-bg\""
-                            "visible": "true"
-                            "name": "localize(\"#battle_results:DetailsPage/StatisticPage/PiercedReceived\")"
-                            "value": "str1000Separated(stats.receivedPiercingHits)"
-                            "showBottomSeparator": "true"
-            -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
-                name: "ReceivedHitsNoDmg"
-                components:
-                    UIDataParamsComponent:
-                        args:
-                            "titleStyle": "\"t-body regular white-wild-sand-50-text\""
-                            "separatorStyle": "\"white-wild-sand-15-bg\""
-                            "visible": "true"
-                            "name": "localize(\"#battle_results:DetailsPage/StatisticPage/NoDamageShotsReceived\")"
-                            "value": "str1000Separated(stats.receivedNoDmgHits)"
-                            "showBottomSeparator": "true"
-            -   class: "UIControl"
-                name: "Spacer"
-                input: false
-                components:
-                    SizePolicy:
-                        horizontalPolicy: "PercentOfParent"
-                        verticalPolicy: "PercentOfParent"
-            -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
-                name: "CapturePoints"
-                components:
-                    UIDataParamsComponent:
-                        args:
-                            "titleStyle": "\"t-body regular white-wild-sand-50-text\""
-                            "separatorStyle": "\"white-wild-sand-15-bg\""
-                            "visible": "gameType == eArenaGameplayType.domination"
-                            "name": "localize(\"#battle_results:DetailsPage/StatisticPage/ScoreEarned\")"
-                            "value": "str1000Separated(stats.capturePoints)"
-                            "showBottomSeparator": "true"
-            -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
-                name: "DroppedCapturePoints"
-                components:
-                    UIDataParamsComponent:
-                        args:
-                            "titleStyle": "\"t-body regular white-wild-sand-50-text\""
-                            "separatorStyle": "\"white-wild-sand-15-bg\""
-                            "visible": "gameType == eArenaGameplayType.domination"
-                            "name": "localize(\"#battle_results:DetailsPage/StatisticPage/ScoreDetracted\")"
-                            "value": "str1000Separated(stats.defendingPoints)"
-                            "showBottomSeparator": "false"
-            -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
-                name: "SupremacyPointsEarned"
-                components:
-                    UIDataParamsComponent:
-                        args:
-                            "titleStyle": "\"t-body regular white-wild-sand-50-text\""
-                            "separatorStyle": "\"white-wild-sand-15-bg\""
-                            "visible": "gameType == eArenaGameplayType.supremacy"
-                            "name": "localize(\"#battle_results:DetailsPage/StatisticPage/ScoreEarned\")"
-                            "value": "str1000Separated(stats.supremacyPointsEarned)"
-                            "showBottomSeparator": "true"
-            -   prototype: "ShortProfileTableCell/ShortProfileTableCell"
-                name: "SupremacyPointsStolen"
-                components:
-                    UIDataParamsComponent:
-                        args:
-                            "titleStyle": "\"t-body regular white-wild-sand-50-text\""
-                            "visible": "gameType == eArenaGameplayType.supremacy"
-                            "name": "localize(\"#battle_results:DetailsPage/StatisticPage/ScoreDetracted\")"
-                            "value": "str1000Separated(stats.supremacyPointsStolen)"
-                            "showBottomSeparator": "false"
 -   class: "UIControl"
     name: "Footer"
     size: [32.000000, 32.000000]
@@ -996,29 +933,6 @@ Slots:
         size: [32.000000, 32.000000]
         input: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIRoundedCornersComponent:
-                radius: "4"
             Anchor:
                 hCenterAnchorEnabled: true
                 vCenterAnchorEnabled: true

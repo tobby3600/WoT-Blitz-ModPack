@@ -120,6 +120,11 @@ vertex_out
 	[material][cp] property float4 speedtreeJointViewOffsets[32] : "bigarray"; // xyz - offset, w - inverse length
 #endif
 
+float3 getSphere(float4 sh0, float4 sh1, float4 sh2)
+{
+	return float3(sh0.y * sh0.w + sh0.z * sh1.z + sh0.x * sh2.y, sh0.y * sh1.x + sh0.z * sh1.w + sh0.x * sh2.z, sh0.y * sh1.y + sh0.z * sh2.x + sh0.x * sh2.w) * 0.325734;
+}
+
 vertex_out vp_main(vertex_in input)
 {
 	vertex_out output;
@@ -140,10 +145,10 @@ vertex_out vp_main(vertex_in input)
 	billboardOffset.xy = float2(billboardOffset.x * cosT - billboardOffset.y * sinT, billboardOffset.x * sinT + billboardOffset.y * cosT);
 
 	float3 billboardOffsetPos = worldScale * billboardOffset;
-	float3 worldPos = mul3Fast1(localPos, worldMatrix);
+	float3 worldPos = mul(float4(localPos, 1.0), worldMatrix).xyz;
 	float3 shadowWorldPos = worldPos;
-	worldPos += mul3Fast0(billboardOffsetPos, invViewMatrix);
-	float3 eyePos = mul3Fast1(worldPos, viewMatrix);
+	worldPos += mul(float4(billboardOffsetPos, 0.0), invViewMatrix).xyz;
+	float3 eyePos = mul(float4(worldPos, 1.0), viewMatrix).xyz;
 
 	#if SPEEDTREE_JOINT_TRANSFORM
 		float3 jointViewOffset = speedtreeJointViewOffsets[int(input.jointIndex)].xyz;
@@ -157,13 +162,13 @@ vertex_out vp_main(vertex_in input)
 
 	#if RECEIVE_SHADOW
 		#if SPEEDTREE_JOINT_TRANSFORM
-			shadowWorldPos -= mul3Fast0(billboardOffsetPos - jointViewOffset, transpose(shadowViewMatrix));
+			shadowWorldPos -= mul(float4(billboardOffsetPos - jointViewOffset, 0.0), transpose(shadowViewMatrix)).xyz;
 		#else
-			shadowWorldPos -= mul3Fast0(billboardOffsetPos, transpose(shadowViewMatrix));
+			shadowWorldPos -= mul(float4(billboardOffsetPos, 0.0), transpose(shadowViewMatrix)).xyz;
 		#endif
 	#endif
 
-	output.localPos = mul4Fast1(eyePos, projMatrix);
+	output.localPos = mul(float4(eyePos, 1.0), projMatrix);
 
 	#if LOD_TRANSITION || (!DRAW_DEPTH_ONLY && RECEIVE_SHADOW)
 		output.projPos = output.localPos;
@@ -191,17 +196,14 @@ vertex_out vp_main(vertex_in input)
 
 				if (cutLeafEnabled == 0.0)
 				{
-					float3x3 shMatrix = float3x3(float3(sphericalHarmonics[0].w, sphericalHarmonics[1].xy), float3(sphericalHarmonics[1].zw, sphericalHarmonics[2].x), sphericalHarmonics[2].yzw);
-					
-					float3 normal = normalize(mul3Fast0(eyePos - worldViewObjectCenter, invViewMatrix) / boundingBoxSize);
-					float3 normalS = normal * normal;
-					float3 localNormal = mul3Fast0(billboardOffsetPos, invViewMatrix);
-					float3 localSphericalLightFactor = mul(localNormal.yzx, shMatrix) * (input.pivot.w * 0.325734) + sphericalLightFactor;
-					localNormal.z += 1.0 - input.pivot.w;
-					localNormal = normalize(localNormal);
-					sphericalLightFactor += mul(normal.yzx, shMatrix) * 0.325734;
+					float3 localSphericalLightFactor = sphericalLightFactor;
+					float3 normal = normalize(mul(float4(eyePos - worldViewObjectCenter, 0.0), invViewMatrix).xyz / boundingBoxSize);
+					float3 localNormal = normalize(mul(float4(billboardOffsetPos, 0.0), invViewMatrix).xyz + float3(const0List2, 1.0 - input.pivot.w));
+					sphericalLightFactor += getSphere(float4(normal, sphericalHarmonics[0].w), sphericalHarmonics[1], sphericalHarmonics[2]);
+					localSphericalLightFactor += getSphere(float4(localNormal, sphericalHarmonics[0].w), sphericalHarmonics[1], sphericalHarmonics[2]) * input.pivot.w;
 
 					#if SPHERICAL_HARMONICS_9
+						float3 normalS = normal * normal;
 						sphericalLightFactor += sphericalHarmonics[3].xyz * (normal.x * normal.y * 0.273136) + float3(sphericalHarmonics[3].w, sphericalHarmonics[4].xy) * (normal.y * normal.z * 0.273136) + float3(sphericalHarmonics[4].zw, sphericalHarmonics[5].x) * (normalS.z * 0.236541 - 0.078847) + sphericalHarmonics[5].yzw * (normal.x * normal.z * 0.273136) + sphericalHarmonics[6].xyz * ((normalS.x - normalS.y) * 0.136568);
 					#endif
 
@@ -229,11 +231,11 @@ vertex_out vp_main(vertex_in input)
 		#endif
 
 		#if PBR_SPEEDTREE
-			float3 t = mul3Fast0(input.tangent, worldInvTransposeMatrix);
-			float3 b = mul3Fast0(input.binormal, worldInvTransposeMatrix);
-			float3 n = mul3Fast0(input.normal, worldInvTransposeMatrix);
+			float3 t = mul(float4(input.tangent, 0.0), worldInvTransposeMatrix).xyz;
+			float3 b = mul(float4(input.binormal, 0.0), worldInvTransposeMatrix).xyz;
+			float3 n = mul(float4(input.normal, 0.0), worldInvTransposeMatrix).xyz;
 
-			n = normalize(lerp(n, (worldPos - mul3Fast1(normalSphereBendCenter, worldMatrix)) * float3(const1List2, normalSphereBendZSquish), normalSphereBendTerm));
+			n = normalize(lerp(n, (worldPos - mul(float4(normalSphereBendCenter, 1.0), worldMatrix).xyz) * float3(const1List2, normalSphereBendZSquish), normalSphereBendTerm));
 			t = normalize(t - n * dot(t, n));
 			b = normalize(b - n * dot(b, n) - t * dot(b, t));
 

@@ -1,0 +1,318 @@
+Header:
+    version: 155
+Prototypes:
+-   class: "UIControl"
+    name: "ShopSliderInfoContentWrapper"
+    size: [900.000000, 800.000000]
+    input: false
+    components:
+        UIOpacityComponent: {}
+        Anchor:
+            leftAnchorEnabled: true
+            vCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["float", "point", "0.000000", "500.000000"]
+            - ["float", "proportion", "1.000000", "1.000000"]
+            - ["bool", "isVisible", "true", "true"]
+            - ["int", "screenWidth", "0", "1200"]
+            - ["int", "width", "0", "900"]
+            - ["AppDataModel", "app", "null", "{ }"]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["string", "taxMessage", "\"\"", "\"All prices include tax\""]
+            - ["ShopProduct", "product", "null", "{ }"]
+            - ["StuffResourceWithDescription", "chest", "null", "{ }"]
+            - ["bool", "arabicLocalization", "false", "false"]
+            - ["bool", "showInfoButton", "false", "true"]
+            - ["bool", "nintendoSwitch", "false", "false"]
+            - ["bool", "showLoading", "false", "false"]
+            - ["bool", "alternativeAction", "false", "true"]
+            events:
+            - "ON_PRESENT_CLICKED"
+            - "ON_BUY_CLICKED"
+            - "ON_MAIN_REWARD_CLICKED"
+            - "ON_REWARD_CLICKED(ResourceDetailed resource, string attachId)"
+        UIDataLocalBindingsComponent:
+            data:
+            - ["float", "minOpacity", "0.100000"]
+            - ["bool", "smallContent", "screenWidth <= 1232"]
+            - ["bool", "oneButton", "not (product.giftable and product.giftAvailableTimes > 0)"]
+            - ["int", "buttonWidth", "when oneButton -> 274, smallContent -> 172, 266"]
+            - ["string", "buttonCaption", "when app.constants.nsb and product.paymentType == eShopPaymentType.EXTERNAL -> \"shop/eShop/NS\", not isNull(product.piggyBank) -> \"#common:Button/Claim\", not isNull(chest) -> \"Chests/Open\", not isNull(product) and (isNull(product.salePrice) or product.salePrice.resources.Empty()) -> \"shop/FreeBundle/Get\", \"shop/Buy\""]
+            - ["bool", "realCurrencyBundle", "not isNull(product) and not product.salePrice.resources.Empty() and product.paymentType == eShopPaymentType.EXTERNAL"]
+            - ["int", "contentWidth", "when width < 1200 -> 832, 1072"]
+            - ["bool", "isSimpleContent", "product.noArt and isNull(chest)"]
+    bindings:
+    - ["visible", "isVisible"]
+    - ["UIOpacityComponent.opacity", "max(proportion, minOpacity)"]
+    - ["Anchor.leftAnchor", "point"]
+    - ["SizePolicy.horizontalValue", "width"]
+    children:
+    -   class: "UIControl"
+        name: "ImageWrapper"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                topAnchorEnabled: true
+                topAnchor: -80.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                condition: "not product.noArt"
+                prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopContentImageWrapper.yaml"
+                args:
+                    "parentWidth": "screenWidth"
+                    "imageUrl": "product.contentUrl"
+    -   class: "UIControl"
+        name: "Title"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                topAnchorEnabled: true
+                topAnchor: -80.000000
+            LinearLayout:
+                dynamicPadding: true
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "FixedSize"
+                verticalValue: 80.000000
+        bindings:
+        - ["SizePolicy.horizontalValue", "when width < 1200 -> 832, 1072"]
+        children:
+        -   class: "UIControl"
+            name: "Title"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    topAnchorEnabled: true
+                    topAnchor: 32.000000
+                LinearLayout:
+                    spacing: 16.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfFirstChild"
+                UIChildComponent0:
+                    condition: "product.useVehicleName and not isNull(product.vehicle)"
+                    prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopProductInfoVehicleTitle.yaml"
+                    args:
+                        "vehicle": "product.vehicle"
+                UIChildComponent1:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Chests/ChestTite.yaml"
+                    args:
+                        "title": "product.name"
+        -   class: "UIControl"
+            name: "Timer"
+            input: false
+            components:
+                Anchor:
+                    topAnchorEnabled: true
+                    topAnchor: 34.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfMaxChild"
+                UIChildComponent0:
+                    condition: "isSimpleContent and product.isPromo and (product.promoExpiresAt - session.serverTime) <= 604800L"
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Timer.yaml"
+                    args:
+                        "serverTime": "session.serverTime"
+                        "time": "product.promoExpiresAt"
+                        "timerSize": "eTimerSize.Small"
+                        "bgVisible": "true"
+                        "bgColorStyle": "\"white-wild-sand-25-bg\""
+            bindings:
+            - ["visible", "isSimpleContent"]
+    -   class: "UIControl"
+        name: "ContentWrapper"
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "Content"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfParent"
+                UIChildComponent0:
+                    childType: "kPrototype"
+                    prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopProductInfoContent.yaml"
+                    args:
+                        "withAnimation": "false"
+                        "alternativeAction": "alternativeAction"
+                        "showLoading": "showLoading"
+                        "nintendoSwitch": "nintendoSwitch"
+                        "arabicLocalization": "arabicLocalization"
+                        "chest": "chest"
+                        "product": "product"
+                        "taxMessage": "taxMessage"
+                        "session": "session"
+                        "app": "app"
+                        "width": "contentWidth"
+                    eventActions:
+                    - ["ON_MAIN_REWARD_CLICKED", "ON_MAIN_REWARD_CLICKED", ""]
+                    - ["ON_REWARD_CLICKED", "ON_REWARD_CLICKED", "_event.resource, _event.attachId"]
+        -   class: "UIControl"
+            name: "Footer"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                LinearLayout:
+                    orientation: "TopDown"
+                    padding: "16; 24"
+                    spacing: 10.000000
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    verticalPolicy: "PercentOfChildrenSum"
+                UILayoutEventComponent:
+                    sizeChangedEvent: "FooterSizeChanged"
+                    sizeChangedEventData: "int(_size.Y)"
+            bindings:
+            - ["SizePolicy.horizontalValue", "contentWidth"]
+            children:
+            -   class: "UIControl"
+                name: "ButtonsWrapper"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    LinearLayout:
+                        spacing: 24.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfMaxChild"
+                children:
+                -   class: "UIControl"
+                    name: "Spacer"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                -   class: "UIControl"
+                    name: "GiftButtonWrapper"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfParent"
+                    children:
+                    -   class: "UIControl"
+                        name: "Button"
+                        input: false
+                        components:
+                            Anchor:
+                                bottomAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfMaxChild"
+                                verticalPolicy: "PercentOfMaxChild"
+                            UIChildComponent0:
+                                condition: "product.giftable and product.giftAvailableTimes > 0"
+                                prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopProductButton.yaml"
+                                args:
+                                    "width": "buttonWidth"
+                                    "enabled": "not product.pendingPurchase"
+                                    "count": "0"
+                                    "discount": "product.discount"
+                                    "caption": "capitalize(localize(\"Gifts/Present\"))"
+                                    "alternative": "true"
+                                eventActions:
+                                - ["ON_CLICK_BUTTON", "ON_PRESENT_CLICKED", ""]
+                        bindings:
+                        - ["Anchor.bottomAnchor", "when isSimpleContent and product.xTimed -> 38, 0"]
+                -   class: "UIControl"
+                    name: "BuyButtonWrapper"
+                    input: false
+                    components:
+                        LinearLayout:
+                            orientation: "TopDown"
+                            spacing: 10.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfChildrenSum"
+                    children:
+                    -   class: "UIControl"
+                        name: "TaxMessage"
+                        input: false
+                        classes: "t-caps regular white-wild-sand-50-text"
+                        components:
+                            UITextComponent:
+                                colorInheritType: "COLOR_IGNORE_PARENT"
+                                multiline: "MULTILINE_ENABLED"
+                                align: ["LEFT", "VCENTER"]
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfContent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                        bindings:
+                        - ["visible", "not empty(taxMessage) and realCurrencyBundle"]
+                        - ["UITextComponent.text", "taxMessage"]
+                    -   class: "UIControl"
+                        name: "Price"
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfMaxChild"
+                                verticalPolicy: "PercentOfMaxChild"
+                            UIChildComponent0:
+                                prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopItemPrice.yaml"
+                                args:
+                                    "artefacts": "session.artefacts"
+                                    "stats": "session.stats"
+                                    "product": "product"
+                    -   class: "UIControl"
+                        name: "Button"
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfMaxChild"
+                                verticalPolicy: "PercentOfMaxChild"
+                            UIChildComponent0:
+                                prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopProductButton.yaml"
+                                args:
+                                    "width": "buttonWidth"
+                                    "enabled": "not product.pendingPurchase and (not product.xTimed or product.availableTimes > 0)"
+                                    "count": "when not isNull(chest) -> product.content[0].stuff.quantity, 0"
+                                    "discount": "product.discount"
+                                    "caption": "buttonCaption"
+                                    "alternative": "alternativeAction"
+                                eventActions:
+                                - ["ON_CLICK_BUTTON", "ON_BUY_CLICKED", ""]
+                    -   class: "UIControl"
+                        name: "RemainingLabel"
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfFirstChild"
+                                verticalPolicy: "PercentOfFirstChild"
+                            UIChildComponent0:
+                                condition: "isSimpleContent and product.xTimed"
+                                prototypePath: "~res:/UI/Screens3/Common/RemainingLabel.yaml"
+                                args:
+                                    "left": "product.availableTimes"
+                                    "bgStyle": "\"white-wild-sand-25-bg\""
+                                    "textStyle": "\"t-subtitle regular white-wild-sand-text\""
+                        bindings:
+                        - ["visible", "isSimpleContent and product.xTimed"]

@@ -1,5 +1,7 @@
 Header:
     version: 134
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "InfoMenu"
@@ -25,10 +27,6 @@ Prototypes:
         UIDataLocalVarsComponent:
             data:
             - ["bool", "itemCollapsed", "collapsed"]
-        UIDataLocalBindingsComponent:
-            data:
-            - ["string", "styleBg", "when itemCollapsed -> \"white-wild-sand-25-bg\", \"white-wild-sand-5-bg\""]
-            - ["string", "style", "\"button-open-sound white-wild-sand-5-bg\""]
         UIActionComponent:
             actionsPath: "~res:/UI/Screens3/Lobby/Chests/InfoMenu.actions"
         UIDataOnEventComponent0:
@@ -36,32 +34,20 @@ Prototypes:
             modelFieldExpression: "itemCollapsed"
             dataExpression: "not itemCollapsed"
     children:
+    -   prototype: "BlurModified/BlurModified"
+        name: "Blur"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "blurScale": "when itemCollapsed -> 0.250000, 1.000000"
+                    "bgStyle": "when itemCollapsed -> \"white-wild-sand-25-bg\", \"white-wild-sand-5-bg\""
+                    "roundCorner": "\"8\""
     -   class: "UIControl"
         name: "Title"
         input: true
         classes: "button-open-sound"
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
+            Background: {}
             UIOpacityComponent: {}
             LinearLayout:
                 padding: "16; 10"
@@ -96,7 +82,6 @@ Prototypes:
                     styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
             bindings:
             - ["UITextComponent.text", "capitalize(localize(title))"]
-            - ["UIRoundedCornersComponent.radius", "when itemCollapsed -> 4, 0"]
         -   class: "UIControl"
             name: "spacer"
             input: false
@@ -144,29 +129,6 @@ Prototypes:
         name: "Info"
         input: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIRoundedCornersComponent:
-                radius: "0;0;8;8"
             UIOpacityComponent: {}
             ClipContent: {}
             SizePolicy:

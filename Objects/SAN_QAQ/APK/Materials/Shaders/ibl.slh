@@ -18,7 +18,7 @@ float D_GGX(float NdotH, float roughness)
 {
 	float a = (NdotH * roughness - NdotH) * NdotH + 1.0;
 
-	return roughness * _INVERSE_PI / (a * a + 0.0001);
+	return roughness * _INVERSE_PI / (a * a + 1e-4);
 }
 
 float G_GGX(float NdotV, float NdotL, float roughness)

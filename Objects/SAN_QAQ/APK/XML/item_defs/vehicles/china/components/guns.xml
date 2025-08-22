@@ -1,5 +1,5 @@
 <root>
-	<nextAvailableId>82</nextAvailableId>
+	<nextAvailableId>83</nextAvailableId>
 	<ids>
 		<_100mm_59>0</_100mm_59>
 		<_85mm_Tip_62-85TS>1</_85mm_Tip_62-85TS>
@@ -71,6 +71,7 @@
 		<_100mm_Type_59_spc>79</_100mm_Type_59_spc>
 		<_130mm_Type_61>80</_130mm_Type_61>
 		<_180mm_S-23CH>81</_180mm_S-23CH>
+		<_130mm_Type62v2>82</_130mm_Type62v2>
 	</ids>
 	<shared>
 		<_37mm_APX_SA18>
@@ -3603,6 +3604,62 @@
 				</_130mm_Sha_bao-492G>
 			</shots>
 		</_130mm_Type62>
+		<_130mm_Type62v2>
+			<userString>#china_vehicles:_130mm_Type62v2</userString>
+			<shortUserString>#china_vehicles:_130mm_Type62v2_short</shortUserString>
+			<description>#china_vehicles:_130mm_Type62v2_descr</description>
+			<tags/>
+			<level>10</level>
+			<price>0</price>
+			<impulse>0.62</impulse>
+			<recoil>
+				<lodDist>MEDIUM</lodDist>
+				<amplitude>0.66</amplitude>
+				<backoffTime>0.1</backoffTime>
+				<returnTime>0.64</returnTime>
+			</recoil>
+			<effects>wpn_shot_large_extra</effects>
+			<turretYawLimits>-180 180</turretYawLimits>
+			<pitchLimits>-15 6</pitchLimits>
+			<rotationSpeed>40</rotationSpeed>
+			<reloadTime>11.5</reloadTime>
+			<maxAmmo>50</maxAmmo>
+			<aimingTime>1.7</aimingTime>
+			<weight>3500</weight>
+			<maxHealth>210</maxHealth>
+			<maxRegenHealth>105</maxRegenHealth>
+			<repairCost>0</repairCost>
+			<invisibilityFactorAtShot>0.225</invisibilityFactorAtShot>
+			<shotDispersionRadius>0.37</shotDispersionRadius>
+			<shotDispersionFactors>
+				<turretRotation>0.12</turretRotation>
+				<afterShot>4.0</afterShot>
+				<whileGunDamaged>2.0</whileGunDamaged>
+			</shotDispersionFactors>
+			<shots>
+				<_130mm_Chuan_bei-492v2>
+					<defaultPortion>0.8</defaultPortion>
+					<speed>750</speed>
+					<gravity>9.81</gravity>
+					<maxDistance>720</maxDistance>
+					<piercingPower>250 226</piercingPower>
+				</_130mm_Chuan_bei-492v2>
+				<_130mm_Po-492Fv2>
+					<defaultPortion>0</defaultPortion>
+					<speed>690</speed>
+					<gravity>9.81</gravity>
+					<maxDistance>720</maxDistance>
+					<piercingPower>315 315</piercingPower>
+				</_130mm_Po-492Fv2>
+				<_130mm_Sha_bao-492Gv2>
+					<defaultPortion>0.2</defaultPortion>
+					<speed>630</speed>
+					<gravity>9.81</gravity>
+					<maxDistance>720</maxDistance>
+					<piercingPower>60 60</piercingPower>
+				</_130mm_Sha_bao-492Gv2>
+			</shots>
+		</_130mm_Type62v2>
 		<_160mm_56_160_bzs>
 			<userString>#china_vehicles:_160mm_56_160_bzs</userString>
 			<shortUserString>#china_vehicles:_160mm_56_160_bzs_short</shortUserString>

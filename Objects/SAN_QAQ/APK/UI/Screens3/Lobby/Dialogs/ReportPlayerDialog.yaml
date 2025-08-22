@@ -1,7 +1,7 @@
 Header:
     version: 161
 ImportedPackages:
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
+- "~res:/UI/Screens3/Common/OverlayBlur.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ReportPlayerDialog"
@@ -101,7 +101,10 @@ Prototypes:
         bindings:
         - ["visible", "(showList1 or showList2) or showList3"]
         children:
-        -   prototype: "BlurModified/BlurModified"
+        -   prototype: "OverlayBlur/BlurAndFade"
+            name: "BlurAndFade"
+            components:
+                IgnoreLayout: {}
         -   class: "UIControl"
             name: "PopUpType"
             input: false
@@ -453,7 +456,7 @@ Slots:
             size: [300.000000, 50.000000]
             components:
                 UITextComponent:
-                    fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+                    fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
                     fontSize: 18.000000
                     colorInheritType: "COLOR_IGNORE_PARENT"
                     align: ["LEFT", "HCENTER", "VCENTER"]
@@ -549,7 +552,7 @@ Slots:
             size: [300.000000, 50.000000]
             components:
                 UITextComponent:
-                    fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+                    fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
                     fontSize: 18.000000
                     colorInheritType: "COLOR_IGNORE_PARENT"
                     align: ["LEFT", "HCENTER", "VCENTER"]
@@ -647,7 +650,7 @@ Slots:
             classes: ""
             components:
                 UITextComponent:
-                    fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+                    fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
                     fontSize: 18.000000
                     letterSpacing: 0.000000
                     colorInheritType: "COLOR_IGNORE_PARENT"

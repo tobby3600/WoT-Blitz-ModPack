@@ -1,0 +1,561 @@
+Header:
+    version: 133
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Inventory/Common/DynamicTopSpacer.yaml"
+- "~res:/UI/Screens3/Lobby/Inventory/Common/DynamicHorizontalPadding.yaml"
+- "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Resource/Price.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+- "~res:/UI/Screens3/Common/Footer.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "OptionalDevices"
+    size: [960.000000, 496.000000]
+    input: true
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Extra2"
+            keyDownEvent: "UNLOCK_SLOT_BY_SHORTCUT"
+        Focus:
+            state: "Enabled"
+            requestFocus: true
+        UIDataParamsComponent:
+            params:
+            - ["TankParams", "tankParams", "null", "{ }"]
+            - ["OptionalDevices", "devices", "null", "{ }"]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            events:
+            - "UNLOCK_SLOT"
+            - "SHOW_INFO"
+            - "ITEM_SELECTED"
+        UIDataLocalBindingsComponent:
+            writeAllowed: false
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Inventory/OptionalDevices/OptionalDevices.actions"
+    children:
+    -   prototype: "DynamicTopSpacer/DynamicTopSpacer"
+        name: "DynamicTopSpacer"
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        classes: "notch-tightly-bottom-inset inventory-limited-width"
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            LinearLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIAnchorSafeAreaComponent: {}
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Common/Desktop.style.yaml"
+        children:
+        -   prototype: "DynamicHorizontalPadding/DynamicHorizontalPadding"
+            name: "DynamicHorizontalPadding"
+            classes: "padding fixed-padding desktop-unvisible"
+        -   class: "UIControl"
+            name: "VerticalScrollView"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIScrollView"
+                name: "ScrollArea"
+                autoUpdate: true
+                centerContent: true
+                components:
+                    ClipContent:
+                        enabled: false
+                    Anchor:
+                        leftAnchorEnabled: true
+                        rightAnchorEnabled: true
+                        topAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                children:
+                -   class: "UIScrollViewContainer"
+                    name: "scrollContainerControl"
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfChildrenSum"
+                    children:
+                    -   class: "UIControl"
+                        name: "SlotsMainLayout"
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            LinearLayout:
+                                orientation: "TopDown"
+                                spacing: 16.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfMaxChild"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        children:
+                        -   class: "UIControl"
+                            name: "Headers"
+                            position: [30.000000, 0.000000]
+                            input: false
+                            components:
+                                Anchor:
+                                    rightAnchorEnabled: true
+                                    rightAnchor: 4.000000
+                                LinearLayout: {}
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfChildrenSum"
+                                    verticalPolicy: "PercentOfMaxChild"
+                            children:
+                            -   class: "UIControl"
+                                name: "FirstHeader"
+                                input: false
+                                components:
+                                    Anchor:
+                                        vCenterAnchorEnabled: true
+                                    LinearLayout:
+                                        orientation: "TopDown"
+                                        spacing: 12.000000
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 176.000000
+                                        verticalPolicy: "PercentOfChildrenSum"
+                                children:
+                                -   class: "UIControl"
+                                    name: "Icon"
+                                    input: false
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_ALIGNED"
+                                            sprite: "~res:/Gfx/Lobby/icons/icon_optdev_power"
+                                            perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                                        Anchor:
+                                            hCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 24.000000
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 24.000000
+                                -   class: "UIControl"
+                                    name: "Text"
+                                    input: false
+                                    classes: "bold t-caps white-wild-sand-text"
+                                    components:
+                                        UITextComponent:
+                                            text: "optionalDevices/Type/attack"
+                                            colorInheritType: "COLOR_IGNORE_PARENT"
+                                        Anchor:
+                                            hCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 152.000000
+                                            verticalPolicy: "PercentOfContent"
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+                            -   class: "UIControl"
+                                name: "SecondHeader"
+                                input: false
+                                components:
+                                    Anchor:
+                                        vCenterAnchorEnabled: true
+                                    LinearLayout:
+                                        orientation: "TopDown"
+                                        spacing: 12.000000
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 176.000000
+                                        verticalPolicy: "PercentOfChildrenSum"
+                                children:
+                                -   class: "UIControl"
+                                    name: "Icon"
+                                    position: [52.000000, 0.000000]
+                                    input: false
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_ALIGNED"
+                                            sprite: "~res:/Gfx/Lobby/icons/icon_optdev_defense"
+                                            perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                                        Anchor:
+                                            hCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 24.000000
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 24.000000
+                                -   class: "UIControl"
+                                    name: "Text"
+                                    position: [0.000000, 48.000000]
+                                    input: false
+                                    classes: "bold t-caps white-wild-sand-text"
+                                    components:
+                                        UITextComponent:
+                                            text: "optionalDevices/Type/defence"
+                                            colorInheritType: "COLOR_IGNORE_PARENT"
+                                        Anchor:
+                                            hCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 152.000000
+                                            verticalPolicy: "PercentOfContent"
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+                            -   class: "UIControl"
+                                name: "ThirdHeader"
+                                input: false
+                                components:
+                                    Anchor:
+                                        vCenterAnchorEnabled: true
+                                    LinearLayout:
+                                        orientation: "TopDown"
+                                        spacing: 12.000000
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 176.000000
+                                        verticalPolicy: "PercentOfChildrenSum"
+                                children:
+                                -   class: "UIControl"
+                                    name: "Icon"
+                                    input: false
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_ALIGNED"
+                                            sprite: "~res:/Gfx/Lobby/icons/icon_optdev_vitality"
+                                            perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                                        Anchor:
+                                            hCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 24.000000
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 24.000000
+                                -   class: "UIControl"
+                                    name: "Text"
+                                    input: false
+                                    classes: "bold t-caps white-wild-sand-text"
+                                    components:
+                                        UITextComponent:
+                                            text: "optionalDevices/Type/specialization"
+                                            colorInheritType: "COLOR_IGNORE_PARENT"
+                                        Anchor:
+                                            hCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 152.000000
+                                            verticalPolicy: "PercentOfContent"
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+                        -   class: "UIControl"
+                            name: "Groups"
+                            position: [0.000000, 80.000000]
+                            input: false
+                            components:
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                LinearLayout:
+                                    skipInvisible: false
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfChildrenSum"
+                                    verticalPolicy: "PercentOfMaxChild"
+                            children:
+                            -   class: "UIControl"
+                                name: "LeftSpacer"
+                                input: false
+                                components:
+                                    Anchor:
+                                        vCenterAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 16.000000
+                                        verticalPolicy: "PercentOfParent"
+                            -   class: "UIControl"
+                                name: "Lines"
+                                input: false
+                                components:
+                                    Anchor:
+                                        vCenterAnchorEnabled: true
+                                    LinearLayout:
+                                        orientation: "TopDown"
+                                        spacing: 16.000000
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfMaxChild"
+                                        verticalPolicy: "PercentOfChildrenSum"
+                                children:
+                                -   class: "UIControl"
+                                    name: "FirstLine"
+                                    input: false
+                                    classes: "t-body bold white-wild-sand-text"
+                                    components:
+                                        UITextComponent:
+                                            text: "optionalDevices/Level/1"
+                                        Anchor:
+                                            rightAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "PercentOfContent"
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 80.000000
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+                                -   class: "UIControl"
+                                    name: "SecondLine"
+                                    input: false
+                                    classes: "t-body bold white-wild-sand-text"
+                                    components:
+                                        UITextComponent:
+                                            text: "optionalDevices/Level/2"
+                                        Anchor:
+                                            rightAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "PercentOfContent"
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 80.000000
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+                                -   class: "UIControl"
+                                    name: "ThirdLine"
+                                    input: false
+                                    classes: "t-body bold white-wild-sand-text"
+                                    components:
+                                        UITextComponent:
+                                            text: "optionalDevices/Level/3"
+                                        Anchor:
+                                            rightAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "PercentOfContent"
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 80.000000
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+                            -   class: "UIControl"
+                                name: "Spacer"
+                                input: false
+                                components:
+                                    Anchor:
+                                        vCenterAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 8.000000
+                                        verticalPolicy: "PercentOfParent"
+                            -   class: "UIControl"
+                                name: "Container"
+                                input: false
+                                components:
+                                    LinearLayout:
+                                        spacing: 24.000000
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfChildrenSum"
+                                        verticalPolicy: "PercentOfFirstChild"
+                                    UISwitchBarComponent:
+                                        onSelectElement: "ITEM_SELECTED"
+                                        onSelectElementData: "_selectedElement"
+                                        selectionEventType: "TOUCH_UP"
+                                    UIRepeatComponent:
+                                        control: "~res:/UI/Screens3/Lobby/Inventory/OptionalDevices/OptionalDevicesGroup.yaml"
+                                        dataContainer: "devices.groups"
+                                        args:
+                                            "selectedDescr": "devices.selectedItem.compactDescr"
+                                            "states": "devices.deviceColumnsStates[_index]"
+                                            "group": "devices.groups[_index]"
+                                bindings:
+                                - ["UISwitchBarComponent.selectedElement", "devices.selectedItem.compactDescr"]
+                            -   class: "UIControl"
+                                name: "RightSpacer"
+                                input: false
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 16.000000
+                                        verticalPolicy: "PercentOfParent"
+                -   prototype: "VerticalScrollBar/VerticalScrollBar"
+                    name: "VerticalScrollBar"
+                    components:
+                        UIScrollBarComponent:
+                            delegate: ".."
+        -   class: "UIControl"
+            name: "RightPanelWrapper"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "RightPanel"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "Formula"
+                        verticalFormula: "when parent == 0 -> childrenSum, min(parentRest, childrenSum)"
+                    UIAttachLayoutMasterComponent:
+                        attachId: "NEWBIE_OPTIONAL_DEVICE_INFO"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Lobby/Inventory/Common/RightPanel.yaml"
+                        args:
+                            "content": "RightPanelContent"
+                            "isBlur": "false"
+            -   class: "UIControl"
+                name: "Spacer"
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 16.000000
+        -   prototype: "DynamicHorizontalPadding/DynamicHorizontalPadding"
+            name: "DynamicHorizontalPadding_1"
+            classes: "padding only-notch-padding desktop-unvisible"
+    -   prototype: "Footer/Footer"
+        name: "StateControl"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "bgStyle": "\"grey-shark-70-bg\""
+                    "content": "FooterContent"
+                    "isBlur": "false"
+Slots:
+-   class: "UIControl"
+    name: "FooterContent"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   prototype: "IconButton/IconButton"
+        name: "InfoButton"
+        position: [16.000000, 16.000000]
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            UIDataParamsComponent:
+                args:
+                    "locked": "false"
+                    "visible": "true"
+                    "isBgVisible": "true"
+                    "isBlur": "false"
+                    "image": "\"~res:/Gfx/Lobby/icons/icon_info_xs\""
+                    "type": "eButtonType.OPTIONAL_LIGHT"
+                    "sound": "eButtonSound.OPEN"
+                    "enabled": "true"
+                eventActions:
+                - ["ON_CLICK_BUTTON", "SHOW_INFO", ""]
+    -   class: "UIControl"
+        name: "Spacer"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "Formula"
+                horizontalFormula: "parentRest"
+                verticalPolicy: "PercentOfParent"
+    -   class: "UIControl"
+        name: "SlotStateInfo"
+        position: [1267.000000, 30.000000]
+        input: false
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                orientation: "LeftToRight"
+                spacing: 32.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfMaxChild"
+        children:
+        -   class: "UIControl"
+            name: "Description"
+            input: false
+            classes: "t-body regular white-wild-sand-50-text"
+            components:
+                UITextComponent: {}
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["visible", "devices.unlockStatus != eOptionalDeviceUnlockStatus.READY_TO_UNLOCK"]
+            - ["UITextComponent.text", "when devices.unlockStatus == eOptionalDeviceUnlockStatus.UNLOCKED -> localize(\"optionalDevices/ChangeDevice/Comment\"), devices.unlockStatus == eOptionalDeviceUnlockStatus.REQUIRES_PREVIOUS_TIER -> localize(\"optionalDevices/OpenPreviousLevel/Comment\"), \"\""]
+        -   class: "UIControl"
+            name: "PriceVisibilityWrapper"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfFirstChild"
+            bindings:
+            - ["visible", "devices.unlockStatus == eOptionalDeviceUnlockStatus.READY_TO_UNLOCK"]
+            children:
+            -   prototype: "Price/Price"
+                name: "Price"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "artefacts": "session.artefacts"
+                            "stats": "session.stats"
+                            "priceGet": "{ }"
+                            "pricePay": "devices.unlockPrice"
+                children:
+                -   path: "PriceToGet/Label"
+                    classes: "t-body regular white-wild-sand-50-text"
+                -   path: "PriceToPay/Label"
+                    classes: "t-body regular white-wild-sand-50-text"
+        -   class: "UIControl"
+            name: "ButtonVisibilityWrapper"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfFirstChild"
+                UIAttachLayoutMasterComponent:
+                    attachId: "NEWBIE_OPTIONAL_DEVICE_INSTALL"
+            bindings:
+            - ["visible", "devices.unlockStatus != eOptionalDeviceUnlockStatus.UNLOCKED"]
+            children:
+            -   prototype: "Button/Button"
+                name: "UnlockButton"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "caption": "localize(\"#lobby:MainScreen/optionalDevices/Button/Unlock\")"
+                            "type": "eButtonType.POSITIVE"
+                            "size": "eButtonSize.NORMAL"
+                            "sound": "eButtonSound.OK"
+                            "enabled": "devices.unlockStatus == eOptionalDeviceUnlockStatus.READY_TO_UNLOCK"
+                        eventActions:
+                        - ["ON_CLICK_BUTTON", "UNLOCK_SLOT", ""]
+-   class: "UIControl"
+    name: "RightPanelContent"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfChildrenSum"
+        UIChildComponent0:
+            prototypePath: "~res:/UI/Screens3/Lobby/Inventory/OptionalDevices/OptionalDevicesRightPanelContent.yaml"
+            args:
+                "item": "devices.selectedItem"
+                "tankParams": "tankParams"

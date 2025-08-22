@@ -2,6 +2,7 @@ Header:
     version: 161
 ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Common/BadgeHolder.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "BattleButton"
@@ -375,7 +376,6 @@ Prototypes:
                         components:
                             UITextureComponent:
                                 materialPath: "~res:/Materials.custom/2d.Textured.HSV.material"
-                                materialParams: "hue,0;saturation,1;value,0"
                                 drawType: "DRAW_SCALE_PROPORTIONAL"
                                 perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
                             Anchor:
@@ -893,21 +893,19 @@ Prototypes:
                         horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "PercentOfParent"
                 children:
+                -   prototype: "BlurModified/BlurModified"
+                    name: "Blur"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "bgStyle": "\"black-50-bg\""
                 -   class: "UIControl"
                     name: "Bg"
                     input: false
-                    classes: "grey-shark-70-bg"
                     components:
-                        Background:
-                            drawType: "DRAW_STRETCH_BOTH"
-                            sprite: "~res:/Gfx/Lobby/backgrounds/bg_r1"
-                            leftRightStretchCap: 1.000000
-                            topBottomStretchCap: 1.000000
                         SizePolicy:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfParent"
-                        StyleSheet:
-                            styles: "~res:/UI/Screens3/Color.style.yaml"
                     children:
                     -   class: "UIControl"
                         name: "Lock"
@@ -930,33 +928,6 @@ Prototypes:
                                 styles: "~res:/UI/Screens3/Color.style.yaml"
                         bindings:
                         - ["visible", "not isGeneralPackLoaded"]
-                -   class: "UIControl"
-                    name: "TriangleWrapper"
-                    input: false
-                    components:
-                        Anchor:
-                            vCenterAnchorEnabled: true
-                        SizePolicy:
-                            horizontalPolicy: "FixedSize"
-                            horizontalValue: 8.000000
-                            verticalPolicy: "FixedSize"
-                            verticalValue: 15.000000
-                    children:
-                    -   class: "UIControl"
-                        name: "Triangle"
-                        pivot: [0.000000, 1.000000]
-                        angle: 90.000000
-                        input: false
-                        classes: "grey-shark-70-bg"
-                        components:
-                            Background:
-                                drawType: "DRAW_ALIGNED"
-                                sprite: "~res:/Gfx/Lobby/backgrounds/bg_triangle_8.psd"
-                            SizePolicy:
-                                horizontalPolicy: "PercentOfContent"
-                                verticalPolicy: "PercentOfContent"
-                            StyleSheet:
-                                styles: "~res:/UI/Screens3/Color.style.yaml"
             -   class: "UIControl"
                 name: "Hover"
                 size: [32.000000, 32.000000]

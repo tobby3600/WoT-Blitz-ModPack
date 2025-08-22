@@ -285,8 +285,6 @@ Prototypes:
                     refreshStylesOnInteract: false
                     scrollDirection: "kVertical"
                     components:
-                        Anchor:
-                            hCenterAnchorEnabled: true
                         SizePolicy:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfFirstChild"
@@ -459,7 +457,7 @@ Slots:
                     "icon": "eNintendoSwitchControls.Y"
 -   class: "UIControl"
     name: "SectionsHolder"
-    refreshStylesOnInteract: true
+    refreshStylesOnInteract: false
     components:
         UIOpacityComponent: {}
         Anchor:
@@ -469,8 +467,7 @@ Slots:
             padding: "32"
             spacing: 60.000000
         SizePolicy:
-            horizontalPolicy: "Formula"
-            horizontalFormula: "maxChild + 32"
+            horizontalPolicy: "PercentOfMaxChild"
             verticalPolicy: "PercentOfChildrenSum"
         UIRepeatComponent:
             control: "~res:/UI/Screens3/Lobby/Shop/ShopSection.yaml"
@@ -1155,4 +1152,3 @@ Slots:
                 "resource": "blackTicket"
             eventActions:
             - ["ON_STATS_ITEM_PRESSED", "ON_BLACK_TICKET_CLICKED", ""]
-

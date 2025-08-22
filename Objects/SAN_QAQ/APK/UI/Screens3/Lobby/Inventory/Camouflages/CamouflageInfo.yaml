@@ -15,7 +15,6 @@ Prototypes:
             padding: "16"
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
-            horizontalValue: 95.000000
             horizontalMax: 640.000000
             verticalPolicy: "PercentOfLastChild"
         UIDataParamsComponent:
@@ -33,22 +32,13 @@ Prototypes:
     bindings:
     - ["visible", "visible"]
     children:
-    -   class: "UIControl"
-        name: "Background"
-        input: false
+    -   prototype: "BlurModified/BlurModified"
+        name: "BackGround"
         components:
-            Background: {}
-            IgnoreLayout: {}
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfParent"
-        children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
-            components:
-                UIDataParamsComponent:
-                    args:
-                        "bgStyle": "\"black-50-bg\""
+            UIDataParamsComponent:
+                args:
+                    "bgStyle": "\"black-50-bg\""
+                    "roundCorner": "\"8\""
     -   class: "UIControl"
         name: "Content"
         input: false

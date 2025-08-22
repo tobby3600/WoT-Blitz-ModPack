@@ -1,0 +1,217 @@
+Header:
+    version: 155
+ImportedPackages:
+- "~res:/UI/Screens/Common/Switch.yaml"
+- "~res:/UI/Screens/Common/ScrollBar.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "SocialNetworkCell"
+    size: [300.000000, 80.000000]
+    input: false
+    classes: "social-item"
+    components:
+        Background:
+            colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
+        LinearLayout:
+            orientation: "LeftToRight"
+            dynamicSpacing: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "FixedSize"
+            verticalValue: 80.000000
+        StyleSheet:
+            styles: "~res:/UI/Styles/BackgroundStyles.yaml;~res:/UI/Screens/Common/Settings/PrimaryTab/Styles/PrimaryOptionsPageStyles.yaml"
+    children:
+    -   class: "UIControl"
+        name: "Bg"
+        input: false
+        classes: "pane-bg"
+        components:
+            Background:
+                colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
+            IgnoreLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+    -   class: "UIControl"
+        name: "Spacer_1"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 12.000000
+                verticalPolicy: "PercentOfParent"
+    -   class: "UIControl"
+        name: "Content"
+        position: [120.500000, 16.000000]
+        size: [159.500000, 48.000000]
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                spacing: 4.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfMaxChild"
+        children:
+        -   class: "UIControl"
+            name: "icon"
+            components:
+                Background:
+                    drawType: "DRAW_SCALE_PROPORTIONAL"
+                    sprite: "~res:/Gfx/UI/CommonUIElements/IconsSocialBigOn.psd"
+                    colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
+                    perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 48.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 48.000000
+                DebugRender:
+                    enabled: false
+                    drawColor: [1.000000, 0.000000, 0.000000, 1.000000]
+        -   class: "UIControl"
+            name: "serviceName"
+            position: [68.500000, 12.500000]
+            input: false
+            classes: "text2 text-color-white"
+            components:
+                UITextComponent:
+                    text: "мордокнига"
+                    colorInheritType: "COLOR_MULTIPLY_ALPHA_ONLY"
+                    fitting: "FITTING_POINTS"
+                    align: ["LEFT", "VCENTER"]
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens/Fonts.yaml"
+    -   prototype: "Switch/Switch"
+        name: "switch"
+        classes: "switch switch-background switch-sound"
+        components:
+            Background:
+                colorInherit: "COLOR_IGNORE_PARENT"
+            Anchor:
+                vCenterAnchorEnabled: true
+            UIInputEventComponent:
+                onValueChanged: "ON_SOCIAL_SWITCH_CHANGED"
+            Sound: {}
+            StyleSheet:
+                styles: "~res:/UI/Screens/Common/Styles/Switch.style.yaml;~res:/UI/Screens3/Background.style.yaml;~res:/UI/Styles/ControlSoundStyles.yaml"
+    -   class: "UIControl"
+        name: "Spacer"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 20.000000
+                verticalPolicy: "PercentOfParent"
+-   class: "UIControl"
+    name: "SocialNetworks"
+    size: [512.000000, 468.000000]
+    input: false
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+            spacing: 1.000000
+        SizePolicy:
+            verticalPolicy: "PercentOfParent"
+        StyleSheet:
+            styles: "~res:/UI/Styles/BackgroundStyles.yaml;~res:/UI/Screens/Common/Settings/PrimaryTab/Styles/PrimaryOptionsPageStyles.yaml"
+    children:
+    -   class: "UIControl"
+        name: "topLabelPane"
+        size: [512.000000, 64.000000]
+        input: false
+        classes: "pane-bg"
+        components:
+            Background: {}
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+        children:
+        -   class: "UIStaticText"
+            name: "topLabel"
+            classes: "text1 text-color-blue"
+            components:
+                Background: {}
+                UITextComponent:
+                    text: "#account:Blocks/Externals/Title"
+                    colorInheritType: "COLOR_IGNORE_PARENT"
+                    multiline: "MULTILINE_ENABLED"
+                Anchor:
+                    leftAnchorEnabled: true
+                    leftAnchor: 8.000000
+                    rightAnchorEnabled: true
+                    rightAnchor: 8.000000
+                    topAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                UIAnchorSafeAreaComponent:
+                    rightSafeInset: "INSET"
+                StyleSheet:
+                    styles: "~res:/UI/Screens/Fonts.yaml"
+    -   class: "UIControl"
+        name: "VerticalScrollView"
+        size: [512.000000, 403.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIScrollView"
+            name: "ScrollArea"
+            size: [512.000000, 403.000000]
+            autoUpdate: true
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    rightAnchorEnabled: true
+                    topAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                LinearLayout:
+                    orientation: "TopDown"
+                    spacing: 1.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIScrollViewContainer"
+                name: "scrollContainerControl"
+                components:
+                    LinearLayout:
+                        orientation: "TopDown"
+                        spacing: 1.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfChildrenSum"
+            -   class: "UIControl"
+                name: "Spacer"
+                position: [0.000000, 405.000000]
+                size: [512.000000, 0.000000]
+                visible: true
+                input: false
+                classes: "pane-bg"
+                components:
+                    Background: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+        -   prototype: "ScrollBar/VerticalScrollBar"
+            name: "VerticalScrollBar"
+            components:
+                Anchor:
+                    rightAnchorEnabled: true
+                    topAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                UIScrollBarComponent:
+                    delegate: "../ScrollArea"
+CustomData:
+    Guides:
+        SocialNetworks:
+            Vertical:
+            - 81.000000

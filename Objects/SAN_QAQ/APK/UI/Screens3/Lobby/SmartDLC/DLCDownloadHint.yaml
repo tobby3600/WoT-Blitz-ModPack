@@ -76,7 +76,6 @@ Prototypes:
                 name: "bg"
                 input: false
                 components:
-                    Background: {}
                     UIOpacityComponent: {}
                     SizePolicy:
                         horizontalPolicy: "PercentOfParent"
@@ -87,7 +86,6 @@ Prototypes:
                     components:
                         UIDataParamsComponent:
                             args:
-                                "blurOpacity": "0.000000"
                                 "bgStyle": "\"black-50-bg\""
                                 "roundCorner": "\"8\""
             -   class: "UIControl"

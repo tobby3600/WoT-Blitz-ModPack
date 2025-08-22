@@ -263,8 +263,8 @@
 						</armor_1>
 						<gun>65</gun>
 					</armor>
-					<shotDispersionRadius>0.43</shotDispersionRadius>
-					<aimingTime>2.85</aimingTime>
+					<shotDispersionRadius>0.45</shotDispersionRadius>
+					<aimingTime>3.145</aimingTime>
 					<reloadTime>21.0</reloadTime>
 					<shotDispersionFactors>
 						<turretRotation>0.13</turretRotation>

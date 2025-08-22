@@ -20,36 +20,37 @@ Prototypes:
         UISwitchBarElementComponent: {}
         UIDataParamsComponent:
             params:
-            - ["string", "attachId", "\"\"", "\"\""]
-            - ["bool", "showMultiRewardIcon", "false", "true"]
-            - ["int", "id", "0", "0"]
-            - ["bool", "isSelected", "false", "true"]
-            - ["bool", "isLocked", "false", "true"]
-            - ["bool", "forceHideLockedBg", "false", "false"]
-            - ["bool", "showBadge", "false", "true"]
-            - ["bool", "animateAvatar", "false", "true"]
-            - ["bool", "isVisible", "true", "true"]
-            - ["bool", "isBgVisible", "true", "true"]
-            - ["bool", "interactive", "true", "true"]
             - ["ResourceDetailed", "resource", "null", "{ \"type\" = ResourceType.equipment_slots; }"]
+            - ["bool", "animateAvatar", "false", "true"]
+            - ["bool", "forceHideLockedBg", "false", "false"]
+            - ["bool", "interactive", "true", "true"]
+            - ["bool", "isBgVisible", "true", "true"]
+            - ["bool", "isLocked", "false", "true"]
+            - ["bool", "isSelected", "false", "true"]
+            - ["bool", "isVisible", "true", "true"]
+            - ["bool", "showBadge", "false", "true"]
+            - ["bool", "showMultiRewardIcon", "false", "true"]
             - ["bool", "showStuffCustomPrefix", "false", "true"]
             - ["int", "customQuantity", "0", "100"]
+            - ["int", "id", "0", "0"]
+            - ["string", "attachId", "\"\"", "\"\""]
+            - ["string", "bgStyle", "\"\"", "\"\""]
             events:
             - "ON_REWARD_CLICK(int id)"
         UIDataLocalBindingsComponent:
             data:
-            - ["bool", "temporary", "resource.type == ResourceType.stuff and resource.stuff.lifetime > 0L"]
+            - ["ArtefactGrade", "gradeType", "when not showGrade -> ArtefactGrade.unknown, resource.stuff.grade"]
             - ["bool", "hasNumericValue", "resource.type == ResourceType.stuff or resource.type == ResourceType.unlocks or resource.type == ResourceType.achievement or resource.type == ResourceType.equipment_slots or not isNull(resource.basic)"]
-            - ["bool", "showGrade", "resource.type == ResourceType.stuff and resource.stuff.type != ArtefactType.player_avatar and not resource.stuff.hideGrade"]
             - ["bool", "isAvatar", "resource.type == ResourceType.stuff and resource.stuff.type == ArtefactType.player_avatar"]
             - ["bool", "isUrlStuff", "resource.type == ResourceType.stuff and resource.stuff.type != ArtefactType.player_avatar and not empty(resource.stuff.iconUrl)"]
-            - ["int", "quantity", "when customQuantity > 0 -> customQuantity, resource.type == ResourceType.stuff -> resource.stuff.quantity, resource.type == ResourceType.unlocks -> resource.unlock.quantity, resource.type == ResourceType.achievement -> 1, resource.type == ResourceType.equipment_slots -> resource.devices.amount, not isNull(resource.basic) -> resource.basic.quantity, 0"]
+            - ["bool", "showGrade", "resource.type == ResourceType.stuff and resource.stuff.type != ArtefactType.player_avatar and not resource.stuff.hideGrade"]
+            - ["bool", "temporary", "resource.type == ResourceType.stuff and resource.stuff.lifetime > 0L"]
             - ["int", "iconFrame", "when resource.type == ResourceType.premium -> 7, 0"]
+            - ["int", "quantity", "when customQuantity > 0 -> customQuantity, resource.type == ResourceType.stuff -> resource.stuff.quantity, resource.type == ResourceType.unlocks -> resource.unlock.quantity, resource.type == ResourceType.achievement -> 1, resource.type == ResourceType.equipment_slots -> resource.devices.amount, not isNull(resource.basic) -> resource.basic.quantity, 0"]
             - ["string", "customPrefix", "when resource.type == ResourceType.stuff and showStuffCustomPrefix -> \"x\", \"\""]
-            - ["string", "stringedValue", "when resource.type == ResourceType.real_currency -> resource.realCurrency.localizedValue, resource.type == ResourceType.premium and toDays(resource.basic.quantity) > 0L -> str(toDays(resource.basic.quantity)) + localize(\"#common:Time/Days\"), resource.type == ResourceType.premium and toHours(resource.basic.quantity) > 0L -> str(toHours(resource.basic.quantity)) + localize(\"#common:Time/Hours\"), resource.type == ResourceType.premium -> str(resource.basic.quantity / 60) + localize(\"#common:Time/Minutes\"), quantity < 1000000 -> customPrefix + str1000Separated(quantity), customPrefix + shortStr(quantity)"]
-            - ["ArtefactGrade", "gradeType", "when not showGrade -> ArtefactGrade.unknown, resource.stuff.grade"]
             - ["string", "gradeClass", "when not showGrade -> \"\", resource.stuff.grade == ArtefactGrade.common -> \"grades-common-bg\", resource.stuff.grade == ArtefactGrade.rare -> \"grades-rare-bg\", resource.stuff.grade == ArtefactGrade.unique -> \"grades-unique-bg\", resource.stuff.grade == ArtefactGrade.legendary -> \"grades-legendary-bg\", \"\""]
             - ["string", "iconPath", "when resource.type == ResourceType.gold -> \"~res:/Gfx/Lobby/currency/currency_gold_xl\", resource.type == ResourceType.free_xp -> \"~res:/Gfx/Lobby/currency/currency_free-xp_xl\", resource.type == ResourceType.tankmenXP -> \"~res:/Gfx/Lobby/currency/currency_crew-xp_xl\", resource.type == ResourceType.xp -> \"~res:/Gfx/Lobby/currency/currency_battle-xp_xl\", resource.type == ResourceType.premium -> \"~res:/Gfx/Lobby/currency/currency_premium_xl\", resource.type == ResourceType.credits -> \"~res:/Gfx/Lobby/currency/currency_silver_xl\", resource.type == ResourceType.slots -> \"~res:/Gfx/Lobby/certificates/certificate_slot_2\", resource.type == ResourceType.equipment_slots -> \"~res:/Gfx/UI/Hangar/EquipmentCommon\", resource.type == ResourceType.stuff and empty(resource.stuff.iconUrl) -> resource.stuff.icon, resource.type == ResourceType.achievement -> resource.achievement.icon, resource.type == ResourceType.unlocks -> resource.unlock.icon, \"\""]
+            - ["string", "stringedValue", "when resource.type == ResourceType.real_currency -> resource.realCurrency.localizedValue, resource.type == ResourceType.premium and toDays(resource.basic.quantity) > 0L -> str(toDays(resource.basic.quantity)) + localize(\"#common:Time/Days\"), resource.type == ResourceType.premium and toHours(resource.basic.quantity) > 0L -> str(toHours(resource.basic.quantity)) + localize(\"#common:Time/Hours\"), resource.type == ResourceType.premium -> str(resource.basic.quantity / 60) + localize(\"#common:Time/Minutes\"), quantity < 1000000 -> customPrefix + str1000Separated(quantity), customPrefix + shortStr(quantity)"]
         UIChildComponent0:
             childType: "kControl"
             condition: "isLocked"
@@ -85,33 +86,23 @@ Prototypes:
             input: false
             components:
                 Background:
-                    usePostProcessedSprite: true
-                UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                    needClearAlphaAfterRender: true
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent1:
-                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent2:
-                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIRoundedCornersComponent:
-                    radius: "4"
+                    drawType: "DRAW_STRETCH_BOTH"
+                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_item-dark_r4"
+                    leftRightStretchCap: 4.000000
+                    topBottomStretchCap: 4.000000
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "PercentOfParent"
             bindings:
             - ["visible", "isBgVisible"]
+        -   prototype: "BlurModified/BlurModified"
+            name: "Background"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "isVisible": "isBgVisible"
+                        "bgStyle": "bgStyle"
+                        "roundCorner": "\"4\""
         -   class: "UIControl"
             name: "Hover"
             input: false
@@ -302,7 +293,7 @@ Prototypes:
                                 "visible": "temporary"
                                 "serverTime": "0L"
                                 "time": "when temporary -> resource.stuff.lifetime, 0L"
-                                "bgVisible": "true"
+                                "bgVisible": "false"
                                 "iconVisible": "true"
                                 "alertTime": "0L"
                     bindings:
@@ -434,23 +425,14 @@ Slots:
     bindings:
     - ["UIOpacityComponent.opacity", "when forceHideLockedBg -> 1.000000, 0.700000"]
     children:
-    -   class: "UIControl"
+    -   prototype: "BlurModified/BlurModified"
         name: "Background"
-        input: false
         components:
-            Background: {}
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfParent"
+            UIDataParamsComponent:
+                args:
+                    "bgStyle": "black-70-bg"
         bindings:
         - ["visible", "not forceHideLockedBg"]
-        children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
-            components:
-                UIDataParamsComponent:
-                    args:
-                        "bgStyle": "black-70-bg"
     -   class: "UIControl"
         name: "Icon"
         input: false

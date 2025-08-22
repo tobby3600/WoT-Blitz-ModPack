@@ -19,23 +19,13 @@ Prototypes:
             events:
             - "ON_SUBSCRIPTION_REWARD_CLICK(ResourceDetailed resource, string attachId)"
     children:
-    -   class: "UIControl"
+    -   prototype: "BlurModified/BlurModified"
         name: "Background"
-        input: false
         components:
-            Background: {}
-            UIRoundedCornersComponent: {}
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfParent"
-        children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
-            components:
-                UIDataParamsComponent:
-                    args:
-                        "bgStyle": "\"white-wild-sand-25-bg\""
-                        "roundCorner": "\"0;0;4;4\""
+            UIDataParamsComponent:
+                args:
+                    "bgStyle": "\"white-wild-sand-25-bg\""
+                    "roundCorner": "\"0;0;4;4\""
     -   class: "UIControl"
         name: "Content"
         input: false
@@ -129,7 +119,7 @@ Prototypes:
                 components:
                     Background: {}
                     UIRoundedCornersComponent:
-                        radius: " 0; 0; 4; 4;"
+                        radius: "0;0;4;4;"
                     SizePolicy:
                         horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "PercentOfParent"

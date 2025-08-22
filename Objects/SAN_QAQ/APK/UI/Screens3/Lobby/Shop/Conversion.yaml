@@ -64,7 +64,7 @@ Prototypes:
                     args:
                         "isBackButtonHasSounds": "false"
                         "session": "session"
-                        "bgStyle": "\"\""
+                        "bgStyle": "\"grey-shark-70-bg\""
                         "lobby": "lobby"
                         "leftContent": "ShopHeader"
                         "showBackButton": "true"

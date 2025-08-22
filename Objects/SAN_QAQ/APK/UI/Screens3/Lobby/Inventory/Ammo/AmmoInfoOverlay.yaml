@@ -190,7 +190,6 @@ Slots:
                 classes: "t-subtitle regular white-wild-sand-50-text"
                 components:
                     RichContent:
-                        text: ""
                         baseClasses: "t-subtitle regular color=white-wild-sand-50-text"
                     RichContentAliases0:
                         aliases:
@@ -201,9 +200,8 @@ Slots:
                     SizePolicy:
                         horizontalPolicy: "FixedSize"
                         horizontalValue: 612.000000
-                        verticalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfChildrenSum"
                     FlowLayout:
-                        hDynamicPadding: false
                         alignment: "Left"
                         useRtl: true
                     StyleSheet:

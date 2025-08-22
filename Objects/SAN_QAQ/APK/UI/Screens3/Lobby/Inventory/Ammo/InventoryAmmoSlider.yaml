@@ -408,7 +408,6 @@ Prototypes:
                 components:
                     Anchor:
                         vCenterAnchorEnabled: true
-                        vCenterAnchor: 16.000000
                     LinearLayout: {}
                     SizePolicy:
                         horizontalPolicy: "PercentOfParent"
@@ -543,6 +542,8 @@ Prototypes:
                                     "type": "eButtonType.OPTIONAL_LIGHT"
                                     "sound": "eButtonSound.CHECKBOX"
                                     "enabled": "true"
+                                    "bgStyle": "\"grey-shark-70-bg\""
+                                    "isBlur": "false"
                                 eventActions:
                                 - ["ON_CLICK_BUTTON", "ON_SLIDER_CONVERT", "_event"]
                     -   class: "UIControl"

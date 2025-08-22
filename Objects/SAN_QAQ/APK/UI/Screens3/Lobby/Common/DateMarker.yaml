@@ -17,35 +17,19 @@ Prototypes:
             verticalValue: 24.000000
         UIDataParamsComponent:
             params:
-            - ["string", "dateString", "\"\"", "\"21.02\""]
             - ["bool", "badgeIsVisible", "false", "true"]
-            - ["string", "bgColor", "\"\"", "\"\""]
+            - ["string", "dateString", "\"\"", "\"21.02\""]
             - ["string", "textColor", "\"white-wild-sand-text\"", "\"white-wild-sand-text\""]
-            - ["bool", "bgIsVisible", "true", "true"]
         UIDataLocalsComponent:
             locals: []
     children:
-    -   class: "UIControl"
+    -   prototype: "BlurModified/BlurModified"
         name: "bg"
-        size: [32.000000, 32.000000]
-        input: false
         components:
-            IgnoreLayout: {}
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfParent"
-            StyleSheet:
-                styles: "~res:/UI/Screens3/Color.style.yaml"
-        bindings:
-        - ["visible", "bgIsVisible"]
-        children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
-            components:
-                UIDataParamsComponent:
-                    args:
-                        "bgStyle": "bgColor"
-                        "roundCorner": "\"12\""
+            UIDataParamsComponent:
+                args:
+                    "bgStyle": "\"grey-shark-50-bg\""
+                    "roundCorner": "\"6\""
     -   class: "UIControl"
         name: "dateValue"
         size: [32.000000, 32.000000]

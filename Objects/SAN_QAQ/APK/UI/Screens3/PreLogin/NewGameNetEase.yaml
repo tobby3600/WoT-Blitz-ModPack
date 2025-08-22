@@ -3,6 +3,7 @@ Header:
 ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Common/Button.yaml"
 - "~res:/UI/Screens3/Lobby/Common/Badge.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "NetEaseContent"
@@ -95,29 +96,6 @@ Prototypes:
         name: "AOGASControl"
         input: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIRoundedCornersComponent:
-                radius: "8"
             Anchor:
                 hCenterAnchorEnabled: true
                 topAnchorEnabled: true
@@ -129,9 +107,13 @@ Prototypes:
                 verticalValue: 125.000000
             UIChildComponent0:
                 prototypePath: "~res:/UI/Screens3/PreLogin/AOGASControl.yaml"
-                args:
-                    "description": "localize(\"#SAN_QAQ_ModPack/Description\")"
-                    "header": "localize(\"#SAN_QAQ_ModPack/Header\")"
+        children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "roundCorner": "\"8\""
     -   class: "UIControl"
         name: "Login"
         input: false
@@ -173,7 +155,7 @@ Prototypes:
                     verticalPolicy: "PercentOfMaxChild"
             children:
             -   prototype: "Button/Button"
-                name: "NetEaseAccountCenterButton"
+                name: "AccountCenterButton"
                 position: [0.000000, 0.000000]
                 components:
                     Anchor:
@@ -183,19 +165,14 @@ Prototypes:
                         horizontalValue: 182.000000
                     UIDataParamsComponent:
                         args:
+                            "caption": "localize(\"newLoginFlow/Button/Account/Center\")"
                             "type": "eButtonType.OPTIONAL_LIGHT"
                             "sound": "eButtonSound.OPEN"
                         eventActions:
                         - ["ON_CLICK_BUTTON", "USER_CENTER_PRESSED", ""]
-                    UIDataLocalBindingsComponent:
-                        data:
-                        - ["string", "caption", "localize(\"newLoginFlow/Button/Account/Center\")"]
                 bindings:
                 - ["visible", "preLoginData.isUserCenterSupported"]
                 - ["enabled", "app.netease.isLoggedIn"]
-                children:
-                -   path: "TapArea/Content/Bg/Shadows"
-                    visible: false
             -   prototype: "Button/Button"
                 name: "PlayButton"
                 components:
@@ -206,19 +183,13 @@ Prototypes:
                         horizontalValue: 182.000000
                     UIDataParamsComponent:
                         args:
+                            "caption": "localize(\"newLoginFlow/Button/Play\")"
+                            "type": "eButtonType.POSITIVE"
                             "sound": "eButtonSound.OPEN"
                         eventActions:
                         - ["ON_CLICK_BUTTON", "PLAY_PRESSED", ""]
-                    UIDataLocalBindingsComponent:
-                        data:
-                        - ["string", "caption", "localize(\"newLoginFlow/Button/Play\")"]
-                        - ["eButtonSound", "soundType", "when sound != eButtonSound.UNKNOWN -> sound, type == eButtonType.POSITIVE or type == eButtonType.NO_BG or type == eButtonType.SCENE -> eButtonSound.OPEN, type == eButtonType.ALTERNATIVE -> eButtonSound.OK, type == eButtonType.ALTERNATIVE -> eButtonSound.OK, type == eButtonType.NEGATIVE -> eButtonSound.SELL, eButtonSound.CANCEL"]
-                        - ["string", "soundStyle", "when locked or isLoading -> \"\", soundType == eButtonSound.OPEN -> \"button-open-sound\", soundType == eButtonSound.OK -> \"button-ok-sound\", soundType == eButtonSound.CANCEL -> \"button-cancel-sound\", soundType == eButtonSound.SELL -> \"button-sell-sound\", soundType == eButtonSound.BUY -> \"button-buy-sound\", soundType == eButtonSound.CLOSE -> \"button-close-sound\", \"\""]
-                        - ["bool", "isColoredButton", "type == eButtonType.POSITIVE or type == eButtonType.ALTERNATIVE or type == eButtonType.NEGATIVE or type == eButtonType.SPECIAL"]
-                        - ["string", "bgStyle", "str(type, eButtonType, \"color_style\")"]
-                        - ["string", "coloredButtonType", "str(type, eButtonType, \"sprite_name\")"]
             -   prototype: "Button/Button"
-                name: "NetEaseAccountRetrievalButton"
+                name: "AccountRetrievalButton"
                 components:
                     Anchor:
                         vCenterAnchorEnabled: true
@@ -227,16 +198,11 @@ Prototypes:
                         horizontalValue: 182.000000
                     UIDataParamsComponent:
                         args:
+                            "caption": "localize(\"newLoginFlow/Button/Account/Retrieval\")"
                             "type": "eButtonType.OPTIONAL_LIGHT"
                             "sound": "eButtonSound.OPEN"
                         eventActions:
                         - ["ON_CLICK_BUTTON", "ACCOUNT_RETRIEVAL_PRESSED", ""]
-                    UIDataLocalBindingsComponent:
-                        data:
-                        - ["string", "caption", "localize(\"newLoginFlow/Button/Account/Retrieval\")"]
-                children:
-                -   path: "TapArea/Content/Bg/Shadows"
-                    visible: false
     -   class: "UIControl"
         name: "SelectServer"
         position: [0.000000, 160.000000]
@@ -291,33 +257,9 @@ Prototypes:
         size: [265.000000, 220.000000]
         input: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIRoundedCornersComponent:
-                radius: "8"
             Anchor:
                 hCenterAnchorEnabled: true
                 bottomAnchorEnabled: true
-                bottomAnchor: 16.000000
             LinearLayout:
                 orientation: "TopDown"
                 dynamicPadding: true
@@ -327,7 +269,15 @@ Prototypes:
                 horizontalValue: 115.000000
                 verticalPolicy: "PercentOfChildrenSum"
                 verticalValue: 125.000000
+        bindings:
+        - ["Anchor.bottomAnchor", "when (screenHeight > 640 and screenHeight < 1023) -> 16.000000, screenHeight * 0.060000"]
         children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "SelfRegulatoryConvention"
             input: false

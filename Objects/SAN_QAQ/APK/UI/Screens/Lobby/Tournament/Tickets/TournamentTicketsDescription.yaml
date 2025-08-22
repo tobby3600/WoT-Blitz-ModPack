@@ -1,0 +1,175 @@
+Header:
+    version: 157
+ImportedPackages:
+- "~res:/UI/Screens/Lobby/Tournament/TournamentBackButton.yaml"
+- "~res:/UI/Screens/Lobby/Story/StoryRewardPrototypes.yaml"
+- "~res:/UI/Screens/Common.yaml"
+- "~res:/UI/Screens/Lobby/Common/SectionHeader3.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "Content"
+    size: [1224.000000, 768.000000]
+    components:
+        Anchor:
+            leftAnchorEnabled: true
+            rightAnchorEnabled: true
+            topAnchorEnabled: true
+            bottomAnchorEnabled: true
+        StyleSheet:
+            styles: "~res:/UI/Screens/Fonts.yaml;~res:/UI/Styles/DesktopStyles.yaml"
+    children:
+    -   class: "UIControl"
+        name: "View"
+        size: [1224.000000, 768.000000]
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                bottomAnchorEnabled: true
+            LinearLayout:
+                enabled: true
+                orientation: "TopDown"
+        children:
+        -   class: "UIControl"
+            name: "Header"
+            size: [1224.000000, 80.000000]
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    rightAnchorEnabled: true
+                    topAnchorEnabled: true
+            children:
+            -   class: "UIControl"
+                name: "TitleShadow"
+                position: [0.000000, 0.000000]
+                size: [1224.000000, 80.000000]
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_TO_RECT"
+                        sprite: "~res:/Gfx/UI/Tournament/gradient"
+                    Anchor:
+                        leftAnchorEnabled: true
+                        rightAnchorEnabled: true
+                        topAnchorEnabled: true
+                        vCenterAnchorEnabled: false
+            -   prototype: "TournamentBackButton/BackButton"
+                name: "BackButton"
+            -   class: "UIControl"
+                name: "Title"
+                size: [207.000000, 31.000000]
+                input: false
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        leftAnchor: 100.000000
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfChildrenSum"
+                    UIAnchorSafeAreaComponent:
+                        leftSafeInset: "INSET"
+                children:
+                -   class: "UIStaticText"
+                    name: "Title"
+                    classes: "header1"
+                    components:
+                        UITextComponent:
+                            text: "tickets/HomeScreen/Header"
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+            -   class: "UIControl"
+                name: "AvailTickets"
+                size: [88.000000, 0.000000]
+                input: false
+                components:
+                    Anchor:
+                        rightAnchorEnabled: true
+                        rightAnchor: 10.000000
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "LeftToRight"
+                        safeAreaPaddingInset: true
+                        spacing: 10.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfMaxChild"
+        -   class: "UIControl"
+            name: "Contents"
+            size: [1224.000000, 688.000000]
+            input: false
+            classes: "limited-width"
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIScrollView"
+                name: "Scroll"
+                classes: "limited-width"
+                autoUpdate: true
+                centerContent: true
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   class: "UIScrollViewContainer"
+                    name: "scrollContainerControl"
+                    components:
+                        Anchor:
+                            leftAnchorEnabled: true
+                            rightAnchorEnabled: true
+                        LinearLayout:
+                            enabled: true
+                            orientation: "TopDown"
+                            spacing: 10.000000
+                            skipInvisible: true
+                        SizePolicy:
+                            verticalPolicy: "PercentOfChildrenSum"
+                    children:
+                    -   prototype: "SectionHeader3/SectionHeader3"
+                        name: "BiGradHeader"
+                        children:
+                        -   class: "UIStaticText"
+                            name: "Title"
+                            classes: "header3 text-color-white"
+                            components:
+                                UITextComponent:
+                                    text: "tickets/Suitable/Header"
+                                    colorInheritType: "COLOR_IGNORE_PARENT"
+                                Anchor:
+                                    leftAnchorEnabled: true
+                                    rightAnchorEnabled: true
+                                    topAnchorEnabled: true
+                                    bottomAnchorEnabled: true
+                    -   prototype: "StoryRewardPrototypes/Rewards"
+                        name: "Tickets"
+                    -   class: "UIStaticText"
+                        name: "SuitableTypesTicketsHint"
+                        size: [489.000000, 32.000000]
+                        classes: "text2 text-color-blue"
+                        components:
+                            UITextComponent:
+                                text: "tickets/Suitable/SeveralTypes/Description"
+                                colorInheritType: "COLOR_IGNORE_PARENT"
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+            -   prototype: "Common/VerticalScrollBar"
+                name: "VerticalScrollBar"
+                components:
+                    Anchor:
+                        rightAnchorEnabled: true
+                        topAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                    UIScrollBarComponent:
+                        delegate: "../Scroll"

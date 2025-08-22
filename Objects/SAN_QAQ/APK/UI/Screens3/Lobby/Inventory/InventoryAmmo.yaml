@@ -1,0 +1,113 @@
+Header:
+    version: 149
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Inventory/Common/DynamicHorizontalPadding.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "Screen"
+    size: [1264.000000, 782.000000]
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["ArtefactProviderModel", "artefacts", "null", "{ }"]
+            - ["TutorialDataModel", "tutorialData", "null", "{ }"]
+            - ["StatsDataModel", "stats", "null", "{ }"]
+            - ["InventoryAmmoModel", "ammoModel", "null", "{ \"maxAmmo\" = 3; \"slots\" = [ { \"title\" = \"ammo1\"; }; { \"index\" = 1; \"title\" = \"ammo2\"; }; { \"index\" = 2; \"title\" = \"ammo3\"; }; ]; }"]
+            events:
+            - "ON_SLIDER_EDITING_FINISHED(float value, int index)"
+            - "ON_SLIDER_CHANGED(float value, int index)"
+            - "ON_SLIDER_TOUCHED(int index)"
+            - "ON_SLIDER_PLUS(int index)"
+            - "ON_SLIDER_MINUS(int index)"
+            - "ON_SLIDER_CONVERT"
+            - "ON_AUTO_RESUPPLY_CHANGED(bool isResupplyOn)"
+            - "ON_SHELL_ICON_PRESSED"
+            - "ON_APPLY_AMMO"
+        UIDataLocalControlComponent0:
+            name: "footerContent"
+            prototypePath: "~res:/UI/Screens3/Lobby/Inventory/Ammo/AmmoFooter.yaml"
+            args:
+                "tutorialHighlight": "tutorialData.currentHighlightControl"
+                "priceGet": "ammoModel.sellPrice"
+                "pricePay": "ammoModel.purchasePrice"
+                "applyEnabled": "ammoModel.applyEnabled"
+                "currentAmmo": "ammoModel.maxAmmo - ammoModel.freeSpace"
+                "maxAmmo": "ammoModel.maxAmmo"
+                "stats": "stats"
+                "artefacts": "artefacts"
+                "autoResupply": "ammoModel.resupplyActivated"
+            eventActions:
+            - ["ON_AUTO_RESUPPLY_CHANGED", "ON_AUTO_RESUPPLY_CHANGED", "_event.isResupplyOn"]
+            - ["ON_APPLY_AMMO", "ON_APPLY_AMMO", ""]
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            Anchor: {}
+            LinearLayout:
+                dynamicSpacing: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet: {}
+        children:
+        -   prototype: "DynamicHorizontalPadding/DynamicHorizontalPadding"
+            name: "DynamicHorizontalPadding_1"
+            classes: "padding fixed-padding desktop-unvisible"
+        -   class: "UIControl"
+            name: "Sliders"
+            input: false
+            classes: "inventory-limited-width ammo"
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                LinearLayout:
+                    orientation: "TopDown"
+                    padding: "0; 16"
+                    dynamicPadding: true
+                    spacing: 16.000000
+                    dynamicSpacing: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                    verticalMax: 492.000000
+                UIRepeatComponent:
+                    control: "~res:/UI/Screens3/Lobby/Inventory/Ammo/InventoryAmmoSlider.yaml"
+                    dataContainer: "ammoModel.slots"
+                    args:
+                        "tutorialData": "tutorialData"
+                        "ammoModel": "ammoModel"
+                        "slot": "_item"
+                        "taskJournalLessonMasterId": "when (_index == ammoModel.slots.Size() - 1) -> \"NEWBIE_AMMO_CHOOSE\", \"\""
+                    eventActions:
+                    - ["ON_SLIDER_EDITING_FINISHED", "ON_SLIDER_EDITING_FINISHED", "_event.value, _event.index"]
+                    - ["ON_SHELL_ICON_PRESSED", "ON_SHELL_ICON_PRESSED", "_index"]
+                    - ["ON_SLIDER_CONVERT", "ON_SLIDER_CONVERT", "_index"]
+                    - ["ON_SLIDER_MINUS", "ON_SLIDER_MINUS", "_index"]
+                    - ["ON_SLIDER_PLUS", "ON_SLIDER_PLUS", "_index"]
+                    - ["ON_SLIDER_TOUCHED", "ON_SLIDER_TOUCHED", "_index"]
+                    - ["ON_SLIDER_CHANGED", "ON_SLIDER_CHANGED", "_event.value, _event.index"]
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Common/Desktop.style.yaml"
+        -   prototype: "DynamicHorizontalPadding/DynamicHorizontalPadding"
+            name: "DynamicHorizontalPadding"
+            classes: "padding only-notch-padding desktop-unvisible"
+    -   class: "UIControl"
+        name: "Footer"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Common/Footer.yaml"
+                args:
+                    "bgStyle": "\"grey-shark-70-bg\""
+                    "content": "footerContent"

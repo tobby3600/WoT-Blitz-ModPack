@@ -1,0 +1,315 @@
+Header:
+    version: 140
+Prototypes:
+-   class: "UIControl"
+    name: "AvatarItem"
+    size: [116.000000, 160.000000]
+    exclusiveInput: true
+    classes: "avatar-item pressed-opacity hide-on-pressed button-open-sound"
+    components:
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalValue: 120.000000
+            verticalPolicy: "FixedSize"
+            verticalValue: 160.000000
+        UILayoutEventComponent:
+            sizeChangedEvent: "AvatarUpdate"
+            sizeChangedEventData: "_position.Y, index"
+        UIInputEventComponent:
+            onTouchUpInside: "ON_ITEM_SELECTED"
+        UIDataParamsComponent:
+            params:
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["bool", "isSelected", "false", "true"]
+            - ["bool", "isInstalled", "false", "true"]
+            - ["AvatarChain", "chain", "null", "{ }"]
+            - ["int", "index", "0", "0"]
+            events:
+            - "ON_ITEM_SELECTED"
+        UIDataLocalBindingsComponent:
+            data:
+            - ["float", "itemOpacity", "when chain.receivedCount == 0 -> 0.300000, 1.000000"]
+            - ["bool", "isSingleAvatar", "chain.avatars.Size() == 1"]
+            - ["AvatarModel", "avatar", "when chain.installedIndex != -1 -> chain.avatars[chain.installedIndex], chain.avatars[max(0, chain.receivedCount - 1)]"]
+            - ["AvatarModel", "progressAvatar", "when isSingleAvatar -> chain.avatars[0], chain.avatars[min(chain.avatars.Size() - 1, chain.receivedCount)]"]
+            - ["bool", "hasProgress", "not isNull(progressAvatar.questProgress)"]
+            - ["bool", "displayProgress", "hasProgress and progressAvatar.questProgress.currentProgress < progressAvatar.questProgress.maxProgress and progressAvatar.resource.quantity == 0"]
+            - ["bool", "hasInfo", "avatar.resource.lifetime > 0L or (hasProgress and chain.avatars.Size() != chain.receivedCount)"]
+            - ["string", "progressCurrentFormatted", "when displayProgress -> shortStr(progressAvatar.questProgress.currentProgress), \"\""]
+            - ["string", "progressMaxFormatted", "when displayProgress -> shortStr(progressAvatar.questProgress.maxProgress), \"\""]
+            - ["float", "progressBarPercent", "when not hasProgress -> 0.000000, when progressAvatar.questProgress.maxProgress != 0 -> float(progressAvatar.questProgress.currentProgress) / float(progressAvatar.questProgress.maxProgress) * 100.000000, 0.000000"]
+            - ["bool", "hasQuantity", "avatar.resource.quantity > 1 and not hasProgress"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Avatars/Animations/AvatarItem.actions"
+        Sound: {}
+        StyleSheet:
+            styles: "~res:/UI/Screens3/ButtonSound.style.yaml;~res:/UI/Screens3/Common/Touch.style.yaml"
+    bindings:
+    - ["enabled", "not isSelected"]
+    - ["selected", "isSelected"]
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        pivot: [0.500000, 0.500000]
+        input: false
+        classes: "content-area"
+        components:
+            UIOpacityComponent: {}
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                bottomAnchorEnabled: true
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Common/Touch.style.yaml"
+        children:
+        -   class: "UIControl"
+            name: "Bg"
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_STRETCH_BOTH"
+                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_item-light_r8"
+                    perPixelAccuracy: "PER_PIXEL_ACCURACY_FORCED"
+                    leftRightStretchCap: 8.000000
+                    topBottomStretchCap: 8.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+        -   class: "UIControl"
+            name: "HoverBg"
+            input: false
+            classes: "hover white-wild-sand-10-bg"
+            components:
+                Background:
+                    drawType: "DRAW_STRETCH_BOTH"
+                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_r8"
+                    perPixelAccuracy: "PER_PIXEL_ACCURACY_FORCED"
+                    leftRightStretchCap: 8.000000
+                    topBottomStretchCap: 8.000000
+                UIOpacityComponent: {}
+                Anchor:
+                    leftAnchorEnabled: true
+                    topAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Common/Touch.style.yaml;~res:/UI/Screens3/Common/Hover.style.yaml"
+        -   class: "UIControl"
+            name: "AnimatedAvatarLoader"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/AnimatedLoader.yaml"
+                    args:
+                        "contentControl": "Foreground"
+                        "imageControl": "IconAndTimer"
+Slots:
+-   class: "UIControl"
+    name: "IconAndTimer"
+    size: [120.000000, 160.000000]
+    input: false
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+            padding: "28; 28"
+            spacing: 12.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    bindings:
+    - ["LinearLayout.dynamicPadding", "not hasInfo"]
+    children:
+    -   class: "UIControl"
+        name: "Avatar"
+        input: false
+        components:
+            UIOpacityComponent: {}
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/PlayerAvatar.yaml"
+                args:
+                    "interactive": "false"
+                    "size": "eAvatarSize.BIG"
+                    "avatar": "avatar.resource.avatar"
+                    "animated": "true"
+                eventActions:
+                - ["AVATAR_IMAGE_LOADED", "AVATAR_IMAGE_LOADED", ""]
+        bindings:
+        - ["UIOpacityComponent.opacity", "itemOpacity"]
+    -   class: "UIControl"
+        name: "Info"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+                verticalValue: 32.000000
+        bindings:
+        - ["visible", "hasInfo"]
+        children:
+        -   class: "UIControl"
+            name: "TimerHolder"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfFirstChild"
+                UIChildComponent0:
+                    childType: "kPrototype"
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Timer.yaml"
+                    args:
+                        "serverTime": "session.serverTime"
+                        "time": "avatar.expirationTime"
+                        "bgStyle": "\"black-70-bg\""
+            bindings:
+            - ["visible", "avatar.resource.lifetime > 0L"]
+        -   class: "UIControl"
+            name: "ProgressWrapper"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                LinearLayout:
+                    orientation: "TopDown"
+                    spacing: 4.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfChildrenSum"
+            bindings:
+            - ["visible", "displayProgress"]
+            children:
+            -   class: "UIControl"
+                name: "ProgressBar"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 72.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 4.000000
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/ProgressBar.yaml"
+                        args:
+                            "value": "int(progressBarPercent)"
+                            "maximum": "100"
+                            "isBlur": "false"
+            -   class: "UIControl"
+                name: "Text"
+                position: [16.000000, 128.000000]
+                input: false
+                classes: "t-caps bold color=white-wild-sand-text"
+                components:
+                    UIOpacityComponent: {}
+                    UITextComponent:
+                        fontPath: "~res:/Fonts/HelveticaNeueWorld-45Lt.ttf"
+                        fontSize: 13.000000
+                        color: [0.960784, 0.960784, 0.960784, 0.501961]
+                        colorInheritType: "COLOR_IGNORE_PARENT"
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                        bottomAnchor: 8.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "progressCurrentFormatted + \" / \" + progressMaxFormatted"]
+-   class: "UIControl"
+    name: "Foreground"
+    size: [120.000000, 160.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "Selection"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Selection.yaml"
+                args:
+                    "selectionType": "eSelectionBorderType.kR8"
+                    "isVisible": "isSelected"
+    -   class: "UIControl"
+        name: "Badge"
+        input: false
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+                rightAnchor: 4.000000
+                topAnchorEnabled: true
+                topAnchor: 4.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Badge.yaml"
+        bindings:
+        - ["visible", "chain.badgeCount > 0"]
+    -   class: "UIControl"
+        name: "CheckMark"
+        input: false
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+                rightAnchor: -8.000000
+                bottomAnchorEnabled: true
+                bottomAnchor: -8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/CheckMark.yaml"
+                args:
+                    "type": "eCheckMarkType.kLarge"
+                    "isVisible": "true"
+        bindings:
+        - ["visible", "isInstalled and chain.receivedCount > 0"]
+    -   class: "UIControl"
+        name: "ItemCount"
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                leftAnchor: -4.000000
+                topAnchorEnabled: true
+                topAnchor: -4.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfChildrenSum"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/ItemCount.yaml"
+                args:
+                    "count": "avatar.resource.quantity"
+                    "roundedCorners": "true"
+        bindings:
+        - ["visible", "hasQuantity"]

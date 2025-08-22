@@ -1,0 +1,55 @@
+Header:
+    version: 151
+Prototypes:
+-   class: "UIControl"
+    name: "Tasks"
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfChildrenSum"
+        FlowLayout:
+            hDynamicPadding: true
+            hSpacing: 16.000000
+            vDynamicPadding: true
+            vSpacing: 14.000000
+            vDynamicSpacing: false
+        UILayoutEventComponent:
+            positionChangedEvent: "TasksPositionChanged"
+            positionChangedEventData: "_absolutePosition.Y"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "weekSelected", "false", "false"]
+            - ["bool", "progressAnimation", "false", "false"]
+            - ["bool", "unlockWeekAnimationInProgress", "false", "false"]
+            - ["bool", "showPremiumQuestUnlock", "false", "true"]
+            - ["bool", "isBlur", "true", "true"]
+            - ["int64", "unlockingTime", "0L", "0L"]
+            - ["TaskJournalTaskView", "replacedTask", "null", "{ }"]
+            - ["BattlePassTasksWeekData", "model", "null", "{ }"]
+            events:
+            - "AnimateQuestUnlockFinished"
+            - "BP_TASK_CLICKED(string slotId)"
+            - "REFRESH_QUEST(string slotId)"
+            - "ON_INCOMPLETED_STAGE_CLICKED(string masterId)"
+        UIRepeatComponent:
+            control: "~res:/UI/Screens3/Lobby/TaskJournal/BattlePass/BattlePassTask.yaml"
+            dataContainer: "model.tasks"
+            args:
+                "weekSelected": "weekSelected"
+                "progressAnimation": "progressAnimation"
+                "unlockWeekAnimationInProgress": "unlockWeekAnimationInProgress"
+                "showPremiumQuestUnlock": "showPremiumQuestUnlock"
+                "isActive": "when (model.state == eBattlePassTasksWeekState.Active and model.previousState == eBattlePassTasksWeekState.Blocked and unlockingTime >= 0L) -> false, model.state == eBattlePassTasksWeekState.Active"
+                "refreshMode": "model.refreshMode"
+                "index": "_index"
+                "task": "when not isNull(replacedTask) and replacedTask.slotId == _item.slotId -> replacedTask, _item"
+                "isBlur": "isBlur"
+            eventActions:
+            - ["AnimateQuestUnlockFinished", "AnimateQuestUnlockFinished", ""]
+            - ["BP_TASK_CLICKED", "BP_TASK_CLICKED", "_event.slotId"]
+            - ["REFRESH_QUEST", "REFRESH_QUEST", "_event.slotId"]
+            - ["ON_INCOMPLETED_STAGE_CLICKED", "ON_INCOMPLETED_STAGE_CLICKED", "_event.masterId"]
+            loadingPolicy: "Immediately"

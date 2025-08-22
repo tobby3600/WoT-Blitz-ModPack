@@ -2,6 +2,7 @@ Header:
     version: 144
 ImportedPackages:
 - "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "StatisticsTab"
@@ -33,18 +34,28 @@ Prototypes:
             scrollDirection: "kVertical"
             components:
                 SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "PercentOfFirstChild"
+                    horizontalPolicy: "PercentOfLastChild"
+                    verticalPolicy: "PercentOfLastChild"
             children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "isBlur": "false"
+                            "bgStyle": "\"grey-shark-70-bg\""
+                            "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "Content"
                 input: false
                 components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
                     LinearLayout:
                         orientation: "TopDown"
                         padding: "0; 35"
                     SizePolicy:
-                        horizontalPolicy: "PercentOfParent"
+                        horizontalPolicy: "PercentOfMaxChild"
                         verticalPolicy: "PercentOfChildrenSum"
                 children:
                 -   class: "UIControl"
@@ -655,5 +666,5 @@ Prototypes:
                 rightAnchor: 9.000000
                 topAnchorEnabled: true
                 bottomAnchorEnabled: true
-            ScrollBarDelegate:
+            UIScrollBarComponent:
                 delegate: "../ScrollArea"

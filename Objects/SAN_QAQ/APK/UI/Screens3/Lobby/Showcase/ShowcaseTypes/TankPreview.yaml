@@ -102,6 +102,7 @@ Prototypes:
                         childType: "kOldExpression"
                         control: "\"~res:/UI/Screens3/Lobby/Common/VehicleParamsPanel/VehicleParamsPanel.yaml\""
                         args:
+                            "backgroundStyle": "\"black-50-bg\""
                             "tutorialData": "account.tutorialData"
                             "tankParams": "tankParams"
                             "mechanics": "previewModel.mechanics"
@@ -157,9 +158,6 @@ Prototypes:
                     args:
                         "desktopStyle": "when isTanksPanelExists or not isStuffPart -> \"\", \"inventory-limited-width\""
                         "bgStyle": "when isTanksPanelExists or not isStuffPart -> \"black-50-bg\", \"black-70-bg\""
-                        "bgOpacity": "1.000000"
-                        "blurOpacity": "0.000000"
-                        "blurScale": "0.000000"
                         "content": "FooterContent"
     -   class: "UIControl"
         name: "TankPanelSpacer"
@@ -298,6 +296,7 @@ Slots:
                 args:
                     "maximum": "previewModel.neededParts"
                     "value": "previewModel.resource.stuff.quantity"
+                    "isBlur": "false"
         children:
         -   path: "Value"
             components:
@@ -406,7 +405,7 @@ Slots:
                 verticalPolicy: "PercentOfMaxChild"
             UIChildComponent0:
                 condition: "not isNull(unlock)"
-                prototypePath: "~res:/UI/Screens3/Lobby/Inventory/Camouflages/CamouflageInfoNoBlur.yaml"
+                prototypePath: "~res:/UI/Screens3/Lobby/Inventory/Camouflages/CamouflageInfo.yaml"
                 args:
                     "name": "localize(unlock.title)"
                     "description": "unlock.description"

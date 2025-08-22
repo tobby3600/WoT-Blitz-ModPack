@@ -1,0 +1,642 @@
+Header:
+    version: 161
+Prototypes:
+-   class: "UIControl"
+    name: "ShopSectionItem"
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfLastChild"
+            verticalPolicy: "PercentOfLastChild"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "isChina", "false", "false"]
+            - ["int", "itemsLimit", "0", "10"]
+            - ["int", "itemIndex", "0", "0"]
+            - ["vector2", "groupSpacer", "vec2(0, 0)", "vec2(0, 0)"]
+            - ["int", "sectionWidth", "0", "0"]
+            - ["ShopGroup", "group", "null", "{ }"]
+            - ["ShopBadgesSection", "badges", "null", "{ }"]
+            - ["bool", "initializationEnded", "false", "true"]
+            - ["bool", "isAtLeastMediumDevice", "false", "true"]
+            - ["float", "shopScrollBottomOffset", "0.000000", "40.000000"]
+            - ["int", "itemsInLine", "3", "3"]
+            - ["float", "shopScrollTopOffset", "0.000000", "48.000000"]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["bool", "arabicLocalization", "false", "false"]
+            - ["bool", "debugMode", "false", "false"]
+            - ["bool", "selected", "false", "true"]
+            - ["int", "selectedSubItemIndex", "0", "0"]
+            - ["DailyChestsCommonData", "dailyChestsCommon", "null", "{ }"]
+            - ["bool", "validItem", "true", "true"]
+            - ["ShopSectionItem", "item", "null", "{ }"]
+            - ["bool", "firstShowAnimationAllowed", "false", "true"]
+            - ["set<int>", "newSliders", "null", "[ 0; ]"]
+            events:
+            - "ON_LOAD_PRODUCTS"
+            - "PIGGY_BANK_STAGE_PROGRESS(int stuffDescr)"
+            - "PIGGY_BANK_SAVE_PROGRESS(int stuffDescr)"
+            - "ON_AD_SHOWN(ePlaySite playSite)"
+            - "ON_AD_CLICKED(ePlaySite playSite)"
+            - "ON_SELECT_PRODUCT(int itemIndex)"
+            - "ON_CHEST_CLICKED(int id)"
+            - "ON_PRODUCT_CLICKED(int id)"
+            - "ON_CHAIN_CLICKED(int id)"
+            - "ON_SLIDER_CLICKED(int productId, int sliderId)"
+            - "SHOW_BUYOUT_TANKS"
+            - "DEV_BUY_PRODUCT(int id)"
+            - "GO_TO_GROUP(int id)"
+            - "GO_TO_PRODUCT(int id)"
+            - "ON_PRODUCT_SHOWN(int id)"
+            - "ON_SLIDER_SHOWN(int id)"
+            - "ON_CAMO_CLICKED(int id)"
+            - "ON_CAMO_PRODUCT_SHOWN(int id)"
+    bindings:
+    - ["visible", "validItem and (itemsLimit == 0 or itemIndex <= itemsLimit - 1)"]
+    children:
+    -   class: "UIControl"
+        name: "MaskedArea"
+        input: false
+        components:
+            IgnoreLayout: {}
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                condition: "not isNull(group)"
+                prototypePath: "~res:/UI/Screens3/Lobby/Shop/Group/ShopGroup.yaml"
+                args:
+                    "serverTime": "session.serverTime"
+                    "spacerSize": "groupSpacer"
+                    "itemsInLine": "itemsInLine"
+                    "startIndex": "item.trueIndex % itemsInLine"
+                    "sectionWidth": "sectionWidth"
+                    "group": "group"
+                    "debugMode": "debugMode"
+                eventActions:
+                - ["GO_TO_GROUP", "GO_TO_GROUP", "_event.id"]
+    -   class: "UIControl"
+        name: "SectionItem"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                bottomAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                childType: "kControl"
+                condition: "itemsLimit > 0 and itemIndex == itemsLimit - 1"
+                control: "LoadMore"
+            UIChildComponent1:
+                childType: "kControl"
+                condition: "item.size == ShopProductSize.GroupWithTitle and (itemsLimit == 0 or itemIndex < itemsLimit - 1)"
+                control: "GroupWithTitleShopSectionItem"
+            UIChildComponent2:
+                childType: "kControl"
+                condition: "itemsLimit == 0 or itemIndex < itemsLimit - 1"
+                control: "StandartSectionItem"
+Slots:
+-   class: "UIControl"
+    name: "StandartSectionItem"
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfFirstChild"
+            verticalPolicy: "PercentOfFirstChild"
+        UIChildAnimatedSwitchingComponent:
+            switchPolicy: "kAfterRemovingAnimation"
+        UIChildComponent0:
+            condition: "validItem and not isNull(item.slider) and not isNull(item.slider.mainProduct) and item.slider.imageSize == eShopProductImageSize.Double"
+            prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopDoubleProduct.yaml"
+            args:
+                "maxDiscount": "item.slider.maxDiscount"
+                "isNewBigSlider": "newSliders.Contains(item.slider.id)"
+                "isBigSlider": "true"
+                "arabicLocalization": "arabicLocalization"
+                "badge": "when not isNull(badges) and badges.products.Contains(item.slider.mainProduct.id) -> badges.products[item.slider.mainProduct.id], null"
+                "isAtLeastMediumDevice": "isAtLeastMediumDevice"
+                "debugMode": "debugMode"
+                "firstShowAnimationAllowed": "firstShowAnimationAllowed"
+                "horizontalSpacer": "int(groupSpacer.X)"
+                "initializationEnded": "initializationEnded"
+                "product": "item.slider.mainProduct"
+                "selected": "selected"
+                "serverTime": "session.serverTime"
+                "shopScrollBottomOffset": "shopScrollBottomOffset"
+                "shopScrollTopOffset": "shopScrollTopOffset"
+            eventActions:
+            - ["ON_PRODUCT_CLICKED", "ON_SLIDER_CLICKED", "_event.id, item.slider.id"]
+            - ["DEV_BUY_PRODUCT", "DEV_BUY_PRODUCT", "_event.id"]
+            - ["GO_TO_PRODUCT", "GO_TO_PRODUCT", "_event.id"]
+            - ["ON_SLIDER_SHOWN", "ON_SLIDER_SHOWN", "item.slider.id"]
+        UIChildComponent1:
+            condition: "validItem and not isNull(item.slider) and not isNull(item.slider.mainProduct) and item.slider.imageSize == eShopProductImageSize.Triple"
+            prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopTripleProduct.yaml"
+            args:
+                "maxDiscount": "item.slider.maxDiscount"
+                "isNewBigSlider": "newSliders.Contains(item.slider.id)"
+                "isBigSlider": "true"
+                "arabicLocalization": "arabicLocalization"
+                "badge": "when not isNull(badges) and badges.products.Contains(item.slider.mainProduct.id) -> badges.products[item.slider.mainProduct.id], null"
+                "isAtLeastMediumDevice": "isAtLeastMediumDevice"
+                "debugMode": "debugMode"
+                "firstShowAnimationAllowed": "firstShowAnimationAllowed and newSliders.Contains(item.slider.id)"
+                "horizontalSpacer": "int(groupSpacer.X)"
+                "initializationEnded": "initializationEnded"
+                "product": "item.slider.mainProduct"
+                "selected": "selected"
+                "serverTime": "session.serverTime"
+                "shopScrollBottomOffset": "shopScrollBottomOffset"
+                "shopScrollTopOffset": "shopScrollTopOffset"
+            eventActions:
+            - ["ON_PRODUCT_CLICKED", "ON_SLIDER_CLICKED", "_event.id, item.slider.id"]
+            - ["DEV_BUY_PRODUCT", "DEV_BUY_PRODUCT", "_event.id"]
+            - ["GO_TO_PRODUCT", "GO_TO_PRODUCT", "_event.id"]
+            - ["ON_SLIDER_SHOWN", "ON_SLIDER_SHOWN", "item.slider.id"]
+        UIChildComponent2:
+            condition: "validItem and not isNull(item.product) and item.product.imageSize == eShopProductImageSize.Double"
+            prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopDoubleProduct.yaml"
+            args:
+                "badge": "when not isNull(badges) and badges.products.Contains(item.product.id) -> badges.products[item.product.id], null"
+                "horizontalSpacer": "int(groupSpacer.X)"
+                "initializationEnded": "initializationEnded"
+                "isAtLeastMediumDevice": "isAtLeastMediumDevice"
+                "product": "item.product"
+                "serverTime": "session.serverTime"
+                "arabicLocalization": "arabicLocalization"
+                "debugMode": "debugMode"
+                "shopScrollTopOffset": "shopScrollTopOffset"
+                "shopScrollBottomOffset": "shopScrollBottomOffset"
+                "selected": "selected"
+                "firstShowAnimationAllowed": "firstShowAnimationAllowed"
+            eventActions:
+            - ["PIGGY_BANK_STAGE_PROGRESS", "PIGGY_BANK_STAGE_PROGRESS", "_event.stuffDescr"]
+            - ["PIGGY_BANK_SAVE_PROGRESS", "PIGGY_BANK_SAVE_PROGRESS", "_event.stuffDescr"]
+            - ["ON_PRODUCT_CLICKED", "ON_PRODUCT_CLICKED", "_event.id"]
+            - ["DEV_BUY_PRODUCT", "DEV_BUY_PRODUCT", "_event.id"]
+            - ["GO_TO_PRODUCT", "GO_TO_PRODUCT", "_event.id"]
+            - ["ON_PRODUCT_SHOWN", "ON_PRODUCT_SHOWN", "_event.id"]
+        UIChildComponent3:
+            condition: "validItem and not isNull(item.product) and item.product.imageSize == eShopProductImageSize.Triple"
+            prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopTripleProduct.yaml"
+            args:
+                "badge": "when not isNull(badges) and badges.products.Contains(item.product.id) -> badges.products[item.product.id], null"
+                "horizontalSpacer": "int(groupSpacer.X)"
+                "initializationEnded": "initializationEnded"
+                "isAtLeastMediumDevice": "isAtLeastMediumDevice"
+                "product": "item.product"
+                "serverTime": "session.serverTime"
+                "arabicLocalization": "arabicLocalization"
+                "debugMode": "debugMode"
+                "shopScrollTopOffset": "shopScrollTopOffset"
+                "shopScrollBottomOffset": "shopScrollBottomOffset"
+                "selected": "selected"
+                "firstShowAnimationAllowed": "firstShowAnimationAllowed"
+            eventActions:
+            - ["PIGGY_BANK_STAGE_PROGRESS", "PIGGY_BANK_STAGE_PROGRESS", "_event.stuffDescr"]
+            - ["PIGGY_BANK_SAVE_PROGRESS", "PIGGY_BANK_SAVE_PROGRESS", "_event.stuffDescr"]
+            - ["ON_PRODUCT_CLICKED", "ON_PRODUCT_CLICKED", "_event.id"]
+            - ["DEV_BUY_PRODUCT", "DEV_BUY_PRODUCT", "_event.id"]
+            - ["GO_TO_PRODUCT", "GO_TO_PRODUCT", "_event.id"]
+            - ["ON_PRODUCT_SHOWN", "ON_PRODUCT_SHOWN", "_event.id"]
+        UIChildComponent4:
+            condition: "validItem and not isNull(item.product)"
+            prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopProduct.yaml"
+            args:
+                "isChina": "isChina"
+                "badge": "when not isNull(badges) and badges.products.Contains(item.product.id) -> badges.products[item.product.id], null"
+                "initializationEnded": "initializationEnded"
+                "isAtLeastMediumDevice": "isAtLeastMediumDevice"
+                "product": "item.product"
+                "serverTime": "session.serverTime"
+                "arabicLocalization": "arabicLocalization"
+                "debugMode": "debugMode"
+                "shopScrollTopOffset": "shopScrollTopOffset"
+                "shopScrollBottomOffset": "shopScrollBottomOffset"
+                "selected": "selected"
+                "firstShowAnimationAllowed": "firstShowAnimationAllowed"
+            eventActions:
+            - ["PIGGY_BANK_STAGE_PROGRESS", "PIGGY_BANK_STAGE_PROGRESS", "_event.stuffDescr"]
+            - ["PIGGY_BANK_SAVE_PROGRESS", "PIGGY_BANK_SAVE_PROGRESS", "_event.stuffDescr"]
+            - ["ON_PRODUCT_CLICKED", "ON_PRODUCT_CLICKED", "_event.id"]
+            - ["DEV_BUY_PRODUCT", "DEV_BUY_PRODUCT", "_event.id"]
+            - ["GO_TO_PRODUCT", "GO_TO_PRODUCT", "_event.id"]
+            - ["ON_PRODUCT_SHOWN", "ON_PRODUCT_SHOWN", "_event.id"]
+        UIChildComponent5:
+            condition: "validItem and not isNull(item.slider)"
+            prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopSlider/ShopSlider.yaml"
+            args:
+                "isChina": "isChina"
+                "badges": "badges"
+                "initializationEnded": "initializationEnded"
+                "isAtLeastMediumDevice": "isAtLeastMediumDevice"
+                "slider": "item.slider"
+                "serverTime": "session.serverTime"
+                "arabicLocalization": "arabicLocalization"
+                "debugMode": "debugMode"
+                "shopScrollTopOffset": "shopScrollTopOffset"
+                "shopScrollBottomOffset": "shopScrollBottomOffset"
+                "selected": "selected"
+                "firstShowAnimationAllowed": "firstShowAnimationAllowed"
+                "new": "newSliders.Contains(item.slider.id)"
+            eventActions:
+            - ["ON_PRODUCT_CLICKED", "ON_SLIDER_CLICKED", "_event.id, item.slider.id"]
+            - ["DEV_BUY_PRODUCT", "DEV_BUY_PRODUCT", "_event.id"]
+            - ["GO_TO_PRODUCT", "GO_TO_PRODUCT", "_event.id"]
+            - ["ON_SLIDER_SHOWN", "ON_SLIDER_SHOWN", "item.slider.id"]
+        UIChildComponent6:
+            condition: "validItem and not isNull(item.chest)"
+            prototypePath: "~res:/UI/Screens3/Lobby/Chests/DailyChestSlot.yaml"
+            args:
+                "initializationEnded": "initializationEnded"
+                "shopScrollBottomOffset": "shopScrollBottomOffset"
+                "shopScrollTopOffset": "shopScrollTopOffset"
+                "isAtLeastMediumDevice": "isAtLeastMediumDevice"
+                "dailyChestsCommon": "dailyChestsCommon"
+                "dailyChest": "item.chest"
+                "arabicLocalization": "arabicLocalization"
+                "serverTime": "session.serverTime"
+                "selected": "selected"
+            eventActions:
+            - ["ON_CHEST_CLICKED", "ON_CHEST_CLICKED", "_event"]
+        UIChildComponent7:
+            condition: "validItem and not isNull(item.smallGroup)"
+            prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopProductSmallGroup.yaml"
+            args:
+                "group": "item.smallGroup"
+                "badges": "badges"
+                "initializationEnded": "initializationEnded"
+                "debugMode": "debugMode"
+                "shopScrollTopOffset": "shopScrollTopOffset"
+                "shopScrollBottomOffset": "shopScrollBottomOffset"
+                "selected": "selected"
+                "selectedSubItemIndex": "selectedSubItemIndex"
+                "isAtLeastMediumDevice": "isAtLeastMediumDevice"
+                "arabicLocalization": "arabicLocalization"
+                "firstShowAnimationAllowed": "firstShowAnimationAllowed"
+            eventActions:
+            - ["ON_PRODUCT_CLICKED", "ON_PRODUCT_CLICKED", "_event.id"]
+            - ["DEV_BUY_PRODUCT", "DEV_BUY_PRODUCT", "_event.id"]
+            - ["GO_TO_PRODUCT", "GO_TO_PRODUCT", "_event.id"]
+            - ["ON_PRODUCT_SHOWN", "ON_PRODUCT_SHOWN", "_event.id"]
+        UIChildComponent8:
+            condition: "validItem and not isNull(item.advertising)"
+            prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopAdvertisingWrapper.yaml"
+            args:
+                "isAtLeastMediumDevice": "isAtLeastMediumDevice"
+                "initializationEnded": "initializationEnded"
+                "shopScrollTopOffset": "shopScrollTopOffset"
+                "shopScrollBottomOffset": "shopScrollBottomOffset"
+                "session": "session"
+                "shopAd": "item.advertising"
+            eventActions:
+            - ["ON_AD_SHOWN", "ON_AD_SHOWN", "item.advertising.playSite"]
+            - ["ON_AD_CLICKED", "ON_AD_CLICKED", "item.advertising.playSite"]
+        UIChildComponent9:
+            condition: "validItem and item.isTankBuyout and session.stats.accountDossierDescr.buyoutVehiclesCount > 0"
+            prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopTankBuyoutInfo.yaml"
+            args:
+                "tankCount": "session.stats.accountDossierDescr.buyoutVehiclesCount"
+            eventActions:
+            - ["SHOW_BUYOUT_TANKS", "SHOW_BUYOUT_TANKS", ""]
+        UIChildComponent10:
+            condition: "validItem and not isNull(item.camouflage)"
+            prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopProduct/CamouflageProduct.yaml"
+            args:
+                "isChinaBg": "isChina"
+                "selected": "selected"
+                "badge": "when not isNull(badges) and badges.products.Contains(item.camouflage.unlock.unlock.itemCompactDescr) -> badges.products[item.camouflage.unlock.unlock.itemCompactDescr], null"
+                "camouflage": "item.camouflage"
+            eventActions:
+            - ["ON_CAMO_PRODUCT_SHOWN", "ON_CAMO_PRODUCT_SHOWN", "_event.id"]
+            - ["ON_CAMO_CLICKED", "ON_CAMO_CLICKED", "_event.id"]
+        UIChildComponent11:
+            condition: "validItem and not isNull(item.chain)"
+            prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopProduct/ProductChain.yaml"
+            args:
+                "isChina": "isChina"
+                "badge": "when not isNull(badges) and badges.products.Contains(item.product.id) -> badges.products[item.product.id], null"
+                "initializationEnded": "initializationEnded"
+                "isAtLeastMediumDevice": "isAtLeastMediumDevice"
+                "shopChain": "item.chain"
+                "serverTime": "session.serverTime"
+                "arabicLocalization": "arabicLocalization"
+                "debugMode": "debugMode"
+                "shopScrollTopOffset": "shopScrollTopOffset"
+                "shopScrollBottomOffset": "shopScrollBottomOffset"
+                "selected": "selected"
+                "firstShowAnimationAllowed": "firstShowAnimationAllowed"
+            eventActions:
+            - ["ON_CHAIN_CLICKED", "ON_CHAIN_CLICKED", "_event.id"]
+            - ["DEV_BUY_PRODUCT", "DEV_BUY_PRODUCT", "_event.id"]
+            - ["GO_TO_PRODUCT", "GO_TO_PRODUCT", "_event.id"]
+            - ["ON_PRODUCT_SHOWN", "ON_PRODUCT_SHOWN", "_event.id"]
+    bindings:
+    - ["visible", "validItem"]
+-   class: "UIControl"
+    name: "GroupWithTitleShopSectionItem"
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfFirstChild"
+            verticalPolicy: "FixedSize"
+            verticalValue: 452.000000
+    children:
+    -   class: "UIControl"
+        name: "SectionItem"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                topAnchorEnabled: true
+                topAnchor: 52.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                condition: "validItem and item.isTankBuyout and session.stats.accountDossierDescr.buyoutVehiclesCount > 0"
+                prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopTankBuyoutInfo.yaml"
+                args:
+                    "tankCount": "session.stats.accountDossierDescr.buyoutVehiclesCount"
+                eventActions:
+                - ["SHOW_BUYOUT_TANKS", "SHOW_BUYOUT_TANKS", ""]
+            UIChildComponent1:
+                condition: "validItem and not isNull(item.slider) and not isNull(item.slider.mainProduct) and item.slider.imageSize == eShopProductImageSize.Triple"
+                prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopTripleProduct.yaml"
+                args:
+                    "maxDiscount": "item.slider.maxDiscount"
+                    "isNewBigSlider": "newSliders.Contains(item.slider.id)"
+                    "isBigSlider": "true"
+                    "arabicLocalization": "arabicLocalization"
+                    "badge": "when not isNull(badges) and badges.products.Contains(item.slider.mainProduct.id) -> badges.products[item.slider.mainProduct.id], null"
+                    "isAtLeastMediumDevice": "isAtLeastMediumDevice"
+                    "debugMode": "debugMode"
+                    "firstShowAnimationAllowed": "firstShowAnimationAllowed and newSliders.Contains(item.slider.id)"
+                    "horizontalSpacer": "int(groupSpacer.X)"
+                    "initializationEnded": "initializationEnded"
+                    "product": "item.slider.mainProduct"
+                    "selected": "selected"
+                    "serverTime": "session.serverTime"
+                    "shopScrollBottomOffset": "shopScrollBottomOffset"
+                    "shopScrollTopOffset": "shopScrollTopOffset"
+                eventActions:
+                - ["ON_PRODUCT_CLICKED", "ON_SLIDER_CLICKED", "_event.id, item.slider.id"]
+                - ["DEV_BUY_PRODUCT", "DEV_BUY_PRODUCT", "_event.id"]
+                - ["GO_TO_PRODUCT", "GO_TO_PRODUCT", "_event.id"]
+                - ["ON_SLIDER_SHOWN", "ON_SLIDER_SHOWN", "item.slider.id"]
+            UIChildComponent2:
+                condition: "validItem and not isNull(item.slider) and not isNull(item.slider.mainProduct) and item.slider.imageSize == eShopProductImageSize.Double"
+                prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopDoubleProduct.yaml"
+                args:
+                    "maxDiscount": "item.slider.maxDiscount"
+                    "isNewBigSlider": "newSliders.Contains(item.slider.id)"
+                    "isBigSlider": "true"
+                    "arabicLocalization": "arabicLocalization"
+                    "badge": "when not isNull(badges) and badges.products.Contains(item.slider.mainProduct.id) -> badges.products[item.slider.mainProduct.id], null"
+                    "isAtLeastMediumDevice": "isAtLeastMediumDevice"
+                    "debugMode": "debugMode"
+                    "firstShowAnimationAllowed": "firstShowAnimationAllowed"
+                    "horizontalSpacer": "int(groupSpacer.X)"
+                    "initializationEnded": "initializationEnded"
+                    "product": "item.slider.mainProduct"
+                    "selected": "selected"
+                    "serverTime": "session.serverTime"
+                    "shopScrollBottomOffset": "shopScrollBottomOffset"
+                    "shopScrollTopOffset": "shopScrollTopOffset"
+                eventActions:
+                - ["ON_PRODUCT_CLICKED", "ON_SLIDER_CLICKED", "_event.id, item.slider.id"]
+                - ["DEV_BUY_PRODUCT", "DEV_BUY_PRODUCT", "_event.id"]
+                - ["GO_TO_PRODUCT", "GO_TO_PRODUCT", "_event.id"]
+                - ["ON_SLIDER_SHOWN", "ON_SLIDER_SHOWN", "item.slider.id"]
+            UIChildComponent3:
+                condition: "validItem and not isNull(item.product) and item.product.imageSize == eShopProductImageSize.Triple"
+                prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopTripleProduct.yaml"
+                args:
+                    "badge": "when not isNull(badges) and badges.products.Contains(item.product.id) -> badges.products[item.product.id], null"
+                    "horizontalSpacer": "int(groupSpacer.X)"
+                    "initializationEnded": "initializationEnded"
+                    "isAtLeastMediumDevice": "isAtLeastMediumDevice"
+                    "product": "item.product"
+                    "serverTime": "session.serverTime"
+                    "arabicLocalization": "arabicLocalization"
+                    "debugMode": "debugMode"
+                    "shopScrollTopOffset": "shopScrollTopOffset"
+                    "shopScrollBottomOffset": "shopScrollBottomOffset"
+                    "selected": "selected"
+                    "firstShowAnimationAllowed": "firstShowAnimationAllowed"
+                eventActions:
+                - ["PIGGY_BANK_STAGE_PROGRESS", "PIGGY_BANK_STAGE_PROGRESS", "_event.stuffDescr"]
+                - ["PIGGY_BANK_SAVE_PROGRESS", "PIGGY_BANK_SAVE_PROGRESS", "_event.stuffDescr"]
+                - ["ON_PRODUCT_CLICKED", "ON_PRODUCT_CLICKED", "_event.id"]
+                - ["DEV_BUY_PRODUCT", "DEV_BUY_PRODUCT", "_event.id"]
+                - ["GO_TO_PRODUCT", "GO_TO_PRODUCT", "_event.id"]
+                - ["ON_PRODUCT_SHOWN", "ON_PRODUCT_SHOWN", "_event.id"]
+            UIChildComponent4:
+                condition: "validItem and not isNull(item.product) and item.product.imageSize == eShopProductImageSize.Double"
+                prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopDoubleProduct.yaml"
+                args:
+                    "badge": "when not isNull(badges) and badges.products.Contains(item.product.id) -> badges.products[item.product.id], null"
+                    "horizontalSpacer": "int(groupSpacer.X)"
+                    "initializationEnded": "initializationEnded"
+                    "isAtLeastMediumDevice": "isAtLeastMediumDevice"
+                    "product": "item.product"
+                    "serverTime": "session.serverTime"
+                    "arabicLocalization": "arabicLocalization"
+                    "debugMode": "debugMode"
+                    "shopScrollTopOffset": "shopScrollTopOffset"
+                    "shopScrollBottomOffset": "shopScrollBottomOffset"
+                    "selected": "selected"
+                    "firstShowAnimationAllowed": "firstShowAnimationAllowed"
+                eventActions:
+                - ["PIGGY_BANK_STAGE_PROGRESS", "PIGGY_BANK_STAGE_PROGRESS", "_event.stuffDescr"]
+                - ["PIGGY_BANK_SAVE_PROGRESS", "PIGGY_BANK_SAVE_PROGRESS", "_event.stuffDescr"]
+                - ["ON_PRODUCT_CLICKED", "ON_PRODUCT_CLICKED", "_event.id"]
+                - ["DEV_BUY_PRODUCT", "DEV_BUY_PRODUCT", "_event.id"]
+                - ["GO_TO_PRODUCT", "GO_TO_PRODUCT", "_event.id"]
+                - ["ON_PRODUCT_SHOWN", "ON_PRODUCT_SHOWN", "_event.id"]
+            UIChildComponent5:
+                condition: "validItem and not isNull(item.slider)"
+                prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopSlider/ShopSlider.yaml"
+                args:
+                    "isChina": "isChina"
+                    "badges": "badges"
+                    "initializationEnded": "initializationEnded"
+                    "isAtLeastMediumDevice": "isAtLeastMediumDevice"
+                    "slider": "item.slider"
+                    "serverTime": "session.serverTime"
+                    "arabicLocalization": "arabicLocalization"
+                    "debugMode": "debugMode"
+                    "shopScrollTopOffset": "shopScrollTopOffset"
+                    "shopScrollBottomOffset": "shopScrollBottomOffset"
+                    "selected": "selected"
+                    "firstShowAnimationAllowed": "firstShowAnimationAllowed"
+                    "new": "newSliders.Contains(item.slider.id)"
+                eventActions:
+                - ["ON_PRODUCT_CLICKED", "ON_SLIDER_CLICKED", "_event.id, item.slider.id"]
+                - ["DEV_BUY_PRODUCT", "DEV_BUY_PRODUCT", "_event.id"]
+                - ["GO_TO_PRODUCT", "GO_TO_PRODUCT", "_event.id"]
+                - ["ON_SLIDER_SHOWN", "ON_SLIDER_SHOWN", "item.slider.id"]
+            UIChildComponent6:
+                condition: "validItem and not isNull(item.chest)"
+                prototypePath: "~res:/UI/Screens3/Lobby/Chests/DailyChestSlot.yaml"
+                args:
+                    "initializationEnded": "initializationEnded"
+                    "shopScrollBottomOffset": "shopScrollBottomOffset"
+                    "shopScrollTopOffset": "shopScrollTopOffset"
+                    "isAtLeastMediumDevice": "isAtLeastMediumDevice"
+                    "dailyChestsCommon": "dailyChestsCommon"
+                    "dailyChest": "item.chest"
+                    "arabicLocalization": "arabicLocalization"
+                    "serverTime": "session.serverTime"
+                    "selected": "selected"
+                eventActions:
+                - ["ON_CHEST_CLICKED", "ON_CHEST_CLICKED", "_event"]
+            UIChildComponent7:
+                condition: "validItem and not isNull(item.product)"
+                prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopProduct.yaml"
+                args:
+                    "isChina": "isChina"
+                    "badge": "when not isNull(badges) and badges.products.Contains(item.product.id) -> badges.products[item.product.id], null"
+                    "initializationEnded": "initializationEnded"
+                    "isAtLeastMediumDevice": "isAtLeastMediumDevice"
+                    "product": "item.product"
+                    "serverTime": "session.serverTime"
+                    "arabicLocalization": "arabicLocalization"
+                    "debugMode": "debugMode"
+                    "shopScrollTopOffset": "shopScrollTopOffset"
+                    "shopScrollBottomOffset": "shopScrollBottomOffset"
+                    "selected": "selected"
+                    "firstShowAnimationAllowed": "firstShowAnimationAllowed"
+                eventActions:
+                - ["PIGGY_BANK_SAVE_PROGRESS", "PIGGY_BANK_SAVE_PROGRESS", "_event.stuffDescr"]
+                - ["PIGGY_BANK_STAGE_PROGRESS", "PIGGY_BANK_STAGE_PROGRESS", "_event.stuffDescr"]
+                - ["ON_PRODUCT_CLICKED", "ON_PRODUCT_CLICKED", "_event.id"]
+                - ["DEV_BUY_PRODUCT", "DEV_BUY_PRODUCT", "_event.id"]
+                - ["GO_TO_PRODUCT", "GO_TO_PRODUCT", "_event.id"]
+                - ["ON_PRODUCT_SHOWN", "ON_PRODUCT_SHOWN", "_event.id"]
+            UIChildComponent8:
+                condition: "validItem and not isNull(item.smallGroup)"
+                prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopProductSmallGroup.yaml"
+                args:
+                    "group": "item.smallGroup"
+                    "badges": "badges"
+                    "initializationEnded": "initializationEnded"
+                    "debugMode": "debugMode"
+                    "shopScrollTopOffset": "shopScrollTopOffset"
+                    "shopScrollBottomOffset": "shopScrollBottomOffset"
+                    "selected": "selected"
+                    "selectedSubItemIndex": "selectedSubItemIndex"
+                    "isAtLeastMediumDevice": "isAtLeastMediumDevice"
+                    "arabicLocalization": "arabicLocalization"
+                    "firstShowAnimationAllowed": "firstShowAnimationAllowed"
+                eventActions:
+                - ["ON_PRODUCT_CLICKED", "ON_PRODUCT_CLICKED", "_event.id"]
+                - ["DEV_BUY_PRODUCT", "DEV_BUY_PRODUCT", "_event.id"]
+                - ["GO_TO_PRODUCT", "GO_TO_PRODUCT", "_event.id"]
+                - ["ON_PRODUCT_SHOWN", "ON_PRODUCT_SHOWN", "_event.id"]
+            UIChildComponent9:
+                condition: "validItem and not isNull(item.advertising)"
+                prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopAdvertisingWrapper.yaml"
+                args:
+                    "isAtLeastMediumDevice": "isAtLeastMediumDevice"
+                    "initializationEnded": "initializationEnded"
+                    "shopScrollTopOffset": "shopScrollTopOffset"
+                    "shopScrollBottomOffset": "shopScrollBottomOffset"
+                    "session": "session"
+                    "shopAd": "item.advertising"
+                eventActions:
+                - ["ON_AD_SHOWN", "ON_AD_SHOWN", "item.advertising.playSite"]
+                - ["ON_AD_CLICKED", "ON_AD_CLICKED", "item.advertising.playSite"]
+            UIChildComponent10:
+                condition: "validItem and not isNull(item.chain)"
+                prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopProduct/ProductChain.yaml"
+                args:
+                    "isChina": "isChina"
+                    "badge": "when not isNull(badges) and badges.products.Contains(item.product.id) -> badges.products[item.product.id], null"
+                    "initializationEnded": "initializationEnded"
+                    "isAtLeastMediumDevice": "isAtLeastMediumDevice"
+                    "chainBundle": "item.chain"
+                    "serverTime": "session.serverTime"
+                    "arabicLocalization": "arabicLocalization"
+                    "debugMode": "debugMode"
+                    "shopScrollTopOffset": "shopScrollTopOffset"
+                    "shopScrollBottomOffset": "shopScrollBottomOffset"
+                    "selected": "selected"
+                    "firstShowAnimationAllowed": "firstShowAnimationAllowed"
+                eventActions:
+                - ["ON_PRODUCT_CLICKED", "ON_PRODUCT_CLICKED", "_event.id"]
+                - ["DEV_BUY_PRODUCT", "DEV_BUY_PRODUCT", "_event.id"]
+                - ["GO_TO_PRODUCT", "GO_TO_PRODUCT", "_event.id"]
+                - ["ON_PRODUCT_SHOWN", "ON_PRODUCT_SHOWN", "_event.id"]
+        bindings:
+        - ["visible", "validItem"]
+-   class: "UIControl"
+    name: "LoadMore"
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+        ClipContent: {}
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalValue: 240.000000
+            verticalPolicy: "FixedSize"
+            verticalValue: 217.000000
+    children:
+    -   class: "UIControl"
+        name: "Background"
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                sprite: "~res:/Gfx/Lobby/flags/flag_carousel_gold"
+            ClipContent: {}
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+                verticalValue: 153.000000
+    -   class: "UIControl"
+        name: "ButtonHolder"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+                args:
+                    "type": "eButtonType.OPTIONAL_LIGHT"
+                    "caption": "capitalize(localize(\"shop/Camouflages/LoadMore\"))"
+                eventActions:
+                - ["ON_CLICK_BUTTON", "ON_LOAD_PRODUCTS", ""]
+    -   class: "UIControl"
+        name: "Selection"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            IgnoreLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+                verticalValue: 153.000000
+            UIChildComponent0:
+                condition: "selected"
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/SelectionRounded_r1.yaml"

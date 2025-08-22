@@ -7,16 +7,23 @@ Prototypes:
     name: "BlurModified"
     input: false
     components:
+        IgnoreLayout: {}
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
             verticalPolicy: "PercentOfParent"
         UIDataParamsComponent:
             params:
-            - ["string", "bgStyle", "\"null\"", "\"null\""]
-            - ["string", "roundCorner", "\"0\"", "\"0\""]
-            - ["float", "blurScale", "0.500000", "0.500000"]
+            - ["bool", "isBlur", "true", "true"]
+            - ["bool", "isIgnoreLayout", "true", "true"]
+            - ["bool", "isVisible", "true", "true"]
+            - ["float", "blurScale", "0.250000", "0.250000"]
             - ["float", "blurOpacity", "1.000000", "1.000000"]
             - ["float", "bgOpacity", "1.000000", "1.000000"]
+            - ["string", "bgStyle", "\"\"", "\"\""]
+            - ["string", "roundCorner", "\"0\"", "\"0\""]
+    bindings:
+    - ["visible", "isVisible"]
+    - ["IgnoreLayout.enabled", "isIgnoreLayout"]
     children:
     -   prototype: "Blur/Blur"
         name: "Blur"
@@ -28,28 +35,15 @@ Prototypes:
                 drawType: "DRAW_SCALE_TO_RECT"
             UIOpacityComponent: {}
             UIRoundedCornersComponent: {}
-            UIPostProcessTextureComponent0:
-                scale: {}
-                needDepth: true
-                renderRequestingType: "ALWAYS"
-            UIPostProcessTextureComponent1:
-                scale: {}
-                needDepth: true
-                renderRequestingType: "ALWAYS"
-            UIPostProcessTextureComponent2:
-                scale: {}
-                needDepth: true
-                renderRequestingType: "ALWAYS"
-            Update:
-                updateInvisible: true
         bindings:
+        - ["visible", "isBlur"]
         - ["UIOpacityComponent.opacity", "blurOpacity"]
         - ["UIRoundedCornersComponent.radius", "roundCorner"]
         - ["UIPostProcessTextureComponent0.scale", "blurScale"]
         - ["UIPostProcessTextureComponent1.scale", "blurScale"]
         - ["UIPostProcessTextureComponent2.scale", "blurScale"]
     -   class: "UIControl"
-        name: "bgColor"
+        name: "Fade"
         input: false
         components:
             Anchor:

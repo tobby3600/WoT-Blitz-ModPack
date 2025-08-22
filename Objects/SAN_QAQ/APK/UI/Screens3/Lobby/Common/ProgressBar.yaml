@@ -1,0 +1,80 @@
+Header:
+    version: 161
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "ProgressBar"
+    size: [72.000000, 4.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "changeColor", "false", "false"]
+            - ["bool", "cutValue", "false", "false"]
+            - ["bool", "isBlur", "true", "true"]
+            - ["bool", "isReverse", "false", "false"]
+            - ["bool", "roundCorners", "false", "false"]
+            - ["bool", "showGradient", "false", "true"]
+            - ["int", "maximum", "100", "100"]
+            - ["int", "minimum", "0", "0"]
+            - ["int", "value", "50", "50"]
+            - ["string", "bgStyle", "\"white-wild-sand-15-bg\"", "\"white-wild-sand-15-bg\""]
+            - ["string", "fullProgressColor", "\"red-tamarillo-bg\"", "\"red-tamarillo-bg\""]
+            - ["string", "progressColor", "\"yellow-chalky-bg\"", "\"yellow-chalky-bg\""]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["float", "progress", "when (maximum - minimum) != 0 -> float(value - minimum) / float(maximum - minimum) * 100.000000, 100.000000"]
+            - ["int", "radius", "when not showGradient and roundCorners -> 2, 0"]
+            - ["string", "currentColor", "when changeColor and value == maximum -> fullProgressColor, progressColor"]
+        UIIdentifierComponent:
+            id: "progress_bar"
+            params:
+            - ["int", "maximum", "maximum"]
+            - ["int", "value", "value"]
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Color.style.yaml"
+    children:
+    -   prototype: "BlurModified/BlurModified"
+        name: "Bg"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "isBlur": "isBlur"
+                    "bgStyle": "bgStyle"
+                    "roundCorner": "str(radius)"
+    -   class: "UIControl"
+        name: "Value"
+        input: false
+        components:
+            Anchor: {}
+            Background: {}
+            UIRoundedCornersComponent: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["classes", "currentColor"]
+        - ["Anchor.leftAnchorEnabled", "not isReverse"]
+        - ["Anchor.rightAnchorEnabled", "isReverse"]
+        - ["UIRoundedCornersComponent.radius", "radius"]
+        - ["SizePolicy.horizontalValue", "when cutValue -> min(progress, 100), progress"]
+    -   class: "UIControl"
+        name: "Gradient"
+        input: false
+        classes: "white-wild-sand-50-bg"
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+                sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+            UIClipPolygon: {}
+            ProgressClip: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["visible", "showGradient"]
+        - ["ProgressClip.progress", "(1.010000 * progress - 1.000000) / 100.000000"]

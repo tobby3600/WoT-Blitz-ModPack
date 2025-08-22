@@ -1,5 +1,7 @@
 Header:
     version: 151
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "MemberItem"
@@ -35,35 +37,17 @@ Prototypes:
         input: false
         classes: "content"
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                needDepth: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIRoundedCornersComponent:
-                radius: "4"
             UIOpacityComponent: {}
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
         children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "bgStyle": "when isSelf -> \"gold-shining-20-bg\", \"\""
         -   class: "UIControl"
             name: "ProfileBg"
             size: [32.000000, 32.000000]
@@ -71,8 +55,6 @@ Prototypes:
             components:
                 Background:
                     drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
-                UIRoundedCornersComponent:
-                    radius: "4"
                 ClipContent: {}
                 UIUrlImageComponent: {}
                 IgnoreLayout: {}
@@ -81,21 +63,6 @@ Prototypes:
                     verticalPolicy: "PercentOfParent"
             bindings:
             - ["UIUrlImageComponent.imageUrl", "model.playerInfo.profileBgUrl"]
-        -   class: "UIControl"
-            name: "Bg"
-            input: false
-            components:
-                Background: {}
-                IgnoreLayout: {}
-                UIRoundedCornersComponent:
-                    radius: "4"
-                SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "PercentOfParent"
-                StyleSheet:
-                    styles: "~res:/UI/Screens3/Color.style.yaml"
-            bindings:
-            - ["classes", "when isSelf -> \"white-wild-sand-25-bg\", \"white-wild-sand-15-bg\""]
         -   class: "UIControl"
             name: "Hover"
             size: [32.000000, 32.000000]
@@ -169,7 +136,7 @@ Prototypes:
                             verticalPolicy: "PercentOfContent"
                     bindings:
                     - ["classes", "when isSelf -> \"t-overline bold yellow-lightning-text\", \"t-overline bold white-wild-sand-text\""]
-                    - ["UITextComponent.text", "model.playerInfo.nameModel.name"]
+                    - ["UITextComponent.text", "when isSelf -> model.playerInfo.nameModel.name + localize(\"clanMissions/missionScreen/leaderboard/you\"), model.playerInfo.nameModel.name"]
         -   class: "UIControl"
             name: "SupplyInfo"
             input: false

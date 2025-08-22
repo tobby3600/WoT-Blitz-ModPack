@@ -261,7 +261,7 @@ Prototypes:
                 components:
                     UITextComponent:
                         text: "0"
-                        fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+                        fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
                         fontSize: 25.000000
                         lineHeight: 31.000000
                         baseLine: 6.000000
@@ -297,7 +297,7 @@ Prototypes:
                 components:
                     UITextComponent:
                         text: "0"
-                        fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+                        fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
                         fontSize: 25.000000
                         lineHeight: 31.000000
                         baseLine: 6.000000

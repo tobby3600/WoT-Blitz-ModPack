@@ -1,0 +1,399 @@
+Header:
+    version: 152
+ImportedPackages:
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "BasicChestInfo"
+    size: [1300.000000, 800.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["vector<ResourceModel>", "headerCurrencies", "[ ]", "[ { \"quantity\" = 5000; \"type\" = ResourceType.gold; }; { \"quantity\" = 123456; \"type\" = ResourceType.credits; }; ]"]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["string", "customContentTitle", "\"\"", "\"\""]
+            - ["control", "additionalLeftContent", "null", "null"]
+            - ["control", "info", "null", "null"]
+            - ["control", "footer", "null", "Placeholder"]
+            - ["int", "infoHeight", "0", "0"]
+            - ["int", "footerHeight", "0", "24"]
+            - ["bool", "hasOpenedOverlays", "false", "true"]
+            - ["bool", "wasPushed", "true", "true"]
+            - ["bool", "showChances", "false", "true"]
+            - ["StuffResourceWithDescription", "stuff", "null", "{ }"]
+            - ["bool", "manualCloseEnabled", "true", "false"]
+            events:
+            - "BACK_EVENT"
+            - "EXTRA2_ACTION"
+            - "ON_MAIN_REWARD_CLICKED"
+            - "ON_INFO_CLICKED"
+            - "ON_REWARD_CLICKED(ResourceDetailed resource, string name)"
+        UIDataLocalVarsComponent:
+            data:
+            - ["int", "contentH", "0"]
+            - ["string", "stuffCount", "localize(\"storage/Chest/ItemCount\", { \"count\" = stuff.chestInfo.dropList.Size(); })"]
+            - ["int", "stuffHeight", "0"]
+            - ["int", "footerH", "footerHeight"]
+            - ["int", "spacingH", "80"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["int", "overallH", "int(stuffHeight) + infoHeight + spacingH"]
+        UIChildComponent0:
+            prototypePath: "~res:/UI/Screens3/Lobby/Common/Overlay/OverlayBasic.yaml"
+            args:
+                "manualCloseEnabled": "manualCloseEnabled"
+                "customBgStyle": "\"black-bg\""
+                "headerCurrencies": "headerCurrencies"
+                "footerHeight": "footerH"
+                "closeButtonIcon": "when hasOpenedOverlays -> \"~res:/Gfx/Lobby/icons/icon_arrow-back\", \"\""
+                "isFooterVisible": "true"
+                "footerContent": "footer"
+                "wasPushed": "wasPushed"
+                "contentHeight": "overallH"
+                "rightCornerContent": "when showChances -> InfoButton, null"
+                "titleContent": "Title"
+                "hasCustomBg": "true"
+                "customBgURL": "stuff.chestInfo.background"
+                "content": "Content"
+                "fullWidthFooter": "true"
+            eventActions:
+            - ["EXTRA2_ACTION", "EXTRA2_ACTION", ""]
+            - ["OVERLAY_CONTENT_HEIGHT_CHANGED", "OVERLAY_CONTENT_HEIGHT_CHANGED", "_event"]
+            - ["BACK_EVENT", "BACK_EVENT", ""]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Chests/BasicChestInfo.actions"
+        UIDataOnEventComponent0:
+            eventName: "OVERLAY_CONTENT_HEIGHT_CHANGED"
+            modelFieldExpression: "contentH"
+            dataExpression: "int(_event)"
+Slots:
+-   class: "UIControl"
+    name: "Title"
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+            topAnchorEnabled: true
+            topAnchor: 32.000000
+        LinearLayout:
+            spacing: 16.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "PercentOfMaxChild"
+        UIChildComponent0:
+            prototypePath: "~res:/UI/Screens3/Lobby/Chests/ChestTite.yaml"
+            args:
+                "title": "stuff.stuff.title"
+                "grade": "stuff.stuff.grade"
+-   class: "UIControl"
+    name: "Content"
+    size: [655.000000, 388.000000]
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+            topAnchorEnabled: true
+        LinearLayout: {}
+        SizePolicy:
+            horizontalPolicy: "Formula"
+            horizontalFormula: "when parent < 1200 -> 832, 1072"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "LeftContent"
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+        bindings:
+        - ["SizePolicy.verticalValue", "contentH"]
+        children:
+        -   class: "UIControl"
+            name: "ImageWrapper"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Chests/ChestImageWrapper.yaml"
+                    args:
+                        "withAnimation": "wasPushed"
+                        "imageUrl": "when not stuff.stuff.iconUrl.empty() -> stuff.stuff.iconUrl, \"\""
+                        "image": "stuff.stuff.icon"
+        -   class: "UIControl"
+            name: "BottomInfo"
+            input: false
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                    spacing: 1.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   class: "UIControl"
+                name: "additionalContent"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfMaxChild"
+                    UIChildComponent0:
+                        childType: "kControl"
+                        condition: "not isNull(additionalLeftContent)"
+                        control: "additionalLeftContent"
+            -   class: "UIControl"
+                name: "MainReward"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfMaxChild"
+                    UIAttachLayoutMasterComponent:
+                        attachId: "chestMainReward"
+                    UIChildComponent0:
+                        childType: "kPrototype"
+                        condition: "not isNull(stuff.chestInfo.resourceProgress)"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Chests/ChestMainReward.yaml"
+                        args:
+                            "progress": "stuff.chestInfo.resourceProgress"
+                        eventActions:
+                        - ["ON_MAIN_REWARD_CLICKED", "ON_MAIN_REWARD_CLICKED", ""]
+    -   class: "UIControl"
+        name: "Info"
+        input: false
+        components:
+            Anchor:
+                topAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "VerticalScrollView"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfParent"
+                StyleSheet: {}
+            children:
+            -   class: "UIScrollView"
+                name: "ScrollArea"
+                refreshStylesOnInteract: false
+                autoUpdate: true
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   class: "UIScrollViewContainer"
+                    name: "scrollContainerControl"
+                    refreshStylesOnInteract: false
+                    scrollDirection: "kVertical"
+                    components:
+                        LinearLayout:
+                            orientation: "TopDown"
+                            padding: "6; 0"
+                            spacing: 8.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfChildrenSum"
+                    children:
+                    -   class: "UIControl"
+                        name: "Control"
+                        input: false
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfChildrenSum"
+                            UIChildComponent0:
+                                childType: "kControl"
+                                condition: "not isNull(info)"
+                                control: "info"
+                    -   class: "UIControl"
+                        name: "DropList"
+                        input: false
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "Formula"
+                                horizontalFormula: "when screenWidth > 1232 -> 572, 384"
+                                verticalPolicy: "PercentOfMaxChild"
+                            UIChildComponent0:
+                                prototypePath: "~res:/UI/Screens3/Lobby/Chests/InfoMenu.yaml"
+                                args:
+                                    "collapsed": "true"
+                                    "additionalText": "capitalize(stuffCount)"
+                                    "title": "when customContentTitle.empty() -> \"storage/Items/Contents\", customContentTitle"
+                                    "content": "ChestDropList"
+            -   prototype: "VerticalScrollBar/VerticalScrollBar"
+                name: "VerticalScrollBar"
+                components:
+                    Anchor:
+                        rightAnchorEnabled: true
+                        rightAnchor: -56.000000
+                        topAnchorEnabled: true
+                        topAnchor: 8.000000
+                        bottomAnchorEnabled: true
+                    UIScrollBarComponent:
+                        delegate: "../ScrollArea"
+-   class: "UIControl"
+    name: "MainReward"
+    input: true
+    classes: "battlepass-reward button-open-sound"
+    components:
+        SizePolicy:
+            horizontalPolicy: "Formula"
+            horizontalFormula: "max(maxChild, 168)"
+            verticalPolicy: "FixedSize"
+            verticalValue: 43.000000
+        UIInputEventComponent:
+            onTouchUpInside: "ON_MAIN_REWARD_CLICKED"
+        Sound: {}
+        StyleSheet:
+            styles: "~res:/UI/Screens3/ButtonSound.style.yaml"
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        pivot: [0.500000, 0.500000]
+        input: false
+        classes: "content-area black-50-bg"
+        components:
+            Background:
+                drawType: "DRAW_FILL"
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+            SizePolicy:
+                horizontalPolicy: "Formula"
+                horizontalFormula: "max(firstChild, 168)"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Common/Touch.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+        children:
+        -   class: "UIControl"
+            name: "Label"
+            input: false
+            components:
+                LinearLayout:
+                    padding: "0; 8"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "Icon"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    UITextureComponent:
+                        spritePath: "~res:/Gfx/Lobby/icons/icon_protection_s"
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 32.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 32.000000
+            -   class: "UIControl"
+                name: "Text"
+                input: false
+                classes: "t-subtitle regular color=white-wild-sand-text"
+                components:
+                    UITextComponent:
+                        colorInheritType: "COLOR_IGNORE_PARENT"
+                        align: ["LEFT", "VCENTER"]
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "localize(\"storage/Items/Chest/MainReward\")"]
+        -   class: "UIControl"
+            name: "Progress"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 4.000000
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/ProgressBar.yaml"
+                    args:
+                        "minimum": "stuff.chestInfo.resourceProgress.progress.minimum"
+                        "maximum": "stuff.chestInfo.resourceProgress.progress.maximum"
+                        "value": "stuff.chestInfo.resourceProgress.progress.value"
+                        "isBlur": "false"
+-   class: "UIControl"
+    name: "InfoButton"
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+            vCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfMaxChild"
+            verticalPolicy: "PercentOfMaxChild"
+        UIChildComponent0:
+            prototypePath: "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+            args:
+                "isBgVisible": "false"
+                "type": "eButtonType.OPTIONAL_DARK"
+                "sound": "eButtonSound.OPEN"
+                "image": "\"~res:/Gfx/Lobby/icons/icon_info_xs\""
+            eventActions:
+            - ["ON_CLICK_BUTTON", "ON_INFO_CLICKED", ""]
+-   class: "UIControl"
+    name: "ChestDropList"
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+            bottomAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            verticalPolicy: "PercentOfChildrenSum"
+        FlowLayout:
+            hSpacing: 8.000000
+            vSpacing: 8.000000
+        UILayoutEventComponent:
+            sizeChangedEvent: "StuffChanged"
+            sizeChangedEventData: "_size.Y"
+        UIRepeatComponent:
+            control: "~res:/UI/Screens3/Lobby/Chests/ChestContentItem.yaml"
+            dataContainer: "stuff.chestInfo.dropList"
+            args:
+                "ownedItem": "not isNull(session) and not isNull(_item.resource.vehicle) and PlayerHasTank(session.playerTanks.tanks, _item.resource.vehicle.info.tankDescriptor)"
+                "attachId": "stuff.stuff.name + \"_\" + str(_index)"
+                "max": "_item.max"
+                "min": "_item.min"
+                "resource": "_item.resource"
+            eventActions:
+            - ["ON_REWARD_CLICKED", "ON_REWARD_CLICKED", "_event, stuff.stuff.name + \"_\" + str(_index)"]
+    bindings:
+    - ["SizePolicy.horizontalValue", "when screenWidth > 1232 -> 556, 368"]
+-   class: "UIControl"
+    name: "Placeholder"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "FixedSize"
+            verticalValue: 24.000000
+        DebugRender:
+            drawColor: [1.000000, 0.490196, 1.000000, 1.000000]

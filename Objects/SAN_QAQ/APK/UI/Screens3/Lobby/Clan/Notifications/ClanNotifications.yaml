@@ -1,0 +1,67 @@
+Header:
+    version: 150
+Prototypes:
+-   class: "UIControl"
+    name: "ClanNotifications"
+    size: [960.000000, 640.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            horizontalMin: 960.000000
+            verticalPolicy: "PercentOfParent"
+            verticalMin: 640.000000
+        UIDataParamsComponent:
+            params:
+            - ["bool", "isInClan", "false", "true"]
+            - ["ClanNotificationsModel", "model", "null", "{ }"]
+        UIChildComponent0:
+            prototypePath: "~res:/UI/Screens3/Lobby/Clan/Common/ClanBaseScreen.yaml"
+            args:
+                "isInClan": "isInClan"
+                "headerText": "\"Clans/Notifications/ClanNotifications\""
+                "content": "NotificationsContent"
+                "blurOpacity": "0.000000"
+            eventActions:
+            - ["ON_BACK_CLICK", "BACK_EVENT", ""]
+Slots:
+-   class: "UIControl"
+    name: "NotificationsContent"
+    size: [960.000000, 640.000000]
+    input: false
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "Spacer"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+                verticalValue: 12.000000
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Clan/Notifications/ClanNotificationsContent.yaml"
+                args:
+                    "model": "model"
+    -   class: "UIControl"
+        name: "Spacer_1"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+                verticalValue: 32.000000

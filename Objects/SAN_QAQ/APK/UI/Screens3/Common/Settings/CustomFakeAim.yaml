@@ -68,17 +68,17 @@ Prototypes:
                 - ["Background.sprite", "cameraAimPath"]
             -   class: "UIControl"
                 name: "LeftText"
-                size: [172.000000, 0.000000]
+                size: [32.000000, 32.000000]
                 input: false
                 components:
                     UITextComponent:
+                        text: "11.4"
                         shadowOffset: [0.000000, -1.000000]
                         shadowColor: [1.000000, 1.000000, 1.000000, 0.501961]
-                        align: ["RIGHT", "VCENTER"]
                     Anchor:
                         hCenterAnchorEnabled: true
-                        hCenterAnchor: -84.000000
-                        vCenterAnchorEnabled: true                        
+                        hCenterAnchor: -75.000000
+                        vCenterAnchorEnabled: true
                     IgnoreLayout: {}
                     SizePolicy:
                         horizontalPolicy: "PercentOfContent"
@@ -87,7 +87,6 @@ Prototypes:
                         styles: "~res:/UI/Screens3/OldFont.style.yaml"
                 bindings:
                 - ["classes", "textStyle"]
-                - ["UITextComponent.text", "\"11.4\" + localize(\"#common:Shortening/Second\")"]
             -   class: "UIControl"
                 name: "RightText"
                 position: [172.000000, 0.000000]
@@ -196,16 +195,16 @@ Prototypes:
                         verticalPolicy: "PercentOfContent"
             -   class: "UIControl"
                 name: "LeftText"
-                size: [172.000000, 0.000000]
+                size: [32.000000, 32.000000]
                 input: false
                 components:
                     UITextComponent:
+                        text: "11.4"
                         shadowOffset: [0.000000, -1.000000]
                         shadowColor: [1.000000, 1.000000, 1.000000, 0.501961]
-                        align: ["RIGHT", "VCENTER"]
                     Anchor:
                         hCenterAnchorEnabled: true
-                        hCenterAnchor: -80.000000
+                        hCenterAnchor: -70.000000
                         vCenterAnchorEnabled: true
                         vCenterAnchor: 10.000000
                     IgnoreLayout: {}
@@ -216,7 +215,6 @@ Prototypes:
                         styles: "~res:/UI/Screens3/OldFont.style.yaml"
                 bindings:
                 - ["classes", "textStyle"]
-                - ["UITextComponent.text", "\"11.4\" + localize(\"#common:Shortening/Second\")"]
             -   class: "UIControl"
                 name: "RightText"
                 position: [172.000000, 0.000000]

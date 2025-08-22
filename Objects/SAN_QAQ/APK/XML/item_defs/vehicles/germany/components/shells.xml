@@ -3598,12 +3598,12 @@
 			<devices>122</devices>
 		</damage>
 	</_90mm_Sprgr_48>
-	<_120mm_HEAT_G165>
+	<_120mm_HEAT_M409>
 		<blitz>
 			<blitzIconFrame>0</blitzIconFrame>
 		</blitz>
 		<id>2087</id>
-		<userString>#germany_vehicles:_120mm_HEAT_G165</userString>
+		<userString>#germany_vehicles:_120mm_HEAT_M409</userString>
 		<icon>hc_premium</icon>
 		<price>10<gold/></price>
 		<kind>HOLLOW_CHARGE</kind>
@@ -3611,18 +3611,18 @@
 		<isTracer>true</isTracer>
 		<effects>largeHC</effects>
 		<damage>
-			<armor>300</armor>
+			<armor>320</armor>
 			<devices>150</devices>
 		</damage>
 		<ricochetAngle>85</ricochetAngle>
 		<piercingPowerLossFactorByDistance>0.05</piercingPowerLossFactorByDistance>
-	</_120mm_HEAT_G165>
-	<_120mm_AP_G165>
+	</_120mm_HEAT_M409>
+	<_120mm_AP_XM578E1>
 		<blitz>
 			<blitzIconFrame>0</blitzIconFrame>
 		</blitz>
 		<id>2088</id>
-		<userString>#germany_vehicles:_120mm_AP_G165</userString>
+		<userString>#germany_vehicles:_120mm_AP_XM578E1</userString>
 		<icon>ap</icon>
 		<price>0</price>
 		<kind>ARMOR_PIERCING</kind>
@@ -3630,18 +3630,18 @@
 		<isTracer>true</isTracer>
 		<effects>largeAP</effects>
 		<damage>
-			<armor>360</armor>
+			<armor>380</armor>
 			<devices>150</devices>
 		</damage>
 		<normalizationAngle>5</normalizationAngle>
 		<ricochetAngle>70</ricochetAngle>
-	</_120mm_AP_G165>
-	<_120mm_HE_G165>
+	</_120mm_AP_XM578E1>
+	<_120mm_HE_XM657E2>
 		<blitz>
 			<blitzIconFrame>0</blitzIconFrame>
 		</blitz>
 		<id>2089</id>
-		<userString>#germany_vehicles:_120mm_HE_G165</userString>
+		<userString>#germany_vehicles:_120mm_HE_XM657E2</userString>
 		<icon>he</icon>
 		<price>0</price>
 		<kind>HIGH_EXPLOSIVE</kind>
@@ -3650,10 +3650,10 @@
 		<isTracer>true</isTracer>
 		<effects>largeHE</effects>
 		<damage>
-			<armor>450</armor>
+			<armor>480</armor>
 			<devices>150</devices>
 		</damage>
-	</_120mm_HE_G165>
+	</_120mm_HE_XM657E2>
 	<_105mm_DM11A1>
 		<blitz>
 			<blitzIconFrame>0</blitzIconFrame>
@@ -4173,4 +4173,174 @@
 			<devices>203</devices>
 		</damage>
 	</_150mm_HE_SprG18M>
+	<_60mm_PzgrA>
+		<blitz>
+			<blitzIconFrame>0</blitzIconFrame>
+		</blitz>
+		<id>2120</id>
+		<userString>#germany_vehicles:_60mm_PzgrA</userString>
+		<icon>ap_cr_premium</icon>
+		<price>5<gold/>
+		</price>
+		<kind>ARMOR_PIERCING_CR</kind>
+		<caliber>60</caliber>
+		<isTracer>true</isTracer>
+		<effects>mediumAPCR</effects>
+		<damage>
+			<armor>50</armor>
+			<devices>25</devices>
+		</damage>
+		<normalizationAngle>2</normalizationAngle>
+		<ricochetAngle>70</ricochetAngle>
+	</_60mm_PzgrA>
+	<_60mm_M>
+		<blitz>
+			<blitzIconFrame>0</blitzIconFrame>
+		</blitz>
+		<id>2121</id>
+		<userString>#germany_vehicles:_60mm_M</userString>
+		<icon>he</icon>
+		<price>0</price>
+		<kind>HIGH_EXPLOSIVE</kind>
+		<caliber>60</caliber>
+		<explosionRadius>1.4</explosionRadius>
+		<isTracer>true</isTracer>
+		<effects>mediumHE</effects>
+		<damage>
+			<armor>70</armor>
+			<devices>25</devices>
+		</damage>
+	</_60mm_M>
+	<_60mm_Pzgr>
+		<blitz>
+			<blitzIconFrame>0</blitzIconFrame>
+		</blitz>
+		<id>2122</id>
+		<userString>#germany_vehicles:_60mm_Pzgr</userString>
+		<icon>ap</icon>
+		<price>0</price>
+		<kind>ARMOR_PIERCING</kind>
+		<caliber>60</caliber>
+		<isTracer>true</isTracer>
+		<effects>mediumAP</effects>
+		<damage>
+			<armor>60</armor>
+			<devices>25</devices>
+		</damage>
+		<normalizationAngle>5</normalizationAngle>
+		<ricochetAngle>70</ricochetAngle>
+	</_60mm_Pzgr>
+	<_105mm_DM11A1v2>
+		<blitz>
+			<blitzIconFrame>0</blitzIconFrame>
+		</blitz>
+		<id>2123</id>
+		<userString>#germany_vehicles:_105mm_DM11A1v2</userString>
+		<icon>he</icon>
+		<price>0</price>
+		<kind>HIGH_EXPLOSIVE</kind>
+		<caliber>105</caliber>
+		<explosionRadius>1.76</explosionRadius>
+		<isTracer>true</isTracer>
+		<effects>largeHE</effects>
+		<damage>
+			<armor>300</armor>
+			<devices>130</devices>
+		</damage>
+	</_105mm_DM11A1v2>
+	<_105mm_DM13A1v2>
+		<blitz>
+			<blitzIconFrame>0</blitzIconFrame>
+		</blitz>
+		<id>2124</id>
+		<userString>#germany_vehicles:_105mm_DM13A1v2</userString>
+		<icon>ap</icon>
+		<price>0</price>
+		<kind>ARMOR_PIERCING</kind>
+		<caliber>105</caliber>
+		<isTracer>true</isTracer>
+		<effects>largeAP</effects>
+		<damage>
+			<armor>260</armor>
+			<devices>130</devices>
+		</damage>
+		<normalizationAngle>5</normalizationAngle>
+		<ricochetAngle>70</ricochetAngle>
+	</_105mm_DM13A1v2>
+	<_105mm_DM23A1v2>
+		<blitz>
+			<blitzIconFrame>0</blitzIconFrame>
+		</blitz>
+		<id>2125</id>
+		<userString>#germany_vehicles:_105mm_DM23A1v2</userString>
+		<icon>hc_premium</icon>
+		<price>9<gold/>
+		</price>
+		<kind>HOLLOW_CHARGE</kind>
+		<caliber>105</caliber>
+		<isTracer>true</isTracer>
+		<effects>largeHC</effects>
+		<damage>
+			<armor>220</armor>
+			<devices>130</devices>
+		</damage>
+		<ricochetAngle>85</ricochetAngle>
+		<piercingPowerLossFactorByDistance>0.05</piercingPowerLossFactorByDistance>
+	</_105mm_DM23A1v2>
+	<_152mm_HEAT_M409>
+		<blitz>
+			<blitzIconFrame>0</blitzIconFrame>
+		</blitz>
+		<id>2129</id>
+		<userString>#germany_vehicles:_152mm_HEAT_M409</userString>
+		<icon>hc_premium</icon>
+		<price>10<gold/></price>
+		<kind>HOLLOW_CHARGE</kind>
+		<caliber>152</caliber>
+		<isTracer>true</isTracer>
+		<effects>hugeHC</effects>
+		<damage>
+			<armor>420</armor>
+			<devices>180</devices>
+		</damage>
+		<ricochetAngle>85</ricochetAngle>
+		<piercingPowerLossFactorByDistance>0.05</piercingPowerLossFactorByDistance>
+	</_152mm_HEAT_M409>
+	<_152mm_AP_XM578E1>
+		<blitz>
+			<blitzIconFrame>0</blitzIconFrame>
+		</blitz>
+		<id>2130</id>
+		<userString>#germany_vehicles:_152mm_AP_XM578E1</userString>
+		<icon>ap</icon>
+		<price>0</price>
+		<kind>ARMOR_PIERCING</kind>
+		<caliber>152</caliber>
+		<isTracer>true</isTracer>
+		<effects>hugeAP</effects>
+		<damage>
+			<armor>500</armor>
+			<devices>180</devices>
+		</damage>
+		<normalizationAngle>5</normalizationAngle>
+		<ricochetAngle>70</ricochetAngle>
+	</_152mm_AP_XM578E1>
+	<_152mm_HE_XM657E2>
+		<blitz>
+			<blitzIconFrame>0</blitzIconFrame>
+		</blitz>
+		<id>2131</id>
+		<userString>#germany_vehicles:_152mm_HE_XM657E2</userString>
+		<icon>he</icon>
+		<price>0</price>
+		<kind>HIGH_EXPLOSIVE</kind>
+		<caliber>152</caliber>
+		<explosionRadius>2.96</explosionRadius>
+		<isTracer>true</isTracer>
+		<effects>hugeHE</effects>
+		<damage>
+			<armor>600</armor>
+			<devices>180</devices>
+		</damage>
+	</_152mm_HE_XM657E2>
 </root>

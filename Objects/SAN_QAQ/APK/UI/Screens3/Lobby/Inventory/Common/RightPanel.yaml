@@ -1,0 +1,111 @@
+Header:
+    version: 157
+ImportedPackages:
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "RightPanel"
+    input: false
+    components:
+        Anchor:
+            topAnchorEnabled: true
+        LinearLayout: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "Formula"
+            verticalFormula: "when parent == 0 -> childrenSum, min(parentRest, childrenSum)"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "isBlur", "true", "true"]
+            - ["string", "backgroundStyle", "\"grey-shark-70-bg\"", "\"grey-shark-70-bg\""]
+            - ["string", "roundCorner", "\"8\"", "\"8\""]
+            - ["control", "header", "null", "null"]
+            - ["control", "content", "null", "null"]
+            - ["control", "footer", "null", "null"]
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        components:
+            Background: {}
+            ClipContent: {}
+            LinearLayout:
+                orientation: "TopDown"
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 348.000000
+                verticalPolicy: "Formula"
+                verticalFormula: "when parent == 0 -> childrenSum, min(parent, childrenSum)"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
+        children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Background"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "isBlur": "isBlur"
+                        "bgStyle": "backgroundStyle"
+                        "roundCorner": "roundCorner"
+        -   class: "UIControl"
+            name: "Header"
+            input: false
+            components:
+                LinearLayout:
+                    padding: "20"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
+                UIChildComponent0:
+                    childType: "kControl"
+                    condition: "not isNull(header)"
+                    control: "header"
+        -   class: "UIScrollView"
+            name: "ContentArea"
+            autoUpdate: true
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "Formula"
+                    verticalFormula: "when parent == 0 -> maxChild, min(parentRest, maxChild)"
+            children:
+            -   class: "UIScrollViewContainer"
+                name: "scrollContainerControl"
+                components:
+                    LinearLayout:
+                        padding: "20"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfChildrenSum"
+                    UIChildComponent0:
+                        childType: "kControl"
+                        condition: "not isNull(content)"
+                        control: "content"
+            -   prototype: "VerticalScrollBar/VerticalScrollBar"
+                name: "VerticalScrollBar"
+                position: [348.000000, 0.000000]
+                components:
+                    Anchor:
+                        enabled: true
+                        rightAnchorEnabled: true
+                        rightAnchor: 2.000000
+                        topAnchorEnabled: true
+                        topAnchor: 8.000000
+                        bottomAnchorEnabled: true
+                        bottomAnchor: 8.000000
+                    IgnoreLayout: {}
+                    UIScrollBarComponent:
+                        delegate: ".."
+        -   class: "UIControl"
+            name: "Footer"
+            input: false
+            components:
+                LinearLayout:
+                    padding: "20"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
+                UIChildComponent0:
+                    childType: "kControl"
+                    condition: "not isNull(footer)"
+                    control: "footer"

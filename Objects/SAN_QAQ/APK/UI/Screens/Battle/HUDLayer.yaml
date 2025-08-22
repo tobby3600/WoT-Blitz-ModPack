@@ -32,7 +32,6 @@ ImportedPackages:
 - "~res:/UI/Screens/Battle/TeamPanel.yaml"
 - "~res:/UI/Screens3/Battle/FastCommands/Joystick.yaml"
 - "~res:/UI/Screens3/Battle/FastCommands/MarkerInCommandBar.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 StyleSheets:
 -   selectors:
     - "#CaptureState.neutral_current"
@@ -128,7 +127,7 @@ StyleSheets:
 -   selectors:
     - ".health-font.zh-Hans"
     properties:
-        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
         text-baseLine: 2.000000
 -   selectors:
     - ".health-font.zh-Hant"
@@ -170,7 +169,7 @@ StyleSheets:
 -   selectors:
     - ".health-font.Phone.zh-Hans"
     properties:
-        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
         text-baseLine: 0.000000
 -   selectors:
     - ".health-font.Phone.zh-Hant"
@@ -1016,7 +1015,7 @@ Prototypes:
         children:
         -   class: "UIStaticText"
             name: "SpeedValueControl"
-            classes: "header5 not-localize"
+            classes: "header5"
             components:
                 UITextComponent:
                     text: "no_speed!"
@@ -2355,7 +2354,7 @@ Prototypes:
         components:
             Background:
                 drawType: "DRAW_FILL"
-                color: [0.000000, 0.000000, 0.000000, 0.500000]
+                color: [0.000000, 0.000000, 0.000000, 0.600000]
             UIOpacityComponent:
                 ignoreParentOpacity: true
                 opacity: 0.500000
@@ -2435,9 +2434,6 @@ Prototypes:
                 SizePolicy:
                     horizontalPolicy: "PercentOfMaxChild"
                     verticalPolicy: "PercentOfMaxChild"
-            children:
-            -   prototype: "BlurModified/BlurModified"
-                name: "Blur"
     -   class: "UIControl"
         name: "FastCommandsLayer"
         input: false

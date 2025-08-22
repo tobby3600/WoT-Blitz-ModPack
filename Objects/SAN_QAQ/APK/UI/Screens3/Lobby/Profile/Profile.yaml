@@ -4,6 +4,8 @@ ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Common/Button.yaml"
 - "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
 - "~res:/UI/Screens3/Lobby/Common/Tabs/TextTabsBar.yaml"
+- "~res:/UI/Screens3/Common/BlurMask.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ProfileScreen"
@@ -16,6 +18,7 @@ Prototypes:
         LinearLayout:
             orientation: "TopDown"
             spacing: 0.000000
+        UIPostProcessSourceComponent0: {}
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
             verticalPolicy: "PercentOfParent"
@@ -44,8 +47,11 @@ Prototypes:
         UIDataLocalBindingsComponent:
             data:
             - ["bool", "hasTankStats", "not profile.dossier.vehicleDossiersCut.Empty()"]
-            - ["int", "activeTab", "profile.activeTab"]
             - ["bool", "isSelfProfile", "profile.profileType == ePlayerProfileType.SELF"]
+            - ["int", "activeTab", "profile.activeTab"]
+            - ["string", "backgroundProfile", "\"backgroundProfile\""]
+            - ["string", "blurProfile", "\"blurProfile\""]
+            - ["string", "maskProfile", "\"maskProfile\""]
         UIDataLocalControlComponent0:
             name: "headerContent"
             prototypePath: "~res:/UI/Screens3/Lobby/Common/Headers/TitleWithSubtitle.yaml"
@@ -82,12 +88,23 @@ Prototypes:
                 drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
             UIUrlImageComponent: {}
             IgnoreLayout: {}
+            UIPostProcessSourceComponent0: {}
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
         bindings:
         - ["visible", "isPreview or profileBackground != \"\""]
         - ["UIUrlImageComponent.imageUrl", "profileBackground"]
+        - ["UIPostProcessSourceComponent0.id", "backgroundProfile"]
+    -   prototype: "BlurMask/BlurMask"
+        name: "Blur"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "isBlurMask": "isPreview or profileBackground != \"\""
+                    "background": "backgroundProfile"
+                    "blur": "blurProfile"
+                    "mask": "maskProfile"
     -   class: "UIControl"
         name: "Header"
         input: false
@@ -101,7 +118,7 @@ Prototypes:
                     "session": "session"
                     "lobby": "lobby"
                     "leftContent": "headerContent"
-                    "bgStyle": ""
+                    "bgStyle": "\"white-wild-sand-15-bg\""
                     "isGeneralPackLoaded": "app.sDlc.isGeneralPackLoaded"
                     "showBackButton": "not isPreview"
                     "isBackButtonInitiallyClickable": "false"
@@ -157,7 +174,8 @@ Prototypes:
                         args:
                             "activeTab": "profile.activeTab"
                             "info": "when hasTankStats -> tabsInfoAllTabs, tabsInfoNoTanks"
-                            "bgStyle": "\"\""
+                            "isBlur": "true"
+                            "bgStyle": "\"white-wild-sand-15-bg\""
                         eventActions:
                         - ["ON_SELECT_TAB", "ON_SELECT_TAB", "_event"]
                 children:
@@ -200,6 +218,7 @@ Prototypes:
                                 "size": "eButtonSize.NORMAL"
                                 "sound": "eButtonSound.OPEN"
                                 "enabled": "true"
+                                "maskStyle": "\"white-wild-sand-15-bg\""
                             eventActions:
                             - ["ON_CLICK_BUTTON", "SHOW_REPLAYS", ""]
                     bindings:
@@ -221,6 +240,7 @@ Prototypes:
                         "isWgc": "app.constants.wgc"
                         "account": "account"
                         "profile": "profile"
+                        "maskProfile": "maskProfile"
                     eventActions:
                     - ["SHOW_PLAYER_TEAMS", "SHOW_PLAYER_TEAMS", "_event"]
                     - ["SHOW_AVATAR_INFO", "SHOW_AVATAR_INFO", "_event"]
@@ -242,12 +262,14 @@ Prototypes:
                     prototypePath: "~res:/UI/Screens3/Lobby/Profile/ProfileStatsTab.yaml"
                     args:
                         "profile": "profile"
+                        "maskProfile": "maskProfile"
                 UIChildComponent2:
                     condition: "activeTab == eProfileTab.TANKS"
                     prototypePath: "~res:/UI/Screens3/Lobby/Profile/ProfileTanksTab.yaml"
                     args:
                         "rankConfig": "session.rankConfig"
                         "profile": "profile"
+                        "maskProfile": "maskProfile"
                     eventActions:
                     - ["SHOW_ACHIEVEMENT_INFO", "SHOW_ACHIEVEMENT_INFO", "_event"]
                     - ["BUYOUT_TANKS", "BUYOUT_TANKS", ""]
@@ -338,29 +360,8 @@ Prototypes:
             name: "Content"
             input: false
             components:
-                Background:
-                    usePostProcessedSprite: true
-                UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                    needClearAlphaAfterRender: true
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent1:
-                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent2:
-                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIRoundedCornersComponent:
-                    radius: "28"
+                UIOpacityComponent:
+                    opacity: 0.000000
                 Anchor:
                     hCenterAnchorEnabled: true
                     vCenterAnchorEnabled: true
@@ -373,6 +374,13 @@ Prototypes:
                     verticalPolicy: "Formula"
                     verticalFormula: "lastChild + 20"
             children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "bgStyle": "\"grey-shark-70-bg\""
+                            "roundCorner": "\"16\""
             -   class: "UIControl"
                 name: "Description"
                 input: false

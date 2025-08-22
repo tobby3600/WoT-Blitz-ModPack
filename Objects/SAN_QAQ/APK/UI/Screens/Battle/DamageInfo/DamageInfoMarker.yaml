@@ -252,7 +252,7 @@ Prototypes:
                 input: false
                 components:
                     UIDynamicAtlasTextComponent:
-                        fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+                        fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
                         fontSize: 17.000000
                     SizePolicy:
                         horizontalPolicy: "PercentOfContent"
@@ -263,7 +263,7 @@ Prototypes:
                 input: false
                 components:
                     UIDynamicAtlasTextComponent:
-                        fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+                        fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
                         fontSize: 17.000000
                     SizePolicy:
                         horizontalPolicy: "PercentOfContent"

@@ -12,8 +12,12 @@ resourcesPath:
     chassisSoundNPC: "tanks/npc/treads/mt"
     customEffects:
         hull:
-            HP_Track_Exhaus_01: "FX/Exhausts/vik-left.sc2"
+            HP_Track_Exhaus_01: "FX/Exhausts/vik-right.sc2"
             HP_Track_Exhaus_02: "FX/Exhausts/vik-right.sc2"
+            HP_Track_Exhaus_03: "FX/Exhausts/vik-right.sc2"
+            HP_Track_Exhaus_04: "FX/Exhausts/vik-left.sc2"
+            HP_Track_Exhaus_05: "FX/Exhausts/vik-left.sc2"
+            HP_Track_Exhaus_06: "FX/Exhausts/vik-left.sc2"
 textureTransform:
     gun_01:
         shear: [0.000000, 0.000000]

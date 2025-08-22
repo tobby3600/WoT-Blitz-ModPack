@@ -104,7 +104,7 @@ vertex_out vp_main(vertex_in input)
 
 	#if ENVIRONMENT_MAPPING || RECEIVE_SHADOW
 		float3 normal = input.normal;
-		float3 worldNormal = normalize(mul3Fast0(normal, worldInvTransposeMatrix));
+		float3 worldNormal = normalize(mul(float4(normal, 0.0), worldInvTransposeMatrix).xyz);
 
 		#if SOFT_SKINNING
 			normal = softSkinnedNormal(normal, input.indices, input.weights);
@@ -113,7 +113,7 @@ vertex_out vp_main(vertex_in input)
 		#endif
 
 		float3 L = toLightDir;
-		float3 N = normalize(mul3Fast0(normal, worldViewInvTransposeMatrix));
+		float3 N = normalize(mul(float4(normal, 0.0), worldViewInvTransposeMatrix).xyz);
 		float NdotL = saturate(dot(N, L));
 	#endif
 
@@ -127,7 +127,7 @@ vertex_out vp_main(vertex_in input)
 
 		float3 fresnelOut = lerp(reflectionMetalFresnelReflectance, const1List3, pow5Exp(NdotV));
 
-		output.specularVector = float4(fresnelOut * (NdotL * reflectionSpecular / (VdotH * VdotH + 0.0001)), NdotH);
+		output.specularVector = float4(fresnelOut * (NdotL * reflectionSpecular / (VdotH * VdotH + 1e-4)), NdotH);
 		output.reflectionVector = float4(reflect(normalize(-toCamDir), worldNormal), dot(fresnelOut, rgbMixList * reflectionBrightenEnvMap));
 	#endif
 

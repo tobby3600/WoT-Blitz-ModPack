@@ -17,7 +17,7 @@
 	</invisibility>
 	<repairCost>0</repairCost>
 	<crewXpFactor>1.0</crewXpFactor>
-	<optDevicePreset>defaultPreset</optDevicePreset>
+	<optDevicePreset>drumGunVehiclePreset</optDevicePreset>
 	<consumableSlots>3</consumableSlots>
 	<provisionSlots>3</provisionSlots>
 	<enrichmentBoost>0.0</enrichmentBoost>
@@ -87,7 +87,7 @@
 		</armor>
 		<primaryArmor>armor_1 armor_3 armor_4</primaryArmor>
 		<weight>16000</weight>
-		<maxHealth>1270</maxHealth>
+		<maxHealth>1240</maxHealth>
 		<ammoBayHealth>
 			<maxHealth>250</maxHealth>
 			<maxRegenHealth>160</maxRegenHealth>
@@ -232,7 +232,7 @@
 			</armor>
 			<primaryArmor>armor_1 armor_15 armor_12</primaryArmor>
 			<weight>8100</weight>
-			<maxHealth>280</maxHealth>
+			<maxHealth>310</maxHealth>
 			<rotationSpeed>42</rotationSpeed>
 			<turretRotatorHealth>
 				<maxHealth>140</maxHealth>
@@ -247,6 +247,78 @@
 			</surveyingDeviceHealth>
 			<guns>
 				<_105mm_Rh_69_2>shared<maxAmmo>50</maxAmmo>
+					<hitTester>
+						<collisionModel>vehicles/german/G166_LKpz_70_K/collision/Gun_01.model</collisionModel>
+					</hitTester>
+					<models>
+						<undamaged>vehicles/german/G166_LKpz_70_K/normal/lod0/Gun_01.model</undamaged>
+						<destroyed>vehicles/german/G166_LKpz_70_K/crash/lod0/Gun_01.model</destroyed>
+						<exploded>vehicles/german/G166_LKpz_70_K/crash/lod0/Gun_01.model</exploded>
+					</models>
+					<unlocks>
+						<gun>_105mm_Rh_69_2v2<cost>500</cost>
+						</gun>
+					</unlocks>
+					<armor>
+						<armor_1>50</armor_1>
+						<armor_2>40</armor_2>
+						<armor_3>20</armor_3>
+						<armor_4>20</armor_4>
+						<armor_5>25</armor_5>
+						<armor_6>20</armor_6>
+						<armor_7>30</armor_7>
+						<armor_9>25</armor_9>
+						<armor_11>20</armor_11>
+						<armor_12>20</armor_12>
+						<armor_13>20</armor_13>
+						<armor_14>20</armor_14>
+						<armor_15>30</armor_15>
+						<gun>40</gun>
+					</armor>
+					<shotDispersionRadius>0.34</shotDispersionRadius>
+					<aimingTime>1.9</aimingTime>
+					<reloadTime>8.9</reloadTime>
+					<shotDispersionFactors>
+						<turretRotation>0.12</turretRotation>
+						<afterShot>4</afterShot>
+						<whileGunDamaged>2.0</whileGunDamaged>
+					</shotDispersionFactors>
+					<invisibilityFactorAtShot>0.35</invisibilityFactorAtShot>
+					<pitchLimits>-18 7</pitchLimits>
+					<extras>
+						<improvedDetection>
+							<shell>
+								<kind>ARMOR_PIERCING</kind>
+								<duration>20</duration>
+							</shell>
+							<shell>
+								<kind>HOLLOW_CHARGE</kind>
+								<duration>20</duration>
+							</shell>
+							<shell>
+								<kind>HIGH_EXPLOSIVE</kind>
+								<duration>20</duration>
+							</shell>
+						</improvedDetection>
+					</extras>
+					<fitsRatingBattle>true</fitsRatingBattle>
+					<shots>
+						<_105mm_DM13A1>
+							<shell>shared<price>0</price>
+							</shell>
+						</_105mm_DM13A1>
+						<_105mm_DM23A1>
+							<shell>shared<price>9<gold/>
+								</price>
+							</shell>
+						</_105mm_DM23A1>
+						<_105mm_DM11A1>
+							<shell>shared<price>0</price>
+							</shell>
+						</_105mm_DM11A1>
+					</shots>
+				</_105mm_Rh_69_2>
+				<_105mm_Rh_69_2v2>shared<maxAmmo>60</maxAmmo>
 					<hitTester>
 						<collisionModel>vehicles/german/G166_LKpz_70_K/collision/Gun_01.model</collisionModel>
 					</hitTester>
@@ -271,32 +343,52 @@
 						<armor_15>30</armor_15>
 						<gun>40</gun>
 					</armor>
-					<shotDispersionRadius>0.35</shotDispersionRadius>
-					<aimingTime>1.9</aimingTime>
-					<reloadTime>9.2</reloadTime>
+					<shotDispersionRadius>0.36</shotDispersionRadius>
+					<aimingTime>2.15</aimingTime>
+					<reloadTime>15.1</reloadTime>
 					<shotDispersionFactors>
-						<turretRotation>0.12</turretRotation>
+						<turretRotation>0.11</turretRotation>
 						<afterShot>4</afterShot>
 						<whileGunDamaged>2.0</whileGunDamaged>
 					</shotDispersionFactors>
 					<invisibilityFactorAtShot>0.35</invisibilityFactorAtShot>
+					<clip>
+						<count>3</count>
+						<rate>30</rate>
+					</clip>
 					<pitchLimits>-18 7</pitchLimits>
+					<extras>
+						<improvedDetection>
+							<shell>
+								<kind>ARMOR_PIERCING</kind>
+								<duration>20</duration>
+							</shell>
+							<shell>
+								<kind>HOLLOW_CHARGE</kind>
+								<duration>20</duration>
+							</shell>
+							<shell>
+								<kind>HIGH_EXPLOSIVE</kind>
+								<duration>20</duration>
+							</shell>
+						</improvedDetection>
+					</extras>
 					<shots>
-						<_105mm_DM13A1>
+						<_105mm_DM13A1v2>
 							<shell>shared<price>0</price>
 							</shell>
-						</_105mm_DM13A1>
-						<_105mm_DM23A1>
+						</_105mm_DM13A1v2>
+						<_105mm_DM23A1v2>
 							<shell>shared<price>9<gold/>
 								</price>
 							</shell>
-						</_105mm_DM23A1>
-						<_105mm_DM11A1>
+						</_105mm_DM23A1v2>
+						<_105mm_DM11A1v2>
 							<shell>shared<price>0</price>
 							</shell>
-						</_105mm_DM11A1>
+						</_105mm_DM11A1v2>
 					</shots>
-				</_105mm_Rh_69_2>
+				</_105mm_Rh_69_2v2>
 			</guns>
 			<emblemSlots>
 				<player>
@@ -327,4 +419,10 @@
 	<radios>
 		<SEM_25f>shared</SEM_25f>
 	</radios>
+	<extras>
+		<alteredSpotDuration>
+			<spotDurationTimeChange>-3.0</spotDurationTimeChange>
+			<withSpotEyeEffect/>
+		</alteredSpotDuration>
+	</extras>
 </root>

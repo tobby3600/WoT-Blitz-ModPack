@@ -1,0 +1,138 @@
+Header:
+    version: 157
+ImportedPackages:
+- "~res:/UI/Screens/Lobby/Clan/ClanEmblem.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
+Prototypes:
+-   class: "UIListCell"
+    name: "TeamEntry"
+    size: [350.000000, 64.000000]
+    input: false
+    classes: "registration-type-tag=clan-reg"
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+        StyleSheet:
+            styles: "~res:/UI/Screens/Lobby/Tournament/TeamList/TeamListCell.yaml;~res:/UI/Screens/Lobby/Tournament/TeamList/TeamListCell.style.yaml;~res:/UI/Screens/Fonts.yaml;~res:/UI/Screens/CommonStyles.yaml;~res:/UI/Styles/Clans/ClansStyles.yaml;~res:/UI/Styles/ButtonStyle.yaml;~res:/UI/Screens/Lobby/Tournament/IndependenceFonts.yaml"
+    children:
+    -   class: "UIControl"
+        name: "Button"
+        size: [350.000000, 64.000000]
+        classes: "button"
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "Back"
+            size: [350.000000, 64.000000]
+            input: false
+            classes: "panel-background"
+            components:
+                Background:
+                    drawType: "DRAW_FILL"
+                    colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+        -   class: "UIControl"
+            name: "Content"
+            size: [350.000000, 64.000000]
+            input: false
+            components:
+                LinearLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "ClanDescr"
+                size: [250.000000, 64.000000]
+                input: false
+                components:
+                    LinearLayout:
+                        padding: "10.000000"
+                        spacing: 10.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   prototype: "ClanEmblem/ClanEmblem"
+                    name: "ClanEmblem"
+                    size: [32.000000, 32.000000]
+                    components:
+                        Background:
+                            drawType: "DRAW_SCALE_TO_RECT"
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                -   class: "UIStaticText"
+                    name: "Tag"
+                    size: [52.000000, 64.000000]
+                    classes: "header3 clan-tag"
+                    components:
+                        UITextComponent:
+                            text: "[AS-S]"
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfParent"
+                -   class: "UIStaticText"
+                    name: "Name"
+                    size: [126.000000, 64.000000]
+                    classes: "header3"
+                    components:
+                        UITextComponent:
+                            text: "TEST Team Name"
+                            fitting: "FITTING_POINTS"
+                            align: ["LEFT", "VCENTER"]
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+            -   class: "UIStaticText"
+                name: "Players"
+                size: [100.000000, 64.000000]
+                classes: "header3 text-color-blue"
+                components:
+                    UITextComponent:
+                        text: "7"
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 100.000000
+                        verticalPolicy: "PercentOfParent"
+    -   class: "UIControl"
+        name: "bottomSelector"
+        size: [350.000000, 1.000000]
+        input: false
+        classes: "selector"
+        components:
+            Background:
+                drawType: "DRAW_FILL"
+                color: [1.000000, 1.000000, 1.000000, 0.141176]
+                perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                bottomAnchorEnabled: true
+            IgnoreLayout: {}
+-   class: "UIListCell"
+    name: "LoadingEntry"
+    size: [1024.000000, 64.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIStaticText"
+        name: "LoadingLabel"
+        size: [1024.000000, 64.000000]
+        classes: "text1 text-color-blue"
+        components:
+            UITextComponent:
+                text: "Loading..."
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens/Fonts.yaml"

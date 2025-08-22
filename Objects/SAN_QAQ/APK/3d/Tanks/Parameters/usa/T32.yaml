@@ -6,11 +6,11 @@ resourcesPath:
     smokeEffectPath: "FX/Exhausts/hullback.sc2"
     fireEffectPathAlive: "FX/SmokeFire_tank_movement_new.sc2"
     fireEffectPathDead: "FX/Fire_and_Smoke.sc2"
+    exclusionMask: "Camouflages/usa/CamouflageMasks/T32_CM.tex"
     engineSoundPC: "tanks/pc/engine/usa/ht"
     engineSoundNPC: "tanks/npc/engine/usa/ht"
     chassisSoundPC: "tanks/pc/treads/ht"
     chassisSoundNPC: "tanks/npc/treads/ht"
-    exclusionMask: "Camouflages/usa/CamouflageMasks/T32_CM.tex"
 textureTransform:
     gun_01:
         shear: [0.000000, 0.000000]
@@ -242,8 +242,8 @@ collision:
             min: [-1.189526, -3.488906, 0.470495]
             max: [1.189524, 3.159127, 1.741174]
         averageThickness:
-            turret_01: 246.799667
-            turret_02: 275.850250
+            turret_01: 139.635025
+            turret_02: 159.441360
     turret_01:
         points: [-0.004046, -0.545219, -1.656315]
         bbox:

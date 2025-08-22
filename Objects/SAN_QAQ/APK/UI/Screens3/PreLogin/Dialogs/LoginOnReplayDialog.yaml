@@ -2,7 +2,7 @@ Header:
     version: 128
 ImportedPackages:
 - "~res:/UI/Screens3/Common/OverlayBlur.yaml"
-- "~res:/UI/Screens3/Lobby/Common/ButtonNoBlur.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "PartialEquipmentDialog"
@@ -179,7 +179,7 @@ Prototypes:
                 bindings:
                 - ["visible", "type == eDialogType.CHOOSE or type == eDialogType.FILL"]
                 children:
-                -   prototype: "ButtonNoBlur/Button"
+                -   prototype: "Button/Button"
                     name: "ButtonOptionalLight"
                     components:
                         Anchor:
@@ -196,7 +196,7 @@ Prototypes:
                                 "enabled": "true"
                             eventActions:
                             - ["ON_CLICK_BUTTON", "DECLINE_CLICKED", ""]
-            -   prototype: "ButtonNoBlur/Button"
+            -   prototype: "Button/Button"
                 name: "ButtonPositive"
                 position: [236.000000, 24.000000]
                 components:
@@ -215,7 +215,7 @@ Prototypes:
                             "enabled": "true"
                         eventActions:
                         - ["ON_CLICK_BUTTON", "ACCENT_CLICKED", "_event"]
-            -   prototype: "ButtonNoBlur/Button"
+            -   prototype: "Button/Button"
                 name: "CancelButton"
                 components:
                     SizePolicy:
@@ -228,5 +228,6 @@ Prototypes:
                             "size": "eButtonSize.NORMAL"
                             "sound": "eButtonSound.UNKNOWN"
                             "enabled": "true"
+                            "isBlur": "false"
                         eventActions:
                         - ["ON_CLICK_BUTTON", "CLOSE_DIALOG_OPTIONAL", ""]

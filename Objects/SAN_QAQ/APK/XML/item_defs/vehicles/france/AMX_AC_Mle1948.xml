@@ -21,6 +21,7 @@
 	<provisionSlots>3</provisionSlots>
 	<optDevicePreset>defaultPreset</optDevicePreset>
 	<enrichmentBoost>1.6000</enrichmentBoost>
+	<turretBlowEnabled>false</turretBlowEnabled>
 	<effects>
 		<collision/>
 		<damagedStateGroup>large</damagedStateGroup>
@@ -57,7 +58,7 @@
 			<nodes>HP_Track_Exhaus_1 HP_Track_Exhaus_2</nodes>
 		</exhaust>
 		<turretPositions>
-			<turret>0.000000 0.488424 1.89047</turret>
+			<turret>0.000010 1.574682 1.890461</turret>
 		</turretPositions>
 		<fakeTurrets>
 			<lobby>0</lobby>
@@ -74,16 +75,15 @@
 			<armor_5>40</armor_5>
 			<armor_6>30</armor_6>
 			<armor_7>20</armor_7>
-			<armor_8>20</armor_8>
-			<armor_9>0</armor_9>
+			<armor_8>5</armor_8>
+			<armor_9>20</armor_9>
 			<armor_10>150</armor_10>
 			<armor_11>30</armor_11>
 			<armor_12>80</armor_12>
 			<armor_13>40</armor_13>
-			<armor_14>40<vehicleDamageFactor>0.0</vehicleDamageFactor>
-			</armor_14>
+			<armor_14>40</armor_14>
 			<armor_15>80</armor_15>
-			<armor_16>100</armor_16>
+			<armor_16>160</armor_16>
 		</armor>
 		<primaryArmor>armor_1 armor_3 armor_4</primaryArmor>
 		<weight>34700</weight>
@@ -207,7 +207,7 @@
 			</effects>
 			<soundPC>/vehicles/tanks_pc/treads/treads_0</soundPC>
 			<soundNPC>/vehicles/tanks_npc/treads/treads_0</soundNPC>
-			<hullPosition>0.000000 1.08626 0.000000</hullPosition>
+			<hullPosition>0.000000 0.000000 0.000000</hullPosition>
 			<hitTester>
 				<collisionModel>vehicles/french/F36_AMX_AC_Mle1948/collision/Chassis.model</collisionModel>
 			</hitTester>
@@ -314,7 +314,7 @@
 			</effects>
 			<soundPC>/vehicles/tanks_pc/treads/treads_0</soundPC>
 			<soundNPC>/vehicles/tanks_npc/treads/treads_0</soundNPC>
-			<hullPosition>0.000000 1.08626 0.000000</hullPosition>
+			<hullPosition>0.000000 0.000000 0.000000</hullPosition>
 			<hitTester>
 				<collisionModel>vehicles/french/F36_AMX_AC_Mle1948/collision/Chassis.model</collisionModel>
 			</hitTester>
@@ -367,7 +367,7 @@
 			<hitTester>
 				<collisionModel>vehicles/french/F36_AMX_AC_Mle1948/collision/Turret_01.model</collisionModel>
 			</hitTester>
-			<gunPosition>0.000000 0.000000 0.000000</gunPosition>
+			<gunPosition>0.000000 0.054229 0.467980</gunPosition>
 			<armor>
 				<armor_1>0</armor_1>
 			</armor>

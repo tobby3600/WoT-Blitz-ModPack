@@ -31,12 +31,13 @@ Prototypes:
                 verticalPolicy: "PercentOfChildrenSum"
             UIAttachLayoutMasterComponent: {}
             UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Lobby/Common/ButtonNoBlur.yaml"
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Button.yaml"
                 args:
                     "enabled": "isEnabled"
                     "caption": "when action.actionType == eArtefactAction.Install and isInstalled -> \"#common:DialogButton/Remove\", action.userString"
                     "type": "when action.actionType == eArtefactAction.Install and isInstalled -> eButtonType.OPTIONAL_LIGHT, action.buttonType"
                     "locked": "action.isLocked"
+                    "isBlur": "false"
                 eventActions:
                 - ["ON_CLICK_BUTTON", "ON_CLICK_BUTTON", ""]
         bindings:

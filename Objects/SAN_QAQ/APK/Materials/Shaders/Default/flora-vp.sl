@@ -188,7 +188,7 @@ vertex_out vp_main(vertex_in input)
 	#endif
 
 	#if FLORA_LAYING
-		float4 layingLocalPos = mul4Fast1(worldPos, floraLayingViewProj);
+		float4 layingLocalPos = mul(float4(worldPos, 1.0), floraLayingViewProj);
 		layingLocalPos.xyz /= layingLocalPos.w;
 
 		float4 layingSample = tex2Dlod(dynamicFloraLayingMap, layingLocalPos.xy * float2(0.5, -0.5) + const05List2, 0.0);
@@ -243,7 +243,7 @@ vertex_out vp_main(vertex_in input)
 	worldPos += displacement * localPos.z;
 
 	output.worldPos = worldPos;
-	output.localPos = mul4Fast1(worldPos, viewProjMatrix);
+	output.localPos = mul(float4(worldPos, 1.0), viewProjMatrix);
 	output.projPos = output.localPos;
 	output.texCoord0 = input.texCoord0;
 
@@ -255,7 +255,7 @@ vertex_out vp_main(vertex_in input)
 		#endif
 
 		#if USE_VERTEX_FOG
-			float3 eyePos = mul3Fast1(worldPos, viewMatrix);
+			float3 eyePos = mul(float4(worldPos, 1.0), viewMatrix).xyz;
 			float3 toLightDir = -eyePos * lightPosition0.w + lightPosition0.xyz;
 			float toLightDis = length(toLightDir);
 			toLightDir /= toLightDis;

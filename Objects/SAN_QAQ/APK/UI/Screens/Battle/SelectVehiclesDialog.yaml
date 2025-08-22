@@ -1,0 +1,242 @@
+Header:
+    version: 121
+ImportedPackages:
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+- "~res:/UI/Screens/Common/StyledButton.yaml"
+- "~res:/UI/Screens/Common/TextFieldPanel.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "Dialog"
+    position: [0.000000, 0.000000]
+    size: [500.000000, 500.000000]
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+            vCenterAnchorEnabled: true
+        SizePolicy:
+            verticalPolicy: "PercentOfParent"
+            verticalValue: 80.000000
+        ModalInput: {}
+        UIEventBindingComponent: {}
+        UIDataParamsComponent:
+            params:
+            - ["SelectBotDialogModel", "model", "null", "{ }"]
+            events:
+            - "FILTER_CHANGED"
+            - "VEHICLE_CHANGED"
+            - "ADD_ALLY_BOT"
+            - "ADD_ENEMY_BOT"
+    children:
+    -   class: "UIControl"
+        name: "Middle"
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_STRETCH_BOTH"
+                sprite: "~res:/Gfx/UI/CommonUIElements/PopupBackMiddle"
+                leftRightStretchCap: 4.000000
+                topBottomStretchCap: 4.000000
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                topAnchor: 0.000000
+                bottomAnchorEnabled: true
+                bottomAnchor: 0.000000
+        children:
+        -   class: "UIControl"
+            name: "VerticalBox"
+            size: [460.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    leftAnchor: 10.000000
+                    rightAnchorEnabled: true
+                    rightAnchor: 10.000000
+                LinearLayout:
+                    orientation: "TopDown"
+                    padding: "10.000000"
+                    spacing: 10.000000
+                SizePolicy:
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   prototype: "TextFieldPanel/TextFieldPanel"
+                name: "TextFieldPanel"
+                components:
+                    StyleSheet:
+                        inheritsStylesFromParent: true
+                        styles: "~res:/UI/Screens/Common/SmartTextField.yaml;~res:/UI/Screens/Common/NumericTextField.yaml;~res:/UI/Screens/Common/TextFieldPanel.yaml"
+                children:
+                -   class: "UITextField"
+                    name: "UITextField"
+                    size: [32.000000, 32.000000]
+                    fontPath: "~res:/Fonts/HelveticaNeueWorld-55Roman.ttf"
+                    fontSize: 16.000000
+                    components:
+                        Anchor:
+                            leftAnchorEnabled: true
+                            leftAnchor: 5.000000
+                            rightAnchorEnabled: true
+                            rightAnchor: 5.000000
+                            topAnchorEnabled: true
+                            topAnchor: 5.000000
+                            bottomAnchorEnabled: true
+                            bottomAnchor: 5.000000
+                        UIInputEventComponent:
+                            onValueChanged: "FILTER_CHANGED"
+                            onValueChangedData: "_text"
+                        Focus:
+                            state: "Enabled"
+            -   class: "UIControl"
+                name: "ListContainer"
+                position: [0.000000, 70.000000]
+                size: [460.000000, 314.000000]
+                input: false
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        rightAnchorEnabled: true
+                    SizePolicy:
+                        verticalPolicy: "PercentOfParent"
+                    DebugRender:
+                        enabled: false
+                children:
+                -   class: "UIScrollView"
+                    name: "UIScrollView"
+                    position: [0.000000, 12.000000]
+                    size: [480.000000, 272.000000]
+                    autoUpdate: true
+                    components:
+                        Anchor:
+                            leftAnchorEnabled: true
+                            rightAnchorEnabled: true
+                            topAnchorEnabled: true
+                            bottomAnchorEnabled: true
+                    children:
+                    -   class: "UIScrollViewContainer"
+                        name: "scrollContainerControl"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfFirstChild"
+                        children:
+                        -   class: "UIControl"
+                            name: "Control"
+                            size: [191.000000, 315.000000]
+                            input: false
+                            components:
+                                LinearLayout:
+                                    orientation: "TopDown"
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfChildrenSum"
+                                UIRepeatComponent:
+                                    control: "~res:/UI/Screens/Battle/SelectVehicleBotCell.yaml"
+                                    dataContainer: "model.filteredVehicles"
+                                    args:
+                                        "index": "_item"
+                                        "selected": "model.vehicles[_item].compactDescr == model.selectedVehicleDescr"
+                                        "vehicleStr": "model.vehicles[_item].displayName"
+                                    eventActions:
+                                    - ["ON_SELECT", "VEHICLE_CHANGED", "model.vehicles[_event.index].compactDescr"]
+                                    loadingPolicy: "Lazy"
+                                    loadingDistance: 30.000000
+                                    unloadingDistance: 100.000000
+                -   prototype: "VerticalScrollBar/VerticalScrollBar"
+                    name: "ScrollBar"
+                    components:
+                        Anchor:
+                            rightAnchorEnabled: true
+                            rightAnchor: -10.000000
+                            topAnchorEnabled: true
+                            topAnchor: 0.000000
+                            bottomAnchorEnabled: true
+                            bottomAnchor: 0.000000
+                        UIScrollBarComponent:
+                            delegate: "../UIScrollView"
+            -   class: "UIControl"
+                name: "ButtonHolder"
+                components:
+                    Anchor:
+                        bottomAnchorEnabled: true
+                        bottomAnchor: 20.000000
+                    LinearLayout:
+                        orientation: "TopDown"
+                        spacing: 10.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfChildrenSum"
+                    StyleSheet: {}
+                children:
+                -   class: "UIControl"
+                    name: "Row0"
+                    position: [0.000000, 0.000000]
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        LinearLayout:
+                            spacing: 20.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfMaxChild"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Common/Button.style.yaml;~res:/UI/Screens3/ButtonSound.style.yaml"
+                    children:
+                    -   prototype: "StyledButton/StyledButton"
+                        name: "AddEnemyButton"
+                        classes: "button button-color-orange button-ok-sound"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                            UIInputEventComponent:
+                                onTouchUpInside: "ADD_ENEMY_BOT"
+                        bindings:
+                        - ["enabled", "model.selectedVehicleDescr != -1"]
+                        children:
+                        -   path: "Caption"
+                            components:
+                                UITextComponent:
+                                    text: "Add enemy bot"
+                    -   prototype: "StyledButton/StyledButton"
+                        name: "AddAllyButton"
+                        classes: "button button-color-green button-ok-sound"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                            UIInputEventComponent:
+                                onTouchUpInside: "ADD_ALLY_BOT"
+                        bindings:
+                        - ["enabled", "model.selectedVehicleDescr != -1"]
+                        children:
+                        -   path: "Caption"
+                            components:
+                                UITextComponent:
+                                    text: "Add ally bot"
+                -   class: "UIControl"
+                    name: "Row1"
+                    position: [0.000000, 0.000000]
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfMaxChild"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/ButtonSound.style.yaml;~res:/UI/Screens3/Common/Button.style.yaml"
+                    children:
+                    -   prototype: "StyledButton/StyledButton"
+                        name: "CloseButton"
+                        visible: true
+                        classes: "button button-color-gray button-cancel-sound"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                            UIInputEventComponent:
+                                onTouchUpInside: "CANCEL"
+                        children:
+                        -   path: "Caption"
+                            components:
+                                UITextComponent:
+                                    text: "#common:DialogButton/Cancel"

@@ -122,7 +122,7 @@ Prototypes:
                     id: "NEWBIE_HANGAR_SCREENSHOT"
                 UIPostProcessTextureComponent0:
                     materialPath: "~res:/Materials/2d.Textured.material"
-                    scale: 0.500000
+                    scale: 0.250000
                     needDepth: true
                     minFilter: "Linear"
                     magFilter: "Linear"
@@ -141,7 +141,10 @@ Prototypes:
                 UIPostProcessInputComponent:
                     id: "NEWBIE_HANGAR_SCREENSHOT"
                 UIPostProcessTextureComponent0:
+                    materialPath: "~res:/Materials.custom/2d.Textured.BlurLite.material"
                     needClearAlphaAfterRender: false
+                UIPostProcessTextureComponent1:
+                    materialPath: "~res:/Materials.custom/2d.Textured.HBlurLite.material"
                 Anchor:
                     vCenterAnchorEnabled: true
                 SizePolicy:
@@ -165,12 +168,6 @@ Prototypes:
                     opacity: 0.000000
                 UIPostProcessInputComponent:
                     id: "NEWBIE_HANGAR_SCREENSHOT"
-                UIPostProcessTextureComponent0:
-                    scale: 0.250000
-                UIPostProcessTextureComponent1:
-                    scale: 0.250000
-                UIPostProcessTextureComponent2:
-                    scale: 0.250000
                 Anchor:
                     vCenterAnchorEnabled: true
                 SizePolicy:
@@ -787,6 +784,7 @@ Prototypes:
                                         "sound": "eButtonSound.CLOSE"
                                         "rounded": "true"
                                         "image": "\"~res:/Gfx/Lobby/icons/icon_exit_s\""
+                                        "bgStyle": "\"black-50-bg\""
                                     eventActions:
                                     - ["ON_CLICK_BUTTON", "LOGOUT_REQUESTED", ""]
                 -   class: "UIControl"

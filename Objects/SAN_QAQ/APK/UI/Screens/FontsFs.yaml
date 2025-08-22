@@ -123,11 +123,11 @@ StyleSheets:
 -   selectors:
     - ".bold-140.zh-Hans"
     properties:
-        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W12.otf"
 -   selectors:
     - ".bold-140.zh-Hant"
     properties:
-        text-fontPath: "~res:/Fonts/XinGothic-TC-W6.otf"
+        text-fontPath: "~res:/Fonts/XinGothic-TC-W12.otf"
 -   selectors:
     - ".ar.bold"
     properties:
@@ -536,10 +536,13 @@ StyleSheets:
         text-lineHeight: 109.000000
         text-baseLine: 22.000000
 -   selectors:
-    - ".zh-Hans.bold"
     - ".zh-Hans.regular"
     properties:
-        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
+-   selectors:
+    - ".zh-Hans.bold"
+    properties:
+        text-fontPath: "~res:/Fonts/XinGothic-SC-W12.otf"
 -   selectors:
     - ".fs-13.zh-Hans.bold"
     - ".fs-13.zh-Hans.regular"

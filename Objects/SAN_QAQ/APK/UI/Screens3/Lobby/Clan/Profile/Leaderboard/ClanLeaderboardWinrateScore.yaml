@@ -33,5 +33,5 @@ Prototypes:
                 horizontalPolicy: "PercentOfContent"
                 verticalPolicy: "PercentOfContent"
         bindings:
-        - ["classes", "\"t-caption bold white-wild-sand-text\""]
+        - ["classes", "\"t-caption bold \" + textColor"]
         - ["UITextComponent.text", "percent(winRate, 2)"]

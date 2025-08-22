@@ -3112,15 +3112,15 @@ keyedArchive:
                     min:
                         float: 0.0000
                     value:
-                        float: 0.7500
+                        float: 0.4000
             Silhouette exponent:
                 keyedArchive:
                     max:
-                        float: 3.0000
+                        float: 2.0000
                     min:
                         float: 0.1000
                     value:
-                        float: 1.2500
+                        float: 0.8000
     Treads:
         keyedArchive:
             Debug treads:
@@ -3946,7 +3946,7 @@ keyedArchive:
             Enable dlc 2_0 (restart needed):
                 keyedArchive:
                     value:
-                        bool: true
+                        bool: false
             Enable download:
                 keyedArchive:
                     value:

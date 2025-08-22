@@ -1,5 +1,3 @@
-#include "common.slh"
-
 vertex_in
 {
 	float4 localPos : POSITION;
@@ -18,7 +16,7 @@ vertex_out vp_main(vertex_in input)
 {
 	vertex_out output;
 
-	output.localPos = mul4Fast1(input.localPos.xyz, worldViewProjMatrix);
+	output.localPos = mul(float4(input.localPos.xyz, 1.0), worldViewProjMatrix);
 	output.texCoord = input.texCoord;
 
 	return output;

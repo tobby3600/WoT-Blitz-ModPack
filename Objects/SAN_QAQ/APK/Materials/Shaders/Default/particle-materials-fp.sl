@@ -212,16 +212,14 @@ fragment_out fp_main(fragment_in input)
 		output.color.rgb *= input.shadowColor;
 	#endif
 
-	#if USE_VERTEX_FOG
-		output.color.rgb = lerp(output.color.rgb, input.varFog.rgb, input.varFog.a);
-	#endif
+	#include "color-grading.slh"
 
 	#if RETRIEVE_FRAG_DEPTH_AVAILABLE && SOFT_PARTICLES
 		float3 projPos = input.projPos.xyz / input.projPos.w;
 
 		#include "depth-diff.slh"
 
-		float distanceDifference = max(depthPosition.x / max(depthPosition.y, 0.0001) - depthPosition.z / max(depthPosition.w, 0.0001), 0.0);
+		float distanceDifference = max(depthPosition.x / max(depthPosition.y, 1e-4) - depthPosition.z / max(depthPosition.w, 1e-4), 0.0);
 		float scale = exp2((-distanceDifference * distanceDifference) * (depthDifferenceSlope * _LOG2_E));
 
 		#if BLENDING == BLENDING_ADDITIVE
@@ -234,10 +232,6 @@ fragment_out fp_main(fragment_in input)
 	#if BLENDING == BLENDING_FUSE_BLEND_ADD
 		output.color.rgb *= output.color.a;
 		output.color.a -= output.color.a * smoothstep(fuseBlendAddEdges.x, fuseBlendAddEdges.y, output.color.a);
-	#endif
-
-	#if !DRAW_WATER_DEFORMATION
-		#include "color-grading.slh"
 	#endif
 
 	return output;

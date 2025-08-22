@@ -39,7 +39,7 @@ Prototypes:
         UIDataLocalBindingsComponent:
             data:
             - ["string", "alignStyle", "when isAlignLeft -> \" text-align-left\", \" text-align-center\""]
-            - ["string", "textStyle", "\"t-subtitle regular \" + \"color=white-wild-sand-70-text\" + alignStyle"]
+            - ["string", "textStyle", "\"t-subtitle regular \" + colorClass + alignStyle"]
             - ["string", "titleStyle", "\"t-subtitle bold \" + colorClass + alignStyle"]
         UIDataOnEventComponent0:
             eventName: "SELECTED_SIDE"
@@ -274,16 +274,20 @@ Slots:
             RichContent: {}
             RichContentAliases0:
                 aliases:
-                - ["text_white_bold", "<span class=\"t-subtitle bold color=white-wild-sand-text\" />"]
-                - ["text2_white_bold", "<span class=\"t-subtitle bold color=white-wild-sand-text\" />"]
+                - ["text_white_bold", "<span class=\"t-subtitle bold white-wild-sand-text\" />"]
+                - ["text2_white_bold", "<span class=\"t-subtitle bold white-wild-sand-text\" />"]
             Anchor:
                 hCenterAnchorEnabled: true
                 vCenterAnchorEnabled: true
-                useRtl: true
             SizePolicy:
-                horizontalPolicy: "PercentOfChildrenSum"
-                horizontalMin: 368.000000
+                horizontalPolicy: "Formula"
+                horizontalFormula: "min(childrenSum, 368.000000)"
                 verticalPolicy: "PercentOfChildrenSum"
+            FlowLayout:
+                hDynamicPadding: true
+                alignment: "Center"
+                hSpacing: 4.000000
+                useRtl: true
             StyleSheet:
                 styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Common/PopupMenu.style.yaml"
         bindings:

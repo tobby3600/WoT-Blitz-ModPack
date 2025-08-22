@@ -15,6 +15,7 @@ Prototypes:
         Anchor:
             hCenterAnchorEnabled: true
             vCenterAnchorEnabled: true
+        UIPostProcessSourceComponent0: {}
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
             horizontalValue: 96.000000
@@ -25,6 +26,7 @@ Prototypes:
             - ["SessionDataModel", "session", "null", "{ }"]
             - ["TaskJournal", "model", "null", "{ }"]
             - ["TaskJournalCache", "cache", "null", "{ }"]
+            - ["string", "maskTaskJournal", "\"\"", "\"\""]
             events:
             - "CLAN_TASKS_COLLECT_QUEST(string slotId)"
             - "ON_CLAN_TASK_REWARD_CLICKED(eClanTasksGroup group, string slotId, int rewardIndex)"
@@ -49,6 +51,8 @@ Prototypes:
             actionsPath: "~res:/UI/Screens3/Lobby/TaskJournal/Animations/ClanTab.actions"
         StyleSheet:
             styles: "~res:/UI/Screens3/Common/Desktop.style.yaml"
+    bindings:
+    - ["UIPostProcessSourceComponent0.id", "maskTaskJournal"]
     children:
     -   class: "UIControl"
         name: "RewardsWithProgress"
@@ -107,14 +111,26 @@ Prototypes:
                     condition: "not isWeekFinished"
                     prototypePath: "~res:/UI/Screens3/Lobby/Common/Tabs/TextTabsBar.yaml"
                     args:
-                        "bgStyle": ""
+                        "bgStyle": "\"white-wild-sand-15-bg\""
                         "info": "[ { \"text\" = localize(\"clanMissions/missionScreen/missionsTab\"); \"autotestKey\" = \"clanTasksTab\"; \"attachId\" = \"CLAN_TASKS_TAB_QUESTS\"; }; { \"text\" = localize(\"clanMissions/missionScreen/leaderboardTab\"); \"autotestKey\" = \"clanLeaderboardTab\"; \"attachId\" = \"CLAN_TASKS_TAB_LEADERBOARD\"; }; ]"
                         "activeTab": "int(model.clanTasks.activeTab)"
+                        "roundCorner": "\"0\""
+                        "hSizePolicy": "eSizePolicy.PercentOfParent"
                     eventActions:
                     - ["ON_SELECT_TAB", "ON_SELECT_CLAN_TAB", "toEnum(_event, eClanTasksTab)"]
                 UILayerComponent: {}
             bindings:
             - ["UILayerComponent.layer", "when account.tutorialData.currentHighlightControl == eTutorialHighlights.kClanTasksLeaderboardTab -> 1, 0"]
+        -   class: "UIControl"
+            name: "Spacer"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 36.000000
         -   class: "UIControl"
             name: "ClanTasks"
             size: [32.000000, 32.000000]

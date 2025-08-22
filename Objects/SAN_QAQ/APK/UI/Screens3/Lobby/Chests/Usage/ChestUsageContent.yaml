@@ -1,0 +1,847 @@
+Header:
+    version: 161
+ImportedPackages:
+- "~res:/UI/Screens3/Common/HorizontalScrollBar.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "ChestUsageContent"
+    size: [2400.000000, 653.000000]
+    input: false
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/Lobby/Chests/Usage/ChestUsageContentInit.animation"
+        LinearLayout: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UILayoutEventComponent:
+            sizeChangedEvent: "ScreenSizeChanged"
+            sizeChangedEventData: "_size"
+        UIDataParamsComponent:
+            params:
+            - ["vector2", "spawnPoint", "vec2(0.000000, 0.000000)", "vec2(0.000000, 0.000000)"]
+            - ["ChestUsageViewModel", "model", "null", "{ }"]
+            - ["bool", "isAnimationsFinished", "false", "true"]
+            - ["eScreenSizeType", "deviceType", "eScreenSizeType.Large", "eScreenSizeType.Large"]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["string", "taxMessage", "\"\"", "\"All prices inlude taxes\""]
+            - ["bool", "isNintendo", "false", "true"]
+            - ["bool", "debugMode", "false", "true"]
+            - ["bool", "isAutoOpenChest", "false", "true"]
+            - ["int", "autoOpenChestCount", "0", "12"]
+            - ["int", "autoOpenProgressBonus", "0", "0"]
+            events:
+            - "ON_REWARD_CLICKED(int index)"
+            - "FADE(float time)"
+            - "OnPurchaseRequested(int index)"
+            - "OnRelatedOfferRequested"
+            - "OnShopChestsRequested"
+            - "OnOpenAllAutoChests"
+        UIDataLocalVarsComponent:
+            data:
+            - ["vector2", "screenSize", "vec2(0.000000, 0.000000)"]
+            - ["vector2", "rewardsSize", "vec2(0.000000, 0.000000)"]
+            - ["int", "playIndex", "-1"]
+            - ["int", "purchaseOptionsLimit", "4"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["bool", "showAnim", "model.params.resourceProgress.showAnimation"]
+            - ["bool", "manyRewards", "rewardsSize.X > screenSize.X"]
+            - ["string", "headerText", "when model.rewards.Empty() -> \"storage/Items/Chest/EmptyChest/Title\", \"#common:Header/Congrats\""]
+            - ["int", "chestsCount", "when session.artefacts.artefactIds.Contains(model.params.chestName) -> session.artefacts.artefactIds[model.params.chestName], 0"]
+            - ["bool", "hasChests", "chestsCount > 0"]
+            - ["bool", "hasContainingOffer", "not isNull(model.containingOffer)"]
+            - ["ResourceDetailed", "pendingChests", "when not isNull(model.pendingProduct) and not model.pendingProduct.content.Empty() -> model.pendingProduct.content[0], null"]
+            - ["int", "pendingChestsCount", "when not isNull(pendingChests) and not isNull(pendingChests.stuff) -> pendingChests.stuff.quantity, 0"]
+            - ["bool", "hasMainReward", "not isNull(model.params) and model.params.isRequired"]
+            - ["bool", "optionsOverflow", "model.chestProducts.Size() > purchaseOptionsLimit"]
+            - ["bool", "hasAutoOpenChests", "autoOpenChestCount > 0"]
+            - ["bool", "showAllOpenButton", "isAutoOpenChest and hasAutoOpenChests"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Chests/Usage/ChestUsageContent.actions"
+        UIDataOnEventComponent0:
+            eventName: "ANIMATION_FINISHED"
+            modelFieldExpression: "playIndex"
+            dataExpression: "_event + 1"
+        UIDataOnEventComponent1:
+            eventName: "START_ANIMATIONS"
+            modelFieldExpression: "playIndex"
+            dataExpression: "0"
+        UIEventOnDataComponent0:
+            watchedDataExpression: "playIndex"
+            ifExpression: "playIndex >= 0 and playIndex < model.rewards.Size()"
+            eventName: "PLAY_ANIMATION"
+            eventData: "playIndex, 0.450000"
+        UIEventOnDataComponent1:
+            watchedDataExpression: "playIndex"
+            ifExpression: "playIndex >= model.rewards.Size()"
+            eventName: "ALL_ANIMATIONS_FINISHED"
+    children:
+    -   class: "UIControl"
+        name: "SafeArea"
+        input: false
+        components:
+            Anchor:
+                topAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "Formula"
+                verticalFormula: "parent - safeAreaInsets.bottom"
+        children:
+        -   class: "UIControl"
+            name: "Content"
+            input: false
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                    spacing: 8.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "AnimationsHolder"
+                input: false
+                components:
+                    UIOpacityComponent:
+                        opacity: 0.000000
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        horizontalMax: 900.000000
+                        verticalPolicy: "PercentOfMaxChild"
+                    FlowLayout:
+                        alignment: "Center"
+                        hSpacing: 16.000000
+                    UIRepeatComponent:
+                        control: "~res:/UI/Screens3/Lobby/Common/Resource/RewardBig.yaml"
+                        dataContainer: "model.rewards"
+                        args:
+                            "reward": "_item"
+                            "position": "spawnPoint"
+                            "pivot": "vec2(0.500000, 0.500000)"
+                            "scale": "vec2(0.010000, 0.010000)"
+                            "opacity": "0.000000"
+                        elementNameExpression: "\"Animation\" + str(_index)"
+            -   class: "UIControl"
+                name: "CongratulationsContent"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "Formula"
+                        verticalFormula: "min(parentRest, parent / 2.0 + childrenSum / 2.0)"
+                children:
+                -   class: "UIControl"
+                    name: "Group"
+                    input: false
+                    components:
+                        Anchor:
+                            bottomAnchorEnabled: true
+                        LinearLayout:
+                            orientation: "TopDown"
+                            spacing: 40.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfChildrenSum"
+                    children:
+                    -   class: "UIControl"
+                        name: "Anchor"
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                topAnchorEnabled: true
+                                topAnchor: -40.000000
+                            IgnoreLayout: {}
+                        children:
+                        -   class: "UIControl"
+                            name: "TextContainer"
+                            input: false
+                            components:
+                                Background: {}
+                                UIOpacityComponent:
+                                    opacity: 0.000000
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                    vCenterAnchorEnabled: true
+                                LinearLayout:
+                                    orientation: "TopDown"
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfMaxChild"
+                                    verticalPolicy: "PercentOfChildrenSum"
+                            children:
+                            -   class: "UIControl"
+                                name: "Header"
+                                input: false
+                                classes: "t-title light white-wild-sand-text"
+                                components:
+                                    UITextComponent: {}
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfContent"
+                                        verticalPolicy: "PercentOfContent"
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                                bindings:
+                                - ["UITextComponent.text", "localize(headerText)"]
+                            -   class: "UIControl"
+                                name: "Comment"
+                                input: false
+                                classes: "t-body regular white-wild-sand-text"
+                                components:
+                                    UITextComponent:
+                                        text: "storage/Items/Chest/EmptyChest/Description"
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfContent"
+                                        verticalPolicy: "PercentOfContent"
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                                bindings:
+                                - ["visible", "model.rewards.Empty()"]
+                            -   class: "UIControl"
+                                name: "AutoChestRemain"
+                                input: false
+                                classes: "t-headline regular orange-orange-peel-text"
+                                components:
+                                    UITextComponent: {}
+                                    Anchor:
+                                        leftAnchorEnabled: false
+                                        hCenterAnchorEnabled: true
+                                        vCenterAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfContent"
+                                        verticalPolicy: "PercentOfContent"
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                                bindings:
+                                - ["visible", "showAllOpenButton"]
+                                - ["UITextComponent.text", "localize(\"ChestUsage/AvailableChests\", { \"count\" = str1000Separated(autoOpenChestCount); })"]
+                    -   class: "UIScrollView"
+                        name: "ScrollView"
+                        autoUpdate: true
+                        centerContent: true
+                        components:
+                            ClipContent:
+                                bottom: false
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        children:
+                        -   class: "UIScrollViewContainer"
+                            name: "scrollContainerControl"
+                            refreshStylesOnInteract: false
+                            scrollDirection: "kHorizontal"
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfFirstChild"
+                                    verticalPolicy: "PercentOfFirstChild"
+                            bindings:
+                            - ["input", "isAnimationsFinished"]
+                            children:
+                            -   class: "UIControl"
+                                name: "ScrollContent"
+                                input: false
+                                components:
+                                    LinearLayout: {}
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfChildrenSum"
+                                        verticalPolicy: "PercentOfMaxChild"
+                                children:
+                                -   class: "UIControl"
+                                    name: "LeftInset"
+                                    input: false
+                                    components:
+                                        SizePolicy:
+                                            horizontalPolicy: "Formula"
+                                            horizontalFormula: "safeAreaInsets.left + 32"
+                                            verticalPolicy: "PercentOfParent"
+                                    bindings:
+                                    - ["visible", "manyRewards"]
+                                -   class: "UIControl"
+                                    name: "Rewards"
+                                    input: false
+                                    components:
+                                        SizePolicy:
+                                            horizontalPolicy: "PercentOfChildrenSum"
+                                            verticalPolicy: "PercentOfMaxChild"
+                                        FlowLayout:
+                                            alignment: "Center"
+                                            hSpacing: 16.000000
+                                        UILayoutEventComponent:
+                                            sizeChangedEvent: "RewardsSizeChanged"
+                                            sizeChangedEventData: "_size"
+                                        UIRepeatComponent:
+                                            control: "~res:/UI/Screens3/Lobby/Common/Resource/RewardBig.yaml"
+                                            dataContainer: "model.rewards"
+                                            args:
+                                                "attachId": "\"reward_\" + str(_index)"
+                                                "isClickable": "true"
+                                                "opacity": "when not isAnimationsFinished or not isNull(model.pendingProduct) -> 0.000000, when _item.type == ResourceType.stuff and not isNull(_item.stuff) and not _item.stuff.hasInStorage and not _item.stuff.isAutoExecuted -> 0.700000, 1.000000"
+                                                "pivot": "vec2(0.500000, 0.500000)"
+                                                "reward": "_item"
+                                                "bgStyle": "\"black-50-bg\""
+                                            eventActions:
+                                            - ["ON_REWARD_CLICKED", "ON_REWARD_CLICKED", "_index"]
+                                            elementNameExpression: "\"Reward\" + str(_index)"
+                                -   class: "UIControl"
+                                    name: "RightInset"
+                                    input: false
+                                    components:
+                                        SizePolicy:
+                                            horizontalPolicy: "Formula"
+                                            horizontalFormula: "safeAreaInsets.right + 32"
+                                            verticalPolicy: "PercentOfParent"
+                                    bindings:
+                                    - ["visible", "manyRewards"]
+                        -   prototype: "HorizontalScrollBar/HorizontalScrollBar"
+                            name: "HorizontalScrollBar"
+                            components:
+                                UIOpacityComponent:
+                                    opacity: 0.000000
+                                Anchor:
+                                    bottomAnchor: -8.000000
+                                UIScrollBarComponent:
+                                    delegate: ".."
+                            children:
+                            -   path: "slider"
+                                bindings:
+                                - ["input", "isAnimationsFinished"]
+                                children: []
+            -   class: "UIControl"
+                name: "Spacer"
+                input: false
+                components:
+                    SizePolicy:
+                        verticalPolicy: "Formula"
+                        verticalFormula: "parentRest"
+            -   class: "UIControl"
+                name: "OpenAllChestHolder"
+                input: false
+                components:
+                    UIOpacityComponent:
+                        opacity: 0.000000
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfFirstChild"
+                        verticalPolicy: "PercentOfFirstChild"
+                    UIChildComponent0:
+                        childType: "kControl"
+                        condition: "showAllOpenButton"
+                        control: "OpenAllAutoChest"
+            -   class: "UIControl"
+                name: "FooterHolder"
+                input: false
+                components:
+                    Anchor:
+                        bottomAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "BottomHolder"
+                    input: false
+                    components:
+                        UIOpacityComponent: {}
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            bottomAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfFirstChild"
+                            verticalPolicy: "PercentOfFirstChild"
+                        UIChildComponent0:
+                            childType: "kControl"
+                            condition: "not isNull(model.pendingProduct)"
+                            control: "PurchasePending"
+                        UIChildComponent1:
+                            childType: "kControl"
+                            condition: "hasChests and not isAutoOpenChest"
+                            control: "OpenChestHolder"
+                        UIChildComponent2:
+                            childType: "kControl"
+                            condition: "(hasContainingOffer or not model.chestProducts.Empty()) and (not isAutoOpenChest or autoOpenChestCount <= 0)"
+                            control: "PurchaseOptions"
+                        UIChildComponent3:
+                            condition: "not model.rewards.Empty() and not isAutoOpenChest"
+                            prototypePath: "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+                            args:
+                                "locked": "false"
+                                "caption": "localize(\"#common:Button/Claim\")"
+                                "type": "eButtonType.POSITIVE"
+                                "size": "eButtonSize.NORMAL"
+                                "sound": "eButtonSound.UNKNOWN"
+                                "enabled": "isAnimationsFinished"
+                            eventActions:
+                            - ["ON_CLICK_BUTTON", "OnCloseRequested", ""]
+                -   class: "UIControl"
+                    name: "Spacer"
+                    input: false
+                    components:
+                        SizePolicy:
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 34.000000
+                -   class: "UIControl"
+                    name: "Footer"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "FixedSize"
+                        UIChildComponent0:
+                            condition: "isAnimationsFinished and hasMainReward"
+                            prototypePath: "~res:/UI/Screens3/Common/Footer.yaml"
+                            args:
+                                "content": "FooterContent"
+                                "bgStyle": "\"black-50-bg\""
+                                "desktopStyle": "\"\""
+                    bindings:
+                    - ["SizePolicy.verticalValue", "when hasMainReward -> 80, 0"]
+Slots:
+-   class: "UIControl"
+    name: "FooterContent"
+    size: [960.000000, 0.000000]
+    input: false
+    components:
+        LinearLayout: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfMaxChild"
+    children:
+    -   class: "UIControl"
+        name: "LeftSpacer"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+    -   class: "UIControl"
+        name: "Progress"
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "Formula"
+                horizontalFormula: "max(firstChild, 500)"
+                verticalPolicy: "PercentOfChildrenSum"
+        children:
+        -   class: "UIControl"
+            name: "HintLabel"
+            input: false
+            classes: "t-body regular white-wild-sand-text"
+            components:
+                UITextComponent:
+                    text: "storage/Items/BlackFridayEvent/Chest/RequiredStuff"
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+        -   class: "UIControl"
+            name: "ProgressBarHolder"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfFirstChild"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/ResourceProgressBarAnimated.yaml"
+                    args:
+                        "minimum": "model.params.resourceProgress.progress.minimum"
+                        "maximum": "model.params.resourceProgress.progress.maximum"
+                        "value": "when showAnim -> model.params.resourceProgress.progress.value, model.params.resourceProgress.progress.value + model.params.resourceProgress.progress.bonus"
+                        "bonus": "model.params.resourceProgress.progress.bonus"
+                        "bonusMax": "when isAutoOpenChest -> autoOpenProgressBonus, model.params.resourceProgress.progress.bonus"
+                        "resource": "model.params.resourceProgress.resource"
+                        "colorStyle": "\"yellow-chalky-bg\""
+                        "animationTime": "0.600000"
+                        "bgStyle": "\"black-50-bg\""
+                    eventActions:
+                    - ["ON_ANIMATION_FINISHED", "", ""]
+    -   class: "UIControl"
+        name: "RightSpacer"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "RewardImage"
+            input: false
+            components:
+                UITextureComponent:
+                    drawType: "DRAW_SCALE_PROPORTIONAL"
+                    perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                Anchor:
+                    leftAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "Formula"
+                    horizontalFormula: "min(parent - 8, 160)"
+                    verticalPolicy: "Formula"
+                    verticalFormula: "min(parent - 8, 100)"
+            bindings:
+            - ["UITextureComponent.spritePath", "model.params.rewardImage"]
+-   class: "UIControl"
+    name: "OpenChestHolder"
+    input: false
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+            spacing: 8.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfMaxChild"
+            verticalPolicy: "PercentOfChildrenSum"
+    children:
+    -   class: "UIControl"
+        name: "OpenButton"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                bottomAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopSlider/ChestPurchaseButton.yaml"
+                args:
+                    "hideQuantity": "true"
+                    "description": "capitalize(localize(\"Chests/Open\"))"
+                    "quantity": "1"
+                    "enabled": "isAnimationsFinished"
+                eventActions:
+                - ["OnButtonClicked", "OnOpenRequested", ""]
+    -   class: "UIControl"
+        name: "ChestsLeftlabel"
+        input: false
+        classes: "t-body regular white-wild-sand-text"
+        components:
+            UITextComponent: {}
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfContent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml"
+        bindings:
+        - ["UITextComponent.text", "localize(\"ChestUsage/AvailableChests\", { \"count\" = str1000Separated(chestsCount); })"]
+-   class: "UIControl"
+    name: "PurchaseOptions"
+    input: false
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfMaxChild"
+            verticalPolicy: "PercentOfChildrenSum"
+    children:
+    -   class: "UIControl"
+        name: "Buttons"
+        input: false
+        components:
+            LinearLayout:
+                spacing: -8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfMaxChild"
+        children:
+        -   class: "UIControl"
+            name: "PurchaseButtons"
+            input: false
+            components:
+                LinearLayout:
+                    spacing: -8.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfMaxChild"
+                UIRepeatComponent:
+                    control: "~res:/UI/Screens3/Lobby/Shop/ShopSlider/ChestPurchaseOption.yaml"
+                    dataContainer: "model.chestProducts"
+                    args:
+                        "partialInput": "_index != 0"
+                        "description": "when _index == 0 -> capitalize(localize(\"Chests/Open\")), \"\""
+                        "price": "_item.product.salePrice"
+                        "discount": "when isAnimationsFinished -> _item.product.discount, 0.000000"
+                        "mainResource": "_item.product.content[0]"
+                        "limited": "_item.product.xTimed or (not isNull(_item.offer) and not isNull(_item.offer.basicOffer) and _item.offer.dismissAccepted)"
+                        "showLimits": "model.containsLimitedProduct"
+                        "left": "when not isNull(_item.offer) and not isNull(_item.offer.basicOffer) and _item.offer.dismissAccepted -> 1, _item.product.availableTimes"
+                        "total": "when not isNull(_item.offer) and not isNull(_item.offer.basicOffer) and _item.offer.dismissAccepted -> 1, _item.product.totalAvailableTimes"
+                        "showEShop": "isNintendo and _item.product.paymentType == eShopPaymentType.EXTERNAL"
+                        "session": "session"
+                        "show": "_index < purchaseOptionsLimit"
+                        "purchasePending": "_item.product.pendingPurchase"
+                        "debugMode": "debugMode"
+                        "productId": "_item.product.id"
+                        "offerId": "when not isNull(_item.offer) -> _item.offer.id, -1"
+                        "enabled": "isAnimationsFinished"
+                        "isNintendo": "isNintendo"
+                    eventActions:
+                    - ["OnPurchaseRequested", "OnPurchaseRequested", "_index"]
+        -   class: "UIControl"
+            name: "ShowShopChestSection"
+            input: false
+            components:
+                Anchor:
+                    bottomAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfFirstChild"
+                UIChildComponent0:
+                    condition: "optionsOverflow"
+                    prototypePath: "~res:/UI/Screens3/Lobby/Chests/Usage/SkewedButton.yaml"
+                    args:
+                        "partialInput": "true"
+                        "caption": "capitalize(localize(\"ChestUsage/GoToShop\"))"
+                        "enabled": "isAnimationsFinished"
+                    eventActions:
+                    - ["OnButtonClicked", "OnShopChestsRequested", ""]
+            bindings:
+            - ["visible", "optionsOverflow"]
+            - ["Anchor.bottomAnchor", "when model.containsLimitedProduct -> 24, 0"]
+            children:
+            -   class: "UIControl"
+                name: "DebugInfo"
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                        bottomAnchor: -10.000000
+                    IgnoreLayout: {}
+                    UIChildComponent0:
+                        childType: "kControl"
+                        condition: "debugMode"
+                        control: "DebugInfo"
+        -   class: "UIControl"
+            name: "ShowOffersButton"
+            input: false
+            components:
+                Anchor:
+                    bottomAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfFirstChild"
+                UIChildComponent0:
+                    condition: "hasContainingOffer"
+                    prototypePath: "~res:/UI/Screens3/Lobby/Chests/Usage/SkewedButton.yaml"
+                    args:
+                        "partialInput": "not model.chestProducts.Empty()"
+                        "caption": "capitalize(localize(\"ChestUsage/MoreOffers\"))"
+                        "enabled": "isAnimationsFinished"
+                    eventActions:
+                    - ["OnButtonClicked", "OnRelatedOfferRequested", ""]
+            bindings:
+            - ["visible", "hasContainingOffer"]
+            - ["Anchor.bottomAnchor", "when model.containsLimitedProduct -> 24, 0"]
+    -   class: "UIControl"
+        name: "TaxMessage"
+        input: false
+        classes: "t-caps regular white-wild-sand-50-text"
+        components:
+            UITextComponent: {}
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfContent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+        bindings:
+        - ["visible", "not empty(taxMessage) and model.containsRealCurrencyProduct"]
+        - ["UITextComponent.text", "taxMessage"]
+-   class: "UIControl"
+    name: "PurchasePending"
+    input: false
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+            spacing: 16.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfMaxChild"
+            verticalPolicy: "PercentOfChildrenSum"
+    children:
+    -   class: "UIControl"
+        name: "Spinner"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Common/LoadingSpinner.yaml"
+    -   class: "UIControl"
+        name: "LabelsWrapper"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfChildrenSum"
+        children:
+        -   class: "UIControl"
+            name: "WaitLabel"
+            input: false
+            classes: "t-overline bold white-wild-sand-text"
+            components:
+                UITextComponent:
+                    text: "ChestUsage/Wait"
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+        -   class: "UIControl"
+            name: "PurchasePendingLabel"
+            input: false
+            classes: "t-caption regular white-wild-sand-50-text"
+            components:
+                UITextComponent: {}
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "localize(\"ChestUsage/PurchasePending\", { \"count\" = str1000Separated(pendingChestsCount); })"]
+-   class: "UIControl"
+    name: "DebugInfo"
+    input: false
+    classes: "black-bg"
+    components:
+        Background: {}
+        Anchor:
+            hCenterAnchorEnabled: true
+            topAnchorEnabled: true
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfMaxChild"
+            verticalPolicy: "PercentOfChildrenSum"
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Font.style.yaml"
+    children:
+    -   class: "UIControl"
+        name: "OptionsCount"
+        input: false
+        classes: "t-body bold white-wild-sand-text"
+        components:
+            UITextComponent: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfContent"
+        bindings:
+        - ["UITextComponent.text", "\"total: \" + str(model.chestProducts.Size())"]
+-   class: "UIControl"
+    name: "OpenAllAutoChest"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfFirstChild"
+            verticalPolicy: "PercentOfFirstChild"
+    children:
+    -   class: "UIControl"
+        name: "Button"
+        size: [240.000000, 0.000000]
+        input: true
+        classes: "purchase-chest-button button-open-sound"
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 240.000000
+                verticalPolicy: "FixedSize"
+                verticalValue: 40.000000
+            UIInputEventComponent:
+                onTouchUpInside: "OnOpenAllAutoChests"
+                blockDuplicatedEvents: true
+            Sound: {}
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Common/Hover.style.yaml;~res:/UI/Screens3/Common/Touch.style.yaml;~res:/UI/Screens3/ButtonSound.style.yaml"
+        children:
+        -   class: "UIControl"
+            name: "Background"
+            input: false
+            components:
+                LinearLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 40.000000
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+            children:
+            -   class: "UIControl"
+                name: "Center"
+                input: false
+                classes: "orange-orange-peel-bg"
+                components:
+                    Background: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 40.000000
+        -   class: "UIControl"
+            name: "Hover"
+            input: false
+            classes: "hover"
+            components:
+                UIOpacityComponent: {}
+                LinearLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 40.000000
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Lobby/Hangar/BattleButton.style.yaml"
+            children:
+            -   class: "UIControl"
+                name: "Center"
+                input: false
+                classes: "black-10-bg"
+                components:
+                    Background: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 40.000000
+        -   class: "UIControl"
+            name: "Label"
+            input: false
+            classes: "t-subtitle bold white-wild-sand-text"
+            components:
+                UITextComponent: {}
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "capitalize(localize(\"#common:Button/ClaimAll\")) + \" (\" + str1000Separated(autoOpenChestCount) + \")\""]

@@ -32,13 +32,13 @@ vertex_out vp_main(vertex_in input)
 	vertex_out output;
 
 	float3 camPos = cameraPosition;
-	float3 worldPos = mul3Fast1(input.localPos.xyz, vecToMat(input.worldMatrix0, input.worldMatrix1, input.worldMatrix2));
-	output.localPos = mul4Fast1(worldPos, viewProjMatrix);
+	float3 worldPos = mul(float4(input.localPos.xyz, 1.0), vecToMat(input.worldMatrix0, input.worldMatrix1, input.worldMatrix2)).xyz;
+	output.localPos = mul(float4(worldPos, 1.0), viewProjMatrix);
 	output.projPos = output.localPos;
 	output.invWorldMatrix0 = input.invWorldMatrix0;
 	output.invWorldMatrix1 = input.invWorldMatrix1;
 	output.invWorldMatrix2 = input.invWorldMatrix2;
-	output.instanceOpacity = input.instanceOpacity * (nearFadeDistance - clamp(length(camPos - worldPos), nearFadeDistance, farFadeDistance)) / max(farFadeDistance - nearFadeDistance, 0.0001) + input.instanceOpacity;
+	output.instanceOpacity = input.instanceOpacity * (nearFadeDistance - clamp(length(camPos - worldPos), nearFadeDistance, farFadeDistance)) / max(farFadeDistance - nearFadeDistance, 1e-4) + input.instanceOpacity;
 
 	return output;
 }

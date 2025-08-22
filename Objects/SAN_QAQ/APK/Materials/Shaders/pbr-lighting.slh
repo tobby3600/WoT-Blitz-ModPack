@@ -1,5 +1,4 @@
 #if VIEW_AMBIENT
-	uniform sampler2D specularBRDF;
 	uniform samplerCUBE diffuseIrradianceMap;
 	uniform samplerCUBE specularReflectionMap;
 
@@ -10,12 +9,21 @@
 float3 directLight(float roughness, float shadow, float NdotL, float NdotV, float NdotH, float VdotH)
 {
 	float roughnessS = roughness * roughness;
+	float NdotLV = NdotL * NdotV;
 	float a = (VdotH * VdotH) * (roughness * 2.0) + 0.5;
 	float b = roughnessS * roughnessS;
 	float c = (NdotH * b - NdotH) * NdotH + 1.0;
-	float d = roughness * 0.25 + (roughnessS * 0.125 + 0.125);
+	float d = roughness * 0.25 + (b * 0.125 + 0.125);
 
-	return float3(float2(lerp(1.0, a, pow5Exp(NdotL)) * lerp(1.0, a, pow5Exp(NdotV)), (NdotL * NdotV) * (b * 0.25) / (lerp(NdotL * c, c, d) * lerp(NdotV * c, c, d))) * shadow, a);
+	return float3(float2(lerp(1.0, a, pow5Exp(NdotL)) * lerp(1.0, a, pow5Exp(NdotV)), NdotLV * b / (lerp(NdotL * c, c, d) * lerp(NdotV * c, c, d) * (NdotLV * 4.0 + 1e-4))) * shadow, a);
+}
+
+float3 envBRDFApprox(float3 f0, float roughness, float NdotV)
+{
+	float4 r = float4(-1.0, -0.0275, -0.572, 0.022) * roughness + float4(1.0, 0.0425, 1.04, -0.04);
+	float2 b = float2(-1.04, 1.04) * (min(r.x * r.x, exp2(NdotV * -9.28)) * r.x + r.y) + r.zw;
+
+	return f0 * b.x + b.yyy;
 }
 
 inline float3 blendNormal(float3 base, float3 detail)
@@ -26,7 +34,7 @@ inline float3 blendNormal(float3 base, float3 detail)
 	return normalize(base * (dot(base, detail) / base.z) - detail);
 }
 
-inline float3 getPBR(float3 polygonN, float3 N, float3 L, float3 V, float3 H, float3 lightColor, float3 baseColor, float metallic, float roughness, float occlusion, float shadow, float3 emissive)
+inline float3 getPBR(float3 N, float3 L, float3 V, float3 H, float3 lightColor, float3 baseColor, float metallic, float roughness, float occlusion, float shadow, float3 emissive)
 {
 	float NdotL = saturate(dot(N, L));
 	float NdotV = dot(N, V);
@@ -34,25 +42,21 @@ inline float3 getPBR(float3 polygonN, float3 N, float3 L, float3 V, float3 H, fl
 	float VdotH = saturate(dot(V, H));
 
 	float3 R = N * (NdotV * 2.0) - V;
-	R += polygonN * saturate(dot(-polygonN, lerp(N, R, saturate(-roughness * 1.35 + 1.35))));
 	NdotV = saturate(NdotV);
 
-	float envTheta = environmentRotation * _PI_20;
-	float2 envRotTheta = float2(cos(envTheta), sin(envTheta));
-	float2 dfgI = tex2D(specularBRDF, float2(NdotV, roughness)).xy;
 	float3 dfgD = directLight(roughness, shadow, NdotL, NdotV, NdotH, VdotH);
 	float3 diffuseColor = lerp(baseColor, const0List3, metallic);
 	float3 f0 = lerp(float3(0.04, 0.04, 0.04), baseColor, metallic);
 	float3 light0 = lightColor * (NdotL * _INVERSE_PI);
-	float3 sI = f0 * dfgI.x + dfgI.yyy;
+	float3 sI = envBRDFApprox(f0, roughness, NdotV);
 	float3 sD = lerp(f0, dfgD.zzz, pow5Exp(VdotH));
 	float3 dI = -sI * diffuseColor + diffuseColor;
 	float3 dD = -sD * diffuseColor + diffuseColor;
 	float3 result = const0List3;
 
 	#if VIEW_AMBIENT
-		result += texCUBElod(diffuseIrradianceMap, float3(rotate(envRotTheta, N.xy), N.z), 0.0).rgb * dI * occlusion;
-		result += texCUBElod(specularReflectionMap, float3(rotate(envRotTheta, R.xy), R.z), log2(roughness) * 1.2 + (mipmapLevel.x - 5.0)).rgb * sI * occlusion;
+		result += texCUBElod(diffuseIrradianceMap, N, 0.0).rgb * dI * occlusion;
+		result += texCUBElod(specularReflectionMap, R, log2(roughness) * 1.2 + (mipmapLevel.x - 5.0)).rgb * sI * occlusion;
 	#endif
 
 	#if VIEW_DIFFUSE

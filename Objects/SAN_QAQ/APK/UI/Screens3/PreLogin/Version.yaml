@@ -1,0 +1,117 @@
+Header:
+    version: 155
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "Version"
+    size: [1024.000000, 768.000000]
+    input: false
+    components:
+        LinearLayout:
+            orientation: "LeftToRight"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["string", "versionText", "\"\"", "\"7.8\""]
+    children:
+    -   class: "UIControl"
+        name: "VersionWrapper"
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                bottomAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                horizontalValue: 50.000000
+                verticalPolicy: "PercentOfChildrenSum"
+        children:
+        -   class: "UIControl"
+            name: "VersionBackground"
+            input: false
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfLastChild"
+                    verticalPolicy: "PercentOfLastChild"
+            bindings:
+            - ["Anchor.leftAnchor", "when (screenWidth > 1600 and screenHeight < 1920) -> 24.000000, screenWidth * 0.012500"]
+            - ["Anchor.bottomAnchor", "when (screenHeight > 640 and screenHeight < 1023) -> 16.000000, screenHeight * 0.060000"]
+            children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "roundCorner": "\"8\""
+            -   class: "UIControl"
+                name: "Version"
+                input: false
+                classes: "t-caps bold white-wild-sand-70-text notch-tightly-right-inset"
+                components:
+                    UITextComponent:
+                        align: ["LEFT"]
+                        multiline: "MULTILINE_ENABLED"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        horizontalValue: 105.000000
+                        verticalPolicy: "PercentOfContent"
+                        verticalValue: 135.000000
+                    UIAnchorSafeAreaComponent: {}
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/SafeArea.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "\"基于版本：\" + versionText + \"\n自修订版本：草你妈没毛玻璃怎么活啊\" + \"\nBasic Version：\" + versionText + \"\nSelf-Revised Version：No Blur No L1f3\""]
+    -   class: "UIControl"
+        name: "CopyrightWrapper"
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+                bottomAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                horizontalValue: 50.000000
+                verticalPolicy: "PercentOfChildrenSum"
+        children:
+        -   class: "UIControl"
+            name: "CopyrightBackground"
+            input: false
+            components:
+                Anchor:
+                    rightAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfLastChild"
+                    verticalPolicy: "PercentOfLastChild"
+            bindings:
+            - ["Anchor.rightAnchor", "when (screenWidth > 1600 and screenHeight < 1920) -> 24.000000, screenWidth * 0.012500"]
+            - ["Anchor.bottomAnchor", "when (screenHeight > 640 and screenHeight < 1023) -> 16.000000, screenHeight * 0.060000"]
+            children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "roundCorner": "\"8\""
+            -   class: "UIControl"
+                name: "Copyright"
+                input: false
+                classes: "t-caps bold white-wild-sand-70-text notch-tightly-left-inset"
+                components:
+                    UITextComponent:
+                        align: ["RIGHT"]
+                        multiline: "MULTILINE_ENABLED"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        horizontalValue: 105.000000
+                        verticalPolicy: "PercentOfContent"
+                        verticalValue: 135.000000
+                    UIAnchorSafeAreaComponent: {}
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/SafeArea.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "\"SAN_QAQ\n版权所有\nCopyright\nSAN_QAQ All Right Reserved\""]

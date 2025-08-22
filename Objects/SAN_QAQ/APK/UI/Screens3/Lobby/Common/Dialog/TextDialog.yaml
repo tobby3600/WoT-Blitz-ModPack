@@ -1,7 +1,7 @@
 Header:
     version: 153
 ImportedPackages:
-- "~res:/UI/Screens3/Lobby/Common/ButtonNoBlur.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
 - "~res:/UI/Screens3/Common/OverlayBlur.yaml"
 - "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
 Prototypes:
@@ -239,7 +239,7 @@ Prototypes:
                 IgnoreLayout: {}
                 SizePolicy:
                     verticalPolicy: "FixedSize"
-                ScrollBarDelegate:
+                UIScrollBarComponent:
                     delegate: "../UIScrollView"
             bindings:
             - ["visible", "showScroll"]
@@ -248,7 +248,6 @@ Prototypes:
             children:
             -   path: "slider"
                 visible: true
-                children: []
         -   class: "UIControl"
             name: "SeparatorBottom"
             input: false
@@ -291,7 +290,7 @@ Prototypes:
                 bindings:
                 - ["visible", "type == eDialogType.CHOOSE or type == eDialogType.FILL"]
                 children:
-                -   prototype: "ButtonNoBlur/Button"
+                -   prototype: "Button/Button"
                     name: "ButtonOptionalLight"
                     components:
                         Anchor:
@@ -307,6 +306,7 @@ Prototypes:
                                 "sound": "eButtonSound.CANCEL"
                                 "enabled": "true"
                                 "iconPath": "when isGamepad -> \"~res:/Gfx/Shared/icons/nintendo-switch/icon_switch_b_m\", \"\""
+                                "isBlur": "false"
                             eventActions:
                             - ["ON_CLICK_BUTTON", "OPTIONAL_ACTION", "false"]
                         UIIdentifierComponent:
@@ -338,7 +338,7 @@ Slots:
             horizontalPolicy: "PercentOfParent"
             verticalPolicy: "PercentOfMaxChild"
     children:
-    -   prototype: "ButtonNoBlur/Button"
+    -   prototype: "Button/Button"
         name: "ButtonPositive"
         components:
             SizePolicy:
@@ -351,6 +351,7 @@ Slots:
                     "sound": "eButtonSound.UNKNOWN"
                     "enabled": "acceptButtonEnabled"
                     "iconPath": "when isGamepad -> \"~res:/Gfx/Lobby/icons/nintendo-switch/icon_switch_y_m\", \"\""
+                    "isBlur": "false"
                 eventActions:
                 - ["ON_CLICK_BUTTON", "ACCENT_ACTION", "false"]
             UIIdentifierComponent:

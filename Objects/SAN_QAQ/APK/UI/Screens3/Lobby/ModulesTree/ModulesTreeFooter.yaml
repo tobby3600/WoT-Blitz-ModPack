@@ -1,0 +1,391 @@
+Header:
+    version: 157
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+- "~res:/UI/Screens3/Lobby/ModulesTree/ModulesFooterButton.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Resource/CurrencyWithDiscount.yaml"
+- "~res:/UI/Screens3/Lobby/Common/RichText.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "ModulesTreeFooterContent"
+    size: [800.000000, 48.000000]
+    input: false
+    components:
+        LinearLayout:
+            dynamicSpacing: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["AccountDataModel", "account", "null", "{ }"]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["TankModulesTreeModel", "modulesModel", "null", "{ }"]
+            events:
+            - "SHOWCASE_PRESSED"
+            - "MODULES_MAIN_ACTION"
+            - "SHOW_TANK_MODULES"
+        UIDataLocalBindingsComponent:
+            data:
+            - ["eModuleNodeContentType", "selectedNodeType", "modulesModel.selectedNode.contentType"]
+            - ["bool", "showBothPrices", "modulesModel.selectedNode.contentType == eModuleNodeContentType.VEHICLE and (modulesModel.currentAction == eModulesAction.BUY or modulesModel.currentAction == eModulesAction.RESEARCH)"]
+            - ["string", "unlockClanSupplyLevel", "roman(10)"]
+            - ["ResourceModel", "actionPrice", "when modulesModel.selectedNode.contentType == eModuleNodeContentType.MODULE -> modulesModel.selectedNode.module.price, modulesModel.selectedNode.vehicle.researchPrice"]
+            - ["bool", "canAffordAction", "when modulesModel.currentAction == eModulesAction.RESEARCH -> modulesModel.canAffordResearch, CanAffordResource(actionPrice, session.stats.resources, session.artefacts.artefactIds)"]
+    children:
+    -   class: "UIControl"
+        name: "LeftSection"
+        input: false
+        components:
+            LinearLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   prototype: "IconButton/IconButton"
+            name: "IconButton"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "locked": "false"
+                        "visible": "true"
+                        "isBgVisible": "true"
+                        "isBlur": "false"
+                        "image": "\"~res:/Gfx/Lobby/icons/icon_eye_s\""
+                        "type": "eButtonType.OPTIONAL_LIGHT"
+                        "sound": "eButtonSound.OPEN"
+                        "enabled": "true"
+                    eventActions:
+                    - ["ON_CLICK_BUTTON", "SHOWCASE_PRESSED", "_event"]
+                UIIdentifierComponent:
+                    id: "preview_button"
+    -   class: "UIControl"
+        name: "RightSection"
+        position: [298.000000, 0.000000]
+        input: false
+        components:
+            LinearLayout:
+                orientation: "RightToLeft"
+                spacing: 32.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "ModuleInstalledLabel"
+            input: false
+            classes: "t-body regular color=white-wild-sand-50-text"
+            components:
+                UITextComponent:
+                    text: "#modules_tech_tree:InstalledDescription"
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["visible", "modulesModel.actionLockReason == eModulesActionLockReason.INSTALLED"]
+        -   class: "UIControl"
+            name: "NeedResearchModuleLabel"
+            input: false
+            classes: "t-body regular color=white-wild-sand-50-text"
+            components:
+                UITextComponent:
+                    text: "#modules_tech_tree:LockedDescription"
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["visible", "modulesModel.actionLockReason == eModulesActionLockReason.NO_MODULE"]
+        -   class: "UIControl"
+            name: "NeedBuyTankLabel"
+            input: false
+            classes: "t-body regular color=white-wild-sand-50-text"
+            components:
+                UITextComponent:
+                    text: "#modules_tech_tree:BuyToInstall"
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["visible", "modulesModel.actionLockReason == eModulesActionLockReason.NEED_BUY_TANK"]
+        -   class: "UIControl"
+            name: "UnlockByClanSupplyLabel"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfMaxChild"
+            bindings:
+            - ["visible", "modulesModel.actionLockReason == eModulesActionLockReason.UNLOCK_BY_CLAN"]
+            children:
+            -   prototype: "RichText/RichText"
+                name: "UnlockByClanSupplyLabel"
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                    UIDataParamsComponent:
+                        args:
+                            "baseFontSize": "\"t-body\""
+                            "baseFontStyle": "\"regular\""
+                            "baseFontColor": "\"white-wild-sand-50-text\""
+                            "key": "localize(\"UpgradesPanel/Footer/UnlockByClanSupply\", { \"level\" = unlockClanSupplyLevel; })"
+                            "linkKey": "\"\""
+                            "resource1Model": "null"
+                            "resource2Model": "null"
+                            "resource3Model": "null"
+                            "resource4Model": "null"
+                            "customKeyProperty": "\"level\""
+        -   class: "UIControl"
+            name: "NeedResearchCurrentLabel"
+            position: [0.000000, 14.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                LinearLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfFirstChild"
+            bindings:
+            - ["visible", "modulesModel.actionLockReason == eModulesActionLockReason.NO_CURRENT_TANK"]
+            children:
+            -   class: "UIControl"
+                name: "LabelBefore"
+                input: false
+                classes: "t-body regular color=white-wild-sand-50-text"
+                components:
+                    UITextComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["visible", "modulesModel.actionLockReason == eModulesActionLockReason.NO_CURRENT_TANK"]
+                - ["UITextComponent.text", "when selectedNodeType == eModuleNodeContentType.MODULE -> localize(\"#modules_tech_tree:ResearchTankToResearchModule/Line1\"), localize(\"#modules_tech_tree:ResearchTankToResearchTank/Line1\")"]
+            -   class: "UIControl"
+                name: "Spacer"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 6.000000
+                        verticalPolicy: "PercentOfParent"
+            -   class: "UIControl"
+                name: "TankNames"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    LinearLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfFirstChild"
+                    UIChildComponent0:
+                        childType: "kOldExpression"
+                        control: "\"~res:/UI/Screens3/Lobby/ModulesTree/TankNameLink.yaml\""
+                        args:
+                            "tankDescr": "modulesModel.currentVehicle.compactDescr"
+                            "name": "modulesModel.currentVehicle.vehicle.vehicleDataModel.shortName"
+                        eventActions:
+                        - ["SHOW_TANK_MODULES", "SHOW_TANK_MODULES", "_event"]
+            -   class: "UIControl"
+                name: "LabelAffter"
+                input: false
+                classes: "t-body regular color=white-wild-sand-50-text"
+                components:
+                    UITextComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["visible", "modulesModel.actionLockReason == eModulesActionLockReason.NO_CURRENT_TANK"]
+                - ["UITextComponent.text", "when selectedNodeType == eModuleNodeContentType.MODULE -> localize(\"#modules_tech_tree:ResearchTankToResearchModule/Line2\"), localize(\"#modules_tech_tree:ResearchTankToResearchTank/Line2\")"]
+        -   class: "UIControl"
+            name: "NeedResearchPrevLabel"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                LinearLayout:
+                    spacing: 5.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfFirstChild"
+                UIIdentifierComponent:
+                    id: "need_research_prev_tank_label"
+            bindings:
+            - ["visible", "modulesModel.actionLockReason == eModulesActionLockReason.NO_PREV_TANK"]
+            children:
+            -   class: "UIControl"
+                name: "LabelBefore"
+                input: false
+                classes: "t-body regular color=white-wild-sand-50-text"
+                components:
+                    UITextComponent:
+                        text: "#modules_tech_tree:ResearchTank/Line1"
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+            -   class: "UIControl"
+                name: "TanksNames"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    LinearLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfFirstChild"
+                    UIChildComponent0:
+                        childType: "kOldExpression"
+                        control: "\"~res:/UI/Screens3/Lobby/ModulesTree/FooterTankLink.yaml\""
+                        args:
+                            "modulesModel": "modulesModel"
+                        eventActions:
+                        - ["SHOW_TANK_MODULES", "SHOW_TANK_MODULES", "_event"]
+            -   class: "UIControl"
+                name: "LabelAffter"
+                input: false
+                classes: "t-body regular color=white-wild-sand-50-text"
+                components:
+                    UITextComponent:
+                        text: "#modules_tech_tree:ResearchTank/Line2"
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+        -   prototype: "ModulesFooterButton/FooterButton"
+            name: "FooterButton"
+            components:
+                UIAttachLayoutMasterComponent:
+                    attachId: "MODULE_BUTTON"
+                UIDataParamsComponent:
+                    args:
+                        "action": "modulesModel.currentAction"
+                        "currentHiglight": "account.tutorialData.currentHighlightControl"
+                    eventActions:
+                    - ["MODULES_MAIN_ACTION", "MODULES_MAIN_ACTION", "modulesModel.currentAction"]
+            bindings:
+            - ["visible", "action != eModulesAction.NONE"]
+        -   class: "UIControl"
+            name: "ActionPrice"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                LinearLayout:
+                    spacing: 32.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfMaxChild"
+            bindings:
+            - ["visible", "modulesModel.currentAction == eModulesAction.BUY or modulesModel.currentAction == eModulesAction.RESEARCH"]
+            children:
+            -   class: "UIControl"
+                name: "PurchasePrice"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    UIOpacityComponent: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfMaxChild"
+                    UIChildComponent0:
+                        condition: "showBothPrices"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/CurrencyWithDiscountAndLabel.yaml"
+                        args:
+                            "label": "when modulesModel.selectedNode.contentType == eModuleNodeContentType.VEHICLE and modulesModel.currentAction == eModulesAction.RESEARCH -> \"#modules_tech_tree:PurchaseCost\", \"\""
+                            "resource": "modulesModel.selectedNode.vehicle.purchasePrice"
+                            "plusVisible": "false"
+                            "showDiscount": "true"
+                            "canAfford": "when modulesModel.currentAction == eModulesAction.RESEARCH -> true, CanAffordResource(modulesModel.selectedNode.vehicle.purchasePrice, session.stats.resources, session.artefacts.artefactIds)"
+                            "forButton": "false"
+                            "currencySize": "eCurrencySize.BIG"
+                    UIIdentifierComponent:
+                        id: "footer_purchase_price"
+                bindings:
+                - ["visible", "not modulesModel.isSeasonTank and modulesModel.selectedNode.contentType == eModuleNodeContentType.VEHICLE and (modulesModel.currentAction == eModulesAction.BUY or modulesModel.currentAction == eModulesAction.RESEARCH)"]
+                - ["UIOpacityComponent.opacity", "when modulesModel.currentAction == eModulesAction.RESEARCH -> 0.500000, 1"]
+            -   class: "UIControl"
+                name: "ResearchPrice"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfMaxChild"
+                    UIChildComponent0:
+                        condition: "modulesModel.currentAction == eModulesAction.RESEARCH and not modulesModel.isSeasonTank"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/CurrencyWithDiscountAndLabel.yaml"
+                        args:
+                            "label": "when showBothPrices -> \"#modules_tech_tree:ResearchCost\", \"\""
+                            "resource": "actionPrice"
+                            "plusVisible": "false"
+                            "showDiscount": "true"
+                            "canAfford": "canAffordAction"
+                            "forButton": "false"
+                            "currencySize": "eCurrencySize.BIG"
+                    UIIdentifierComponent:
+                        id: "footer_research_price"
+                bindings:
+                - ["visible", "not modulesModel.isSeasonTank and modulesModel.currentAction == eModulesAction.RESEARCH"]
+            -   class: "UIControl"
+                name: "SeasonPrice"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfMaxChild"
+                    UIChildComponent0:
+                        condition: "modulesModel.currentAction == eModulesAction.RESEARCH and modulesModel.isSeasonTank"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Currency.yaml"
+                        args:
+                            "customQuantity": "when not isNull(modulesModel.selectedNode) and not isNull(modulesModel.selectedNode.module) -> modulesModel.selectedNode.module.currentSummaryResearchPrice, 0"
+                            "forceFullValue": "true"
+                            "resource": "actionPrice"
+                            "canAfford": "when isNull(modulesModel.selectedNode) or isNull(modulesModel.selectedNode.module) -> false, session.artefacts.artefactIds.Contains(modulesModel.selectedNode.module.price.name) -> session.artefacts.artefactIds[modulesModel.selectedNode.module.price.name] >= modulesModel.selectedNode.module.currentSummaryResearchPrice, false"
+                            "currencySize": "eCurrencySize.BIG"
+                    UIIdentifierComponent:
+                        id: "footer_season_price"
+                bindings:
+                - ["visible", "modulesModel.isSeasonTank"]

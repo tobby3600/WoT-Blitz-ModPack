@@ -1,0 +1,196 @@
+Header:
+    version: 155
+ImportedPackages:
+- "~res:/UI/Screens/Common.yaml"
+- "~res:/UI/Screens/Options/OptionEditor.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "Page"
+    size: [1025.000000, 688.000000]
+    input: false
+    components:
+        Anchor:
+            leftAnchorEnabled: true
+            rightAnchorEnabled: true
+            topAnchorEnabled: true
+            bottomAnchorEnabled: true
+    children:
+    -   class: "UIScrollView"
+        name: "ScrollView"
+        position: [0.000000, 0.000000]
+        input: false
+        autoUpdate: true
+        components:
+            Background:
+                color: [0.192200, 0.192200, 0.192200, 1.000000]
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                bottomAnchorEnabled: true
+        children:
+        -   class: "UIScrollViewContainer"
+            name: "scrollContainerControl"
+            position: [0.000000, 0.000000]
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                    spacing: 2.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   class: "UIControl"
+                name: "OptionsView"
+                position: [5.000000, 0.000000]
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        leftAnchor: 5.000000
+                        rightAnchorEnabled: true
+                        rightAnchor: 5.000000
+                    SizePolicy:
+                        verticalPolicy: "PercentOfChildrenSum"
+                    FlowLayout:
+                        vSpacing: 1.000000
+                children:
+                -   prototype: "OptionEditor/Button"
+                    name: "CustomAim"
+                    classes: "pane-bg touchable aim-settings-button button-open-sound"
+                    components:
+                        UIInputEventComponent:
+                            onTouchUpInside: "AIM_SELECTION_PRESSED"
+                        Sound: {}
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Background.style.yaml;~res:/UI/Screens/Options/OptionEditor.style.yaml;~res:/UI/Screens3/ButtonSound.style.yaml"
+                    children:
+                    -   path: "Background/NameAndDescription/Name"
+                        components:
+                            UITextComponent:
+                                text: "#settings:HUD/CustomAim/Title"
+                -   prototype: "OptionEditor/Selector"
+                    name: "DetailedDamageResultStyle"
+                    children:
+                    -   path: "Background/NameAndDescription/Name"
+                        components:
+                            UITextComponent:
+                                text: "#settings:HUD/ShootingFeedback/Title"
+                -   prototype: "OptionEditor/Selector"
+                    name: "DamageMarkerStyle"
+                    children:
+                    -   path: "Background/NameAndDescription/Name"
+                        components:
+                            UITextComponent:
+                                text: "#settings:HUD/DamageMarkerStyle/Title"
+                    -   path: "Background/NameAndDescription/Description"
+                        components:
+                            UITextComponent:
+                                text: "#settings:HUD/DamageMarkerStyle/Description"
+                -   prototype: "OptionEditor/Selector"
+                    name: "MinimapSize"
+                    children:
+                    -   path: "Background/NameAndDescription/Name"
+                        components:
+                            UITextComponent:
+                                text: "#settings:HUD/MinimapSize/Title"
+                -   prototype: "OptionEditor/Switch"
+                    name: "Minimap"
+                    children:
+                    -   path: "Background/NameAndDescription/Name"
+                        components:
+                            UITextComponent:
+                                text: "#settings:HUD/Minimap/Title"
+                    -   path: "Background/NameAndDescription/Description"
+                        components:
+                            UITextComponent:
+                                text: "#settings:HUD/Minimap/Description"
+                -   prototype: "OptionEditor/Switch"
+                    name: "MinimapCommands"
+                    children:
+                    -   path: "Background/NameAndDescription/Name"
+                        components:
+                            UITextComponent:
+                                text: "#settings:HUD/MinimapCommands/Title"
+                    -   path: "Background/NameAndDescription/Description"
+                        components:
+                            UITextComponent:
+                                text: "#settings:HUD/MinimapCommands/Description"
+                -   prototype: "OptionEditor/Switch"
+                    name: "Rangefinder"
+                    children:
+                    -   path: "Background/NameAndDescription/Name"
+                        components:
+                            UITextComponent:
+                                text: "#settings:HUD/Rangefinder/Title"
+                    -   path: "Background/NameAndDescription/Description"
+                        components:
+                            UITextComponent:
+                                text: "#settings:HUD/Rangefinder/Description"
+                -   prototype: "OptionEditor/Switch"
+                    name: "ReloadTimer"
+                    children:
+                    -   path: "Background/NameAndDescription/Name"
+                        components:
+                            UITextComponent:
+                                text: "#settings:HUD/ReloadTimer/Title"
+                    -   path: "Background/NameAndDescription/Description"
+                        components:
+                            UITextComponent:
+                                text: "#settings:HUD/ReloadTimer/Description"
+                -   prototype: "OptionEditor/Switch"
+                    name: "SkillsDisplay"
+                    children:
+                    -   path: "Background/NameAndDescription/Name"
+                        components:
+                            UITextComponent:
+                                text: "#settings:HUD/SkillsDisplay/Title"
+                    -   path: "Background/NameAndDescription/Description"
+                        components:
+                            UITextComponent:
+                                text: "#settings:HUD/SkillsDisplay/Description"
+                -   prototype: "OptionEditor/Switch"
+                    name: "DrivingDirectionIndicator"
+                    children:
+                    -   path: "Background/NameAndDescription/Name"
+                        components:
+                            UITextComponent:
+                                text: "#settings:HUD/DrivingDirectionIndicator/Title"
+                    -   path: "Background/NameAndDescription/Description"
+                        components:
+                            UITextComponent:
+                                text: "#settings:HUD/DrivingDirectionIndicator/Description"
+                -   prototype: "OptionEditor/Switch"
+                    name: "AlliesCooldownTeamPanel"
+                    children:
+                    -   path: "Background/NameAndDescription/Name"
+                        components:
+                            UITextComponent:
+                                text: "#settings:HUD/AlliesCooldownCrewList/Title"
+                    -   path: "Background/NameAndDescription/Description"
+                        components:
+                            UITextComponent:
+                                text: "#settings:HUD/AlliesCooldownCrewlList/Description"
+                -   prototype: "OptionEditor/Switch"
+                    name: "ShowRibbons"
+                    children:
+                    -   path: "Background/NameAndDescription/Name"
+                        components:
+                            UITextComponent:
+                                text: "#settings:HUD/RibbonsDisplay/Title"
+                    -   path: "Background/NameAndDescription/Description"
+                        components:
+                            UITextComponent:
+                                text: "#settings:HUD/RibbonsDisplay/Description"
+        -   prototype: "Common/VerticalScrollBar"
+            name: "VerticalScrollBar"
+            classes: "notch-tightly-right-inset"
+            components:
+                Anchor:
+                    rightAnchorEnabled: true
+                    topAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                UIAnchorSafeAreaComponent: {}
+                UIScrollBarComponent:
+                    delegate: ".."
+                StyleSheet:
+                    styles: "~res:/UI/Screens/Common.yaml;~res:/UI/Screens3/SafeArea.style.yaml"

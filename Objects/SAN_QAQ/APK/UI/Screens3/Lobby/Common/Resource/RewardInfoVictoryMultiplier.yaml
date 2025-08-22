@@ -41,8 +41,10 @@ Prototypes:
                 leftAnchorEnabled: true
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfChildrenSum"
             FlowLayout:
+                hDynamicPadding: true
+                alignment: "Left"
                 hSpacing: 4.000000
                 useRtl: true
             StyleSheet:
@@ -50,22 +52,12 @@ Prototypes:
         bindings:
         - ["RichContent.text", "localize(resource.stuff.description, { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; })"]
     -   class: "UIControl"
-        name: "spacer"
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "FixedSize"
-                verticalValue: 35.000000
-    -   class: "UIControl"
         name: "ApplyTo"
         input: false
         components:
             LinearLayout:
                 orientation: "TopDown"
                 spacing: 4.000000
-            Anchor:
-                leftAnchorEnabled: true
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfChildrenSum"

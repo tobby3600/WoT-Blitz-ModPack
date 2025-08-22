@@ -51,33 +51,12 @@ Prototypes:
         pivot: [0.500000, 0.500000]
         input: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIOpacityComponent: {}
             Anchor:
                 leftAnchorEnabled: true
                 rightAnchorEnabled: true
                 topAnchorEnabled: true
                 bottomAnchorEnabled: true
+            UIOpacityComponent: {}
             LinearLayout:
                 padding: "8"
             StyleSheet: {}
@@ -112,6 +91,8 @@ Prototypes:
                 input: false
                 components:
                     UITextureComponent:
+                        materialPath: "~res:/Materials.custom/2d.Textured.Saturation.material"
+                        materialParams: "saturation,25"
                         drawType: "DRAW_SCALE_PROPORTIONAL"
                     SizePolicy:
                         horizontalPolicy: "PercentOfParent"
@@ -394,7 +375,6 @@ Prototypes:
                         input: false
                         classes: "t-body bold white-wild-sand-text"
                         components:
-                            UITextComponent: {}
                             LinearLayout:
                                 dynamicPadding: true
                             SizePolicy:
@@ -636,27 +616,6 @@ Prototypes:
         name: "NoBattles"
         input: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"

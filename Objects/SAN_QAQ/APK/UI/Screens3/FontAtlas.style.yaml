@@ -65,10 +65,13 @@ StyleSheets:
     properties:
         atlasText-fontPath: "~res:/Fonts/cinecav_x_ui.ttf"
 -   selectors:
-    - ".bold-old.zh-Hans"
     - ".regular-old.zh-Hans"
     properties:
-        atlasText-fontPath: "~res:/Fonts/XinGothic-SC-W6.ttf"
+        atlasText-fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
+-   selectors:
+    - ".bold-old.zh-Hans"
+    properties:
+        atlasText-fontPath: "~res:/Fonts/XinGothic-SC-W12.otf"
 -   selectors:
     - ".bold-old.zh-Hant"
     - ".regular-old.zh-Hant"

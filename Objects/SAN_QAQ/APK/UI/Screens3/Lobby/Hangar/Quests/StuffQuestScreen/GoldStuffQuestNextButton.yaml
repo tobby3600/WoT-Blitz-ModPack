@@ -16,10 +16,11 @@ Prototypes:
             events:
             - "NextRewardClicked"
         UIChildComponent0:
-            prototypePath: "~res:/UI/Screens3/Lobby/Common/IconButtonNoBlur.yaml"
+            prototypePath: "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
             args:
                 "image": "\"~res:/Gfx/Lobby/icons/icon_next_btn\""
                 "imageSize": "68"
                 "rounded": "true"
+                "isBlur": "false"
             eventActions:
             - ["ON_CLICK_BUTTON", "NextRewardClicked", ""]

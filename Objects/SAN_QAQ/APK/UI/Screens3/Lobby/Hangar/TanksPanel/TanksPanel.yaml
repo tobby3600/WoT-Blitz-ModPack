@@ -6,8 +6,9 @@ ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Hangar/TanksPanel/NationFilterButton.yaml"
 - "~res:/UI/Screens3/Lobby/Hangar/TanksPanel/ClassFilterButton.yaml"
 - "~res:/UI/Screens3/Lobby/Hangar/TanksPanel/ResetFilterButton.yaml"
-- "~res:/UI/Screens3/Common/HorizontalScrollBar.yaml"
 - "~res:/UI/Screens3/Lobby/Hangar/TanksPanel/FilterButton.yaml"
+- "~res:/UI/Screens3/Common/HorizontalScrollBar.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "TanksPanel"
@@ -127,7 +128,6 @@ Prototypes:
     -   class: "UIControl"
         name: "PanelBackground"
         input: false
-        classes: "black-70-bg"
         refreshStylesOnInteract: false
         components:
             Background: {}
@@ -139,6 +139,13 @@ Prototypes:
             SizePolicy:
                 verticalPolicy: "Formula"
                 verticalFormula: "safeAreaInsets.bottom+500"
+        children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "bgStyle": "\"black-50-bg\""
     -   class: "UIControl"
         name: "TanksFound"
         input: false
@@ -314,7 +321,7 @@ Prototypes:
                                     "tanksCount": "buyoutTanksCount"
                                     "isGeneralPackLoaded": "isGeneralPackLoaded"
                                 eventActions:
-                                - ["ON_CLICK_BUTTON", "BUY_SLOTS", ""]
+                                - ["ON_CLICK_BUTTON", "BUYOUT_TANKS", ""]
                         bindings:
                         - ["visible", "buyoutTanksCount > 0"]
                     -   class: "UIControl"

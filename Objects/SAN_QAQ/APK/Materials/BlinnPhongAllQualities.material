@@ -20,10 +20,10 @@ Material:
                 dynamicOverrideAllowed: true
         DepthOnly:
             Shader: ~res:/Materials/Shaders/Depth/depth-prepass
-            ConsiderOnlyDefines: [ SOFT_SKINNING, HARD_SKINNING, WIND_ANIMATION, WAVE_ANIMATION, INSTANCED_CHAIN ]
+            ConsiderOnlyDefines: [ VERTEX_DISPLACEMENT, SOFT_SKINNING, HARD_SKINNING, WIND_ANIMATION, WAVE_ANIMATION, INSTANCED_CHAIN ]
         ShadowMap:
             Shader: ~res:/Materials/Shaders/Depth/depth-prepass
-            ConsiderOnlyDefines: [ SOFT_SKINNING, HARD_SKINNING, WIND_ANIMATION, WAVE_ANIMATION, INSTANCED_CHAIN ]
+            ConsiderOnlyDefines: [ VERTEX_DISPLACEMENT, SOFT_SKINNING, HARD_SKINNING, WIND_ANIMATION, WAVE_ANIMATION, INSTANCED_CHAIN ]
     Presets:
         HighlightAnimation:
             Layers: [ AlphaTestRenderLayer ]
@@ -37,7 +37,7 @@ Material:
                     enabled: false
                 ShadowMap:
                     Shader: ~res:/Materials/Shaders/Depth/depth-alphatest
-                    ConsiderOnlyDefines: [ SOFT_SKINNING, HARD_SKINNING, WIND_ANIMATION, WAVE_ANIMATION, MATERIAL_TEXTURE, PBR_TEXTURE_SET, ALPHA_MASK, ALPHATEST, ALPHATESTVALUE, VERTEX_COLOR, TEXTURE0_SHIFT_ENABLED, TEXTURE0_ANIMATION_SHIFT, PARTICLES_PERSPECTIVE_MAPPING, FORCE_2D_MODE, INSTANCED_CHAIN, LOD_TRANSITION ]
+                    ConsiderOnlyDefines: [ VERTEX_DISPLACEMENT, SOFT_SKINNING, HARD_SKINNING, WIND_ANIMATION, WAVE_ANIMATION, MATERIAL_TEXTURE, PBR_TEXTURE_SET, ALPHA_MASK, ALPHATEST, ALPHATESTVALUE, VERTEX_COLOR, TEXTURE0_SHIFT_ENABLED, TEXTURE0_ANIMATION_SHIFT, PARTICLES_PERSPECTIVE_MAPPING, FORCE_2D_MODE, INSTANCED_CHAIN, LOD_TRANSITION ]
                     RenderState:
                         blend: false
         AlphaBlend:
@@ -51,7 +51,7 @@ Material:
                     enabled: false
                 ShadowMap:
                     Shader: ~res:/Materials/Shaders/Depth/depth-alphatest
-                    ConsiderOnlyDefines: [ SOFT_SKINNING, HARD_SKINNING, WIND_ANIMATION, WAVE_ANIMATION, MATERIAL_TEXTURE, PBR_TEXTURE_SET, ALPHA_MASK, ALPHATEST, ALPHATESTVALUE, VERTEX_COLOR, TEXTURE0_SHIFT_ENABLED, TEXTURE0_ANIMATION_SHIFT, PARTICLES_PERSPECTIVE_MAPPING, FORCE_2D_MODE, INSTANCED_CHAIN, LOD_TRANSITION ]
+                    ConsiderOnlyDefines: [ VERTEX_DISPLACEMENT, SOFT_SKINNING, HARD_SKINNING, WIND_ANIMATION, WAVE_ANIMATION, MATERIAL_TEXTURE, PBR_TEXTURE_SET, ALPHA_MASK, ALPHATEST, ALPHATESTVALUE, VERTEX_COLOR, TEXTURE0_SHIFT_ENABLED, TEXTURE0_ANIMATION_SHIFT, PARTICLES_PERSPECTIVE_MAPPING, FORCE_2D_MODE, INSTANCED_CHAIN, LOD_TRANSITION ]
                     RenderState:
                         blend: false
                         depthWrite: true
@@ -85,7 +85,7 @@ Material:
                             enabled: false
                         ShadowMap:
                             Shader: ~res:/Materials/Shaders/Depth/depth-alphatest
-                            ConsiderOnlyDefines: [ SOFT_SKINNING, HARD_SKINNING, WIND_ANIMATION, WAVE_ANIMATION, MATERIAL_TEXTURE, PBR_TEXTURE_SET, ALPHA_MASK, ALPHATEST, ALPHATESTVALUE, VERTEX_COLOR, TEXTURE0_SHIFT_ENABLED, TEXTURE0_ANIMATION_SHIFT, PARTICLES_PERSPECTIVE_MAPPING, FORCE_2D_MODE, LOD_TRANSITION ]
+                            ConsiderOnlyDefines: [ VERTEX_DISPLACEMENT, SOFT_SKINNING, HARD_SKINNING, WIND_ANIMATION, WAVE_ANIMATION, MATERIAL_TEXTURE, PBR_TEXTURE_SET, ALPHA_MASK, ALPHATEST, ALPHATESTVALUE, VERTEX_COLOR, TEXTURE0_SHIFT_ENABLED, TEXTURE0_ANIMATION_SHIFT, PARTICLES_PERSPECTIVE_MAPPING, FORCE_2D_MODE, LOD_TRANSITION ]
                             RenderState:
                                 blend: false
         DisableShadow:

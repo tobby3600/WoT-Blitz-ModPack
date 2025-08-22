@@ -1,0 +1,36 @@
+Header:
+    version: 74
+Prototypes:
+-   class: "UIControl"
+    name: "VehicleNation"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalValue: 24.000000
+            verticalPolicy: "FixedSize"
+            verticalValue: 24.000000
+        UIDataParamsComponent:
+            params:
+            - ["eNation", "nation", "eNation.UNKNOWN", "eNation.GERMANY"]
+        UIDataLocalsComponent:
+            locals:
+            - ["string", "flagSprite", "when eNation.USSR == nation -> \"~res:/Gfx/Lobby/flags/flag_profile-stat_ussr\", eNation.GERMANY == nation -> \"~res:/Gfx/Lobby/flags/flag_profile-stat_germany\", eNation.USA == nation -> \"~res:/Gfx/Lobby/flags/flag_profile-stat_usa\", eNation.CHINA == nation -> \"~res:/Gfx/Lobby/flags/flag_profile-stat_china\", eNation.FRANCE == nation -> \"~res:/Gfx/Lobby/flags/flag_profile-stat_france\", eNation.UK == nation -> \"~res:/Gfx/Lobby/flags/flag_profile-stat_uk\", eNation.JAPAN == nation -> \"~res:/Gfx/Lobby/flags/flag_profile-stat_japan\", eNation.OTHER == nation -> \"~res:/Gfx/Lobby/flags/flag_profile-stat_other\", eNation.EUROPEAN == nation -> \"~res:/Gfx/Lobby/flags/flag_profile-stat_european\", \"~res:/Gfx/Lobby/flags/flag_profile-stat_usa\""]
+    children:
+    -   class: "UIControl"
+        name: "Nation"
+        input: false
+        components:
+            UITextureComponent:
+                materialPath: "~res:/Materials.custom/2d.Textured.Saturation.material"
+                materialParams: "saturation,25"
+                drawType: "DRAW_ALIGNED"
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 24.000000
+                verticalPolicy: "FixedSize"
+                verticalValue: 24.000000
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml"
+        bindings:
+        - ["UITextureComponent.spritePath", "flagSprite", "Read"]

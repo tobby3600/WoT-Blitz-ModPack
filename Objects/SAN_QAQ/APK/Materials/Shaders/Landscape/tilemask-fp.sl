@@ -99,7 +99,7 @@ fragment_out
 	inline float3 getHeightBlend(float3 input1, float3 input2, float3 input3, float3 input4, float4 height)
 	{
 		float heightMax = max(max(max(height.x, height.y), height.z), height.w);
-		float4 a = max(height + heightMapSoftnessColor - float4(heightMax, heightMax, heightMax, heightMax), const0List4);
+		float4 a = max(height + heightMapSoftnessColor - float4(heightMax, heightMax, heightMax, heightMax), constBiasList4);
 		float4 b = a / dot(a, const1List4);
 
 		return (input1 * b.x + input2 * b.y) + (input3 * b.z + input4 * b.w);
@@ -139,10 +139,11 @@ fragment_out fp_main(fragment_in input)
 		#endif
 
 		#if LANDSCAPE_PBR || USE_LANDSCAPE_SCALED_TILES_NON_PBR
-			float2 texCoord0 = texCoord.zw * tileScale0;
-			float2 texCoord1 = texCoord.zw * tileScale1;
-			float2 texCoord2 = texCoord.zw * tileScale2;
-			float2 texCoord3 = texCoord.zw * tileScale3;
+			float2 texCoords[4];
+			texCoords[0] = texCoord.zw * tileScale0;
+			texCoords[1] = texCoord.zw * tileScale1;
+			texCoords[2] = texCoord.zw * tileScale2;
+			texCoords[3] = texCoord.zw * tileScale3;
 		#endif
 
 		#if (LANDSCAPE_HEIGHT_BLEND_ALLOWED && LANDSCAPE_HEIGHT_BLEND) || LANDSCAPE_PBR
@@ -154,20 +155,27 @@ fragment_out fp_main(fragment_in input)
 		#if LANDSCAPE_PBR
 			float2 bakedAO = tex2D(pbrLandscapeLightmap, texCoord.xy).ga;
 			float4 bakedAlbedoRoughness = tex2D(pbrAlbedoRoughnessMap, texCoord.xy) * 2.0;
-			float4x4 albedoHeightMatrix = float4x4(tex2Darray(tileAlbedoHeightArray, texCoord0, 0), tex2Darray(tileAlbedoHeightArray, texCoord1, 1), tex2Darray(tileAlbedoHeightArray, texCoord2, 2), tex2Darray(tileAlbedoHeightArray, texCoord3, 3));
-			float4x4 miscMatrix = float4x4(float4(tex2Darray(tileNormalArray, texCoord0, 0).ga, tex2Darray(tileRoughnessAOArray, texCoord0, 0).ga), float4(tex2Darray(tileNormalArray, texCoord1, 1).ga, tex2Darray(tileRoughnessAOArray, texCoord1, 1).ga), float4(tex2Darray(tileNormalArray, texCoord2, 2).ga, tex2Darray(tileRoughnessAOArray, texCoord2, 2).ga), float4(tex2Darray(tileNormalArray, texCoord3, 3).ga, tex2Darray(tileRoughnessAOArray, texCoord3, 3).ga));
+			float4 albedoHeight[4];
+			float4 misc[4];
 
-			float4 blendFactor = getPBRHeightBlend(saturate(heightMapScaleColor * albedoHeightMatrix[3].w + (mask * tilemaskWeight * 2.0 + (heightMapOffsetColor - tilemaskWeight))));
-			float4 blendedBaseColor = mul(blendFactor, albedoHeightMatrix);
-			float4 blendedMisc = mul(blendFactor, miscMatrix);
+			[unroll]
+			for (int i = 0; i < 4; i++)
+			{
+				albedoHeight[i] = tex2Darray(tileAlbedoHeightArray, texCoords[i], i);
+				misc[i].xy = tex2Darray(tileNormalArray, texCoords[i], i).ga;
+				misc[i].zw = tex2Darray(tileRoughnessAOArray, texCoords[i], i).ga;
+			}
 
-			float3 baseColor = saturate(blendedBaseColor.rgb * bakedAlbedoRoughness.rgb);
+			float4 legacyHeight = saturate(tilemaskWeight * (mask * 2.0 - 1.0) + (heightMapScaleColor * dot(float4(albedoHeight[0].w, albedoHeight[1].w, albedoHeight[2].w, albedoHeight[3].w), const1List4) * 0.25 + heightMapOffsetColor));
+			float4 blendFactor = getPBRHeightBlend(legacyHeight);
+			float4 blendedAlbedoHeight = blendFactor.x * albedoHeight[0] + blendFactor.y * albedoHeight[1] + blendFactor.z * albedoHeight[2] + blendFactor.w * albedoHeight[3];
+			float4 blendedMisc = blendFactor.x * misc[0] + blendFactor.y * misc[1] + blendFactor.z * misc[2] + blendFactor.w * misc[3];
+			float3 baseColor = saturate(blendedAlbedoHeight.rgb * bakedAlbedoRoughness.rgb);
 			float roughness = saturate(blendedMisc.b * bakedAlbedoRoughness.a);
 			float occlusion = saturate(blendedMisc.a * bakedAO.g);
 
-			float3 polygonN = unpackNormal(tex2D(pbrLandscapeNormalMap, float2(texCoord.x, 1.0 - texCoord.y)).ga);
-			float3 N = blendNormal(polygonN, unpackNormal(blendedMisc.rg));
-			float3 L = normalize(mul3Fast0(lightPosition0.xyz, invViewMatrix));
+			float3 N = blendNormal(unpackNormal(tex2D(pbrLandscapeNormalMap, float2(texCoord.x, 1.0 - texCoord.y)).ga), unpackNormal(blendedMisc.rg));
+			float3 L = normalize(mul(float4(lightPosition0.xyz, 0.0), invViewMatrix).xyz);
 			float3 V = normalize(cameraPosition - worldPos);
 			float3 H = normalize(L + V);
 
@@ -179,7 +187,7 @@ fragment_out fp_main(fragment_in input)
 				float shadow = bakedAO.r;
 			#endif
 
-			output.color.rgb = getPBR(polygonN, N, L, V, H, lightColor0 * lightIntensity0, baseColor, 0.0, roughness, occlusion, shadow, const0List3);
+			output.color.rgb = getPBR(N, L, V, H, lightColor0 * lightIntensity0, baseColor, 0.0, roughness, occlusion, shadow, const0List3);
 			output.color.rgb = toSRGB(output.color.rgb);
 		#else
 			float4 colorMap = tex2D(colorTexture, texCoord.xy);
@@ -201,14 +209,14 @@ fragment_out fp_main(fragment_in input)
 			#endif
 
 			#if USE_LANDSCAPE_SCALED_TILES_NON_PBR
-				float4 tile = float4(tex2D(tileTexture0, texCoord0).r, tex2D(tileTexture0, texCoord1).g, tex2D(tileTexture0, texCoord2).b, tex2D(tileTexture0, texCoord3).a);
+				float4 tile = float4(tex2D(tileTexture0, texCoords[0]).r, tex2D(tileTexture0, texCoords[1]).g, tex2D(tileTexture0, texCoords[2]).b, tex2D(tileTexture0, texCoords[3]).a);
 			#else
 				float4 tile = tex2D(tileTexture0, texCoord.zw);
 			#endif
 
 			#if LANDSCAPE_HEIGHT_BLEND_ALLOWED && LANDSCAPE_HEIGHT_BLEND
 				#if USE_LANDSCAPE_SCALED_TILES_NON_PBR
-					float4 heightMap = float4(tex2D(tileHeightTexture, texCoord0).r, tex2D(tileHeightTexture, texCoord1).g, tex2D(tileHeightTexture, texCoord2).b, tex2D(tileHeightTexture, texCoord3).a);
+					float4 heightMap = float4(tex2D(tileHeightTexture, texCoords[0]).r, tex2D(tileHeightTexture, texCoords[1]).g, tex2D(tileHeightTexture, texCoords[2]).b, tex2D(tileHeightTexture, texCoords[3]).a);
 				#else
 					float4 heightMap = tex2D(tileHeightTexture, texCoord.zw);
 				#endif
@@ -230,10 +238,6 @@ fragment_out fp_main(fragment_in input)
 			float4 cursorColor = tex2D(cursorTexture, texCoord.xy / cursorCoordSize.zw + (cursorCoordSize.xy / cursorCoordSize.zw + const05List2));
 			output.color.rgb -= output.color.rgb * cursorColor.a;
 			output.color.rgb += cursorColor.rgb * cursorColor.a;
-		#endif
-
-		#if USE_VERTEX_FOG
-			output.color.rgb = lerp(output.color.rgb, input.varFog.rgb, input.varFog.a);
 		#endif
 
 		#include "color-grading.slh"

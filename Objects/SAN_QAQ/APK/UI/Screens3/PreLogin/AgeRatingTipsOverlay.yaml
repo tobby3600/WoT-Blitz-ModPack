@@ -1,0 +1,178 @@
+Header:
+    version: 141
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/Overlay/Overlay.yaml"
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "AgeRatingTipsOverlay"
+    size: [1280.000000, 640.000000]
+    input: false
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["string", "title", "\"\"", "localize(\"netease/loginScreen/ageRatingInformationTitle/NE\")"]
+            - ["string", "info", "\"\"", "localize(\"netease/loginScreen/ageRatingInformation/NE\")"]
+            events:
+            - "OVERLAY_CLOSE"
+        UIDataLocalVarsComponent:
+            data:
+            - ["string", "header", "title"]
+            - ["string", "description", "info"]
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+                verticalFormula: "childrenSum"
+        children:
+        -   prototype: "Overlay/OverlayScreen"
+            name: "OverlayScreen"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "titleContent": "titleContent"
+                        "forcedFullSize": "true"
+                        "content": "AgeRatingTipsContent"
+                    eventActions:
+                    - ["OVERLAY_CLOSE_START", "", ""]
+                    - ["BACK_EVENT", "OVERLAY_CLOSE", ""]
+                    - ["OVERLAY_OPEN_FINISH", "", ""]
+                UIDataLocalVarsComponent:
+                    data:
+                    - ["int", "tabBarH", "0"]
+                    - ["int", "footerH", "0"]
+                    - ["int", "contentH", "0"]
+                UIChildComponent0:
+                    args:
+                        "tabBarHeight": "tabBarH"
+                        "contentHeight": "contentH"
+                        "footerHeight": "footerH"
+                        "wasPushed": "wasPushed"
+                        "forcedFullSize": "forcedFullSize"
+                        "isFooterVisible": "isFooterVisible"
+                        "hasCustomBg": "hasCustomBg"
+                        "customBgURL": "customBgURL"
+                        "content": "content"
+                        "title": "title"
+                        "clanTag": "clanTag"
+                        "playerName": "playerName"
+                        "tabContent": "TabBarHolder"
+                        "rightCornerContent": "rightCornerContent"
+                        "footerContent": "FooterContentArea"
+                        "scaleBg": "scaleBg"
+                        "backContent": "backContent"
+                        "titleContent": "titleContent"
+                        "closeButtonIcon": "closeButtonIcon"
+Slots:
+-   class: "UIControl"
+    name: "AgeRatingTipsContent"
+    size: [1280.000000, 640.000000]
+    input: false
+    components:
+        Anchor:
+            enabled: true
+            leftAnchorEnabled: true
+            leftAnchor: 16.000000
+            hCenterAnchorEnabled: true
+            rightAnchorEnabled: true
+            rightAnchor: 16.000000
+            topAnchorEnabled: true
+            topAnchor: 16.000000
+            vCenterAnchorEnabled: false
+            bottomAnchorEnabled: true
+            bottomAnchor: 16.000000
+        LinearLayout:
+            orientation: "LeftToRight"
+            spacing: 4.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIScrollView"
+            name: "Scroll"
+            autoUpdate: true
+            centerContent: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                    verticalFormula: ""
+            children:
+            -   class: "UIScrollViewContainer"
+                name: "scrollContainerControl"
+                scrollDirection: "kVertical"
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "Description"
+                    input: false
+                    classes: "t-body regular white-wild-sand-text"
+                    components:
+                        UITextComponent:
+                            multiline: "MULTILINE_ENABLED"
+                            align: ["LEFT"]
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["UITextComponent.text", "description"]
+            -   prototype: "VerticalScrollBar/VerticalScrollBar"
+                name: "VerticalScrollBar"
+                components:
+                    UIScrollBarComponent:
+                        delegate: ".."
+-   class: "UIControl"
+    name: "titleContent"
+    size: [1280.000000, 64.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "FixedSize"
+            verticalValue: 64.000000
+    children:
+    -   class: "UIControl"
+        name: "Header"
+        input: false
+        classes: "t-headline bold white-wild-sand-text"
+        components:
+            UITextComponent:
+                fontSize: 24.000000
+            Anchor:
+                hCenterAnchorEnabled: true
+                bottomAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfContent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+        bindings:
+        - ["UITextComponent.text", "header"]

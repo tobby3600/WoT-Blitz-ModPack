@@ -136,7 +136,9 @@ Prototypes:
                         input: false
                         classes: "hover"
                         components:
-                            Background:
+                            UITextureComponent:
+                                materialPath: "~res:/Materials.custom/2d.Textured.Saturation.material"
+                                materialParams: "saturation,25"
                                 drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
                                 perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
                             UIOpacityComponent: {}
@@ -150,7 +152,7 @@ Prototypes:
                             StyleSheet:
                                 styles: "~res:/UI/Screens3/Common/Hover.style.yaml"
                         bindings:
-                        - ["Background.sprite", "bgPath"]
+                        - ["UITextureComponent.spritePath", "bgPath"]
                 -   class: "UIControl"
                     name: "TankIcon"
                     input: false

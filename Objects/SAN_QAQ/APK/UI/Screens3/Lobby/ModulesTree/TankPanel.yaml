@@ -1,0 +1,846 @@
+Header:
+    version: 157
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/Selection.yaml"
+- "~res:/UI/Screens3/Lobby/Common/CheckMark.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Vehicle/VehicleInfo.yaml"
+- "~res:/UI/Screens3/Lobby/ModulesTree/TankXpSmall.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Button/ButtonCurrency.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Timer.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Button/ClickableInfoIconButton.yaml"
+- "~res:/UI/Screens3/Lobby/Common/TreeArrows/Arrow.yaml"
+- "~res:/UI/Screens3/Lobby/Common/TreeArrows/ArrowLine.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "TankPanel"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        UIAnimationComponent:
+            animations: "CHANGE_SELECT,~res:/UI/Screens3/Lobby/ModulesTree/ScrolToSelectedModule.animation"
+        Anchor:
+            vCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfFirstChild"
+            verticalPolicy: "PercentOfFirstChild"
+        UIAttachLayoutMasterComponent: {}
+        UIDataParamsComponent:
+            params:
+            - ["bool", "hideClanDiscount", "false", "false"]
+            - ["bool", "isSelected", "false", "true"]
+            - ["bool", "isTutorialActive", "false", "false"]
+            - ["eTutorialLesson", "currentLesson", "eTutorialLesson.kUnknown", "eTutorialLesson.kUnknown"]
+            - ["int64", "serverTime", "0L", "0L"]
+            - ["TankModulesTreeModel", "modulesModel", "null", "{ }"]
+            - ["string", "masterId", "\"\"", "\"\""]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["bool", "hasTrademark", "modulesModel.currentVehicle.hasTrademark"]
+            - ["ResourceModel", "price", "when modulesModel.currentVehicle.vehicle.status == eVehicleNodeStatus.CAN_BE_PURCHASED or modulesModel.currentVehicle.vehicle.status == eVehicleNodeStatus.NOT_ENOUGH_MONEY -> modulesModel.currentVehicle.vehicle.purchasePrice, modulesModel.currentVehicle.vehicle.researchPrice"]
+            - ["bool", "tanklDiscountVisible", "modulesModel.currentVehicle.vehicle.status != eVehicleNodeStatus.OWNED and price.discount.value > 0.000000 and (not hideClanDiscount or price.discount.reason != eDiscountReason.CLAN_SUPPLY)"]
+            - ["eNation", "currentNation", "modulesModel.currentVehicle.vehicle.vehicleDataModel.nation"]
+            - ["string", "currentSubnation", "modulesModel.currentVehicle.vehicle.vehicleDataModel.subnation"]
+            - ["eTankClass", "tankClass", "modulesModel.currentVehicle.vehicle.vehicleDataModel.tankClass"]
+            - ["string", "tankClassString", "when tankClass == eTankClass.TANK_CLASS_LIGHT -> localize(\"Light\"), tankClass == eTankClass.TANK_CLASS_MEDIUM -> localize(\"Medium\"), tankClass == eTankClass.TANK_CLASS_HEAVY -> localize(\"Heavy\"), tankClass == eTankClass.TANK_CLASS_SPG or tankClass == eTankClass.TANK_CLASS_AT_SPG -> localize(\"AT-SPG\"), \"\""]
+            - ["bool", "isCommonTank", "not (modulesModel.currentVehicle.vehicle.vehicleDataModel.isPremium or modulesModel.currentVehicle.vehicle.vehicleDataModel.isCollectible)"]
+            - ["bool", "isPremiumizeVisible", "not modulesModel.isSeasonTank and (modulesModel.tempPremiumizationPrice.quantity > 0 or modulesModel.permPremiumizationPrice.quantity > 0) and modulesModel.currentVehicle.vehicle.status == eVehicleNodeStatus.OWNED and not modulesModel.currentVehicle.vehicle.tankStatsModel.isPremiumized and isCommonTank"]
+            - ["bool", "isToTopVisible", "not modulesModel.isSeasonTank and modulesModel.upgradeToTopPrice.quantity > 0 and modulesModel.currentVehicle.vehicle.status != eVehicleNodeStatus.LOCKED and modulesModel.currentVehicle.vehicle.status != eVehicleNodeStatus.CAN_BE_RESEARCHED"]
+            - ["eVehicleDescriptionType", "currentDescrType", "when modulesModel.currentVehicle.vehicle.vehicleDataModel.isPremium == true -> eVehicleDescriptionType.PREMIUM, when modulesModel.currentVehicle.vehicle.vehicleDataModel.isCollectible == true -> eVehicleDescriptionType.COLLECTIBLE, when modulesModel.currentVehicle.vehicle.tankStatsModel.isPremiumized == true -> eVehicleDescriptionType.PREMIUMISED, eVehicleDescriptionType.NORMAL"]
+            - ["bool", "isTempPrem", "modulesModel.currentVehicle.vehicle.tankStatsModel.premiumizationEnd > 0L"]
+            - ["bool", "additionalSectionVisible", "modulesModel.isPremiumizationAvailable or isToTopVisible or isTempPrem"]
+            - ["string", "flagSprite", "when empty(currentSubnation) -> str(currentNation, eNation, \"autotests\"), currentSubnation"]
+            - ["bool", "isCollectible", "modulesModel.currentVehicle.vehicle.vehicleDataModel.isCollectible"]
+            - ["bool", "isPremium", "modulesModel.currentVehicle.vehicle.vehicleDataModel.isPremium"]
+            - ["bool", "isPremialized", "modulesModel.currentVehicle.vehicle.tankStatsModel.isPremiumized"]
+            - ["string", "tankNameColor", "when isPremium -> \"yellow-lightning-text\", isCollectible -> \"blue-rimmi-text\", isPremialized -> \"yellow-chalky-text\", \"white-wild-sand-text\""]
+        UIEventOnDataComponent0:
+            watchedDataExpression: "isSelected"
+            eventName: "CHANGE_SELECT"
+        UIShadowHoleComponent:
+            leftOffset: 16.000000
+            rightOffset: 16.000000
+            topOffset: 16.000000
+            bottomOffset: 16.000000
+    bindings:
+    - ["UIAttachLayoutMasterComponent.attachId", "masterId"]
+    - ["UIShadowHoleComponent.isEnabled", "currentLesson == eTutorialLesson.kNewNation and isTutorialActive and modulesModel.selectedCompactDescr == modulesModel.currentVehicle.compactDescr"]
+    children:
+    -   class: "UIControl"
+        name: "TankPanel"
+        size: [32.000000, 32.000000]
+        selected: false
+        input: true
+        classes: "modules-tank-panel button-choose-sound"
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 176.000000
+                verticalPolicy: "PercentOfFirstChild"
+            UIInputEventComponent:
+                onDoubleTouch: "DOUBLE_TAP_ACTION"
+                onDoubleTouchData: "modulesModel.currentVehicle.compactDescr"
+            UISwitchBarElementComponent: {}
+            UIIdentifierComponent:
+                id: "current_tank_panel"
+                params:
+                - ["int", "instant_upgrade_price", "modulesModel.upgradeToTopPrice.quantity"]
+                - ["string", "status", "str(int(modulesModel.currentVehicle.vehicle.status), eVehicleNodeStatus)"]
+                - ["int", "level", "modulesModel.currentVehicle.vehicle.vehicleDataModel.level"]
+                - ["bool", "is_elite", "modulesModel.currentVehicle.vehicle.tankStatsModel.isElite"]
+                - ["bool", "is_premiumized", "modulesModel.currentVehicle.vehicle.tankStatsModel.isPremiumized"]
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Lobby/ModulesTree/ModulesTree.style.yaml"
+        bindings:
+        - ["UISwitchBarElementComponent.id", "modulesModel.currentVehicle.compactDescr"]
+        children:
+        -   class: "UIControl"
+            name: "ContentWrapper"
+            position: [88.000000, 138.000000]
+            pivot: [0.500000, 0.500000]
+            input: false
+            classes: "content-area"
+            components:
+                UIOpacityComponent: {}
+                Anchor:
+                    leftAnchorEnabled: true
+                    rightAnchorEnabled: true
+                    topAnchorEnabled: true
+                LinearLayout:
+                    orientation: "LeftToRight"
+                    padding: "8"
+                SizePolicy:
+                    verticalPolicy: "PercentOfLastChild"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Lobby/ModulesTree/ModulesTree.style.yaml"
+            children:
+            -   class: "UIControl"
+                name: "Background"
+                size: [32.000000, 32.000000]
+                input: false
+                classes: "grey-shark-70-bg"
+                components:
+                    Background: {}
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "NationFlag"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    UITextureComponent:
+                        materialPath: "~res:/Materials.custom/2d.Textured.Saturation.material"
+                        materialParams: "saturation,25"
+                    UIOpacityComponent:
+                        opacity: 0.600000
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfContent"
+                bindings:
+                - ["visible", "not modulesModel.currentVehicle.vehicle.vehicleDataModel.isCustomBackgroundImage"]
+                - ["UITextureComponent.spritePath", "\"~res:/Gfx/Lobby/flags/flag_tank-node_I_\" + flagSprite"]
+            -   class: "UIControl"
+                name: "TankBackground"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    UITextureComponent: {}
+                    UIOpacityComponent:
+                        opacity: 0.600000
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfContent"
+                bindings:
+                - ["visible", "modulesModel.currentVehicle.vehicle.vehicleDataModel.isCustomBackgroundImage"]
+                - ["UITextureComponent.sprite", "modulesModel.currentVehicle.vehicle.vehicleDataModel.favoriteBackgroundImagePath"]
+            -   prototype: "Selection/Selection"
+                name: "Selection"
+                components:
+                    IgnoreLayout: {}
+                    UIDataParamsComponent:
+                        args:
+                            "selectionType": "eSelectionBorderType.kRect"
+                            "isVisible": "isSelected"
+            -   prototype: "CheckMark/CheckMark"
+                name: "CheckMark"
+                components:
+                    Anchor:
+                        rightAnchorEnabled: true
+                        rightAnchor: -8.000000
+                        bottomAnchorEnabled: true
+                        bottomAnchor: -8.000000
+                    IgnoreLayout: {}
+                    UIDataParamsComponent:
+                        args:
+                            "isVisible": "modulesModel.currentVehicle.vehicle.status == eVehicleNodeStatus.OWNED"
+            -   class: "UIControl"
+                name: "Hover"
+                size: [32.000000, 32.000000]
+                input: false
+                classes: "hover white-wild-sand-5-bg"
+                components:
+                    Background: {}
+                    UIOpacityComponent: {}
+                    Anchor:
+                        leftAnchorEnabled: true
+                        rightAnchorEnabled: true
+                        topAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                    IgnoreLayout: {}
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Lobby/ModulesTree/ModulesTree.style.yaml"
+            -   class: "UIControl"
+                name: "Content"
+                position: [8.000000, 0.000000]
+                input: false
+                components:
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "TankInfo"
+                    position: [0.000000, 0.000000]
+                    size: [168.000000, 231.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            leftAnchorEnabled: true
+                        LinearLayout:
+                            orientation: "TopDown"
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfChildrenSum"
+                    children:
+                    -   prototype: "VehicleInfo/VehicleInfo"
+                        name: "VehicleInfo"
+                        components:
+                            Anchor:
+                                leftAnchorEnabled: true
+                                topAnchorEnabled: true
+                                topAnchor: 4.000000
+                            IgnoreLayout: {}
+                            UIDataParamsComponent:
+                                args:
+                                    "class": "modulesModel.currentVehicle.vehicle.vehicleDataModel.tankClass"
+                                    "level": "modulesModel.currentVehicle.vehicle.vehicleDataModel.level"
+                                    "type": "currentDescrType"
+                                    "elite": "modulesModel.currentVehicle.vehicle.tankStatsModel.isElite"
+                    -   class: "UIControl"
+                        name: "TankView"
+                        position: [4.000000, 0.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                topAnchorEnabled: true
+                                topAnchor: 4.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 120.000000
+                            StyleSheet:
+                                styles: ""
+                        children:
+                        -   class: "UIControl"
+                            name: "TankIcon"
+                            position: [36.000000, 4.000000]
+                            size: [97.000000, 60.000000]
+                            input: false
+                            components:
+                                Background:
+                                    drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                                    perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                    bottomAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 148.000000
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 92.000000
+                            bindings:
+                            - ["Background.sprite", "modulesModel.currentVehicle.vehicle.vehicleDataModel.bigIconPath"]
+                    -   class: "UIControl"
+                        name: "XpAndDiscount"
+                        input: false
+                        components:
+                            Anchor:
+                                rightAnchorEnabled: true
+                                topAnchorEnabled: true
+                            IgnoreLayout: {}
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfMaxChild"
+                                verticalPolicy: "PercentOfMaxChild"
+                        bindings:
+                        - ["visible", "not modulesModel.isSeasonTank or modulesModel.currentVehicle.vehicle.tankStatsModel.isElite"]
+                        children:
+                        -   class: "UIControl"
+                            name: "Wrapper"
+                            position: [8.000000, 0.000000]
+                            size: [81.000000, 64.000000]
+                            input: false
+                            components:
+                                Anchor:
+                                    rightAnchorEnabled: true
+                                    topAnchorEnabled: true
+                                    topAnchor: -8.000000
+                                LinearLayout:
+                                    orientation: "TopDown"
+                                    spacing: 2.000000
+                                SizePolicy:
+                                    verticalPolicy: "PercentOfChildrenSum"
+                            children:
+                            -   class: "UIControl"
+                                name: "Discount"
+                                position: [0.000000, 0.000000]
+                                size: [32.000000, 32.000000]
+                                input: false
+                                components:
+                                    Anchor:
+                                        rightAnchorEnabled: true
+                                        rightAnchor: -16.000000
+                                        topAnchorEnabled: true
+                                        topAnchor: -8.000000
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfFirstChild"
+                                        verticalPolicy: "PercentOfFirstChild"
+                                    UIChildComponent0:
+                                        childType: "kOldExpression"
+                                        control: "\"~res:/UI/Screens3/Common/DiscountLabel.yaml\""
+                                        args:
+                                            "discount": "price.discount.value"
+                                bindings:
+                                - ["visible", "tanklDiscountVisible"]
+                            -   class: "UIControl"
+                                name: "Spacer"
+                                size: [32.000000, 32.000000]
+                                input: false
+                                components:
+                                    SizePolicy:
+                                        verticalPolicy: "FixedSize"
+                                        verticalValue: 12.000000
+                                bindings:
+                                - ["visible", "not tanklDiscountVisible"]
+                            -   class: "UIControl"
+                                name: "XpContainer"
+                                position: [40.000000, 40.000000]
+                                input: false
+                                components:
+                                    Anchor:
+                                        rightAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfFirstChild"
+                                        verticalPolicy: "PercentOfMaxChild"
+                                bindings:
+                                - ["visible", "modulesModel.currentVehicle.vehicle.status == eVehicleNodeStatus.OWNED or modulesModel.currentVehicle.vehicle.xp.quantity > 0"]
+                                children:
+                                -   prototype: "TankXpSmall/TankXp"
+                                    name: "TankXp"
+                                    components:
+                                        Anchor:
+                                            hCenterAnchorEnabled: true
+                                        UIDataParamsComponent:
+                                            args:
+                                                "isElite": "modulesModel.currentVehicle.vehicle.tankStatsModel.isElite"
+                                                "resource": "modulesModel.currentVehicle.vehicle.xp"
+                    -   class: "UIControl"
+                        name: "Spacer"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 8.000000
+                    -   class: "UIControl"
+                        name: "TankInfoWrapper"
+                        input: false
+                        components:
+                            Anchor:
+                                leftAnchorEnabled: true
+                            LinearLayout:
+                                orientation: "TopDown"
+                                spacing: 4.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        children:
+                        -   class: "UIControl"
+                            name: "TitleWrapper"
+                            size: [32.000000, 32.000000]
+                            input: false
+                            components:
+                                LinearLayout: {}
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfMaxChild"
+                            children:
+                            -   class: "UIControl"
+                                name: "TankNameWrapper"
+                                size: [32.000000, 32.000000]
+                                input: false
+                                components:
+                                    Anchor:
+                                        leftAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "Formula"
+                                        horizontalFormula: "min(parent, maxChild)"
+                                        verticalPolicy: "PercentOfLastChild"
+                                children:
+                                -   class: "UIControl"
+                                    name: "PremiumizeGlow"
+                                    size: [32.000000, 32.000000]
+                                    input: false
+                                    classes: "yellow-lightning-bg"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_STRETCH_BOTH"
+                                            sprite: "~res:/Gfx/Lobby/backgrounds/bg_text-glow"
+                                            leftRightStretchCap: 27.000000
+                                        UIOpacityComponent:
+                                            opacity: 0.250000
+                                        Anchor:
+                                            hCenterAnchorEnabled: true
+                                            vCenterAnchorEnabled: true
+                                            vCenterAnchor: -3.000000
+                                        SizePolicy:
+                                            horizontalPolicy: "Formula"
+                                            horizontalFormula: "parent*1.3"
+                                            verticalPolicy: "Formula"
+                                            verticalFormula: "parent*1.3"
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                                    bindings:
+                                    - ["visible", "isPremialized"]
+                                -   class: "UIControl"
+                                    name: "TankName"
+                                    position: [2.000000, 0.000000]
+                                    input: false
+                                    components:
+                                        UITextComponent:
+                                            colorInheritType: "COLOR_IGNORE_PARENT"
+                                            fitting: "FITTING_POINTS"
+                                            align: ["LEFT", "VCENTER"]
+                                        Anchor:
+                                            leftAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "Formula"
+                                            horizontalFormula: "when parent == 0 -> content, min(parentRest, content)"
+                                            verticalPolicy: "PercentOfContent"
+                                        UIIdentifierComponent:
+                                            id: "tank_name"
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Font.style.yaml"
+                                    bindings:
+                                    - ["classes", "\"t-body bold \" + tankNameColor"]
+                                    - ["UITextComponent.text", "localize(modulesModel.currentVehicle.vehicle.vehicleDataModel.shortName)"]
+                            -   class: "UIControl"
+                                name: "Spacer"
+                                size: [32.000000, 32.000000]
+                                input: false
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 8.000000
+                                        verticalPolicy: "PercentOfParent"
+                            -   class: "UIControl"
+                                name: "InfoButtonWrapper"
+                                size: [32.000000, 32.000000]
+                                input: false
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfChildrenSum"
+                                        horizontalValue: 100.000000
+                                        verticalPolicy: "PercentOfParent"
+                                bindings:
+                                - ["visible", "hasTrademark"]
+                                children:
+                                -   prototype: "ClickableInfoIconButton/InfoButton"
+                                    name: "InfoButton"
+                                    components:
+                                        SizePolicy:
+                                            horizontalValue: 20.000000
+                                            verticalPolicy: "PercentOfParent"
+                                            verticalValue: 100.000000
+                                        UIAttachLayoutMasterComponent:
+                                            attachId: "TANK_NAME_INFO_BUTTON"
+                                        UIDataParamsComponent:
+                                            eventActions:
+                                            - ["ON_CLICK_BUTTON", "ON_SHOW_TRADEMARK_CLICKED", ""]
+                                    children:
+                                    -   path: "TapArea/Icon"
+                                        components:
+                                            Background: {}
+                                        bindings:
+                                        - ["Background.sprite", "icon"]
+                        -   class: "UIControl"
+                            name: "TankType"
+                            position: [0.000000, 30.000000]
+                            size: [32.000000, 32.000000]
+                            input: false
+                            classes: "t-caption regular color=white-wild-sand-50-text"
+                            components:
+                                UITextComponent:
+                                    align: ["LEFT", "VCENTER"]
+                                Anchor:
+                                    leftAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "Formula"
+                                    horizontalFormula: "min(parentRest, content)."
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml"
+                            bindings:
+                            - ["UITextComponent.text", "tankClassString"]
+                    -   class: "UIControl"
+                        name: "Spacer_1"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 12.000000
+                -   class: "UIControl"
+                    name: "Additional"
+                    position: [0.000000, 184.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            leftAnchorEnabled: true
+                        LinearLayout:
+                            orientation: "TopDown"
+                            padding: "0; 8"
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfChildrenSum"
+                    bindings:
+                    - ["visible", "additionalSectionVisible"]
+                    children:
+                    -   class: "UIControl"
+                        name: "SeparatorWrapper"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 16.000000
+                        children:
+                        -   class: "UIControl"
+                            name: "Separator"
+                            size: [32.000000, 32.000000]
+                            input: false
+                            classes: "white-wild-sand-10-bg"
+                            components:
+                                Background: {}
+                                Anchor:
+                                    topAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 1.000000
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
+                    -   class: "UIControl"
+                        name: "ToTop"
+                        position: [0.000000, 24.000000]
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            LinearLayout:
+                                orientation: "TopDown"
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        bindings:
+                        - ["visible", "isToTopVisible"]
+                        children:
+                        -   class: "UIControl"
+                            name: "LabelWrapper"
+                            size: [32.000000, 32.000000]
+                            input: false
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfFirstChild"
+                            children:
+                            -   class: "UIControl"
+                                name: "Label"
+                                input: false
+                                classes: "t-caps bold white-wild-sand-text"
+                                components:
+                                    UITextComponent:
+                                        text: "#modules_tech_tree:Top/Button"
+                                        multiline: "MULTILINE_ENABLED"
+                                        fitting: "FITTING_POINTS"
+                                        align: ["LEFT", "VCENTER"]
+                                    Anchor:
+                                        leftAnchorEnabled: true
+                                        vCenterAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "Formula"
+                                        horizontalFormula: "min(parentRest, content)"
+                                        verticalPolicy: "PercentOfContent"
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                            -   prototype: "ClickableInfoIconButton/InfoButton"
+                                name: "InfoButton"
+                                components:
+                                    Anchor:
+                                        rightAnchorEnabled: true
+                                        rightAnchor: -4.000000
+                                        vCenterAnchorEnabled: true
+                                    UIDataParamsComponent:
+                                        eventActions:
+                                        - ["ON_CLICK_BUTTON", "TO_TOP_INFO", "_event"]
+                                    UIIdentifierComponent:
+                                        id: "instant_upgrade_info_button"
+                        -   class: "UIControl"
+                            name: "Spacer"
+                            size: [32.000000, 32.000000]
+                            input: false
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 8.000000
+                        -   prototype: "ButtonCurrency/Button"
+                            name: "ButtonToTop"
+                            position: [0.000000, 28.000000]
+                            components:
+                                UIDataParamsComponent:
+                                    args:
+                                        "canAfford": "true"
+                                        "resource": "modulesModel.upgradeToTopPrice"
+                                        "type": "eButtonType.OPTIONAL_LIGHT"
+                                        "size": "eButtonSize.NORMAL"
+                                        "sound": "eButtonSound.OK"
+                                        "enabled": "true"
+                                        "locked": "false"
+                                    eventActions:
+                                    - ["ON_CLICK_BUTTON", "UPGRADE_TO_TOP", "_event"]
+                                UIIdentifierComponent:
+                                    id: "instant_upgrade_button"
+                    -   class: "UIControl"
+                        name: "Spacer_1"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 16.000000
+                        bindings:
+                        - ["visible", "modulesModel.isPremiumizationAvailable and isToTopVisible"]
+                    -   class: "UIControl"
+                        name: "Premialize"
+                        position: [0.000000, 24.000000]
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            LinearLayout:
+                                orientation: "TopDown"
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfChildrenSum"
+                            UIIdentifierComponent:
+                                id: "premiumization_action_panel"
+                        bindings:
+                        - ["visible", "modulesModel.isPremiumizationAvailable"]
+                        children:
+                        -   class: "UIControl"
+                            name: "LabelWrapper"
+                            size: [32.000000, 32.000000]
+                            input: false
+                            components:
+                                LinearLayout:
+                                    spacing: 8.000000
+                                    dynamicSpacing: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfLastChild"
+                            children:
+                            -   class: "UIControl"
+                                name: "Label"
+                                input: false
+                                classes: "t-caps bold white-wild-sand-text"
+                                components:
+                                    UITextComponent:
+                                        text: "#hangar_showcase:PremializationButton"
+                                        multiline: "MULTILINE_ENABLED"
+                                        fitting: "FITTING_POINTS"
+                                        align: ["LEFT", "VCENTER"]
+                                    Anchor:
+                                        vCenterAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "Formula"
+                                        horizontalFormula: "min(parentRest, content)"
+                                        verticalPolicy: "PercentOfContent"
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                        -   class: "UIControl"
+                            name: "Spacer"
+                            size: [32.000000, 32.000000]
+                            input: false
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 8.000000
+                        -   prototype: "ButtonCurrency/Button"
+                            name: "ButtonPremiumize"
+                            components:
+                                UIAttachLayoutMasterComponent:
+                                    attachId: "PREMIUMIZATION"
+                                UIDataParamsComponent:
+                                    args:
+                                        "canAfford": "true"
+                                        "resource": "modulesModel.tempPremiumizationPrice"
+                                        "type": "eButtonType.OPTIONAL_LIGHT"
+                                        "size": "eButtonSize.NORMAL"
+                                        "sound": "eButtonSound.OPEN"
+                                        "enabled": "not isNull(modulesModel.currentVehicle.vehicle.ownedTank) and modulesModel.currentVehicle.vehicle.ownedTank.lockReason != LOCK_REASON.ON_ARENA"
+                                        "locked": "false"
+                                    eventActions:
+                                    - ["ON_CLICK_BUTTON", "PREMIUMIZE", "_event"]
+                    -   class: "UIControl"
+                        name: "PremializeInfo"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            LinearLayout:
+                                orientation: "TopDown"
+                                spacing: 4.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfChildrenSum"
+                            UIIdentifierComponent:
+                                id: "premiumization_info_panel"
+                        bindings:
+                        - ["visible", "isTempPrem"]
+                        children:
+                        -   class: "UIControl"
+                            name: "Label"
+                            size: [32.000000, 32.000000]
+                            input: false
+                            classes: "t-caption regular white-wild-sand-50-text"
+                            components:
+                                UITextComponent:
+                                    text: "#modules_tech_tree:PremializationTimeLeft/Status"
+                                    multiline: "MULTILINE_ENABLED"
+                                    align: ["LEFT", "VCENTER"]
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml"
+                        -   prototype: "Timer/Timer"
+                            name: "Timer"
+                            components:
+                                UIDataParamsComponent:
+                                    args:
+                                        "visible": "true"
+                                        "serverTime": "serverTime"
+                                        "time": "modulesModel.currentVehicle.vehicle.tankStatsModel.premiumizationEnd"
+                                        "bgVisible": "true"
+                                        "iconVisible": "true"
+                                        "alertTime": "0L"
+                            children:
+                            -   path: "Icon"
+                                bindings:
+                                - ["visible", "iconVisible"]
+        -   class: "UIControl"
+            name: "SeasonButton"
+            input: true
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                    bottomAnchor: -40.000000
+                LinearLayout:
+                    spacing: 4.000000
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfMaxChild"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Button/OrangeButton.yaml"
+                    args:
+                        "caption": "\"открыть сезон\""
+                    eventActions:
+                    - ["ON_CLICK_BUTTON", "OPEN_SEASON_PROGRESSION", ""]
+            bindings:
+            - ["visible", "modulesModel.isSeasonTank and modulesModel.isSeasonActive and false"]
+    -   class: "UIControl"
+        name: "ArrowsContainer"
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+                verticalValue: 0.000000
+        children:
+        -   prototype: "Arrow/Arrow"
+            name: "Arrow"
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    leftAnchor: -7.000000
+                    topAnchorEnabled: true
+                    topAnchor: -3.000000
+            bindings:
+            - ["visible", "modulesModel.currentVehicle.hasArrowLeft"]
+        -   prototype: "ArrowLine/Line"
+            name: "Right"
+            components:
+                Anchor:
+                    rightAnchorEnabled: true
+                    rightAnchor: -20.000000
+                    topAnchorEnabled: true
+                SizePolicy:
+                    horizontalValue: 20.000000
+            bindings:
+            - ["visible", "modulesModel.currentVehicle.hasArrowRight"]
+        -   prototype: "ArrowLine/Line"
+            name: "Left"
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    leftAnchor: -19.000000
+                    topAnchorEnabled: true
+                SizePolicy:
+                    horizontalValue: 12.000000
+            bindings:
+            - ["visible", "modulesModel.currentVehicle.hasArrowLeft"]
+    -   class: "UIControl"
+        name: "ScrollBorder"
+        position: [-16.000000, -16.000000]
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                leftAnchor: -16.000000
+                rightAnchorEnabled: true
+                rightAnchor: -16.000000
+                topAnchorEnabled: true
+                topAnchor: -16.000000
+                bottomAnchorEnabled: true
+                bottomAnchor: -16.000000

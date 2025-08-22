@@ -105,14 +105,11 @@ Prototypes:
                     size: [48.000000, 48.000000]
                     input: false
                     components:
-                        Background: {}
                         SizePolicy:
                             horizontalPolicy: "FixedSize"
                             horizontalValue: 64.000000
                             verticalPolicy: "FixedSize"
                             verticalValue: 64.000000
-                        StyleSheet:
-                            styles: "~res:/UI/Screens3/Color.style.yaml"
                     children:
                     -   prototype: "BlurModified/BlurModified"
                         name: "Blur"
@@ -192,32 +189,15 @@ Prototypes:
                     LinearLayout:
                         orientation: "TopDown"
                     SizePolicy:
-                        horizontalPolicy: "PercentOfParent"
+                        horizontalPolicy: "PercentOfMaxChild"
                         verticalPolicy: "PercentOfChildrenSum"
-                    Background:
-                        usePostProcessedSprite: true
-                    UIPostProcessTextureComponent0:
-                        materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                        needClearAlphaAfterRender: true
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent1:
-                        materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent2:
-                        materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIRoundedCornersComponent:
-                        radius: "8"
                 children:
+                -   prototype: "BlurModified/BlurModified"
+                    name: "Blur"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "roundCorner": "\"8\""
                 -   class: "UIControl"
                     name: "Status"
                     input: false
@@ -231,7 +211,7 @@ Prototypes:
                         Anchor:
                             rightAnchorEnabled: true
                         SizePolicy:
-                            horizontalPolicy: "PercentOfParent"
+                            horizontalPolicy: "PercentOfContent"
                             verticalPolicy: "PercentOfContent"
                         StyleSheet:
                             styles: "~res:/UI/Screens3/Font.style.yaml"
@@ -248,7 +228,7 @@ Prototypes:
                             spacing: 4.000000
                             useRtl: true
                         SizePolicy:
-                            horizontalPolicy: "PercentOfParent"
+                            horizontalPolicy: "PercentOfChildrenSum"
                             verticalPolicy: "PercentOfMaxChild"
                     children:
                     -   class: "UIControl"

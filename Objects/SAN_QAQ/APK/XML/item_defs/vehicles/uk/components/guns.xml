@@ -1,5 +1,5 @@
 <root>
-	<nextAvailableId>1054</nextAvailableId>
+	<nextAvailableId>1055</nextAvailableId>
 	<ids>
 		<QF_6_pounder_Mk_VA>3</QF_6_pounder_Mk_VA>
 		<_3pdr_gun_Hotchkiss>4</_3pdr_gun_Hotchkiss>
@@ -95,6 +95,7 @@
 		<_105mm_AT_Gun_L7A1_FL>1051</_105mm_AT_Gun_L7A1_FL>
 		<_105mm_L7_SFC>1052</_105mm_L7_SFC>
 		<_77mm_OQF_HV_Mkl>1053</_77mm_OQF_HV_Mkl>
+		<_110mm_MV-N60>1054</_110mm_MV-N60>
 	</ids>
 	<shared>
 		<_15mm_Machine_gun_BESA>
@@ -5016,5 +5017,55 @@
 				</_77mm_HE_Mk1TF>
 			</shots>
 		</_77mm_OQF_HV_Mkl>
+		<_110mm_MV-N60>
+			<userString>#gb_vehicles:_110mm_MV-N60</userString>
+			<shortUserString>#gb_vehicles:_110mm_MV-N60_short</shortUserString>
+			<description>#gb_vehicles:_110mm_MV-N60_descr</description>
+			<tags/>
+			<level>8</level>
+			<price>0</price>
+			<impulse>0.48</impulse>
+			<effects>wpn_shot_large</effects>
+			<turretYawLimits>-180 180</turretYawLimits>
+			<pitchLimits>-1 1</pitchLimits>
+			<rotationSpeed>40</rotationSpeed>
+			<reloadTime>0.1</reloadTime>
+			<maxAmmo>1</maxAmmo>
+			<aimingTime>1.0</aimingTime>
+			<weight>2000</weight>
+			<maxHealth>200</maxHealth>
+			<maxRegenHealth>100</maxRegenHealth>
+			<repairCost>0</repairCost>
+			<invisibilityFactorAtShot>0.1</invisibilityFactorAtShot>
+			<shotDispersionRadius>0.1</shotDispersionRadius>
+			<shotDispersionFactors>
+				<turretRotation>0.1</turretRotation>
+				<afterShot>1</afterShot>
+				<whileGunDamaged>1.0</whileGunDamaged>
+			</shotDispersionFactors>
+			<shots>
+				<_110mm_MVN_AP>
+					<defaultPortion>0.8</defaultPortion>
+					<speed>850</speed>
+					<gravity>9.81</gravity>
+					<maxDistance>720</maxDistance>
+					<piercingPower>188 180</piercingPower>
+				</_110mm_MVN_AP>
+				<_110mm_MVN_HE_gold>
+					<defaultPortion>0</defaultPortion>
+					<speed>650</speed>
+					<gravity>9.81</gravity>
+					<maxDistance>720</maxDistance>
+					<piercingPower>152 152</piercingPower>
+				</_110mm_MVN_HE_gold>
+				<_110mm_MVN_HE>
+					<defaultPortion>0.2</defaultPortion>
+					<speed>650</speed>
+					<gravity>9.81</gravity>
+					<maxDistance>720</maxDistance>
+					<piercingPower>67 67</piercingPower>
+				</_110mm_MVN_HE>
+			</shots>
+		</_110mm_MV-N60>
 	</shared>
 </root>

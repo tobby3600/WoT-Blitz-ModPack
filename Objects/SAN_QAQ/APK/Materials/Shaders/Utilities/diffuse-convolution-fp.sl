@@ -63,7 +63,7 @@ fragment_out fp_main(fragment_in input)
 				float solidAngle = texelSolidAngle(uvNInvSize);
 
 				float3 cubeSample = texCUBElod(cubemap, direction, log2(envMapSize) - log2(size)).rgb;
-				irradiance += toLinear(cubeSample) * (cs * solidAngle);
+				irradiance += toLRGB(cubeSample) * (cs * solidAngle);
 			}
 		}
 	}

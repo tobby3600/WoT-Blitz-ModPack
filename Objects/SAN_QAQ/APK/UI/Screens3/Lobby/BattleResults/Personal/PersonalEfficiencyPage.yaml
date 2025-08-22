@@ -1,5 +1,7 @@
 Header:
     version: 144
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "PersonalEfficiencyPage"
@@ -83,40 +85,21 @@ Prototypes:
                     verticalPolicy: "FixedSize"
                     verticalValue: 104.000000
             children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "Bg"
                 size: [32.000000, 32.000000]
                 input: false
                 components:
-                    Background:
-                        usePostProcessedSprite: true
-                    UIPostProcessTextureComponent0:
-                        materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                        needClearAlphaAfterRender: true
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent1:
-                        materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent2:
-                        materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIRoundedCornersComponent:
-                        radius: "8"
-                    Update:
-                        updateInvisible: true
-                    UIOpacityComponent:
-                        opacity: 1.000000
                     Anchor:
                         hCenterAnchorEnabled: true
+                    UIOpacityComponent:
+                        opacity: 1.000000
                     LinearLayout: {}
                     SizePolicy:
                         horizontalPolicy: "PercentOfParent"
@@ -132,6 +115,8 @@ Prototypes:
                             drawType: "DRAW_FILL"
                         UIGradientComponent:
                             orientation: "RightToLeft"
+                        UIRoundedCornersComponent:
+                            radius: "8;0;8;0"
                         SizePolicy:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfParent"
@@ -147,6 +132,8 @@ Prototypes:
                             drawType: "DRAW_FILL"
                         UIGradientComponent:
                             orientation: "LeftToRight"
+                        UIRoundedCornersComponent:
+                            radius: "0;8;0;8"
                         SizePolicy:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfParent"
@@ -348,31 +335,6 @@ Prototypes:
             size: [32.000000, 32.000000]
             input: false
             components:
-                Background:
-                    usePostProcessedSprite: true
-                UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                    needClearAlphaAfterRender: true
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent1:
-                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent2:
-                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIRoundedCornersComponent:
-                    radius: "8"
-                Update:
-                    updateInvisible: true
                 Anchor:
                     rightAnchorEnabled: true
                     vCenterAnchorEnabled: true
@@ -387,6 +349,12 @@ Prototypes:
             - ["Anchor.vCenterAnchor", "statsVDistance"]
             - ["LinearLayout.spacing", "when isRatingBattle -> (when results.rating.leagueType == 4 -> 8, 32), 0"]
             children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "RatingHolder"
                 position: [32.000000, 0.000000]

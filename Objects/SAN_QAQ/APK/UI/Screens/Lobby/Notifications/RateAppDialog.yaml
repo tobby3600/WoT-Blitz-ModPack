@@ -1,0 +1,161 @@
+Header:
+    version: "100"
+ImportedPackages:
+- "~res:/UI/Screens/Hangar/PopupFullScreenNotification.yaml"
+- "~res:/UI/Screens/Common/StyledButton.yaml"
+- "~res:/UI/Styles/ButtonSoundStyles.yaml"
+- "~res:/UI/Screens/Fonts.yaml"
+- "~res:/UI/Screens/Lobby/LobbyCommon.yaml"
+- "~res:/UI/Styles/BackgroundStyles.yaml"
+Controls:
+-   class: "UIControl"
+    name: "RateAppDialog"
+    size: [1024.000000, 768.000000]
+    components:
+        Anchor:
+            leftAnchorEnabled: true
+            rightAnchorEnabled: true
+            topAnchorEnabled: true
+            bottomAnchorEnabled: true
+        ModalInput: {}
+        UIShortcutEventComponent:
+            shortcuts: "CLOSE_NOTIFICATION, Back; CLOSE_NOTIFICATION, Escape"
+            escape: "CLOSE_NOTIFICATION"
+        StyleSheet:
+            inheritsStylesFromParent: true
+            styles: "~res:/UI/Screens/Lobby/Notifications/RateAppDialog.yaml"
+    children:
+    -   prototype: "LobbyCommon/DialogBackground"
+        name: "DialogBackground"
+        enabled: false
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                bottomAnchorEnabled: true
+            DebugRender:
+                enabled: false
+        children:
+        -   class: "UIControl"
+            name: "Dialog"
+            position: [256.000000, 243.000000]
+            size: [512.000000, 282.000000]
+            components:
+                Background:
+                    drawType: "DRAW_STRETCH_BOTH"
+                    sprite: "~res:/Gfx/UI/CommonUIElements/PopupBackMiddle"
+                    leftRightStretchCap: 4.000000
+                    topBottomStretchCap: 4.000000
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                LinearLayout:
+                    orientation: "TopDown"
+                    padding: "20.000000"
+                    spacing: 20.000000
+                SizePolicy:
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   class: "UIControl"
+                name: "LogoContainer"
+                position: [106.000000, 20.000000]
+                size: [300.000000, 60.000000]
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        topAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                children:
+                -   class: "UIControl"
+                    name: "logo"
+                    size: [300.000000, 230.000000]
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_SCALE_TO_RECT"
+                            sprite: "~res:/Gfx/UI/LobbyCommon/BlitzLogo"
+                            align: ["HCENTER", "BOTTOM"]
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            topAnchorEnabled: true
+                            topAnchor: -145.000000
+            -   class: "UIControl"
+                name: "TextContainer"
+                size: [472.000000, 78.000000]
+                input: false
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        leftAnchor: 20.000000
+                        rightAnchorEnabled: true
+                        rightAnchor: 20.000000
+                    SizePolicy:
+                        verticalPolicy: "PercentOfMaxChild"
+                children:
+                -   class: "UIControl"
+                    name: "RateAppText"
+                    classes: "header3 text-color-white"
+                    components:
+                        UITextComponent:
+                            text: "rateApp/Notification/GoToStore/Description"
+                            colorInheritType: "COLOR_IGNORE_PARENT"
+                            multiline: "MULTILINE_ENABLED"
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfContent"
+            -   class: "UIControl"
+                name: "ButtonHolder"
+                position: [0.000000, 198.000000]
+                size: [512.000000, 64.000000]
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    LinearLayout:
+                        padding: "20.000000"
+                        spacing: 20.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfMaxChild"
+                children:
+                -   prototype: "StyledButton/StyledButton"
+                    name: "Decline"
+                    classes: "button button-color-gray button-ok-sound"
+                    components:
+                        UIInputEventComponent:
+                            onTouchUpInside: "DECLINE_RATE"
+                    children:
+                    -   path: "Caption"
+                        components:
+                            UITextComponent:
+                                text: "rateApp/Button/NotNow"
+                -   prototype: "StyledButton/StyledButton"
+                    name: "Accept"
+                    exclusiveInput: false
+                    classes: "button button-color-green button-ok-sound"
+                    components:
+                        UIInputEventComponent:
+                            onTouchUpInside: "RATE_APP"
+                    children:
+                    -   path: "Caption"
+                        components:
+                            UITextComponent:
+                                text: "rateApp/Button/Rate"
+        -   prototype: "PopupFullScreenNotification/DeclineForever"
+            name: "DeclineForever"
+            exclusiveInput: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                    bottomAnchor: 25.000000
+                UIInputEventComponent:
+                    onTouchUpInside: "DECLINE_FOREVER_RATE"

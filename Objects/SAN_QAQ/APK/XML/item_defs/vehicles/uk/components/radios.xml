@@ -1,5 +1,5 @@
 <root>
-	<nextAvailableId>44</nextAvailableId>
+	<nextAvailableId>45</nextAvailableId>
 	<ids>
 		<British_Wireless_set_N19>2</British_Wireless_set_N19>
 		<Alarm_flags>3</Alarm_flags>
@@ -28,6 +28,7 @@
 		<A41_FL>41</A41_FL>
 		<AN_VRC-3_A150>42</AN_VRC-3_A150>
 		<WS_No_19Mkll>43</WS_No_19Mkll>
+		<PRC_352>44</PRC_352>
 	</ids>
 	<shared>
 		<British_Wireless_set_N19>
@@ -355,6 +356,18 @@
 			<maxHealth>160</maxHealth>
 			<maxRegenHealth>96</maxRegenHealth>
 			<repairCost>0</repairCost>
-		</WS_No_19Mkll>
+			</WS_No_19Mkll>
+		<PRC_352>
+			<userString>#gb_vehicles:PRC_352</userString>
+			<description>#gb_vehicles:PRC_352_descr</description>
+			<tags/>
+			<level>8</level>
+			<price>0</price>
+			<weight>100</weight>
+			<distance>1</distance>
+			<maxHealth>250</maxHealth>
+			<maxRegenHealth>1</maxRegenHealth>
+			<repairCost>0</repairCost>
+		</PRC_352>
 	</shared>
 </root>

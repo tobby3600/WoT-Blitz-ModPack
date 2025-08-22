@@ -204,32 +204,12 @@ Prototypes:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
         children:
-        -   class: "UIControl"
-            name: "CountersWrapper"
-            input: false
-            components:
-                IgnoreLayout: {}
-                SizePolicy:
-                    horizontalPolicy: "PercentOfMaxChild"
-                    verticalPolicy: "PercentOfMaxChild"
-                UIChildComponent0:
-                    prototypePath: "~res:/UI/Screens3/Lobby/Inventory/TankProgress/HangarTankCounters.yaml"
-                    args:
-                        "rankCache": "rankCache"
-                        "counterId3": "counterId3"
-                        "counterId1": "counterId1"
-                        "counterId2": "counterId2"
-                        "session": "session"
-                        "selectedTankDescr": "selectedTankDescr.rawDescr"
-                        "selectedTank": "selectedTank"
-                        "showBackground": "packLoaded"
-                    eventActions:
-                    - ["TriggerHangarCounterSound", "TriggerHangarCounterSound", "_event.sound"]
-                    - ["OnTankCounterClicked", "OnTankCounterClicked", "_event.counter"]
         -   class: "UI3DView"
             customClass: "UIHangar3dView"
             name: "HangarScene"
             components:
+                SceneComponent:
+                    drawToFramebuffer: true
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "PercentOfParent"
@@ -949,15 +929,14 @@ Prototypes:
                                                                 UIDataParamsComponent:
                                                                     args:
                                                                         "locked": "not app.sDlc.isGeneralPackLoaded"
-                                                                        "isBgVisible": "true"
-                                                                        "blurOpacity": "0.000000"
                                                                         "visible": "account.diaryDataModel.isChatAvailable"
                                                                         "image": "\"~res:/Gfx/Lobby/icons/icon_chat_n.psd\""
-                                                                        "type": "eButtonType.OPTIONAL_DARK"
+                                                                        "type": "eButtonType.NO_BG"
                                                                         "sound": "eButtonSound.OK"
                                                                         "enabled": "true"
                                                                         "badgeType": "eBadgeType.Digit"
                                                                         "badgeValue": "when app.sDlc.isGeneralPackLoaded -> badge(session.chatInfo.friendRequestsCount + session.chatInfo.privateMessagesCount + messagesCountFromClanCanal + session.prebattleInvites.activeTrainingRoomInvitesNumber), \"\""
+                                                                        "bgStyle": "\"black-50-bg\""
                                                                     eventActions:
                                                                     - ["ON_CLICK_BUTTON", "CHAT_PRESSED", ""]
                                         -   class: "UIControl"
@@ -1105,14 +1084,13 @@ Prototypes:
                 classes: "notch-tightly-bottom-inset"
                 components:
                     Anchor:
-                        leftAnchorEnabled: true
-                        leftAnchor: 88.000000
                         rightAnchorEnabled: true
                         bottomAnchorEnabled: true
                     IgnoreLayout: {}
-                    UIAnchorSafeAreaComponent:
-                        leftSafeInset: "INSET"
-                        leftInsetCorrection: -16.000000
+                    SizePolicy:
+                        horizontalPolicy: "Formula"
+                        horizontalFormula: "parent - 88 - max(safeAreaInsets.left - 16, 0)"
+                    UIAnchorSafeAreaComponent: {}
                     UIChildComponent0:
                         condition: "showTanksPanel"
                         prototypePath: "~res:/UI/Screens3/Lobby/Hangar/TanksPanel/TanksPanel.yaml"

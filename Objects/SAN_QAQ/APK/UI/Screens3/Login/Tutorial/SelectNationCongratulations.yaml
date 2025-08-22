@@ -1,0 +1,454 @@
+Header:
+    version: 152
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+- "~res:/UI/Screens3/Lobby/Common/DownloadProgress.yaml"
+- "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+- "~res:/UI/Screens3/Common/BlurAndFade.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "SelectNationCongratulations"
+    size: [1000.000000, 600.000000]
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/Login/Tutorial/SelectNationCongratulations.animation;START_HANGAR,~res:/UI/Screens3/Login/Tutorial/StartHangar.animation"
+        Anchor:
+            hCenterAnchorEnabled: true
+            vCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["eNation", "nation", "eNation.USSR", "eNation.GERMANY"]
+            - ["string", "tankName", "\"\"", "\"Pz. II\""]
+            - ["DownloadModel", "downloadModel", "null", "{ }"]
+            - ["vector<string>", "promptKeys", "null", "[ \"#1 Не переживайте за первоначальный выбор нации и танка.\nВ любой момент игры вы можете прокачивать танки другой нации.\"; \"#2 Не переживайте за первоначальный выбор нации и танка.\nВ любой момент игры вы можете прокачивать танки другой нации.\"; \"#3 Не переживайте \nза первоначальный выбор нации и танка.\nВ любой момент игры вы можете прокачивать танки другой нации.\"; ]"]
+            - ["bool", "packDownloaded", "false", "true"]
+            events: []
+        UIDataLocalVarsComponent:
+            data:
+            - ["string", "captionKey", "localize(\"hangarTutorial/selectNation/Congratulation/Title\")"]
+            - ["int", "headerOffsetY", "0"]
+            - ["bool", "inputDisabled", "false"]
+            - ["int", "descriptionWidth", "583"]
+            - ["int", "promptsCount", "when not isNull(promptKeys) -> Size(promptKeys), 0"]
+            - ["int", "currentPromptIndex", "0"]
+            - ["float", "currentPromptOpacity", "1.000000"]
+            - ["float", "prevPromptOpacity", "0.000000"]
+            - ["float", "nextPromptOpacity", "0.000000"]
+            - ["int", "promptOffset", "0"]
+            - ["float", "promptAnimationPeriod", "5.000000"]
+            - ["bool", "showPrompts", "not packDownloaded"]
+            - ["bool", "packLoaded", "packDownloaded"]
+            - ["bool", "promptInputDisabled", "false"]
+            - ["int", "dlcOffsetY", "0"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["string", "flagImage", "when nation == eNation.USA -> \"~res:/Gfx/Lobby/flags/flag_tutor-tank_usa\", nation == eNation.GERMANY -> \"~res:/Gfx/Lobby/flags/flag_tutor-tank_germany\", nation == eNation.USSR -> \"~res:/Gfx/Lobby/flags/flag_tutor-tank_ussr\", nation == eNation.UK -> \"~res:/Gfx/Lobby/flags/flag_tutor-tank_uk\", nation == eNation.JAPAN -> \"~res:/Gfx/Lobby/flags/flag_tutor-tank_japan\", nation == eNation.CHINA -> \"~res:/Gfx/Lobby/flags/flag_tutor-tank_china\", nation == eNation.FRANCE -> \"~res:/Gfx/Lobby/flags/flag_tutor-tank_france\", nation == eNation.EUROPEAN -> \"~res:/Gfx/Lobby/flags/flag_tutor-tank_european\", \"\""]
+            - ["string", "tankImage", "when nation == eNation.USA -> \"~res:/Gfx/Lobby/backgrounds/tutor-tanks/tank_usa-m2-light\", nation == eNation.GERMANY -> \"~res:/Gfx/Lobby/backgrounds/tutor-tanks/tank_germany_pz-II\", nation == eNation.USSR -> \"~res:/Gfx/Lobby/backgrounds/tutor-tanks/tank_ussr-t-26\", nation == eNation.UK -> \"~res:/Gfx/Lobby/backgrounds/tutor-tanks/tank_uk-cruiser-II\", nation == eNation.JAPAN -> \"~res:/Gfx/Lobby/backgrounds/tutor-tanks/tank_japan-ha-go\", nation == eNation.CHINA -> \"~res:/Gfx/Lobby/backgrounds/tutor-tanks/tank_china-vae-type-b\", nation == eNation.FRANCE -> \"~res:/Gfx/Lobby/backgrounds/tutor-tanks/tank_france-r35\", nation == eNation.EUROPEAN -> \"~res:/Gfx/Lobby/backgrounds/tutor-tanks/tank_europe-viskers-mk\", \"\""]
+            - ["int", "prevPromptIndex", "when currentPromptIndex > 0 -> currentPromptIndex - 1, 0"]
+            - ["int", "nextPromptIndex", "when currentPromptIndex < promptsCount - 1 -> currentPromptIndex + 1, currentPromptIndex"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Login/Tutorial/SelectNationCongratulations.actions"
+        UIEventOnDataComponent0:
+            watchedDataExpression: "currentPromptIndex"
+            ifExpression: "currentPromptIndex < promptsCount - 1"
+            eventName: "NextPromptAnimation"
+        UIEventOnDataComponent1:
+            watchedDataExpression: "downloadModel.state"
+            ifExpression: "downloadModel.state == SmartDLCState.kDone"
+            eventName: "TutorialPackLoaded"
+        UIIdentifierComponent:
+            id: "tutorial_congratulations"
+    children:
+    -   prototype: "BlurAndFade/BlurAndFade"
+        name: "BlurAndFade"
+    -   class: "UIControl"
+        name: "Additional"
+        size: [400.000000, 400.000000]
+        input: false
+        components:
+            UIOpacityComponent: {}
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfChildrenSum"
+        children:
+        -   class: "UIControl"
+            name: "HeaderWrapper"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "Header"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    UIOpacityComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        topAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfChildrenSum"
+                bindings:
+                - ["Anchor.topAnchor", "headerOffsetY"]
+                children:
+                -   class: "UIControl"
+                    name: "Caption"
+                    input: false
+                    classes: "t-title regular color=white-wild-sand-text"
+                    components:
+                        UITextComponent:
+                            colorInheritType: "COLOR_IGNORE_PARENT"
+                            align: ["LEFT", "VCENTER"]
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["UITextComponent.text", "captionKey"]
+                -   class: "UIControl"
+                    name: "Spacer1"
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 8.000000
+                -   class: "UIControl"
+                    name: "VehicleInfo"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        LinearLayout:
+                            spacing: 16.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "PercentOfMaxChild"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                    children:
+                    -   class: "UIControl"
+                        name: "TankNameContainer"
+                        input: false
+                        components:
+                            LinearLayout:
+                                spacing: 5.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfChildrenSum"
+                                verticalPolicy: "PercentOfMaxChild"
+                        children:
+                        -   class: "UIControl"
+                            name: "TankType"
+                            input: false
+                            classes: "t-subtitle regular white-wild-sand-text"
+                            components:
+                                UITextComponent:
+                                    text: "hangarTutorial/selectNation/Congratulation/TankReceived"
+                                Anchor:
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    verticalPolicy: "PercentOfContent"
+                        -   class: "UIControl"
+                            name: "TankName"
+                            input: false
+                            classes: "t-subtitle bold white-wild-sand-text"
+                            components:
+                                UITextComponent: {}
+                                Anchor:
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    verticalPolicy: "PercentOfContent"
+                            bindings:
+                            - ["UITextComponent.text", "tankName"]
+        -   class: "UIControl"
+            name: "Spacer2"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 32.000000
+        -   class: "UIControl"
+            name: "ImageWrapper"
+            size: [200.000000, 140.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    horizontalValue: 100.000000
+                    verticalPolicy: "PercentOfMaxChild"
+                    verticalValue: 100.000000
+            children:
+            -   class: "UIControl"
+                name: "Flag"
+                pivot: [0.500000, 0.500000]
+                input: false
+                components:
+                    UITextureComponent:
+                        materialPath: "~res:/Materials.custom/2d.Textured.Saturation.material"
+                        materialParams: "saturation,25"
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                bindings:
+                - ["UITextureComponent.spritePath", "flagImage"]
+            -   class: "UIParticles"
+                name: "FX"
+                position: [200.000000, 174.000000]
+                size: [32.000000, 32.000000]
+                scale: [3.150000, 3.150000]
+                pivot: [0.500000, 0.500000]
+                input: false
+                effectPath: "~res:/3d/FX/UI/BattlePass/GlowReward.sc2"
+                autoStart: true
+                components:
+                    Anchor:
+                        enabled: true
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    IgnoreLayout:
+                        enabled: true
+            -   class: "UIControl"
+                name: "Image"
+                pivot: [0.500000, 0.500000]
+                input: false
+                components:
+                    Background: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                bindings:
+                - ["Background.sprite", "tankImage"]
+        -   class: "UIControl"
+            name: "Spacer3"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    verticalPolicy: "Formula"
+                    verticalFormula: "when screenHeight <= 640 -> 32, 72"
+        -   class: "UIControl"
+            name: "DlcWrapper"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "Dlc"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    UIOpacityComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfChildrenSum"
+                bindings:
+                - ["Anchor.bottomAnchor", "dlcOffsetY"]
+                children:
+                -   class: "UIControl"
+                    name: "SmartDLCContainer"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfMaxChild"
+                    children:
+                    -   class: "UIControl"
+                        name: "StartHangarWrapper"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            UIOpacityComponent: {}
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfMaxChild"
+                                verticalPolicy: "PercentOfMaxChild"
+                        bindings:
+                        - ["visible", "packLoaded"]
+                        children:
+                        -   prototype: "Button/Button"
+                            name: "StartHangarButton"
+                            components:
+                                UIOpacityComponent: {}
+                                UIDataParamsComponent:
+                                    args:
+                                        "soundDisable": "true"
+                                        "iconPath": "when isGamepad -> \"~res:/Gfx/Lobby/icons/nintendo-switch/icon_switch_y_m\", \"\""
+                                        "inputDisabled": "inputDisabled"
+                                        "caption": "\"hangarTutorial/selectNation/Congratulation/Play\""
+                                    eventActions:
+                                    - ["ON_CLICK_BUTTON", "START_HANGAR", ""]
+                                UIIdentifierComponent:
+                                    id: "congrats_ok_button"
+                                    params:
+                                    - ["bool", "input_enabled", "not bool(inputDisabled)"]
+                    -   class: "UIControl"
+                        name: "DownloadWrapper"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            UIOpacityComponent: {}
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfMaxChild"
+                                verticalPolicy: "PercentOfMaxChild"
+                        bindings:
+                        - ["visible", "not packLoaded"]
+                        children:
+                        -   prototype: "DownloadProgress/DownloadProgress"
+                            name: "DownloadProgress"
+                            components:
+                                UIDataParamsComponent:
+                                    args:
+                                        "model": "downloadModel"
+                -   class: "UIControl"
+                    name: "Spacer4"
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            verticalPolicy: "Formula"
+                            verticalFormula: "when screenHeight <= 640 -> 32, 72"
+                -   class: "UIControl"
+                    name: "DescriptionWithButtons"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        UIOpacityComponent: {}
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 759.000000
+                            verticalPolicy: "PercentOfMaxChild"
+                    bindings:
+                    - ["visible", "showPrompts"]
+                    children:
+                    -   class: "UIControl"
+                        name: "DescriptionContainer"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                verticalPolicy: "PercentOfMaxChild"
+                            UIRepeatComponent:
+                                control: "~res:/UI/Screens3/Login/Tutorial/Prompt.yaml"
+                                dataContainer: "promptKeys"
+                                args:
+                                    "promptKey": "promptKeys[_index]"
+                                    "width": "descriptionWidth"
+                                    "opacity": "when (_index == currentPromptIndex) -> currentPromptOpacity, (_index == prevPromptIndex) -> prevPromptOpacity, (_index == nextPromptIndex) -> nextPromptOpacity, 0.000000"
+                                    "offset": "_index * descriptionWidth - promptOffset"
+                        bindings:
+                        - ["SizePolicy.horizontalValue", "descriptionWidth"]
+                    -   prototype: "IconButton/IconButton"
+                        name: "LeftCorner"
+                        components:
+                            Anchor:
+                                leftAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            UIDataParamsComponent:
+                                args:
+                                    "isBgVisible": "false"
+                                    "image": "\"~res:/Gfx/Lobby/icons/icon_chevron_l\""
+                                    "enabled": "currentPromptIndex > 0"
+                                    "sound": "eButtonSound.CHOOSE"
+                                    "inputDisabled": "promptInputDisabled"
+                                eventActions:
+                                - ["ON_CLICK_BUTTON", "GoToPrevPrompt", "_event"]
+                        children:
+                        -   path: "TapArea/Content/Fade"
+                            bindings:
+                            - ["visible", "false"]
+                            - ["classes", "hoverStyle"]
+                        -   path: "TapArea/Content/Icon"
+                            pivot: [0.500000, 0.500000]
+                            angle: -90.000000
+                            components:
+                                Background: {}
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
+                            bindings:
+                            - ["classes", "iconColorStyle"]
+                            - ["Background.spriteModification", "flipImage"]
+                    -   prototype: "IconButton/IconButton"
+                        name: "RightCorner"
+                        components:
+                            Anchor:
+                                rightAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            UIDataParamsComponent:
+                                args:
+                                    "isBgVisible": "false"
+                                    "image": "\"~res:/Gfx/Lobby/icons/icon_chevron_l\""
+                                    "enabled": "currentPromptIndex < promptsCount - 1"
+                                    "sound": "eButtonSound.CHOOSE"
+                                    "inputDisabled": "promptInputDisabled"
+                                eventActions:
+                                - ["ON_CLICK_BUTTON", "GoToNextPrompt", "_event"]
+                        children:
+                        -   path: "TapArea/Content/Fade"
+                            bindings:
+                            - ["visible", "false"]
+                        -   path: "TapArea/Content/Icon"
+                            pivot: [0.500000, 0.500000]
+                            angle: 90.000000
+                            components:
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
+                            bindings:
+                            - ["classes", "iconColorStyle"]

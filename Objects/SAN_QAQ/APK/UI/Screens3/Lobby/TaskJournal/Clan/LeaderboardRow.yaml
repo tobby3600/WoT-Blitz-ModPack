@@ -26,7 +26,7 @@ Prototypes:
             - "ON_LEADERBOARD_ROW_CLICKED(int index)"
         UIDataLocalBindingsComponent:
             data:
-            - ["string", "backgroundColor", "when isSelfRecord -> \"white-wild-sand-25-bg\", \"white-wild-sand-10-bg\""]
+            - ["string", "backgroundColor", "when isSelfRecord -> \"gold-shining-20-bg\", \"white-wild-sand-15-bg\""]
             - ["string", "backgroundStyle", "\"background \" + backgroundColor"]
             - ["bool", "highlightingVisible", "index >= 0 and index < 3"]
             - ["string", "brightColor", "when index == 0 -> \"yellow-lightning-bg\", index == 1 -> \"blue-riptide-bg\", index == 2 -> \"orange-tango-bg\", \"\""]
@@ -41,27 +41,6 @@ Prototypes:
         size: [32.000000, 32.000000]
         input: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
             LinearLayout:
                 padding: "24"
                 dynamicSpacing: true
@@ -275,11 +254,13 @@ Prototypes:
                 components:
                     UITextComponent:
                         multiline: "MULTILINE_ENABLED"
-                        align: ["RIGHT", "VCENTER"]
+                        align: ["HCENTER", "VCENTER"]
                     Anchor:
+                        hCenterAnchorEnabled: true
                         vCenterAnchorEnabled: true
                     SizePolicy:
-                        horizontalPolicy: "PercentOfContent"
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 32.000000
                         verticalPolicy: "PercentOfContent"
                     StyleSheet:
                         styles: "~res:/UI/Screens3/Font.style.yaml"
@@ -332,25 +313,8 @@ Prototypes:
                         UIDataParamsComponent:
                             args:
                                 "playerNameStyle": "when isSelfRecord -> \"bold yellow-chalky-text\", \"bold white-wild-sand-text\""
-                                "playerName": "when leaderboardRecord.player.name != \"\" -> leaderboardRecord.player.name, localize(\"Loading...\")"
+                                "playerName": "when leaderboardRecord.player.name != \"\" and isSelfRecord -> leaderboardRecord.player.name + localize(\"clanMissions/missionScreen/leaderboard/you\"), leaderboardRecord.player.name != \"\" -> leaderboardRecord.player.name, localize(\"Loading...\")"
                                 "playerNameSize": "ePlayerSize.kNormal"
-                -   class: "UIControl"
-                    name: "SelfProfileLabel"
-                    size: [32.000000, 32.000000]
-                    input: false
-                    classes: "white-wild-sand-50-text t-body regular"
-                    components:
-                        UITextComponent:
-                            text: "clanMissions/missionScreen/leaderboard/you"
-                            perPixelAccuracyType: "PER_PIXEL_ACCURACY_FORCED"
-                            fitting: "FITTING_POINTS"
-                        SizePolicy:
-                            horizontalPolicy: "PercentOfContent"
-                            verticalPolicy: "PercentOfContent"
-                        StyleSheet:
-                            styles: "~res:/UI/Screens3/Font.style.yaml"
-                    bindings:
-                    - ["visible", "isSelfRecord"]
         -   class: "UIControl"
             name: "RightPart"
             size: [32.000000, 32.000000]

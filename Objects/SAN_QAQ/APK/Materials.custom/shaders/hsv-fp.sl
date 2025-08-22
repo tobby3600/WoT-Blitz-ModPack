@@ -1,3 +1,4 @@
+#include "common.slh"
 #include "blending.slh"
 
 fragment_in
@@ -40,13 +41,12 @@ fragment_out fp_main(fragment_in input)
 {
 	fragment_out output;
 
-	float3 hsv = float3(hue, saturation, value * 0.01 + 1.0);
-
 	float4 resColor = tex2D(tex, input.texCoord) * input.color;
 	float4 srcColor = resColor;
 	float3 hsvColor = rgb2hsv(resColor.rgb);
+	float3 hsv = float3(hue, saturation, value);
 
-	resColor.rgb = hsv2rgb(float3(fmod(hsvColor.x * 360.0 + hsv.x, 360.0) * 0.00277778, saturate(hsvColor.yz * hsv.yz)));
+	resColor.rgb = hsv2rgb(float3(fmod(hsvColor.x * 360.0 + hsv.x, 360.0) * 0.00277778, saturate(hsvColor.yz * (hsv.yz * 0.01 + 1.0))));
 
 	output.color = lerp(srcColor, resColor, step(progress, input.texCoord.x));
 

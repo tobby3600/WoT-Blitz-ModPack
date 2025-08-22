@@ -255,7 +255,7 @@ Slots:
             sizeChangedEvent: "HolderSizeChanged"
             sizeChangedEventData: "_size"
         UIRepeatComponent:
-            control: "~res:/UI/Screens3/Lobby/Common/Resource/RewardBigNoBlur.yaml"
+            control: "~res:/UI/Screens3/Lobby/Common/Resource/RewardBig.yaml"
             dataContainer: "rewards"
             args:
                 "attachId": "\"reward_\" + str(_index)"
@@ -263,5 +263,6 @@ Slots:
                 "pivot": "vec2(0.500000, 0.500000)"
                 "reward": "_item"
                 "showRewardText": "showRewardText"
+                "isBlur": "false"
             eventActions:
             - ["ON_REWARD_CLICKED", "ON_REWARD_CLICKED", "_index"]

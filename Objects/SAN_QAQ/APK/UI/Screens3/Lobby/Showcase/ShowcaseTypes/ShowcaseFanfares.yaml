@@ -9,8 +9,6 @@ Prototypes:
     size: [1633.000000, 768.000000]
     input: false
     components:
-        Background:
-            color: [0.000000, 0.000000, 0.000000, 0.800000]
         Anchor:
             leftAnchorEnabled: true
             rightAnchorEnabled: true
@@ -79,6 +77,7 @@ Slots:
                     args:
                         "caption": "\"#hangar_showcase:ToTankButton\""
                         "sound": "eButtonSound.CLOSE"
+                        "isBlur": "false"
                     eventActions:
                     - ["ON_CLICK_BUTTON", "TO_HANGAR", ""]
     -   class: "UIControl"
@@ -107,6 +106,7 @@ Slots:
                         "caption": "\"#modules_tech_tree:Top/Button\""
                         "sound": "eButtonSound.OK"
                         "type": "eButtonType.OPTIONAL_DARK"
+                        "isBlur": "false"
                     eventActions:
                     - ["ON_CLICK_BUTTON", "TO_TOP", ""]
         -   prototype: "Currencies/Resources"

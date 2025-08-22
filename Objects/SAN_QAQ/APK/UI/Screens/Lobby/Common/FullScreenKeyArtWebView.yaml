@@ -1,0 +1,99 @@
+Header:
+    version: 127
+ImportedPackages:
+- "~res:/UI/Screens/Hangar/HangarBaseScreen.yaml"
+- "~res:/UI/Screens/Lobby/LobbyCommon.yaml"
+- "~res:/UI/Screens/Lobby/LobbyHeader.yaml"
+- "~res:/UI/Screens/Common.yaml"
+- "~res:/UI/Screens/Common/WebViewWithLoader.yaml"
+- "~res:/UI/Screens3/Common/KeyArtPrototype.yaml"
+- "~res:/UI/Screens/Lobby/LobbyHeaderSimple.yaml"
+- "~res:/UI/Screens/Common/StyledBackButton.yaml"
+- "~res:/UI/Screens/Lobby/Common/Resource/ResourceSmall.yaml"
+- "~res:/UI/Screens/Lobby/Common/Timer.yaml"
+- "~res:/UI/Screens/Common/ScrollBar.yaml"
+- "~res:/UI/Screens/Hangar/StatsInfo.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Blur.yaml"
+Controls:
+-   class: "UIControl"
+    name: "Screen"
+    size: [960.000000, 640.000000]
+    input: false
+    components:
+        Anchor:
+            leftAnchorEnabled: true
+            rightAnchorEnabled: true
+            topAnchorEnabled: true
+            bottomAnchorEnabled: true
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Escape"
+            keyDownEvent: "BACK_EVENT"
+        UIShortcutEventComponent:
+            shortcuts: "BACK_EVENT, Escape; BACK_EVENT, Back"
+    children:
+    -   class: "UIControl"
+        name: "Background"
+        input: false
+        components:
+            ClipContent: {}
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                bottomAnchorEnabled: true
+        children:
+        -   prototype: "KeyArtPrototype/KeyArt"
+            name: "KeyArt"
+        -   prototype: "Blur/Blur"
+            name: "Blur"
+            components:
+                UIPostProcessTextureComponent0:
+                    renderRequestingType: "ON_SIZE_CHANGED"
+                UIPostProcessTextureComponent1:
+                    renderRequestingType: "ON_SIZE_CHANGED"
+                UIPostProcessTextureComponent2:
+                    materialPath: "~res:/Materials/2d.Textured.material"
+                    renderRequestingType: "ON_SIZE_CHANGED"
+        -   class: "UIControl"
+            name: "Dark"
+            input: false
+            classes: "black-bg-45"
+            components:
+                Background:
+                    drawType: "DRAW_FILL"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                StyleSheet:
+                    styles: "~res:/UI/Styles/BackgroundStyles.yaml"
+    -   prototype: "LobbyHeader/Header"
+        name: "Header"
+        children:
+        -   path: "menuButton/icon"
+            components:
+                Background:
+                    frame: 30
+        -   path: "menuButton/UnreadNews"
+            visible: false
+        -   path: "Layout/leftContent"
+            visible: true
+            children: []
+        -   path: "Layout/rightContent"
+            children:
+            -   prototype: "StatsInfo/CurrencyPanel"
+                name: "CurrencyPanel"
+    -   class: "UIControl"
+        name: "Content"
+        position: [0.000000, 80.000000]
+        size: [1024.000000, 688.000000]
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                topAnchor: 80.000000
+                bottomAnchorEnabled: true
+        children:
+        -   prototype: "WebViewWithLoader/WebViewWithLoader"
+            name: "WebViewWithLoader"

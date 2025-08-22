@@ -4,7 +4,7 @@ ImportedPackages:
 - "~res:/UI/Screens/Common/StyledButton.yaml"
 - "~res:/UI/Screens/Lobby/Common/RichText.yaml"
 - "~res:/UI/Screens/Common/ScrollBar.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
+- "~res:/UI/Screens3/Common/OverlayBlur.yaml"
 Prototypes:
 -   prototype: "StyledButton/StyledButton"
     name: "DialogButton"
@@ -157,12 +157,10 @@ Prototypes:
         StyleSheet:
             styles: "~res:/UI/Screens/DialogView.style.yaml;~res:/UI/Screens/Fonts.yaml;~res:/UI/Screens3/Background.style.yaml"
     children:
-    -   prototype: "BlurModified/BlurModified"
-        name: "Blur"
+    -   prototype: "OverlayBlur/BlurAndFade"
+        name: "BlurAndFade"
         components:
-            UIDataParamsComponent:
-                args:
-                    "bgStyle": "\"screen-background\""
+            IgnoreLayout: {}
     -   prototype: "BaseDialog"
         name: "Dialog"
         position: [262.000000, 274.000000]
@@ -206,12 +204,10 @@ Prototypes:
         StyleSheet:
             styles: "~res:/UI/Screens/DialogView.style.yaml;~res:/UI/Screens/Fonts.yaml;~res:/UI/Screens3/Background.style.yaml"
     children:
-    -   prototype: "BlurModified/BlurModified"
-        name: "Blur"
+    -   prototype: "OverlayBlur/BlurAndFade"
+        name: "BlurAndFade"
         components:
-            UIDataParamsComponent:
-                args:
-                    "bgStyle": "\"screen-background\""
+            IgnoreLayout: {}
     -   class: "UIControl"
         name: "VerticalScrollView"
         size: [1024.000000, 768.000000]
@@ -251,5 +247,5 @@ Prototypes:
                     rightAnchorEnabled: true
                     topAnchorEnabled: true
                     bottomAnchorEnabled: true
-                ScrollBarDelegate:
+                UIScrollBarComponent:
                     delegate: "../ScrollArea"

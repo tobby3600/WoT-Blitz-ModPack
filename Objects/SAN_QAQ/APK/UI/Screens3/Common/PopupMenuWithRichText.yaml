@@ -1,7 +1,7 @@
 Header:
     version: 144
 ImportedPackages:
-- "~res:/UI/Screens3/Lobby/Common/ButtonNoBlur.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
 - "~res:/UI/Screens3/Lobby/Common/GradesSmall.yaml"
 Prototypes:
 -   class: "UIControl"
@@ -40,7 +40,7 @@ Prototypes:
         UIDataLocalBindingsComponent:
             data:
             - ["string", "alignStyle", "when isAlignLeft -> \" text-align-left\", \" text-align-center\""]
-            - ["string", "textStyle", "\"t-subtitle regular \" + \"color=white-wild-sand-70-text\" + alignStyle"]
+            - ["string", "textStyle", "\"t-subtitle regular \" + colorClass + alignStyle"]
             - ["string", "titleStyle", "\"t-subtitle bold \" + colorClass + alignStyle"]
         UIDataOnEventComponent0:
             eventName: "SELECTED_SIDE"
@@ -138,7 +138,8 @@ Prototypes:
             name: "Text"
             input: false
             components:
-                RichContent: {}
+                RichContent:
+                    baseClasses: "t-subtitle regular color=white-wild-sand-text"
                 RichContentAliases0:
                     aliases:
                     - ["text_white_bold", "<span class=\"t-subtitle bold white-wild-sand-text\" />"]
@@ -154,13 +155,13 @@ Prototypes:
                     horizontalMax: 368.000000
                     verticalPolicy: "PercentOfChildrenSum"
                 FlowLayout:
-                    hDynamicPadding: false
+                    hDynamicPadding: true
+                    alignment: "Center"
                     hSpacing: 4.000000
                     useRtl: true
                 StyleSheet:
                     styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Common/PopupMenu.style.yaml"
             bindings:
-            - ["RichContent.baseClasses", "textStyle"]
             - ["RichContent.text", "localize(text, { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; })"]
         -   class: "UIControl"
             name: "ButtonWrapper"
@@ -172,7 +173,7 @@ Prototypes:
             bindings:
             - ["visible", "buttonVisible"]
             children:
-            -   prototype: "ButtonNoBlur/Button"
+            -   prototype: "Button/Button"
                 name: "Button"
                 components:
                     Anchor:

@@ -2,7 +2,7 @@ Header:
     version: 140
 ImportedPackages:
 - "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
-- "~res:/UI/Screens3/Lobby/Common/ButtonNoBlur.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "AvatarChain"
@@ -468,7 +468,7 @@ Prototypes:
                     topAnchorEnabled: true
                     bottomAnchorEnabled: true
                 IgnoreLayout: {}
-                ScrollBarDelegate:
+                UIScrollBarComponent:
                     delegate: "../UIScrollView"
             children:
             -   path: "slider"
@@ -505,7 +505,7 @@ Prototypes:
         bindings:
         - ["visible", "isAvatarReceived"]
         children:
-        -   prototype: "ButtonNoBlur/Button"
+        -   prototype: "Button/Button"
             name: "InstallButton"
             components:
                 Anchor:
@@ -519,6 +519,7 @@ Prototypes:
                         "enabled": "true"
                         "size": "eButtonSize.NORMAL"
                         "type": "buttonType"
+                        "isBlur": "false"
                     eventActions:
                     - ["ON_CLICK_BUTTON", "ON_INSTALL", ""]
             children:
@@ -532,7 +533,7 @@ Prototypes:
                     UITextComponent: {}
                 bindings:
                 - ["UITextComponent.text", "caption"]
-        -   prototype: "ButtonNoBlur/Button"
+        -   prototype: "Button/Button"
             name: "SprayingButton"
             components:
                 Anchor:
@@ -546,6 +547,7 @@ Prototypes:
                         "enabled": "selectedAvatar.sellable"
                         "size": "eButtonSize.NORMAL"
                         "type": "eButtonType.OPTIONAL_LIGHT"
+                        "isBlur": "false"
                     eventActions:
                     - ["ON_CLICK_BUTTON", "ON_EXCHANGE", ""]
             bindings:

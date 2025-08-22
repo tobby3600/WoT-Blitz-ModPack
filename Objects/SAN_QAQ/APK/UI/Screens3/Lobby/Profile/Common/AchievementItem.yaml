@@ -40,7 +40,7 @@ Prototypes:
             - ["bool", "showProgress", "(showBarForZeroProgress or (achievement.isStep and (achievement.currentProgress > 0 or achievement.rank > 1 or showBarForZeroProgress))) and achievement.maxProgress > 0"]
             - ["int", "value", "achievement.value"]
             - ["bool", "disabled", "(value == 0 or (achievement.isSeries and achievement.rank == 0)) and not singleAchievementMode"]
-            - ["string", "iconMaterial", "when disabled -> \"hue,0;saturation,0;value,0\", \"hue,0;saturation,1;value,0\""]
+            - ["string", "iconMaterial", "when disabled -> \"saturation,-100\", \"saturation,0\""]
         UIActionComponent:
             actionsPath: "~res:/UI/Screens3/Lobby/Profile/Common/AchievementItem.actions"
         Sound: {}
@@ -245,6 +245,7 @@ Prototypes:
                                 "minimum": "0"
                                 "maximum": "achievement.maxProgress"
                                 "value": "achievement.currentProgress"
+                                "isBlur": "false"
                     bindings:
                     - ["visible", "showProgress"]
                 -   class: "UIControl"

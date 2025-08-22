@@ -61,26 +61,27 @@
 			<rates>5.0 10.0 25.0</rates>
 		</exhaust>
 		<turretPositions>
-			<turret>-0.000000 1.554758 0.518533</turret>
+			<turret>0.000540 1.592678 0.579883</turret>
 		</turretPositions>
 		<hitTester>
 			<collisionModel>vehicles/american/A66_M103/collision/Hull.model</collisionModel>
 		</hitTester>
 		<armor>
-			<armor_1>127</armor_1>
+			<armor_1>144</armor_1>
 			<armor_2>114</armor_2>
 			<armor_3>51</armor_3>
 			<armor_4>38</armor_4>
-			<armor_5>44</armor_5>
+			<armor_5>38</armor_5>
 			<armor_6>25</armor_6>
-			<armor_7>25</armor_7>
+			<armor_7>51</armor_7>
 			<armor_8>38</armor_8>
 			<armor_9>32</armor_9>
 			<armor_10>38</armor_10>
-			<armor_11>0</armor_11>
+			<armor_11>65</armor_11>
 			<armor_12>203</armor_12>
 			<armor_13>114</armor_13>
-			<armor_16>0</armor_16>
+			<armor_14>38</armor_14>
+			<armor_16>10</armor_16>
 			<surveyingDevice>40</surveyingDevice>
 		</armor>
 		<primaryArmor>armor_12 armor_3 armor_4</primaryArmor>
@@ -193,7 +194,7 @@
 				<mud>largeTankMud</mud>
 			</effects>
 			<sound>/vehicles/tanks/treads/treads_3</sound>
-			<hullPosition>0.0 0.0 0.0</hullPosition>
+			<hullPosition>0.000000 0.000000 -0.000000</hullPosition>
 			<hitTester>
 				<collisionModel>vehicles/american/A66_M103/collision/Chassis.model</collisionModel>
 			</hitTester>
@@ -342,21 +343,21 @@
 				<collisionModel>vehicles/american/A66_M103/collision/Turret_01.model</collisionModel>
 			</hitTester>
 			<yawLimits>-180 180</yawLimits>
-			<gunPosition>0.003500 0.451195 1.280197</gunPosition>
+			<gunPosition>-0.000539 0.445958 1.198542</gunPosition>
 			<armor>
 				<armor_1>127</armor_1>
 				<armor_2>137</armor_2>
 				<armor_3>127</armor_3>
 				<armor_4>51</armor_4>
-				<armor_5>70</armor_5>
-				<armor_6>114</armor_6>
-				<armor_7>101.6</armor_7>
-				<armor_8>51</armor_8>
+				<armor_5>51</armor_5>
+				<armor_6>127</armor_6>
+				<armor_7>40</armor_7>
+				<armor_8>0</armor_8>
 				<armor_9>25</armor_9>
-				<armor_10>0</armor_10>
-				<armor_11>40<vehicleDamageFactor>0.0</vehicleDamageFactor>
-				</armor_11>
-				<armor_16>0</armor_16>
+				<armor_10>127</armor_10>
+				<armor_11>51</armor_11>
+				<armor_12>51</armor_12>
+				<armor_16>10</armor_16>
 				<surveyingDevice>40</surveyingDevice>
 			</armor>
 			<primaryArmor>armor_1 armor_3 armor_4</primaryArmor>
@@ -391,11 +392,11 @@
 					<armor>
 						<armor_1>267<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_1>
-						<armor_2>203<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						<armor_2>127<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_2>
 						<armor_3>127<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_3>
-						<armor_4>102<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						<armor_4>10<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_4>
 						<gun>45</gun>
 					</armor>
@@ -407,6 +408,9 @@
 						<whileGunDamaged>2.0</whileGunDamaged>
 					</shotDispersionFactors>
 					<pitchLimits>-15 8</pitchLimits>
+					<extraPitchLimits>
+						<back>-15 6 15</back>
+					</extraPitchLimits>
 					<aimingTime>2.3</aimingTime>
 					<invisibilityFactorAtShot>0.209</invisibilityFactorAtShot>
 					<shots>
@@ -441,11 +445,11 @@
 					<armor>
 						<armor_1>267<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_1>
-						<armor_2>203<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						<armor_2>127<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_2>
 						<armor_3>127<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_3>
-						<armor_4>102<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						<armor_4>10<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_4>
 						<gun>50</gun>
 					</armor>
@@ -456,6 +460,9 @@
 						<whileGunDamaged>2.0</whileGunDamaged>
 					</shotDispersionFactors>
 					<pitchLimits>-15 8</pitchLimits>
+					<extraPitchLimits>
+						<back>-15 6 15</back>
+					</extraPitchLimits>
 					<aimingTime>2.6</aimingTime>
 					<invisibilityFactorAtShot>0.18</invisibilityFactorAtShot>
 					<shots>
@@ -527,21 +534,21 @@
 				<collisionModel>vehicles/american/A66_M103/collision/Turret_02.model</collisionModel>
 			</hitTester>
 			<yawLimits>-180 180</yawLimits>
-			<gunPosition>0.003500 0.451195 1.280197</gunPosition>
+			<gunPosition>-0.000164 0.445960 1.195044</gunPosition>
 			<armor>
 				<armor_1>127</armor_1>
 				<armor_2>137</armor_2>
 				<armor_3>127</armor_3>
 				<armor_4>51</armor_4>
-				<armor_5>70</armor_5>
-				<armor_6>114</armor_6>
-				<armor_7>101.6</armor_7>
-				<armor_8>51</armor_8>
-				<armor_9>25</armor_9>
-				<armor_10>0</armor_10>
-				<armor_11>40<vehicleDamageFactor>0.0</vehicleDamageFactor>
-				</armor_11>
-				<armor_16>0</armor_16>
+				<armor_5>51</armor_5>
+				<armor_6>130</armor_6>
+				<armor_7>40</armor_7>
+				<armor_8>0</armor_8>
+				<armor_9>70</armor_9>
+				<armor_10>127</armor_10>
+				<armor_11>51</armor_11>
+				<armor_12>51</armor_12>
+				<armor_16>10</armor_16>
 				<surveyingDevice>40</surveyingDevice>
 			</armor>
 			<primaryArmor>armor_1 armor_3 armor_4</primaryArmor>
@@ -562,22 +569,26 @@
 			<guns>
 				<_105mm_Gun_T5E1>shared<maxAmmo>60</maxAmmo>
 					<models>
-						<undamaged>vehicles/american/A66_M103/normal/lod0/Gun_01.model</undamaged>
-						<destroyed>vehicles/american/A66_M103/normal/lod0/Gun_01.model</destroyed>
-						<exploded>vehicles/american/A66_M103/normal/lod0/Gun_01.model</exploded>
+						<undamaged>vehicles/american/A66_M103/normal/lod0/Gun_03.model</undamaged>
+						<destroyed>vehicles/american/A66_M103/normal/lod0/Gun_03.model</destroyed>
+						<exploded>vehicles/american/A66_M103/normal/lod0/Gun_03.model</exploded>
 					</models>
 					<hitTester>
-						<collisionModel>vehicles/american/A66_M103/collision/Gun_01.model</collisionModel>
+						<collisionModel>vehicles/american/A66_M103/collision/Gun_03.model</collisionModel>
 					</hitTester>
 					<armor>
-						<armor_1>267<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						<armor_1>203<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_1>
 						<armor_2>203<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_2>
 						<armor_3>127<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_3>
-						<armor_4>102<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						<armor_4>127<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_4>
+						<armor_6>102<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						</armor_6>
+						<armor_7>102<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						</armor_7>
 						<gun>45</gun>
 					</armor>
 					<shotDispersionRadius>0.4</shotDispersionRadius>
@@ -588,6 +599,9 @@
 						<whileGunDamaged>2.0</whileGunDamaged>
 					</shotDispersionFactors>
 					<pitchLimits>-15 8</pitchLimits>
+					<extraPitchLimits>
+						<back>-15 3 15</back>
+					</extraPitchLimits>
 					<aimingTime>2.3</aimingTime>
 					<invisibilityFactorAtShot>0.209</invisibilityFactorAtShot>
 					<shots>
@@ -608,26 +622,33 @@
 				</_105mm_Gun_T5E1>
 				<_120mm_Gun_T122>shared<maxAmmo>33</maxAmmo>
 					<models>
-						<undamaged>vehicles/american/A66_M103/normal/lod0/Gun_02.model</undamaged>
-						<destroyed>vehicles/american/A66_M103/normal/lod0/Gun_02.model</destroyed>
-						<exploded>vehicles/american/A66_M103/normal/lod0/Gun_02.model</exploded>
+						<undamaged>vehicles/american/A66_M103/normal/lod0/Gun_04.model</undamaged>
+						<destroyed>vehicles/american/A66_M103/normal/lod0/Gun_04.model</destroyed>
+						<exploded>vehicles/american/A66_M103/normal/lod0/Gun_04.model</exploded>
 					</models>
 					<hitTester>
-						<collisionModel>vehicles/american/A66_M103/collision/Gun_02.model</collisionModel>
+						<collisionModel>vehicles/american/A66_M103/collision/Gun_04.model</collisionModel>
 					</hitTester>
 					<armor>
-						<armor_1>267<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						<armor_1>203<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_1>
 						<armor_2>203<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_2>
 						<armor_3>127<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_3>
-						<armor_4>102<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						<armor_4>127<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_4>
+						<armor_6>102<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						</armor_6>
+						<armor_7>102<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						</armor_7>
 						<gun>50</gun>
 					</armor>
 					<reloadTime>11.4</reloadTime>
 					<pitchLimits>-15 8</pitchLimits>
+					<extraPitchLimits>
+						<back>-15 3 15</back>
+					</extraPitchLimits>
 					<shotDispersionFactors>
 						<turretRotation>0.1</turretRotation>
 						<afterShot>4</afterShot>
@@ -661,14 +682,18 @@
 						<collisionModel>vehicles/american/A66_M103/collision/Gun_05.model</collisionModel>
 					</hitTester>
 					<armor>
-						<armor_1>267<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						<armor_1>203<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_1>
 						<armor_2>203<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_2>
 						<armor_3>127<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_3>
-						<armor_4>102<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						<armor_4>127<vehicleDamageFactor>0.0</vehicleDamageFactor>
 						</armor_4>
+						<armor_6>102<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						</armor_6>
+						<armor_7>102<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						</armor_7>
 						<gun>50</gun>
 					</armor>
 					<shotDispersionRadius>0.37</shotDispersionRadius>
@@ -676,6 +701,9 @@
 					<aimingTime>2.3</aimingTime>
 					<invisibilityFactorAtShot>0.18</invisibilityFactorAtShot>
 					<pitchLimits>-15 8</pitchLimits>
+					<extraPitchLimits>
+						<back>-15 3 15</back>
+					</extraPitchLimits>
 					<shotDispersionFactors>
 						<turretRotation>0.1</turretRotation>
 						<afterShot>4</afterShot>

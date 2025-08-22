@@ -15,7 +15,6 @@
 		#endif
 
 		float4 heightmapSample = tex2Dlod(heightmap, relativePos + float2(samplePixelOffset, samplePixelOffset), (input.data6.x + lodOffset) * lodAdjust);
-
 		float height = dot(lerp(heightmapSample.zw, heightmapSample.xy, morphAmount), float2(0.0038910506, 0.99610895));
 	#else
 		float4 heightmapSample = tex2Dlod(heightmap, const05List2 / heightmapTextureSize + relativePos, 0.0);
@@ -27,13 +26,13 @@
 		#endif
 	#endif
 
-	float3 localPos = float3(relativePos - const05List2, height) * boundingBoxSize;
+	float4 localPos = float4(float3(relativePos - const05List2, height) * boundingBoxSize, 1.0);
 #else
-	float3 localPos = input.localPos.xyz;
+	float4 localPos = float4(input.localPos.xyz, 1.0);
 #endif
 
 float3 camPos = cameraPosition;
-float3 worldPos = mul3Fast1(localPos, worldMatrix);
-float3 eyePos = mul3Fast1(localPos, worldViewMatrix);
-output.localPos = mul4Fast1(localPos, worldViewProjMatrix);
+float3 worldPos = mul(localPos, worldMatrix).xyz;
+float3 eyePos = mul(localPos, worldViewMatrix).xyz;
+output.localPos = mul(localPos, worldViewProjMatrix);
 output.projPos = output.localPos;

@@ -2,27 +2,32 @@ Header:
     version: 143
 ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Profile/Common/HorizontalDividerWithCaption.yaml"
-- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
 - "~res:/UI/Screens3/Lobby/Profile/Common/Statistic/AverageStatisticList.yaml"
 - "~res:/UI/Screens3/Lobby/Profile/Common/Statistic/CommonStatisticList.yaml"
 - "~res:/UI/Screens3/Lobby/Profile/Common/Statistic/RecordsStatisticList.yaml"
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "StatsTab"
     size: [960.000000, 900.000000]
     input: false
     components:
+        UIPostProcessSourceComponent0: {}
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
             verticalPolicy: "PercentOfParent"
         UIDataParamsComponent:
             params:
             - ["ProfileViewModel", "profile", "null", "{ }"]
+            - ["string", "maskProfile", "\"\"", "\"\""]
         UIDataLocalBindingsComponent:
             data:
             - ["int", "battlesCount", "profile.dossier.battlesCount"]
             - ["int", "maxHistogramValue", "profile.maxHistogramValue"]
             - ["int", "baseHistogramValue", "224"]
+    bindings:
+    - ["UIPostProcessSourceComponent0.id", "maskProfile"]
     children:
     -   class: "UIScrollView"
         name: "UIScrollView"
@@ -85,30 +90,15 @@ Prototypes:
                             SizePolicy:
                                 horizontalPolicy: "PercentOfParent"
                                 verticalPolicy: "PercentOfChildrenSum"
-                            Background:
-                                usePostProcessedSprite: true
-                            UIPostProcessTextureComponent0:
-                                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                                needClearAlphaAfterRender: true
-                                scale: 0.500000
-                                useVirtualCoordinateSystem: true
-                                minFilter: "Linear"
-                                magFilter: "Linear"
-                            UIPostProcessTextureComponent1:
-                                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                                scale: 0.500000
-                                useVirtualCoordinateSystem: true
-                                minFilter: "Linear"
-                                magFilter: "Linear"
-                            UIPostProcessTextureComponent2:
-                                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                                scale: 0.500000
-                                useVirtualCoordinateSystem: true
-                                minFilter: "Linear"
-                                magFilter: "Linear"
-                            UIRoundedCornersComponent:
-                                radius: "8"
                         children:
+                        -   prototype: "BlurModified/BlurModified"
+                            name: "Blur"
+                            components:
+                                UIDataParamsComponent:
+                                    args:
+                                        "isBlur": "false"
+                                        "bgStyle": "\"white-wild-sand-15-bg\""
+                                        "roundCorner": "\"8\""
                         -   prototype: "HorizontalDividerWithCaption/HorizontalDividerWithCaption"
                             name: "Header"
                             components:
@@ -148,30 +138,15 @@ Prototypes:
                                 SizePolicy:
                                     horizontalPolicy: "PercentOfParent"
                                     verticalPolicy: "PercentOfChildrenSum"
-                                Background:
-                                    usePostProcessedSprite: true
-                                UIPostProcessTextureComponent0:
-                                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                                    needClearAlphaAfterRender: true
-                                    scale: 0.500000
-                                    useVirtualCoordinateSystem: true
-                                    minFilter: "Linear"
-                                    magFilter: "Linear"
-                                UIPostProcessTextureComponent1:
-                                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                                    scale: 0.500000
-                                    useVirtualCoordinateSystem: true
-                                    minFilter: "Linear"
-                                    magFilter: "Linear"
-                                UIPostProcessTextureComponent2:
-                                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                                    scale: 0.500000
-                                    useVirtualCoordinateSystem: true
-                                    minFilter: "Linear"
-                                    magFilter: "Linear"
-                                UIRoundedCornersComponent:
-                                    radius: "8"
                             children:
+                            -   prototype: "BlurModified/BlurModified"
+                                name: "Blur"
+                                components:
+                                    UIDataParamsComponent:
+                                        args:
+                                            "isBlur": "false"
+                                            "bgStyle": "\"white-wild-sand-15-bg\""
+                                            "roundCorner": "\"8\""
                             -   prototype: "HorizontalDividerWithCaption/HorizontalDividerWithCaption"
                                 name: "Header"
                                 components:
@@ -196,30 +171,15 @@ Prototypes:
                                 SizePolicy:
                                     horizontalPolicy: "PercentOfParent"
                                     verticalPolicy: "PercentOfChildrenSum"
-                                Background:
-                                    usePostProcessedSprite: true
-                                UIPostProcessTextureComponent0:
-                                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                                    needClearAlphaAfterRender: true
-                                    scale: 0.500000
-                                    useVirtualCoordinateSystem: true
-                                    minFilter: "Linear"
-                                    magFilter: "Linear"
-                                UIPostProcessTextureComponent1:
-                                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                                    scale: 0.500000
-                                    useVirtualCoordinateSystem: true
-                                    minFilter: "Linear"
-                                    magFilter: "Linear"
-                                UIPostProcessTextureComponent2:
-                                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                                    scale: 0.500000
-                                    useVirtualCoordinateSystem: true
-                                    minFilter: "Linear"
-                                    magFilter: "Linear"
-                                UIRoundedCornersComponent:
-                                    radius: "8"
                             children:
+                            -   prototype: "BlurModified/BlurModified"
+                                name: "Blur"
+                                components:
+                                    UIDataParamsComponent:
+                                        args:
+                                            "isBlur": "false"
+                                            "bgStyle": "\"white-wild-sand-15-bg\""
+                                            "roundCorner": "\"8\""
                             -   prototype: "HorizontalDividerWithCaption/HorizontalDividerWithCaption"
                                 name: "Header"
                                 components:
@@ -255,32 +215,11 @@ Prototypes:
                     -   prototype: "HorizontalDividerWithCaption/HorizontalDividerWithCaption"
                         name: "HorizontalDividerWithCaption"
                         components:
-                            Background:
-                                usePostProcessedSprite: true
-                            UIPostProcessTextureComponent0:
-                                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                                needClearAlphaAfterRender: true
-                                scale: 0.500000
-                                useVirtualCoordinateSystem: true
-                                minFilter: "Linear"
-                                magFilter: "Linear"
-                            UIPostProcessTextureComponent1:
-                                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                                scale: 0.500000
-                                useVirtualCoordinateSystem: true
-                                minFilter: "Linear"
-                                magFilter: "Linear"
-                            UIPostProcessTextureComponent2:
-                                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                                scale: 0.500000
-                                useVirtualCoordinateSystem: true
-                                minFilter: "Linear"
-                                magFilter: "Linear"
-                            UIRoundedCornersComponent:
-                                radius: "4"
                             UIDataParamsComponent:
                                 args:
                                     "text": "localize(\"#achievementScreen:Stats/BattlesOnVehicles\")"
+                                    "isBlur": "true"
+                                    "bgStyle": "\"white-wild-sand-15-bg\""
                     -   class: "UIControl"
                         name: "Spacer"
                         input: false
@@ -315,30 +254,15 @@ Prototypes:
                                 SizePolicy:
                                     horizontalPolicy: "PercentOfFirstChild"
                                     verticalPolicy: "PercentOfChildrenSum"
-                                Background:
-                                    usePostProcessedSprite: true
-                                UIPostProcessTextureComponent0:
-                                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                                    needClearAlphaAfterRender: true
-                                    scale: 0.500000
-                                    useVirtualCoordinateSystem: true
-                                    minFilter: "Linear"
-                                    magFilter: "Linear"
-                                UIPostProcessTextureComponent1:
-                                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                                    scale: 0.500000
-                                    useVirtualCoordinateSystem: true
-                                    minFilter: "Linear"
-                                    magFilter: "Linear"
-                                UIPostProcessTextureComponent2:
-                                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                                    scale: 0.500000
-                                    useVirtualCoordinateSystem: true
-                                    minFilter: "Linear"
-                                    magFilter: "Linear"
-                                UIRoundedCornersComponent:
-                                    radius: "8"
                             children:
+                            -   prototype: "BlurModified/BlurModified"
+                                name: "Blur"
+                                components:
+                                    UIDataParamsComponent:
+                                        args:
+                                            "isBlur": "false"
+                                            "bgStyle": "\"white-wild-sand-15-bg\""
+                                            "roundCorner": "\"8\""
                             -   class: "UIControl"
                                 name: "BarsContainer"
                                 size: [32.000000, 32.000000]
@@ -383,30 +307,15 @@ Prototypes:
                                 SizePolicy:
                                     horizontalPolicy: "PercentOfFirstChild"
                                     verticalPolicy: "PercentOfChildrenSum"
-                                Background:
-                                    usePostProcessedSprite: true
-                                UIPostProcessTextureComponent0:
-                                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                                    needClearAlphaAfterRender: true
-                                    scale: 0.500000
-                                    useVirtualCoordinateSystem: true
-                                    minFilter: "Linear"
-                                    magFilter: "Linear"
-                                UIPostProcessTextureComponent1:
-                                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                                    scale: 0.500000
-                                    useVirtualCoordinateSystem: true
-                                    minFilter: "Linear"
-                                    magFilter: "Linear"
-                                UIPostProcessTextureComponent2:
-                                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                                    scale: 0.500000
-                                    useVirtualCoordinateSystem: true
-                                    minFilter: "Linear"
-                                    magFilter: "Linear"
-                                UIRoundedCornersComponent:
-                                    radius: "8"
                             children:
+                            -   prototype: "BlurModified/BlurModified"
+                                name: "Blur"
+                                components:
+                                    UIDataParamsComponent:
+                                        args:
+                                            "isBlur": "false"
+                                            "bgStyle": "\"white-wild-sand-15-bg\""
+                                            "roundCorner": "\"8\""
                             -   class: "UIControl"
                                 name: "BarsContainer"
                                 size: [32.000000, 32.000000]
@@ -451,30 +360,15 @@ Prototypes:
                                 SizePolicy:
                                     horizontalPolicy: "PercentOfFirstChild"
                                     verticalPolicy: "PercentOfChildrenSum"
-                                Background:
-                                    usePostProcessedSprite: true
-                                UIPostProcessTextureComponent0:
-                                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                                    needClearAlphaAfterRender: true
-                                    scale: 0.500000
-                                    useVirtualCoordinateSystem: true
-                                    minFilter: "Linear"
-                                    magFilter: "Linear"
-                                UIPostProcessTextureComponent1:
-                                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                                    scale: 0.500000
-                                    useVirtualCoordinateSystem: true
-                                    minFilter: "Linear"
-                                    magFilter: "Linear"
-                                UIPostProcessTextureComponent2:
-                                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                                    scale: 0.500000
-                                    useVirtualCoordinateSystem: true
-                                    minFilter: "Linear"
-                                    magFilter: "Linear"
-                                UIRoundedCornersComponent:
-                                    radius: "8"
                             children:
+                            -   prototype: "BlurModified/BlurModified"
+                                name: "Blur"
+                                components:
+                                    UIDataParamsComponent:
+                                        args:
+                                            "isBlur": "false"
+                                            "bgStyle": "\"white-wild-sand-15-bg\""
+                                            "roundCorner": "\"8\""
                             -   class: "UIControl"
                                 name: "BarsContainer"
                                 input: false
@@ -520,9 +414,8 @@ Prototypes:
                 rightAnchorEnabled: true
                 topAnchorEnabled: true
                 bottomAnchorEnabled: true
-            ScrollBarDelegate:
+            UIScrollBarComponent:
                 delegate: "../UIScrollView"
         children:
         -   path: "slider"
             visible: true
-            children: []

@@ -267,10 +267,6 @@ fragment_out fp_main(fragment_in input)
 		output.color = getHighlightAnim(output.color, input.worldPos.z);
 	#endif
 
-	#if USE_VERTEX_FOG
-		output.color.rgb = lerp(output.color.rgb, input.varFog.rgb, input.varFog.a);
-	#endif
-
 	#if BLEND_BY_ANGLE
 		float NdotV = abs(dot(input.worldNormalSlope.xyz, input.toCamDir)) / (length(input.worldNormalSlope.xyz) * length(input.toCamDir));
 		output.color.a *= pow(saturate((lerp(NdotV, 1.0 - NdotV, angleBlendInversion) - angleBlendBounds.x) / (angleBlendBounds.y - angleBlendBounds.x)), angleBlendPower);

@@ -1,0 +1,81 @@
+Header:
+    version: 142
+ImportedPackages:
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+Prototypes:
+-   class: "UIScrollView"
+    name: "VerticalScrollView"
+    size: [200.000000, 200.000000]
+    autoUpdate: true
+    components:
+        ClipContent: {}
+        SizePolicy:
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["control", "content", "null", "null"]
+            - ["bool", "disableInput", "false", "false"]
+            - ["bool", "centerContent", "false", "false"]
+            - ["eSizePolicy", "horizontalPolicy", "eSizePolicy.PercentOfParent", "eSizePolicy.PercentOfParent"]
+            - ["vector4", "ltrbClip", "vec4(1.000000, 1.000000, 1.000000, 1.000000)", "vec4(1.000000, 1.000000, 1.000000, 1.000000)"]
+            - ["bool", "useRightInset", "true", "true"]
+            events:
+            - "ON_SCROLL_VIEW_TOUCH"
+    bindings:
+    - ["centerContent", "centerContent"]
+    - ["ClipContent.left", "floatEqual(ltrbClip.X, 1.000000)"]
+    - ["ClipContent.right", "floatEqual(ltrbClip.Z, 1.000000)"]
+    - ["ClipContent.top", "floatEqual(ltrbClip.Y, 1.000000)"]
+    - ["ClipContent.bottom", "floatEqual(ltrbClip.W, 1.000000)"]
+    - ["SizePolicy.horizontalPolicy", "horizontalPolicy"]
+    children:
+    -   class: "UIScrollViewContainer"
+        name: "scrollContainerControl"
+        refreshStylesOnInteract: false
+        scrollDirection: "kVertical"
+        components:
+            SizePolicy:
+                verticalPolicy: "PercentOfFirstChild"
+            UIInputEventComponent:
+                onTouchUpInside: "ON_SCROLL_VIEW_TOUCH"
+            UIChildComponent0:
+                childType: "kControl"
+                condition: "not isNull(content)"
+                control: "content"
+        bindings:
+        - ["input", "not disableInput"]
+        - ["SizePolicy.horizontalPolicy", "horizontalPolicy"]
+    -   class: "UIControl"
+        name: "VerticalLayout"
+        input: false
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+                rightAnchor: 4.000000
+            LinearLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   prototype: "VerticalScrollBar/VerticalScrollBar"
+            name: "VerticalScrollBar"
+            components:
+                Anchor:
+                    rightAnchor: 4.000000
+                UIScrollBarComponent:
+                    delegate: "../.."
+            children:
+            -   path: "slider"
+                bindings:
+                - ["input", "not disableInput"]
+                children: []
+        -   class: "UIControl"
+            name: "SafeAreaInset"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "Formula"
+                    horizontalFormula: "safeAreaInsets.right"
+                    verticalPolicy: "PercentOfParent"
+            bindings:
+            - ["visible", "useRightInset"]

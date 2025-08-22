@@ -4,33 +4,13 @@ ImportedPackages:
 - "~res:/UI/Screens/Common/PopupMenu.yaml"
 - "~res:/UI/Screens/Hangar/BasePopup.yaml"
 - "~res:/UI/Screens/Common/DebugControlTree/DebugControlTreePopupMenuField.yaml"
+- "~res:/UI/Screens3/Common/OverlayBlur.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "Background"
     size: [100.000000, 100.000000]
     input: true
     components:
-        Background:
-            usePostProcessedSprite: true
-        UIPostProcessTextureComponent0:
-            materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-            needClearAlphaAfterRender: true
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent1:
-            materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
-        UIPostProcessTextureComponent2:
-            materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-            scale: 0.500000
-            useVirtualCoordinateSystem: true
-            minFilter: "Linear"
-            magFilter: "Linear"
         Anchor:
             leftAnchorEnabled: true
             rightAnchorEnabled: true
@@ -49,6 +29,10 @@ Prototypes:
             - ["int", "index", "0", "0"]
             - ["DebugUIControlTreeCellViewModel", "node", "null", "{ }"]
     children:
+    -   prototype: "OverlayBlur/BlurAndFade"
+        name: "BlurAndFade"
+        components:
+            IgnoreLayout: {}
     -   prototype: "PopupMenu/PopupMenu"
         name: "PopupMenu"
         size: [400.000000, 150.000000]

@@ -5,7 +5,7 @@ ImportedPackages:
 - "~res:/UI/Screens/Common.yaml"
 - "~res:/UI/Screens/Common/Settings/SettingsCommon.yaml"
 - "~res:/UI/Screens/Common/MenuItem.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
+- "~res:/UI/Screens3/Common/OverlayBlur.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "Settings"
@@ -30,7 +30,7 @@ Prototypes:
         StyleSheet:
             styles: "~res:/UI/Screens/Common/Settings/Styles/Settings.style.yaml;~res:/UI/Screens3/Background.style.yaml"
     children:
-    -   prototype: "BlurModified/BlurModified"
+    -   prototype: "OverlayBlur/BlurAndFade"
         name: "ingameBackground"
         input: false
         components:
@@ -305,27 +305,6 @@ Prototypes:
         name: "resetPopUp"
         visible: false
         components:
-            Background:
-                usePostProcessedSprite: true
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
             Anchor:
                 leftAnchorEnabled: true
                 rightAnchorEnabled: true
@@ -334,6 +313,10 @@ Prototypes:
             UIAnchorSafeAreaComponent:
                 rightSafeInset: "INSET"
         children:
+        -   prototype: "OverlayBlur/BlurAndFade"
+            name: "Blur"
+            component:
+                IgnoreLayout: {}
         -   prototype: "Common/PopUp"
             name: "PopUp"
             size: [340.000000, 150.000000]

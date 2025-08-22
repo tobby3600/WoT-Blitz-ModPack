@@ -14,35 +14,36 @@ Prototypes:
             blockDuplicatedEvents: true
         UIDataParamsComponent:
             params:
-            - ["int", "flipImage", "0", "0"]
-            - ["bool", "isRoundedProgressBar", "false", "true"]
-            - ["float", "value", "0.000000", "0.400000"]
-            - ["bool", "rounded", "false", "true"]
-            - ["int", "roundCorner", "0", "0"]
-            - ["bool", "locked", "false", "false"]
-            - ["bool", "visible", "true", "true"]
-            - ["bool", "isBgVisible", "true", "true"]
-            - ["string", "bgStyle", "\"\"", "\"\""]
-            - ["string", "image", "\"\"", "\"~res:/Gfx/Lobby/icons/icon_statistic_m\""]
-            - ["int", "buttonSize", "48", "48"]
-            - ["int", "imageSize", "24", "24"]
-            - ["float", "imageOpacity", "1.000000", "1.000000"]
-            - ["eButtonType", "type", "eButtonType.OPTIONAL_LIGHT", "eButtonType.OPTIONAL_DARK"]
-            - ["eButtonSound", "sound", "eButtonSound.UNKNOWN", "eButtonSound.UNKNOWN"]
             - ["bool", "enabled", "true", "true"]
             - ["bool", "hasSound", "true", "true"]
             - ["bool", "inputDisabled", "false", "false"]
             - ["bool", "isBadgeVisible", "false", "false"]
+            - ["bool", "isBlur", "true", "true"]
+            - ["bool", "isBgVisible", "true", "true"]
+            - ["bool", "isRoundedProgressBar", "false", "true"]
+            - ["bool", "locked", "false", "false"]
+            - ["bool", "rounded", "false", "true"]
+            - ["bool", "visible", "true", "true"]
             - ["eBadgeType", "badgeType", "eBadgeType.Empty", "eBadgeType.Camouflage"]
+            - ["eButtonSound", "sound", "eButtonSound.UNKNOWN", "eButtonSound.UNKNOWN"]
+            - ["eButtonType", "type", "eButtonType.OPTIONAL_LIGHT", "eButtonType.OPTIONAL_DARK"]
+            - ["float", "imageOpacity", "1.000000", "1.000000"]
+            - ["float", "value", "0.000000", "0.400000"]
+            - ["int", "buttonSize", "48", "48"]
+            - ["int", "flipImage", "0", "0"]
+            - ["int", "imageSize", "24", "24"]
             - ["string", "badgeValue", "\"\"", "\"2\""]
+            - ["string", "bgStyle", "\"\"", "\"\""]
             - ["string", "iconColorStyle", "\"white-wild-sand-bg\"", "\"white-wild-sand-bg\""]
+            - ["string", "image", "\"\"", "\"~res:/Gfx/Lobby/icons/icon_statistic_m\""]
+            - ["string", "roundCorner", "\"0\"", "\"0\""]
             events:
             - "ON_CLICK_BUTTON"
         UIDataLocalBindingsComponent:
             data:
             - ["string", "hoverStyle", "(when isBgVisible -> \"button-fade \", \"button-fade-non-hide \") + (when type == eButtonType.OPTIONAL_DARK or type == eButtonType.SCENE -> \"black-10-bg\", \"white-wild-sand-10-bg\")"]
             - ["eButtonSound", "soundType", "when not hasSound -> eButtonSound.UNKNOWN, sound != eButtonSound.UNKNOWN -> sound, type == eButtonType.POSITIVE or type == eButtonType.NO_BG or type == eButtonType.NO_BG_WHITE -> eButtonSound.OPEN, type == eButtonType.ALTERNATIVE -> eButtonSound.OK, type == eButtonType.ALTERNATIVE -> eButtonSound.OK, type == eButtonType.NEGATIVE -> eButtonSound.SELL, eButtonSound.CANCEL"]
-            - ["string", "bgStyle", "when type == eButtonType.OPTIONAL_LIGHT -> \"white-wild-sand-15-bg\", type == eButtonType.OPTIONAL_DARK -> \"black-25-bg\", type == eButtonType.SCENE -> \"grey-shark-70-bg\", type == eButtonType.POSITIVE -> \"green-la-palma-bg\", \"\""]
+            - ["string", "maskStyle", "when type == eButtonType.OPTIONAL_LIGHT -> \"white-wild-sand-15-bg\", type == eButtonType.OPTIONAL_DARK -> \"black-25-bg\", type == eButtonType.SCENE -> \"grey-shark-70-bg\", type == eButtonType.POSITIVE -> \"green-la-palma-bg\", \"\""]
         UIActionComponent:
             actionsPath: "~res:/UI/Screens3/Lobby/Common/Button.actions"
         StyleSheet:
@@ -79,37 +80,24 @@ Prototypes:
             input: false
             classes: "content-area"
             components:
-                Background: {}
-                UIRoundedCornersComponent:
-                    radius: "20"
                 Anchor:
                     leftAnchorEnabled: true
                     rightAnchorEnabled: true
                     topAnchorEnabled: true
                     bottomAnchorEnabled: true
+                Background: {}
+                UIRoundedCornersComponent:
+                    radius: "20"
             children:
-            -   class: "UIControl"
+            -   prototype: "BlurModified/BlurModified"
                 name: "Background"
-                input: false
                 components:
-                    Background:
-                        drawType: "DRAW_STRETCH_BOTH"
-                        leftRightStretchCap: 1.000000
-                        topBottomStretchCap: 1.000000
-                    IgnoreLayout: {}
-                    SizePolicy:
-                        horizontalPolicy: "PercentOfParent"
-                        verticalPolicy: "PercentOfParent"
-                bindings:
-                - ["visible", "isBgVisible"]
-                children:
-                -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
-                    components:
-                        UIDataParamsComponent:
-                            args:
-                                "bgStyle": "bgStyle"
-                                "roundCorner": "roundCorner"
+                    UIDataParamsComponent:
+                        args:
+                            "isVisible": "isBgVisible"
+                            "isBlur": "isBlur"
+                            "bgStyle": "when isBlur -> bgStyle, maskStyle"
+                            "roundCorner": "when rounded -> \"100\", roundCorner"
             -   class: "UIControl"
                 name: "Fade"
                 input: false
@@ -126,7 +114,7 @@ Prototypes:
                     StyleSheet:
                         styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Lobby/Common/Button.style.yaml"
                 bindings:
-                - ["visible", "not rounded"]
+                - ["visible", "not rounded and not isBlur"]
                 - ["classes", "hoverStyle"]
                 - ["Background.sprite", "when rounded -> \"~res:/Gfx/Lobby/backgrounds/bg_r48\", \"~res:/Gfx/Lobby/backgrounds/bg_r1\""]
             -   class: "UIControl"

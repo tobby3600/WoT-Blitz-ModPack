@@ -23,7 +23,7 @@ Prototypes:
         UIDataLocalBindingsComponent:
             data:
             - ["vector<string>", "premiumDescription", "[ \"tankTree/premiumTanks/benefits/descr1\"; \"tankTree/premiumTanks/benefits/descr2\"; \"tankTree/premiumTanks/benefits/descr3\"; ]"]
-            - ["vector<string>", "collectibleDescription", "[ \"tankTree/collectionVehicles/benefits/descr1\"; \"tankTree/collectionVehicles/benefits/descr2\"; ]"]
+            - ["vector<string>", "collectibleDescription", "[ \"tankTree/collectionVehicles/benefits/descr1\"; \"tankTree/collectionVehicles/benefits/descr2\"; \"tankTree/collectionVehicles/benefits/descr3\"; ]"]
             - ["string", "descriptionHeaderKey", "when tank.info.isPremium -> \"shop/Congrats/PremiumVehicle/Title\", tank.info.isCollectible -> \"shop/Congrats/CollectionVehicle/Title\", \"\""]
             - ["string", "headerKey", "when tank.info.isPremium -> \"tankTree/premiumTanks/benefits/Subheader\", \"tankTree/collectionVehicles/benefits/Subheader\""]
         UIChildComponent0:

@@ -94,9 +94,7 @@ Prototypes:
                         prototypePath: "~res:/UI/Screens3/Common/Footer.yaml"
                         args:
                             "content": "FooterContent"
-                            "bgOpacity": "1.000000"
-                            "blurOpacity": "0.000000"
-                            "blurScale": "0.000000"
+                            "isBlur": "false"
             -   class: "UIControl"
                 name: "DealInfoContainer"
                 enabled: true
@@ -206,6 +204,7 @@ Prototypes:
                         childType: "kOldExpression"
                         control: "\"~res:/UI/Screens3/Lobby/Common/VehicleParamsPanel/VehicleParamsPanel.yaml\""
                         args:
+                            "backgroundStyle": "\"black-50-bg\""
                             "tutorialData": "account.tutorialData"
                             "tankParams": "tankParams"
                             "mechanics": "buyTankModel.mechanics"

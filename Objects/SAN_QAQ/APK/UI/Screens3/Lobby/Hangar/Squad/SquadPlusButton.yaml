@@ -1,0 +1,86 @@
+Header:
+    version: 161
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "SquadPlusButton"
+    input: true
+    classes: "squad-plus-button button-open-sound"
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "PercentOfChildrenSum"
+        UIAttachLayoutSlaveComponent:
+            additionalOffset: [0.000000, -32.000000]
+        UIInputEventComponent:
+            onTouchUpInside: "ON_PRESSED"
+        UISystemEventComponent:
+            onActivated: "Init"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "shouldBeVisible", "true", "true"]
+            - ["string", "attachId", "\"\"", "\"\""]
+            events:
+            - "ON_PRESSED"
+        UIDataLocalVarsComponent:
+            data:
+            - ["bool", "localVisibility", "false"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Hangar/Squad/SquadPlusButton.actions"
+        UIEventOnDataComponent0:
+            watchedDataExpression: "shouldBeVisible"
+            eventName: "ToggleVisibility"
+        Sound: {}
+        StyleSheet:
+            styles: "~res:/UI/Screens3/ButtonSound.style.yaml;~res:/UI/Screens3/Lobby/Hangar/Squad/SquadPlusButton.style.yaml;~res:/UI/Screens3/Common/Touch.style.yaml"
+    bindings:
+    - ["visible", "localVisibility"]
+    - ["UIAttachLayoutSlaveComponent.attachId", "attachId"]
+    children:
+    -   class: "UIControl"
+        name: "ContentArea"
+        pivot: [0.500000, 0.500000]
+        input: false
+        classes: "hover content-area"
+        components:
+            UIOpacityComponent: {}
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 64.000000
+                verticalPolicy: "FixedSize"
+                verticalValue: 64.000000
+        children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Background"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "bgStyle": "\"black-50-bg\""
+        -   class: "UIControl"
+            name: "PlusIcon"
+            pivot: [0.500000, 0.500000]
+            input: false
+            classes: "orange-orange-peel-bg"
+            components:
+                Background:
+                    drawType: "DRAW_ALIGNED"
+                    sprite: "~res:/Gfx/Lobby/icons/icon_plus_s"
+                UIShadowComponent:
+                    blurType: "Gauss"
+                    color: [0.901961, 0.360784, 0.090196, 1.000000]
+                    indent: 8
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 24.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 24.000000
+                ScalePolicy: {}
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"

@@ -1,0 +1,37 @@
+Header:
+    version: 20
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "BgRounded6px"
+    size: [32.000000, 32.000000]
+    noInput: true
+    components:
+        Background:
+            drawType: "DRAW_STRETCH_BOTH"
+            sprite: "~res:/Gfx/UI/CommonUIElements/square_BigAngle.psd"
+            leftRightStretchCap: 6.000000
+            topBottomStretchCap: 6.000000
+    children:
+    -   prototype: "BlurModified/BlurModified"
+        name: "Blur"
+        components:
+            args:
+                "roundCorner": "\"6\""
+-   class: "UIControl"
+    name: "BgRounded3px"
+    size: [32.000000, 32.000000]
+    noInput: true
+    components:
+        Background:
+            drawType: "DRAW_STRETCH_BOTH"
+            sprite: "~res:/Gfx/UI/CommonUIElements/square_SmallAngle.psd"
+            leftRightStretchCap: 3.000000
+            topBottomStretchCap: 3.000000
+    children:
+    -   prototype: "BlurModified/BlurModified"
+        name: "Blur"
+        components:
+            args:
+                "roundCorner": "\"3\""

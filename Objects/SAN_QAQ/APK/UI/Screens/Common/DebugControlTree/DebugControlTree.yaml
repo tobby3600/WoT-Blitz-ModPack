@@ -1,0 +1,349 @@
+Header:
+    version: 155
+ImportedPackages:
+- "~res:/UI/Screens/Common/ScrollBar.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "Background"
+    size: [800.000000, 500.000000]
+    input: true
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        ModalInput: {}
+        UIInputEventComponent:
+            onTouchUpInside: "ON_CLOSE_POPUP"
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Escape"
+            keyDownEvent: "ON_CLOSE_POPUP"
+        UIShortcutEventComponent:
+            shortcuts: "ON_CLOSE_POPUP,Escape"
+        UIDataParamsComponent:
+            params:
+            - ["DebugUIControlTreeViewModel", "data", "null", "{ \"searchMode\" = false; }"]
+        UIDataLocalVarsComponent:
+            data:
+            - ["bool", "searchByPath", "false"]
+            - ["string", "searchText", "\"\""]
+        UIDataOnEventComponent0:
+            eventName: "SEARCH_TEXT_EDIT_ENDED"
+            modelFieldExpression: "searchText"
+            dataExpression: "_event"
+        UIDataOnEventComponent1:
+            eventName: "SEARCH_TEXT_CHANGED"
+            modelFieldExpression: "searchText"
+            dataExpression: "_event"
+        UIDataOnEventComponent2:
+            eventName: "SEARCH_BY_PATH_PRESSED"
+            modelFieldExpression: "searchByPath"
+            dataExpression: "not searchByPath"
+    children:
+    -   class: "UIControl"
+        name: "DebugControlTree"
+        input: true
+        components:
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 800.000000
+                verticalPolicy: "FixedSize"
+                verticalValue: 500.000000
+        children:
+        -   class: "UIControl"
+            name: "Bg"
+            size: [32.000000, 32.000000]
+            input: false
+            classes: "grey-shark-90-bg"
+            components:
+                Background: {}
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+        -   class: "UIControl"
+            name: "Content"
+            size: [200.000000, 200.000000]
+            input: false
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    leftAnchor: 10.000000
+                    rightAnchorEnabled: true
+                    rightAnchor: 10.000000
+                    topAnchorEnabled: true
+                    topAnchor: 10.000000
+                    bottomAnchorEnabled: true
+                    bottomAnchor: 10.000000
+                LinearLayout:
+                    orientation: "TopDown"
+                    spacing: 5.000000
+                StyleSheet:
+                    styles: "~res:/UI/Screens/Common/ScrollBar.yaml"
+            children:
+            -   class: "UIControl"
+                name: "TopPart"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "Formula"
+                        verticalFormula: "when data.searchMode -> maxChild, 40"
+                children:
+                -   class: "UIControl"
+                    name: "SearchPanel"
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        LinearLayout:
+                            orientation: "TopDown"
+                            spacing: 5.000000
+                            skipInvisible: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfChildrenSum"
+                    bindings:
+                    - ["visible", "data.searchMode"]
+                    children:
+                    -   class: "UIControl"
+                        name: "Search"
+                        input: false
+                        components:
+                            LinearLayout:
+                                spacing: 20.000000
+                                skipInvisible: false
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfChildrenSum"
+                                verticalPolicy: "PercentOfMaxChild"
+                        children:
+                        -   class: "UIControl"
+                            name: "SearchField"
+                            input: false
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 500.000000
+                                    verticalPolicy: "PercentOfMaxChild"
+                                UIChildComponent0:
+                                    prototypePath: "~res:/UI/Screens/Common/DebugControlTree/SimpleTextField.yaml"
+                                    args:
+                                        "canCleaned": "true"
+                                        "isLastEdit": "true"
+                                        "placeholderText": "\"Search control\""
+                                    eventActions:
+                                    - ["EDIT_ENDED", "SEARCH_TEXT_EDIT_ENDED", "_event, searchByPath"]
+                                    - ["TEXT_CHANGED", "SEARCH_TEXT_CHANGED", "_event"]
+                        -   class: "UIControl"
+                            name: "Go"
+                            input: false
+                            components:
+                                Anchor:
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfMaxChild"
+                                    verticalPolicy: "PercentOfMaxChild"
+                                UIChildComponent0:
+                                    prototypePath: "~res:/UI/Screens/Common/DebugControlTree/SimpleButton.yaml"
+                                    args:
+                                        "desiredWidth": "60"
+                                        "title": "\"Go\""
+                                    eventActions:
+                                    - ["ON_CLICKED", "ON_GO_SEARCH", "searchText, searchByPath"]
+                        -   class: "UIControl"
+                            name: "SearchCheckBox"
+                            input: false
+                            components:
+                                LinearLayout:
+                                    spacing: 5.000000
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfChildrenSum"
+                                    verticalPolicy: "PercentOfParent"
+                            children:
+                            -   class: "UIControl"
+                                name: "CheckBox"
+                                input: false
+                                components:
+                                    Anchor:
+                                        vCenterAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfMaxChild"
+                                        verticalPolicy: "PercentOfMaxChild"
+                                    UIChildComponent0:
+                                        prototypePath: "~res:/UI/Screens/Common/DebugControlTree/SimpleCheckBox.yaml"
+                                        args:
+                                            "isActive": "searchByPath"
+                                        eventActions:
+                                        - ["CHECK_PRESSED", "SEARCH_BY_PATH_PRESSED", ""]
+                            -   class: "UIControl"
+                                name: "Title"
+                                input: false
+                                classes: "white-wild-sand-text text2-small"
+                                components:
+                                    UITextComponent:
+                                        text: "By path"
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfContent"
+                                        verticalPolicy: "PercentOfParent"
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens/Fonts.yaml;~res:/UI/Screens3/Color.style.yaml"
+                    -   class: "UIControl"
+                        name: "Tip"
+                        input: false
+                        classes: "white-wild-sand-50-text text2-small"
+                        components:
+                            UITextComponent: {}
+                            Anchor:
+                                leftAnchorEnabled: true
+                                leftAnchor: 20.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 20.000000
+                            StyleSheet:
+                                styles: "~res:/UI/Screens/Fonts.yaml;~res:/UI/Screens3/Color.style.yaml"
+                        bindings:
+                        - ["UITextComponent.text", "when searchByPath -> \"Search by path (for exp.: **/Inventory/**/Crew)\", \"Search by name (regexp available)\""]
+                    -   class: "UIControl"
+                        name: "NoControlsFoundMessage"
+                        input: false
+                        classes: "white-wild-sand-text text2"
+                        components:
+                            UITextComponent:
+                                text: "No controls found."
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 30.000000
+                            StyleSheet:
+                                styles: "~res:/UI/Screens/Fonts.yaml;~res:/UI/Screens3/Color.style.yaml"
+                        bindings:
+                        - ["visible", "data.showNoControlsFoundMessage"]
+                -   class: "UIControl"
+                    name: "SearchButton"
+                    input: false
+                    components:
+                        Anchor:
+                            rightAnchorEnabled: true
+                            rightAnchor: 20.000000
+                            vCenterAnchorEnabled: true
+                        IgnoreLayout: {}
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfMaxChild"
+                        UIChildComponent0:
+                            prototypePath: "~res:/UI/Screens/Common/DebugControlTree/SimpleButton.yaml"
+                            args:
+                                "buttonColor": "rgb(6855836)"
+                                "title": "\"Global Search...\""
+                            eventActions:
+                            - ["ON_CLICKED", "ON_GLOBAL_SEARCH", ""]
+                    bindings:
+                    - ["visible", "not data.searchMode"]
+            -   class: "UIControl"
+                name: "ControlsTree"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    UIChildComponent0:
+                        childType: "kControl"
+                        control: "TreeContainer"
+            -   class: "UIControl"
+                name: "BlinkErrorMessage"
+                size: [694.000000, 25.000000]
+                input: false
+                classes: "text2 orange-orange-peel-text"
+                components:
+                    UITextComponent:
+                        text: "Enable Custom option in Debug UI dialog to see highlighted control."
+                    Anchor:
+                        leftAnchorEnabled: true
+                        rightAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                    StyleSheet:
+                        styles: "~res:/UI/Screens/Fonts.yaml;~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["visible", "data.showBlinkErrorMessage"]
+Slots:
+-   class: "UIControl"
+    name: "TreeContainer"
+    size: [500.000000, 100.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIScrollView"
+        name: "ScrollArea"
+        autoUpdate: true
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                rightAnchor: 10.000000
+                topAnchorEnabled: true
+                bottomAnchorEnabled: true
+        children:
+        -   class: "UIScrollViewContainer"
+            name: "scrollContainerControl"
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "Nodes"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfChildrenSum"
+                    UIRepeatComponent:
+                        control: "~res:/UI/Screens/Common/DebugControlTree/DebugControlTreeCell.yaml"
+                        dataContainer: "data.nodes"
+                        args:
+                            "showIndent": "not data.searchMode"
+                            "index": "_index"
+                            "data": "_item"
+                        eventActions:
+                        - ["ON_CELL_DOUBLE_CLICKED", "ON_CELL_DOUBLE_CLICKED", "_event.index"]
+                        - ["ON_CELL_SELECT", "ON_CELL_SELECT", "_event.index"]
+                        - ["ON_MORE_BUTTON_SELECT", "ON_MORE_BUTTON_SELECT", "_event.index"]
+                        loadingPolicy: "Lazy"
+                        loadingDistance: 50.000000
+                        unloadingDistance: 50.000000
+    -   prototype: "ScrollBar/VerticalScrollBar"
+        name: "VerticalScrollBar"
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                bottomAnchorEnabled: true
+            UIScrollBarComponent:
+                delegate: "../ScrollArea"
+-   class: "UIControl"
+    name: "SearchButton_1"
+    input: false
+    components:
+        Anchor:
+            vCenterAnchorEnabled: true
+        IgnoreLayout: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfMaxChild"
+            verticalPolicy: "PercentOfMaxChild"
+        UIChildComponent0:
+            prototypePath: "~res:/UI/Screens/Common/DebugControlTree/SimpleButton.yaml"
+            args:
+                "buttonColor": "rgb(6855836)"
+                "title": "\"Global Search...\""
+            eventActions:
+            - ["ON_CLICKED", "ON_SEARCH_BUTTON", ""]

@@ -91,10 +91,6 @@ fragment_out fp_main(fragment_in input)
 			#endif
 		#endif
 
-		#if USE_VERTEX_FOG
-			output.color.rgb = lerp(output.color.rgb, input.varFog.rgb, input.varFog.a);
-		#endif
-
 		#include "color-grading.slh"
 	#endif
 

@@ -1,5 +1,7 @@
 Header:
     version: 152
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "Header"
@@ -69,6 +71,7 @@ Prototypes:
                 args:
                     "progressColor": "\"white-wild-sand-bg\""
                     "value": "when _index == int(ePageType.Efficiency) -> efficiencyProgress, _index == int(ePageType.Economy) -> economyProgress, teamEffectivenessProgress"
+                    "isBlur": "false"
     -   class: "UIControl"
         name: "LeftSafeArea"
         input: false
@@ -121,6 +124,13 @@ Prototypes:
                     horizontalPolicy: "PercentOfChildrenSum"
                     verticalPolicy: "PercentOfMaxChild"
             children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "isBlur": "selectedTab != ePageType.TeamEffectiveness"
+                            "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "CloseButton"
                 size: [32.000000, 32.000000]
@@ -392,9 +402,9 @@ Prototypes:
             size: [151.000000, 48.000000]
             input: false
             components:
-                UIOpacityComponent: {}
                 Anchor:
                     vCenterAnchorEnabled: true
+                UIOpacityComponent: {}
                 LinearLayout:
                     spacing: 16.000000
                 SizePolicy:
@@ -403,6 +413,13 @@ Prototypes:
             bindings:
             - ["UIOpacityComponent.opacity", "buttonsOpacityBecauseTutorial"]
             children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "isBlur": "selectedTab != ePageType.TeamEffectiveness"
+                            "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "Tabs"
                 position: [0.000000, 0.000000]
@@ -416,7 +433,7 @@ Prototypes:
                         horizontalPolicy: "PercentOfChildrenSum"
                         verticalPolicy: "PercentOfMaxChild"
                     UIChildComponent0:
-                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Tabs/IconTabsBarNoBlur.yaml"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Tabs/IconTabsBar.yaml"
                         args:
                             "useRTL": "false"
                             "showSelectionLine": "false"

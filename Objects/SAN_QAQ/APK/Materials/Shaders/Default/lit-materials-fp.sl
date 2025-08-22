@@ -234,12 +234,13 @@ fragment_out fp_main(fragment_in input)
 
 		float3 diffuse = lightColor0 * (NdotL * _INVERSE_PI);
 		float3 specular = const0List3;
-
-		float3x3 tangentToViewMatrix = float3x3(input.tangentToView0.xyz, input.tangentToView1.xyz, input.tangentToView2.xyz);
+		float3 tangentToView0 = input.tangentToView0.xyz;
+		float3 tangentToView1 = input.tangentToView1.xyz;
+		float3 tangentToView2 = input.tangentToView2.xyz;
 
 		#if NORMALIZED_BLINN_PHONG
 			#if MAX_POINT_LIGHTS > 0
-				float3 viewNormal = float3(dot(N, tangentToViewMatrix[0]), dot(N, tangentToViewMatrix[1]), dot(N, tangentToViewMatrix[2]));
+				float3 viewNormal = float3(dot(N, tangentToView0), dot(N, tangentToView1), dot(N, tangentToView2));
 				float3 viewPosition = float3(input.tangentToView0.w, input.tangentToView1.w, input.tangentToView2.w);
 
 				diffuse += getBlinnPhongPointLight(pointLights[0].w, pointLights[2], pointLights[0].xyz + viewPosition, viewNormal);
@@ -254,7 +255,7 @@ fragment_out fp_main(fragment_in input)
 
 				#if ENVIRONMENT_MAPPING
 					#if ENVIRONMENT_MAPPING_NORMALMAP
-						float3 envTexCoord = mul3Fast0(float3(dot(R, tangentToViewMatrix[0]), dot(R, tangentToViewMatrix[1]), dot(R, tangentToViewMatrix[2])), invViewMatrix);
+						float3 envTexCoord = mul(float4(dot(R, tangentToView0), dot(R, tangentToView1), dot(R, tangentToView2), 0.0), invViewMatrix).xyz;
 					#else
 						float3 envTexCoord = input.texCoord2.xyz;
 					#endif
@@ -371,10 +372,6 @@ fragment_out fp_main(fragment_in input)
 
 	#if HIGHLIGHT_COLOR || HIGHLIGHT_WAVE_ANIM
 		output.color = getHighlightAnim(output.color, input.displacePos.w);
-	#endif
-
-	#if USE_VERTEX_FOG
-		output.color.rgb = lerp(output.color.rgb, input.varFog.rgb, input.varFog.a);
 	#endif
 
 	#include "color-grading.slh"

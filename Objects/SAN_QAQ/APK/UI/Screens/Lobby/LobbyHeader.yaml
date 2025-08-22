@@ -1,0 +1,355 @@
+Header:
+    version: 155
+ImportedPackages:
+- "~res:/UI/Screens/Common/StyledMenuButton.yaml"
+- "~res:/UI/Screens/Common/IconButton.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "HeaderBase"
+    position: [0.000000, 0.000000]
+    size: [1024.000000, 80.000000]
+    input: false
+    components:
+        Anchor:
+            topAnchorEnabled: true
+        Background:
+            drawType: "DRAW_ALIGNED"
+            leftRightStretchCap: 2.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "FixedSize"
+            verticalValue: 80.000000
+        StyleSheet:
+            styles: "~res:/UI/Screens/Lobby/LobbyHeader.style.yaml"
+    children:
+    -   class: "UIControl"
+        name: "bg"
+        position: [0.000000, 0.000000]
+        size: [1024.000000, 80.000000]
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                leftAnchor: 0.000000
+                rightAnchorEnabled: true
+                rightAnchor: 0.000000
+                topAnchorEnabled: true
+                topAnchor: 0.000000
+        children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "bgStyle": "\"grey-shark-70-bg\""
+    -   prototype: "StyledMenuButton/StyledMenuButton"
+        name: "menuButton"
+        children:
+        -   path: "icon"
+            components:
+                Background:
+                    sprite: "~res:/Gfx/UI/LobbyCommon/IconsSmall.psd"
+        -   path: "UnreadNews"
+            classes: "header3 bg-color=unread-icon-bg state=hide-unread-icon no-general-pack-hidden"
+            components:
+                StyleSheet:
+                    styles: "~res:/UI/Screens/Common/Styles/UnreadIcon.style.yaml;~res:/UI/Screens/Fonts.yaml;~res:/UI/Screens3/SmartDLC.style.yaml"
+    -   class: "UIControl"
+        name: "Layout"
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                leftAnchor: 96.000000
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                bottomAnchorEnabled: true
+            LinearLayout: {}
+            UIAnchorSafeAreaComponent:
+                leftSafeInset: "INSET"
+                rightSafeInset: "INSET"
+    -   class: "UIControl"
+        name: "Line"
+        size: [1024.000000, 1.000000]
+        input: false
+        classes: "header-line"
+        components:
+            Background: {}
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                bottomAnchorEnabled: true
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Background.style.yaml"
+-   class: "UIStaticText"
+    name: "HeaderLabel"
+    components:
+        Background:
+            drawType: "DRAW_ALIGNED"
+            align: ["LEFT", "TOP"]
+        UITextComponent:
+            text: "label"
+            fitting: "FITTING_REDUCE"
+            align: ["LEFT", "VCENTER"]
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfContent"
+        StyleSheet:
+            styles: "~res:/UI/Screens/Fonts.yaml"
+-   prototype: "HeaderBase"
+    name: "Header"
+    components:
+        StyleSheet:
+            styles: "~res:/UI/Screens/Lobby/LobbyHeader.style.yaml;~res:/UI/Screens/Fonts.yaml;~res:/UI/Screens3/NetEase.style.yaml"
+    children:
+    -   path: "menuButton"
+        components:
+            UIAttachLayoutMasterComponent:
+                attachId: "MAIN_MENU_BUTTON"
+        children: []
+    -   path: "Layout"
+        position: [96.000000, 0.000000]
+        children:
+        -   class: "UIControl"
+            name: "leftContent"
+            position: [0.000000, 0.000000]
+            size: [928.000000, 80.000000]
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_ALIGNED"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "labels"
+                input: false
+                components:
+                    LinearLayout:
+                        orientation: "TopDown"
+                        dynamicPadding: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   prototype: "HeaderLabel"
+                    name: "primaryLabel"
+                    classes: "header1"
+                -   prototype: "HeaderLabel"
+                    name: "secondaryLabel"
+                    classes: "text1 text-color-white"
+            -   class: "UIControl"
+                name: "userInfo"
+                size: [928.000000, 64.000000]
+                classes: "button"
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        rightAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        spacing: 10.000000
+                children:
+                -   class: "UIControl"
+                    name: "UserDescription"
+                    input: false
+                    components:
+                        Background:
+                            colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
+                        LinearLayout:
+                            orientation: "TopDown"
+                            dynamicPadding: true
+                            spacing: 9.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                    children:
+                    -   class: "UIControl"
+                        name: "TextContainer"
+                        input: false
+                        components:
+                            Background:
+                                colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
+                            Anchor:
+                                leftAnchorEnabled: true
+                                rightAnchorEnabled: true
+                                topAnchorEnabled: true
+                            LinearLayout:
+                                orientation: "LeftToRight"
+                                spacing: 5.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfMaxChild"
+                        children:
+                        -   class: "UIStaticText"
+                            name: "userName"
+                            size: [117.000000, 30.000000]
+                            input: false
+                            classes: "header1"
+                            components:
+                                Background:
+                                    align: ["LEFT", "TOP"]
+                                UITextComponent:
+                                    text: "PlayerName"
+                                    colorInheritType: "COLOR_MULTIPLY_ALPHA_ONLY"
+                                    shadowOffset: [0.000000, 1.000000]
+                                    shadowColor: [0.000000, 0.000000, 0.000000, 0.752900]
+                                    fitting: "FITTING_POINTS"
+                                    align: ["LEFT", "VCENTER"]
+                                SizePolicy:
+                                    horizontalPolicy: "Formula"
+                                    horizontalFormula: "min(parentRest, content)"
+                        -   class: "UIStaticText"
+                            name: "clanInfo"
+                            size: [77.000000, 30.000000]
+                            input: false
+                            classes: "header1"
+                            components:
+                                Background:
+                                    colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
+                                    align: ["LEFT", "TOP"]
+                                UITextComponent:
+                                    text: "[TIMC0]"
+                                    color: [0.960784, 0.650980, 0.137255, 1.000000]
+                                    colorInheritType: "COLOR_MULTIPLY_ALPHA_ONLY"
+                                    shadowOffset: [0.000000, 1.000000]
+                                    shadowColor: [0.000000, 0.000000, 0.000000, 0.752900]
+                                    fitting: "FITTING_POINTS"
+                                    align: ["LEFT", "VCENTER"]
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    horizontalMax: 115.000000
+                    -   class: "UIControl"
+                        name: "PremiumStatus"
+                        input: false
+                        components:
+                            Background:
+                                colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfMaxChild"
+                        children:
+                        -   class: "UIStaticText"
+                            name: "PremiumActive"
+                            input: false
+                            classes: "text2 text-color-premium"
+                            components:
+                                UITextComponent:
+                                    text: "360"
+                                    fitting: "FITTING_REDUCE"
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    horizontalMax: 255.000000
+                                    verticalPolicy: "PercentOfContent"
+                        -   class: "UIControl"
+                            name: "PremiumInactive"
+                            position: [0.000000, -3.000000]
+                            size: [156.000000, 25.000000]
+                            input: false
+                            components:
+                                Background:
+                                    colorInherit: "COLOR_MULTIPLY_ON_PARENT"
+                                Anchor:
+                                    leftAnchorEnabled: true
+                                    bottomAnchorEnabled: true
+                                    bottomAnchor: 3.000000
+                                LinearLayout:
+                                    spacing: 6.000000
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfChildrenSum"
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 25.000000
+                            children:
+                            -   class: "UIControl"
+                                name: "Background"
+                                size: [110.000000, 24.000000]
+                                input: false
+                                components:
+                                    Background:
+                                        sprite: "~res:/Gfx/UI/LobbyCommon/currency_back"
+                                        spriteModification: ["FLIP_HORIZONTAL"]
+                                    Anchor:
+                                        leftAnchorEnabled: true
+                                        topAnchorEnabled: true
+                                        topAnchor: 1.000000
+                                    IgnoreLayout: {}
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfContent"
+                                        verticalPolicy: "PercentOfContent"
+                            -   prototype: "IconButton/IconButton"
+                                name: "AddButton"
+                                position: [0.000000, 0.000000]
+                                size: [25.000000, 25.000000]
+                                input: false
+                                exclusiveInput: false
+                                classes: "button-color-green"
+                                components:
+                                    Background:
+                                        colorInherit: "COLOR_MULTIPLY_ON_PARENT"
+                                    Anchor:
+                                        rightAnchorEnabled: true
+                                        vCenterAnchorEnabled: true
+                                children:
+                                -   path: "icon"
+                                    components:
+                                        Background:
+                                            sprite: "~res:/Gfx/UI/LobbyCommon/plus_icon"
+                            -   class: "UIStaticText"
+                                name: "Text"
+                                classes: "text2 text-color-blue"
+                                components:
+                                    UITextComponent:
+                                        text: "hangar/buyPremium"
+                                        align: ["LEFT", "VCENTER"]
+                                    Anchor:
+                                        vCenterAnchorEnabled: true
+                                        vCenterAnchor: -1.000000
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfContent"
+                                        verticalPolicy: "PercentOfContent"
+                -   class: "UIControl"
+                    name: "NetEaseShopWarning"
+                    input: false
+                    classes: "netease-content"
+                    components:
+                        Background:
+                            colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
+                        LinearLayout:
+                            orientation: "TopDown"
+                            dynamicPadding: true
+                            spacing: 9.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                    children:
+                    -   class: "UIStaticText"
+                        name: "Text"
+                        classes: "text2"
+                        components:
+                            Background:
+                                drawType: "DRAW_ALIGNED"
+                                align: ["LEFT", "TOP"]
+                            UITextComponent:
+                                text: "ChinaShopWarning"
+                                multiline: "MULTILINE_ENABLED"
+                                align: ["LEFT", "VCENTER"]
+                            Anchor:
+                                leftAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfParent"
+        -   class: "UIControl"
+            name: "rightContent"
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_ALIGNED"
+                Anchor:
+                    topAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                    bottomAnchor: 2.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"

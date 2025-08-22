@@ -1,0 +1,276 @@
+Header:
+    version: 130
+ImportedPackages:
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "Leaderboard"
+    size: [835.000000, 320.000000]
+    input: false
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/Lobby/TaskJournal/Clan/LeaderboardInit.animation"
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "isDataLoaded", "false", "false"]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["ClanTasksWeekData", "week", "null", "{ }"]
+            events:
+            - "ON_LEADERBOARD_ROW_CLICKED(int index)"
+            - "LEADERBOARD_SQUAD_BATTLES_ICON"
+            - "ON_CURRENCY_ICON_CLICKED"
+        UIDataLocalVarsComponent:
+            data:
+            - ["bool", "isWeekFinished", "session.serverTime >= week.periodEndTime"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/TaskJournal/Clan/Leaderboard.actions"
+        UIEventOnDataComponent0:
+            watchedDataExpression: "isDataLoaded"
+            ifExpression: "isDataLoaded == true"
+            eventName: "ScrollToMyPosition"
+    children:
+    -   class: "UIControl"
+        name: "Headers"
+        size: [835.000000, 32.000000]
+        input: false
+        components:
+            LinearLayout:
+                orientation: "RightToLeft"
+                padding: "32; 0"
+                dynamicSpacing: true
+                skipInvisible: false
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "Formula"
+                verticalFormula: "maxChild + 16"
+        children:
+        -   class: "UIControl"
+            name: "RightPart"
+            size: [104.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    bottomAnchorEnabled: true
+                    bottomAnchor: -16.000000
+                LinearLayout:
+                    orientation: "RightToLeft"
+                    spacing: 50.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "ClanSquadBattles"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    Background:
+                        sprite: "~res:/Gfx/Lobby/icons/icon_battles-clan_s"
+                    UIOpacityComponent:
+                        opacity: 0.500000
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 24.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 24.000000
+                    UIAttachLayoutMasterComponent:
+                        attachId: "LEADERBOARD_SQUAD_BATTLES_ICON"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/ButtonSound.style.yaml"
+                children:
+                -   class: "UIControl"
+                    name: "TapArea"
+                    size: [32.000000, 32.000000]
+                    input: true
+                    classes: "button-open-sound"
+                    components:
+                        Anchor:
+                            leftAnchorEnabled: true
+                            leftAnchor: -4.000000
+                            rightAnchorEnabled: true
+                            rightAnchor: -4.000000
+                            topAnchorEnabled: true
+                            topAnchor: -4.000000
+                            bottomAnchorEnabled: true
+                            bottomAnchor: -4.000000
+                        UIInputEventComponent:
+                            onTouchUpInside: "ON_SQUAD_BATTLES_ICON_CLICKED"
+                        Sound: {}
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/ButtonSound.style.yaml"
+            -   class: "UIControl"
+                name: "ProxyAmount"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    Background:
+                        sprite: "~res:/Gfx/Lobby/icons/icon_currency_clan-task-flat-s"
+                    UIOpacityComponent:
+                        opacity: 0.500000
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 24.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 24.000000
+                    UIAttachLayoutMasterComponent:
+                        attachId: "LEADERBOARD_CURRENCY_ICON"
+                children:
+                -   class: "UIControl"
+                    name: "TapArea"
+                    size: [32.000000, 32.000000]
+                    input: true
+                    classes: "button-open-sound"
+                    components:
+                        Anchor:
+                            leftAnchorEnabled: true
+                            leftAnchor: -4.000000
+                            rightAnchorEnabled: true
+                            rightAnchor: -4.000000
+                            topAnchorEnabled: true
+                            topAnchor: -4.000000
+                            bottomAnchorEnabled: true
+                            bottomAnchor: -4.000000
+                        UIInputEventComponent:
+                            onTouchUpInside: "ON_CURRENCY_ICON_CLICKED"
+                        Sound: {}
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/ButtonSound.style.yaml"
+        -   class: "UIControl"
+            name: "LeftPart"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    bottomAnchorEnabled: true
+                    bottomAnchor: -16.000000
+                LinearLayout:
+                    spacing: 8.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfMaxChild"
+            bindings:
+            - ["visible", "isWeekFinished"]
+            children:
+            -   class: "UIControl"
+                name: "PositionString"
+                size: [32.000000, 32.000000]
+                input: false
+                classes: "t-headline bold color=white-wild-sand-text"
+                components:
+                    UITextComponent:
+                        text: "clanMissions/missionScreen/leaderboard/playerPlace"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "Position"
+                size: [32.000000, 32.000000]
+                input: false
+                classes: "t-headline bold color=white-wild-sand-text"
+                components:
+                    UITextComponent: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "week.playerLeaderboardPosition"]
+    -   class: "UIControl"
+        name: "Spacer"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+                verticalValue: 24.000000
+    -   class: "UIControl"
+        name: "ScrollableContent"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIScrollView"
+            name: "UIScrollView"
+            size: [800.000000, 800.000000]
+            autoUpdate: true
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIScrollViewContainer"
+                name: "scrollContainerControl"
+                scrollDirection: "kVertical"
+                components:
+                    Anchor: {}
+                    LinearLayout:
+                        orientation: "TopDown"
+                        spacing: 1.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfChildrenSum"
+                    UILayoutEventComponent:
+                        positionChangedEvent: "UpdateRowsPosition"
+                        positionChangedEventData: "_position.Y"
+                    UIRepeatComponent:
+                        control: "~res:/UI/Screens3/Lobby/TaskJournal/Clan/LeaderboardRow.yaml"
+                        dataContainer: "week.leaderboard"
+                        args:
+                            "isSelfRecord": "_index + 1 == week.playerLeaderboardPosition"
+                            "leaderboardRecord": "_item"
+                            "index": "_index"
+                        eventActions:
+                        - ["ON_LEADERBOARD_ROW_CLICKED", "ON_LEADERBOARD_ROW_CLICKED", "_event.index"]
+                        elementNameExpression: "\"position\" + str(_index)"
+                        loadingPolicy: "Lazy"
+                        forceLoadControlCount: 20
+                        loadingDistance: 200.000000
+                        unloadingDistance: 200.000000
+        -   prototype: "VerticalScrollBar/VerticalScrollBar"
+            name: "VerticalScrollBar"
+            components:
+                Anchor:
+                    rightAnchorEnabled: true
+                    rightAnchor: -8.000000
+                    topAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                IgnoreLayout: {}
+                UIScrollBarComponent:
+                    delegate: "../UIScrollView"
+            children:
+            -   path: "slider"
+                visible: true
+    -   class: "UIControl"
+        name: "TutorialLeaderboardStats"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+            IgnoreLayout: {}
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 168.000000
+                verticalPolicy: "FixedSize"
+            UIAttachLayoutMasterComponent:
+                attachId: "CLAN_TASKS_LEADERBOARD_STATS"
+        bindings:
+        - ["SizePolicy.verticalValue", "week.leaderboard.Size() * 81 + 40"]

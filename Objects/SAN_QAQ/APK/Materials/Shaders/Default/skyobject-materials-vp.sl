@@ -26,8 +26,8 @@ vertex_out vp_main(vertex_in input)
 {
 	vertex_out output;
 
-	output.localPos = mul4Fast0(input.localPos.xyz, worldViewProjMatrix);
-	output.localPos.z = output.localPos.w - 0.0001;
+	output.localPos = mul(float4(input.localPos.xyz, 0.0), worldViewProjMatrix);
+	output.localPos.z = output.localPos.w - 1e-4;
 
 	#if FORCE_2D_MODE
 		output.localPos.z = 0.0;

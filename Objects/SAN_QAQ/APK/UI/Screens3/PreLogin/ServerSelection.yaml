@@ -1,0 +1,766 @@
+Header:
+    version: 155
+ImportedPackages:
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "ServerSelection"
+    size: [960.000000, 640.000000]
+    input: false
+    components:
+        UIAnimationComponent:
+            animations: "OnServerNameChangedForward,~res:/UI/Screens3/PreLogin/ServerNameTransitionForward.animation;OnServerNameChangedBackwards,~res:/UI/Screens3/PreLogin/ServerNameTransitionBackwards.animation;REGION_SELECTED,~res:/UI/Screens3/PreLogin/ServerConnectionQuality.animation;_INIT,~res:/UI/Screens3/PreLogin/ServerSelection.animation"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["PreLoginData", "preLoginData", "null", "{ \"regionsList\" = [ { \"isVisibleOnMap\" = true; \"layoutCoordX\" = 0.200000; \"layoutCoordY\" = 0.450000; \"index\" = 0; }; { \"index\" = 1; \"isVisibleOnMap\" = true; \"layoutCoordX\" = 0.800000; \"layoutCoordY\" = 0.600000; }; { \"index\" = 2; \"isVisibleOnMap\" = true; \"layoutCoordX\" = 0.640000; \"layoutCoordY\" = 0.350000; }; { \"index\" = 3; \"isVisibleOnMap\" = true; \"layoutCoordX\" = 0.640000; \"layoutCoordY\" = 0.520000; }; { \"index\" = 4; \"isVisibleOnMap\" = true; \"layoutCoordX\" = 0.521000; \"layoutCoordY\" = 0.390000; }; { \"index\" = 5; \"isVisibleOnMap\" = true; \"layoutCoordX\" = 0.300000; \"layoutCoordY\" = 0.650000; }; ]; \"currentRegion\" = { \"index\" = 1; \"isVisibleOnMap\" = true; \"layoutCoordX\" = 0.200000; \"layoutCoordY\" = 0.600000; \"quality\" = eConnectionQuality.Good; }; \"showListToggleButton\" = true; }"]
+            events:
+            - "ON_TOGGLE_CHANGED"
+            - "CONFIRM_REGION"
+            - "REGIONS_FILTER_CHANGED"
+            - "REGION_SELECTED"
+        UIDataLocalVarsComponent:
+            data:
+            - ["string", "emptyColor", "\"black-25-bg\""]
+            - ["string", "badColor", "\"red-red-bg\""]
+            - ["string", "mediumColor", "\"orange-tango-bg\""]
+            - ["string", "goodColor", "\"yellow-lightning-bg\""]
+            - ["string", "perfectColor", "\"green-green-bg\""]
+        UIEventOnDataComponent0:
+            watchedDataExpression: "preLoginData.serverNameTransitionData.transitionForward"
+            ifExpression: "preLoginData.serverNameTransitionData.transitionForward"
+            eventName: "OnServerNameChangedForward"
+        UIEventOnDataComponent1:
+            watchedDataExpression: "preLoginData.serverNameTransitionData.transitionForward"
+            ifExpression: "not (preLoginData.serverNameTransitionData.transitionForward)"
+            eventName: "OnServerNameChangedBackwards"
+    children:
+    -   class: "UIControl"
+        name: "KeyArt"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                bottomAnchorEnabled: true
+        children:
+        -   class: "UIControl"
+            name: "Holder"
+            size: [960.000000, 640.000000]
+            scale: [1.000000, 1.000000]
+            pivot: [0.500000, 0.500000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                ScalePolicy:
+                    horizontalFormula: "max(parentSize.X / size.X, parentSize.Y / size.Y)"
+                    verticalFormula: "max(parentSize.X / size.X, parentSize.Y / size.Y)"
+            children:
+            -   class: "UIControl"
+                name: "Layer"
+                size: [960.000000, 1280.000000]
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   class: "UIControl"
+                    name: "Background"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_SCALE_TO_RECT"
+                            sprite: "~res:/Gfx/Lobby/backgrounds/server-screen/server-screen_bg"
+                            frame: 0
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                -   class: "UIControl"
+                    name: "Grid"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_TILED"
+                            sprite: "~res:/Gfx/Lobby/backgrounds/server-screen/server-screen_net"
+                            perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                        UIOpacityComponent:
+                            opacity: 0.060000
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                -   class: "UIControl"
+                    name: "Scaner"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                    children:
+                    -   class: "UIControl"
+                        name: "Left"
+                        input: false
+                        components:
+                            Anchor:
+                                leftAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 0.000000
+                                verticalPolicy: "PercentOfParent"
+                    -   class: "UIControl"
+                        name: "ScanerLineLeft"
+                        input: false
+                        classes: "green-green-bg"
+                        components:
+                            Background: {}
+                            UIOpacityComponent:
+                                opacity: 0.000000
+                            Anchor:
+                                rightAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 2.000000
+                                verticalPolicy: "PercentOfParent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml"
+                    -   class: "UIControl"
+                        name: "Right"
+                        input: false
+                        components:
+                            Anchor:
+                                rightAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 0.000000
+                                verticalPolicy: "PercentOfParent"
+                    -   class: "UIControl"
+                        name: "ScanerLineRight"
+                        input: false
+                        classes: "green-green-bg"
+                        components:
+                            Background: {}
+                            UIOpacityComponent:
+                                opacity: 0.000000
+                            Anchor:
+                                leftAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 2.000000
+                                verticalPolicy: "PercentOfParent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml"
+                    -   class: "UIControl"
+                        name: "Top"
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                topAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 0.000000
+                    -   class: "UIControl"
+                        name: "ScanerLineTop"
+                        input: false
+                        classes: "green-green-bg"
+                        components:
+                            Background: {}
+                            UIOpacityComponent:
+                                opacity: 0.000000
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                bottomAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 2.000000
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml"
+                    -   class: "UIControl"
+                        name: "Bottom"
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                bottomAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 0.000000
+                    -   class: "UIControl"
+                        name: "ScanerLineBottom"
+                        input: false
+                        classes: "green-green-bg"
+                        components:
+                            Background: {}
+                            UIOpacityComponent:
+                                opacity: 0.000000
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                topAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 2.000000
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml"
+                -   class: "UIControl"
+                    name: "Map"
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                        UIChildComponent0:
+                            prototypePath: "~res:/UI/Screens3/PreLogin/ServerMap.yaml"
+                            args:
+                                "preLoginData": "preLoginData"
+                            eventActions:
+                            - ["REGION_SELECTED", "REGION_SELECTED", "_event"]
+                    bindings:
+                    - ["visible", "not (preLoginData.showServersAsList)"]
+                -   class: "UIControl"
+                    name: "GradientsBG"
+                    position: [39.000000, 105.000000]
+                    size: [960.000000, 1080.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                    children:
+                    -   class: "UIControl"
+                        name: "Left"
+                        size: [32.000000, 32.000000]
+                        enabled: false
+                        input: false
+                        components:
+                            Background:
+                                drawType: "DRAW_SCALE_TO_RECT"
+                                sprite: "~res:/Gfx/Lobby/backgrounds/server-screen/server-screen_shadow_left"
+                                frame: 0
+                            Anchor:
+                                leftAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "Formula"
+                                horizontalFormula: "parent / 4"
+                                verticalPolicy: "PercentOfParent"
+                    -   class: "UIControl"
+                        name: "Right"
+                        size: [32.000000, 32.000000]
+                        enabled: false
+                        input: false
+                        components:
+                            Background:
+                                drawType: "DRAW_SCALE_TO_RECT"
+                                sprite: "~res:/Gfx/Lobby/backgrounds/server-screen/server-screen_shadow_right"
+                                frame: 0
+                            Anchor:
+                                rightAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "Formula"
+                                horizontalFormula: "parent / 4"
+                                verticalPolicy: "PercentOfParent"
+                -   class: "UIControl"
+                    name: "Fades"
+                    position: [142.000000, 40.000000]
+                    size: [582.000000, 640.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        LinearLayout:
+                            dynamicSpacing: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                    children:
+                    -   class: "UIControl"
+                        name: "Left"
+                        input: false
+                        classes: "black-bg"
+                        components:
+                            Background:
+                                drawType: "DRAW_SCALE_TO_RECT"
+                                sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                                spriteModification: ["FLIP_HORIZONTAL"]
+                            UIOpacityComponent:
+                                opacity: 0.250000
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "Formula"
+                                horizontalFormula: "parent / 4"
+                                verticalPolicy: "PercentOfParent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml"
+                    -   class: "UIControl"
+                        name: "Right"
+                        position: [720.000000, 54.000000]
+                        input: false
+                        classes: "black-bg"
+                        components:
+                            Background:
+                                drawType: "DRAW_SCALE_TO_RECT"
+                                sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                            UIOpacityComponent:
+                                opacity: 0.250000
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "Formula"
+                                horizontalFormula: "parent / 4"
+                                verticalPolicy: "PercentOfParent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml"
+    -   class: "UIControl"
+        name: "ServerInfo"
+        position: [80.000000, 502.000000]
+        size: [768.000000, 78.000000]
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                bottomAnchorEnabled: true
+                bottomAnchor: 48.000000
+            LinearLayout:
+                padding: "24"
+                spacing: 24.000000
+                useRtl: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 800.000000
+                verticalPolicy: "FixedSize"
+                verticalValue: 90.000000
+        bindings:
+        - ["visible", "not (preLoginData.showServersAsList) and (not preLoginData.allServersDoNotRespond)"]
+        children:
+        -   class: "UIControl"
+            name: "BackgroundBorder"
+            size: [1000.000000, 78.000000]
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_STRETCH_BOTH"
+                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_border_1px_r4"
+                    color: [1.000000, 1.000000, 1.000000, 0.149020]
+                    leftRightStretchCap: 4.000000
+                    topBottomStretchCap: 4.000000
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 90.000000
+            children:
+            -   class: "UIControl"
+                name: "Background"
+                size: [1000.000000, 78.000000]
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_STRETCH_BOTH"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_r4"
+                        color: [0.000000, 0.666667, 0.000000, 0.149020]
+                        leftRightStretchCap: 4.000000
+                        topBottomStretchCap: 4.000000
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+        -   class: "UIControl"
+            name: "ServerNameHolder"
+            input: false
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 136.000000
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "ServerNameFirst"
+                size: [120.000000, 48.000000]
+                input: false
+                classes: "t-headline regular white-wild-sand-text"
+                components:
+                    UIOpacityComponent: {}
+                    UITextComponent:
+                        multiline: "MULTILINE_ENABLED"
+                        align: ["LEFT", "VCENTER"]
+                        useRtlAlign: "USE_BY_SYSTEM"
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "preLoginData.serverNameTransitionData.nameFirst"]
+            -   class: "UIControl"
+                name: "ServerNameSecond"
+                size: [120.000000, 48.000000]
+                input: false
+                classes: "t-headline regular white-wild-sand-text"
+                components:
+                    UIOpacityComponent:
+                        opacity: 0.000000
+                    UITextComponent:
+                        multiline: "MULTILINE_ENABLED"
+                        align: ["LEFT", "VCENTER"]
+                        useRtlAlign: "USE_BY_SYSTEM"
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "preLoginData.serverNameTransitionData.nameSecond"]
+        -   class: "UIControl"
+            name: "ConnectionQualityWrapper"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+            children:
+            -   class: "UIControl"
+                name: "ConnectionQuality"
+                position: [244.000000, 21.000000]
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        spacing: 2.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 32.000000
+                children:
+                -   class: "UIControl"
+                    name: "Bad"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_STRETCH_BOTH"
+                            sprite: "~res:/Gfx/Lobby/backgrounds/bg_r1"
+                            leftRightStretchCap: 1.000000
+                            topBottomStretchCap: 1.000000
+                        UIOpacityComponent: {}
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            bottomAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 8.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 8.000000
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["classes", "when preLoginData.currentRegion.quality == 3 -> perfectColor, preLoginData.currentRegion.quality == 2 -> goodColor, preLoginData.currentRegion.quality == 1 -> mediumColor, badColor"]
+                -   class: "UIControl"
+                    name: "Medium"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_STRETCH_BOTH"
+                            sprite: "~res:/Gfx/Lobby/backgrounds/bg_r1"
+                            leftRightStretchCap: 1.000000
+                            topBottomStretchCap: 1.000000
+                        UIOpacityComponent: {}
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            bottomAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 8.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 16.000000
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["classes", "when preLoginData.currentRegion.quality == 3 -> perfectColor, preLoginData.currentRegion.quality == 2 -> goodColor, preLoginData.currentRegion.quality == 1 -> mediumColor, emptyColor"]
+                -   class: "UIControl"
+                    name: "Good"
+                    position: [19.000000, -68.000000]
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_STRETCH_BOTH"
+                            sprite: "~res:/Gfx/Lobby/backgrounds/bg_r1"
+                            leftRightStretchCap: 1.000000
+                            topBottomStretchCap: 1.000000
+                        UIOpacityComponent: {}
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            bottomAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 8.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 24.000000
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["classes", "when preLoginData.currentRegion.quality == 3 -> perfectColor, preLoginData.currentRegion.quality == 2 -> goodColor, emptyColor"]
+                -   class: "UIControl"
+                    name: "Perfect"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_STRETCH_BOTH"
+                            sprite: "~res:/Gfx/Lobby/backgrounds/bg_r1"
+                            leftRightStretchCap: 1.000000
+                            topBottomStretchCap: 1.000000
+                        UIOpacityComponent: {}
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            bottomAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 8.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 32.000000
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["classes", "when preLoginData.currentRegion.quality == 3 -> perfectColor, emptyColor"]
+        -   class: "UIControl"
+            name: "WarningText"
+            input: false
+            classes: "t-body regular white-wild-sand-50-text"
+            components:
+                UITextComponent:
+                    multiline: "MULTILINE_ENABLED"
+                    align: ["LEFT", "VCENTER"]
+                    useRtlAlign: "USE_BY_SYSTEM"
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "localize(\"login/server/warning\")"]
+        -   class: "UIControl"
+            name: "ConfirmButton"
+            input: false
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfFirstChild"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+                    args:
+                        "caption": "\"#common:DialogButton/Approve\""
+                        "sound": "eButtonSound.OK"
+                    eventActions:
+                    - ["ON_CLICK_BUTTON", "CONFIRM_REGION", ""]
+                UIIdentifierComponent:
+                    id: "confirm_button"
+    -   class: "UIControl"
+        name: "ServersList"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 40.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfChildrenSum"
+        bindings:
+        - ["visible", "preLoginData.showServersAsList"]
+        children:
+        -   class: "UIControl"
+            name: "RegionsFilter"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Common/TextField.yaml"
+                    args:
+                        "isLastEdit": "true"
+                        "leftIconImage": "\"~res:/Gfx/Lobby/icons/icon_search_s\""
+                        "bgStyle": "\"black-50-bg\""
+                        "placeholderTextColor": "\"white-wild-sand-50-text\""
+                        "textStyle": "\"t-subtitle regular\""
+                        "text": "preLoginData.regionsFilterText"
+                        "placeholderText": "localize(\"login/server/list/placeholder\")"
+                        "filterRegExp": "NUMBER_LETTER"
+                        "canCleaned": "true"
+                        "isEnabled": "true"
+                        "textFieldType": "eTextFieldType.Text"
+                        "keyboardType": "eKeyboardType.KEYBOARD_TYPE_ASCII_CAPABLE"
+                    eventActions:
+                    - ["TEXT_CHANGED", "REGIONS_FILTER_CHANGED", "_event"]
+        -   class: "UIControl"
+            name: "ServersList"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 320.000000
+            children:
+            -   class: "UIScrollView"
+                name: "UIScrollView"
+                size: [800.000000, 800.000000]
+                autoUpdate: true
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        rightAnchorEnabled: true
+                        topAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfFirstChild"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   class: "UIScrollViewContainer"
+                    name: "scrollContainerControl"
+                    scrollDirection: "kVertical"
+                    components:
+                        LinearLayout:
+                            orientation: "TopDown"
+                            spacing: 1.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfFirstChild"
+                            verticalPolicy: "PercentOfChildrenSum"
+                        UISwitchBarComponent:
+                            onSelectElement: "REGION_SELECTED"
+                            onSelectElementData: "_selectedElement"
+                            selectionEventType: "TOUCH_UP"
+                        UIRepeatComponent:
+                            control: "~res:/UI/Screens3/PreLogin/ServerDescriptionPrototype.yaml"
+                            dataContainer: "preLoginData.regionsList"
+                            args:
+                                "isSelected": "_item.index == preLoginData.currentRegionIndex"
+                                "descr": "_item"
+                    bindings:
+                    - ["UISwitchBarComponent.selectedElement", "preLoginData.currentRegionIndex"]
+            -   prototype: "VerticalScrollBar/VerticalScrollBar"
+                name: "VerticalScrollBar"
+                components:
+                    Anchor:
+                        rightAnchorEnabled: true
+                        rightAnchor: -4.000000
+                        topAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                    IgnoreLayout: {}
+                    UIScrollBarComponent:
+                        delegate: "../UIScrollView"
+                children:
+                -   path: "slider"
+                    visible: true
+                    children: []
+        -   class: "UIControl"
+            name: "ConfirmButton"
+            position: [116.000000, 360.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                    bottomAnchor: 72.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfFirstChild"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+                    args:
+                        "caption": "\"#common:DialogButton/Approve\""
+                        "sound": "eButtonSound.OK"
+                    eventActions:
+                    - ["ON_CLICK_BUTTON", "CONFIRM_REGION", ""]
+    -   class: "UIControl"
+        name: "ToggleViewButton"
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                leftAnchor: 132.000000
+                topAnchorEnabled: true
+                topAnchor: 32.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                condition: "preLoginData.showListToggleButton"
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/ToggleWithLabel.yaml"
+                args:
+                    "turnedOn": "preLoginData.showServersAsList"
+                    "text": "localize(\"login/server/toggle\")"
+                    "isDarkMode": "true"
+                eventActions:
+                - ["ON_TOGGLE_CHANGED", "ON_TOGGLE_CHANGED", ""]
+            UILayerComponent: {}
+        bindings:
+        - ["visible", "preLoginData.showListToggleButton"]
+        - ["UILayerComponent.layer", "preLoginData.showListToggleButton"]
+    -   class: "UIControl"
+        name: "Header"
+        size: [32.000000, 32.000000]
+        input: false
+        classes: "t-headline bold white-wild-sand-text"
+        components:
+            UITextComponent: {}
+            Anchor:
+                hCenterAnchorEnabled: true
+                topAnchorEnabled: true
+                topAnchor: 48.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfContent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml"
+        bindings:
+        - ["UITextComponent.text", "localize(\"login/server/title\")"]

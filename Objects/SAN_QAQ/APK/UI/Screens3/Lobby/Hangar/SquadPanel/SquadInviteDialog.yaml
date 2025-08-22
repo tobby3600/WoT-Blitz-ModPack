@@ -1,7 +1,7 @@
 Header:
     version: "100"
 ImportedPackages:
-- "~res:/UI/Screens3/Lobby/Common/ButtonNoBlur.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
 - "~res:/UI/Screens3/Common/OverlayBlur.yaml"
 Controls:
 -   class: "UIControl"
@@ -186,7 +186,7 @@ Controls:
                         horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "PercentOfMaxChild"
                 children:
-                -   prototype: "ButtonNoBlur/Button"
+                -   prototype: "Button/Button"
                     name: "ButtonCancel"
                     components:
                         Anchor:
@@ -203,7 +203,7 @@ Controls:
                                 "enabled": "true"
                             eventActions:
                             - ["ON_CLICK_BUTTON", "DECLINE_DIALOG_OPTIONAL", "_event"]
-                -   prototype: "ButtonNoBlur/Button"
+                -   prototype: "Button/Button"
                     name: "ButtonApprove"
                     position: [0.000000, 56.000000]
                     components:
@@ -221,7 +221,7 @@ Controls:
                                 "enabled": "true"
                             eventActions:
                             - ["ON_CLICK_BUTTON", "CLOSE_DIALOG_ACCENT", "_event"]
-            -   prototype: "ButtonNoBlur/Button"
+            -   prototype: "Button/Button"
                 name: "CancelButton"
                 components:
                     Anchor:
@@ -237,5 +237,6 @@ Controls:
                             "size": "eButtonSize.NORMAL"
                             "sound": "eButtonSound.UNKNOWN"
                             "enabled": "true"
+                            "isBlur": "false"
                         eventActions:
                         - ["ON_CLICK_BUTTON", "CLOSE_DIALOG_OPTIONAL", ""]

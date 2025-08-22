@@ -63,7 +63,7 @@
 			<rates>5.0 10.0 25.0</rates>
 		</exhaust>
 		<turretPositions>
-			<turret>0.2564 1.8269 2.2672</turret>
+			<turret>0.25648 1.80732 2.29866</turret>
 		</turretPositions>
 		<fakeTurrets>
 			<lobby>0</lobby>
@@ -80,7 +80,7 @@
 			<armor_5>90</armor_5>
 			<armor_6>30</armor_6>
 			<armor_7>20</armor_7>
-			<armor_8>0</armor_8>
+			<armor_8>10</armor_8>
 			<armor_9>85</armor_9>
 			<armor_10>90</armor_10>
 			<armor_13>30</armor_13>
@@ -136,16 +136,19 @@
 				<lodDist>MEDIUM</lodDist>
 				<leftMaterial>track_mat_L_skinned</leftMaterial>
 				<rightMaterial>track_mat_R_skinned</rightMaterial>
+				<textureScale>0.000000</textureScale>
 			</tracks>
 			<wheels>
 				<lodDist>MEDIUM</lodDist>
 				<wheel>
 					<isLeft>true</isLeft>
+					<isLeading>false</isLeading>
 					<name>WD_L0</name>
 					<radius>0.1</radius>
 				</wheel>
 				<wheel>
 					<isLeft>false</isLeft>
+					<isLeading>false</isLeading>
 					<name>WD_R0</name>
 					<radius>0.1</radius>
 				</wheel>
@@ -279,6 +282,7 @@
 							</shell>
 						</_130mm_OF-46>
 					</shots>
+					<emblemSlots/>
 				</_130mm_S-26A>
 			</guns>
 			<emblemSlots>
@@ -298,7 +302,9 @@
 				</inscription>
 			</emblemSlots>
 			<showEmblemsOnGun>false</showEmblemsOnGun>
-			<physicsShape>0.941 -0.118 1.000 0.000 0.426 0.294 0.000 0.493 0.265 0.588 0.228 0.500 0.132 0.779 0.000</physicsShape>
+			<physicsShape>0.941 -0.118 1.000 0.000 0.426 0.294 0.000 0.100 0.265 0.588 0.228 0.500 0.132 0.779 0.000</physicsShape>
+			<turretRotatorSoundManual/>
+			<turretRotatorSoundGear/>
 		</Turret_1_R111_ISU130>
 	</turrets0>
 	<engines>

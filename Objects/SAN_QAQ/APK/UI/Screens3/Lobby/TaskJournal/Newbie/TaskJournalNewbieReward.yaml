@@ -1,0 +1,187 @@
+Header:
+    version: 128
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "TaskJournalNewbieReward"
+    size: [200.000000, 90.000000]
+    input: false
+    components:
+        UIAnimationComponent:
+            animations: "REWARD_UNLOCKED,~res:/UI/Screens3/Lobby/TaskJournal/Animations/RewardUnlocked.animation;_INIT,~res:/UI/Screens3/Lobby/TaskJournal/Animations/RewardUnlocked.animation"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["int", "index", "0", "0"]
+            - ["bool", "isReached", "false", "false"]
+            - ["bool", "isLast", "false", "true"]
+            - ["string", "attachId", "\"\"", "\"\""]
+            - ["float", "position", "0.000000", "30.000000"]
+            - ["TaskJournalChest", "chestInfo", "null", "{ \"dropList\" = [ { \"resource\" = { \"type\" = ResourceType.stuff; }; }; ]; }"]
+            events:
+            - "ON_REWARD_PRESSED"
+        UIDataLocalBindingsComponent:
+            data:
+            - ["bool", "isReadyToOpen", "not isNull(chestInfo) and not chestInfo.isOpened and isReached"]
+            - ["bool", "isTaken", "not isNull(chestInfo) and chestInfo.isOpened"]
+            - ["ChestDrop", "chestDrop", "when isNull(chestInfo) -> null, when chestInfo.dropList.Size() > 0 -> chestInfo.dropList[0], null"]
+            - ["ResourceDetailed", "resource", "when isNull(chestDrop) -> null, chestDrop.resource"]
+            - ["string", "quantity", "when isNull(resource) -> \"\", when not isNull(resource.stuff) -> \"x\" + str(chestDrop.min), not isNull(resource.vehicle) -> localize(resource.vehicle.info.shortName), not isNull(resource.basic) -> (when resource.type == ResourceType.premium -> timeDiffShort(chestDrop.min), str1000Separated(chestDrop.min)), \"\""]
+        UIEventOnDataComponent0:
+            watchedDataExpression: "isReadyToOpen"
+            ifExpression: "isReadyToOpen == true"
+            eventName: "REWARD_UNLOCKED"
+        UIEventOnDataComponent1:
+            watchedDataExpression: "isReached"
+            ifExpression: "isReached == true"
+            eventName: "DAILY_CHEST_REACHED"
+            eventData: "index"
+    bindings:
+    - ["visible", "not isNull(chestInfo) and chestInfo.dropList.Size() > 0"]
+    - ["SizePolicy.horizontalValue", "position"]
+    children:
+    -   class: "UIControl"
+        name: "Item"
+        size: [0.000000, 0.000000]
+        pivot: [0.500000, 0.000000]
+        input: false
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "RewardContent"
+            size: [100.000000, 120.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                    vCenterAnchor: -20.000000
+                UIAttachLayoutMasterComponent: {}
+            bindings:
+            - ["Anchor.hCenterAnchor", "when isLast -> -40, -2"]
+            - ["UIAttachLayoutMasterComponent.attachId", "attachId"]
+            children:
+            -   class: "UIParticles"
+                name: "Glow"
+                size: [32.000000, 32.000000]
+                scale: [1.500000, 1.500000]
+                pivot: [0.500000, 0.500000]
+                input: false
+                effectPath: "~res:/3d/FX/UI/BattlePass/GlowReward.sc2"
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                bindings:
+                - ["visible", "isReadyToOpen"]
+            -   class: "UIControl"
+                name: "Reward"
+                size: [32.000000, 32.000000]
+                pivot: [0.500000, 0.500000]
+                classes: "touchable-self button-open-sound"
+                components:
+                    UIOpacityComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 120.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 160.000000
+                    UIInputEventComponent:
+                        onTouchUpInside: "ON_REWARD_PRESSED"
+                    UIChildComponent0:
+                        condition: "not isNull(chestInfo) and chestInfo.dropList.Size() > 0"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Detailed/Icon.yaml"
+                        args:
+                            "resource": "chestInfo.dropList[0].resource"
+                    Sound: {}
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/ButtonSound.style.yaml;~res:/UI/Screens3/Common/Touch.style.yaml"
+                bindings:
+                - ["UIOpacityComponent.opacity", "when isTaken -> 0.500000, 1.000000"]
+            -   class: "UIControl"
+                name: "Quantity"
+                input: false
+                classes: "t-headline bold color=white-wild-sand-text"
+                components:
+                    UIOpacityComponent: {}
+                    UITextComponent:
+                        colorInheritType: "COLOR_IGNORE_PARENT"
+                        align: ["LEFT", "VCENTER"]
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        hCenterAnchor: 108.000000
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["UIOpacityComponent.opacity", "when isTaken -> 0.500000, 1.000000"]
+                - ["UITextComponent.text", "quantity"]
+        -   class: "UIControl"
+            name: "Mark"
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_FILL"
+                Anchor:
+                    rightAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 2.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 8.000000
+            children:
+            -   class: "UIControl"
+                name: "ProxyPrice"
+                input: false
+                components:
+                    Anchor:
+                        enabled: true
+                        hCenterAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                        bottomAnchor: 8.000000
+                    LinearLayout:
+                        padding: "4.000000"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfFirstChild"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 26.000000
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                children:
+                -   prototype: "BlurModified/BlurModified"
+                    name: "Blur"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "bgStyle": "black-25-bg"
+                                "roundCorner": "\"3\""
+                -   class: "UIControl"
+                    name: "PriceAmount"
+                    input: false
+                    classes: "t-caption bold color=white-wild-sand-text"
+                    components:
+                        UITextComponent: {}
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml"
+                    bindings:
+                    - ["UITextComponent.text", "when not isNull(chestInfo) -> chestInfo.requiredProxy.quantity, \"\""]

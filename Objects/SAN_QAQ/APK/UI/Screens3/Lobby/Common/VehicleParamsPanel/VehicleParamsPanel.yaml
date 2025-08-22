@@ -1,0 +1,503 @@
+Header:
+    version: 157
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/VehicleParamsPanel/Items/Section.yaml"
+- "~res:/UI/Screens3/Lobby/Inventory/Common/RightPanelTabsHeaderTwoTitles.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "VehicleParamsPanel2"
+    size: [348.000000, 208.000000]
+    input: false
+    classes: "right-panel"
+    components:
+        Anchor:
+            topAnchorEnabled: true
+        LinearLayout: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "Formula"
+            verticalFormula: "when parent == 0 -> childrenSum, min(parentRest, childrenSum)"
+        UIDataParamsComponent:
+            params:
+            - ["TankParams", "tankParams", "null", "{ \"selectedTab\" = \"summary\"; \"showComponentSection\" = true; }"]
+            - ["TutorialDataModel", "tutorialData", "{ }", "{ }"]
+            - ["bool", "isBlur", "true", "true"]
+            - ["bool", "isGeneralPackLoaded", "true", "true"]
+            - ["bool", "showHeader", "true", "true"]
+            - ["string", "backgroundStyle", "\"grey-shark-70-bg\"", "\"grey-shark-70-bg\""]
+            - ["vector<eGameplayMechanics>", "mechanics", "[ ]", "[ eGameplayMechanics.ImprovedDetection; eGameplayMechanics.MovableArmor; ]"]
+            events:
+            - "SHOW_MECHANIC_INFO"
+        UIDataLocalBindingsComponent:
+            data:
+            - ["TankParamsStringKeys", "stringKeys", "{ }"]
+            - ["TankCombatRole", "comparedCombatRole", "tankParams.comparedCombatRole"]
+            - ["TankCombatRole", "displayCombatRole", "tankParams.displayCombatRole"]
+            - ["string", "tankRoleName", "localize(format(stringKeys.tankRoleName, { \"role\" = displayCombatRole.name; }))"]
+            - ["string", "tankRoleDescription", "localize(format(stringKeys.tankRoleDescription, { \"role\" = displayCombatRole.name; }))"]
+            - ["bool", "showTankRoleChangedIndicator", "tankParams.hasCompare and (displayCombatRole.hasRole != comparedCombatRole.hasRole or displayCombatRole.id != comparedCombatRole.id)"]
+            - ["string", "selectedTabTitle", "localize(format(stringKeys.tankParamsTabTitle, { \"name\" = tankParams.selectedTab; }))"]
+            - ["string", "componentSectionName", "localize(tankParams.itemTypeName + \"_upper\") + \" \" + localize(tankParams.itemName)"]
+            - ["string", "itemTypeName", "tankParams.itemTypeName"]
+            - ["string", "tankName", "tankParams.tankName"]
+            - ["string", "selectedTab", "tankParams.selectedTab"]
+            - ["bool", "showComponentSection", "tankParams.showComponentSection"]
+            - ["TankParamsSectionStructure", "baseSection", "tankParams.sectionsByType[\"base\"]"]
+        UIChildComponent0:
+            prototypePath: "~res:/UI/Screens3/Lobby/Inventory/Common/RightPanel.yaml"
+            args:
+                "backgroundStyle": "backgroundStyle"
+                "content": "Content"
+                "mechanics": "Mechanics"
+                "header": "Header"
+                "footer": "Footer"
+                "isBlur": "isBlur"
+        UIDataOnEventComponent0:
+            eventName: "ON_SELECT_TAB"
+            modelFieldExpression: "tankParams.selectedTab"
+            dataExpression: "when _event == 0 -> \"summary\", \"detail\""
+Slots:
+-   class: "UIControl"
+    name: "Header"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+            spacing: 8.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfChildrenSum"
+    bindings:
+    - ["visible", "showHeader"]
+    children:
+    -   prototype: "RightPanelTabsHeaderTwoTitles/RightPanelTabsHeaderTwoTitles"
+        name: "RightPanelTabsHeaderTwoTitles"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "activeTab": "when selectedTab == \"summary\" -> 0, 1"
+                    "title": "localize(tankName)"
+                    "info": "[ { \"sprite\" = \"~res:/Gfx/Lobby/icons/icon_list_s\"; }; { \"sprite\" = \"~res:/Gfx/Lobby/icons/icon_extended-list_s\"; }; ]"
+    -   class: "UIControl"
+        name: "Mechanics"
+        input: false
+        components:
+            LinearLayout:
+                enabled: true
+                orientation: "TopDown"
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+        bindings:
+        - ["visible", "not mechanics.Empty()"]
+        children:
+        -   class: "UIControl"
+            name: "Title"
+            input: false
+            classes: "regular t-caption white-wild-sand-50-text"
+            components:
+                UITextComponent:
+                    text: "#mechanics:title"
+                    fitting: "FITTING_POINTS"
+                    align: ["LEFT", "VCENTER"]
+                    useRtlAlign: "USE_BY_SYSTEM"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+        -   class: "UIControl"
+            name: "Content"
+            input: false
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    leftAnchor: -8.000000
+                LinearLayout:
+                    orientation: "TopDown"
+                    spacing: 4.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfChildrenSum"
+                UIRepeatComponent:
+                    control: "~res:/UI/Screens3/Lobby/Inventory/Common/TankMechanicsButton.yaml"
+                    dataContainer: "mechanics"
+                    args:
+                        "mechanics": "_item"
+                        "isGeneralPackLoaded": "isGeneralPackLoaded"
+                    eventActions:
+                    - ["SHOW_MECHANIC_INFO", "SHOW_MECHANIC_INFO", "_event"]
+        -   class: "UIControl"
+            name: "Spacer"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 0.000000
+-   class: "UIControl"
+    name: "Content"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        LinearLayout: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfChildrenSum"
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Font.style.yaml"
+    children:
+    -   class: "UIControl"
+        name: "Summary"
+        input: false
+        components:
+            Anchor:
+                topAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+                padding: "8; 32"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+        bindings:
+        - ["visible", "selectedTab == \"summary\""]
+        children:
+        -   class: "UIControl"
+            name: "BaseParam"
+            components:
+                LinearLayout:
+                    enabled: true
+                    orientation: "TopDown"
+                    spacing: 16.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfChildrenSum"
+                UIIdentifierComponent:
+                    id: "specifications"
+            children:
+            -   class: "UIControl"
+                name: "Title"
+                input: false
+                classes: "regular t-caption color=white-wild-sand-50-text"
+                components:
+                    UITextComponent:
+                        fitting: "FITTING_POINTS"
+                        align: ["LEFT", "VCENTER"]
+                        useRtlAlign: "USE_BY_SYSTEM"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfContent"
+                bindings:
+                - ["UITextComponent.text", "selectedTabTitle"]
+            -   class: "UIControl"
+                name: "Content"
+                input: false
+                components:
+                    LinearLayout:
+                        orientation: "TopDown"
+                        spacing: 24.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfChildrenSum"
+                    UIRepeatComponent:
+                        control: "~res:/UI/Screens3/Lobby/Common/VehicleParamsPanel/Params/BaseParam.yaml"
+                        dataContainer: "baseSection.content"
+                        args:
+                            "shadowHole": "when tutorialData.isTutorialActive and (((_item.baseName == \"maxHealth\" or _item.baseName == \"armor\") and tutorialData.currentHighlightControl == eTutorialHighlights.kModule) or ((_item.baseName == \"firingRate\" or _item.baseName == \"damage\" or _item.baseName == \"penetration\") and tutorialData.currentHighlightControl == eTutorialHighlights.kModuleGun)) -> true, false"
+                            "tankParams": "tankParams"
+                            "item": "_item"
+        -   class: "UIControl"
+            name: "TankRole"
+            size: [32.000000, 32.000000]
+            visible: false
+            input: false
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            children:
+            -   class: "UIControl"
+                name: "Header"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    LinearLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfMaxChild"
+                children:
+                -   class: "UIControl"
+                    name: "Icon"
+                    size: [64.000000, 64.000000]
+                    input: false
+                    components:
+                        Background:
+                            sprite: "~res:/Gfx/UI/LobbyCommon/Icons"
+                            colorInherit: "COLOR_MULTIPLY_ALPHA_ONLY"
+                            align: ["HCENTER", "BOTTOM"]
+                    bindings:
+                    - ["Background.frame", "displayCombatRole.id"]
+                -   class: "UIControl"
+                    name: "Text"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        LinearLayout:
+                            orientation: "TopDown"
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                    children:
+                    -   class: "UIControl"
+                        name: "Title"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        classes: "text2 text-color-white-50"
+                        components:
+                            UITextComponent: {}
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                        bindings:
+                        - ["UITextComponent.text", "stringKeys.tankRoleTitle"]
+                    -   class: "UIControl"
+                        name: "RoleName"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        classes: "text-color-white header2"
+                        components:
+                            UITextComponent:
+                                align: ["LEFT", "VCENTER"]
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                        bindings:
+                        - ["UITextComponent.text", "tankRoleName"]
+                        children:
+                        -   class: "UIControl"
+                            name: "IsChangedIndicator"
+                            size: [10.000000, 10.000000]
+                            input: false
+                            components:
+                                Background:
+                                    drawType: "DRAW_FILL"
+                                    color: [1.000000, 0.047059, 0.047059, 1.000000]
+                            bindings:
+                            - ["visible", "showTankRoleChangedIndicator"]
+            -   class: "UIControl"
+                name: "RoleDescription"
+                size: [32.000000, 32.000000]
+                input: false
+                classes: "text2 text-color-white"
+                components:
+                    UITextComponent:
+                        multiline: "MULTILINE_ENABLED"
+                        align: ["LEFT", "TOP"]
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfContent"
+                bindings:
+                - ["UITextComponent.text", "tankRoleDescription"]
+        -   class: "UIControl"
+            name: "Birthday"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfChildrenSum"
+            bindings:
+            - ["visible", "not showComponentSection and tankParams.birthdayDate != 0L"]
+            children:
+            -   class: "UIControl"
+                name: "Spacer"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 32.000000
+            -   class: "UIControl"
+                name: "Content"
+                position: [0.000000, 0.000000]
+                size: [187.000000, 44.000000]
+                components:
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "Title"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    classes: "t-caption regular white-wild-sand-50-text"
+                    components:
+                        UITextComponent:
+                            text: "#vehicle_birthday:NextBirthday/Note"
+                        Anchor:
+                            leftAnchorEnabled: true
+                            useRtl: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml"
+                -   class: "UIControl"
+                    name: "Value"
+                    position: [0.000000, 20.000000]
+                    size: [32.000000, 32.000000]
+                    input: false
+                    classes: "t-subtitle regular white-wild-sand-text not-localize"
+                    components:
+                        UITextComponent: {}
+                        Anchor:
+                            leftAnchorEnabled: true
+                            useRtl: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml"
+                    bindings:
+                    - ["UITextComponent.text", "date(tankParams.birthdayDate)"]
+    -   class: "UIControl"
+        name: "Detail"
+        position: [20.000000, 15.000000]
+        input: false
+        components:
+            Anchor:
+                topAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+                padding: "20; 16"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+        bindings:
+        - ["visible", "selectedTab == \"detail\""]
+        children:
+        -   class: "UIControl"
+            name: "ComponentSection"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfFirstChild"
+            bindings:
+            - ["visible", "showComponentSection"]
+            children:
+            -   prototype: "Section/SectionPrototype"
+                name: "SectionPrototype"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "tankParams": "tankParams"
+                            "sectionType": "tankParams.itemTypeName"
+                            "collapsible": "true"
+                            "overrideSectionName": "componentSectionName"
+        -   class: "UIControl"
+            name: "AllParams"
+            input: false
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                    spacing: 4.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfChildrenSum"
+                UIRepeatComponent:
+                    control: "~res:/UI/Screens3/Lobby/Common/VehicleParamsPanel/Items/Section.yaml"
+                    dataContainer: "tankParams.mainSectionNames"
+                    args:
+                        "tankParams": "tankParams"
+                        "sectionType": "_item"
+                        "collapsible": "true"
+                UIIdentifierComponent:
+                    id: "detailed_sections"
+            bindings:
+            - ["visible", "not showComponentSection"]
+        -   class: "UIControl"
+            name: "Birthday"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfChildrenSum"
+            bindings:
+            - ["visible", "not showComponentSection and tankParams.birthdayDate != 0L"]
+            children:
+            -   class: "UIControl"
+                name: "Spacer"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 16.000000
+            -   class: "UIControl"
+                name: "Content"
+                position: [0.000000, 0.000000]
+                size: [187.000000, 44.000000]
+                components:
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "Title"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    classes: "t-caption regular white-wild-sand-50-text"
+                    components:
+                        UITextComponent:
+                            text: "#vehicle_birthday:NextBirthday/Note"
+                        Anchor:
+                            leftAnchorEnabled: true
+                            useRtl: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml"
+                -   class: "UIControl"
+                    name: "Value"
+                    position: [0.000000, 20.000000]
+                    size: [32.000000, 32.000000]
+                    input: false
+                    classes: "t-subtitle regular white-wild-sand-text not-localize"
+                    components:
+                        UITextComponent: {}
+                        Anchor:
+                            leftAnchorEnabled: true
+                            useRtl: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml"
+                    bindings:
+                    - ["UITextComponent.text", "date(tankParams.birthdayDate)"]
+-   class: "UIControl"
+    name: "Footer"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "FixedSize"
+            verticalValue: 0.000000

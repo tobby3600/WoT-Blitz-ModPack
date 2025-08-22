@@ -1,5 +1,5 @@
 Header:
-    version: 155
+    version: 161
 ImportedPackages:
 - "~res:/UI/Screens/Common/StyledButton.yaml"
 - "~res:/UI/Screens/Fonts.yaml"
@@ -18,6 +18,7 @@ ImportedPackages:
 - "~res:/UI/Styles/ButtonSoundStyles.yaml"
 - "~res:/UI/Screens/Common/MenuItem.yaml"
 - "~res:/UI/Screens/Lobby/LobbyHeaderSimple.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 StyleSheets:
 -   selectors:
     - ".card.ordinary ? ? #ImgStar"
@@ -180,7 +181,7 @@ Prototypes:
                     leftAnchorEnabled: true
                     leftAnchor: 15.000000
                     rightAnchorEnabled: true
-                    rightAnchor: 55.000000
+                    rightAnchor: 50.000000
                     bottomAnchorEnabled: true
                     bottomAnchor: 5.000000
         -   class: "UIControl"
@@ -323,11 +324,11 @@ Prototypes:
                         text: "4:23"
                         colorInheritType: "COLOR_IGNORE_PARENT"
                     Anchor:
-                        leftAnchorEnabled: true
-                        rightAnchorEnabled: true
-                        topAnchorEnabled: true
-                        bottomAnchorEnabled: true
-                        bottomAnchor: 2.000000
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
                     StyleSheet:
                         styles: "~res:/UI/Screens/Fonts.yaml"
         -   class: "UIControl"
@@ -379,31 +380,11 @@ Prototypes:
             name: "PlayButton"
             position: [80.000000, 50.000000]
             size: [80.000000, 80.000000]
-            exclusiveInput: true
+            classes: "button"
             components:
                 Background:
-                    usePostProcessedSprite: true
-                UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                    needClearAlphaAfterRender: true
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent1:
-                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent2:
-                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIRoundedCornersComponent:
-                    radius: "100"
+                    sprite: "~res:/Gfx/UI/ReplayLobby/play_icon_back"
+                    perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
                 Anchor:
                     hCenterAnchorEnabled: true
                     vCenterAnchorEnabled: true
@@ -412,6 +393,12 @@ Prototypes:
                     touchUpInside: "GUI/buttons/ok"
                 StyleSheet: {}
             children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "roundCorner": "\"100\""
             -   class: "UIControl"
                 name: "Control"
                 position: [24.000000, 24.000000]
@@ -574,7 +561,7 @@ Prototypes:
                     topAnchorEnabled: true
                     bottomAnchorEnabled: true
                 UIAnchorSafeAreaComponent: {}
-                ScrollBarDelegate:
+                UIScrollBarComponent:
                     delegate: "../ReplaysGrid"
     -   prototype: "Footer/Footer"
         name: "EditorPanel"
@@ -598,7 +585,6 @@ Prototypes:
             -   class: "UIControl"
                 name: "RenameButton"
                 size: [40.000000, 40.000000]
-                visible: true
                 input: true
                 classes: "button"
                 components:
@@ -606,7 +592,6 @@ Prototypes:
                         drawType: "DRAW_ALIGNED"
                         sprite: "~res:/Gfx/UI/ReplayLobby/text_icon"
                     Anchor:
-                        leftAnchorEnabled: true
                         vCenterAnchorEnabled: true
                     Sound:
                         touchUpInside: "GUI/buttons/choose"
@@ -622,7 +607,6 @@ Prototypes:
                         drawType: "DRAW_ALIGNED"
                         sprite: "~res:/Gfx/UI/ReplayLobby/share_icon"
                     Anchor:
-                        hCenterAnchorEnabled: true
                         vCenterAnchorEnabled: true
                     Sound:
                         touchUpInside: "GUI/buttons/choose"
@@ -638,7 +622,6 @@ Prototypes:
                         drawType: "DRAW_ALIGNED"
                         sprite: "~res:/Gfx/UI/ReplayLobby/delete_icon"
                     Anchor:
-                        rightAnchorEnabled: true
                         vCenterAnchorEnabled: true
                     Sound:
                         touchUpInside: "GUI/buttons/choose"

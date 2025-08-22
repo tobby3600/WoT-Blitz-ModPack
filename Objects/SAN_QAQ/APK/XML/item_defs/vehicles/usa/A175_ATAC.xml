@@ -231,7 +231,7 @@
 				<armor_15>100</armor_15>
 				<armor_16>25</armor_16>
 			</armor>
-			<primaryArmor>armor_1 armor_3 armor_4</primaryArmor>
+			<primaryArmor>armor_11 armor_3 armor_4</primaryArmor>
 			<weight>6000</weight>
 			<maxHealth>300</maxHealth>
 			<rotationSpeed>40</rotationSpeed>
@@ -247,11 +247,72 @@
 				<repairCost>0</repairCost>
 			</surveyingDeviceHealth>
 			<guns>
-				<_90mm_Gun_T208_ATAC_4x3>shared<maxAmmo>180</maxAmmo>
+				<_90mm_Gun_T208_ATAC_3x2>shared<maxAmmo>120</maxAmmo>
 					<unlocks>
-						<gun>_90mm_Gun_T208_ATAC_3x2<cost>100</cost>
+						<gun>_90mm_Gun_T208_ATAC_4x3<cost>100</cost>
 						</gun>
 					</unlocks>
+					<hitTester>
+						<collisionModel>vehicles/american/A175_ATAC/collision/Gun_01.model</collisionModel>
+					</hitTester>
+					<models>
+						<undamaged>vehicles/american/A175_ATAC/normal/lod0/Gun_01.model</undamaged>
+						<destroyed>vehicles/american/A175_ATAC/crash/lod0/Gun_01.model</destroyed>
+						<exploded>vehicles/american/A175_ATAC/crash/lod0/Gun_01.model</exploded>
+					</models>
+					<armor>
+						<armor_1>35<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						</armor_1>
+						<armor_2>35<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						</armor_2>
+						<armor_3>35<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						</armor_3>
+						<armor_4>35<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						</armor_4>
+						<armor_16>35<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						</armor_16>
+						<gun>35</gun>
+					</armor>
+					<shotDispersionRadius>0.37</shotDispersionRadius>
+					<aimingTime>1.7</aimingTime>
+					<reloadTime>19</reloadTime>
+					<shotDispersionFactors>
+						<turretRotation>0.11</turretRotation>
+						<afterShot>2.5</afterShot>
+						<whileGunDamaged>2.0</whileGunDamaged>
+					</shotDispersionFactors>
+					<clip>
+						<count>6</count>
+						<rate>43</rate>
+					</clip>
+					<burst>
+						<count>2</count>
+						<rate>85</rate>
+					</burst>
+					<invisibilityFactorAtShot>0.225</invisibilityFactorAtShot>
+					<pitchLimits>-20 9</pitchLimits>
+					<extraPitchLimits>
+						<front>-20 7 25</front>
+						<back>-20 8 10</back>
+					</extraPitchLimits>
+					<fitsRatingBattle>true</fitsRatingBattle>
+					<shots>
+						<_90mm_AP_T320_ATAC_Duo>
+							<shell>shared<price>0</price>
+							</shell>
+						</_90mm_AP_T320_ATAC_Duo>
+						<_90mm_HESH_M432_ATAC_Duo>
+							<shell>shared<price>5<gold/>
+								</price>
+							</shell>
+						</_90mm_HESH_M432_ATAC_Duo>
+						<_90mm_HE_T230_ATAC_Duo>
+							<shell>shared<price>0</price>
+							</shell>
+						</_90mm_HE_T230_ATAC_Duo>
+					</shots>
+				</_90mm_Gun_T208_ATAC_3x2>
+				<_90mm_Gun_T208_ATAC_4x3>shared<maxAmmo>180</maxAmmo>
 					<hitTester>
 						<collisionModel>vehicles/american/A175_ATAC/collision/Gun_01.model</collisionModel>
 					</hitTester>
@@ -311,66 +372,6 @@
 						</_90mm_HE_T340_ATAC_Tripple>
 					</shots>
 				</_90mm_Gun_T208_ATAC_4x3>
-				<_90mm_Gun_T208_ATAC_3x2>shared<maxAmmo>120</maxAmmo>
-					<hitTester>
-						<collisionModel>vehicles/american/A175_ATAC/collision/Gun_01.model</collisionModel>
-					</hitTester>
-					<models>
-						<undamaged>vehicles/american/A175_ATAC/normal/lod0/Gun_01.model</undamaged>
-						<destroyed>vehicles/american/A175_ATAC/crash/lod0/Gun_01.model</destroyed>
-						<exploded>vehicles/american/A175_ATAC/crash/lod0/Gun_01.model</exploded>
-					</models>
-					<armor>
-						<armor_1>35<vehicleDamageFactor>0.0</vehicleDamageFactor>
-						</armor_1>
-						<armor_2>35<vehicleDamageFactor>0.0</vehicleDamageFactor>
-						</armor_2>
-						<armor_3>35<vehicleDamageFactor>0.0</vehicleDamageFactor>
-						</armor_3>
-						<armor_4>35<vehicleDamageFactor>0.0</vehicleDamageFactor>
-						</armor_4>
-						<armor_16>35<vehicleDamageFactor>0.0</vehicleDamageFactor>
-						</armor_16>
-						<gun>35</gun>
-					</armor>
-					<shotDispersionRadius>0.37</shotDispersionRadius>
-					<aimingTime>1.7</aimingTime>
-					<reloadTime>19</reloadTime>
-					<shotDispersionFactors>
-						<turretRotation>0.11</turretRotation>
-						<afterShot>3</afterShot>
-						<whileGunDamaged>2.0</whileGunDamaged>
-					</shotDispersionFactors>
-					<clip>
-						<count>6</count>
-						<rate>43</rate>
-					</clip>
-					<burst>
-						<count>2</count>
-						<rate>85</rate>
-					</burst>
-					<invisibilityFactorAtShot>0.225</invisibilityFactorAtShot>
-					<pitchLimits>-20 9</pitchLimits>
-					<extraPitchLimits>
-						<front>-20 7 25</front>
-						<back>-20 8 10</back>
-					</extraPitchLimits>
-					<shots>
-						<_90mm_AP_T320_ATAC_Duo>
-							<shell>shared<price>0</price>
-							</shell>
-						</_90mm_AP_T320_ATAC_Duo>
-						<_90mm_HESH_M432_ATAC_Duo>
-							<shell>shared<price>5<gold/>
-								</price>
-							</shell>
-						</_90mm_HESH_M432_ATAC_Duo>
-						<_90mm_HE_T230_ATAC_Duo>
-							<shell>shared<price>0</price>
-							</shell>
-						</_90mm_HE_T230_ATAC_Duo>
-					</shots>
-				</_90mm_Gun_T208_ATAC_3x2>
 			</guns>
 			<emblemSlots>
 				<player>

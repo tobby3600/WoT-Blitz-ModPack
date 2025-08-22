@@ -13,6 +13,7 @@ Prototypes:
     size: [1102.000000, 919.000000]
     input: false
     components:
+        UIPostProcessSourceComponent0: {}
         UIAnimationComponent:
             animations: "SWITCH_SORT_TYPE, ~res:/UI/Screens3/Lobby/Profile/Animations/ScrollToStart.animation"
         LinearLayout:
@@ -25,6 +26,7 @@ Prototypes:
             params:
             - ["TanksRankConfigurationModel", "rankConfig", "null", "{ }"]
             - ["ProfileViewModel", "profile", "null", "{ }"]
+            - ["string", "maskProfile", "\"\"", "\"\""]
             events:
             - "ON_TANK_CLICKED"
             - "BUYOUT_TANKS"
@@ -43,6 +45,8 @@ Prototypes:
             eventName: "ON_SELECT_TAB"
             modelFieldExpression: "activeTab"
             dataExpression: "_event"
+    bindings:
+    - ["UIPostProcessSourceComponent0.id", "maskProfile"]
     children:
     -   prototype: "DynamicTopSpacer/DynamicTopSpacer"
         name: "DynamicTopSpacer"
@@ -142,6 +146,8 @@ Prototypes:
                                             "isSelected": "profile.tankList.sortMode == eTankSortMode.SORT_BY_RANK"
                                             "inverseSort": "profile.tankList.inverseSort"
                                             "iconPath": "\"~res:/Gfx/Lobby/backgrounds/tank-rank/icon_tanks-rank_s\""
+                                            "isBlur": "false"
+                                            "bgStyle": "\"white-wild-sand-15-bg\""
                                         eventActions:
                                         - ["ON_CLICK_SORT_BUTTON", "SWITCH_SORT_TYPE", "eTankSortMode.SORT_BY_RANK"]
                             -   class: "UIControl"
@@ -157,6 +163,8 @@ Prototypes:
                                             "isSelected": "profile.tankList.sortMode == eTankSortMode.SORT_BY_LEVEL"
                                             "inverseSort": "profile.tankList.inverseSort"
                                             "iconPath": "\"~res:/Gfx/Lobby/icons/icon_tank-levels_s\""
+                                            "isBlur": "false"
+                                            "bgStyle": "\"white-wild-sand-15-bg\""
                                         eventActions:
                                         - ["ON_CLICK_SORT_BUTTON", "SWITCH_SORT_TYPE", "eTankSortMode.SORT_BY_LEVEL"]
                             -   class: "UIControl"
@@ -173,6 +181,8 @@ Prototypes:
                                             "isSelected": "profile.tankList.sortMode == eTankSortMode.SORT_BY_CLASS"
                                             "inverseSort": "profile.tankList.inverseSort"
                                             "iconPath": "\"~res:/Gfx/Lobby/icons/icon_tank-tiers_s\""
+                                            "isBlur": "false"
+                                            "bgStyle": "\"white-wild-sand-15-bg\""
                                         eventActions:
                                         - ["ON_CLICK_SORT_BUTTON", "SWITCH_SORT_TYPE", "eTankSortMode.SORT_BY_CLASS"]
                             -   class: "UIControl"
@@ -189,6 +199,8 @@ Prototypes:
                                             "isSelected": "profile.tankList.sortMode == eTankSortMode.SORT_BY_NATION"
                                             "inverseSort": "profile.tankList.inverseSort"
                                             "iconPath": "\"~res:/Gfx/Lobby/icons/icon_tank-nations_s\""
+                                            "isBlur": "false"
+                                            "bgStyle": "\"white-wild-sand-15-bg\""
                                         eventActions:
                                         - ["ON_CLICK_SORT_BUTTON", "SWITCH_SORT_TYPE", "eTankSortMode.SORT_BY_NATION"]
                         -   class: "UIControl"
@@ -227,6 +239,8 @@ Prototypes:
                                             "isSelected": "profile.tankList.sortMode == eTankSortMode.SORT_BY_BATTLES"
                                             "inverseSort": "profile.tankList.inverseSort"
                                             "iconPath": "\"~res:/Gfx/Lobby/icons/icon_battles_s\""
+                                            "isBlur": "false"
+                                            "bgStyle": "\"white-wild-sand-15-bg\""
                                         eventActions:
                                         - ["ON_CLICK_SORT_BUTTON", "SWITCH_SORT_TYPE", "eTankSortMode.SORT_BY_BATTLES"]
                             -   class: "UIControl"
@@ -246,6 +260,8 @@ Prototypes:
                                             "isSelected": "profile.tankList.sortMode == eTankSortMode.SORT_BY_WINS"
                                             "inverseSort": "profile.tankList.inverseSort"
                                             "iconPath": "\"~res:/Gfx/Lobby/icons/icon_victory_s\""
+                                            "isBlur": "false"
+                                            "bgStyle": "\"white-wild-sand-15-bg\""
                                         eventActions:
                                         - ["ON_CLICK_SORT_BUTTON", "SWITCH_SORT_TYPE", "eTankSortMode.SORT_BY_WINS"]
                             -   class: "UIControl"
@@ -265,6 +281,8 @@ Prototypes:
                                             "isSelected": "profile.tankList.sortMode == eTankSortMode.SORT_BY_EXPERIENCE"
                                             "inverseSort": "profile.tankList.inverseSort"
                                             "iconPath": "\"~res:/Gfx/Lobby/icons/icon_exp_s\""
+                                            "isBlur": "false"
+                                            "bgStyle": "\"white-wild-sand-15-bg\""
                                         eventActions:
                                         - ["ON_CLICK_SORT_BUTTON", "SWITCH_SORT_TYPE", "eTankSortMode.SORT_BY_EXPERIENCE"]
                             -   class: "UIControl"
@@ -284,6 +302,8 @@ Prototypes:
                                             "isSelected": "profile.tankList.sortMode == eTankSortMode.SORT_BY_AVERAGE_DAMAGE"
                                             "inverseSort": "profile.tankList.inverseSort"
                                             "iconPath": "\"~res:/Gfx/Lobby/icons/icon_damage_s\""
+                                            "isBlur": "false"
+                                            "bgStyle": "\"white-wild-sand-15-bg\""
                                         eventActions:
                                         - ["ON_CLICK_SORT_BUTTON", "SWITCH_SORT_TYPE", "eTankSortMode.SORT_BY_AVERAGE_DAMAGE"]
                 -   class: "UIControl"
@@ -312,9 +332,9 @@ Prototypes:
                         -   class: "UIScrollViewContainer"
                             name: "scrollContainerControl"
                             components:
+                                Anchor: {}
                                 UIAnimationComponent:
                                     animations: "_INIT,~res:/UI/Screens3/Lobby/Profile/Animations/ScrollToTank.animation"
-                                Anchor: {}
                                 LinearLayout:
                                     orientation: "TopDown"
                                     spacing: 1.000000
@@ -344,7 +364,7 @@ Prototypes:
                                 topAnchorEnabled: true
                                 bottomAnchorEnabled: true
                             IgnoreLayout: {}
-                            ScrollBarDelegate:
+                            UIScrollBarComponent:
                                 delegate: "../UIScrollView"
                         children:
                         -   path: "slider"
@@ -386,6 +406,9 @@ Prototypes:
                                     "type": "eButtonType.OPTIONAL_LIGHT"
                                     "enabled": "profile.dossier.buyoutVehiclesCount > 0"
                                     "caption": "localize(\"buyout_tank/profile/button\")"
+                                    "isBlur": "false"
+                                    "isCustBg": "true"
+                                    "maskStyle": "\"white-wild-sand-15-bg\""
                                 eventActions:
                                 - ["ON_CLICK_BUTTON", "BUYOUT_TANKS", ""]
                         bindings:
@@ -419,10 +442,12 @@ Prototypes:
                         horizontalPolicy: "PercentOfMaxChild"
                         verticalPolicy: "PercentOfParent"
                     UIChildComponent0:
-                        prototypePath: "~res:/UI/Screens3/Lobby/Inventory/Common/RightPanelBlur.yaml"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Inventory/Common/RightPanel.yaml"
                         args:
+                            "backgroundStyle": "\"white-wild-sand-15-bg\""
                             "content": "RightPanelContent"
                             "header": "RightPanelHeader"
+                            "isBlur": "false"
             -   class: "UIControl"
                 name: "Spacer"
                 size: [32.000000, 32.000000]

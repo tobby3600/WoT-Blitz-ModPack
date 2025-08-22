@@ -40,7 +40,7 @@ fragment_in
 		float4 texCoord1 : TEXCOORD1;
 	#endif
 
-	#if RECEIVE_SHADOW || VERTEX_COLOR
+	#if RECEIVE_SHADOW || (HARD_SKINNING && TILED_DECAL_MASK)
 		float4 texCoord2 : TEXCOORD2;
 	#endif
 
@@ -52,8 +52,8 @@ fragment_in
 		float4 aniCamo : TEXCOORD4;
 	#endif
 
-	#if HARD_SKINNING && TILED_DECAL_MASK
-		float index : TEXCOORD5;
+	#if VERTEX_COLOR
+		float4 vertexColor : COLOR0;
 	#endif
 };
 
@@ -65,12 +65,27 @@ fragment_out
 uniform sampler2D baseColorMap; // RGB - albedo color, A - alpha
 uniform sampler2D baseNormalMap; // RG or AG(DXT5NM) or GA(ASTC) - normal
 uniform sampler2D baseRMMap; // RG or AG(DXT5NM) or GA(ASTC) - roughness / metallic
-uniform sampler2D maskMap; // RG or AG(DXT5NM) or GA(ASTC) - decal mask / dirt mask
 uniform sampler2D miscMap; // RG or AG(DXT5NM) or GA(ASTC) - ambient occlusion / emissive
 
-#if DIRT_COVERAGE
-	uniform sampler2D dirtHeightMap; // R or A (API specific) - dirt height
-	uniform sampler2D dirtNormalMap; // RG or AG(DXT5NM) or GA(ASTC) - normal
+#if DIRT_COVERAGE || TILED_DECAL_MASK
+	uniform sampler2D maskMap; // RG or AG(DXT5NM) or GA(ASTC) - decal mask / dirt mask
+
+	#if DIRT_COVERAGE
+		uniform sampler2D dirtHeightMap; // R or A (API specific) - dirt height
+		uniform sampler2D dirtNormalMap; // RG or AG(DXT5NM) or GA(ASTC) - normal
+	#endif
+
+	#if TILED_DECAL_MASK
+		uniform sampler2DArray decalColorMap; // RGB - decal color, A - decal alpha
+
+		#if TILED_DECAL_BLEND_NORMAL
+			uniform sampler2DArray decalNormalMap; // RG or AG(DXT5NM) or GA(ASTC) - normal
+		#endif
+
+		#if TILED_DECAL_OVERRIDE_ROUGHNESS_METALLIC
+			uniform sampler2DArray decalRMMap; // RG or AG(DXT5NM) or GA(ASTC) - roughness / metallic
+		#endif
+	#endif
 #endif
 
 #if PBR_DECAL
@@ -86,18 +101,6 @@ uniform sampler2D miscMap; // RG or AG(DXT5NM) or GA(ASTC) - ambient occlusion /
 
 #if PBR_LIGHTMAP
 	uniform sampler2D pbrLightmap; // RG or AG(DXT5NM) or GA(ASTC) - directional shadow / ambient occlusion
-#endif
-
-#if TILED_DECAL_MASK
-	uniform sampler2DArray decalColorMap; // RGB - decal color, A - decal alpha
-
-	#if TILED_DECAL_BLEND_NORMAL
-		uniform sampler2DArray decalNormalMap; // RG or AG(DXT5NM) or GA(ASTC) - normal
-	#endif
-
-	#if TILED_DECAL_OVERRIDE_ROUGHNESS_METALLIC
-		uniform sampler2DArray decalRMMap; // RG or AG(DXT5NM) or GA(ASTC) - roughness / metallic
-	#endif
 #endif
 
 #if WETNESS_MULTILEVEL
@@ -207,6 +210,10 @@ fragment_out fp_main(fragment_in input)
 
 	float4 baseColor = tex2D(baseColorMap, texCoord0.xy);
 
+	#if VERTEX_COLOR
+		baseColor.rgb *= input.vertexColor.rgb;
+	#endif
+
 	#if LOD_TRANSITION
 		baseColor.a *= getLodTransition(projPos, lodTransitionThreshold);
 	#endif
@@ -215,7 +222,7 @@ fragment_out fp_main(fragment_in input)
 		float alpha = baseColor.a;
 
 		#if VERTEX_COLOR
-			alpha *= input.texCoord2.w;
+			alpha *= input.vertexColor.a;
 		#endif
 
 		#if ALPHATESTVALUE
@@ -232,7 +239,6 @@ fragment_out fp_main(fragment_in input)
 	baseColor *= baseColorFactor;
 
 	float2 misc = tex2D(miscMap, texCoord0.xy).ga;
-	float2 mask = tex2D(maskMap, texCoord0.xy).ga;
 	float2 baseRM = tex2D(baseRMMap, texCoord0.xy).ga * roughnessMetallicFactor;
 	float3 baseNormal = unpackNormal(tex2D(baseNormalMap, texCoord0.xy).ga);
 
@@ -253,11 +259,15 @@ fragment_out fp_main(fragment_in input)
 		misc.r *= detailRoughnessAO.y;
 	#endif
 
+	#if DIRT_COVERAGE || TILED_DECAL_MASK
+		float2 mask = tex2D(maskMap, texCoord0.xy).ga;
+	#endif
+
 	float3 emission = const0List3;
 
 	#if TILED_DECAL_MASK
 		#if HARD_SKINNING
-			float index = floor(input.index + 0.5);
+			float index = floor(input.texCoord2.w + 0.5);
 		#else
 			float index = 0.0;
 		#endif
@@ -303,8 +313,9 @@ fragment_out fp_main(fragment_in input)
 		#if TILED_DECAL_BLEND_NORMAL
 			float blendFactor = decalblendNormal * mask.r * 2.0;
 			float3 decalNormal = unpackNormal(tex2Darray(decalNormalMap, texCoord0.zw, index).ga);
+			float3 decalBlendNormal = blendNormal(baseNormal, decalNormal);
 
-			baseNormal = lerp(baseNormal, blendNormal(baseNormal, decalNormal), saturate(blendFactor));
+			baseNormal = lerp(baseNormal, decalBlendNormal, saturate(blendFactor));
 			baseNormal = lerp(baseNormal, decalNormal, saturate(blendFactor - 1.0));
 		#endif
 
@@ -312,24 +323,25 @@ fragment_out fp_main(fragment_in input)
 			baseRM = lerp(baseRM, tex2Darray(decalRMMap, texCoord0.zw, index).ga, mask.r);
 		#endif
 
-		baseColor.rgb = lerp(baseColor.rgb, toLinear(decalColor.rgb), mask.r);
+		baseColor.rgb = lerp(baseColor.rgb, toLRGB(decalColor.rgb), mask.r);
 	#endif
 
 	#if DIRT_COVERAGE
-		float dirtFactor = saturate(1.0 - smoothstep(dirtStrength - 0.25, dirtStrength + 0.25, 1.0 - mask.g) + smoothstep(0.05, 0.95, dirtStrength * tex2D(dirtHeightMap, texCoord0.xy).g));
+		float dirtHeight = tex2D(dirtHeightMap, texCoord0.xy).g;
+		float dirtFactor = saturate(1.0 - smoothstep(dirtStrength - 0.15, dirtStrength + 0.15, 1.0 - mask.g) + smoothstep(0.075, 0.925, dirtStrength * dirtHeight));
 		float3 dirtNormal = unpackNormal(tex2D(dirtNormalMap, texCoord0.xy).ga);
+		float3 dirtBlendNormal = blendNormal(baseNormal, dirtNormal);
 
-		baseColor.rgb = lerp(baseColor.rgb, toLinear(dirtColor.rgb), dirtFactor * dirtColor.a);
 		baseRM = lerp(baseRM, float2(dirtRoughness, 0.0), dirtFactor);
-		dirtNormal = normalize(lerp(blendNormal(baseNormal, dirtNormal), dirtNormal, dirtStrength * dirtStrength));
+		baseColor.rgb = lerp(baseColor.rgb, toLRGB(dirtColor.rgb), dirtFactor * dirtColor.a);
+		dirtNormal = normalize(lerp(dirtBlendNormal, dirtNormal, dirtStrength * dirtStrength));
 		baseNormal = normalize(lerp(baseNormal, dirtNormal, dirtFactor));
 	#endif
 
 	float3 N = baseNormal;
 	N.xy *= normalScale;
 	N = normalize(float3(dot(N, input.tangentToWorld0.xyz), dot(N, input.tangentToWorld1.xyz), dot(N, input.tangentToWorld2.xyz)));
-	float3 polygonN = normalize(float3(input.tangentToWorld0.z, input.tangentToWorld1.z, input.tangentToWorld2.z));
-	float3 L = normalize(mul3Fast0(lightPosition0.xyz, invViewMatrix));
+	float3 L = normalize(mul(float4(lightPosition0.xyz, 0.0), invViewMatrix).xyz);
 	float3 V = normalize(cameraPosition - worldPos);
 	float3 H = normalize(L + V);
 
@@ -369,9 +381,10 @@ fragment_out fp_main(fragment_in input)
 
 		const float porosity = saturate(baseRM.x * 2.0 - 0.4);
 		const float wetnessMultiplier = lerp(1.0, 0.05, -porosity * baseRM.y + porosity);
+		const float rmBlendFactory = lerp(1.0, baseRM.x * baseRM.x * wetnessMultiplier, wetnessStrength * 0.5);
 
-		baseColor.rgb *= lerp(1.0, wetnessMultiplier, wetnessStrength);
-		baseRM.x = lerp(0.0, baseRM.x, lerp(1.0, baseRM.x * baseRM.x * wetnessMultiplier, wetnessStrength * 0.5));
+		baseRM.x = lerp(0.0, baseRM.x, rmBlendFactory);
+		baseColor.rgb = lerp(baseColor.rgb, baseColor.rgb * wetnessMultiplier, wetnessStrength);
 	#endif
 
 	#if PBR_DECAL || PBR_LIGHTMAP
@@ -423,15 +436,15 @@ fragment_out fp_main(fragment_in input)
 	baseRM = saturate(baseRM);
 	misc.r = saturate(misc.r);
 
-	output.color.rgb = getPBR(polygonN, N, L, V, H, lightColor0 * lightIntensity0, baseColor.rgb, baseRM.y, baseRM.x, misc.r, shadow, emission);
+	output.color.rgb = getPBR(N, L, V, H, lightColor0 * lightIntensity0, baseColor.rgb, baseRM.y, baseRM.x, misc.r, shadow, emission);
 
 	#if MAX_POINT_LIGHTS > 0
-		L = mul3Fast1(pointLights[0].xyz, invViewMatrix) - worldPos;
+		L = mul(float4(pointLights[0].xyz, 1.0), invViewMatrix).xyz - worldPos;
 		output.color.rgb += getPBRPointLight(N, L, V, H, pointLights[2].xyz * pointLightIntensity0, baseColor.rgb, baseRM.y, baseRM.x, pointLights[0].w, pointLights[2].w);
 	#endif
 
 	#if MAX_POINT_LIGHTS > 1
-		L = mul3Fast1(pointLights[1].xyz, invViewMatrix) - worldPos;
+		L = mul(float4(pointLights[1].xyz, 1.0), invViewMatrix).xyz - worldPos;
 		output.color.rgb += getPBRPointLight(N, L, V, H, pointLights[3].xyz * pointLightIntensity1, baseColor.rgb, baseRM.y, baseRM.x, pointLights[1].w, pointLights[3].w);
 	#endif
 
@@ -449,10 +462,6 @@ fragment_out fp_main(fragment_in input)
 
 	#if HIGHLIGHT_COLOR || HIGHLIGHT_WAVE_ANIM
 		output.color = getHighlightAnim(output.color, worldPos.z);
-	#endif
-
-	#if USE_VERTEX_FOG
-		output.color.rgb = lerp(output.color.rgb, input.varFog.rgb, input.varFog.a);
 	#endif
 
 	#include "color-grading.slh"

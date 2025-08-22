@@ -11,24 +11,25 @@ Prototypes:
             verticalPolicy: "PercentOfFirstChild"
         UIDataParamsComponent:
             params:
-            - ["SessionDataModel", "session", "null", "{ }"]
             - ["LobbyDataModel", "lobby", "null", "{ }"]
-            - ["string", "title", "\"\"", "\"Дерево танков\""]
-            - ["string", "subtitle", "\"\"", "\"СССР\""]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["bool", "firstLessonCompleted", "true", "true"]
+            - ["bool", "isBackButtonInitiallyClickable", "true", "false"]
+            - ["bool", "isBlur", "false", "false"]
+            - ["bool", "isFullScreen", "false", "true"]
             - ["bool", "isGeneralPackLoaded", "true", "true"]
             - ["bool", "isTutorialActive", "false", "false"]
-            - ["bool", "firstLessonCompleted", "true", "true"]
-            - ["eCurrentScreen", "currentScreen", "eCurrentScreen.kUnknown", "eCurrentScreen.kHangar"]
             - ["bool", "showBackButton", "false", "true"]
-            - ["bool", "isBackButtonInitiallyClickable", "true", "false"]
-            - ["bool", "showStatsPanel", "true", "true"]
-            - ["bool", "showPremium", "true", "true"]
-            - ["bool", "showGold", "true", "true"]
             - ["bool", "showCredits", "true", "true"]
             - ["bool", "showFreeXp", "true", "true"]
+            - ["bool", "showGold", "true", "true"]
+            - ["bool", "showPremium", "true", "true"]
             - ["bool", "showShopButton", "true", "true"]
-            - ["bool", "isFullScreen", "false", "true"]
+            - ["bool", "showStatsPanel", "true", "true"]
             - ["control", "statsPanelAdditionalContent", "null", "null"]
+            - ["eCurrentScreen", "currentScreen", "eCurrentScreen.kUnknown", "eCurrentScreen.kHangar"]
+            - ["string", "subtitle", "\"\"", "\"СССР\""]
+            - ["string", "title", "\"\"", "\"Дерево танков\""]
             events:
             - "GO_TO_SHOP"
             - "PREMIUM_INFO_EVENT"
@@ -40,7 +41,7 @@ Prototypes:
                 "session": "session"
                 "lobby": "lobby"
                 "leftContent": "LeftContent"
-                "bgStyle": "when currentScreen == eCurrentScreen.kInventoryCamouflages -> \"black-50-bg\", \"\""
+                "bgStyle": "when currentScreen == eCurrentScreen.kInventoryCamouflages -> \"black-50-bg\", \"grey-shark-70-bg\""
                 "isGeneralPackLoaded": "isGeneralPackLoaded"
                 "isTutorialActive": "isTutorialActive"
                 "firstLessonCompleted": "firstLessonCompleted"
@@ -54,6 +55,7 @@ Prototypes:
                 "showShopButton": "showShopButton"
                 "isFullScreen": "isFullScreen"
                 "statsPanelAdditionalContent": "statsPanelAdditionalContent"
+                "isBlur": "isBlur"
             eventActions:
             - ["GO_TO_SHOP", "GO_TO_SHOP", ""]
             - ["PREMIUM_INFO_EVENT", "PREMIUM_INFO_EVENT", ""]

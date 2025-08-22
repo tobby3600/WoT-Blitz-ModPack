@@ -1,5 +1,5 @@
 <root>
-	<nextAvailableId>48</nextAvailableId>
+	<nextAvailableId>49</nextAvailableId>
 	<ids>
 		<_75mm_Type5_1>0</_75mm_Type5_1>
 		<_13.2mm_Type93>1</_13.2mm_Type93>
@@ -43,6 +43,7 @@
 		<_12.7_cm_Gun_Type_89A>45</_12.7_cm_Gun_Type_89A>
 		<_105mm_JSW_105_60>46</_105mm_JSW_105_60>
 		<_152mm_45_41st_Year_Type>47</_152mm_45_41st_Year_Type>
+		<_105mm_10.5cm_Type_92_Gun_Ro>48</_105mm_10.5cm_Type_92_Gun_Ro>
 	</ids>
 	<shared>
 		<_75mm_Type5_1>
@@ -2209,26 +2210,76 @@
 			<shots>
 				<_152mm_common_type_0>
 					<defaultPortion>0.8</defaultPortion>
-					<speed>600</speed>
+					<speed>500</speed>
 					<gravity>9.81</gravity>
 					<maxDistance>720</maxDistance>
 					<piercingPower>255 240</piercingPower>
 				</_152mm_common_type_0>
 				<_152mm_common_type_0_kai>
 					<defaultPortion>0</defaultPortion>
-					<speed>790</speed>
+					<speed>650</speed>
 					<gravity>9.81</gravity>
 					<maxDistance>720</maxDistance>
 					<piercingPower>205 195</piercingPower>
 				</_152mm_common_type_0_kai>
 				<_152mm_common_type_91>
 					<defaultPortion>0.2</defaultPortion>
-					<speed>550</speed>
+					<speed>400</speed>
 					<gravity>9.81</gravity>
 					<maxDistance>720</maxDistance>
 					<piercingPower>82 82</piercingPower>
 				</_152mm_common_type_91>
 			</shots>
 		</_152mm_45_41st_Year_Type>
+		<_105mm_10.5cm_Type_92_Gun_Ro>
+			<userString>#japan_vehicles:_105mm_10.5cm_Type_92_Gun_Ro</userString>
+			<shortUserString>#japan_vehicles:_105mm_10.5cm_Type_92_Gun_Ro_short</shortUserString>
+			<description>#japan_vehicles:_105mm_10.5cm_Type_92_Gun_Ro_descr</description>
+			<tags/>
+			<level>8</level>
+			<price>0</price>
+			<impulse>0.38</impulse>
+			<effects>wpn_shot_large</effects>
+			<turretYawLimits>-180 180</turretYawLimits>
+			<pitchLimits>-1 1</pitchLimits>
+			<rotationSpeed>40</rotationSpeed>
+			<reloadTime>0.1</reloadTime>
+			<maxAmmo>1</maxAmmo>
+			<aimingTime>1.0</aimingTime>
+			<weight>2725</weight>
+			<maxHealth>200</maxHealth>
+			<maxRegenHealth>100</maxRegenHealth>
+			<repairCost>0</repairCost>
+			<invisibilityFactorAtShot>0.1</invisibilityFactorAtShot>
+			<shotDispersionRadius>0.1</shotDispersionRadius>
+			<shotDispersionFactors>
+				<turretRotation>0.1</turretRotation>
+				<afterShot>1</afterShot>
+				<whileGunDamaged>1.0</whileGunDamaged>
+			</shotDispersionFactors>
+			<shots>
+				<_105mm_AP_Common_Type_105Ro>
+					<defaultPortion>0.8</defaultPortion>
+					<speed>1100</speed>
+					<gravity>9.81</gravity>
+					<maxDistance>720</maxDistance>
+					<piercingPower>250 235</piercingPower>
+				</_105mm_AP_Common_Type_105Ro>
+				<_105mm_APHE_Common_Type_105Ro>
+					<defaultPortion>0</defaultPortion>
+					<speed>1250</speed>
+					<gravity>9.81</gravity>
+					<maxDistance>720</maxDistance>
+					<piercingPower>295 242</piercingPower>
+				</_105mm_APHE_Common_Type_105Ro>
+				<_105mm_HE_Common_Type_105Ro>
+					<defaultPortion>0.2</defaultPortion>
+					<speed>800</speed>
+					<gravity>9.81</gravity>
+					<maxDistance>720</maxDistance>
+					<piercingPower>62 62</piercingPower>
+				</_105mm_HE_Common_Type_105Ro>
+			</shots>
+		</_105mm_10.5cm_Type_92_Gun_Ro>
 	</shared>
 </root>

@@ -1,0 +1,201 @@
+Header:
+    version: 104
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+- "~res:/UI/Screens3/Common/OverlayBlur.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Tabs/TextTabsBar.yaml"
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "Screen"
+    size: [1024.000000, 1927.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIShortcutEventComponent:
+            shortcuts: "ON_CLOSE_TEST_PAGE,Escape"
+        UIDataParamsComponent:
+            events:
+            - "ON_CLOSE_TEST_PAGE"
+        UIDataLocalsComponent:
+            locals:
+            - ["int", "selectedItem", "0"]
+            - ["int", "Lenght", "1"]
+            - ["string", "NotCaps1", "\"tournaments/TeamDescrScreen/Quick/StaticTeam/Header\""]
+            - ["string", "NotCaps2", "\"#wgn:APIErrors/spa_weak_password\""]
+            - ["string", "NotCaps3", "\"#hangar_tutorial:boosters/InstallBoosters/hint\""]
+            - ["string", "defaultCapsString", "localize(\"#modules_tech_tree:CantInstallDescription\")"]
+            - ["string", "defaultNotCapsString", "when Lenght == 1 -> localize(NotCaps1), Lenght == 2 -> localize(NotCaps2), Lenght == 3 -> localize(NotCaps3), \"\""]
+        UIDataOnEventComponent0:
+            eventName: "ON_SELECT_TAB"
+            modelFieldExpression: "selectedItem"
+            dataExpression: "_event"
+    children:
+    -   class: "UIControl"
+        name: "Bg"
+        position: [0.000000, 0.000000]
+        size: [960.000000, 640.000000]
+        components:
+            IgnoreLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "Bg"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   prototype: "OverlayBlur/BlurAndFade"
+                name: "BlurAndFade"
+    -   class: "UIControl"
+        name: "ContentWrapper"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+                padding: "16;0"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "Header"
+            position: [0.000000, 0.000000]
+            size: [64.000000, 64.000000]
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfFirstChild"
+            children:
+            -   prototype: "IconButton/IconButton"
+                name: "Close"
+                position: [16.000000, 16.000000]
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        leftAnchor: 16.000000
+                        vCenterAnchorEnabled: true
+                    UIDataParamsComponent:
+                        args:
+                            "visible": "true"
+                            "isBgVisible": "false"
+                            "image": "\"~res:/Gfx/Shared/icons/icon_close_n\""
+                            "type": "eButtonType.OPTIONAL_LIGHT"
+                            "sound": "eButtonSound.UNKNOWN"
+                            "enabled": "true"
+                        eventActions:
+                        - ["ON_CLICK_BUTTON", "ON_CLOSE_TEST_PAGE", ""]
+            -   class: "UIControl"
+                name: "Title"
+                size: [32.000000, 32.000000]
+                input: false
+                classes: "t-headline regular white-wild-sand-text"
+                components:
+                    UITextComponent:
+                        text: "Experimental Page"
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+        -   prototype: "TextTabsBar/TextTabsBar"
+            name: "TextTabsBar"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "activeTab": "selectedItem"
+                        "info": "[ { \"text\" = localize(\"TYPOGRAPHY\"); \"autotestKey\" = \"briefTab\"; }; { \"text\" = localize(\"BUTTONS\"); \"autotestKey\" = \"statsTab\"; }; { \"text\" = localize(\"SOMETHING\"); \"autotestKey\" = \"vehiclesTab\"; }; ]"
+                        "bgStyle": "\"\""
+                    eventActions:
+                    - ["ON_SELECT_TAB", "ON_SELECT_TAB", "_event"]
+        -   class: "UIControl"
+            name: "PageConent"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                LinearLayout:
+                    orientation: "TopDown"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    horizontalMax: 960.000000
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIScrollView"
+                name: "UIScrollView"
+                size: [32.000000, 32.000000]
+                autoUpdate: true
+                centerContent: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   class: "UIScrollViewContainer"
+                    name: "scrollContainerControl"
+                    components:
+                        LinearLayout:
+                            orientation: "TopDown"
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfChildrenSum"
+                    children:
+                    -   class: "UIControl"
+                        name: "Spacer"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 32.000000
+                    -   class: "UIControl"
+                        name: "PageContent"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfMaxChild"
+                            UIChildComponent0:
+                                condition: "selectedItem == eTestPageType.TYPOGRAPHY"
+                                prototypePath: "~res:/UI/Screens3/Common/TestPages/Typography.yaml"
+                                args:
+                                    "defaultCapsString": "defaultCapsString"
+                                    "defaultNotCapsString": "defaultNotCapsString"
+                            UIChildComponent1:
+                                condition: "selectedItem == eTestPageType.SOMETHING"
+                                prototypePath: "~res:/UI/Screens3/Common/TestPages/ClipPolygonComponents.yaml"
+                                args:
+                                    "url": "\"https://stufficons.wotblitz.com/Gfx/profile_skin_bp_1/200319_125926_072427.png\""
+                    -   class: "UIControl"
+                        name: "Spacer_1"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 48.000000
+            -   prototype: "VerticalScrollBar/VerticalScrollBar"
+                name: "VerticalScrollBar"
+                components:
+                    Anchor:
+                        rightAnchorEnabled: true
+                        topAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                    IgnoreLayout: {}
+                    ScrollBarDelegate:
+                        delegate: "../UIScrollView"

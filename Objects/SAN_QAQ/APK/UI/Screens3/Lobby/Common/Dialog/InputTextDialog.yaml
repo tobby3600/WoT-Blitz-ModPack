@@ -1,7 +1,7 @@
 Header:
     version: 153
 ImportedPackages:
-- "~res:/UI/Screens3/Lobby/Common/ButtonNoBlur.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
 - "~res:/UI/Screens3/Common/OverlayBlur.yaml"
 - "~res:/UI/Screens3/Common/TextFieldWithValidator.yaml"
 Prototypes:
@@ -283,7 +283,7 @@ Prototypes:
                         - ["visible", "type != eDialogType.SELECT"]
                         - ["LinearLayout.orientation", "when reversedButtons -> eOrientation.RightToLeft, eOrientation.LeftToRight"]
                         children:
-                        -   prototype: "ButtonNoBlur/Button"
+                        -   prototype: "Button/Button"
                             name: "CancelButton"
                             position: [25.000000, 24.000000]
                             size: [117.000000, 48.000000]
@@ -296,7 +296,7 @@ Prototypes:
                                         "caption": "cancelButtonText"
                                     eventActions:
                                     - ["ON_CLICK_BUTTON", "CancelPressed", ""]
-                        -   prototype: "ButtonNoBlur/Button"
+                        -   prototype: "Button/Button"
                             name: "ResetButton"
                             position: [162.000000, 24.000000]
                             size: [118.000000, 48.000000]
@@ -306,9 +306,10 @@ Prototypes:
                                         "enabled": "when not isNull(customInputInfo) -> customInputInfo.buttonsEnabled, true"
                                         "type": "eButtonType.OPTIONAL_LIGHT"
                                         "caption": "resetButtonText"
+                                        "isBlur": "false"
                                     eventActions:
                                     - ["ON_CLICK_BUTTON", "ResetPressed", ""]
-                        -   prototype: "ButtonNoBlur/Button"
+                        -   prototype: "Button/Button"
                             name: "ApplyButton"
                             position: [303.000000, 24.000000]
                             size: [117.000000, 48.000000]
@@ -320,6 +321,7 @@ Prototypes:
                                     args:
                                         "enabled": "inputTextValid and (when not isNull(customInputInfo) -> customInputInfo.buttonsEnabled, true)"
                                         "caption": "applyButtonText"
+                                        "isBlur": "false"
                                     eventActions:
                                     - ["ON_CLICK_BUTTON", "ApplyPressed", ""]
                                 UIChildComponent0:

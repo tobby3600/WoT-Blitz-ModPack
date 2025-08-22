@@ -1,5 +1,7 @@
 Header:
     version: 157
+ImportedPackages:
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "RewardBig"
@@ -16,17 +18,19 @@ Prototypes:
             onTouchUpInside: "ON_REWARD_CLICKED"
         UIDataParamsComponent:
             params:
-            - ["bool", "showInfoButton", "false", "false"]
-            - ["bool", "ownedItem", "false", "false"]
-            - ["string", "vehicleIconWithCamo", "\"\"", "\"\""]
-            - ["string", "attachId", "\"\"", "\"\""]
-            - ["bool", "isClickable", "false", "false"]
             - ["ResourceDetailed", "reward", "null", "{ \"type\" = ResourceType.premium; }"]
+            - ["bool", "isBlur", "true", "true"]
+            - ["bool", "isClickable", "false", "false"]
+            - ["bool", "ownedItem", "false", "false"]
+            - ["bool", "showInfoButton", "false", "false"]
+            - ["bool", "showRewardText", "true", "true"]
+            - ["bool", "showUnlockStub", "false", "false"]
+            - ["float", "opacity", "1.000000", "1.000000"]
+            - ["string", "attachId", "\"\"", "\"\""]
+            - ["string", "bgStyle", "\"\"", "\"\""]
+            - ["string", "vehicleIconWithCamo", "\"\"", "\"\""]
             - ["vector2", "pivot", "vec2(0.000000, 0.000000)", "vec2(0.000000, 0.000000)"]
             - ["vector2", "scale", "vec2(1.000000, 1.000000)", "vec2(1.000000, 1.000000)"]
-            - ["float", "opacity", "1.000000", "1.000000"]
-            - ["bool", "showUnlockStub", "false", "false"]
-            - ["bool", "showRewardText", "true", "true"]
             events:
             - "ON_REWARD_CLICKED"
         UIDataLocalBindingsComponent:
@@ -78,33 +82,25 @@ Prototypes:
                 input: false
                 components:
                     Background:
-                        usePostProcessedSprite: true
-                    UIPostProcessTextureComponent0:
-                        materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                        needClearAlphaAfterRender: true
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent1:
-                        materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIPostProcessTextureComponent2:
-                        materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                        scale: 0.500000
-                        useVirtualCoordinateSystem: true
-                        minFilter: "Linear"
-                        magFilter: "Linear"
-                    UIRoundedCornersComponent:
-                        radius: "8"
+                        drawType: "DRAW_STRETCH_BOTH"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_reward_big"
+                        leftRightStretchCap: 8.000000
+                        topBottomStretchCap: 8.000000
                     SizePolicy:
                         horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "PercentOfParent"
                     StyleSheet:
                         styles: "~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["visible", "not isBlur"]
+            -   prototype: "BlurModified/BlurModified"
+                name: "Bg"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "isVisible": "isBlur"
+                            "bgStyle": "bgStyle"
+                            "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "ContentHolder"
                 input: false
@@ -288,6 +284,7 @@ Slots:
             args:
                 "serverTime": "0L"
                 "time": "reward.stuff.lifetime"
+                "bgVisible": "false"
 -   class: "UIControl"
     name: "VehicleTitle"
     input: false

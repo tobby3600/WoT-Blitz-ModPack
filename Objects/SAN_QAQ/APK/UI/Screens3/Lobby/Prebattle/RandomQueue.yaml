@@ -264,118 +264,109 @@ Prototypes:
                 -   class: "UIControl"
                     name: "WaitTimeHolder"
                     input: false
+                    classes: "white-wild-sand-10-bg"
                     components:
                         Anchor:
                             hCenterAnchorEnabled: true
                             vCenterAnchorEnabled: true
+                        Background: {}
                         SizePolicy:
-                            horizontalPolicy: "FixedSize"
-                            horizontalValue: 180.000000
-                            verticalPolicy: "FixedSize"
-                            verticalValue: 45.000000
+                            horizontalPolicy: "Formula"
+                            horizontalFormula: "maxChild + 16"
+                            verticalPolicy: "Formula"
+                            verticalFormula: "maxChild + 16"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml"
                     children:
-                    -   class: "UIControl"
-                        name: "Bg"
-                        input: false
-                        classes: "white-wild-sand-10-bg"
-                        components:
-                            Background: {}
-                            SizePolicy:
-                                horizontalPolicy: "PercentOfParent"
-                                verticalPolicy: "PercentOfParent"
-                            StyleSheet:
-                                styles: "~res:/UI/Screens3/Color.style.yaml"
                     -   class: "UIControl"
                         name: "Left"
                         input: false
-                        classes: "XinGothic-SC-W6-36 bold white-wild-sand-text"
+                        classes: "t-body bold white-wild-sand-text"
                         components:
-                            UITextComponent:
-                                align: ["LEFT", "VCENTER"]
                             Anchor:
                                 leftAnchorEnabled: true
-                                leftAnchor: -4.000000
-                                bottomAnchorEnabled: true
-                                bottomAnchor: 8.000000
+                                leftAnchor: -12.000000
+                                vCenterAnchorEnabled: true
+                                vCenterAnchor: 12.000000
+                            UITextComponent:
+                                text: "◢"
+                                align: ["LEFT", "VCENTER"]
+                                fontSize: 36.000000
                             SizePolicy:
                                 horizontalPolicy: "PercentOfContent"
                                 verticalPolicy: "PercentOfContent"
                             StyleSheet:
                                 styles: "~res:/UI/Screens3/Font.style.yaml"
-                        bindings:
-                        - ["UITextComponent.text", "\"◢\""]
                     -   class: "UIControl"
-                        name: "Upper"
+                        name: "Top"
                         input: false
-                        classes: "AVICII-18 bold white-wild-sand-text"
+                        classes: "white-wild-sand-text"
                         components:
-                            UITextComponent:
-                                align: ["HCENTER", "VCENTER"]
                             Anchor:
                                 hCenterAnchorEnabled: true
                                 topAnchorEnabled: true
-                                topAnchor: -4.000000
+                                topAnchor: -12.000000
+                            UITextComponent:
+                                text: "AVICII FOREVER"
+                                align: ["HCENTER", "VCENTER"]
+                                fontPath: "~res:/Fonts/AVICII.ttf"
+                                fontSize: 18.000000
                             SizePolicy:
                                 horizontalPolicy: "PercentOfContent"
                                 verticalPolicy: "PercentOfContent"
-                            StyleSheet:
-                                styles: "~res:/UI/Screens3/Font.style.yaml"
-                        bindings:
-                        - ["UITextComponent.text", "\"AVICII FOREVER\""]
                     -   class: "UIControl"
                         name: "Value"
                         input: false
-                        classes: "AVICII-36 bold white-wild-sand-text"
+                        classes: "white-wild-sand-text"
                         components:
-                            UITextComponent:
-                                align: ["HCENTER", "VCENTER"]
                             Anchor:
                                 hCenterAnchorEnabled: true
                                 vCenterAnchorEnabled: true
+                            UITextComponent:
+                                align: ["HCENTER", "VCENTER"]
+                                fontPath: "~res:/Fonts/AVICII.ttf"
+                                fontSize: 36.000000
                             SizePolicy:
                                 horizontalPolicy: "PercentOfContent"
                                 verticalPolicy: "PercentOfContent"
-                            StyleSheet:
-                                styles: "~res:/UI/Screens3/Font.style.yaml"
                         bindings:
                         - ["UITextComponent.text", "waitMinutesFormatted + \":\" + waitSecondsFormatted"]
                     -   class: "UIControl"
                         name: "Bottom"
                         input: false
-                        classes: "AVICII-18 bold white-wild-sand-text"
+                        classes: "white-wild-sand-text"
                         components:
-                            UITextComponent:
-                                align: ["HCENTER", "VCENTER"]
                             Anchor:
                                 hCenterAnchorEnabled: true
                                 bottomAnchorEnabled: true
-                                bottomAnchor: -4.000000
+                                bottomAnchor: -12.000000
+                            UITextComponent:
+                                text: "1989.09.08 - 2018.04.20"
+                                align: ["HCENTER", "VCENTER"]
+                                fontPath: "~res:/Fonts/AVICII.ttf"
+                                fontSize: 18.000000
                             SizePolicy:
                                 horizontalPolicy: "PercentOfContent"
                                 verticalPolicy: "PercentOfContent"
-                            StyleSheet:
-                                styles: "~res:/UI/Screens3/Font.style.yaml"
-                        bindings:
-                        - ["UITextComponent.text", "\"1989.09.08 - 2018.04.20\""]
                     -   class: "UIControl"
                         name: "Right"
                         input: false
-                        classes: "XinGothic-SC-W6-36 bold white-wild-sand-text"
+                        classes: "t-body bold white-wild-sand-text"
                         components:
-                            UITextComponent:
-                                align: ["RIGHT", "VCENTER"]
                             Anchor:
                                 rightAnchorEnabled: true
-                                rightAnchor: -4.000000
-                                bottomAnchorEnabled: true
-                                bottomAnchor: 8.000000
+                                rightAnchor: -12.000000
+                                vCenterAnchorEnabled: true
+                                vCenterAnchor: 12.000000
+                            UITextComponent:
+                                text: "◤"
+                                align: ["RIGHT", "VCENTER"]
+                                fontSize: 36.000000
                             SizePolicy:
                                 horizontalPolicy: "PercentOfContent"
                                 verticalPolicy: "PercentOfContent"
                             StyleSheet:
                                 styles: "~res:/UI/Screens3/Font.style.yaml"
-                        bindings:
-                        - ["UITextComponent.text", "\"◤\""]
         -   class: "UIControl"
             name: "Table"
             input: false

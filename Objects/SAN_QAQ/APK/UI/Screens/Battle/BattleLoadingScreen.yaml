@@ -6,6 +6,7 @@ ImportedPackages:
 - "~res:/UI/Screens/Common/PlayerNameWithTag.yaml"
 - "~res:/UI/Screens/Lobby/Common/Resource/PlayerAvatar.yaml"
 - "~res:/UI/Screens/Battle/Fonts.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "squad"
@@ -332,29 +333,6 @@ Prototypes:
             Anchor:
                 hCenterAnchorEnabled: true
                 vCenterAnchorEnabled: true
-            Background:
-                usePostProcessedSprite: true
-            UIRoundedCornersComponent:
-                radius: "8"
-            UIPostProcessTextureComponent0:
-                materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                needClearAlphaAfterRender: true
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent1:
-                materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
-            UIPostProcessTextureComponent2:
-                materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                scale: 0.500000
-                useVirtualCoordinateSystem: true
-                minFilter: "Linear"
-                magFilter: "Linear"
             LinearLayout:
                 orientation: "TopDown"
             SizePolicy:
@@ -363,6 +341,12 @@ Prototypes:
                 verticalPolicy: "Formula"
                 verticalFormula: "parent - 60"
         children:
+        -   prototype: "BlurModified/BlurModified"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "spacer"
             input: false
@@ -498,7 +482,7 @@ Prototypes:
                         -   path: "value"
                             components:
                                 UITextComponent:
-                                    text: "gameplaymode/Supremacy"
+                                    text: "battleType/Supremacy"
         -   class: "UIControl"
             name: "spacer-2"
             input: false
