@@ -24,7 +24,6 @@ Prototypes:
             - ["int", "animationIndex", "0", "0"]
             - ["RSSItem", "item", "{ }", "{ \"seen\" = false; \"title\" = \"Восемь самых лучших и дорогих предложений «Чёрной пятницы»\"; \"description\" = \"«На этом танке можно играть как угодно» «На этом танке можно играть как угодно»\"; }"]
             - ["eNewsCardSize", "cardMobileSize", "eNewsCardSize.S", "eNewsCardSize.S"]
-            - ["bool", "isSelected", "false", "false"]
             events:
             - "ON_TOUCH_UP_INSIDE"
         UIDataLocalBindingsComponent:
@@ -35,14 +34,6 @@ Prototypes:
             - ["int", "cardMobileSizeAbsolute", "when cardMobileSize == eNewsCardSize.S -> 256, cardMobileSize == eNewsCardSize.M -> 392, 528"]
             - ["int", "cardHeight", "256"]
             - ["int", "cardWidth", "cardMobileSizeAbsolute"]
-        UIEventOnDataComponent0:
-            watchedDataExpression: "isSelected"
-            ifExpression: "true"
-            eventName: "SHOW_SELECTION"
-        UIEventOnDataComponent1:
-            watchedDataExpression: "isSelected"
-            ifExpression: "false"
-            eventName: "HIDE_SELECTION"
         Sound: {}
         UIIdentifierComponent:
             id: "news_card"
@@ -270,19 +261,6 @@ Prototypes:
                         verticalPolicy: "PercentOfParent"
                 children:
                 -   class: "UIControl"
-                    name: "selectorMobile"
-                    size: [32.000000, 32.000000]
-                    input: false
-                    components:
-                        SizePolicy:
-                            horizontalPolicy: "PercentOfParent"
-                            verticalPolicy: "PercentOfParent"
-                        UIChildComponent0:
-                            condition: "isSelected"
-                            prototypePath: "~res:/UI/Screens3/Lobby/Common/Selection.yaml"
-                            args:
-                                "selectionType": "eSelectionBorderType.kR8"
-                -   class: "UIControl"
                     name: "hover"
                     size: [32.000000, 32.000000]
                     input: false
@@ -432,31 +410,3 @@ Prototypes:
                         "dateString": "shortDate(item._pubDateUTC)"
                         "badgeIsVisible": "not item.seen"
                         "textColor": "\"white-wild-sand-text\""
-    -   class: "UIControl"
-        name: "ContainerForControlForScroll"
-        size: [32.000000, 32.000000]
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfParent"
-            UIChildComponent0:
-                childType: "kControl"
-                condition: "isSelected"
-                control: "ControlForScroll"
-Slots:
--   class: "UIControl"
-    name: "ControlForScroll"
-    size: [32.000000, 32.000000]
-    input: false
-    components:
-        Anchor:
-            hCenterAnchorEnabled: true
-            vCenterAnchorEnabled: true
-        SizePolicy:
-            horizontalPolicy: "Formula"
-            horizontalFormula: "parent+48"
-            verticalPolicy: "Formula"
-            verticalFormula: "parent+32"
-        UIAttachLayoutMasterComponent:
-            attachId: "SELECTED_CARD"

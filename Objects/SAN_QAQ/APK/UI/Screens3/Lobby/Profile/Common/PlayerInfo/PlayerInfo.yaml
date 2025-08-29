@@ -155,7 +155,6 @@ Prototypes:
                         args:
                             "playerName": "playerName"
                             "clanTag": "clanTag"
-                            "isInteractive": "not isGamepad"
                             "clanName": "clanName"
                         eventActions:
                         - ["ON_TOUCH_UP", "ON_COPY_NICKNAME", ""]
@@ -234,6 +233,7 @@ Prototypes:
                             "size": "eButtonSize.NORMAL"
                             "sound": "eButtonSound.OPEN"
                             "enabled": "showSendMessageButton"
+                            "hasShadow": "false"
                         eventActions:
                         - ["ON_CLICK_BUTTON", "SEND_MESSAGE", ""]
                 bindings:
@@ -273,6 +273,7 @@ Prototypes:
                             "size": "eButtonSize.NORMAL"
                             "sound": "eButtonSound.OPEN"
                             "enabled": "showRemoveFriendButton"
+                            "hasShadow": "false"
                         eventActions:
                         - ["ON_CLICK_BUTTON", "REMOVE_FRIEND", ""]
                 bindings:
@@ -291,6 +292,7 @@ Prototypes:
                             "size": "eButtonSize.NORMAL"
                             "sound": "eButtonSound.OPEN"
                             "enabled": "showShowProfileButton"
+                            "hasShadow": "false"
                         eventActions:
                         - ["ON_CLICK_BUTTON", "OPEN_PROFILE", ""]
                 bindings:
@@ -333,6 +335,7 @@ Prototypes:
                             "size": "eButtonSize.NORMAL"
                             "sound": "eButtonSound.OPEN"
                             "type": "eButtonType.NEGATIVE"
+                            "hasShadow": "false"
                         eventActions:
                         - ["ON_CLICK_BUTTON", "REPORT_PLAYER", ""]
                 bindings:
@@ -844,7 +847,7 @@ Slots:
                     horizontalPolicy: "PercentOfContent"
                     verticalPolicy: "PercentOfContent"
             bindings:
-            - ["classes", "\"t-content-h1 bold not-localize\" + \" \" + ratingPositionColor + \"-text\""]
+            - ["classes", "\"t-content-h1 bold\" + \" \" + ratingPositionColor + \"-text\""]
             - ["UITextComponent.text", "ratingPosition"]
         -   class: "UIControl"
             name: "LaurelRight"
@@ -917,7 +920,7 @@ Slots:
             name: "RatingValue"
             position: [28.000000, 24.000000]
             input: false
-            classes: "t-content-h4 bold white-wild-sand-text not-localize"
+            classes: "t-content-h4 bold white-wild-sand-text"
             components:
                 UITextComponent: {}
                 Anchor:
@@ -1013,7 +1016,7 @@ Slots:
                             horizontalPolicy: "PercentOfContent"
                             verticalPolicy: "PercentOfContent"
                     bindings:
-                    - ["classes", "\"t-content-h4 bold not-localize\" + \" \" + ratingPositionColor + \"-text\""]
+                    - ["classes", "\"t-content-h4 bold\" + \" \" + ratingPositionColor + \"-text\""]
                     - ["UITextComponent.text", "ratingPosition"]
                 -   class: "UIControl"
                     name: "LaurelRight"
@@ -1089,7 +1092,7 @@ Slots:
         name: "CalibrationCurrent"
         size: [32.000000, 32.000000]
         input: false
-        classes: "t-content-h4 bold white-wild-sand-70-text not-localize"
+        classes: "t-content-h4 bold white-wild-sand-70-text"
         components:
             UITextComponent: {}
             Anchor:
@@ -1106,7 +1109,7 @@ Slots:
         name: "CalibrationMax"
         size: [32.000000, 32.000000]
         input: false
-        classes: "t-content-h4 bold white-wild-sand-50-text not-localize"
+        classes: "t-content-h4 bold white-wild-sand-50-text"
         components:
             UITextComponent: {}
             Anchor:

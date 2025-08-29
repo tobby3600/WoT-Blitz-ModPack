@@ -495,10 +495,10 @@
 		</sellPrice>
 		<enrichmentPermanentCost>0</enrichmentPermanentCost>
 		<notInShop>false</notInShop>
-		<tags>AT-SPG heavyAT-SPG collectible</tags>
+		<tags>AT-SPG mediumAT-SPG collectible</tags>
 		<level>8</level>
 		<combatRole>
-			<arcade>close_support</arcade>
+			<arcade>long_support</arcade>
 			<hellgames>werewolf_2</hellgames>
 			<lunar>moon_rover</lunar>
 			<gravitizing>werewolf_2</gravitizing>

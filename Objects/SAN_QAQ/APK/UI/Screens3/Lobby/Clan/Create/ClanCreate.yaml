@@ -1,0 +1,1220 @@
+Header:
+    version: 151
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+- "~res:/UI/Screens3/Lobby/Clan/Common/ClanNameWithTag.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "ClanCreate"
+    size: [800.000000, 600.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UILayoutEventComponent:
+            sizeChangedEvent: "SIZE_CHANGED"
+            sizeChangedEventData: "int(_size.X)"
+            visibilityMarginsEvent: "KEYBOARD_EVENT"
+            visibilityMarginsEventData: "_visibilityMargins.bottom"
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Escape"
+            keyDownEvent: "ON_PREV"
+        UIVirtualActionEventComponent1:
+            virtualKeyAction: "Perform"
+        UIDataParamsComponent:
+            params:
+            - ["AppDataModel", "app", "null", "{ }"]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["bool", "isDebugAnimations", "false", "true"]
+            - ["ClanCreateModel", "model", "null", "{ }"]
+            - ["ClanRecruitmentModel", "recruitmentModel", "null", "{ }"]
+            events:
+            - "SELECT_EMBLEM(int id)"
+        UIDataLocalVarsComponent:
+            data:
+            - ["int", "stepIndex", "int(model.step)"]
+            - ["int", "screenWidth", "1440"]
+            - ["float", "keyboardHeight", "0.000000"]
+            - ["float", "blurOpacity", "when model.step == eClanCreateStep.ClanIntro -> 0.000000, 1.000000"]
+            - ["float", "fadeOpacity", "when model.step == eClanCreateStep.ClanIntro -> 0.000000, 0.300000"]
+            - ["float", "buttonsOffset", "0.000000"]
+            - ["float", "contentOffset", "0.000000"]
+            - ["float", "contentOpacity", "1.000000"]
+            - ["float", "animationHalfTime", "0.400000"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["bool", "isChina", "app.netease.neteaseAvailable"]
+            - ["int", "notificationCount", "when app.gameOptions.playerOption.enableClanInvites -> session.clanNotifications.invitesCount + session.clanNotifications.unreadNotifications, session.clanNotifications.unreadNotifications"]
+        UIChildComponent0:
+            prototypePath: "~res:/UI/Screens3/Lobby/Clan/Common/ClanBaseScreen.yaml"
+            args:
+                "headerText": "when model.step == eClanCreateStep.Recruitment -> \"Clans/RecruitmentOverlay/Title\", \"Clans/Create/ScreenHeader\""
+                "backVisible": "model.step != eClanCreateStep.Recruitment and (isDebugAnimations or model.step != eClanCreateStep.Congratulation)"
+                "blurOpacity": "blurOpacity"
+                "fadeOpacity": "fadeOpacity"
+                "headerOpacity": "when keyboardHeight > 200.000000 -> 0.000000, keyboardHeight > 1.000000 -> (200.000000 - keyboardHeight) / 200.000000, blurOpacity < 0.500000 -> 0.000000, (blurOpacity - 0.500000) * 2.000000"
+                "content": "MainContent"
+                "isBlurMask": "when blurOpacity == 0.000000"
+                "blurMaskID": "\"Create\""
+            eventActions:
+            - ["ON_BACK_CLICK", "ON_PREV", ""]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Clan/Create/ClanCreate.actions"
+        UIDataOnEventComponent0:
+            eventName: "SIZE_CHANGED"
+            modelFieldExpression: "screenWidth"
+            dataExpression: "_event"
+        UIEventOnDataComponent0:
+            watchedDataExpression: "model.step"
+            eventName: "OnStepChangedFromCode"
+Slots:
+-   class: "UIControl"
+    name: "MainContent"
+    size: [800.000000, 600.000000]
+    input: false
+    components:
+        ClipContent:
+            enabled: false
+            top: false
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "ActiveContent"
+        input: false
+        components:
+            UIOpacityComponent: {}
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                childType: "kControl"
+                condition: "session.clanInfo.lastClanApiError == eClanApiError.InternalServerError or session.clanInfo.lastClanApiError == eClanApiError.ExternalServerError or session.clanInfo.lastClanApiError == eClanApiError.ServerOnMaintenance"
+                control: "CreationUnavailableContent"
+            UIChildComponent1:
+                childType: "kControl"
+                control: "when stepIndex == int(eClanCreateStep.ClanIntro) -> IntroContent, stepIndex == int(eClanCreateStep.CreateClan) -> CreateContent, stepIndex == int(eClanCreateStep.CreateInfo) -> InfoContent, stepIndex == int(eClanCreateStep.Congratulation) -> CongratulationContent, stepIndex == int(eClanCreateStep.Recruitment) -> RecruitmentContent, stepIndex == int(eClanCreateStep.CreationUnavaible) -> CreationUnavailableContent, null"
+        bindings:
+        - ["UIOpacityComponent.opacity", "contentOpacity"]
+        - ["Anchor.hCenterAnchor", "contentOffset"]
+-   class: "UIControl"
+    name: "IntroContent"
+    size: [800.000000, 600.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Extra1"
+            keyDownEvent: "ON_NEXT"
+            shouldBeFocused: false
+        UIVirtualActionEventComponent1:
+            virtualKeyAction: "Extra2"
+            keyDownEvent: "ON_SHOW_SEARCH"
+            shouldBeFocused: false
+    children:
+    -   class: "UIControl"
+        name: "TextWrapper"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+                vCenterAnchor: -40.000000
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 20.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                horizontalValue: 80.000000
+                verticalPolicy: "PercentOfChildrenSum"
+        children:
+        -   class: "UIControl"
+            name: "Title"
+            input: false
+            classes: "t-content-h0 bold color=white-wild-sand-text"
+            components:
+                UITextComponent: {}
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "localize(\"Clans/Create/IntroHeader\")"]
+        -   class: "UIControl"
+            name: "Description"
+            size: [32.000000, 32.000000]
+            input: false
+            classes: "t-subtitle regular color=white-wild-sand-text"
+            components:
+                UITextComponent:
+                    multiline: "MULTILINE_ENABLED"
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    horizontalMax: 800.000000
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "localize(\"Clans/Create/IntroDescription\")"]
+    -   class: "UIControl"
+        name: "Buttons"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                bottomAnchorEnabled: true
+            LinearLayout:
+                orientation: "LeftToRight"
+                spacing: 16.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfMaxChild"
+        bindings:
+        - ["Anchor.hCenterAnchor", "-contentOffset"]
+        - ["Anchor.bottomAnchor", "52 + buttonsOffset"]
+        children:
+        -   class: "UIControl"
+            name: "CreateClanButton"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfMaxChild"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+                    args:
+                        "caption": "capitalize(localize(\"Clans/Create/IntroCreateButton\"))"
+                        "enabled": "true"
+                        "size": "eButtonSize.NORMAL"
+                        "type": "eButtonType.OPTIONAL_LIGHT"
+                    eventActions:
+                    - ["ON_CLICK_BUTTON", "ON_NEXT", ""]
+        -   class: "UIControl"
+            name: "FindClanButton"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfMaxChild"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+                    args:
+                        "caption": "capitalize(localize(\"Clans/Create/IntroFindButton\"))"
+                        "enabled": "true"
+                        "size": "eButtonSize.NORMAL"
+                        "type": "eButtonType.POSITIVE"
+                    eventActions:
+                    - ["ON_CLICK_BUTTON", "ON_SHOW_SEARCH", ""]
+    -   class: "UIControl"
+        name: "ButtonNotifications"
+        position: [736.000000, 55.000000]
+        input: false
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+                rightAnchor: 16.000000
+                topAnchorEnabled: true
+                topAnchor: -56.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+                args:
+                    "type": "eButtonType.OPTIONAL_LIGHT"
+                    "image": "\"~res:/Gfx/Lobby/icons/icon_news_n.psd\""
+                    "badgeType": "eBadgeType.Digit"
+                    "badgeValue": "str(notificationCount)"
+                    "isBadgeVisible": "notificationCount > 0"
+                    "isBgVisible": "false"
+                    "imageSize": "32"
+                eventActions:
+                - ["ON_CLICK_BUTTON", "ON_NOTIFICATIONS_PRESSED", ""]
+-   class: "UIControl"
+    name: "CreateContent"
+    size: [800.000000, 600.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Extra1"
+            keyDownEvent: "ON_NEXT"
+            shouldBeFocused: false
+    children:
+    -   class: "UIControl"
+        name: "MainContent"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+                vCenterAnchor: -30.000000
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+        children:
+        -   class: "UIControl"
+            name: "InputTitle"
+            size: [32.000000, 32.000000]
+            input: false
+            classes: "t-body regular bold color=white-wild-sand-text"
+            components:
+                UITextComponent:
+                    text: "Clans/Create/NameAndTagHeader"
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+        -   class: "UIControl"
+            name: "InputFields"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                LinearLayout:
+                    spacing: 8.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "Name"
+                size: [280.000000, 48.000000]
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 280.000000
+                        verticalPolicy: "PercentOfMaxChild"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Common/TextField.yaml"
+                        args:
+                            "maxLength": "int(model.editModel.fields[eClanEditField.Name].maxLen)"
+                            "placeholderTextColor": "\"white-wild-sand-50-text\""
+                            "textStyle": "\"t-body regular color=white-wild-sand-text\""
+                            "text": "model.editModel.fields[eClanEditField.Name].value"
+                            "placeholderText": "localize(\"Clans/Create/NameEmptyText\")"
+                            "validatedWithError": "model.editModel.fields[eClanEditField.Name].error != \"\""
+                            "showValidate": "model.editModel.fields[eClanEditField.Name].isValid"
+                            "isEnabled": "true"
+                            "canCleaned": "true"
+                            "textFieldType": "eTextFieldType.Text"
+                            "keyboardType": "eKeyboardType.KEYBOARD_TYPE_DEFAULT"
+                        eventActions:
+                        - ["TEXT_CHANGED", "FIELD_CHANGED", "eClanEditField.Name, _event"]
+                        - ["EDITING_STARTED", "FIELD_EDITING_STARTED", "eClanEditField.Name"]
+                        - ["FIELD_CLICKED", "FIELD_CLICKED", "eClanEditField.Name"]
+            -   class: "UIControl"
+                name: "Tag"
+                size: [110.000000, 48.000000]
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 140.000000
+                        verticalPolicy: "PercentOfChildrenSum"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Common/TextField.yaml"
+                        args:
+                            "maxLength": "int(model.editModel.fields[eClanEditField.Tag].maxLen)"
+                            "placeholderTextColor": "\"white-wild-sand-50-text\""
+                            "textStyle": "\"t-body regular color=white-wild-sand-text\""
+                            "text": "model.editModel.fields[eClanEditField.Tag].value"
+                            "placeholderText": "localize(\"Clans/Create/TagEmptyText\")"
+                            "validatedWithError": "model.editModel.fields[eClanEditField.Tag].error != \"\""
+                            "showValidate": "model.editModel.fields[eClanEditField.Tag].isValid"
+                            "isLastEdit": "true"
+                            "isEnabled": "true"
+                            "canCleaned": "true"
+                            "textFieldType": "eTextFieldType.Text"
+                            "keyboardType": "eKeyboardType.KEYBOARD_TYPE_DEFAULT"
+                        eventActions:
+                        - ["TEXT_CHANGED", "FIELD_CHANGED", "eClanEditField.Tag, _event"]
+                        - ["EDITING_STARTED", "FIELD_EDITING_STARTED", "eClanEditField.Tag"]
+                        - ["FIELD_CLICKED", "FIELD_CLICKED", "eClanEditField.Tag"]
+        -   class: "UIControl"
+            name: "Error"
+            input: false
+            classes: "t-caption regular color=red-red-text"
+            components:
+                UITextComponent:
+                    colorInheritType: "COLOR_IGNORE_PARENT"
+                    multiline: "MULTILINE_ENABLED"
+                    fitting: "FITTING_REDUCE"
+                    align: ["HCENTER", "TOP"]
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 380.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 40.000000
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "when model.editModel.fields[eClanEditField.Name].error != \"\" -> localize(model.editModel.fields[eClanEditField.Name].error), localize(model.editModel.fields[eClanEditField.Tag].error)"]
+        -   class: "UIControl"
+            name: "Spacer"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                    verticalMax: 48.000000
+        -   class: "UIControl"
+            name: "Emblems"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Clan/Common/ClanEmblemChoosing.yaml"
+                    args:
+                        "model": "model.editModel.emblemSelection"
+        -   class: "UIControl"
+            name: "Spacer_1"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                    verticalMin: 16.000000
+                    verticalMax: 32.000000
+        -   class: "UIControl"
+            name: "Eula"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfFirstChild"
+                UIChildComponent0:
+                    childType: "kControl"
+                    condition: "not isChina"
+                    control: "EULA"
+        -   class: "UIControl"
+            name: "KeyboardSpacer"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+            bindings:
+            - ["SizePolicy.verticalValue", "keyboardHeight * 0.500000"]
+    -   class: "UIControl"
+        name: "Buttons"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                bottomAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 8.000000
+            IgnoreLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfChildrenSum"
+        bindings:
+        - ["Anchor.hCenterAnchor", "-contentOffset"]
+        - ["Anchor.bottomAnchor", "32 + buttonsOffset"]
+        children:
+        -   class: "UIControl"
+            name: "Price"
+            visible: false
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfMaxChild"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Currencies.yaml"
+                    args:
+                        "showDiscount": "false"
+                        "price": "model.createPrice"
+        -   prototype: "Button/Button"
+            name: "OkButton"
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                    bottomAnchor: 40.000000
+                UIDataParamsComponent:
+                    args:
+                        "size": "eButtonSize.NORMAL"
+                        "type": "eButtonType.POSITIVE"
+                        "enabled": "true"
+                        "caption": "capitalize(localize(\"Clans/Create/NextButton\"))"
+                    eventActions:
+                    - ["ON_CLICK_BUTTON", "ON_NEXT", ""]
+-   class: "UIControl"
+    name: "InfoContent"
+    size: [800.000000, 600.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Extra1"
+            keyDownEvent: "ON_NEXT"
+            shouldBeFocused: false
+    children:
+    -   class: "UIControl"
+        name: "MainContent"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+                vCenterAnchor: -60.000000
+            LinearLayout:
+                orientation: "TopDown"
+                dynamicPadding: false
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfChildrenSum"
+        children:
+        -   class: "UIControl"
+            name: "Spacer"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                    verticalMax: 200.000000
+        -   class: "UIControl"
+            name: "Icon"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    verticalPolicy: "FixedSize"
+            children:
+            -   class: "UIControl"
+                name: "Image"
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                    UIUrlImageComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 110.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 110.000000
+                bindings:
+                - ["UIUrlImageComponent.imageUrl", "model.editModel.emblemSelection.emblems[model.editModel.emblemSelection.selectedEmblemIndex].url"]
+        -   class: "UIControl"
+            name: "Spacer_1"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    verticalPolicy: "PercentOfParent"
+                    verticalMax: 14.000000
+        -   prototype: "ClanNameWithTag/ClanNameWithTag"
+            name: "ClanNameWithTag"
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                UIDataParamsComponent:
+                    args:
+                        "tag": "model.editModel.fields[eClanEditField.Tag].value"
+                        "name": "model.editModel.fields[eClanEditField.Name].value"
+        -   class: "UIControl"
+            name: "Spacer_2"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    verticalPolicy: "PercentOfParent"
+                    verticalMax: 24.000000
+        -   class: "UIControl"
+            name: "InputFieldsHeader"
+            input: false
+            classes: "t-body regular color=white-wild-sand-text"
+            components:
+                UITextComponent:
+                    text: "Clans/Create/MottoAndDescription"
+                    colorInheritType: "COLOR_IGNORE_PARENT"
+                    align: ["LEFT", "VCENTER"]
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["visible", "not isChina"]
+        -   class: "UIControl"
+            name: "InputFields"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                LinearLayout:
+                    orientation: "TopDown"
+                    spacing: 20.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   class: "UIControl"
+                name: "Motto"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 380.000000
+                        verticalPolicy: "PercentOfMaxChild"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Common/TextField.yaml"
+                        args:
+                            "maxLength": "int(model.editModel.fields[eClanEditField.Motto].maxLen)"
+                            "placeholderTextColor": "\"white-wild-sand-50-text\""
+                            "textStyle": "\"t-subtitle regular\""
+                            "text": "model.editModel.fields[eClanEditField.Motto].value"
+                            "placeholderText": "localize(\"Clans/Create/MottoEmptyText\")"
+                            "validatedWithError": "model.editModel.fields[eClanEditField.Motto].error != \"\""
+                            "showValidate": "false"
+                            "canCleaned": "true"
+                            "isEnabled": "true"
+                            "textFieldType": "eTextFieldType.Text"
+                            "keyboardType": "eKeyboardType.KEYBOARD_TYPE_DEFAULT"
+                        eventActions:
+                        - ["TEXT_CHANGED", "FIELD_CHANGED", "eClanEditField.Motto, _event"]
+                        - ["EDITING_STARTED", "FIELD_EDITING_STARTED", "eClanEditField.Motto"]
+                        - ["FIELD_CLICKED", "FIELD_CLICKED", "eClanEditField.Motto"]
+                bindings:
+                - ["visible", "not isChina and not model.editModel.isConfirmationDialogDisplaying"]
+                children:
+                -   class: "UIControl"
+                    name: "Error"
+                    input: false
+                    classes: "t-caption regular color=red-red-text"
+                    components:
+                        UITextComponent:
+                            colorInheritType: "COLOR_IGNORE_PARENT"
+                            multiline: "MULTILINE_ENABLED"
+                            align: ["LEFT", "VCENTER"]
+                        Anchor:
+                            leftAnchorEnabled: true
+                            leftAnchor: 400.000000
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            horizontalMax: 270.000000
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["visible", "model.editModel.fields[eClanEditField.Motto].error != \"\""]
+                    - ["UITextComponent.text", "localize(model.editModel.fields[eClanEditField.Motto].error)"]
+            -   class: "UIControl"
+                name: "Description"
+                size: [380.000000, 134.000000]
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 380.000000
+                        verticalPolicy: "PercentOfMaxChild"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Common/TextField.yaml"
+                        args:
+                            "maxLength": "int(model.editModel.fields[eClanEditField.Description].maxLen)"
+                            "placeholderTextColor": "\"white-wild-sand-50-text\""
+                            "textStyle": "\"t-subtitle regular\""
+                            "text": "model.editModel.fields[eClanEditField.Description].value"
+                            "placeholderText": "localize(\"Clans/Create/DescriptionEmptyText\")"
+                            "validatedWithError": "model.editModel.fields[eClanEditField.Description].error != \"\""
+                            "showValidate": "false"
+                            "isEnabled": "true"
+                            "canCleaned": "true"
+                            "textFieldType": "eTextFieldType.Multiline"
+                            "keyboardType": "eKeyboardType.KEYBOARD_TYPE_DEFAULT"
+                        eventActions:
+                        - ["TEXT_CHANGED", "FIELD_CHANGED", "eClanEditField.Description, _event"]
+                        - ["EDITING_STARTED", "FIELD_EDITING_STARTED", "eClanEditField.Description"]
+                        - ["FIELD_CLICKED", "FIELD_CLICKED", "eClanEditField.Description"]
+                bindings:
+                - ["visible", "not isChina and not model.editModel.isConfirmationDialogDisplaying"]
+                children:
+                -   class: "UIControl"
+                    name: "Error"
+                    input: false
+                    classes: "t-caption regular color=red-red-text"
+                    components:
+                        UITextComponent:
+                            colorInheritType: "COLOR_IGNORE_PARENT"
+                            multiline: "MULTILINE_ENABLED"
+                            align: ["LEFT", "VCENTER"]
+                        Anchor:
+                            leftAnchorEnabled: true
+                            leftAnchor: 400.000000
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            horizontalMax: 270.000000
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["visible", "model.editModel.fields[eClanEditField.Description].error != \"\""]
+                    - ["UITextComponent.text", "localize(model.editModel.fields[eClanEditField.Description].error)"]
+            -   class: "UIControl"
+                name: "Goals"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfFirstChild"
+                        verticalPolicy: "PercentOfFirstChild"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Lobby/Clan/Common/ClanGoals.yaml"
+                        args:
+                            "model": "model.editModel"
+                bindings:
+                - ["visible", "isChina"]
+        -   class: "UIControl"
+            name: "KeyboardSpacer"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+            bindings:
+            - ["SizePolicy.verticalValue", "keyboardHeight"]
+    -   class: "UIControl"
+        name: "Buttons"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                bottomAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 8.000000
+            IgnoreLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfChildrenSum"
+        bindings:
+        - ["Anchor.hCenterAnchor", "-contentOffset"]
+        - ["Anchor.bottomAnchor", "32 + buttonsOffset"]
+        children:
+        -   class: "UIControl"
+            name: "Price"
+            visible: true
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfMaxChild"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Currencies.yaml"
+                    args:
+                        "showDiscount": "false"
+                        "price": "model.createPrice"
+        -   prototype: "Button/Button"
+            name: "OkButton"
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                    bottomAnchor: 40.000000
+                UIDataParamsComponent:
+                    args:
+                        "size": "eButtonSize.NORMAL"
+                        "type": "eButtonType.POSITIVE"
+                        "enabled": "true"
+                        "caption": "capitalize(localize(\"Clans/Create/CreateButton\"))"
+                    eventActions:
+                    - ["ON_CLICK_BUTTON", "ON_NEXT", ""]
+-   class: "UIControl"
+    name: "CongratulationContent"
+    size: [800.000000, 600.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Extra1"
+            keyDownEvent: "ON_NEXT"
+            shouldBeFocused: false
+    children:
+    -   class: "UIControl"
+        name: "Effects"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIParticles"
+            name: "ConfettiLeft"
+            position: [-57.000000, 977.000000]
+            size: [32.000000, 32.000000]
+            pivot: [0.500000, 0.500000]
+            input: false
+            effectPath: "~res:/3d/FX/UI/RewardScreen/Confetti2.sc2"
+            autoStart: true
+            startDelay: 0.300000
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    leftAnchor: -73.000000
+                    bottomAnchorEnabled: true
+                    bottomAnchor: -225.000000
+                IgnoreLayout: {}
+        -   class: "UIParticles"
+            name: "ConfettiRight"
+            position: [1122.000000, 977.000000]
+            size: [32.000000, 32.000000]
+            pivot: [0.500000, 0.500000]
+            input: false
+            effectPath: "~res:/3d/FX/UI/RewardScreen/Confetti.sc2"
+            autoStart: true
+            startDelay: 0.300000
+            components:
+                Anchor:
+                    rightAnchorEnabled: true
+                    rightAnchor: -114.000000
+                    bottomAnchorEnabled: true
+                    bottomAnchor: -225.000000
+                IgnoreLayout: {}
+    -   class: "UIControl"
+        name: "MainContent"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+                vCenterAnchor: -40.000000
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                horizontalValue: 80.000000
+                verticalPolicy: "PercentOfChildrenSum"
+        children:
+        -   class: "UIControl"
+            name: "Grats"
+            input: false
+            classes: "t-headline bold color=white-wild-sand-text"
+            components:
+                UITextComponent:
+                    text: "#common:Header/Congrats"
+                    colorInheritType: "COLOR_IGNORE_PARENT"
+                    align: ["LEFT", "VCENTER"]
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+        -   class: "UIControl"
+            name: "Spacer"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 24.000000
+        -   class: "UIControl"
+            name: "Icon"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    verticalPolicy: "FixedSize"
+            children:
+            -   class: "UIParticles"
+                name: "Glow"
+                size: [64.000000, 64.000000]
+                scale: [0.001000, 0.001000]
+                pivot: [0.500000, 0.500000]
+                visible: true
+                input: false
+                effectPath: "~res:/3d/FX/UI/BattlePass/GlowReward.sc2"
+                autoStart: true
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+            -   class: "UIControl"
+                name: "Image"
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                    UIUrlImageComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 110.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 110.000000
+                bindings:
+                - ["UIUrlImageComponent.imageUrl", "model.editModel.emblemSelection.emblems[model.editModel.emblemSelection.selectedEmblemIndex].url"]
+        -   class: "UIControl"
+            name: "Spacer"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 14.000000
+        -   class: "UIControl"
+            name: "Motto"
+            input: false
+            classes: "t-caption regular color=white-wild-sand-text"
+            components:
+                UITextComponent:
+                    colorInheritType: "COLOR_IGNORE_PARENT"
+                    align: ["LEFT", "VCENTER"]
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["visible", "not isChina"]
+            - ["UITextComponent.text", "model.editModel.fields[eClanEditField.Motto].value"]
+        -   prototype: "ClanNameWithTag/ClanNameWithTag"
+            name: "ClanNameWithTag"
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                UIDataParamsComponent:
+                    args:
+                        "tag": "model.editModel.fields[eClanEditField.Tag].value"
+                        "name": "model.editModel.fields[eClanEditField.Name].value"
+        -   class: "UIControl"
+            name: "Description"
+            input: false
+            classes: "t-body regular color=white-wild-sand-text"
+            components:
+                UITextComponent:
+                    colorInheritType: "COLOR_IGNORE_PARENT"
+                    multiline: "MULTILINE_ENABLED"
+                    align: ["HCENTER", "VCENTER"]
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    horizontalMax: 800.000000
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["visible", "not isChina"]
+            - ["UITextComponent.text", "model.editModel.fields[eClanEditField.Description].value"]
+        -   class: "UIControl"
+            name: "Goal"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                LinearLayout:
+                    spacing: 8.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfMaxChild"
+            bindings:
+            - ["visible", "isChina"]
+            children:
+            -   class: "UIControl"
+                name: "Title"
+                input: false
+                classes: "t-overline bold color=white-wild-sand-text"
+                components:
+                    UITextComponent:
+                        text: "Clans/Goals/Info/Text"
+                        colorInheritType: "COLOR_IGNORE_PARENT"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "Name"
+                input: false
+                classes: "t-overline bold color=white-wild-sand-text"
+                components:
+                    UITextComponent:
+                        colorInheritType: "COLOR_IGNORE_PARENT"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "localize(str(model.editModel.goal, eClanGoals, \"LocalizationKey\"))"]
+    -   class: "UIControl"
+        name: "Buttons"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                bottomAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 8.000000
+            IgnoreLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfChildrenSum"
+        bindings:
+        - ["Anchor.hCenterAnchor", "-contentOffset"]
+        - ["Anchor.bottomAnchor", "32 + buttonsOffset"]
+        children:
+        -   class: "UIControl"
+            name: "Price"
+            visible: false
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfMaxChild"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Currencies.yaml"
+                    args:
+                        "showDiscount": "false"
+                        "price": "model.createPrice"
+        -   prototype: "Button/Button"
+            name: "OkButton"
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                    bottomAnchor: 40.000000
+                UIDataParamsComponent:
+                    args:
+                        "size": "eButtonSize.NORMAL"
+                        "type": "eButtonType.POSITIVE"
+                        "enabled": "true"
+                        "caption": "capitalize(localize(\"Clans/Create/NextButton\"))"
+                    eventActions:
+                    - ["ON_CLICK_BUTTON", "ON_NEXT", ""]
+-   class: "UIControl"
+    name: "RecruitmentContent"
+    size: [800.000000, 600.000000]
+    input: false
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "Spacer"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+                verticalValue: 12.000000
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Clan/Recruitment/ClanRecruitmentContent.yaml"
+                args:
+                    "buttonText": "\"#common:DialogButton/Complete\""
+                    "model": "model.recruitment"
+    -   class: "UIControl"
+        name: "Spacer_1"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+                verticalValue: 32.000000
+-   class: "UIControl"
+    name: "CreationUnavailableContent"
+    size: [800.000000, 600.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "ClanApiError"
+        size: [1024.000000, 210.000000]
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfChildrenSum"
+        children:
+        -   class: "UIControl"
+            name: "Image"
+            size: [64.000000, 64.000000]
+            components:
+                Background:
+                    drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                    sprite: "~res:/Gfx/Lobby/icons/icon_dialog_attention"
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    topAnchorEnabled: true
+                    topAnchor: 24.000000
+        -   class: "UIControl"
+            name: "Header"
+            input: false
+            classes: "t-headline bold color=white-wild-sand-text"
+            components:
+                UITextComponent:
+                    text: "#ClanApiError/InternalServerError/Header"
+                    colorInheritType: "COLOR_IGNORE_PARENT"
+                    align: ["LEFT", "VCENTER"]
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+        -   class: "UIControl"
+            name: "Text"
+            input: false
+            classes: "t-overline bold color=white-wild-sand-text"
+            components:
+                UITextComponent:
+                    text: "#ClanApiError/InternalServerError/Description"
+                    colorInheritType: "COLOR_IGNORE_PARENT"
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+-   class: "UIControl"
+    name: "EULA"
+    classes: "button-open-sound"
+    components:
+        SizePolicy:
+            horizontalPolicy: "Formula"
+            horizontalFormula: "firstChild + 32"
+            verticalPolicy: "Formula"
+            verticalFormula: "firstChild + 16"
+        UIInputEventComponent:
+            onTouchUpInside: "OPEN_CLAN_EULA"
+        Sound: {}
+        StyleSheet:
+            styles: "~res:/UI/Screens3/ButtonSound.style.yaml"
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                spacing: 4.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfFirstChild"
+        children:
+        -   class: "UIControl"
+            name: "Text"
+            size: [32.000000, 32.000000]
+            input: false
+            classes: "t-body regular color=white-wild-sand-50-text"
+            components:
+                UITextComponent: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "localize(\"Clans/Create/Text\", { \"link\" = \"\"; })"]
+        -   class: "UIControl"
+            name: "Link"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfFirstChild"
+                UIChildComponent0:
+                    childType: "kOldExpression"
+                    control: "\"~res:/UI/Screens3/Lobby/Common/RichTextLink.yaml\""
+                    args:
+                        "isExternalLink": "true"
+                        "key": "localize(\"Clans/Create/Link\")"
+                    eventActions:
+                    - ["LINK_PRESSED", "OPEN_CLAN_EULA", ""]
+                UIIdentifierComponent:
+                    id: "tank_name_link"

@@ -1,7 +1,5 @@
 Header:
     version: 152
-ImportedPackages:
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ClanLeaderboardItem"
@@ -9,6 +7,11 @@ Prototypes:
     components:
         Anchor:
             bottomAnchorEnabled: true
+        Background:
+            drawType: "DRAW_FILL"
+            color: [0.960784, 0.960784, 0.960784, 0.150000]
+        UIRoundedCornersComponent:
+            radius: "8;8;0;0"
         LinearLayout:
             orientation: "TopDown"
             spacing: 4.000000
@@ -31,12 +34,6 @@ Prototypes:
     bindings:
     - ["SizePolicy.verticalValue", "when not isNull(playerInfo) -> proportion * 58 + 130, 0"]
     children:
-    -   prototype: "BlurModified/BlurModified"
-        name: "Blur"
-        components:
-            UIDataParamsComponent:
-                args:
-                    "roundCorner": "\"4;4;0;0\""
     -   class: "UIControl"
         name: "PlayerInfoHolder"
         classes: "button-open-sound"
@@ -74,7 +71,7 @@ Prototypes:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "FixedSize"
         bindings:
-        - ["UIOpacityComponent.opacity", "when not isNull(playerInfo) -> 0.7500000, 0.250000"]
+        - ["UIOpacityComponent.opacity", "when isSelf -> 0.750000, when not isNull(playerInfo) -> 0.500000, 0.250000"]
         - ["UIGradientComponent.startColor", "startColor"]
         - ["UIGradientComponent.finishColor", "endColor"]
         - ["SizePolicy.verticalValue", "proportion * 58 + 50"]
@@ -241,9 +238,8 @@ Slots:
                     verticalPolicy: "PercentOfMaxChild"
                     verticalMin: 20.000000
             bindings:
-            - ["visible", "not isNull(playerInfo)"]
             - ["classes", "when isSelf -> \"t-body regular yellow-lightning-text\", \"t-body regular white-wild-sand-text\""]
-            - ["UITextComponent.text", "when isSelf -> playerInfo.nameModel.name + localize(\"clanMissions/missionScreen/leaderboard/you\"), playerInfo.nameModel.name"]
+            - ["UITextComponent.text", "when isSelf -> playerInfo.nameModel.name + localize(\"clanMissions/missionScreen/leaderboard/you\"), when not isNull(playerInfo) -> playerInfo.nameModel.name, \"\""]
         -   class: "UIControl"
             name: "ClanTag"
             visible: false

@@ -31,7 +31,7 @@ __forceinline float3 getShadow(float3 worldPos, float2 texCoord, float slope)
 		magicCof[2] = float4(0.75, 0.0025, -0.094184101, -0.9293887);
 		magicCof[3] = float4(1.0, 0.005, 0.34495938, 0.2938776);
 	#else
-		const float3 scaleBias = float3(1024.0, 2048.0, 4096.0) / shadowMapSize.xxx;
+		const float3 scaleBias = float3(0.001953125, 0.0009765625, 0.00048828125) * shadowMapSize.x;
 		const float2 magicCof[3];
 		magicCof[0] = float2(0.25, 0.000625) * scaleBias.x;
 		magicCof[1] = float2(0.5, 0.00125) * scaleBias.y;

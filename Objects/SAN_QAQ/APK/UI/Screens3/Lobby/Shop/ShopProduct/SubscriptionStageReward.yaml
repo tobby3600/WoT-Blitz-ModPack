@@ -1,7 +1,5 @@
 Header:
     version: 150
-ImportedPackages:
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "SubscriptionStageReward"
@@ -19,13 +17,19 @@ Prototypes:
             events:
             - "ON_SUBSCRIPTION_REWARD_CLICK(ResourceDetailed resource, string attachId)"
     children:
-    -   prototype: "BlurModified/BlurModified"
+    -   class: "UIControl"
         name: "Background"
+        input: false
+        classes: "white-wild-sand-25-bg"
         components:
-            UIDataParamsComponent:
-                args:
-                    "bgStyle": "\"white-wild-sand-25-bg\""
-                    "roundCorner": "\"0;0;4;4\""
+            Background: {}
+            UIRoundedCornersComponent:
+                radius: " 0;0;4;4;"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
     -   class: "UIControl"
         name: "Content"
         input: false

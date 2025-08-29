@@ -23,6 +23,7 @@ Prototypes:
             - ["bool", "contentTopClipEnable", "true", "true"]
             - ["bool", "forcedFullSize", "false", "false"]
             - ["bool", "hasCustomBg", "false", "false"]
+            - ["bool", "hasRoundCorner", "true", "true"]
             - ["bool", "headerCurrenciesClickable", "false", "true"]
             - ["bool", "hideHeader", "false", "false"]
             - ["bool", "modifiedBg", "false", "false"]
@@ -44,8 +45,7 @@ Prototypes:
             - ["string", "imageFromClient", "\"\"", "\"\""]
             - ["string", "playerName", "\"\"", "\"OverlayPlayerName\""]
             - ["string", "title", "\"\"", "\"#Overlay Title\""]
-            - ["string", "blurOverlay", "\"\"", "\"\""]
-            - ["string", "maskOverlay", "\"\"", "\"\""]
+            - ["string", "blurMaskID", "\"\"", "\"\""]
             - ["vector<ResourceModel>", "headerCurrencies", "[ ]", "[ ]"]
             events:
             - "ON_STATS_ITEM_PRESSED"
@@ -70,6 +70,7 @@ Prototypes:
                 "forcedFullSize": "forcedFullSize"
                 "isFooterVisible": "isFooterVisible"
                 "hasCustomBg": "hasCustomBg"
+                "hasRoundCorner": "hasRoundCorner"
                 "customBgURL": "customBgURL"
                 "content": "ContentArea"
                 "title": "title"
@@ -86,9 +87,8 @@ Prototypes:
                 "imageFromClient": "imageFromClient"
                 "hideHeader": "hideHeader"
                 "modifiedBg": "modifiedBg"
-                "blurOverlay": "blurOverlay"
-                "maskOverlay": "maskOverlay"
                 "isBlurMask": "isBlurMask"
+                "blurMaskID": "blurMaskID"
             eventActions:
             - ["ON_STATS_ITEM_PRESSED", "ON_STATS_ITEM_PRESSED", "_event"]
             - ["OVERLAY_OPEN_FINISH", "OVERLAY_OPEN_FINISH", ""]

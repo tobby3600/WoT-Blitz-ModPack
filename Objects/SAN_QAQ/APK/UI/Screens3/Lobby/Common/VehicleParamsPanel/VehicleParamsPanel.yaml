@@ -356,7 +356,7 @@ Slots:
                     position: [0.000000, 20.000000]
                     size: [32.000000, 32.000000]
                     input: false
-                    classes: "t-subtitle regular white-wild-sand-text not-localize"
+                    classes: "t-subtitle regular white-wild-sand-text"
                     components:
                         UITextComponent: {}
                         Anchor:
@@ -480,7 +480,7 @@ Slots:
                     position: [0.000000, 20.000000]
                     size: [32.000000, 32.000000]
                     input: false
-                    classes: "t-subtitle regular white-wild-sand-text not-localize"
+                    classes: "t-subtitle regular white-wild-sand-text"
                     components:
                         UITextComponent: {}
                         Anchor:

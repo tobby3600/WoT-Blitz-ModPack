@@ -1,7 +1,5 @@
 Header:
     version: 153
-ImportedPackages:
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ClanTournamentRecord"
@@ -22,8 +20,9 @@ Prototypes:
     -   class: "UIControl"
         name: "Content"
         pivot: [0.500000, 0.500000]
-        classes: "hoverable touchable-self button-open-sound"
+        classes: "white-wild-sand-15-bg hoverable touchable-self button-open-sound"
         components:
+            Background: {}
             Anchor:
                 hCenterAnchorEnabled: true
                 vCenterAnchorEnabled: true
@@ -39,18 +38,19 @@ Prototypes:
             StyleSheet:
                 styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Common/Touch.style.yaml;~res:/UI/Screens3/Common/Hover.style.yaml;~res:/UI/Screens3/ButtonSound.style.yaml"
         children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
         -   class: "UIControl"
             name: "TeamInfo"
             input: false
             components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    vCenterAnchorEnabled: true
                 LinearLayout:
                     padding: "-5; 0"
                 SizePolicy:
                     horizontalPolicy: "FixedSize"
                     horizontalValue: 200.000000
-                    verticalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
             children:
             -   class: "UIControl"
                 name: "Emblem"
@@ -61,7 +61,6 @@ Prototypes:
                     UIOpacityComponent: {}
                     UIUrlImageComponent: {}
                     Anchor:
-                        leftAnchorEnabled: true
                         vCenterAnchorEnabled: true
                     SizePolicy:
                         horizontalPolicy: "FixedSize"
@@ -97,7 +96,8 @@ Prototypes:
                     hCenterAnchorEnabled: true
                     vCenterAnchorEnabled: true
                 SizePolicy:
-                    horizontalPolicy: "PercentOfContent"
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 220.000000
                     verticalPolicy: "PercentOfContent"
                 StyleSheet:
                     styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
@@ -115,7 +115,8 @@ Prototypes:
                     rightAnchorEnabled: true
                     vCenterAnchorEnabled: true
                 SizePolicy:
-                    horizontalPolicy: "PercentOfContent"
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 130.000000
                     verticalPolicy: "PercentOfContent"
                 StyleSheet:
                     styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"

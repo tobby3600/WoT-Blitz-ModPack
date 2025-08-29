@@ -1,13 +1,13 @@
 Header:
     version: 151
-ImportedPackages:
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ClanHeader"
     size: [600.000000, 72.000000]
     input: false
+    classes: "white-wild-sand-15-bg"
     components:
+        Background: {}
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
             verticalPolicy: "FixedSize"
@@ -19,9 +19,9 @@ Prototypes:
             - ["string", "headerText", "\"\"", "\"#Заголовок\""]
             events:
             - "BACK_EVENT"
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Color.style.yaml"
     children:
-    -   prototype: "BlurModified/BlurModified"
-        name: "Blur"
     -   class: "UIControl"
         name: "Back"
         input: false

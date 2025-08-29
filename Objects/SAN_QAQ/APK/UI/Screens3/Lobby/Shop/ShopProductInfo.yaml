@@ -115,6 +115,8 @@ Prototypes:
                     "customBgURL": "product.backgroundUrl"
                     "content": "when product.noArt and not isNull(product.subscriptionInfo) -> SimpleSubscriptionContent, isSimpleContent -> SimpleContent, Content"
                     "manualCloseEnabled": "manualCloseEnabled"
+                    "isBlurMask": "true"
+                    "blurMaskID": "\"shopProduct\""
                 eventActions:
                 - ["OVERLAY_OPEN_FINISH", "OVERLAY_OPEN_FINISH", ""]
                 - ["SHIFT_D", "TOGGLE_DEBUG", ""]
@@ -136,18 +138,6 @@ Prototypes:
                 prototypePath: "~res:/UI/Screens3/Common/LoadingOverlay.yaml"
         bindings:
         - ["visible", "showLoading"]
-    -   class: "UIControl"
-        name: "NavigationPanel"
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                condition: "isGamepad"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/NavigationPanel.yaml"
-                args:
-                    "content": "NavigationPanel"
 Slots:
 -   class: "UIControl"
     name: "Content"
@@ -349,6 +339,7 @@ Slots:
                     "time": "product.promoExpiresAt"
                     "timerSize": "eTimerSize.Small"
                     "bgVisible": "true"
+                    "isBlur": "false"
                     "bgColorStyle": "\"white-wild-sand-25-bg\""
         bindings:
         - ["visible", "isSimpleContent"]
@@ -584,6 +575,7 @@ Slots:
                                     "left": "product.availableTimes"
                                     "bgStyle": "\"white-wild-sand-25-bg\""
                                     "textStyle": "\"t-subtitle regular white-wild-sand-text\""
+                                    "isBlur": "false"
                         bindings:
                         - ["visible", "isSimpleContent and product.xTimed"]
     -   class: "UIControl"
@@ -735,21 +727,20 @@ Slots:
                         horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "PercentOfChildrenSum"
                 children:
-                -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
-                    components:
-                        UIDataParamsComponent:
-                            args:
-                                "bgStyle": "\"white-wild-sand-25-bg\""
-                                "roundCorner": "\"8\""
                 -   class: "UIControl"
                     name: "stuffList"
                     input: false
                     refreshStylesOnInteract: false
+                    classes: "white-wild-sand-25-bg"
                     components:
+                        Background: {}
+                        UIRoundedCornersComponent:
+                            radius: "8"
                         SizePolicy:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfMaxChild"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml"
                         UIChildComponent0:
                             childType: "kControl"
                             condition: "not isNull(chest)"
@@ -831,43 +822,6 @@ Slots:
                 "parentWidth": "screenWidth"
                 "imageUrl": "product.contentUrl"
 -   class: "UIControl"
-    name: "NavigationPanel"
-    input: false
-    components:
-        LinearLayout:
-            spacing: 24.000000
-        SizePolicy:
-            horizontalPolicy: "PercentOfChildrenSum"
-            verticalPolicy: "PercentOfMaxChild"
-    children:
-    -   class: "UIControl"
-        name: "Back"
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfFirstChild"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                condition: "manualCloseEnabled"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                args:
-                    "text": "\"Switch/HubridPanel/Lobby/Back\""
-                    "icon": "eNintendoSwitchControls.B"
-        bindings:
-        - ["visible", "manualCloseEnabled"]
-    -   class: "UIControl"
-        name: "Information"
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfFirstChild"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                args:
-                    "text": "buttonCaption"
-                    "icon": "eNintendoSwitchControls.Y"
--   class: "UIControl"
     name: "PurchasePending"
     size: [300.000000, 300.000000]
     input: false
@@ -937,6 +891,7 @@ Slots:
                     "timerSize": "eTimerSize.Medium"
                     "bgVisible": "true"
                     "bgColorStyle": "\"white-wild-sand-25-bg\""
+                    "isBlur": "false"
     -   class: "UIControl"
         name: "XTime"
         input: false
@@ -964,6 +919,7 @@ Slots:
                         "left": "product.availableTimes"
                         "bgStyle": "\"white-wild-sand-25-bg\""
                         "textStyle": "\"t-subtitle regular white-wild-sand-text\""
+                        "isBlur": "false"
     -   class: "UIControl"
         name: "mainReward"
         input: false
@@ -1352,22 +1308,21 @@ Slots:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "PercentOfMaxChild"
             children:
-            -   prototype: "BlurModified/BlurModified"
-                name: "Blur"
-                components:
-                    UIDataParamsComponent:
-                        args:
-                            "bgStyle": "\"white-wild-sand-25-bg\""
-                            "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "description"
                 input: false
                 refreshStylesOnInteract: false
+                classes: "white-wild-sand-25-bg"
                 components:
+                    Background: {}
+                    UIRoundedCornersComponent:
+                        radius: "8"
                     ClipContent: {}
                     SizePolicy:
                         horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "PercentOfMaxChild"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
                     UIChildComponent0:
                         condition: "showContent"
                         prototypePath: "~res:/UI/Screens3/Lobby/Shop/RichTextWrappers/ShopRichText.yaml"

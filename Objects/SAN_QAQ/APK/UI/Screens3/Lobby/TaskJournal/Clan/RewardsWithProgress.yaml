@@ -472,6 +472,7 @@ Prototypes:
                                 "sound": "eButtonSound.OK"
                                 "enabled": "true"
                                 "iconPath": "\"\""
+                                "hasShadow": "false"
                             eventActions:
                             - ["ON_CLICK_BUTTON", "CLAN_APPLY_REWARDS_PRESSED", ""]
                     children:

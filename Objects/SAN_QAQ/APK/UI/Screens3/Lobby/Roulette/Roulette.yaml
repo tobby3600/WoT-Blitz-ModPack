@@ -1,0 +1,441 @@
+Header:
+    version: 161
+Prototypes:
+-   class: "UIControl"
+    name: "Roulette"
+    size: [960.000000, 640.000000]
+    input: false
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/Lobby/Roulette/Roulette.animation"
+        Anchor:
+            leftAnchorEnabled: true
+            rightAnchorEnabled: true
+            topAnchorEnabled: true
+            bottomAnchorEnabled: true
+        LinearLayout:
+            orientation: "TopDown"
+        ModalInput: {}
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Extra2"
+            keyDownEvent: "TryToSpin"
+        UIVirtualActionEventComponent1:
+            virtualKeyAction: "Escape"
+            keyDownEvent: "CloseRoulette"
+        UIShortcutEventComponent:
+            shortcuts: "CloseRoulette,Escape;CloseRoulette,Back"
+        UIDataParamsComponent:
+            params:
+            - ["RouletteViewModel", "roulette", "null", "{ }"]
+            - ["LobbyDataModel", "lobby", "null", "{ }"]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["bool", "arabicLocalization", "false", "false"]
+            events:
+            - "SHOP_BUTTON"
+            - "ON_DESCRIPTION_CLICKED"
+            - "SpinAnimationEnded"
+            - "ON_REWARD_CLICKED(ResourceDetailed resource, string attachId)"
+            - "ON_INFO_CLICKED"
+            - "BACK_EVENT"
+            - "PROXY_BUTTON"
+            - "ON_SPIN_CLICKED"
+        UIDataLocalVarsComponent:
+            data:
+            - ["bool", "tabletBgLoaded", "false"]
+            - ["bool", "bgLoaded", "false"]
+            - ["bool", "completed", "false"]
+            - ["Price", "emptyPrice", "{ }"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["bool", "actionsEnabled", "not roulette.spinInProgress and not roulette.avaliableCells.Empty()"]
+            - ["Price", "currentPrice", "when roulette.currentState.currentStep < roulette.description.prices.Size() -> roulette.description.prices[roulette.currentState.currentStep], emptyPrice"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Roulette/Roulette.actions"
+        UIDataOnEventComponent0:
+            eventName: "TabletBgLoaded"
+            modelFieldExpression: "tabletBgLoaded"
+            dataExpression: "true"
+        UIDataOnEventComponent1:
+            eventName: "BgLoaded"
+            modelFieldExpression: "bgLoaded"
+            dataExpression: "true"
+        UIEventOnDataComponent0:
+            watchedDataExpression: "roulette.description.isDecorationOn"
+            ifExpression: "roulette.description.isDecorationOn"
+            eventName: "PlayDecorationSound"
+        UIEventOnDataComponent1:
+            watchedDataExpression: "roulette.completed"
+            ifExpression: "roulette.completed"
+            eventName: "RouletteCompleted"
+    children:
+    -   class: "UIControl"
+        name: "BgWrapper"
+        input: false
+        components:
+            IgnoreLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["visible", "tabletBgLoaded and bgLoaded"]
+        children:
+        -   class: "UIControl"
+            name: "Background"
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                UIUrlImageComponent:
+                    imageLoadedEvent: "BgLoaded"
+                    imageLoadingFailedEvent: "BgLoaded"
+                Anchor:
+                    bottomAnchorEnabled: true
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            bindings:
+            - ["UIUrlImageComponent.imageUrl", "roulette.description.backgroundUrl"]
+        -   class: "UIControl"
+            name: "TabletWrapper"
+            input: false
+            components:
+                Anchor:
+                    rightAnchorEnabled: true
+                    rightAnchor: 20.000000
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    horizontalValue: 50.000000
+                    horizontalMin: 580.000000
+                    verticalPolicy: "PercentOfParent"
+                    verticalValue: 50.000000
+            children:
+            -   class: "UIControl"
+                name: "TabletBg"
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_PROPORTIONAL"
+                    UIUrlImageComponent:
+                        imageLoadedEvent: "TabletBgLoaded"
+                        imageLoadingFailedEvent: "TabletBgLoaded"
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                        vCenterAnchor: -140.000000
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 580.000000
+                        verticalPolicy: "PercentOfContent"
+                bindings:
+                - ["UIUrlImageComponent.imageUrl", "roulette.description.tabletUrl"]
+    -   class: "UIControl"
+        name: "ContentWrapper"
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "BaseHeader"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
+                UIChildComponent0:
+                    condition: "not isNull(session) and not isNull(lobby)"
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Headers/BaseHeader.yaml"
+                    args:
+                        "leftContent": "TitleWrapper"
+                        "showFreeXp": "roulette.headerStatsResources.Contains(ResourceType.free_xp)"
+                        "showPremium": "roulette.headerStatsResources.Contains(ResourceType.premium)"
+                        "showCredits": "roulette.headerStatsResources.Contains(ResourceType.credits)"
+                        "showGold": "roulette.headerStatsResources.Contains(ResourceType.gold)"
+                        "isLeftStatsPanelAdditionalContent": "true"
+                        "statsPanelAdditionalContent": "ProxiesPanel"
+                        "isBackButtonHasSounds": "false"
+                        "session": "session"
+                        "bgStyle": "\"black-15-bg\""
+                        "lobby": "lobby"
+                        "showBackButton": "true"
+                        "isFullScreen": "true"
+                    eventActions:
+                    - ["SHOP_BUTTON", "SHOP_BUTTON", "_event.requiredResource"]
+                    - ["PREMIUM_INFO_EVENT", "PREMIUM_INFO_EVENT", ""]
+                    - ["GO_TO_SHOP", "GO_TO_SHOP", ""]
+                    - ["BACK_EVENT", "CloseRoulette", ""]
+        -   class: "UIControl"
+            name: "Content"
+            input: true
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                UIInputEventComponent:
+                    onTouchUpInside: "CancelAnimation"
+            bindings:
+            - ["visible", "bgLoaded and tabletBgLoaded"]
+            children:
+            -   class: "UIControl"
+                name: "Spacer"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 0.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 60.000000
+            -   class: "UIControl"
+                name: "CellsWrapper"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   class: "UIControl"
+                    name: "TabletContent"
+                    input: false
+                    components:
+                        Anchor:
+                            rightAnchorEnabled: true
+                            rightAnchor: 20.000000
+                            vCenterAnchorEnabled: true
+                            vCenterAnchor: -52.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            horizontalValue: 50.000000
+                            horizontalMin: 580.000000
+                            verticalPolicy: "PercentOfParent"
+                            verticalValue: 50.000000
+                    children:
+                    -   class: "UIControl"
+                        name: "CellsHolder"
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            IgnoreLayout: {}
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfMaxChild"
+                                verticalPolicy: "PercentOfMaxChild"
+                            UIChildComponent0:
+                                condition: "roulette.description.cells.Size() >= 6"
+                                prototypePath: "~res:/UI/Screens3/Lobby/Roulette/RouletteCells.yaml"
+                                args:
+                                    "completed": "completed"
+                                    "roulette": "roulette"
+                                eventActions:
+                                - ["SpinAnimationEnded", "PlayDecorationSound", ""]
+                                - ["SpinAnimationEnded", "SpinAnimationEnded", ""]
+                                - ["ON_REWARD_CLICKED", "ON_REWARD_CLICKED", "_event.resource, _event.attachId"]
+                    -   class: "UIControl"
+                        name: "FooterWrapper"
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                                vCenterAnchor: 244.000000
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 580.000000
+                                verticalPolicy: "PercentOfMaxChild"
+                        bindings:
+                        - ["visible", "not roulette.avaliableCells.Empty()"]
+                        children:
+                        -   class: "UIControl"
+                            name: "Timer"
+                            input: false
+                            components:
+                                Anchor:
+                                    leftAnchorEnabled: true
+                                    leftAnchor: 46.000000
+                                    vCenterAnchorEnabled: true
+                                IgnoreLayout: {}
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfMaxChild"
+                                    verticalPolicy: "PercentOfMaxChild"
+                                UIChildComponent0:
+                                    prototypePath: "~res:/UI/Screens3/Lobby/Common/GoldTimer.yaml"
+                                    args:
+                                        "maxWidth": "70"
+                                        "forcedBold": "true"
+                                        "timerSize": "eTimerSize.Medium"
+                                        "time": "roulette.expirationTime"
+                                        "serverTime": "session.serverTime"
+                        -   class: "UIControl"
+                            name: "PriceWrapper"
+                            input: false
+                            components:
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                    hCenterAnchor: -22.000000
+                                    vCenterAnchorEnabled: true
+                                LinearLayout: {}
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfChildrenSum"
+                                    verticalPolicy: "PercentOfMaxChild"
+                            bindings:
+                            - ["visible", "not roulette.avaliableCells.Empty()"]
+                            children:
+                            -   class: "UIControl"
+                                name: "InfoButton"
+                                input: false
+                                components:
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                        vCenterAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfMaxChild"
+                                        verticalPolicy: "PercentOfMaxChild"
+                                    UIChildComponent0:
+                                        prototypePath: "~res:/UI/Screens3/Lobby/Common/InfoIcon.yaml"
+                                        args:
+                                            "enabled": "actionsEnabled"
+                                        eventActions:
+                                        - ["ON_CLICK_BUTTON", "ON_INFO_CLICKED", ""]
+                            -   class: "UIControl"
+                                name: "PriceHolder"
+                                input: false
+                                components:
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                        vCenterAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfMaxChild"
+                                        verticalPolicy: "PercentOfMaxChild"
+                                    UIChildComponent0:
+                                        childType: "kControl"
+                                        condition: "currentPrice.resources.Empty()"
+                                        control: "FreeSpinLabel"
+                                    UIChildComponent1:
+                                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Price.yaml"
+                                        args:
+                                            "currencySize": "eCurrencySize.BIG_BOLD"
+                                            "stats": "session.stats"
+                                            "artefacts": "session.artefacts"
+                                            "pricePay": "currentPrice"
+                                            "priceGet": "emptyPrice"
+                        -   class: "UIControl"
+                            name: "Button"
+                            input: false
+                            components:
+                                Anchor:
+                                    rightAnchorEnabled: true
+                                    rightAnchor: 42.000000
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfMaxChild"
+                                    verticalPolicy: "PercentOfMaxChild"
+                                UIChildComponent0:
+                                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+                                    args:
+                                        "size": "eButtonSize.SMALL"
+                                        "enabled": "actionsEnabled"
+                                        "caption": "capitalize(localize(\"Roulette/Spin\"))"
+                                    eventActions:
+                                    - ["ON_CLICK_BUTTON", "ON_SPIN_CLICKED", ""]
+Slots:
+-   class: "UIControl"
+    name: "FreeSpinLabel"
+    input: false
+    classes: "t-subtitle regular color=white-wild-sand-text"
+    components:
+        UITextComponent:
+            colorInheritType: "COLOR_IGNORE_PARENT"
+            multiline: "MULTILINE_ENABLED"
+        SizePolicy:
+            horizontalPolicy: "PercentOfContent"
+            horizontalMax: 130.000000
+            verticalPolicy: "PercentOfContent"
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+    bindings:
+    - ["UITextComponent.text", "when roulette.currentState.currentStep == 0 -> localize(\"Roulette/FirstFreeSpin\"), localize(\"Roulette/FreeSpin\")"]
+-   class: "UIControl"
+    name: "ProxiesPanel"
+    input: false
+    components:
+        LinearLayout:
+            spacing: 8.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "Proxies"
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfParent"
+            UIRepeatComponent:
+                control: "~res:/UI/Screens3/Lobby/StatsInfoPanelItem.yaml"
+                dataContainer: "roulette.headerCurrencies"
+                args:
+                    "enabled": "true"
+                    "isLocked": "true"
+                    "serverTime": "session.serverTime"
+                    "resource": "_item"
+                eventActions:
+                - ["ON_STATS_ITEM_PRESSED", "PROXY_BUTTON", "_item.name"]
+-   class: "UIControl"
+    name: "TitleWrapper"
+    input: false
+    components:
+        LinearLayout: {}
+        IgnoreLayout: {}
+        SizePolicy:
+            horizontalPolicy: "Formula"
+            horizontalFormula: "parent"
+            verticalPolicy: "PercentOfMaxChild"
+    children:
+    -   class: "UIControl"
+        name: "Title"
+        input: false
+        classes: "t-subtitle regular white-wild-sand-text"
+        components:
+            UITextComponent:
+                fitting: "FITTING_POINTS"
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "Formula"
+                horizontalFormula: "min(content, parentRest)"
+                verticalPolicy: "PercentOfContent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+        bindings:
+        - ["UITextComponent.text", "localize(roulette.description.stuff.stuff.title)"]
+    -   class: "UIControl"
+        name: "InfoButton"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                hCenterAnchor: 2.000000
+                vCenterAnchorEnabled: true
+                vCenterAnchor: 1.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/InfoIcon.yaml"
+                args:
+                    "enabled": "actionsEnabled"
+                eventActions:
+                - ["ON_CLICK_BUTTON", "ON_DESCRIPTION_CLICKED", ""]

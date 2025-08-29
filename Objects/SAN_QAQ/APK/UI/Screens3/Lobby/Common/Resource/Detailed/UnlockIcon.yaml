@@ -1,0 +1,56 @@
+Header:
+    version: 155
+Prototypes:
+-   class: "UIControl"
+    name: "UnlockMedium"
+    size: [48.000000, 48.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["eLeague", "league", "eLeague.NO_LEAGUE", "eLeague.PLATINUM"]
+            - ["bool", "background", "true", "false"]
+            - ["bool", "hasShadow", "true", "true"]
+            - ["UnlockItemResource", "unlock", "null", "{ }"]
+        UIDataLocalVarsComponent:
+            data:
+            - ["color", "shadowColor", "when league == eLeague.PLATINUM -> rgb(15096855), league == eLeague.DIAMOND -> rgb(13848831), rgba(0, 0)"]
+    children:
+    -   class: "UIControl"
+        name: "Icon"
+        input: false
+        components:
+            UITextureComponent:
+                drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+            UIShadowComponent:
+                blurType: "Gauss"
+                indent: 8
+                canBeDelayed: true
+            Anchor:
+                hCenterAnchorEnabled: true
+                topAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["visible", "hasShadow"]
+        - ["UITextureComponent.spritePath", "unlock.icon"]
+        - ["UIShadowComponent.color", "shadowColor"]
+    -   class: "UIControl"
+        name: "Icon"
+        input: false
+        components:
+            UITextureComponent:
+                drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+            Anchor:
+                hCenterAnchorEnabled: true
+                topAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["visible", "not hasShadow"]
+        - ["UITextureComponent.spritePath", "unlock.icon"]

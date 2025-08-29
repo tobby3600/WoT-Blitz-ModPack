@@ -2270,7 +2270,7 @@
 					<speed>1250</speed>
 					<gravity>9.81</gravity>
 					<maxDistance>720</maxDistance>
-					<piercingPower>295 242</piercingPower>
+					<piercingPower>180 171</piercingPower>
 				</_105mm_APHE_Common_Type_105Ro>
 				<_105mm_HE_Common_Type_105Ro>
 					<defaultPortion>0.2</defaultPortion>

@@ -319,7 +319,6 @@ Prototypes:
                                 UIDataParamsComponent:
                                     args:
                                         "soundDisable": "true"
-                                        "iconPath": "when isGamepad -> \"~res:/Gfx/Lobby/icons/nintendo-switch/icon_switch_y_m\", \"\""
                                         "inputDisabled": "inputDisabled"
                                         "caption": "\"hangarTutorial/selectNation/Congratulation/Play\""
                                     eventActions:

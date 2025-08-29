@@ -2,7 +2,6 @@ Header:
     version: 152
 ImportedPackages:
 - "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ClanSupplyPersonalContent"
@@ -57,12 +56,6 @@ Prototypes:
                         horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "PercentOfChildrenSum"
                 children:
-                -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
-                    components:
-                        UIDataParamsComponent:
-                            args:
-                                "roundCorner": "\"0;0;8;8\""
                 -   class: "UIControl"
                     name: "ProgressInfo"
                     input: false

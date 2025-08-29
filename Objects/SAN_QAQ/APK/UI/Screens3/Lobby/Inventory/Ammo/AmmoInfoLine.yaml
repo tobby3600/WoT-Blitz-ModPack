@@ -1,0 +1,50 @@
+Header:
+    version: "84"
+Prototypes:
+-   class: "UIControl"
+    name: "DamageInfoLine"
+    input: false
+    components:
+        LinearLayout:
+            spacing: 8.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "PercentOfMaxChild"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "isDamage", "true", "true"]
+            - ["float", "maxValue", "0.000000", "30.000000"]
+            - ["float", "minValue", "0.000000", "12.000000"]
+    children:
+    -   class: "UIControl"
+        name: "Icon"
+        input: false
+        classes: "white-wild-sand-50-bg"
+        components:
+            Background:
+                drawType: "DRAW_SCALE_PROPORTIONAL"
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 24.000000
+                verticalPolicy: "FixedSize"
+                verticalValue: 24.000000
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
+        bindings:
+        - ["Background.sprite", "when isDamage -> \"~res:/Gfx/Lobby/icons/icon_damage_s\", \"~res:/Gfx/Lobby/icons/icon_penetration_s\""]
+    -   class: "UIControl"
+        name: "CaptionRegular"
+        input: false
+        classes: "t-body regular white-wild-sand-text"
+        components:
+            UITextComponent:
+                align: ["LEFT", "VCENTER"]
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfContent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+        bindings:
+        - ["UITextComponent.text", "str(minValue, 0) + \" – \" + str(maxValue, 0)"]

@@ -1,7 +1,7 @@
 Header:
     version: 155
 ImportedPackages:
-- "~res:/UI/Screens3/Lobby/Common/BlurLite.yaml"
+- "~res:/UI/Screens3/Lobby/Common/BlurDynamic.yaml"
 - "~res:/UI/Screens3/Common/HorizontalScrollBar.yaml"
 Prototypes:
 -   class: "UIControl"
@@ -143,8 +143,8 @@ Slots:
         bindings:
         - ["UIPostProcessSourceComponent0.id", "\"Masked\" + id"]
         children:
-        -   prototype: "BlurLite/BlurLite"
-            name: "BlurLite"
+        -   prototype: "BlurDynamic/BlurDynamic"
+            name: "BlurDynamic"
             components:
                 UIPostProcessInputComponent: {}
                 UIPostProcessTextureComponent0:

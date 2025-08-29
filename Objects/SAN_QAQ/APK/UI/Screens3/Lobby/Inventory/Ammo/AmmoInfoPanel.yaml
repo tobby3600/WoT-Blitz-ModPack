@@ -118,7 +118,7 @@ Prototypes:
                 StyleSheet:
                     styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
             bindings:
-            - ["classes", "when isSelected == true -> \"t-body bold white-wild-sand-text\", \"t-body bold white-wild-sand-50-text\""]
+            - ["classes", "when isSelected -> \"t-body bold white-wild-sand-text\", \"t-body bold white-wild-sand-50-text\""]
             - ["UITextComponent.text", "str(slot.damageMin, 0) + \" – \" + str(slot.damageMax, 0)"]
         -   class: "UIControl"
             name: "Piercing"
@@ -136,7 +136,7 @@ Prototypes:
                 StyleSheet:
                     styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
             bindings:
-            - ["classes", "when isSelected == true -> \"t-body bold white-wild-sand-text\", \"t-body bold white-wild-sand-50-text\""]
+            - ["classes", "when isSelected -> \"t-body bold white-wild-sand-text\", \"t-body bold white-wild-sand-50-text\""]
             - ["UITextComponent.text", "str(slot.piercingMin, 0) + \" – \" + str(slot.piercingMax, 0)"]
         -   class: "UIControl"
             name: "Radius"
@@ -154,8 +154,8 @@ Prototypes:
                 StyleSheet:
                     styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
             bindings:
-            - ["classes", "when isSelected == true -> \"t-body bold white-wild-sand-text\", \"t-body bold white-wild-sand-50-text\""]
-            - ["UITextComponent.text", "when slot.isExplosive -> str(slot.explosionRadius, 0), \"—\""]
+            - ["classes", "when isSelected -> \"t-body bold white-wild-sand-text\", \"t-body bold white-wild-sand-50-text\""]
+            - ["UITextComponent.text", "when slot.isExplosive -> str(slot.explosionRadius, 2), \"—\""]
         -   class: "UIControl"
             name: "Caliber"
             input: false
@@ -172,7 +172,7 @@ Prototypes:
                 StyleSheet:
                     styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
             bindings:
-            - ["classes", "when isSelected == true -> \"t-body bold white-wild-sand-text\", \"t-body bold white-wild-sand-50-text\""]
+            - ["classes", "when isSelected -> \"t-body bold white-wild-sand-text\", \"t-body bold white-wild-sand-50-text\""]
             - ["UITextComponent.text", "str(slot.caliber)"]
         -   class: "UIControl"
             name: "Count"
@@ -190,7 +190,7 @@ Prototypes:
                 StyleSheet:
                     styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
             bindings:
-            - ["classes", "when isSelected == true -> \"t-body bold white-wild-sand-text\", \"t-body bold white-wild-sand-50-text\""]
+            - ["classes", "when isSelected -> \"t-body bold white-wild-sand-text\", \"t-body bold white-wild-sand-50-text\""]
             - ["UITextComponent.text", "str(slot.currentAmmo) + \" / \" + str(slot.tankAmmo)"]
     -   class: "UIControl"
         name: "PremiumBG"

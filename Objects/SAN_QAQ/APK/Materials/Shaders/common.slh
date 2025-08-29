@@ -215,7 +215,7 @@ float pow5Exp(float num)
 
 float getLum(float3 color)
 {
-	return dot(color, float3(0.2126729, 0.7151522, 0.072175));
+	return dot(color, float3(0.2627, 0.6780, 0.0593));
 }
 
 float2 rotate(float2 vec, float2 theta)
@@ -232,12 +232,12 @@ float3 unpackNormal(float2 normal)
 
 float3 toLRGB(float3 SRGB)
 {
-	return lerp(SRGB * 0.07739938080495, pow(SRGB * 0.9478672985782 + float3(0.0521327014218, 0.0521327014218, 0.0521327014218), 2.4), step(float3(0.04044823627711, 0.04044823627711, 0.04044823627711), SRGB));
+	return lerp(SRGB / 12.92, pow((SRGB + float3(0.055, 0.055, 0.055)) / 1.055, float3(2.4, 2.4, 2.4)), step(float3(0.0404482, 0.0404482, 0.0404482), SRGB));
 }
 
 float3 toSRGB(float3 LRGB)
 {
-	return lerp(LRGB * 12.92, pow(LRGB, 0.41666666666666) * 1.055 - float3(0.055, 0.055, 0.055), step(float3(0.0031308, 0.0031308, 0.0031308), LRGB));
+	return lerp(LRGB * 12.92, pow(LRGB, 0.416667) * 1.055 - float3(0.055, 0.055, 0.055), step(float3(0.0031308, 0.0031308, 0.0031308), LRGB));
 }
 
 float4x4 vecToMat(float4 vecA, float4 vecB, float4 vecC)

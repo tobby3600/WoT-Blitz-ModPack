@@ -1,0 +1,142 @@
+Header:
+    version: 141
+Prototypes:
+-   class: "UIControl"
+    name: "PersonalStat"
+    size: [248.000000, 72.000000]
+    input: false
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/Lobby/BattleResults/Personal/PersonalStat.animation"
+        LinearLayout:
+            useRtl: true
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            verticalPolicy: "FixedSize"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "isTheLastOne", "false", "false"]
+            - ["bool", "isFirstShow", "false", "false"]
+            - ["int", "animationIndex", "0", "0"]
+            - ["int", "value", "0", "4512"]
+            - ["string", "labelText", "\"\"", "\"урон\""]
+            - ["ePersonalStatSize", "sizeType", "ePersonalStatSize.big", "ePersonalStatSize.big"]
+            - ["string", "icon", "\"\"", "\"~res:/Gfx/Lobby/icons/icon_damage_s\""]
+            events:
+            - "END_STATS_ANIMATION"
+        UIDataLocalVarsComponent:
+            data:
+            - ["bool", "isFirstShowLocal", "isFirstShow"]
+            - ["int", "currentValue", "0"]
+            - ["float", "animationTime", "0.250000"]
+            - ["float", "valueAnimationTime", "when value < 10 -> 0.200000, 0.500000"]
+            - ["float", "waitingAnimationTime", "float(animationIndex * 0.500000)"]
+            - ["int", "iconSize", "when sizeType == ePersonalStatSize.small -> 32, 40"]
+            - ["string", "valueStyle", "when sizeType == ePersonalStatSize.small -> \"t-title\", sizeType == ePersonalStatSize.medium -> \"t-content-h2\", \"t-content-h1\""]
+            - ["int", "statWidht", "when sizeType == ePersonalStatSize.small -> 168, sizeType == ePersonalStatSize.medium -> 208, 248"]
+            - ["int", "statHeight", "when sizeType == ePersonalStatSize.small -> 52, sizeType == ePersonalStatSize.medium -> 64, 72"]
+            - ["int", "statSpacing", "when sizeType == ePersonalStatSize.small -> 16, sizeType == ePersonalStatSize.medium -> 24, 32"]
+            - ["int", "iconDistanse", "when sizeType == ePersonalStatSize.small -> 1, sizeType == ePersonalStatSize.medium -> 2, 8"]
+    bindings:
+    - ["LinearLayout.spacing", "statSpacing"]
+    - ["SizePolicy.horizontalValue", "statWidht"]
+    - ["SizePolicy.verticalValue", "statHeight"]
+    children:
+    -   class: "UIControl"
+        name: "IconWrapper"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                bottomAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "FixedSize"
+        bindings:
+        - ["Anchor.bottomAnchor", "iconDistanse"]
+        - ["SizePolicy.horizontalValue", "iconSize"]
+        - ["SizePolicy.verticalValue", "iconSize"]
+        children:
+        -   class: "UIControl"
+            name: "Icon"
+            position: [0.000000, 0.000000]
+            size: [32.000000, 32.000000]
+            input: false
+            classes: "white-wild-sand-bg"
+            components:
+                Background:
+                    drawType: "DRAW_SCALE_PROPORTIONAL"
+                    perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                UIOpacityComponent:
+                    opacity: 1.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["Background.sprite", "icon"]
+    -   class: "UIControl"
+        name: "ValueBlock"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "LabelWrapper"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    useRtl: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 16.000000
+            children:
+            -   class: "UIControl"
+                name: "Label"
+                position: [0.000000, 0.000000]
+                size: [32.000000, 32.000000]
+                input: false
+                classes: "t-caps bold white-wild-sand-text align-left"
+                components:
+                    UIOpacityComponent:
+                        opacity: 1.000000
+                    UITextComponent: {}
+                    Anchor:
+                        leftAnchorEnabled: true
+                        useRtl: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 16.000000
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "capitalize(localize(labelText))"]
+        -   class: "UIControl"
+            name: "Value"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                UIOpacityComponent:
+                    opacity: 1.000000
+                UITextComponent: {}
+                Anchor:
+                    leftAnchorEnabled: true
+                    useRtl: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["classes", "valueStyle + \" \" + \"bold\""]
+            - ["UITextComponent.text", "when isFirstShow -> str1000Separated(currentValue), str1000Separated(value)"]

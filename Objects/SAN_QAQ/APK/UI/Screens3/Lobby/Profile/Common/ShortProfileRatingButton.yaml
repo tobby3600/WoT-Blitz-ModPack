@@ -1,0 +1,263 @@
+Header:
+    version: 157
+Prototypes:
+-   class: "UIControl"
+    name: "ShortProfileRatingButton"
+    classes: "rating-button button-open-sound"
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfMaxChild"
+            verticalPolicy: "PercentOfMaxChild"
+        UIInputEventComponent:
+            onTouchUpInside: "OnButtonClicked"
+            onHoverSet: "AnimateHover"
+            onHoverSetData: "true"
+            onHoverRemoved: "AnimateHover"
+            onHoverRemovedData: "false"
+        UIDataParamsComponent:
+            params:
+            - ["RatingBattleModel", "rating", "null", "{ \"leagueType\" = eLeague.DIAMOND; }"]
+            events:
+            - "OnButtonClicked"
+        UIDataLocalBindingsComponent:
+            data:
+            - ["string", "hoverBgStyle", "when rating.leagueType == eLeague.NO_LEAGUE -> \"white-wild-sand-50-bg\", rating.leagueType == eLeague.BRONZE -> \"yellow-chalky-bg\", rating.leagueType == eLeague.SILVER -> \"blue-rimmi-bg\", rating.leagueType == eLeague.GOLD -> \"yellow-lightning-bg\", rating.leagueType == eLeague.PLATINUM -> \"orange-tango-bg\", rating.leagueType == eLeague.DIAMOND -> \"purple-chupretto-bg\", \"\""]
+            - ["int", "calibrationBattlesPlayed", "rating.calibrationBattlesCount - rating.calibrationBattlesLeft"]
+            - ["int", "calibrationBattlesTotal", "rating.calibrationBattlesCount"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Profile/Common/ShortProfileRatingButton.actions"
+        Sound: {}
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Common/Touch.style.yaml;~res:/UI/Screens3/ButtonSound.style.yaml"
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        pivot: [0.500000, 0.500000]
+        input: false
+        classes: "content-area"
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+        children:
+        -   class: "UIControl"
+            name: "Bright"
+            input: false
+            components:
+                UIOpacityComponent:
+                    opacity: 0.300000
+                Anchor:
+                    leftAnchorEnabled: true
+                    leftAnchor: 1.000000
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    horizontalValue: 0.000000
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "Element_1"
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_TO_RECT"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                        spriteModification: ["FLIP_HORIZONTAL"]
+                    UIOpacityComponent:
+                        opacity: 0.100000
+                    Anchor:
+                        leftAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "Formula"
+                        horizontalFormula: "parent * 0.8"
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["classes", "hoverBgStyle"]
+            -   class: "UIControl"
+                name: "Element_2"
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_TO_RECT"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                        spriteModification: ["FLIP_HORIZONTAL"]
+                    UIOpacityComponent:
+                        opacity: 0.200000
+                    Anchor:
+                        leftAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "Formula"
+                        horizontalFormula: "parent * 1.2"
+                        verticalPolicy: "Formula"
+                        verticalFormula: "parent * 0.66"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["classes", "hoverBgStyle"]
+            -   class: "UIControl"
+                name: "Element_3"
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_TO_RECT"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                        spriteModification: ["FLIP_HORIZONTAL"]
+                    UIOpacityComponent:
+                        opacity: 0.300000
+                    Anchor:
+                        leftAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "Formula"
+                        horizontalFormula: "parent * 1.4"
+                        verticalPolicy: "Formula"
+                        verticalFormula: "parent * 0.33"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["classes", "hoverBgStyle"]
+        -   class: "UIControl"
+            name: "RatingWrapper"
+            input: false
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                LinearLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "LeagueIcon"
+                input: false
+                components:
+                    UITextureComponent:
+                        drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 84.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 84.000000
+                bindings:
+                - ["UITextureComponent.spritePath", "str(rating.leagueType, eLeague, \"large_icon\")"]
+            -   class: "UIControl"
+                name: "Rating"
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "Title"
+                    input: false
+                    components:
+                        LinearLayout: {}
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "PercentOfFirstChild"
+                    children:
+                    -   class: "UIControl"
+                        name: "RatingTitle"
+                        input: false
+                        classes: "t-caps bold color=white-wild-sand-text"
+                        components:
+                            UIOpacityComponent:
+                                opacity: 0.500000
+                            UITextComponent:
+                                text: "profile/Rating/Subheader"
+                                perPixelAccuracyType: "PER_PIXEL_ACCURACY_FORCED"
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfContent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml"
+                    -   class: "UIControl"
+                        name: "InfoIcon"
+                        input: false
+                        components:
+                            Background:
+                                sprite: "~res:/Gfx/Lobby/icons/icon_info-color_xs"
+                                perPixelAccuracy: "PER_PIXEL_ACCURACY_FORCED"
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 24.000000
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 24.000000
+                -   class: "UIControl"
+                    name: "Spacer_1"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 8.000000
+                -   class: "UIControl"
+                    name: "Text"
+                    input: false
+                    components:
+                        LinearLayout:
+                            orientation: "TopDown"
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfMaxChild"
+                    children:
+                    -   class: "UIControl"
+                        name: "Value"
+                        input: false
+                        classes: "t-title bold orange-orange-peel-text"
+                        components:
+                            UITextComponent:
+                                perPixelAccuracyType: "PER_PIXEL_ACCURACY_FORCED"
+                                align: ["LEFT", "VCENTER"]
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfContent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml"
+                        bindings:
+                        - ["visible", "rating.state == eBattleRatingState.HAS_RATING"]
+                        - ["UITextComponent.text", "str1000Separated(rating.currentRating)"]
+                    -   class: "UIControl"
+                        name: "InfoWrapper"
+                        input: false
+                        components:
+                            LinearLayout:
+                                orientation: "TopDown"
+                                padding: "4; 0"
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfFirstChild"
+                                verticalPolicy: "PercentOfFirstChild"
+                        bindings:
+                        - ["visible", "rating.state != eBattleRatingState.HAS_RATING"]
+                        children:
+                        -   class: "UIControl"
+                            name: "Info"
+                            input: false
+                            classes: "t-headline regular color=white-wild-sand-text"
+                            components:
+                                UITextComponent:
+                                    multiline: "MULTILINE_ENABLED"
+                                    align: ["LEFT", "VCENTER"]
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml"
+                            bindings:
+                            - ["UITextComponent.text", "when rating.state == eBattleRatingState.NO_RATING -> localize(\"profile/Rating/Status/NoRating\"), localize(\"profile/Rating/Status/Calibration\") + \" (\" + str(calibrationBattlesPlayed) + \"/\" + str(calibrationBattlesTotal) + \")\""]

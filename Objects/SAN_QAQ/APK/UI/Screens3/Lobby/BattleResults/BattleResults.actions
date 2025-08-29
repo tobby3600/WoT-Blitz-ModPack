@@ -1,0 +1,446 @@
+action HANDLE_EVENT(string eventName)
+{
+	if (eventName == "PREPARE_FOR_PREMIUM_HINT")
+    {
+        ChangeData(showPremiumHint, true);
+		ChangeData(isInputBlocked, true);
+		ChangeData(isHeaderInputBlocked, true);
+    }
+	if (eventName == "CONTINUE_AFTER_PREMIUM_HINT")
+	{
+		ChangeData(showPremiumHint, false);
+		ChangeData(isInputBlocked, false);
+		ChangeData(isHeaderInputBlocked, false);
+		
+		parallel
+		{
+			ChangeData(nextButtonOpacity, 1, 0.5, SINE_IN);
+			ChangeData(nextButtonProgress, 0.00, 1.5, SINE_IN);
+		}
+		if(selectedTab == ePageType.Economy)
+		{
+			Event("CURRENT_PAGE_PROGRESS_COMPLETED");
+		}
+	}
+}
+
+action BACK_EVENT_BY_SHORTCUT()
+{
+	if(not account.tutorialData.isTutorialActive or account.tutorialData.currentLesson > eTutorialLesson.kExcellentBattle)
+	{
+		Event("STOP_SOUND");
+		PlaySound("GUI/buttons/close");
+		Event("BACK_EVENT");
+	}
+}
+
+action ON_CLICK_BACK_BUTTON()
+{
+	Event("STOP_SOUND");
+	Event("BACK_EVENT");
+}
+
+action PREV_TAB()
+{	
+	if (currentSwipeIndex > 0 and (not account.tutorialData.isTutorialActive or account.tutorialData.currentLesson > eTutorialLesson.kExcellentBattle)
+	and account.tutorialData.currentHint == eTutorialHint.kUnknown)
+	{
+		PlaySound("GUI/buttons/choose");
+		ChangeData(currentSwipeIndex, int(currentSwipeIndex - 1));
+	}
+}
+
+action NEXT_TAB()
+{	
+	if (currentSwipeIndex + 1 < pageCount and (not account.tutorialData.isTutorialActive or account.tutorialData.currentLesson > eTutorialLesson.kExcellentBattle)
+	and account.tutorialData.currentHint == eTutorialHint.kUnknown)
+	{
+		PlaySound("GUI/buttons/choose");
+		ChangeData(currentSwipeIndex, int(currentSwipeIndex + 1));
+	}
+}
+
+action SCREEN_TRANSITION_ANIMATION_START(float nextButtonProgressTime, bool isAnimationStopped)
+{
+	if(currentSwipeIndex == int(ePageType.Efficiency))
+	{			
+		if(not personalFirstShow)
+		{
+			ChangeData(efficiencyProgress, 100, 0);
+			ChangeData(economyProgress, 0, 0);
+			ChangeData(teamEffectivenessProgress, 0);
+			
+			ChangeData(nextButtonOpacity, 1.0);
+			ChangeData(nextButtonProgress, 0.00);			
+		}
+		else
+		{
+			ChangeData(efficiencyProgress, 100, personalTime, SINE_IN);
+			parallel
+			{
+				ChangeData(nextButtonOpacity, 1.0, 0.5, SINE_IN);
+				ChangeData(nextButtonProgress, 0.00, 1.5, SINE_IN);
+			}
+			Event("CURRENT_PAGE_PROGRESS_COMPLETED");
+		}
+		ChangeData(personalFirstShow, false);
+	}
+
+	if(currentSwipeIndex == int(ePageType.Economy))
+	{
+		if(not economyFirstShow)
+		{
+			ChangeData(efficiencyProgress, 100, 0);
+			ChangeData(economyProgress, 100, 0);
+			ChangeData(teamEffectivenessProgress, 0);
+			ChangeData(nextButtonOpacity, 1.0);
+			ChangeData(nextButtonProgress, 0.00);
+		}
+		else
+		{
+			ChangeData(personalFirstShow, false);
+			if(previousSelectedTab == ePageType.TeamEffectiveness)
+			{
+				ChangeData(teamFirstShow, false);
+			}
+			ChangeData(economyProgress, 0);
+			ChangeData(teamEffectivenessProgress, 0);
+			ChangeData(economyProgress, 100, economyTime, SINE_IN);
+			
+			if (stopAfterEconomy)
+			{
+				Event("BATTLE_RESULTS_READY");
+				if (buttonsOpacityBecauseTutorial < 0.3)
+				{
+					ChangeData(buttonsOpacityBecauseTutorial, 1.0, 0.5);
+				}
+			}
+			else
+			{
+				parallel
+				{
+					ChangeData(teamEffectivenessProgress, 0);
+					ChangeData(nextButtonOpacity, 1.0, 0.5, SINE_IN);
+					ChangeData(nextButtonProgress, 0.00, 1.5, SINE_IN);
+				}
+				if(teamFirstShow)	
+				{
+					Event("CURRENT_PAGE_PROGRESS_COMPLETED");
+				}
+				ChangeData(economyFirstShow, false);
+			}
+		}
+	}
+
+	if(currentSwipeIndex == int(ePageType.TeamEffectiveness))
+	{	
+		if(not teamFirstShow)
+		{
+			ChangeData(efficiencyProgress, 100);
+			ChangeData(economyProgress, 100);
+			ChangeData(teamEffectivenessProgress, 100);
+		}	
+		else
+		{
+			parallel
+			{
+				ChangeData(personalFirstShow, false);
+				if(previousSelectedTab == ePageType.Economy)
+				{
+					ChangeData(economyFirstShow, false);
+				}
+				ChangeData(economyProgress, 100);
+				ChangeData(teamEffectivenessProgress, 100, teamTime, SINE_IN);
+			}
+			ChangeData(teamFirstShow, false);
+		}	
+	}
+}
+
+action ON_SELECT_TAB(int newSelectedTabFromTabBar)
+{
+	ChangeData(currentSwipeIndex, newSelectedTabFromTabBar);
+}
+
+action NEXT_EVENT_FROM_BUTTON()
+{
+	ChangeData(currentSwipeIndex, int(selectedTab + 1));
+}
+
+action START_ANIMATION()
+{
+	if(firstTab == ePageType.TeamEffectiveness)
+	{
+		ChangeData(currentSwipeIndex, int(firstTab));
+	}
+	Event("SCREEN_TRANSITION_ANIMATION_START", arg1= 2.5, arg2= false);
+	if(not results.firstShow)
+	{
+		Event("BATTLE_RESULTS_READY");
+		if (buttonsOpacityBecauseTutorial < 0.3)
+		{
+			ChangeData(buttonsOpacityBecauseTutorial, 1.0);
+		}
+	}
+	
+	Event("ON_SELECT_TAB_WAS_CHANGED", arg1 = toEnum(firstTab, ePageType));
+}
+
+action START_MOVE_WIN_ANIMATION()
+{
+	if(results.firstShow)
+	{
+		ChangeProperty("**/BgWin2", "Anchor", "leftAnchor", -distanceBgWin, 0);
+		parallel
+    	{
+        	if(results.battleResult == BattleResult.WIN)
+        	{
+        		Opacity("**/BgWin1", 0.15, 2, SINE_OUT);
+        		Opacity("**/BgWin2", 0.15, 2, SINE_OUT);
+        	}
+        	else
+        	{
+        		Opacity("**/BgWin1", 0.05, 2, SINE_OUT);
+        		Opacity("**/BgWin2", 0.05, 2, SINE_OUT);
+        	}
+			ChangeProperty("**/BgWin1", "Anchor", "leftAnchor", distanceBgWin, 100, LINEAR);
+			ChangeProperty("**/BgWin2", "Anchor", "leftAnchor", 0, 100, LINEAR);
+    	}
+		Opacity("**/BgWin1", 0.0, 2, SINE_OUT);
+	}
+	else
+	{
+		parallel
+		{
+			Opacity("**/BgWin1", 0);
+			Opacity("**/BgWin1", 0);
+			ChangeProperty("**/BgWin1", "Anchor", "leftAnchor", 0);
+			ChangeProperty("**/BgWin2", "Anchor", "leftAnchor", -distanceBgWin);
+		}
+        if(results.battleResult == BattleResult.WIN)
+        {
+        	Opacity("**/BgWin1", 0.15, 2, SINE_OUT);
+        }
+        else
+        {
+        	Opacity("**/BgWin1", 0.05, 2, SINE_OUT);
+        }
+	}
+}
+
+action CURRENT_PAGE_PROGRESS_COMPLETED()
+{
+	Event("ForceHideTopHintLayer");
+	ChangeData(currentSwipeIndex, int(selectedTab + 1));
+}
+
+action HideFade()
+{
+	ChangeData(fadeOpacity, 0.0, 1.0,EASE_IN_EASE_OUT);
+}
+
+action SET_LIKE(LikeData likeData, TeamData data)
+{
+	Event("ShowReactionView", arg1 = likeData.index, arg2 = likeData.isEnemy, arg3 = likeData.vehicleId, arg4 = data);
+}
+
+action STOP_ANIMATION(bool stopOnThisPage)
+{
+	if(stopOnThisPage)
+	{
+		if(selectedTab == ePageType.Efficiency)
+		{
+			ChangeData(personalFirstShow, false);
+			ChangeData(personalTime, 0.0);
+			BroadcastEvent("STOP_PERSONAL_ANIMATION", arg1 = true);
+    		ChangeData(efficiencyProgress, 100);
+		}
+		if(selectedTab == ePageType.Economy)
+		{
+			ChangeData(economyFirstShow, false);
+			ChangeData(economyTime, 0.0);
+			BroadcastEvent("STOP_ECONOMY_ANIMATION", arg1 = true);
+        	ChangeData(economyProgress, 100, 0);
+			if (stopAfterEconomy)
+			{
+				Event("BATTLE_RESULTS_READY");
+			}
+		}
+		if(selectedTab == ePageType.TeamEffectiveness)
+		{
+			ChangeData(teamFirstShow, false);
+			ChangeData(teamTime, 0.0);
+			BroadcastEvent("STOP_TEAM_ANIMATION", arg1 = true);
+        	ChangeData(teamEffectivenessProgress, 100);
+			Event("BATTLE_RESULTS_READY");
+		}
+	}
+	else
+	{
+		if(previousSelectedTab == ePageType.Efficiency)
+		{
+			ChangeData(personalFirstShow, false);
+			ChangeData(personalTime, 0.0);
+			BroadcastEvent("STOP_PERSONAL_ANIMATION", arg1 = false);
+    		ChangeData(efficiencyProgress, 100);
+		}
+		if(previousSelectedTab == ePageType.Economy)
+		{
+			ChangeData(economyFirstShow, false);
+			ChangeData(economyTime, 0.0);
+			BroadcastEvent("STOP_ECONOMY_ANIMATION", arg1 = false);
+        	ChangeData(economyProgress, 100, 0);
+		}
+		if(previousSelectedTab == ePageType.TeamEffectiveness)
+		{
+			ChangeData(teamFirstShow, false);
+			ChangeData(teamTime, 0.0);
+			BroadcastEvent("STOP_TEAM_ANIMATION", arg1 = false);
+        	ChangeData(teamEffectivenessProgress, 100);
+		}
+	}
+
+	Event("SCREEN_TRANSITION_ANIMATION_START", arg1 = 0.0, arg2= true);
+}
+
+action STOP_SOUND()
+{
+	PlaySound("stop_ui_battle_result");
+}
+
+//Swipe actions
+
+action SwipeOffset(int aLeftIndex, int aRightIndex, float aLeftPosition, float aRightPosition, float aLeftProportion, float aRightProportion, bool isInertion)
+{
+    ChangeData(leftIndex, aLeftIndex);
+    ChangeData(rightIndex, aRightIndex);
+    ChangeData(leftPosition, aLeftPosition);
+    ChangeData(rightPosition, aRightPosition);
+    ChangeData(leftProportion, aLeftProportion);
+    ChangeData(rightProportion, aRightProportion);
+
+	Event("PageChangedPosition");
+}
+
+action SET_SWIPED_INDEX_FROM_CLICK(int newSwipeIndex)
+{
+    ChangeData(currentSwipeIndex, newSwipeIndex);
+}
+
+action SwipeStarted()
+{
+	ChangeData(isInputBlocked, true);
+	ChangeData(isHeaderInputBlocked, true);
+    if(not (firstTab == ePageType.TeamEffectiveness) )
+    {
+        ChangeData(nextButtonOpacity, 0, 0);
+    }
+}
+
+action PageChanged(int newTab)
+{
+    ChangeData(currentSwipeIndex, newTab);
+    ChangeData(nextButtonOpacity, 0.0);
+	ChangeData(nextButtonProgress, 1.00);
+
+	if(selectedTab == int(ePageType.Efficiency) and personalFirstShow)
+    {
+    	Event("STOP_ANIMATION", arg1 = false);
+    }
+    if(selectedTab == int(ePageType.Economy) and economyFirstShow)
+    {
+        Event("STOP_ANIMATION", arg1 = false);
+    }
+    if(selectedTab == int(ePageType.TeamEffectiveness) and teamFirstShow)
+    {
+       	Event("STOP_ANIMATION", arg1 = false);
+    }
+
+	Event("SCREEN_TRANSITION_ANIMATION_START", arg1= 2.5, arg2= false);
+
+	if((selectedTab == ePageType.Efficiency and newTab == ePageType.Economy)
+	 or (previousSelectedTab == ePageType.Efficiency and selectedTab == ePageType.TeamEffectiveness and newTab == ePageType.Economy)
+	  or (firstTab == ePageType.TeamEffectiveness and newTab == ePageType.Economy and selectedTab == ePageType.TeamEffectiveness))
+	{
+		parallel
+		{
+			Event("TRIGGER_EVENT_SCENE_ANIMATION", arg1 = eSceneAnimation.Transition);
+			PlaySound("play_ui_result_whoosh_cam_fly_by");
+		}
+	}
+	if((selectedTab == ePageType.Economy and newTab == ePageType.Efficiency) or (previousSelectedTab == ePageType.Economy and selectedTab == ePageType.TeamEffectiveness and newTab == ePageType.Efficiency))
+	{
+		parallel
+		{
+			Event("TRIGGER_EVENT_SCENE_ANIMATION", arg1 = eSceneAnimation.Reverse);
+			PlaySound("play_ui_result_whoosh_cam_fly_by");
+		}
+	}
+	parallel
+	{
+		if(newTab == ePageType.TeamEffectiveness)
+		{
+			if(not statrLoadingHangarScene)
+			{
+				ChangeData(blurOpacity, 1, 0.5,EASE_IN);
+			}
+		}
+		else
+		{
+			ChangeData(blurOpacity, 0, 0.5,EASE_OUT);
+		}
+		sequence
+		{
+			ChangeData(previousSelectedTab, selectedTab);
+			ChangeData(selectedTab, toEnum(newTab, ePageType));
+			Event("ON_SELECT_TAB_WAS_CHANGED", arg1 = selectedTab);
+		}
+	}
+}
+
+action StopBlockInput()
+{
+    if (not showPremiumHint)
+    {
+        ChangeData(isInputBlocked, false);
+    }
+}
+
+action SwipeCanceled(int newSwipeIndex)
+{
+	if(currentSwipeIndex != ePageType.TeamEffectiveness)
+    {
+        ChangeData(nextButtonOpacity, 1, 0);
+    }
+	if(currentSwipeIndex != newSwipeIndex)
+	{
+		ChangeData(currentSwipeIndex, newSwipeIndex);
+	}
+	Event("StopBlockInput");
+	Event("StopBlockHeaderInput");
+}
+
+action SwipeFinished()
+{
+    if(teamFirstShow and currentSwipeIndex == int(ePageType.TeamEffectiveness))
+    {
+        Wait(0.001);
+        Wait(0.001);
+        BroadcastEvent("START_TEAM_ANIMATION");
+    }
+    if(economyFirstShow and currentSwipeIndex == int(ePageType.Economy))
+    {
+        Wait(0.001);
+        Wait(0.001);
+        BroadcastEvent("START_ECONOMIC_ANIMATION");
+    }
+    Event("StopBlockHeaderInput");
+}
+
+action StopBlockHeaderInput()
+{
+    if (not showPremiumHint)
+    {
+        ChangeData(isHeaderInputBlocked, false);
+    }
+}

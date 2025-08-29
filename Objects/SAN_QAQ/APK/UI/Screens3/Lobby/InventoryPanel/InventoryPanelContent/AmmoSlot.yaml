@@ -53,7 +53,7 @@ Prototypes:
             name: "Count"
             position: [17.000000, 16.000000]
             input: false
-            classes: "t-caption bold color=white-wild-sand-text not-localize"
+            classes: "t-caption bold white-wild-sand-text"
             components:
                 UITextComponent:
                     align: ["RIGHT", "VCENTER"]

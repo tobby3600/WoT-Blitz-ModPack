@@ -1,0 +1,116 @@
+Header:
+    version: 117
+Prototypes:
+-   class: "UIControl"
+    name: "ResourceProgressBar"
+    size: [360.000000, 16.000000]
+    input: false
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+            spacing: 4.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfChildrenSum"
+        UIDataParamsComponent:
+            params:
+            - ["int", "minimum", "0", "0"]
+            - ["int", "maximum", "100", "100"]
+            - ["int", "value", "50", "50"]
+            - ["int", "bonus", "0", "25"]
+            - ["control", "progressBar", "null", "null"]
+            - ["ResourceDetailed", "resource", "null", "{ \"type\" = ResourceType.gold; }"]
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Color.style.yaml"
+    children:
+    -   class: "UIControl"
+        name: "BrogressBarHolder"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                childType: "kControl"
+                condition: "not isNull(progressBar)"
+                control: "progressBar"
+    -   class: "UIControl"
+        name: "Caption"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            LinearLayout:
+                spacing: 4.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfMaxChild"
+        children:
+        -   class: "UIControl"
+            name: "ProgressLabel"
+            input: false
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                LinearLayout:
+                    spacing: 2.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "Current"
+                input: false
+                classes: "t-body bold white-wild-sand-text"
+                components:
+                    UITextComponent: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "value"]
+            -   class: "UIControl"
+                name: "Delimiter"
+                input: false
+                classes: "t-body regular white-wild-sand-50-text"
+                components:
+                    UITextComponent:
+                        text: "/"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+            -   class: "UIControl"
+                name: "Maximum"
+                input: false
+                classes: "t-body bold white-wild-sand-50-text"
+                components:
+                    UITextComponent: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "maximum"]
+        -   class: "UIControl"
+            name: "ResourceIconHolder"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfFirstChild"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Detailed/IconDeprecated.yaml"
+                    args:
+                        "resource": "resource"
+                        "size": "eCurrencySize.BODY"
+                        "showVehicleInfo": "false"
+                        "showVehicleLabel": "false"
+                        "showUnlockStub": "false"

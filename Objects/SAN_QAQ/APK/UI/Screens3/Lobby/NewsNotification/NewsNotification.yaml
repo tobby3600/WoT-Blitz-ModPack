@@ -35,7 +35,6 @@ Prototypes:
             - "BACK_EVENT"
         UIDataLocalVarsComponent:
             data:
-            - ["bool", "showFade", "false"]
             - ["int", "selectedItem", "0"]
         UIDataLocalBindingsComponent:
             data:
@@ -52,10 +51,6 @@ Prototypes:
         UIActionComponent:
             actionsPath: "~res:/UI/Screens3/Lobby/NewsNotification/NewsNotification.actions"
         UIDataOnEventComponent0:
-            eventName: "SHOW_FADE"
-            modelFieldExpression: "showFade"
-            dataExpression: "_event"
-        UIDataOnEventComponent1:
             eventName: "CHANGED_SELECTED_ITEM"
             modelFieldExpression: "selectedItem"
             dataExpression: "_event"
@@ -68,11 +63,6 @@ Prototypes:
             modelFieldExpression: "selectedItem"
             dataExpression: "when selectedItem == Size(indexes) - 1 -> 0, selectedItem + 1"
         UIEventOnDataComponent0:
-            watchedDataExpression: "showFade"
-            ifExpression: "showFade == true"
-            eventName: "ON_BUTTON_ITEM_PRESSED"
-            eventData: "news[selectedItem].url"
-        UIEventOnDataComponent1:
             watchedDataExpression: "selectedItem"
             eventName: "CHANGED_SELECTED_ITEM"
             eventData: "selectedItem"
@@ -387,7 +377,3 @@ Prototypes:
                 children:
                 -   path: "TapArea/Content/CaptionWrapper/Caption"
                     position: [18.000000, 2.000000]
-    -   prototype: "OverlayBlur/BlurAndFade"
-        name: "BlurAndFadeForSwitch"
-        bindings:
-        - ["visible", "showFade and isGamepad"]

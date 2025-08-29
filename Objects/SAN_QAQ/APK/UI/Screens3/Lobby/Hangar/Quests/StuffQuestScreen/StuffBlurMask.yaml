@@ -1,0 +1,164 @@
+Header:
+    version: 127
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/BlurDynamic.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "StuffBlurMask"
+    input: false
+    components:
+        IgnoreLayout: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["string", "ID", "\"\"", "\"\""]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["string", "background", "\"background\" + ID"]
+            - ["string", "blur", "\"blur\" + ID"]
+            - ["string", "mask", "\"mask\" + ID"]
+    children:
+    -   class: "UIControl"
+        name: "BackgroundCapture"
+        input: false
+        components:
+            Background:
+                usePostProcessedSprite: true
+            UIPostProcessSourceComponent0: {}
+            UIPostProcessTextureComponent0:
+                materialPath: "~res:/Materials/2d.Textured.material"
+                needClear: true
+            UIRoundedCornersComponent: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["UIPostProcessSourceComponent0.id", "background"]
+    -   class: "UIControl"
+        name: "Mask"
+        visible: false
+        input: false
+        components:
+            UIPostProcessSourceComponent0: {}
+            LinearLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["UIPostProcessSourceComponent0.id", "mask"]
+        children:
+        -   class: "UIControl"
+            name: "Left"
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_SCALE_TO_RECT"
+                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 100.000000
+                    verticalPolicy: "PercentOfParent"
+        -   class: "UIControl"
+            name: "Centre"
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_FILL"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+        -   class: "UIControl"
+            name: "Right"
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_SCALE_TO_RECT"
+                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                    spriteModification: ["FLIP_HORIZONTAL"]
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 100.000000
+                    verticalPolicy: "PercentOfParent"
+    -   class: "UIControl"
+        name: "BlurMask"
+        visible: true
+        input: false
+        components:
+            UIPostProcessSourceComponent0: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["UIPostProcessSourceComponent0.id", "blur"]
+        children:
+        -   prototype: "BlurDynamic/BlurDynamic"
+            name: "BlurDynamic"
+            components:
+                UIPostProcessInputComponent: {}
+                UIPostProcessTextureComponent0:
+                    needClear: true
+            bindings:
+            - ["UIPostProcessInputComponent.id", "background"]
+        -   class: "UIControl"
+            name: "AlphaFill"
+            input: false
+            components:
+                UITextureComponent:
+                    spritePath: "~res:/Gfx/Lobby/backgrounds/bg_fill"
+                    materialPath: "~res:/Materials/2d.AlphaFill.material"
+                    drawType: "DRAW_SCALE_TO_RECT"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+        -   class: "UIControl"
+            name: "Mask"
+            input: false
+            components:
+                Background:
+                    usePostProcessedSprite: true
+                UIPostProcessInputComponent: {}
+                UIPostProcessTextureComponent0:
+                    materialPath: "~res:/Materials.custom/2d.Textured.AlphaMask.material"
+                    needClear: true
+                    useVirtualCoordinateSystem: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            bindings:
+            - ["UIPostProcessInputComponent.id", "mask"]
+    -   class: "UIControl"
+        name: "Background"
+        visible: true
+        input: false
+        components:
+            Background:
+                usePostProcessedSprite: true
+            UIPostProcessInputComponent: {}
+            UIPostProcessTextureComponent0:
+                materialPath: "~res:/Materials/2d.Textured.material"
+                needClear: true
+                useVirtualCoordinateSystem: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["UIPostProcessInputComponent.id", "background"]
+    -   class: "UIControl"
+        name: "ShowBlur"
+        visible: true
+        input: false
+        components:
+            Background:
+                usePostProcessedSprite: true
+            UIPostProcessInputComponent: {}
+            UIPostProcessTextureComponent0:
+                materialPath: "~res:/Materials/2d.Textured.Alphablend.material"
+                needClear: true
+                useVirtualCoordinateSystem: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["UIPostProcessInputComponent.id", "blur"]

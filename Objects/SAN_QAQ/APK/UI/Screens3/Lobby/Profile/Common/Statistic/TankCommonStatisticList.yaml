@@ -1,0 +1,493 @@
+Header:
+    version: 142
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/List/ListCell.yaml"
+- "~res:/UI/Screens3/Lobby/Common/List/ListCellAdditionalLine.yaml"
+- "~res:/UI/Screens3/Lobby/Common/List/Separator-1px.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "ContentWrapper"
+    size: [400.000000, 2280.000000]
+    input: false
+    components:
+        LinearLayout:
+            padding: "16"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfMaxChild"
+        UIDataParamsComponent:
+            params:
+            - ["VehicleDossier", "dossier", "null", "{ }"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["int", "survivedBattles", "dossier.survivedBattles"]
+            - ["int", "destroyedEnemies", "dossier.frags"]
+            - ["int", "losses", "dossier.losses"]
+            - ["float", "winsRate", "dossier.winsRate"]
+            - ["int", "wins", "dossier.wins"]
+            - ["int", "normalBattlesCount", "dossier.battlesCount"]
+            - ["int", "ratingBattlesCount", "dossier.ratingBattlesCount"]
+            - ["int", "tournamentBattlesCount", "dossier.tournamentBattlesCount"]
+            - ["int", "damageDealt", "dossier.damageDealt"]
+            - ["int", "damageReceived", "dossier.damageReceived"]
+            - ["float", "accuracyRate", "dossier.accuracyRate"]
+            - ["float", "lossesRate", "when normalBattlesCount > 0 -> 100.000000 * float(losses) / float(normalBattlesCount), 0.000000"]
+            - ["int", "destroyedByEnemy", "normalBattlesCount - survivedBattles"]
+            - ["float", "destructionRate", "when destroyedByEnemy > 0 -> float(destroyedEnemies) / float(destroyedByEnemy), float(destroyedEnemies)"]
+            - ["float", "damageRate", "when damageReceived > 0 -> float(damageDealt) / float(damageReceived), float(damageDealt)"]
+            - ["float", "survivedRate", "when normalBattlesCount > 0 -> 100.000000 * float(survivedBattles) / float(normalBattlesCount), 0.000000"]
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            LinearLayout:
+                orientation: "TopDown"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+        children:
+        -   class: "UIControl"
+            name: "BattlesCount"
+            position: [0.000000, 160.000000]
+            size: [400.000000, 3540.000000]
+            input: false
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   prototype: "ListCell/ListCell"
+                name: "TotalBattlesCount"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "visible": "true"
+                            "name": "localize(\"#achievementScreen:Tanks/Battles\")"
+                            "value": "str1000Separated(normalBattlesCount + ratingBattlesCount + tournamentBattlesCount)"
+                            "showBottomSeparator": "false"
+                        events: []
+                        eventActions: []
+                children:
+                -   path: "MainParamWrapper/MainParam/Title"
+                    components:
+                        UITextComponent: {}
+                    bindings:
+                    - ["UITextComponent.text", "name"]
+            -   class: "UIControl"
+                name: "AdditionalParams"
+                size: [32.000000, 32.000000]
+                visible: true
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "List"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        LinearLayout:
+                            orientation: "TopDown"
+                            spacing: 4.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfChildrenSum"
+                    children:
+                    -   prototype: "ListCellAdditionalLine/AdditionalLine"
+                        name: "NormalBattlesCount"
+                        components:
+                            UIDataParamsComponent:
+                                args:
+                                    "value": "str1000Separated(normalBattlesCount)"
+                        children:
+                        -   path: "Title"
+                            components:
+                                UITextComponent:
+                                    text: "#achievementScreen:Brief/RegularBattles"
+                        -   path: "Value"
+                            components:
+                                UITextComponent: {}
+                            bindings:
+                            - ["UITextComponent.text", "value"]
+                    -   prototype: "ListCellAdditionalLine/AdditionalLine"
+                        name: "RatingBattlesCount"
+                        components:
+                            UIDataParamsComponent:
+                                args:
+                                    "value": "str1000Separated(ratingBattlesCount)"
+                        children:
+                        -   path: "Title"
+                            components:
+                                UITextComponent:
+                                    text: "#achievementScreen:Brief/RatingBattles"
+                        -   path: "Value"
+                            components:
+                                UITextComponent: {}
+                            bindings:
+                            - ["UITextComponent.text", "value"]
+                    -   prototype: "ListCellAdditionalLine/AdditionalLine"
+                        name: "TournamentBattlesCount"
+                        components:
+                            UIDataParamsComponent:
+                                args:
+                                    "value": "str1000Separated(tournamentBattlesCount)"
+                        children:
+                        -   path: "Title"
+                            components:
+                                UITextComponent:
+                                    text: "#achievementScreen:Brief/TournamentBattles"
+                        -   path: "Value"
+                            components:
+                                UITextComponent: {}
+                            bindings:
+                            - ["UITextComponent.text", "value"]
+                -   class: "UIControl"
+                    name: "Spacer"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 8.000000
+            -   prototype: "Separator-1px/Separator"
+                name: "Separator"
+                components:
+                    Anchor:
+                        bottomAnchorEnabled: true
+                    IgnoreLayout: {}
+        -   prototype: "ListCell/ListCell"
+            name: "Wins"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "visible": "true"
+                        "name": "localize(\"#achievementScreen:Tanks/Wins\")"
+                        "value": "str1000Separated(wins) + \" (\" + percent(winsRate, 2) + \")\""
+                        "showBottomSeparator": "true"
+            children:
+            -   path: "MainParamWrapper/MainParam/Title"
+                components:
+                    UITextComponent: {}
+                bindings:
+                - ["UITextComponent.text", "name"]
+        -   prototype: "ListCell/ListCell"
+            name: "Defeats"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "visible": "true"
+                        "name": "localize(\"#achievementScreen:Tanks/Losses\")"
+                        "value": "str1000Separated(losses) + \" (\" + percent(lossesRate, 2) + \")\""
+                        "showBottomSeparator": "true"
+            children:
+            -   path: "MainParamWrapper/MainParam/Title"
+                components:
+                    UITextComponent: {}
+                bindings:
+                - ["UITextComponent.text", "name"]
+        -   prototype: "ListCell/ListCell"
+            name: "Survival"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "visible": "true"
+                        "name": "localize(\"#achievementScreen:Tanks/Survived\")"
+                        "value": "str1000Separated(survivedBattles) + \" (\" + percent(survivedRate, 2) + \")\""
+                        "showBottomSeparator": "true"
+            children:
+            -   path: "MainParamWrapper/MainParam/Title"
+                components:
+                    UITextComponent: {}
+                bindings:
+                - ["UITextComponent.text", "name"]
+        -   class: "UIControl"
+            name: "DestructionRate"
+            position: [0.000000, 248.000000]
+            size: [400.000000, 3540.000000]
+            input: false
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   class: "UIControl"
+                name: "MainParamWrapper"
+                input: false
+                components:
+                    LinearLayout:
+                        orientation: "TopDown"
+                        padding: "10"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfMaxChild"
+                children:
+                -   class: "UIControl"
+                    name: "MainParam"
+                    position: [0.000000, 0.000000]
+                    input: false
+                    components:
+                        LinearLayout:
+                            spacing: 16.000000
+                            dynamicSpacing: true
+                            useRtl: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfMaxChild"
+                    children:
+                    -   class: "UIControl"
+                        name: "Title"
+                        input: false
+                        classes: "t-body regular color=white-wild-sand-text"
+                        components:
+                            UITextComponent:
+                                text: "#achievementScreen:Stats/DestructionCoefficient"
+                                multiline: "MULTILINE_ENABLED"
+                                align: ["LEFT", "VCENTER"]
+                            SizePolicy:
+                                horizontalPolicy: "Formula"
+                                horizontalFormula: "min(parentRest, content)"
+                                verticalPolicy: "PercentOfContent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml"
+                    -   class: "UIControl"
+                        name: "Value"
+                        input: false
+                        classes: "t-body bold color=white-wild-sand-text"
+                        components:
+                            UITextComponent: {}
+                            Anchor:
+                                topAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfContent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml"
+                        bindings:
+                        - ["UITextComponent.text", "str(destructionRate, 2)"]
+            -   class: "UIControl"
+                name: "AdditionalParams"
+                size: [32.000000, 32.000000]
+                visible: true
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "List"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        LinearLayout:
+                            orientation: "TopDown"
+                            spacing: 4.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfChildrenSum"
+                    children:
+                    -   prototype: "ListCellAdditionalLine/AdditionalLine"
+                        name: "AdditionalLine"
+                        components:
+                            UIDataParamsComponent:
+                                args:
+                                    "value": "str1000Separated(destroyedEnemies)"
+                        children:
+                        -   path: "Title"
+                            components:
+                                UITextComponent:
+                                    text: "#achievementScreen:Stats/DestroedEnimies"
+                        -   path: "Value"
+                            components:
+                                UITextComponent: {}
+                            bindings:
+                            - ["UITextComponent.text", "value"]
+                    -   prototype: "ListCellAdditionalLine/AdditionalLine"
+                        name: "AdditionalLine_1"
+                        components:
+                            UIDataParamsComponent:
+                                args:
+                                    "value": "str1000Separated(destroyedByEnemy)"
+                        children:
+                        -   path: "Title"
+                            components:
+                                UITextComponent:
+                                    text: "#achievementScreen:Stats/WasDestroyed"
+                        -   path: "Value"
+                            components:
+                                UITextComponent: {}
+                            bindings:
+                            - ["UITextComponent.text", "value"]
+                -   class: "UIControl"
+                    name: "Spacer"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 8.000000
+            -   prototype: "Separator-1px/Separator"
+                name: "Separator"
+                components:
+                    Anchor:
+                        bottomAnchorEnabled: true
+                    IgnoreLayout: {}
+        -   class: "UIControl"
+            name: "DamageRate"
+            size: [400.000000, 3540.000000]
+            input: false
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   class: "UIControl"
+                name: "MainParamWrapper"
+                input: false
+                components:
+                    LinearLayout:
+                        orientation: "TopDown"
+                        padding: "10"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfMaxChild"
+                children:
+                -   class: "UIControl"
+                    name: "MainParam"
+                    position: [0.000000, 0.000000]
+                    input: false
+                    components:
+                        LinearLayout:
+                            spacing: 16.000000
+                            dynamicSpacing: true
+                            useRtl: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfMaxChild"
+                    children:
+                    -   class: "UIControl"
+                        name: "Title"
+                        input: false
+                        classes: "t-body regular white-wild-sand-text"
+                        components:
+                            UITextComponent:
+                                text: "#achievementScreen:Stats/DamageCoefficient"
+                                multiline: "MULTILINE_ENABLED"
+                                align: ["LEFT", "VCENTER"]
+                            SizePolicy:
+                                horizontalPolicy: "Formula"
+                                horizontalFormula: "min(parentRest, content)"
+                                verticalPolicy: "PercentOfContent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml"
+                    -   class: "UIControl"
+                        name: "Value"
+                        input: false
+                        classes: "t-body bold white-wild-sand-text"
+                        components:
+                            UITextComponent: {}
+                            Anchor:
+                                topAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfContent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml"
+                        bindings:
+                        - ["UITextComponent.text", "str(damageRate, 2)"]
+            -   class: "UIControl"
+                name: "AdditionalParams"
+                size: [32.000000, 32.000000]
+                visible: true
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "List"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        LinearLayout:
+                            orientation: "TopDown"
+                            spacing: 4.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfChildrenSum"
+                    children:
+                    -   prototype: "ListCellAdditionalLine/AdditionalLine"
+                        name: "AdditionalLine"
+                        components:
+                            UIDataParamsComponent:
+                                args:
+                                    "value": "str1000Separated(damageDealt)"
+                        children:
+                        -   path: "Title"
+                            components:
+                                UITextComponent:
+                                    text: "#achievementScreen:Stats/DamageDealt"
+                        -   path: "Value"
+                            components:
+                                UITextComponent: {}
+                            bindings:
+                            - ["UITextComponent.text", "value"]
+                    -   prototype: "ListCellAdditionalLine/AdditionalLine"
+                        name: "AdditionalLine_1"
+                        components:
+                            UIDataParamsComponent:
+                                args:
+                                    "value": "str1000Separated(damageReceived)"
+                        children:
+                        -   path: "Title"
+                            components:
+                                UITextComponent:
+                                    text: "#achievementScreen:Stats/DamageReceived"
+                        -   path: "Value"
+                            components:
+                                UITextComponent: {}
+                            bindings:
+                            - ["UITextComponent.text", "value"]
+                -   class: "UIControl"
+                    name: "Spacer"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 8.000000
+            -   prototype: "Separator-1px/Separator"
+                name: "Separator"
+                components:
+                    Anchor:
+                        bottomAnchorEnabled: true
+                    IgnoreLayout: {}
+        -   prototype: "ListCell/ListCell"
+            name: "FiringAccuracy"
+            position: [0.000000, 398.000000]
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "visible": "true"
+                        "name": "localize(\"#achievementScreen:Tanks/Accuracy\")"
+                        "value": "percent(accuracyRate, 2)"
+                        "showBottomSeparator": "false"
+            children:
+            -   path: "MainParamWrapper/MainParam/Title"
+                components:
+                    UITextComponent: {}
+                bindings:
+                - ["UITextComponent.text", "name"]

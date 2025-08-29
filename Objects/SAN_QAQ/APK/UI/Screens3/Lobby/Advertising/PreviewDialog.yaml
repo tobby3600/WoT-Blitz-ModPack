@@ -1,0 +1,250 @@
+Header:
+    version: 160
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "PreviewDialog"
+    size: [720.000000, 600.000000]
+    input: false
+    classes: ""
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        ModalInput: {}
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Escape"
+            keyDownEvent: "PROXY_CANCEL"
+        UIShortcutEventComponent:
+            shortcuts: "PROXY_CANCEL,Back;PROXY_CANCEL,Escape;PROXY_WATCH_AD,Enter"
+        UIDataParamsComponent:
+            params:
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["BattleAdvertisingBonus", "battleBonus", "null", "{ }"]
+            - ["LobbyDataModel", "lobby", "null", "{ }"]
+            - ["ePlaySite", "playSite", "ePlaySite.Hangar", "ePlaySite.BattleResults"]
+            events:
+            - "WATCH_AD"
+            - "CANCEL"
+        UIDataLocalBindingsComponent:
+            data:
+            - ["bool", "canWatch", "session.serverTime >= lobby.advertising.blockedTill"]
+            - ["int64", "cooldown", "when playSite == ePlaySite.BattleResults -> session.serverConfig.advertising.battleResults.cooldown, playSite == ePlaySite.ShopChest -> session.serverConfig.advertising.shopChest.cooldown, playSite == ePlaySite.ShopPremium -> session.serverConfig.advertising.shopPremium.cooldown, session.serverConfig.advertising.hangar.cooldown"]
+            - ["vector<ResourceDetailed>", "rewards", "when playSite == ePlaySite.BattleResults and not isNull(battleBonus) -> battleBonus.rewards, session.serverConfig.advertising.hangar.reward"]
+        UIChildComponent0:
+            prototypePath: "~res:/UI/Screens3/Lobby/Common/Dialog/TextDialog.yaml"
+            args:
+                "acceptButtonControl": "AcceptButton"
+                "type": "eDialogType.CHOOSE"
+                "header": "\"\""
+                "headerImage": "\"~res:/Gfx/UI/Hangar/ads/ads_icon_new_big.psd\""
+                "optionalButton": "\"#common:DialogButton/Cancel\""
+                "contentControl": "when playSite == ePlaySite.ReplaceTask -> ReplaceTaskContent, playSite == ePlaySite.XpMultiplierReset -> ResetXpMultiplierContent, Content"
+            eventActions:
+            - ["ACCENT_CLICKED", "WATCH_AD", ""]
+            - ["OPTIONAL_CLICKED", "CANCEL", ""]
+Slots:
+-   class: "UIControl"
+    name: "AcceptButton"
+    size: [197.000000, 48.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfMaxChild"
+    children:
+    -   prototype: "Button/Button"
+        name: "ButtonPositive"
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+            UIDataParamsComponent:
+                args:
+                    "caption": "\"videoAds:WatchButton\""
+                    "type": "eButtonType.POSITIVE"
+                    "size": "eButtonSize.NORMAL"
+                    "sound": "eButtonSound.UNKNOWN"
+                    "enabled": "canWatch"
+                eventActions:
+                - ["ON_CLICK_BUTTON", "WATCH_AD", ""]
+    -   class: "UIControl"
+        name: "Timer"
+        input: false
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+                rightAnchor: -4.000000
+                topAnchorEnabled: true
+                topAnchor: -12.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                condition: "not canWatch"
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Timer.yaml"
+                args:
+                    "bgColorStyle": "\"grey-shark-bg\""
+                    "bgVisible": "true"
+                    "time": "lobby.advertising.blockedTill"
+                    "serverTime": "session.serverTime"
+-   class: "UIControl"
+    name: "Content"
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+            vCenterAnchorEnabled: true
+        LinearLayout:
+            orientation: "TopDown"
+            spacing: 8.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfMaxChild"
+            verticalPolicy: "PercentOfChildrenSum"
+    children:
+    -   class: "UIControl"
+        name: "Label"
+        input: false
+        classes: "t-body regular white-wild-sand-70-text"
+        components:
+            UITextComponent:
+                colorInheritType: "COLOR_IGNORE_PARENT"
+                align: ["LEFT", "VCENTER"]
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfContent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+        bindings:
+        - ["visible", "not (playSite == ePlaySite.ShopPremium)"]
+        - ["UITextComponent.text", "when playSite == ePlaySite.BattleResults -> localize(\"videoAds:BattleResultsReward\", { \"tankName\" = localize(battleBonus.tankName); }), localize(\"videoAds:RewardForWatching\")"]
+    -   class: "UIControl"
+        name: "Spacer"
+        input: false
+        components:
+            SizePolicy:
+                verticalPolicy: "FixedSize"
+                verticalValue: 8.000000
+    -   class: "UIControl"
+        name: "Rewards"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            LinearLayout:
+                padding: "8"
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                childType: "kControl"
+                condition: "playSite == ePlaySite.ShopChest"
+                control: "ChestRewards"
+            UIChildComponent1:
+                childType: "kControl"
+                condition: "not (playSite == ePlaySite.ShopPremium)"
+                control: "Rewards"
+    -   class: "UIControl"
+        name: "Spacer"
+        input: false
+        components:
+            SizePolicy:
+                verticalPolicy: "FixedSize"
+                verticalValue: 8.000000
+    -   class: "UIControl"
+        name: "Cooldown"
+        input: false
+        classes: "t-body regular white-wild-sand-70-text"
+        components:
+            UITextComponent:
+                colorInheritType: "COLOR_IGNORE_PARENT"
+                align: ["LEFT", "VCENTER"]
+            Anchor:
+                hCenterAnchorEnabled: true
+                useRtl: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfContent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+        bindings:
+        - ["UITextComponent.text", "localize(\"videoAds:Cooldown\", { \"cooldown\" = timeDiffShort(cooldown); })"]
+-   class: "UIControl"
+    name: "Rewards"
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+        LinearLayout:
+            padding: "8"
+            spacing: 8.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "PercentOfMaxChild"
+        UIRepeatComponent:
+            control: "~res:/UI/Screens3/Lobby/Common/Resource/RewardMedium.yaml"
+            dataContainer: "rewards"
+            args:
+                "resource": "_item"
+                "interactive": "false"
+-   class: "UIControl"
+    name: "ChestRewards"
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+        LinearLayout:
+            padding: "8"
+            spacing: 8.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "PercentOfMaxChild"
+        UIRepeatComponent:
+            control: "~res:/UI/Screens3/Lobby/Common/Resource/RewardMedium.yaml"
+            dataContainer: "lobby.advertising.shopChest.viewReward.chestInfo.dropList"
+            args:
+                "resource": "_item.resource"
+                "interactive": "false"
+                "customQuantity": "_item.min"
+                "isVisible": "_item.resource.type != ResourceType.stuff or _item.resource.stuff.itemCompactDescr != lobby.advertising.shopChest.counterDescr"
+-   class: "UIControl"
+    name: "ReplaceTaskContent"
+    size: [500.000000, 440.000000]
+    input: false
+    classes: "t-body regular white-wild-sand-70-text"
+    components:
+        UITextComponent:
+            colorInheritType: "COLOR_IGNORE_PARENT"
+            multiline: "MULTILINE_ENABLED"
+            align: ["HCENTER", "TOP"]
+        Anchor:
+            hCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfContent"
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+    bindings:
+    - ["UITextComponent.text", "localize(\"Ads/ReplaceTask/Reward\", { \"replaceCount\" = str(session.stats.replaceTask.remainingAds); })"]
+-   class: "UIControl"
+    name: "ResetXpMultiplierContent"
+    size: [500.000000, 440.000000]
+    input: false
+    classes: "t-body regular white-wild-sand-70-text"
+    components:
+        UITextComponent:
+            colorInheritType: "COLOR_IGNORE_PARENT"
+            multiline: "MULTILINE_ENABLED"
+            align: ["HCENTER", "TOP"]
+        Anchor:
+            hCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfContent"
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+    bindings:
+    - ["UITextComponent.text", "localize(\"Ads/TankXpMultiplierReset/Reward\", { \"resetCount\" = str(session.stats.xpMultiplierAds.remainingAds); })"]

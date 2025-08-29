@@ -216,11 +216,10 @@ Slots:
                 name: "Text"
                 position: [16.000000, 128.000000]
                 input: false
-                classes: "t-caps bold color=white-wild-sand-text"
                 components:
                     UIOpacityComponent: {}
                     UITextComponent:
-                        fontPath: "~res:/Fonts/HelveticaNeueWorld-45Lt.ttf"
+                        fontPath: "~res:/Fonts/XinGothic-SC-W3.otf"
                         fontSize: 13.000000
                         color: [0.960784, 0.960784, 0.960784, 0.501961]
                         colorInheritType: "COLOR_IGNORE_PARENT"
@@ -231,8 +230,6 @@ Slots:
                     SizePolicy:
                         horizontalPolicy: "PercentOfContent"
                         verticalPolicy: "PercentOfContent"
-                    StyleSheet:
-                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
                 bindings:
                 - ["UITextComponent.text", "progressCurrentFormatted + \" / \" + progressMaxFormatted"]
 -   class: "UIControl"

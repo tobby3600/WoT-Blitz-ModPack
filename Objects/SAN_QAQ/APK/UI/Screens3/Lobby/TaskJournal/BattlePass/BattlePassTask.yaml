@@ -2,7 +2,6 @@ Header:
     version: 151
 ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Common/ProgressBar.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "BattlePassTask"
@@ -27,7 +26,6 @@ Prototypes:
             - ["bool", "showPremiumQuestUnlock", "false", "true"]
             - ["bool", "refreshMode", "false", "false"]
             - ["bool", "isActive", "true", "true"]
-            - ["bool", "isBlur", "true", "true"]
             - ["int", "index", "0", "0"]
             - ["TaskJournalTaskView", "task", "null", "{ \"title\" = localize(\"missionJournal/battlePass/topDamage_end_1\"); \"isQuestLocked\" = false; \"totalProgress\" = 6; \"oldProgress\" = 6; \"currentProgress\" = 5; \"stageTaken\" = 0; \"filter\" = { \"vehicleNations\" = [ eNation.USSR; ]; \"vehicleTypes\" = [ eTankClass.TANK_CLASS_MEDIUM; ]; }; }"]
             events:
@@ -86,26 +84,22 @@ Prototypes:
     - ["input", "isActive and not isReplaceAnimation"]
     - ["UIAttachLayoutMasterComponent.attachId", "when task.isPremiumQuest -> \"BPWP_PREMIUM_TASK\", \"\""]
     children:
-    -   prototype: "BlurModified/BlurModified"
-        name: "Blur"
-        components:
-            UIDataParamsComponent:
-                args:
-                    "isBlur": "isBlur"
-                    "bgStyle": "when not isActive -> \"black-50-bg\", isTaken -> \"black-25-bg\", \"white-wild-sand-15-bg\""
-                    "blurScale": "when not isActive -> 0.750000, isTaken -> 0.500000, 0.250000"
     -   class: "UIControl"
         name: "Bg"
         size: [32.000000, 32.000000]
         input: false
         components:
+            Background: {}
             UIOpacityComponent: {}
             ClipContent: {}
             Anchor: {}
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
         bindings:
+        - ["classes", "when not isActive -> \"black-50-bg\", isTaken -> \"black-25-bg\", \"white-wild-sand-15-bg\""]
         - ["UIOpacityComponent.opacity", "when isReplaceAnimation -> 1.000000, opacity"]
         children:
         -   class: "UIControl"

@@ -19,7 +19,6 @@ Prototypes:
             vCenterAnchorEnabled: true
         LinearLayout:
             spacing: 12.000000
-        UIPostProcessSourceComponent0: {}
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
             horizontalValue: 96.000000
@@ -32,7 +31,6 @@ Prototypes:
             - ["SessionDataModel", "session", "null", "{ }"]
             - ["LobbyDataModel", "lobby", "null", "{ }"]
             - ["TaskJournal", "model", "null", "{ }"]
-            - ["string", "maskTaskJournal", "\"\"", "\"\""]
             events:
             - "ON_TASK_REWARD_CLICKED(string slotId, int rewardIndex)"
             - "APPLY_QUEST_PRESSED(string slotId)"
@@ -62,8 +60,6 @@ Prototypes:
             eventName: "ANIMATE_PROGRESS"
         StyleSheet:
             styles: "~res:/UI/Screens3/Common/Desktop.style.yaml"
-    bindings:
-    - ["UIPostProcessSourceComponent0.id", "maskTaskJournal"]
     children:
     -   class: "UIControl"
         name: "DailyAndTasksContainer"

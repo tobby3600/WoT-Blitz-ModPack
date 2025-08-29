@@ -22,8 +22,6 @@ Prototypes:
             params:
             - ["bool", "showScreenshotScene", "false", "false"]
             - ["TutorialDataModel", "tutorialData", "null", "{ }"]
-            - ["bool", "showDefaultNavigationPanel", "false", "true"]
-            - ["string", "backText", "\"Switch/HubridPanel/Lobby/Back\"", "\"Switch/HubridPanel/Lobby/Back\""]
             - ["bool", "showContent", "false", "false"]
             - ["control", "contentControl", "null", "null"]
         UIDataLocalVarsComponent:
@@ -31,8 +29,6 @@ Prototypes:
             - ["bool", "skipNotTutorHints", "false"]
         UIDataLocalBindingsComponent:
             data:
-            - ["bool", "showNavigationPanel", "isGamepad and showDefaultNavigationPanel and not empty(backText)"]
-            - ["int", "bottomAnchorDistance", "when showNavigationPanel -> 40, 0"]
             - ["eTutorialHighlights", "currentHighlightControl", "tutorialData.currentHighlightControl"]
             - ["bool", "skipHints", "currentHighlightControl == eTutorialHighlights.kShop or currentHighlightControl == eTutorialHighlights.kAchievements or currentHighlightControl == eTutorialHighlights.kPremiumization or currentHighlightControl == eTutorialHighlights.kBlockedTank"]
             - ["string", "eventReceiver", "str(tutorialData.stepsData[currentHighlightControl].currentScreen, eCurrentScreen, \"pathToRoot\")"]
@@ -68,6 +64,8 @@ Prototypes:
                 name: "HangarScene"
                 visible: false
                 components:
+                    SceneComponent:
+                        drawToFramebuffer: true
                     UIPostProcessSourceComponent0:
                         id: "hangarControllerScreenshot"
                     SizePolicy:
@@ -79,7 +77,6 @@ Prototypes:
                     UIPostProcessInputComponent:
                         id: "hangarControllerScreenshot"
                     UIPostProcessTextureComponent0:
-                        needDepth: true
                         renderRequestingType: "ON_REQUEST"
                     UIPostProcessTextureComponent1:
                         renderRequestingType: "ON_REQUEST"
@@ -114,24 +111,6 @@ Prototypes:
                 childType: "kControl"
                 condition: "showContent"
                 control: "contentControl"
-        bindings:
-        - ["Anchor.bottomAnchor", "bottomAnchorDistance"]
-    -   class: "UIControl"
-        name: "NavigationPanel"
-        input: false
-        components:
-            Anchor:
-                leftAnchorEnabled: true
-                rightAnchorEnabled: true
-                bottomAnchorEnabled: true
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                condition: "showNavigationPanel"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/NavigationPanel.yaml"
-                args:
-                    "content": "NavigationPanelContent"
     -   class: "UIControl"
         name: "OverlayLayer"
         input: false
@@ -141,8 +120,6 @@ Prototypes:
                 rightAnchorEnabled: true
                 topAnchorEnabled: true
                 bottomAnchorEnabled: true
-        bindings:
-        - ["Anchor.bottomAnchor", "bottomAnchorDistance"]
     -   class: "UIControl"
         name: "TutorialLayer"
         size: [32.000000, 32.000000]
@@ -213,8 +190,6 @@ Prototypes:
                 rightAnchorEnabled: true
                 topAnchorEnabled: true
                 bottomAnchorEnabled: true
-        bindings:
-        - ["Anchor.bottomAnchor", "bottomAnchorDistance"]
     -   class: "UIControl"
         name: "TopHintLayer"
         size: [32.000000, 32.000000]
@@ -243,31 +218,3 @@ Prototypes:
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
-Slots:
--   class: "UIControl"
-    name: "NavigationPanelContent"
-    input: false
-    components:
-        LinearLayout:
-            orientation: "LeftToRight"
-            spacing: 24.000000
-        SizePolicy:
-            horizontalPolicy: "PercentOfChildrenSum"
-            verticalPolicy: "PercentOfMaxChild"
-    children:
-    -   class: "UIControl"
-        name: "BackButton"
-        size: [32.000000, 32.000000]
-        input: false
-        components:
-            LinearLayout:
-                spacing: 24.000000
-            SizePolicy:
-                horizontalPolicy: "PercentOfChildrenSum"
-                verticalPolicy: "PercentOfMaxChild"
-            UIChildComponent0:
-                condition: "not tutorialData.isTutorialActive"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                args:
-                    "text": "backText"
-                    "icon": "eNintendoSwitchControls.B"

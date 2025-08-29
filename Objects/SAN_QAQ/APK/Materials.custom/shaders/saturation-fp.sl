@@ -20,11 +20,12 @@ fragment_out fp_main(fragment_in input)
 {
 	fragment_out output;
 
+	float2 adjCoef;
+
 	output.color = tex2D(tex, input.texCoord) * input.color;
-
-	float lum = getLum(output.color.rgb);
-
-	output.color.rgb = lerp(float3(lum, lum, lum), output.color.rgb, saturation * 0.01 + 1.0);
+	adjCoef.x = getLum(output.color.rgb);
+	adjCoef.y = saturation * 0.01 + 1.0;
+	output.color.rgb = lerp(adjCoef.xxx, output.color.rgb, adjCoef.y);
 
 	return output;
 }

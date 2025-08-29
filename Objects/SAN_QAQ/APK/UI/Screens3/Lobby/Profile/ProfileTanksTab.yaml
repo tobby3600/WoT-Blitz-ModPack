@@ -13,7 +13,6 @@ Prototypes:
     size: [1102.000000, 919.000000]
     input: false
     components:
-        UIPostProcessSourceComponent0: {}
         UIAnimationComponent:
             animations: "SWITCH_SORT_TYPE, ~res:/UI/Screens3/Lobby/Profile/Animations/ScrollToStart.animation"
         LinearLayout:
@@ -26,7 +25,6 @@ Prototypes:
             params:
             - ["TanksRankConfigurationModel", "rankConfig", "null", "{ }"]
             - ["ProfileViewModel", "profile", "null", "{ }"]
-            - ["string", "maskProfile", "\"\"", "\"\""]
             events:
             - "ON_TANK_CLICKED"
             - "BUYOUT_TANKS"
@@ -45,8 +43,6 @@ Prototypes:
             eventName: "ON_SELECT_TAB"
             modelFieldExpression: "activeTab"
             dataExpression: "_event"
-    bindings:
-    - ["UIPostProcessSourceComponent0.id", "maskProfile"]
     children:
     -   prototype: "DynamicTopSpacer/DynamicTopSpacer"
         name: "DynamicTopSpacer"

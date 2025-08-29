@@ -468,6 +468,7 @@ Slots:
                     "serverTime": "serverTime"
                     "bgVisible": "true"
                     "bgColorStyle": "\"white-wild-sand-25-bg\""
+                    "isBlur": "false"
     -   class: "UIControl"
         name: "Control"
         input: false

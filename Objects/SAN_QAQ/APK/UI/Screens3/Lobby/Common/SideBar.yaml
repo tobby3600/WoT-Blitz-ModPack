@@ -20,6 +20,7 @@ Prototypes:
             params:
             - ["int", "rightSeparatorWidth", "0", "0"]
             - ["string", "bgStyle", "\"black-15-bg\"", "\"black-15-bg\""]
+            - ["bool", "isBlur", "true", "true"]
             - ["bool", "isBackVisible", "true", "true"]
             - ["int", "backButtonLayer", "0", "0"]
             - ["control", "content", "null", "ExampleContent"]
@@ -32,6 +33,7 @@ Prototypes:
         components:
             UIDataParamsComponent:
                 args:
+                    "isBlur": "isBlur"
                     "bgStyle": "bgStyle"
     -   class: "UIControl"
         name: "SafeAreaInsetLeft"

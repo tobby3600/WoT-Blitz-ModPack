@@ -33,6 +33,8 @@ Prototypes:
             - ["bool", "needHiglightShareBattleResults", "false", "false"]
             - ["AccountDataModel", "account", "null", "{ }"]
             - ["BattleResultsViewModel", "results", "null", "{ \"battleStats\" = { \"deathReason\" = ATTACK_REASONS.ATTACK; }; }"]
+            - ["string", "bgStyle", "\"\"", "\"\""]
+            - ["float", "blurOpacity", "1.000000", "1.000000"]
             events:
             - "STOP_ANIMATION"
             - "StopBlockInput"
@@ -113,7 +115,9 @@ Prototypes:
                     components:
                         UIDataParamsComponent:
                             args:
-                                "isBlur": "selectedTab != ePageType.TeamEffectiveness"
+                                "blurOpacity": "blurOpacity"
+                                "bgOpacity": "blurOpacity"
+                                "bgStyle": "bgStyle"
                                 "roundCorner": "\"8;8;0;0\""
                 -   class: "UIControl"
                     name: "Description"
@@ -269,8 +273,6 @@ Prototypes:
                     SizePolicy:
                         horizontalPolicy: "PercentOfMaxChild"
                         verticalPolicy: "PercentOfMaxChild"
-                    UIOpacityComponent:
-                        opacity: 1.000000
                     UIChildComponent0:
                         condition: "not isTutorialInProgress"
                         prototypePath: "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
@@ -279,6 +281,9 @@ Prototypes:
                             "imageSize": "32"
                             "image": "\"~res:/Gfx/Lobby/icons/icon_statistic_m\""
                             "isBgVisible": "selectedTab != ePageType.TeamEffectiveness"
+                            "bgStyle": "bgStyle"
+                            "blurOpacity": "blurOpacity"
+                            "bgOpacity": "blurOpacity"
                         eventActions:
                         - ["ON_CLICK_BUTTON", "OVERLAY_STATISTIC_SHOW_LOCAL", ""]
                     UIIdentifierComponent:
@@ -430,7 +435,7 @@ Prototypes:
                                 position: [0.000000, -1.000000]
                                 size: [32.000000, 32.000000]
                                 input: false
-                                classes: "t-body bold white-wild-sand-text align-right not-localize"
+                                classes: "t-body bold white-wild-sand-text align-right"
                                 components:
                                     UITextComponent:
                                         text: "+"
@@ -495,7 +500,7 @@ Prototypes:
                             -   class: "UIControl"
                                 name: "Plus"
                                 input: false
-                                classes: "t-body bold white-wild-sand-text align-right not-localize"
+                                classes: "t-body bold white-wild-sand-text align-right"
                                 components:
                                     UITextComponent:
                                         text: "+"
@@ -579,6 +584,9 @@ Prototypes:
                         components:
                             UIDataParamsComponent:
                                 args:
+                                    "blurOpacity": "blurOpacity"
+                                    "bgOpacity": "blurOpacity"
+                                    "bgStyle": "bgStyle"
                                     "roundCorner": "\"1;8;8;8\""
                     -   class: "UIControl"
                         name: "TankNameContent"

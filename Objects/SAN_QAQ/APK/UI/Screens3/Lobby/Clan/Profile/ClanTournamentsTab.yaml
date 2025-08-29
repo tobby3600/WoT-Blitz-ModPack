@@ -1,9 +1,8 @@
 Header:
     version: 151
 ImportedPackages:
-- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
 - "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ClanTournamentsTab"
@@ -67,12 +66,6 @@ Slots:
                 horizontalPolicy: "PercentOfMaxChild"
                 verticalPolicy: "PercentOfChildrenSum"
         children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
-            components:
-                UIDataParamsComponent:
-                    args:
-                        "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "Image"
             position: [0.000000, 20.000000]
@@ -86,12 +79,13 @@ Slots:
         -   class: "UIControl"
             name: "Text"
             input: false
-            classes: "t-overline bold color=white-wild-sand-text"
+            classes: "t-overline bold white-wild-sand-text"
             components:
                 Anchor:
                     hCenterAnchorEnabled: true
                 UITextComponent:
                     colorInheritType: "COLOR_IGNORE_PARENT"
+                    align: ["HCENTER", "VCENTER"]
                 SizePolicy:
                     horizontalPolicy: "PercentOfContent"
                     verticalPolicy: "PercentOfContent"
@@ -138,7 +132,8 @@ Slots:
                 Anchor:
                     vCenterAnchorEnabled: true
                 SizePolicy:
-                    horizontalPolicy: "PercentOfContent"
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 200.000000
                     verticalPolicy: "PercentOfContent"
                 StyleSheet:
                     styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
@@ -154,7 +149,8 @@ Slots:
                 Anchor:
                     vCenterAnchorEnabled: true
                 SizePolicy:
-                    horizontalPolicy: "PercentOfContent"
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 220.000000
                     verticalPolicy: "PercentOfContent"
                 StyleSheet:
                     styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
@@ -170,7 +166,8 @@ Slots:
                 Anchor:
                     vCenterAnchorEnabled: true
                 SizePolicy:
-                    horizontalPolicy: "PercentOfContent"
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 130.000000
                     verticalPolicy: "PercentOfContent"
                 StyleSheet:
                     styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
@@ -215,9 +212,6 @@ Slots:
                             "record": "_item"
                         eventActions:
                         - ["ON_CLICK_RECORD", "ON_CLICK_RECORD", "_index"]
-                        loadingPolicy: "Lazy"
-                        loadingDistance: 0.000000
-                        unloadingDistance: 0.000000
         -   prototype: "VerticalScrollBar/VerticalScrollBar"
             name: "VerticalScrollBar"
             components:

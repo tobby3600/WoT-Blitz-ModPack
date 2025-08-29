@@ -174,7 +174,7 @@
 		<vehicleFilter>
 			<include>
 				<vehicle>
-					<name>china:Ch37_WZ-111G_FT china:Ch36_WZ-111-1G_FT china:Ch35_T-34-2G_FT european:S18_EMIL_1951E1 european:S17_EMIL_1952E2 european:S16_Kranvagn germany:G121_Grille_15_L63 germany:Waffentrager_IV germany:RhB_Waffentrager germany:Sturer_Emil japan:J24_Type_57 usa:M-6-Y usa:M-5-Y usa:M-3-Y usa:M-7-Y ussr:Object_907 germany:Leopard1 germany:Pro_Ag_A germany:Indien_Panzer germany:VK3002DB european:Pl21_CS_63 germany:G119_Panzer58_SH japan:J31_Type_5_Ka_Ri uk:GB_FV301 uk:GB_Vickers_Cruiser uk:GB_Vickers_Light_105 ussr:R127_T44_100_P ussr:R111_ISU130 usa:A111_T25_Pilot germany:E-25 germany:Panther_M10 other:Oth52_Toxique france:F72_AMX_30 germany:G125_Spz_57_Rh germany:G98_Waffentrager_E100 other:Oth75_Braniaq_DM5 other:Oth77_Prowler usa:A175_ATAC</name>
+					<name>china:Ch37_WZ-111G_FT china:Ch36_WZ-111-1G_FT china:Ch35_T-34-2G_FT european:S18_EMIL_1951E1 european:S17_EMIL_1952E2 european:S16_Kranvagn germany:G121_Grille_15_L63 germany:Waffentrager_IV germany:RhB_Waffentrager germany:Sturer_Emil japan:J24_Type_57 usa:M-6-Y usa:M-5-Y usa:M-3-Y usa:M-7-Y ussr:Object_907 germany:Leopard1 germany:Pro_Ag_A germany:Indien_Panzer germany:VK3002DB european:Pl21_CS_63 germany:G119_Panzer58_SH japan:J31_Type_5_Ka_Ri japan:J38_Type_95_Ji_Ro uk:GB_FV301 uk:GB_Vickers_Cruiser uk:GB_Vickers_Light_105 ussr:R127_T44_100_P ussr:R111_ISU130 usa:A111_T25_Pilot germany:E-25 germany:Panther_M10 other:Oth52_Toxique france:F72_AMX_30 germany:G125_Spz_57_Rh germany:G98_Waffentrager_E100 other:Oth75_Braniaq_DM5 other:Oth77_Prowler usa:A175_ATAC</name>
 				</vehicle>
 			</include>
 		</vehicleFilter>

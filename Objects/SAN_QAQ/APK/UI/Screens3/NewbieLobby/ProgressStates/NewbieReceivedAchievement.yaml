@@ -1,0 +1,179 @@
+Header:
+    version: 143
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "NewbieReceivedAchievement"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/NewbieLobby/ProgressStates/Animations/NewbieReceivedAchievementInit.animation;FINISH,~res:/UI/Screens3/NewbieLobby/ProgressStates/Animations/NewbieReceivedAchievementFinish.animation;ON_SWITCH_ACCEPT,~res:/UI/Screens3/NewbieLobby/ProgressStates/Animations/NewbieButtonFinish.animation"
+        UIOpacityComponent: {}
+        Anchor:
+            hCenterAnchorEnabled: true
+            vCenterAnchorEnabled: true
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfMaxChild"
+            verticalPolicy: "PercentOfChildrenSum"
+        UIDataParamsComponent:
+            params:
+            - ["NewbieProgressViewModel", "newbieProgress", "null", "{ }"]
+            events:
+            - "ON_FINISHED"
+        UIDataLocalVarsComponent:
+            data:
+            - ["float", "positionShift", "0.000000"]
+            - ["bool", "inputDisabled", "false"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["AchievementViewModel", "achievement", "newbieProgress.lastReceivedAchievement"]
+        UIIdentifierComponent:
+            id: "newbie_received_achievement"
+            params: []
+    bindings:
+    - ["Anchor.hCenterAnchor", "positionShift"]
+    children:
+    -   class: "UIControl"
+        name: "Achievement"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 256.000000
+                verticalPolicy: "FixedSize"
+                verticalValue: 256.000000
+        children:
+        -   class: "UIParticles"
+            name: "AchievementEffect"
+            position: [128.000000, 128.000000]
+            size: [32.000000, 32.000000]
+            scale: [4.000000, 4.000000]
+            pivot: [0.500000, 0.500000]
+            angle: 0.000000
+            input: false
+            effectPath: "~res:/3d/FX/UI/DefaultGlow/DefaultGlow.sc2"
+            autoStart: true
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+        -   class: "UIControl"
+            name: "AchievementIcon"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                UITextureComponent:
+                    drawType: "DRAW_SCALE_PROPORTIONAL"
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 256.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 256.000000
+            bindings:
+            - ["UITextureComponent.spritePath", "achievement.iconPath"]
+    -   class: "UIControl"
+        name: "BottomPart"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 32.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfChildrenSum"
+        children:
+        -   class: "UIControl"
+            name: "AchievementInfo"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                LinearLayout:
+                    orientation: "TopDown"
+                    spacing: 16.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   class: "UIControl"
+                name: "AchievementCaption"
+                input: false
+                classes: "t-title regular color=white-wild-sand-text"
+                components:
+                    UITextComponent:
+                        text: "NewbieHangar/ReceivedAhievement"
+                        colorInheritType: "COLOR_IGNORE_PARENT"
+                        align: ["LEFT", "VCENTER"]
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "AchievementDescription"
+                input: false
+                components:
+                    RichContent:
+                        baseClasses: "t-subtitle regular color=white-wild-sand-70-text"
+                    RichContentAliases0:
+                        aliases:
+                        - ["text_white_bold", "<span class=\"t-subtitle bold white-wild-sand-text\" />"]
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfMaxChild"
+                    FlowLayout:
+                        alignment: "Center"
+                        hSpacing: 5.000000
+                        useRtl: true
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["RichContent.text", "achievement.conditions"]
+        -   class: "UIControl"
+            name: "ButtonContainer"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfFirstChild"
+            bindings:
+            - ["Anchor.hCenterAnchor", "-positionShift"]
+            children:
+            -   prototype: "Button/Button"
+                name: "Button"
+                components:
+                    UIOpacityComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    UIDataParamsComponent:
+                        args:
+                            "caption": "\"#common:DialogButton/OK\""
+                            "inputDisabled": "inputDisabled"
+                        eventActions:
+                        - ["ON_CLICK_BUTTON", "FINISH", ""]
+                    UIIdentifierComponent:
+                        id: "ok_button"
+                        params:
+                        - ["bool", "input_enabled", "not bool(inputDisabled)"]

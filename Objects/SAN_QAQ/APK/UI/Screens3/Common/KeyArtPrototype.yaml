@@ -3,7 +3,6 @@ Header:
 Prototypes:
 -   class: "UIControl"
     name: "KeyArt"
-    size: [1024.000000, 768.000000]
     input: false
     components:
         Anchor:
@@ -20,7 +19,6 @@ Prototypes:
     children:
     -   class: "UIControl"
         name: "Holder"
-        position: [512.000000, 384.000000]
         size: [1364.000000, 768.000000]
         pivot: [0.500000, 0.500000]
         input: false
@@ -34,8 +32,6 @@ Prototypes:
         children:
         -   class: "UIControl"
             name: "sprite"
-            position: [0.000000, 0.000000]
-            size: [1024.000000, 768.000000]
             input: false
             components:
                 Anchor:
@@ -49,3 +45,51 @@ Prototypes:
             bindings:
             - ["Background.spriteResource", "spriteResource"]
             - ["Background.sprite", "\"~res:/Gfx/UI/KeyArt/keyart\""]
+    -   class: "UIControl"
+        name: "FadesWrapper"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "TopFade"
+            input: false
+            classes: "black-35-bg"
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    topAnchorEnabled: true
+                IgnoreLayout: {}
+                Background:
+                    drawType: "DRAW_SCALE_TO_RECT"
+                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_vertical_0-100"
+                    spriteModification: ["FLIP_VERTICAL"]
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                    verticalValue: 47.500000
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+        -   class: "UIControl"
+            name: "BottomFade"
+            input: false
+            classes: "black-35-bg"
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                Background:
+                    drawType: "DRAW_STRETCH_BOTH"
+                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_vertical_0-100"
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                    verticalValue: 47.500000
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"

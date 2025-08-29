@@ -1,0 +1,540 @@
+Header:
+    version: 143
+Prototypes:
+-   class: "UIControl"
+    name: "RatingStat"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/Lobby/BattleResults/Personal/RatingStat.animation"
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            verticalPolicy: "FixedSize"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "isFirstShow", "false", "false"]
+            - ["RatingBattleModel", "rating", "null", "{ \"leagueType\" = eLeague.PLATINUM; \"currentRating\" = 4270; \"difference\" = 0; \"state\" = eBattleRatingState.CALIBRATION; \"calibrationBattlesLeft\" = 2; }"]
+            - ["bool", "isBigSize", "false", "true"]
+            events:
+            - "END_RATING_ANIMATION"
+        UIDataLocalVarsComponent:
+            data:
+            - ["float", "animationTime", "0.800000"]
+            - ["bool", "isRatingBattle", "rating.state == eBattleRatingState.HAS_RATING"]
+            - ["bool", "isFirstShowLocal", "isFirstShow"]
+            - ["eLeague", "currentleagueFromServer", "rating.leagueType"]
+            - ["eLeagueParts", "currentLeaguePartsFromServer", "when isRatingBattle -> toEnum(currentleagueFromServer, eLeagueParts), eLeagueParts.Calibration"]
+            - ["int", "minScaleValueFromServer", "strToInt(str(currentLeaguePartsFromServer, eLeagueParts, \"minScaleValue\"))"]
+            - ["int", "maxScaleValueFromServer", "strToInt(str(currentLeaguePartsFromServer, eLeagueParts, \"maxScaleValue\"))"]
+            - ["bool", "isDecreaseLeague", "isRatingBattle and (rating.currentRating - rating.difference > maxScaleValueFromServer)"]
+            - ["bool", "isIncreaseLeague", "isRatingBattle and (rating.currentRating - rating.difference < minScaleValueFromServer)"]
+            - ["int", "currentLeague", "when isIncreaseLeague -> int(rating.leagueType) - 1, when isDecreaseLeague -> int(rating.leagueType) + 1, int(rating.leagueType)"]
+            - ["eLeagueParts", "currentLeagueParts", "when isRatingBattle -> toEnum(currentLeague, eLeagueParts), eLeagueParts.Calibration"]
+            - ["eLeagueParts", "nextLeagueParts", "toEnum((currentLeague + 1), eLeagueParts)"]
+            - ["eLeagueParts", "previousLeagueParts", "when currentLeague < 1 -> currentLeagueParts, toEnum((currentLeague - 1), eLeagueParts)"]
+            - ["int", "minScaleValue", "strToInt(str(currentLeagueParts, eLeagueParts, \"minScaleValue\"))"]
+            - ["int", "maxScaleValue", "strToInt(str(currentLeagueParts, eLeagueParts, \"maxScaleValue\"))"]
+            - ["eLeagueParts", "currentLeagueChangedParts", "when isIncreaseLeague -> nextLeagueParts, isDecreaseLeague -> previousLeagueParts, eLeagueParts.Calibration"]
+            - ["eLeagueParts", "nextLeagueChangedParts", "when isIncreaseLeague -> toEnum((currentLeague + 2), eLeagueParts), isDecreaseLeague -> toEnum(currentLeague, eLeagueParts), eLeagueParts.Calibration"]
+            - ["string", "changedColorStyle", "when isIncreaseLeague -> str(nextLeagueParts, eLeagueParts, \"color\"), str(previousLeagueParts, eLeagueParts, \"color\")"]
+            - ["string", "currentColorStyle", "when (isIncreaseLeague or isDecreaseLeague) and not isFirstShow -> changedColorStyle, str(currentLeagueParts, eLeagueParts, \"color\")"]
+            - ["bool", "isNextLeagueBannerVisible", "isRatingBattle and currentLeague != 4"]
+            - ["bool", "isProgressVisible", "(not isRatingBattle) or currentLeague != 4"]
+            - ["int", "startValue", "0"]
+            - ["int", "endValueRating", "rating.currentRating"]
+            - ["int", "endValueRatingDiff", "abs(rating.difference)"]
+            - ["int", "currentValueRating", "0"]
+            - ["int", "currentValueRatingDiff", "0"]
+            - ["string", "ratingFontSizeStyle", "when isBigSize -> \"t-content-h1\", \"t-content-h2\""]
+            - ["string", "ratingDiffColorStyle", "when rating.difference > 0 -> \"green-green\", \"red-red\""]
+            - ["int", "nextLeagueBannerDistance", "when isBigSize -> 35, 28"]
+            - ["int", "nextLeagueBannerSize", "when isBigSize -> 104, 88"]
+            - ["string", "animatedBannerControl", "when isIncreaseLeague -> \"**/NextLeagueBanner\", \"**/CurrentLeagueWrapper\""]
+            - ["int", "moveDistance", "when isIncreaseLeague -> 110, -110"]
+            - ["bool", "progressBarFinished", "false"]
+    bindings:
+    - ["SizePolicy.horizontalValue", "when isBigSize -> 496, 424"]
+    - ["SizePolicy.verticalValue", "when isBigSize -> 136, 120"]
+    children:
+    -   class: "UIControl"
+        name: "CurrentLeagueWrapper"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            UIOpacityComponent: {}
+            Anchor:
+                leftAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["SizePolicy.horizontalValue", "when isBigSize -> 136, 120"]
+        children:
+        -   class: "UIControl"
+            name: "RatingBg"
+            input: false
+            components:
+                UIOpacityComponent:
+                    opacity: 0.400000
+                Anchor:
+                    vCenterAnchorEnabled: true
+                    vCenterAnchor: 16.000000
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 254.000000
+            children:
+            -   class: "UIControl"
+                name: "Small"
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_STRETCH_BOTH"
+                        sprite: "~res:/Gfx/UI/ProfileScreen/rating_gradient.psd"
+                        frame: 0
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        topAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 20.000000
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["classes", "currentColorStyle + \"-bg\""]
+            -   class: "UIControl"
+                name: "Medium"
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_STRETCH_BOTH"
+                        sprite: "~res:/Gfx/UI/ProfileScreen/rating_gradient.psd"
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        topAnchorEnabled: true
+                        topAnchor: 20.000000
+                        bottomAnchorEnabled: true
+                        bottomAnchor: 20.000000
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 40.000000
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["classes", "currentColorStyle + \"-bg\""]
+            -   class: "UIControl"
+                name: "Big"
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_STRETCH_BOTH"
+                        sprite: "~res:/Gfx/UI/ProfileScreen/rating_gradient.psd"
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        topAnchorEnabled: true
+                        topAnchor: 40.000000
+                        bottomAnchorEnabled: true
+                        bottomAnchor: 40.000000
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 60.000000
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["classes", "currentColorStyle + \"-bg\""]
+        -   class: "UIControl"
+            name: "CurrentLeagueBanner"
+            size: [32.000000, 32.000000]
+            scale: [1.000000, 1.000000]
+            pivot: [0.500000, 0.500000]
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_SCALE_TO_RECT"
+                UIOpacityComponent:
+                    opacity: 1.000000
+                Anchor:
+                    leftAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            bindings:
+            - ["Background.sprite", "when (isIncreaseLeague or isDecreaseLeague) and not isFirstShow -> str(currentLeagueChangedParts, eLeagueParts, \"icon\"), str(currentLeagueParts, eLeagueParts, \"icon\")"]
+    -   class: "UIControl"
+        name: "CurrentLeagueWrapperChanged"
+        size: [32.000000, 32.000000]
+        pivot: [0.500000, 0.500000]
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["SizePolicy.horizontalValue", "when isBigSize -> 136, 120"]
+        children:
+        -   class: "UIControl"
+            name: "RatingBg"
+            input: false
+            components:
+                UIOpacityComponent:
+                    opacity: 0.000000
+                Anchor:
+                    vCenterAnchorEnabled: true
+                    vCenterAnchor: 16.000000
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 254.000000
+            children:
+            -   class: "UIControl"
+                name: "Small"
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_STRETCH_BOTH"
+                        sprite: "~res:/Gfx/UI/ProfileScreen/rating_gradient.psd"
+                        frame: 0
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        topAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 20.000000
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["classes", "currentColorStyle + \"-bg\""]
+            -   class: "UIControl"
+                name: "Medium"
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_STRETCH_BOTH"
+                        sprite: "~res:/Gfx/UI/ProfileScreen/rating_gradient.psd"
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        topAnchorEnabled: true
+                        topAnchor: 20.000000
+                        bottomAnchorEnabled: true
+                        bottomAnchor: 20.000000
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 40.000000
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["classes", "currentColorStyle + \"-bg\""]
+            -   class: "UIControl"
+                name: "Big"
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_STRETCH_BOTH"
+                        sprite: "~res:/Gfx/UI/ProfileScreen/rating_gradient.psd"
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        topAnchorEnabled: true
+                        topAnchor: 40.000000
+                        bottomAnchorEnabled: true
+                        bottomAnchor: 40.000000
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 60.000000
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["classes", "currentColorStyle + \"-bg\""]
+        -   class: "UIControl"
+            name: "CurrentLeagueBannerChanged"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_SCALE_TO_RECT"
+                UIOpacityComponent:
+                    opacity: 0.000000
+                Anchor:
+                    leftAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            bindings:
+            - ["Background.sprite", "str(currentLeagueChangedParts, eLeagueParts, \"icon\")"]
+            - ["Anchor.vCenterAnchor", "when isIncreaseLeague -> -110, 110"]
+    -   class: "UIControl"
+        name: "ContentWrapper"
+        position: [152.000000, 0.000000]
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+                padding: "12; 0"
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["SizePolicy.horizontalValue", "when isBigSize -> 344, 296"]
+        children:
+        -   class: "UIControl"
+            name: "LabelWrapper"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                LinearLayout:
+                    spacing: 16.000000
+                SizePolicy:
+                    horizontalPolicy: "Formula"
+                    horizontalFormula: "parent -(nextLeagueBannerSize - nextLeagueBannerDistance)"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "LabelGroup"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfFirstChild"
+                        verticalPolicy: "PercentOfFirstChild"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                children:
+                -   class: "UIControl"
+                    name: "Label"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        UIOpacityComponent: {}
+                        Anchor:
+                            leftAnchorEnabled: true
+                            leftAnchor: 0.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfFirstChild"
+                            verticalPolicy: "PercentOfFirstChild"
+                        UIChildComponent0:
+                            prototypePath: "~res:/UI/Screens3/Lobby/Common/RatingLeagueLabel.yaml"
+                            args:
+                                "league": "when (not isFirstShowLocal and (isIncreaseLeague or isDecreaseLeague)) -> currentLeagueChangedParts, currentLeagueParts"
+                    bindings:
+                    - ["UIOpacityComponent.opacity", "when isFirstShowLocal -> 0, 1"]
+            -   class: "UIControl"
+                name: "Line"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_TO_RECT"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                        spriteModification: ["FLIP_HORIZONTAL"]
+                    UIOpacityComponent:
+                        opacity: 1.000000
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["classes", "currentColorStyle + \"-bg\""]
+        -   class: "UIControl"
+            name: "RatingHolder"
+            position: [0.000000, 40.000000]
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                UIOpacityComponent:
+                    opacity: 1.000000
+                LinearLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfFirstChild"
+                UIChildComponent0:
+                    childType: "kControl"
+                    condition: "isRatingBattle"
+                    control: "Rating"
+                UIChildComponent1:
+                    childType: "kControl"
+                    condition: "not isRatingBattle"
+                    control: "Calibration"
+        -   class: "UIControl"
+            name: "ProgressWrapper"
+            position: [0.000000, 104.000000]
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                LinearLayout: {}
+                SizePolicy:
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 22.000000
+                UIChildComponent0:
+                    condition: "isProgressVisible"
+                    prototypePath: "~res:/UI/Screens3/Lobby/BattleResults/Personal/Progress.yaml"
+                    args:
+                        "isFirstShow": "isFirstShowLocal"
+                        "delta": "when isRatingBattle -> rating.difference, 0"
+                        "value": "when isRatingBattle -> rating.currentRating, rating.calibrationBattlesCount - rating.calibrationBattlesLeft"
+                        "maxValue": "when isRatingBattle -> maxScaleValue, rating.calibrationBattlesCount"
+                        "minValue": "when isRatingBattle -> minScaleValue, 0"
+                        "minValueSecondShow": "when isIncreaseLeague -> strToInt(str(nextLeagueParts, eLeagueParts, \"minScaleValue\")), isDecreaseLeague -> strToInt(str(previousLeagueParts, eLeagueParts, \"minScaleValue\")), 0"
+                        "maxValueSecondShow": "when isIncreaseLeague -> strToInt(str(nextLeagueParts, eLeagueParts, \"maxScaleValue\")), isDecreaseLeague -> strToInt(str(previousLeagueParts, eLeagueParts, \"maxScaleValue\")), 0"
+                        "parentWidth": "when isBigSize -> 344.000000, 296.000000"
+            bindings:
+            - ["visible", "isProgressVisible"]
+    -   class: "UIControl"
+        name: "NextLeagueBanner"
+        position: [427.000000, 16.000000]
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+            UIOpacityComponent:
+                opacity: 1.000000
+            Anchor:
+                rightAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            IgnoreLayout: {}
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "FixedSize"
+        bindings:
+        - ["visible", "isNextLeagueBannerVisible"]
+        - ["Background.sprite", "when (isIncreaseLeague or isDecreaseLeague) and not isFirstShow -> str(nextLeagueChangedParts, eLeagueParts, \"gradientIcon\"), str(nextLeagueParts, eLeagueParts, \"gradientIcon\")"]
+        - ["Anchor.rightAnchor", "-nextLeagueBannerDistance"]
+        - ["SizePolicy.horizontalValue", "nextLeagueBannerSize"]
+        - ["SizePolicy.verticalValue", "nextLeagueBannerSize"]
+    -   class: "UIControl"
+        name: "NextLeagueBannerChanged"
+        position: [365.000000, 16.000000]
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+            UIOpacityComponent:
+                opacity: 0.000000
+            Anchor:
+                rightAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            IgnoreLayout: {}
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "FixedSize"
+        bindings:
+        - ["visible", "isNextLeagueBannerVisible"]
+        - ["Background.sprite", "str(nextLeagueChangedParts, eLeagueParts, \"gradientIcon\")"]
+        - ["Anchor.rightAnchor", "-nextLeagueBannerDistance"]
+        - ["Anchor.vCenterAnchor", "when isIncreaseLeague -> -110, 110"]
+        - ["SizePolicy.horizontalValue", "nextLeagueBannerSize"]
+        - ["SizePolicy.verticalValue", "nextLeagueBannerSize"]
+Slots:
+-   class: "UIControl"
+    name: "Calibration"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        UITextComponent: {}
+        Anchor:
+            leftAnchorEnabled: true
+            useRtl: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfContent"
+            verticalPolicy: "PercentOfContent"
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Font.style.yaml"
+    bindings:
+    - ["classes", "ratingFontSizeStyle + \" \" + \"bold white-wild-sand-text\""]
+    - ["UITextComponent.text", "str(rating.calibrationBattlesCount - rating.calibrationBattlesLeft) + \"/\" + str(rating.calibrationBattlesCount) + \" \" + localize(\"#BattleResults:Personal/League/Battles\")"]
+-   class: "UIControl"
+    name: "Rating"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        LinearLayout:
+            spacing: 12.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "PercentOfMaxChild"
+    children:
+    -   class: "UIControl"
+        name: "Value"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            UITextComponent: {}
+            Anchor:
+                leftAnchorEnabled: true
+                useRtl: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfContent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml"
+        bindings:
+        - ["classes", "ratingFontSizeStyle + \" \" + \"bold white-wild-sand-text\""]
+        - ["UITextComponent.text", "when isFirstShowLocal -> str1000Separated(currentValueRating), str1000Separated(rating.currentRating)"]
+    -   class: "UIControl"
+        name: "RatingDiffWrapper"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            UIOpacityComponent: {}
+            LinearLayout:
+                spacing: 12.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfLastChild"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml"
+        bindings:
+        - ["visible", "rating.difference != 0"]
+        - ["UIOpacityComponent.opacity", "when isFirstShowLocal -> 0, 1"]
+        children:
+        -   class: "UIControl"
+            name: "UpDownMark"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_ALIGNED"
+                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_triangle_8"
+                    perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                Anchor:
+                    vCenterAnchorEnabled: true
+                    vCenterAnchor: 2.000000
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 13.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 13.000000
+            bindings:
+            - ["classes", "ratingDiffColorStyle + \"-bg\""]
+            - ["Background.spriteModification", "when rating.difference > 0 -> 0, 2"]
+        -   class: "UIControl"
+            name: "RatingDiff"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                UITextComponent: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+            bindings:
+            - ["classes", "ratingDiffColorStyle + \"-text\" + \" \" + ratingFontSizeStyle + \" \" + \"bold\""]
+            - ["UITextComponent.text", "when isFirstShowLocal -> currentValueRatingDiff, abs(rating.difference)"]

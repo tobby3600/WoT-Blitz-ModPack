@@ -40,24 +40,14 @@ Prototypes:
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
-    -   class: "UIControl"
+    -   prototype: "BlurModified/BlurModified"
         name: "Background"
-        input: false
         components:
-            IgnoreLayout: {}
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfParent"
-        bindings:
-        - ["visible", "showBg"]
-        children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
-            components:
-                UIDataParamsComponent:
-                    args:
-                        "isBlur": "isBlur"
-                        "bgStyle": "bgStyle"
+            UIDataParamsComponent:
+                args:
+                    "isVisible": "showBg"
+                    "isBlur": "isBlur"
+                    "bgStyle": "bgStyle"
     -   class: "UIControl"
         name: "ContentWrapper"
         input: false

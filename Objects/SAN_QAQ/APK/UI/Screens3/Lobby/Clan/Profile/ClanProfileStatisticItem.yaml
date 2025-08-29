@@ -1,0 +1,121 @@
+Header:
+    version: 151
+Prototypes:
+-   class: "UIControl"
+    name: "ClanProfileStatisticItem"
+    size: [120.000000, 184.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            horizontalMin: 100.000000
+            horizontalMax: 144.000000
+            verticalPolicy: "FixedSize"
+            verticalValue: 184.000000
+        UIDataParamsComponent:
+            params:
+            - ["bool", "isMembers", "false", "true"]
+            - ["bool", "isSupplyLvl", "false", "true"]
+            - ["int", "horizontalShift", "0", "0"]
+            - ["string", "textColor", "\"white-wild-sand-text\"", "\"white-wild-sand-text\""]
+            - ["string", "iconPath", "\"\"", "\"~res:/Gfx/Lobby/icons/icon_clans_xl\""]
+            - ["string", "statText", "\"\"", "\"2430\""]
+            - ["string", "statTextStyle", "\"t-headline bold\"", "\"t-headline bold\""]
+            - ["string", "description", "\"\"", "\"#СРЕДНЕЕ ТЕСТОВОЕ ОПИСАНИЕ\""]
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+    children:
+    -   class: "UIControl"
+        name: "Icon"
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_PROPORTIONAL"
+            UIGradientComponent:
+                startColor: [1.000000, 1.000000, 1.000000, 0.500000]
+                finishColor: [1.000000, 1.000000, 1.000000, 0.000000]
+                orientation: "TopDown"
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+                vCenterAnchor: -20.000000
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "FixedSize"
+        bindings:
+        - ["Background.sprite", "iconPath"]
+    -   class: "UIControl"
+        name: "SupplyBg"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                hCenterAnchor: -2.000000
+                vCenterAnchorEnabled: true
+                vCenterAnchor: 9.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                condition: "isSupplyLvl"
+                prototypePath: "~res:/UI/Screens3/Lobby/Clan/Profile/Supply/ClanSupplyProgressBarPoint.yaml"
+                args:
+                    "size": "eClanSupplyPointsSize.Medium"
+                    "imagePath": "\"~res:/Gfx/Lobby/backgrounds/bg_clan_level\""
+        bindings:
+        - ["visible", "isSupplyLvl"]
+    -   class: "UIControl"
+        name: "Wrapper"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+                vCenterAnchor: 10.000000
+            LinearLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfMaxChild"
+        bindings:
+        - ["Anchor.hCenterAnchor", "horizontalShift"]
+        children:
+        -   class: "UIControl"
+            name: "Statistic"
+            input: false
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                UITextComponent: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+            bindings:
+            - ["classes", "statTextStyle + \" \" + textColor"]
+            - ["UITextComponent.text", "statText"]
+        -   class: "UIControl"
+            name: "Members"
+            input: false
+            classes: "t-headline bold white-wild-sand-50-text"
+            components:
+                UITextComponent:
+                    text: " / 50"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+            bindings:
+            - ["visible", "isMembers"]
+    -   class: "UIControl"
+        name: "Description"
+        position: [18.000000, 124.000000]
+        input: false
+        classes: "t-overline bold white-wild-sand-50-text"
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            UITextComponent:
+                multiline: "MULTILINE_ENABLED"
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfContent"
+        bindings:
+        - ["UITextComponent.text", "capitalize(localize(description))"]

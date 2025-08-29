@@ -1,0 +1,39 @@
+Header:
+    version: 130
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "Button"
+    size: [471.000000, 150.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfChildrenSum"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "isSelected", "false", "true"]
+            - ["string", "clusterName", "\"\"", "\"CLUSTER_1\""]
+            events:
+            - "CLUSTER_CHOOSE"
+        UIIdentifierComponent:
+            id: "cluster_button"
+            params:
+            - ["string", "cluster_name", "clusterName"]
+    children:
+    -   prototype: "Button/Button"
+        name: "ClusterAutoButton"
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+            UIDataParamsComponent:
+                args:
+                    "size": "eButtonSize.NORMAL"
+                    "type": "when isSelected -> eButtonType.ALTERNATIVE, eButtonType.OPTIONAL_LIGHT"
+                    "caption": "clusterName"
+                    "isBlur": "isSelected"
+                eventActions:
+                - ["ON_CLICK_BUTTON", "CLUSTER_CHOOSE", ""]

@@ -1,0 +1,69 @@
+Header:
+    version: 84
+Prototypes:
+-   class: "UIControl"
+    name: "HistogramWithValue"
+    input: false
+    components:
+        Anchor:
+            bottomAnchorEnabled: true
+        LinearLayout:
+            orientation: "BottomUp"
+            spacing: 8.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfFirstChild"
+            verticalPolicy: "PercentOfChildrenSum"
+        UIDataParamsComponent:
+            params:
+            - ["int", "baseHistogramValue", "0", "224"]
+            - ["string", "colorStyle", "\"\"", "\"\""]
+            - ["int", "maxHistogramValue", "0", "100"]
+            - ["int", "histogramValue", "0", "80"]
+        UIDataLocalsComponent:
+            locals:
+            - ["int", "histogramValueNormalized", "when maxHistogramValue > 0 -> int(float(baseHistogramValue) * float(histogramValue) / float(maxHistogramValue)), 0"]
+    children:
+    -   class: "UIControl"
+        name: "ProgressContainer"
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 12.000000
+                verticalPolicy: "FixedSize"
+        bindings:
+        - ["SizePolicy.verticalValue", "max(histogramValueNormalized, 1)"]
+        children:
+        -   class: "UIControl"
+            name: "Progress"
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_FILL"
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["classes", "colorStyle"]
+    -   class: "UIControl"
+        name: "Value"
+        input: false
+        classes: "t-caption bold white-wild-sand-text"
+        components:
+            UITextComponent: {}
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfContent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+        bindings:
+        - ["UITextComponent.text", "histogramValue"]

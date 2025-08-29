@@ -4,7 +4,6 @@ ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Common/Button.yaml"
 - "~res:/UI/Screens3/Lobby/Common/InfoIcon.yaml"
 - "~res:/UI/Screens3/Common/Loaders/LoaderCircle.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "RatingScreen"
@@ -32,7 +31,6 @@ Prototypes:
             - ["string", "endDate", "model.ratingSeasonInfo.endDate"]
             - ["float", "screenSizeX", "800"]
             - ["bool", "isSelfProfile", "profile.profileType == ePlayerProfileType.SELF"]
-            - ["bool", "showLeaderbord", "not app.netease.neteaseAvailable"]
             - ["eBattleRatingState", "state", "model.rating.state"]
             - ["bool", "isNoRating", "state == eBattleRatingState.NO_RATING"]
             - ["bool", "isCalibration", "state == eBattleRatingState.CALIBRATION"]
@@ -52,7 +50,6 @@ Prototypes:
             - ["bool", "hasCamoReward", "not isNull(model.platinumCamo) or not isNull(model.diamondCamo)"]
             - ["string", "noRatingText", "format(localize(\"ratingBattles/calibration/hangar/seasonReset\"), { \"battles_total\" = battles_total; })"]
             - ["bool", "isRewardsButtonVisible", "model.hasRatingRewards and model.ratingSeasonInfo.ratingBattlesAvailable"]
-            - ["bool", "isChina", "app.netease.neteaseAvailable"]
         UIDataLocalBindingsComponent:
             data:
             - ["float", "maxWidth", "when screenSizeX == 800 -> 978.000000, 1284.000000"]
@@ -74,6 +71,8 @@ Prototypes:
                 "content": "SliderContent"
                 "imageFromClient": "\"~res:/Gfx/Lobby/backgrounds/bg_sparks\""
                 "modifiedBg": "true"
+                "isBlurMask": "true"
+                "blurMaskID": "\"rating\""
             eventActions:
             - ["BACK_EVENT", "BACK_EVENT", ""]
             - ["OVERLAY_OPEN_FINISH", "OVERLAY_OPEN_FINISH", ""]
@@ -136,12 +135,6 @@ Slots:
                 horizontalPolicy: "PercentOfMaxChild"
                 verticalPolicy: "PercentOfChildrenSum"
         children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
-            components:
-                UIDataParamsComponent:
-                    args:
-                        "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "Icon"
             input: false
@@ -191,13 +184,16 @@ Slots:
             name: "Date"
             position: [1.000000, 149.000000]
             input: false
+            classes: "white-wild-sand-15-bg"
             components:
                 Anchor:
                     leftAnchorEnabled: true
                     leftAnchor: -12.000000
+                Background: {}
+                UIRoundedCornersComponent:
+                    radius: "4"
                 SizePolicy:
-                    horizontalPolicy: "FixedSize"
-                    horizontalValue: 200.000000
+                    horizontalPolicy: "PercentOfMaxChild"
                     verticalPolicy: "FixedSize"
                     verticalValue: 30.000000
                 UIChildComponent0:
@@ -205,6 +201,8 @@ Slots:
                     args:
                         "startDate": "startDate"
                         "endDate": "endDate"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
             bindings:
             - ["visible", "startDate != \"\""]
     -   class: "UIControl"
@@ -221,22 +219,22 @@ Slots:
         -   class: "UIControl"
             name: "RatingContent"
             input: false
+            classes: "white-wild-sand-15-bg"
             components:
                 Anchor:
                     rightAnchorEnabled: true
                     vCenterAnchorEnabled: true
+                Background: {}
+                UIRoundedCornersComponent:
+                    radius: "8"
                 LinearLayout:
-                    spacing: 16.000000
+                    orientation: "TopDown"
                 SizePolicy:
                     horizontalPolicy: "PercentOfChildrenSum"
                     verticalPolicy: "PercentOfMaxChild"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
             children:
-            -   prototype: "BlurModified/BlurModified"
-                name: "Blur"
-                components:
-                    UIDataParamsComponent:
-                        args:
-                            "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "NoRatingText"
                 input: false
@@ -259,115 +257,44 @@ Slots:
                 - ["visible", "isNoRating"]
                 - ["RichContent.text", "noRatingText"]
             -   class: "UIControl"
-                name: "CurrentRating"
+                name: "Spacer"
                 input: false
                 components:
-                    LinearLayout:
-                        orientation: "TopDown"
                     SizePolicy:
-                        horizontalPolicy: "PercentOfMaxChild"
-                        verticalPolicy: "PercentOfChildrenSum"
-                    StyleSheet:
-                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 8.000000
                 bindings:
                 - ["visible", "not isCalibration and not isNoRating"]
-                children:
-                -   class: "UIControl"
-                    name: "Caption"
-                    position: [9.000000, 8.000000]
-                    input: false
-                    classes: "t-caps bold white-wild-sand-text"
-                    components:
-                        UITextComponent: {}
-                        Anchor:
-                            hCenterAnchorEnabled: true
-                        SizePolicy:
-                            horizontalPolicy: "FixedSize"
-                            horizontalValue: 148.000000
-                            verticalPolicy: "PercentOfContent"
-                    bindings:
-                    - ["UITextComponent.text", "when isSelfProfile -> capitalize(localize(\"ratingBattles/infoScreen/currentRatingMine\")), capitalize(localize(\"ratingBattles/infoScreen/currentRatingOther\"))"]
-                -   class: "UIControl"
-                    name: "Value"
-                    input: false
-                    classes: "t-content-h2 bold yellow-submarine-text not-localize"
-                    components:
-                        UITextComponent: {}
-                        UIShadowComponent:
-                            blurType: "Gauss"
-                            color: [1.000000, 0.164706, 0.000000, 1.000000]
-                            indent: 16
-                            canBeDelayed: true
-                        Anchor:
-                            hCenterAnchorEnabled: true
-                        SizePolicy:
-                            horizontalPolicy: "FixedSize"
-                            horizontalValue: 148.000000
-                            verticalPolicy: "PercentOfContent"
-                    bindings:
-                    - ["UITextComponent.text", "str1000Separated(model.rating.currentRating)"]
             -   class: "UIControl"
-                name: "CurrentPosition"
-                position: [124.000000, 0.000000]
+                name: "IsRatingContent"
                 input: false
                 components:
                     LinearLayout:
-                        orientation: "TopDown"
+                        spacing: 16.000000
                     SizePolicy:
-                        horizontalPolicy: "PercentOfMaxChild"
-                        verticalPolicy: "PercentOfChildrenSum"
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfMaxChild"
                 bindings:
                 - ["visible", "not isCalibration and not isNoRating"]
                 children:
                 -   class: "UIControl"
-                    name: "Caption"
-                    input: false
-                    classes: "t-caps bold white-wild-sand-text"
-                    components:
-                        UITextComponent: {}
-                        Anchor:
-                            hCenterAnchorEnabled: true
-                        SizePolicy:
-                            horizontalPolicy: "FixedSize"
-                            horizontalValue: 148.000000
-                            verticalPolicy: "PercentOfContent"
-                        StyleSheet:
-                            styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
-                    bindings:
-                    - ["UITextComponent.text", "when isSelfProfile -> capitalize(localize(\"ratingBattles/infoScreen/currentPositionMine\")), capitalize(localize(\"ratingBattles/infoScreen/currentPositionOther\"))"]
-                -   class: "UIControl"
-                    name: "ValueWrapper"
+                    name: "CurrentRating"
                     input: false
                     components:
                         LinearLayout:
                             orientation: "TopDown"
                         SizePolicy:
                             horizontalPolicy: "PercentOfMaxChild"
-                            verticalPolicy: "FixedSize"
-                            verticalValue: 68.000000
-                    bindings:
-                    - ["visible", "hasRatingPosition"]
+                            verticalPolicy: "PercentOfChildrenSum"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml"
                     children:
                     -   class: "UIControl"
-                        name: "Value"
+                        name: "Caption"
+                        position: [9.000000, 8.000000]
                         input: false
-                        classes: "t-content-h2 bold white-wild-sand-text not-localize"
-                        components:
-                            UITextComponent: {}
-                            Anchor:
-                                hCenterAnchorEnabled: true
-                            SizePolicy:
-                                horizontalPolicy: "PercentOfContent"
-                                horizontalMin: 148.000000
-                                verticalPolicy: "PercentOfContent"
-                            StyleSheet:
-                                styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
-                        bindings:
-                        - ["UITextComponent.text", "playerPosition"]
-                    -   class: "UIControl"
-                        name: "GeneralValue"
-                        input: false
-                        classes: "t-body bold white-wild-sand-50-text not-localize"
+                        classes: "t-caps bold white-wild-sand-text"
                         components:
                             UITextComponent: {}
                             Anchor:
@@ -376,58 +303,157 @@ Slots:
                                 horizontalPolicy: "FixedSize"
                                 horizontalValue: 148.000000
                                 verticalPolicy: "PercentOfContent"
-                            StyleSheet:
-                                styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
                         bindings:
-                        - ["UITextComponent.text", "totalPlayers"]
+                        - ["UITextComponent.text", "when isSelfProfile -> capitalize(localize(\"ratingBattles/infoScreen/currentRatingMine\")), capitalize(localize(\"ratingBattles/infoScreen/currentRatingOther\"))"]
+                    -   class: "UIControl"
+                        name: "Value"
+                        input: false
+                        classes: "t-content-h2 bold yellow-submarine-text"
+                        components:
+                            UITextComponent: {}
+                            UIShadowComponent:
+                                blurType: "Gauss"
+                                color: [1.000000, 0.164706, 0.000000, 1.000000]
+                                indent: 16
+                                canBeDelayed: true
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 148.000000
+                                verticalPolicy: "PercentOfContent"
+                        bindings:
+                        - ["UITextComponent.text", "str1000Separated(model.rating.currentRating)"]
                 -   class: "UIControl"
-                    name: "LoadingCircleWrapper"
+                    name: "CurrentPosition"
+                    position: [124.000000, 0.000000]
                     input: false
                     components:
                         LinearLayout:
                             orientation: "TopDown"
                         SizePolicy:
-                            horizontalPolicy: "FixedSize"
-                            horizontalValue: 148.000000
-                            verticalPolicy: "FixedSize"
-                            verticalValue: 68.000000
-                    bindings:
-                    - ["visible", "not hasRatingPosition"]
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfChildrenSum"
                     children:
                     -   class: "UIControl"
-                        name: "Loader"
+                        name: "Caption"
+                        input: false
+                        classes: "t-caps bold white-wild-sand-text"
+                        components:
+                            UITextComponent: {}
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 148.000000
+                                verticalPolicy: "PercentOfContent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                        bindings:
+                        - ["UITextComponent.text", "when isSelfProfile -> capitalize(localize(\"ratingBattles/infoScreen/currentPositionMine\")), capitalize(localize(\"ratingBattles/infoScreen/currentPositionOther\"))"]
+                    -   class: "UIControl"
+                        name: "ValueWrapper"
                         input: false
                         components:
+                            LinearLayout:
+                                orientation: "TopDown"
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfMaxChild"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 68.000000
+                        bindings:
+                        - ["visible", "hasRatingPosition"]
+                        children:
+                        -   class: "UIControl"
+                            name: "Value"
+                            input: false
+                            classes: "t-content-h2 bold white-wild-sand-text"
+                            components:
+                                UITextComponent: {}
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    horizontalMin: 148.000000
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                            bindings:
+                            - ["UITextComponent.text", "playerPosition"]
+                        -   class: "UIControl"
+                            name: "GeneralValue"
+                            input: false
+                            classes: "t-body bold white-wild-sand-50-text"
+                            components:
+                                UITextComponent: {}
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 148.000000
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                            bindings:
+                            - ["UITextComponent.text", "totalPlayers"]
+                    -   class: "UIControl"
+                        name: "LoadingCircleWrapper"
+                        input: false
+                        components:
+                            LinearLayout:
+                                orientation: "TopDown"
                             SizePolicy:
                                 horizontalPolicy: "FixedSize"
                                 horizontalValue: 148.000000
                                 verticalPolicy: "FixedSize"
-                                verticalValue: 48.000000
+                                verticalValue: 68.000000
+                        bindings:
+                        - ["visible", "not hasRatingPosition"]
                         children:
-                        -   prototype: "LoaderCircle/LoaderCircle"
-                            name: "LoaderCircle"
+                        -   class: "UIControl"
+                            name: "Loader"
+                            input: false
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 148.000000
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 48.000000
+                            children:
+                            -   prototype: "LoaderCircle/LoaderCircle"
+                                name: "LoaderCircle"
+            -   class: "UIControl"
+                name: "Spacer"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 8.000000
+                bindings:
+                - ["visible", "not isCalibration and not isNoRating"]
         -   class: "UIControl"
             name: "CalibrationContent"
             input: false
+            classes: "white-wild-sand-15-bg"
             components:
                 Anchor:
                     rightAnchorEnabled: true
                     topAnchorEnabled: true
+                Background: {}
+                UIRoundedCornersComponent:
+                    radius: "8"
                 LinearLayout:
                     orientation: "TopDown"
                     spacing: 16.000000
                 SizePolicy:
                     horizontalPolicy: "PercentOfMaxChild"
                     verticalPolicy: "PercentOfChildrenSum"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
             bindings:
             - ["visible", "isCalibration"]
             children:
-            -   prototype: "BlurModified/BlurModified"
-                name: "Blur"
-                components:
-                    UIDataParamsComponent:
-                        args:
-                            "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "Top"
                 input: false
@@ -498,7 +524,7 @@ Slots:
                         -   class: "UIControl"
                             name: "Left"
                             input: false
-                            classes: "t-content-h4 bold white-wild-sand-text not-localize"
+                            classes: "t-content-h4 bold white-wild-sand-text"
                             components:
                                 UITextComponent: {}
                                 Anchor:
@@ -511,7 +537,7 @@ Slots:
                         -   class: "UIControl"
                             name: "Right"
                             input: false
-                            classes: "t-content-h4 bold white-wild-sand-25-text not-localize"
+                            classes: "t-content-h4 bold white-wild-sand-25-text"
                             components:
                                 UITextComponent:
                                     text: "/10"
@@ -673,14 +699,16 @@ Slots:
         -   class: "UIControl"
             name: "ProgressBarWrapper"
             input: false
+            classes: "white-wild-sand-15-bg"
             components:
+                Background: {}
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "FixedSize"
                     verticalValue: 10.000000
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
             children:
-            -   prototype: "BlurModified/BlurModified"
-                name: "Blur"
             -   class: "UIControl"
                 name: "Fade"
                 input: false
@@ -881,7 +909,7 @@ Slots:
                         verticalPolicy: "FixedSize"
                         verticalValue: 16.000000
                 bindings:
-                - ["classes", "when currentRating >= 2000 -> \"t-subtitle bold yellow-submarine-text not-localize\", \"t-subtitle bold white-wild-sand-50-text not-localize\""]
+                - ["classes", "when currentRating >= 2000 -> \"t-subtitle bold yellow-submarine-text\", \"t-subtitle bold white-wild-sand-50-text\""]
                 - ["Anchor.leftAnchor", "when screenSizeX == 800 -> 136, 181"]
             -   class: "UIControl"
                 name: "SilverLeagueRating"
@@ -899,7 +927,7 @@ Slots:
                         verticalPolicy: "FixedSize"
                         verticalValue: 16.000000
                 bindings:
-                - ["classes", "when currentRating >= 3000 -> \"t-subtitle bold yellow-submarine-text not-localize\", \"t-subtitle bold white-wild-sand-50-text not-localize\""]
+                - ["classes", "when currentRating >= 3000 -> \"t-subtitle bold yellow-submarine-text\", \"t-subtitle bold white-wild-sand-50-text\""]
                 - ["Anchor.leftAnchor", "when screenSizeX == 800 -> 299.500000, 393.500000"]
             -   class: "UIControl"
                 name: "GoldLeagueRating"
@@ -917,7 +945,7 @@ Slots:
                         verticalPolicy: "FixedSize"
                         verticalValue: 16.000000
                 bindings:
-                - ["classes", "when currentRating >= 4000 -> \"t-subtitle bold yellow-submarine-text not-localize\", \"t-subtitle bold white-wild-sand-50-text not-localize\""]
+                - ["classes", "when currentRating >= 4000 -> \"t-subtitle bold yellow-submarine-text\", \"t-subtitle bold white-wild-sand-50-text\""]
                 - ["Anchor.leftAnchor", "when screenSizeX == 800 -> 463, 608.500000"]
             -   class: "UIControl"
                 name: "PlatinumLeagueRating"
@@ -936,7 +964,7 @@ Slots:
                         verticalPolicy: "FixedSize"
                         verticalValue: 16.000000
                 bindings:
-                - ["classes", "when currentRating >= 5000 -> \"t-subtitle bold yellow-submarine-text not-localize\", \"t-subtitle bold white-wild-sand-50-text not-localize\""]
+                - ["classes", "when currentRating >= 5000 -> \"t-subtitle bold yellow-submarine-text\", \"t-subtitle bold white-wild-sand-50-text\""]
                 - ["Anchor.leftAnchor", "when screenSizeX == 800 -> 625.500000, 820.500000"]
     -   class: "UIControl"
         name: "Spacer"
@@ -1003,7 +1031,7 @@ Slots:
                 -   class: "UIControl"
                     name: "Rating"
                     input: false
-                    classes: "t-headline bold yellow-submarine-text not-localize"
+                    classes: "t-headline bold yellow-submarine-text"
                     components:
                         UITextComponent:
                             align: ["RIGHT", "VCENTER"]
@@ -1045,7 +1073,7 @@ Slots:
                 -   class: "UIControl"
                     name: "Rating"
                     input: false
-                    classes: "t-headline bold yellow-submarine-text not-localize"
+                    classes: "t-headline bold yellow-submarine-text"
                     components:
                         UITextComponent:
                             align: ["RIGHT", "VCENTER"]
@@ -1069,51 +1097,39 @@ Slots:
                     verticalPolicy: "FixedSize"
                     verticalValue: 48.000000
             children:
-            -   class: "UIControl"
-                name: "ButtonRewardsWrapper"
-                input: false
+            -   prototype: "Button/Button"
+                name: "ButtonRewards"
                 components:
-                    SizePolicy:
-                        horizontalPolicy: "PercentOfFirstChild"
-                        verticalPolicy: "PercentOfFirstChild"
-                bindings:
-                - ["visible", "isRewardsButtonVisible"]
-                children:
-                -   prototype: "Button/Button"
-                    name: "ButtonRewards"
-                    components:
-                        UIDataParamsComponent:
-                            args:
-                                "sound": "eButtonSound.OPEN"
-                                "size": "eButtonSize.NORMAL"
-                                "type": "eButtonType.OPTIONAL_LIGHT"
-                                "enabled": "true"
-                                "caption": "capitalize(localize(\"ratingBattles/infoScreen/rewards\"))"
-                            eventActions:
-                            - ["ON_CLICK_BUTTON", "ShowRewards", ""]
-            -   class: "UIControl"
-                name: "ButtonLeaderboardWrapper"
-                input: false
+                    UIDataParamsComponent:
+                        args:
+                            "sound": "eButtonSound.OPEN"
+                            "size": "eButtonSize.NORMAL"
+                            "type": "eButtonType.OPTIONAL_LIGHT"
+                            "visible": "isRewardsButtonVisible"
+                            "enabled": "true"
+                            "caption": "capitalize(localize(\"ratingBattles/infoScreen/rewards\"))"
+                            "isBlur": "false"
+                            "isCustBg": "true"
+                            "maskStyle": "\"white-wild-sand-15-bg\""
+                        eventActions:
+                        - ["ON_CLICK_BUTTON", "ShowRewards", ""]
+            -   prototype: "Button/Button"
+                name: "ButtonLeaderboard"
                 components:
-                    SizePolicy:
-                        horizontalPolicy: "PercentOfFirstChild"
-                        verticalPolicy: "PercentOfFirstChild"
-                bindings:
-                - ["visible", "not isChina"]
-                children:
-                -   prototype: "Button/Button"
-                    name: "ButtonLeaderboard"
-                    components:
-                        UIDataParamsComponent:
-                            args:
-                                "isExternalLink": "true"
-                                "sound": "eButtonSound.OPEN"
-                                "size": "eButtonSize.NORMAL"
-                                "type": "eButtonType.OPTIONAL_LIGHT"
-                                "enabled": "showLeaderbord"
-                                "caption": "capitalize(localize(\"ratingBattles/infoScreen/leaderboard\"))"
-                            eventActions:
-                            - ["ON_CLICK_BUTTON", "ShowLeaderboard", ""]
+                    UIDataParamsComponent:
+                        args:
+                            "isExternalLink": "true"
+                            "sound": "eButtonSound.OPEN"
+                            "size": "eButtonSize.NORMAL"
+                            "type": "eButtonType.OPTIONAL_LIGHT"
+                            "visible": "not app.netease.neteaseAvailable"
+                            "enabled": "true"
+                            "caption": "capitalize(localize(\"ratingBattles/infoScreen/leaderboard\"))"
+                            "isBlur": "false"
+                            "isCustBg": "true"
+                            "maskStyle": "\"white-wild-sand-15-bg\""
+                        eventActions:
+                        - ["ON_CLICK_BUTTON", "ShowLeaderboard", ""]
     -   class: "UIControl"
         name: "Spacer"
         size: [32.000000, 32.000000]
@@ -1210,7 +1226,7 @@ Slots:
                     name: "RatingDiff"
                     size: [32.000000, 32.000000]
                     input: false
-                    classes: "white-wild-sand-text t-title bold not-localize"
+                    classes: "white-wild-sand-text t-title bold"
                     components:
                         UITextComponent: {}
                         SizePolicy:
@@ -1229,12 +1245,6 @@ Slots:
                         horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "PercentOfMaxChild"
                 children:
-                -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
-                    components:
-                        UIDataParamsComponent:
-                            args:
-                                "roundCorner": "\"8\""
                 -   class: "UIControl"
                     name: "CalibrationRating"
                     input: false
@@ -1282,7 +1292,7 @@ Slots:
                         -   class: "UIControl"
                             name: "Rating"
                             input: false
-                            classes: "t-headline bold yellow-submarine-text not-localize"
+                            classes: "t-headline bold yellow-submarine-text"
                             components:
                                 UITextComponent:
                                     align: ["LEFT", "VCENTER"]
@@ -1326,8 +1336,6 @@ Slots:
                     position: [136.000000, 0.000000]
                     input: false
                     components:
-                        Anchor:
-                            vCenterAnchorEnabled: true
                         LinearLayout:
                             spacing: 16.000000
                         SizePolicy:
@@ -1356,7 +1364,7 @@ Slots:
                     input: false
                     components:
                         Anchor:
-                            vCenterAnchorEnabled: true
+                            topAnchorEnabled: true
                         LinearLayout:
                             orientation: "TopDown"
                             spacing: -48.000000
@@ -1398,7 +1406,7 @@ Slots:
                         -   class: "UIControl"
                             name: "Rating"
                             input: false
-                            classes: "t-headline bold yellow-submarine-text not-localize"
+                            classes: "t-headline bold yellow-submarine-text"
                             components:
                                 UITextComponent: {}
                                 Anchor:
@@ -1480,18 +1488,10 @@ Slots:
                         horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "PercentOfMaxChild"
                 children:
-                -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
-                    components:
-                        UIDataParamsComponent:
-                            args:
-                                "roundCorner": "\"8\""
                 -   class: "UIControl"
                     name: "Battles"
                     input: false
                     components:
-                        Anchor:
-                            vCenterAnchorEnabled: true
                         LinearLayout:
                             orientation: "TopDown"
                             spacing: 16.000000
@@ -1531,7 +1531,7 @@ Slots:
                         -   class: "UIControl"
                             name: "Value"
                             input: false
-                            classes: "t-headline bold white-wild-sand-text not-localize"
+                            classes: "t-headline bold white-wild-sand-text"
                             components:
                                 UITextComponent:
                                     align: ["LEFT", "VCENTER"]
@@ -1597,8 +1597,6 @@ Slots:
                     name: "Wins"
                     input: false
                     components:
-                        Anchor:
-                            vCenterAnchorEnabled: true
                         LinearLayout:
                             orientation: "TopDown"
                             spacing: 16.000000
@@ -1640,7 +1638,7 @@ Slots:
                         -   class: "UIControl"
                             name: "Value"
                             input: false
-                            classes: "t-headline bold white-wild-sand-text not-localize"
+                            classes: "t-headline bold white-wild-sand-text"
                             components:
                                 UITextComponent:
                                     align: ["LEFT", "VCENTER"]
@@ -1680,163 +1678,122 @@ Slots:
         bindings:
         - ["visible", "not isCalibration"]
     -   class: "UIControl"
-        name: "BottomWrapper"
+        name: "CamoReward"
         input: false
         components:
             Anchor:
                 hCenterAnchorEnabled: true
             LinearLayout:
+                spacing: -16.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "FixedSize"
+                verticalValue: 88.000000
+        bindings:
+        - ["visible", "hasCamoReward and not isNoRating"]
+        children:
+        -   class: "UIControl"
+            name: "PlatinumCamo"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 64.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 64.000000
+                UIChildComponent0:
+                    condition: "not isNull(model.platinumCamo) and not isNull(model.platinumCamo.unlock)"
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Detailed/UnlockIcon.yaml"
+                    args:
+                        "league": "eLeague.PLATINUM"
+                        "unlock": "model.platinumCamo.unlock"
+                        "hasShadow": "false"
+        -   class: "UIControl"
+            name: "DiamondCamo"
+            input: false
+            components:
+                Anchor:
+                    topAnchorEnabled: true
+                    topAnchor: 16.000000
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 64.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 64.000000
+                UIChildComponent0:
+                    condition: "not isNull(model.diamondCamo) and not isNull(model.diamondCamo.unlock)"
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Detailed/UnlockIcon.yaml"
+                    args:
+                        "league": "eLeague.DIAMOND"
+                        "unlock": "model.diamondCamo.unlock"
+                        "hasShadow": "false"
+    -   class: "UIControl"
+        name: "FavouriteTanks"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            LinearLayout:
                 orientation: "TopDown"
             SizePolicy:
-                horizontalPolicy: "PercentOfMaxChild"
-                horizontalValue: 105.000000
+                horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfChildrenSum"
         bindings:
         - ["visible", "not isNoRating"]
         children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
+        -   class: "UIControl"
+            name: "Description"
+            input: false
             components:
-                UIDataParamsComponent:
-                    args:
-                        "roundCorner": "\"8\""
+                RichContent:
+                    baseClasses: "t-body regular white-wild-sand-50-text"
+                RichContentAliases0:
+                    aliases:
+                    - ["text_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 492.000000
+                    verticalPolicy: "PercentOfChildrenSum"
+                FlowLayout:
+                    alignment: "Center"
+                    hSpacing: 5.000000
+                    skipInvisible: true
+                    useRtl: true
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["RichContent.text", "localize(\"ratingBattles/infoScreen/camouflageCondition\")"]
         -   class: "UIControl"
             name: "Spacer"
             size: [32.000000, 32.000000]
             input: false
             components:
-                Anchor:
-                    hCenterAnchorEnabled: true
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "FixedSize"
-                    verticalValue: 16.000000
+                    verticalValue: 24.000000
         -   class: "UIControl"
-            name: "CamoReward"
+            name: "Tanks"
+            position: [0.000000, 76.000000]
             input: false
             components:
                 Anchor:
                     hCenterAnchorEnabled: true
                 LinearLayout:
-                    spacing: -16.000000
+                    spacing: 16.000000
                 SizePolicy:
                     horizontalPolicy: "PercentOfChildrenSum"
-                    verticalPolicy: "FixedSize"
-                    verticalValue: 88.000000
-            bindings:
-            - ["visible", "hasCamoReward"]
-            children:
-            -   class: "UIControl"
-                name: "PlatinumCamo"
-                input: false
-                components:
-                    SizePolicy:
-                        horizontalPolicy: "FixedSize"
-                        horizontalValue: 64.000000
-                        verticalPolicy: "FixedSize"
-                        verticalValue: 64.000000
-                    UIChildComponent0:
-                        condition: "not isNull(model.platinumCamo) and not isNull(model.platinumCamo.unlock)"
-                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Detailed/UnlockIcon.yaml"
-                        args:
-                            "league": "eLeague.PLATINUM"
-                            "unlock": "model.platinumCamo.unlock"
-            -   class: "UIControl"
-                name: "DiamondCamo"
-                input: false
-                components:
-                    Anchor:
-                        topAnchorEnabled: true
-                        topAnchor: 16.000000
-                    SizePolicy:
-                        horizontalPolicy: "FixedSize"
-                        horizontalValue: 64.000000
-                        verticalPolicy: "FixedSize"
-                        verticalValue: 64.000000
-                    UIChildComponent0:
-                        condition: "not isNull(model.diamondCamo) and not isNull(model.diamondCamo.unlock)"
-                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Detailed/UnlockIcon.yaml"
-                        args:
-                            "league": "eLeague.DIAMOND"
-                            "unlock": "model.diamondCamo.unlock"
-        -   class: "UIControl"
-            name: "FavouriteTanks"
-            size: [32.000000, 32.000000]
-            input: false
-            components:
-                Anchor:
-                    hCenterAnchorEnabled: true
-                LinearLayout:
-                    orientation: "TopDown"
-                SizePolicy:
-                    horizontalPolicy: "PercentOfMaxChild"
-                    verticalPolicy: "PercentOfChildrenSum"
-            children:
-            -   class: "UIControl"
-                name: "Description"
-                input: false
-                components:
-                    RichContent:
-                        baseClasses: "t-body regular white-wild-sand-50-text"
-                    RichContentAliases0:
-                        aliases:
-                        - ["text_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
-                    Anchor:
-                        hCenterAnchorEnabled: true
-                    SizePolicy:
-                        horizontalPolicy: "FixedSize"
-                        horizontalValue: 492.000000
-                        verticalPolicy: "PercentOfChildrenSum"
-                    FlowLayout:
-                        alignment: "Center"
-                        hSpacing: 5.000000
-                        skipInvisible: true
-                        useRtl: true
-                    StyleSheet:
-                        styles: "~res:/UI/Screens3/Font.style.yaml"
-                bindings:
-                - ["RichContent.text", "localize(\"ratingBattles/infoScreen/camouflageCondition\")"]
-            -   class: "UIControl"
-                name: "Spacer"
-                size: [32.000000, 32.000000]
-                input: false
-                components:
-                    SizePolicy:
-                        horizontalPolicy: "PercentOfParent"
-                        verticalPolicy: "FixedSize"
-                        verticalValue: 24.000000
-            -   class: "UIControl"
-                name: "Tanks"
-                position: [0.000000, 76.000000]
-                input: false
-                components:
-                    Anchor:
-                        hCenterAnchorEnabled: true
-                    LinearLayout:
-                        spacing: 16.000000
-                    SizePolicy:
-                        horizontalPolicy: "PercentOfChildrenSum"
-                        verticalPolicy: "PercentOfMaxChild"
-                    UIRepeatComponent:
-                        control: "~res:/UI/Screens3/Lobby/Profile/Common/FavoriteTank.yaml"
-                        dataContainer: "model.ratingInfoPerLevels"
-                        args:
-                            "rating": "model.rating"
-                            "battlesCountOnLevel": "_item.battlesCount"
-                            "level": "_item.level"
-                            "model": "_item.favoriteVehicle"
-                        elementNameExpression: "str(_item.level)"
-        -   class: "UIControl"
-            name: "Spacer"
-            size: [32.000000, 32.000000]
-            input: false
-            components:
-                Anchor:
-                    hCenterAnchorEnabled: true
-                SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "FixedSize"
-                    verticalValue: 16.000000
+                    verticalPolicy: "PercentOfMaxChild"
+                UIRepeatComponent:
+                    control: "~res:/UI/Screens3/Lobby/Profile/Common/FavoriteTank.yaml"
+                    dataContainer: "model.ratingInfoPerLevels"
+                    args:
+                        "rating": "model.rating"
+                        "battlesCountOnLevel": "_item.battlesCount"
+                        "level": "_item.level"
+                        "model": "_item.favoriteVehicle"
+                    elementNameExpression: "str(_item.level)"
     -   class: "UIControl"
         name: "BottomSpacing"
         size: [32.000000, 32.000000]

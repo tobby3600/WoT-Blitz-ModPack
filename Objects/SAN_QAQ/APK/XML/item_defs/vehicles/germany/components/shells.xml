@@ -4234,7 +4234,7 @@
 		<blitz>
 			<blitzIconFrame>0</blitzIconFrame>
 		</blitz>
-		<id>2123</id>
+		<id>2126</id>
 		<userString>#germany_vehicles:_105mm_DM11A1v2</userString>
 		<icon>he</icon>
 		<price>0</price>
@@ -4252,7 +4252,7 @@
 		<blitz>
 			<blitzIconFrame>0</blitzIconFrame>
 		</blitz>
-		<id>2124</id>
+		<id>2127</id>
 		<userString>#germany_vehicles:_105mm_DM13A1v2</userString>
 		<icon>ap</icon>
 		<price>0</price>
@@ -4271,7 +4271,7 @@
 		<blitz>
 			<blitzIconFrame>0</blitzIconFrame>
 		</blitz>
-		<id>2125</id>
+		<id>2128</id>
 		<userString>#germany_vehicles:_105mm_DM23A1v2</userString>
 		<icon>hc_premium</icon>
 		<price>9<gold/>

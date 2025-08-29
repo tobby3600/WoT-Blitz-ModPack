@@ -1,0 +1,25 @@
+animation INIT(bool replacing)
+{
+	if(firstShowLocal)
+	{
+		Opacity("**/ResultWrapper", 0);
+		Scale("**/StatButton", 0.7, 0.7);
+		Opacity("**/ReplayButton", 0);
+		Opacity("**/ShareButton", 0);
+		Opacity("**/EconomicWrapper", 0);
+		Opacity("**/TankWrapper", 0);
+		ChangeProperty("**/TankWrapper", "Anchor", "rightAnchor", -16);
+		ChangeProperty("**/ResultWrapper", "Anchor", "leftAnchor", -16);
+		parallel
+		{
+			Opacity("**/ResultWrapper", 1, 0.65, SINE_OUT);
+			ChangeProperty("**/ResultWrapper", "Anchor", "leftAnchor", 0, 0.65, SINE_OUT);
+		}
+		parallel
+		{
+			ChangeProperty("**/TankWrapper", "Anchor", "rightAnchor", 0, 0.3, SINE_OUT);
+			Opacity("**/TankWrapper", 1, 0.3, SINE_OUT);
+			Scale("**/StatButton", 1, 1, 0.2, SINE_OUT);
+		}
+	}
+}

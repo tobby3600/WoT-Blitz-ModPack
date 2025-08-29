@@ -41,7 +41,7 @@ Prototypes:
             - ["int", "spacingH", "80"]
         UIDataLocalBindingsComponent:
             data:
-            - ["int", "overallH", "int(stuffHeight) + infoHeight + spacingH"]
+            - ["int", "overallH", "int(stuffHeight) + infoHeight + spacingH + 24"]
         UIChildComponent0:
             prototypePath: "~res:/UI/Screens3/Lobby/Common/Overlay/OverlayBasic.yaml"
             args:
@@ -60,6 +60,8 @@ Prototypes:
                 "customBgURL": "stuff.chestInfo.background"
                 "content": "Content"
                 "fullWidthFooter": "true"
+                "isBlurMask": "true"
+                "blurMaskID": "\"basicChest\""
             eventActions:
             - ["EXTRA2_ACTION", "EXTRA2_ACTION", ""]
             - ["OVERLAY_CONTENT_HEIGHT_CHANGED", "OVERLAY_CONTENT_HEIGHT_CHANGED", "_event"]
@@ -91,7 +93,6 @@ Slots:
                 "grade": "stuff.stuff.grade"
 -   class: "UIControl"
     name: "Content"
-    size: [655.000000, 388.000000]
     input: false
     components:
         Anchor:
@@ -119,6 +120,8 @@ Slots:
             name: "ImageWrapper"
             input: false
             components:
+                Anchor:
+                    topAnchorEnabled: true
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "PercentOfParent"

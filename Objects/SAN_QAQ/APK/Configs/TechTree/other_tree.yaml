@@ -123,13 +123,15 @@ tanks:
         position: [9, 3]
     Oth41_Centurion_Mk3_S2:
         position: [9, 4]
-    Oth38_50TP_Tyszkiewicza_S1:
+    Oth78_AC_17_P_Sterope:
         position: [9, 5]
-    Oth48_EMIL_1951E1_S3:
+    Oth38_50TP_Tyszkiewicza_S1:
         position: [9, 6]
-    Oth68_KV2ANN_S4:
+    Oth48_EMIL_1951E1_S3:
         position: [9, 7]
-    Oth76_Destiny:
+    Oth68_KV2ANN_S4:
         position: [9, 8]
-    Oth74_Argonaut:
+    Oth76_Destiny:
         position: [9, 9]
+    Oth74_Argonaut:
+        position: [9, 10]

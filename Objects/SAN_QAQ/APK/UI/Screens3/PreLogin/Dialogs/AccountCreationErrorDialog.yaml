@@ -1,0 +1,67 @@
+Header:
+    version: 128
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/Dialog/TextDialog.yaml"
+Controls:
+-   class: "UIControl"
+    name: "AccountCreationError"
+    size: [640.000000, 480.000000]
+    input: false
+    components:
+        Anchor:
+            leftAnchorEnabled: true
+            rightAnchorEnabled: true
+            topAnchorEnabled: true
+            bottomAnchorEnabled: true
+        ModalInput: {}
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Escape"
+            keyDownEvent: "OPTIONAL_CLICKED"
+        UIShortcutEventComponent:
+            shortcuts: "OPTIONAL_CLICKED,Escape;OPTIONAL_CLICKED,Back"
+        UIDataParamsComponent:
+            params:
+            - ["string", "errorString", "\"\"", "\"#error\""]
+            events:
+            - "OPTIONAL_CLICKED"
+            - "CONFIRMATION"
+    children:
+    -   prototype: "TextDialog/TextDialog"
+        name: "InfoTextDialog"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "type": "eDialogType.PUSH"
+                    "header": "\"#preLogin:dialog/header/error\""
+                    "headerImage": "\"\""
+                    "accentButton": "\"#preLogin:dialog/repeat\""
+                    "optionalButton": "\"#common:DialogButton/Cancel\""
+                    "contentControl": "control(\"~res:/UI/Screens3/Lobby/Common/Dialog/TextContent.yaml\", { \"contentText\" = errorString; }, [ ])"
+                eventActions:
+                - ["ACCENT_CLICKED", "CONFIRMATION", ""]
+                - ["OPTIONAL_CLICKED", "OPTIONAL_CLICKED", ""]
+        children:
+        -   path: "DialogContent/Footer/OptionalButtonContainer"
+            position: [25.000000, 24.000000]
+            children: []
+    -   class: "UIControl"
+        name: "BackButton"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                leftAnchor: 16.000000
+                topAnchorEnabled: true
+                topAnchor: 16.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+                args:
+                    "isBgVisible": "true"
+                    "image": "\"~res:/Gfx/Lobby/icons/icon_arrow-rounded\"
+                    "isBlur": "false"
+                eventActions:
+                - ["ON_CLICK_BUTTON", "BACK_PRESSED", ""]

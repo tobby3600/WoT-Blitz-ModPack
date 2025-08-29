@@ -1,7 +1,7 @@
 Header:
     version: 127
 ImportedPackages:
-- "~res:/UI/Screens3/Lobby/Common/BlurDynamic.yaml"
+- "~res:/UI/Screens3/Common/BlurMaskPrototype.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "BlurMask"
@@ -14,60 +14,59 @@ Prototypes:
         UIDataParamsComponent:
             params:
             - ["bool", "isBlurMask", "true", "true"]
-            - ["string", "background", "\"\"", "\"\""]
-            - ["string", "blur", "\"\"", "\"\""]
-            - ["string", "mask", "\"\"", "\"\""]
+            - ["bool", "isDualMask", "false", "false"]
+            - ["bool", "isSpecificSRC", "false", "false"]
+            - ["string", "ID", "\"\"", "\"\""]
             - ["string", "roundCorner", "\"\"", "\"\""]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["string", "background", "\"background\" + ID"]
+            - ["string", "blur", "\"blur\" + ID"]
+            - ["string", "mask", "\"mask\" + ID"]
     bindings:
     - ["visible", "isBlurMask"]
     children:
     -   class: "UIControl"
-        name: "BlurMask"
-        visible: true
+        name: "BackgroundCapture"
         input: false
         components:
-            IgnoreLayout: {}
+            Background:
+                usePostProcessedSprite: true
             UIPostProcessSourceComponent0: {}
+            UIPostProcessTextureComponent0:
+                materialPath: "~res:/Materials/2d.Textured.material"
+                needClear: true
             UIRoundedCornersComponent: {}
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
         bindings:
-        - ["UIPostProcessSourceComponent0.id", "blur"]
+        - ["visible", "not isSpecificSRC"]
+        - ["UIPostProcessSourceComponent0.id", "when isSpecificSRC -> \"\", background"]
         - ["UIRoundedCornersComponent.radius", "roundCorner"]
-        children:
-        -   prototype: "BlurDynamic/BlurDynamic"
-            name: "BlurDynamic"
-            components:
-                UIPostProcessInputComponent: {}
-                UIPostProcessTextureComponent0:
-                    needClear: true
-                UIRoundedCornersComponent: {}
-            bindings:
-            - ["UIPostProcessInputComponent.id", "background"]
-            - ["UIRoundedCornersComponent.radius", "roundCorner"]
-        -   class: "UIControl"
-            name: "Mask"
-            input: false
-            components:
-                Background:
-                    usePostProcessedSprite: true
-                UIPostProcessInputComponent: {}
-                UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Mask.material"
-                    needClear: true
-                UIRoundedCornersComponent: {}
-                SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "PercentOfParent"
-            bindings:
-            - ["UIPostProcessInputComponent.id", "mask"]
-            - ["UIRoundedCornersComponent.radius", "roundCorner"]
+    -   prototype: "BlurMaskPrototype/BlurMaskPrototype"
+        name: "BlurMask"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "background": "background"
+                    "blur": "blur"
+                    "mask": "mask"
+                    "roundCorner": "roundCorner"
+    -   prototype: "BlurMaskPrototype/BlurMaskPrototype"
+        name: "BlurMaskR"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "isDualMask": "isDualMask"
+                    "background": "background"
+                    "blur": "blur + \"R\""
+                    "mask": "mask + \"R\""
+                    "roundCorner": "roundCorner"
     -   class: "UIControl"
         name: "Background"
         input: false
         components:
-            IgnoreLayout: {}
             Background:
                 usePostProcessedSprite: true
             UIPostProcessInputComponent: {}
@@ -97,4 +96,22 @@ Prototypes:
                 verticalPolicy: "PercentOfParent"
         bindings:
         - ["UIPostProcessInputComponent.id", "blur"]
+        - ["UIRoundedCornersComponent.radius", "roundCorner"]
+    -   class: "UIControl"
+        name: "ShowBlurR"
+        input: false
+        components:
+            Background:
+                usePostProcessedSprite: true
+            UIPostProcessInputComponent: {}
+            UIPostProcessTextureComponent0:
+                materialPath: "~res:/Materials/2d.Textured.Alphablend.material"
+                needClear: true
+            UIRoundedCornersComponent: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["visible", "isDualMask"]
+        - ["UIPostProcessInputComponent.id", "blur + \"R\""]
         - ["UIRoundedCornersComponent.radius", "roundCorner"]

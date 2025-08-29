@@ -2,6 +2,7 @@ Header:
     version: 161
 ImportedPackages:
 - "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+- "~res:/UI/Screens3/Common/BlurMask.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "Shop"
@@ -201,12 +202,20 @@ Prototypes:
             input: false
             effectPath: "~res:/3d/FX/UI/Shop/shop-2-0/light_ray.sc2"
             autoStart: true
+    -   prototype: "BlurMask/BlurMask"
+        name: "Blur"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "ID": "\"Shop\""
     -   class: "UIControl"
         name: "ContentWrapper"
         input: false
         components:
             LinearLayout:
                 orientation: "TopDown"
+            UIPostProcessSourceComponent0:
+                id: "maskShop"
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
@@ -224,13 +233,14 @@ Prototypes:
                     args:
                         "isBackButtonHasSounds": "false"
                         "session": "session"
-                        "bgStyle": "\"\""
+                        "bgStyle": "\"white-wild-sand-15-bg\""
                         "lobby": "lobby"
                         "leftContent": "ShopHeader"
                         "showBackButton": "true"
                         "isFullScreen": "true"
                         "statsPanelAdditionalContent": "BlacketPanel"
                         "showShopButton": "false"
+                        "isBlur": "false"
                     eventActions:
                     - ["PREMIUM_INFO_EVENT", "PREMIUM_INFO_EVENT", ""]
                     - ["SHOP_BUTTON", "SHOP_BUTTON", "_event.requiredResource"]
@@ -333,18 +343,6 @@ Prototypes:
             -   class: "UIControl"
                 name: "SpacingDummy"
                 input: false
-    -   class: "UIControl"
-        name: "NavigationPanel"
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                condition: "isGamepad"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/NavigationPanel.yaml"
-                args:
-                    "content": "NavigationPanel"
 Slots:
 -   class: "UIControl"
     name: "ShopHeader"
@@ -397,64 +395,6 @@ Slots:
         bindings:
         - ["visible", "app.netease.neteaseAvailable"]
         - ["UITextComponent.text", "localize(\"ChinaShopWarning/Header\")"]
--   class: "UIControl"
-    name: "NavigationPanel"
-    input: false
-    components:
-        LinearLayout:
-            spacing: 24.000000
-        SizePolicy:
-            horizontalPolicy: "PercentOfChildrenSum"
-            verticalPolicy: "PercentOfMaxChild"
-    children:
-    -   class: "UIControl"
-        name: "Back"
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfFirstChild"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                args:
-                    "text": "\"Switch/HubridPanel/Lobby/Back\""
-                    "icon": "eNintendoSwitchControls.B"
-    -   class: "UIControl"
-        name: "SelectSection"
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfFirstChild"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconsWithLabel.yaml"
-                args:
-                    "text": "\"Switch/HubridPanel/Shop/SelectSection\""
-                    "nsControls": "[ eNintendoSwitchControls.LeftShoulder; eNintendoSwitchControls.RightShoulder; ]"
-    -   class: "UIControl"
-        name: "SelectItem"
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfFirstChild"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                args:
-                    "text": "\"Switch/HubridPanel/Shop/SelectItem\""
-                    "icon": "eNintendoSwitchControls.AllArrows"
-    -   class: "UIControl"
-        name: "Information"
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfFirstChild"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                args:
-                    "text": "\"Switch/HubridPanel/Shop/Info\""
-                    "icon": "eNintendoSwitchControls.Y"
 -   class: "UIControl"
     name: "SectionsHolder"
     refreshStylesOnInteract: false

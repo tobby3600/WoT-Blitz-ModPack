@@ -1,7 +1,5 @@
 Header:
     version: 161
-ImportedPackages:
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ClanListItem"
@@ -24,7 +22,7 @@ Prototypes:
         UIDataLocalBindingsComponent:
             data:
             - ["string", "supplyIconPath", "\"~res:/Gfx/Lobby/icons/icon_clan-supply_3_m\""]
-            - ["string", "winRateColor", "when model.winrate >= 90.000000 -> \"red-red-text\", modle.winrate >= 80.000000 -> \"gold-shining-text\", model.winrate >= 70.000000 -> \"purple-zhuk-text\", model.winrate >= 60.000000 -> \"blue-rimmi-text\", model.winrate >= 50.000000 -> \"green-zmilly-text\", \"white-wild-sand-text\""]
+            - ["string", "winRateColor", "when model.winrate >= 90.000000 -> \"red-red-text\", model.winrate >= 80.000000 -> \"gold-shining-text\", model.winrate >= 70.000000 -> \"purple-zhuk-text\", model.winrate >= 60.000000 -> \"blue-rimmi-text\", model.winrate >= 50.000000 -> \"green-zmilly-text\", \"white-wild-sand-text\""]
         Sound: {}
         StyleSheet:
             styles: "~res:/UI/Screens3/Common/Hover.style.yaml;~res:/UI/Screens3/ButtonSound.style.yaml;~res:/UI/Screens3/Common/Touch.style.yaml"
@@ -81,12 +79,20 @@ Prototypes:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
         children:
-        -   prototype: "BlurModified/BlurModified"
+        -   class: "UIControl"
             name: "Background"
+            input: false
             components:
-                UIDataParamsComponent:
-                    args:
-                        "bgStyle": "when model.isRecommended -> \"gold-shining-20-bg\", \"\""
+                Background: {}
+                UIOpacityComponent: {}
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["classes", "when model.isRecommended -> \"gold-shining-20-bg\", \"white-wild-sand-15-bg\""]
         -   class: "UIControl"
             name: "Hover"
             size: [32.000000, 32.000000]
@@ -269,17 +275,6 @@ Prototypes:
                         prototypePath: "~res:/UI/Screens3/Common/Loaders/LoaderCircle.yaml"
                         args:
                             "bgIsVisible": "false"
-            -   class: "UIControl"
-                name: "Supply"
-                visible: false
-                input: false
-                components:
-                    Background: {}
-                    SizePolicy:
-                        horizontalPolicy: "PercentOfParent"
-                        verticalPolicy: "PercentOfParent"
-                bindings:
-                - ["Background.sprite", "supplyIconPath"]
             -   class: "UIControl"
                 name: "TooltipWrapper"
                 visible: false

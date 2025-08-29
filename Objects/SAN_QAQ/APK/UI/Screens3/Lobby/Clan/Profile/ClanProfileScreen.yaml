@@ -2,6 +2,7 @@ Header:
     version: 152
 ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Common/SideBar.yaml"
+- "~res:/UI/Screens3/Common/BlurMask.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ClanProfileScreen"
@@ -13,8 +14,6 @@ Prototypes:
             rightAnchorEnabled: true
             topAnchorEnabled: true
             bottomAnchorEnabled: true
-        LinearLayout:
-            orientation: "RightToLeft"
         ModalInput: {}
         UIVirtualActionEventComponent0:
             virtualKeyAction: "Escape"
@@ -53,183 +52,185 @@ Prototypes:
                 args:
                     "blurOpacity": "0.000000"
                     "texturePath": "\"~res:/Gfx/Lobby/backgrounds/key-art/key-art_clan-2\""
-    -   class: "UIControl"
-        name: "CreationUnavailableContent"
-        size: [800.000000, 600.000000]
-        input: false
-        components:
-            IgnoreLayout:
-                enabled: false
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfParent"
-        bindings:
-        - ["visible", "isError"]
-        children:
-        -   class: "UIControl"
-            name: "ClanApiError"
-            size: [1024.000000, 210.000000]
-            components:
-                Anchor:
-                    hCenterAnchorEnabled: true
-                    hCenterAnchor: -44.000000
-                    vCenterAnchorEnabled: true
-                LinearLayout:
-                    orientation: "TopDown"
-                    spacing: 8.000000
-                SizePolicy:
-                    horizontalPolicy: "PercentOfMaxChild"
-                    verticalPolicy: "PercentOfChildrenSum"
-            children:
-            -   class: "UIControl"
-                name: "Image"
-                size: [64.000000, 64.000000]
-                components:
-                    Background:
-                        drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
-                        sprite: "~res:/Gfx/Lobby/icons/icon_dialog_attention"
-                    Anchor:
-                        hCenterAnchorEnabled: true
-                        topAnchorEnabled: true
-                        topAnchor: 24.000000
-            -   class: "UIControl"
-                name: "Header"
-                input: false
-                classes: "t-headline bold color=white-wild-sand-text"
-                components:
-                    UITextComponent:
-                        text: "#ClanApiError/InternalServerError/Header"
-                        colorInheritType: "COLOR_IGNORE_PARENT"
-                        align: ["LEFT", "VCENTER"]
-                    Anchor:
-                        hCenterAnchorEnabled: true
-                    SizePolicy:
-                        horizontalPolicy: "PercentOfContent"
-                        verticalPolicy: "PercentOfContent"
-                    StyleSheet:
-                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
-            -   class: "UIControl"
-                name: "Text"
-                input: false
-                classes: "t-overline bold color=white-wild-sand-text"
-                components:
-                    UITextComponent:
-                        text: "#ClanApiError/InternalServerError/Description"
-                        colorInheritType: "COLOR_IGNORE_PARENT"
-                    Anchor:
-                        hCenterAnchorEnabled: true
-                    SizePolicy:
-                        horizontalPolicy: "PercentOfContent"
-                        verticalPolicy: "PercentOfContent"
-                    StyleSheet:
-                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
-    -   class: "UIControl"
-        name: "TabContent"
-        input: false
-        components:
-            LinearLayout:
-                orientation: "TopDown"
-                spacing: 24.000000
-                skipInvisible: false
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfParent"
-        bindings:
-        - ["visible", "not isError"]
-        children:
-        -   class: "UIControl"
-            name: "Header"
-            input: false
-            components:
-                UIOpacityComponent: {}
-                SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "PercentOfMaxChild"
-                UIChildComponent0:
-                    prototypePath: "~res:/UI/Screens3/Lobby/Clan/Profile/ClanProfileHeader.yaml"
-                    args:
-                        "session": "session"
-                        "isChina": "isChina"
-                        "model": "model"
-                        "notificationsCount": "when not model.isSelfClan -> 0, (when app.gameOptions.playerOption.enableClanInvites -> session.clanNotifications.invitesCount + session.clanNotifications.unreadNotifications, session.clanNotifications.unreadNotifications)"
-            bindings:
-            - ["visible", "not isInitLoading"]
-        -   class: "UIControl"
-            name: "Spacer"
-            input: false
-            components:
-                SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "FixedSize"
-                    verticalValue: 16.000000
-            bindings:
-            - ["visible", "not isInitLoading and model.selectedTab == eClanProfileTab.Summary"]
-        -   class: "UIControl"
-            name: "Content"
-            input: false
-            components:
-                LinearLayout:
-                    dynamicPadding: true
-                SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "PercentOfParent"
-                UIChildAnimatedSwitchingComponent:
-                    switchPolicy: "kAfterRemovingAnimation"
-                UIChildComponent0:
-                    childType: "kPrototype"
-                    condition: "not isInitLoading and model.selectedTab == eClanProfileTab.Summary"
-                    prototypePath: "~res:/UI/Screens3/Lobby/Clan/Profile/ClanSummaryTab.yaml"
-                    args:
-                        "session": "session"
-                        "model": "model"
-                UIChildComponent1:
-                    condition: "not isInitLoading and model.selectedTab == eClanProfileTab.Members"
-                    prototypePath: "~res:/UI/Screens3/Lobby/Clan/Profile/ClanMembersTab.yaml"
-                    args:
-                        "session": "session"
-                        "model": "model"
-                UIChildComponent2:
-                    condition: "not isInitLoading and model.selectedTab == eClanProfileTab.Supply"
-                    prototypePath: "~res:/UI/Screens3/Lobby/Clan/Profile/ClanSupplyTab.yaml"
-                    args:
-                        "session": "session"
-                        "model": "model"
-                UIChildComponent3:
-                    condition: "not isInitLoading and model.selectedTab == eClanProfileTab.Tournaments and model.tournamentsInfo.state == eClanLoadingState.Loaded"
-                    prototypePath: "~res:/UI/Screens3/Lobby/Clan/Profile/ClanTournamentsTab.yaml"
-                    args:
-                        "model": "model"
-                UIChildComponent4:
-                    condition: "isInitLoading or model.tournamentsInfo.state == eClanLoadingState.Loading"
-                    prototypePath: "~res:/UI/Screens3/Lobby/Clan/Profile/ClanProfileLoader.yaml"
-    -   class: "UIControl"
-        name: "NavigationPanel"
-        input: false
-        components:
-            Anchor:
-                bottomAnchorEnabled: true
-            IgnoreLayout: {}
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                condition: "isGamepad"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/NavigationPanel.yaml"
-                args:
-                    "content": "NSPanel"
-        bindings:
-        - ["visible", "isGamepad"]
-    -   prototype: "SideBar/Sidebar"
-        name: "Sidebar"
+    -   prototype: "BlurMask/BlurMask"
+        name: "Blur"
         components:
             UIDataParamsComponent:
                 args:
-                    "backButtonLayer": "0"
-                    "bgStyle": "when isError -> \"black-5-bg\", \"\""
-                    "content": "SidebarButtons"
-                    "isBackButtonHasSounds": "false"
-                eventActions:
-                - ["ON_CLICK_BACK", "BACK_EVENT", ""]
+                    "ID": "\"ClanProfile\""
+    -   class: "UIControl"
+        name: "ContentWrapper"
+        input: false
+        components:
+            LinearLayout:
+                orientation: "RightToLeft"
+            UIPostProcessSourceComponent0:
+                id: "maskClanProfile"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "CreationUnavailableContent"
+            size: [800.000000, 600.000000]
+            input: false
+            components:
+                IgnoreLayout:
+                    enabled: false
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            bindings:
+            - ["visible", "isError"]
+            children:
+            -   class: "UIControl"
+                name: "ClanApiError"
+                size: [1024.000000, 210.000000]
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        hCenterAnchor: -44.000000
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "TopDown"
+                        spacing: 8.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "Image"
+                    size: [64.000000, 64.000000]
+                    components:
+                        Background:
+                            drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                            sprite: "~res:/Gfx/Lobby/icons/icon_dialog_attention"
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            topAnchorEnabled: true
+                            topAnchor: 24.000000
+                -   class: "UIControl"
+                    name: "Header"
+                    input: false
+                    classes: "t-headline bold color=white-wild-sand-text"
+                    components:
+                        UITextComponent:
+                            text: "#ClanApiError/InternalServerError/Header"
+                            colorInheritType: "COLOR_IGNORE_PARENT"
+                            align: ["LEFT", "VCENTER"]
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                -   class: "UIControl"
+                    name: "Text"
+                    input: false
+                    classes: "t-overline bold color=white-wild-sand-text"
+                    components:
+                        UITextComponent:
+                            text: "#ClanApiError/InternalServerError/Description"
+                            colorInheritType: "COLOR_IGNORE_PARENT"
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+        -   class: "UIControl"
+            name: "TabContent"
+            input: false
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                    spacing: 24.000000
+                    skipInvisible: false
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            bindings:
+            - ["visible", "not isError"]
+            children:
+            -   class: "UIControl"
+                name: "Header"
+                input: false
+                components:
+                    UIOpacityComponent: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfMaxChild"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Lobby/Clan/Profile/ClanProfileHeader.yaml"
+                        args:
+                            "session": "session"
+                            "isChina": "isChina"
+                            "model": "model"
+                            "notificationsCount": "when not model.isSelfClan -> 0, (when app.gameOptions.playerOption.enableClanInvites -> session.clanNotifications.invitesCount + session.clanNotifications.unreadNotifications, session.clanNotifications.unreadNotifications)"
+                bindings:
+                - ["visible", "not isInitLoading"]
+            -   class: "UIControl"
+                name: "Spacer"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 16.000000
+                bindings:
+                - ["visible", "not isInitLoading and model.selectedTab == eClanProfileTab.Summary"]
+            -   class: "UIControl"
+                name: "Content"
+                input: false
+                components:
+                    LinearLayout:
+                        dynamicPadding: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    UIChildAnimatedSwitchingComponent:
+                        switchPolicy: "kAfterRemovingAnimation"
+                    UIChildComponent0:
+                        childType: "kPrototype"
+                        condition: "not isInitLoading and model.selectedTab == eClanProfileTab.Summary"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Clan/Profile/ClanSummaryTab.yaml"
+                        args:
+                            "session": "session"
+                            "model": "model"
+                    UIChildComponent1:
+                        condition: "not isInitLoading and model.selectedTab == eClanProfileTab.Members"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Clan/Profile/ClanMembersTab.yaml"
+                        args:
+                            "session": "session"
+                            "model": "model"
+                    UIChildComponent2:
+                        condition: "not isInitLoading and model.selectedTab == eClanProfileTab.Supply"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Clan/Profile/ClanSupplyTab.yaml"
+                        args:
+                            "session": "session"
+                            "model": "model"
+                    UIChildComponent3:
+                        condition: "not isInitLoading and model.selectedTab == eClanProfileTab.Tournaments and model.tournamentsInfo.state == eClanLoadingState.Loaded"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Clan/Profile/ClanTournamentsTab.yaml"
+                        args:
+                            "model": "model"
+                    UIChildComponent4:
+                        condition: "isInitLoading or model.tournamentsInfo.state == eClanLoadingState.Loading"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Clan/Profile/ClanProfileLoader.yaml"
+        -   prototype: "SideBar/Sidebar"
+            name: "Sidebar"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "backButtonLayer": "0"
+                        "bgStyle": "when isError -> \"\", \"white-wild-sand-15-bg\""
+                        "content": "SidebarButtons"
+                        "isBackButtonHasSounds": "false"
+                        "isBlur": "isError"
+                    eventActions:
+                    - ["ON_CLICK_BACK", "BACK_EVENT", ""]
     -   class: "UIControl"
         name: "TabSwitchScreenShot"
         size: [32.000000, 32.000000]
@@ -334,89 +335,3 @@ Slots:
                     "switchId": "int(eClanProfileTab.Tournaments)"
                     "attachId": "\"CLAN_PROFILE_TAB_TOURNAMENTS\""
                     "icon": "\"~res:/Gfx/Lobby/icons/icon_tournaments_n\""
--   class: "UIControl"
-    name: "NSPanel"
-    size: [768.000000, 40.000000]
-    input: false
-    components:
-        LinearLayout:
-            spacing: 24.000000
-            dynamicSpacing: true
-        SizePolicy:
-            horizontalPolicy: "PercentOfChildrenSum"
-            verticalPolicy: "PercentOfMaxChild"
-    children:
-    -   class: "UIControl"
-        name: "Back"
-        input: false
-        components:
-            LinearLayout:
-                spacing: 24.000000
-            SizePolicy:
-                horizontalPolicy: "PercentOfChildrenSum"
-                verticalPolicy: "PercentOfMaxChild"
-            UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                args:
-                    "text": "\"Switch/HubridPanel/Lobby/Back\""
-                    "icon": "eNintendoSwitchControls.B"
-    -   class: "UIControl"
-        name: "ChooseItem"
-        input: false
-        components:
-            LinearLayout:
-                spacing: 24.000000
-            SizePolicy:
-                horizontalPolicy: "PercentOfChildrenSum"
-                verticalPolicy: "PercentOfMaxChild"
-            UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                args:
-                    "icon": "eNintendoSwitchControls.VArrows"
-                    "text": "\"Clans/Profile/Info/ChooseProfileTabNsPanel\""
-    -   class: "UIControl"
-        name: "ChooseTab"
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfFirstChild"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconsWithLabel.yaml"
-                args:
-                    "text": "when model.selectedTab == eClanProfileTab.Summary -> \"Clans/Profile/Info/ChooseLeaderNsPanel\", when model.selectedTab == eClanProfileTab.Supply -> \"Clans/Profile/Info/ChooseSupplyType\", \"\""
-                    "nsControls": "[ eNintendoSwitchControls.LeftShoulder; eNintendoSwitchControls.RightShoulder; ]"
-        bindings:
-        - ["visible", "model.selectedTab == eClanProfileTab.Summary or model.selectedTab == eClanProfileTab.Supply"]
-    -   class: "UIControl"
-        name: "OptionalAction"
-        input: false
-        components:
-            LinearLayout:
-                spacing: 24.000000
-            SizePolicy:
-                horizontalPolicy: "PercentOfChildrenSum"
-                verticalPolicy: "PercentOfMaxChild"
-            UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                args:
-                    "text": "\"Clans/Profile/Info/NotificationNsPanel\""
-                    "icon": "eNintendoSwitchControls.X"
-        bindings:
-        - ["visible", "model.isSelfClan and model.selectedTab == eClanProfileTab.Summary"]
-    -   class: "UIControl"
-        name: "OptionalAction_1"
-        input: false
-        components:
-            LinearLayout:
-                spacing: 24.000000
-            SizePolicy:
-                horizontalPolicy: "PercentOfChildrenSum"
-                verticalPolicy: "PercentOfMaxChild"
-            UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                args:
-                    "text": "\"#clans:SupplyScreen/FirstLevel/AboutSupply/Button\""
-                    "icon": "eNintendoSwitchControls.Y"
-        bindings:
-        - ["visible", "model.selectedTab == eClanProfileTab.Supply"]

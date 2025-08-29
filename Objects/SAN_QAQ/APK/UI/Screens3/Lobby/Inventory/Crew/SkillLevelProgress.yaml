@@ -1,0 +1,200 @@
+Header:
+    version: 100"
+Prototypes:
+-   class: "UIControl"
+    name: "LevelProgress"
+    size: [308.000000, 20.000000]
+    input: false
+    components:
+        LinearLayout:
+            spacing: 8.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfMaxChild"
+        UIDataParamsComponent:
+            params:
+            - ["int", "currentLevel", "0", "1"]
+            - ["int", "nextLevel", "0", "2"]
+            - ["int", "progress", "0", "42"]
+    children:
+    -   class: "UIControl"
+        name: "CurrentLevel"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            UITextComponent: {}
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 8.000000
+                verticalPolicy: "FixedSize"
+                verticalValue: 20.000000
+        children:
+        -   class: "UIControl"
+            name: "Value"
+            input: false
+            classes: "bold t-caption white-wild-sand-text"
+            components:
+                UITextComponent:
+                    fitting: "FITTING_POINTS"
+                    align: ["RIGHT", "VCENTER"]
+                    useRtlAlign: "USE_BY_CONTENT"
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "currentLevel"]
+    -   class: "UIControl"
+        name: "Bar"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+                verticalValue: 4.000000
+        children:
+        -   class: "UIControl"
+            name: "ProgressBar"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/ProgressBar.yaml"
+                    args:
+                        "value": "progress"
+        -   class: "UIControl"
+            name: "Indicator"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    bottomAnchorEnabled: true
+                    bottomAnchor: 8.000000
+                LinearLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "Offset"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                bindings:
+                - ["SizePolicy.horizontalValue", "progress"]
+                children:
+                -   class: "UIControl"
+                    name: "IndicatorBubble"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            rightAnchorEnabled: true
+                        LinearLayout:
+                            orientation: "TopDown"
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 37.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 30.000000
+                    bindings:
+                    - ["Anchor.rightAnchor", "-19"]
+                    children:
+                    -   class: "UIControl"
+                        name: "Bubble"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 24.000000
+                        children:
+                        -   class: "UIControl"
+                            name: "Background"
+                            size: [32.000000, 32.000000]
+                            input: false
+                            components:
+                                Background:
+                                    drawType: "DRAW_FILL"
+                                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_r1"
+                                    color: [0.960784, 0.960784, 0.960784, 0.098039]
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfParent"
+                        -   class: "UIControl"
+                            name: "Text"
+                            size: [32.000000, 32.000000]
+                            input: false
+                            components:
+                                UITextComponent:
+                                    fontPath: "~res:/Fonts/XinGothic-SC-W12.otf"
+                                    fontSize: 13.000000
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                    vCenterAnchorEnabled: true
+                                    vCenterAnchor: -3.000000
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 30.000000
+                                    verticalPolicy: "PercentOfContent"
+                            bindings:
+                            - ["UITextComponent.text", "str(progress) + \"%\""]
+                    -   class: "UIControl"
+                        name: "BottomTip"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            Background:
+                                drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                                sprite: "~res:/Gfx/Lobby/backgrounds/bg_triangle_8"
+                                spriteModification: ["FLIP_VERTICAL"]
+                                color: [0.960784, 0.960784, 0.960784, 0.098039]
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 8.000000
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 8.000000
+    -   class: "UIControl"
+        name: "NextLevel"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 8.000000
+                verticalPolicy: "FixedSize"
+                verticalValue: 20.000000
+        children:
+        -   class: "UIControl"
+            name: "Value"
+            input: false
+            classes: "bold t-caption white-wild-sand-text"
+            components:
+                UITextComponent:
+                    fitting: "FITTING_POINTS"
+                    align: ["RIGHT", "VCENTER"]
+                    useRtlAlign: "USE_BY_CONTENT"
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "nextLevel"]

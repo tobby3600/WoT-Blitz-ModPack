@@ -1,0 +1,41 @@
+animation OpenOverlay
+{
+	ChangeProperty("**/HeaderCurrencies/CurrencyContainer", "UIOpacityComponent", "opacity", (when wasPushed -> 0, 1));
+
+	if (resultContentH > 0)
+	{
+		Event("OVERLAY_CONTENT_HEIGHT_CHANGED", arg1 = resultContentH);
+	}
+
+	Wait(0.2);
+
+	if (wasPushed)
+	{
+		parallel
+		{
+			ChangeData(blurOpacity, 1, 0.6, EASE_OUT);
+			ChangeData(fadeOpacity, 0.35, 0.6, EASE_OUT);
+			ChangeData(currentResultH, int(resultH * 1.02), 0.6, SINE_OUT);
+			ChangeProperty("**/Overlay", "UIOpacityComponent", "opacity", 1, 0.6, EASE_OUT);
+			ChangeProperty("**/HeaderCurrencies/CurrencyContainer", "UIOpacityComponent", "opacity", 1, 0.6, EASE_OUT);
+		}
+
+		ChangeData(currentResultH, resultH, 0.15, SINE_OUT);
+	}
+	else
+	{
+		parallel
+		{
+			ChangeData(blurOpacity, 1, 0.6, EASE_OUT);
+			ChangeData(fadeOpacity, 0.6, 0.6, EASE_OUT);
+		}
+
+		parallel
+		{
+			ChangeData(currentResultH, resultH, 0.15, SINE_OUT);
+			ChangeProperty("**/Overlay", "UIOpacityComponent", "opacity", 1, 0.15, EASE_OUT);
+		}
+	}
+
+	Event ("OVERLAY_OPEN_FINISH");
+}

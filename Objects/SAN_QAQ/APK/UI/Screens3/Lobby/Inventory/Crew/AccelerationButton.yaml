@@ -1,0 +1,91 @@
+Header:
+    version: 141
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/TrainingButton.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Resource/CurrencyWithDiscount.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "AccelerationButton"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalValue: 256.000000
+            verticalPolicy: "FixedSize"
+            verticalValue: 112.000000
+        UIDataParamsComponent:
+            params:
+            - ["bool", "isSelected", "false", "true"]
+            - ["Acceleration", "acceleration", "null", "{ }"]
+        UIDataLocalBindingsComponent: {}
+    children:
+    -   prototype: "TrainingButton/TrainingButton"
+        name: "TrainingButton"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "buttonContent": "Content"
+                    "trainingType": "acceleration.type"
+                    "price": "acceleration.price"
+                    "freeTextAllowed": "false"
+                    "isFreeTrain": "false"
+                    "isVisible": "true"
+                    "isSelected": "isSelected"
+                    "isBlur": "false"
+                    "bgStyle": "\"grey-shark-70-bg\""
+        children:
+        -   path: "TrainingContent/ContentWrapper/ButtonWithSelection/ButtonWrapper"
+            components:
+                UIOpacityComponent: {}
+            bindings:
+            - ["UIOpacityComponent.opacity", ""]
+Slots:
+-   class: "UIControl"
+    name: "Content"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "Exp"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            LinearLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfMaxChild"
+        children:
+        -   class: "UIControl"
+            name: "Text"
+            size: [32.000000, 32.000000]
+            input: false
+            classes: "t-title bold"
+            components:
+                UITextComponent:
+                    colorInheritType: "COLOR_IGNORE_PARENT"
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "str1000Separated(acceleration.accelerationExp)"]
+        -   class: "UIControl"
+            name: "Control"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Background:
+                    sprite: "~res:/Gfx/UI/LobbyCommon/CurrencyIconsBig"
+                    frame: 4
+                Anchor:
+                    hCenterAnchorEnabled: false
+                    vCenterAnchorEnabled: true

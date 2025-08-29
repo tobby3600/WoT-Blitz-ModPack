@@ -20,7 +20,6 @@ Prototypes:
             - ["bool", "markReadIsVisible", "false", "true"]
             - ["NewsNotificationsViewModel", "model", "{ }", "{ \"mobileLines\" = [ { \"items\" = [ { \"rssItemIndex\" = 0; \"cardSize\" = eNewsCardSize.M; \"item\" = { \"title\" = \"one\"; }; }; { \"rssItemIndex\" = 1; \"cardSize\" = eNewsCardSize.M; \"item\" = { \"title\" = \"two\"; }; }; ]; }; { \"items\" = [ { \"rssItemIndex\" = 2; \"item\" = { \"title\" = \"three\"; }; }; ]; }; ]; }"]
             events:
-            - "CHANGE_SCROLL_POSITION_NS(int position)"
             - "CHANGE_POSITION_SELECTED_ITEM"
             - "NEWS_TAB_INIT"
             - "SCROLL_TO_SELECTED_ITEM"
@@ -31,8 +30,7 @@ Prototypes:
         UIDataLocalVarsComponent:
             data:
             - ["int", "scrollPosition", "0"]
-            - ["int", "scrollPositionNS", "-1"]
-            - ["int", "currentSelectedItem", "when isGamepad -> model.selectedItem, -1"]
+            - ["int", "currentSelectedItem", "-1"]
         UIDataOnEventComponent0:
             eventName: "SCROLL_EVENT"
             modelFieldExpression: "scrollPosition"
@@ -40,11 +38,7 @@ Prototypes:
         UIDataOnEventComponent1:
             eventName: "SELECTED_ITEM_CHANGE"
             modelFieldExpression: "currentSelectedItem"
-            dataExpression: "when isGamepad -> _event, -1"
-        UIDataOnEventComponent2:
-            eventName: "CHANGE_POSITION_SELECTED_ELEMENT"
-            modelFieldExpression: "scrollPositionNS"
-            dataExpression: "int(_event)"
+            dataExpression: "-1"
         UIEventOnDataComponent0:
             watchedDataExpression: "scrollPosition"
             eventName: "CHANGE_POSITION_CONTENT"
@@ -53,10 +47,6 @@ Prototypes:
             watchedDataExpression: "currentSelectedItem"
             eventName: "SELECTED_ITEM_WAS_CHANGED"
             eventData: "currentSelectedItem"
-        UIEventOnDataComponent2:
-            watchedDataExpression: "scrollPositionNS"
-            eventName: "CHANGE_SCROLL_POSITION_NS"
-            eventData: "scrollPositionNS"
     children:
     -   class: "UIScrollView"
         name: "UIScrollView"

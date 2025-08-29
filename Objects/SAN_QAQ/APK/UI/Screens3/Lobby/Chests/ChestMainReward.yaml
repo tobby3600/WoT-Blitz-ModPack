@@ -1,7 +1,5 @@
 Header:
     version: 150
-ImportedPackages:
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "MainReward"
@@ -28,8 +26,11 @@ Prototypes:
         name: "Content"
         pivot: [0.500000, 0.500000]
         input: false
-        classes: "content-area"
+        classes: "content-area white-wild-sand-25-bg"
         components:
+            Background: {}
+            UIRoundedCornersComponent:
+                radius: "4;4;0;0"
             Anchor:
                 hCenterAnchorEnabled: true
                 vCenterAnchorEnabled: true
@@ -41,13 +42,6 @@ Prototypes:
                 verticalPolicy: "Formula"
                 verticalFormula: "(parent + lastChild) * 1.05"
         children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
-            components:
-                UIDataParamsComponent:
-                    args:
-                        "bgStyle": "\"white-wild-sand-25-bg\""
-                        "roundCorner": "\"4\""
         -   class: "UIControl"
             name: "label"
             input: false

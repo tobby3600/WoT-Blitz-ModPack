@@ -1,0 +1,53 @@
+Header:
+    version: 161
+Prototypes:
+-   class: "UIControl"
+    name: "CancelResetPasswordFailDialog"
+    size: [960.000000, 640.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            events:
+            - "CANCEL"
+        UIDataLocalVarsComponent:
+            data:
+            - ["string", "header", "\"#settings:Personalized/Dialogs/Underage/AutoResetPassword/UnderageModeClosed/Title\""]
+            - ["string", "description", "\"#settings:Personalized/Dialogs/Underage/AutoResetPassword/UnderageModeClosed/Description\""]
+    children:
+    -   class: "UIControl"
+        name: "DialogHolder"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Dialog/TextDialog.yaml"
+                args:
+                    "type": "eDialogType.INFO"
+                    "header": "header"
+                    "accentButton": "\"#common:DialogButton/OK\""
+                    "showScroll": "true"
+                    "contentControl": "Description"
+                eventActions:
+                - ["ACCENT_CLICKED", "CANCEL", ""]
+Slots:
+-   class: "UIControl"
+    name: "Description"
+    size: [400.000000, 7520.000000]
+    input: false
+    classes: "t-body regular white-wild-sand-70-text"
+    components:
+        UITextComponent:
+            multiline: "MULTILINE_ENABLED"
+            align: ["HCENTER", "VCENTER"]
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfContent"
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Font.style.yaml"
+    bindings:
+    - ["UITextComponent.text", "localize(description)"]

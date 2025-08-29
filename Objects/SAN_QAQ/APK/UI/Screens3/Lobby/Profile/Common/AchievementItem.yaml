@@ -157,7 +157,7 @@ Prototypes:
                 -   class: "UIControl"
                     name: "Text"
                     input: false
-                    classes: "t-overline bold color=white-wild-sand-text not-localize"
+                    classes: "t-overline bold white-wild-sand-text"
                     components:
                         UITextComponent: {}
                         Anchor:

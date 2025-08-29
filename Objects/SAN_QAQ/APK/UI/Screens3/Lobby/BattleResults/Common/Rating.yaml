@@ -1,0 +1,53 @@
+Header:
+    version: 138
+Prototypes:
+-   class: "UIControl"
+    name: "Rating"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        LinearLayout:
+            spacing: 8.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "PercentOfMaxChild"
+        UIDataParamsComponent:
+            params:
+            - ["RatingBattleModel", "rating", "null", "{ }"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["string", "ratingDiffStyle", "when rating.difference > 0 -> \"bold t-body green-green-text\", \"red-red-text\""]
+    children:
+    -   class: "UIControl"
+        name: "UpDownMark"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_ALIGNED"
+                sprite: "~res:/Gfx/Lobby/backgrounds/bg_triangle.psd"
+                perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfContent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
+        bindings:
+        - ["classes", "when rating.difference > 0 -> \"green-green-bg\", \"red-red-bg\""]
+        - ["Background.spriteModification", "when rating.difference > 0 -> 0, 2"]
+    -   class: "UIControl"
+        name: "RatingDiff"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            UITextComponent: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfContent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml"
+        bindings:
+        - ["classes", "ratingDiffStyle"]
+        - ["UITextComponent.text", "abs(rating.difference)"]

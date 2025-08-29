@@ -1,0 +1,116 @@
+Header:
+    version: 161
+Prototypes:
+-   class: "UIControl"
+    name: "ShopButton"
+    input: true
+    classes: "shop-button button-open-sound"
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/Lobby/Common/Button/ShopButton.animation"
+        Anchor:
+            topAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalValue: 72.000000
+            verticalPolicy: "FixedSize"
+            verticalValue: 72.000000
+        UIAttachLayoutMasterComponent: {}
+        UIInputEventComponent:
+            onTouchUpInside: "GO_TO_SHOP"
+        UIDataParamsComponent:
+            params:
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["LobbyDataModel", "lobby", "null", "{ }"]
+            events:
+            - "GO_TO_SHOP"
+        UIDataLocalVarsComponent:
+            data:
+            - ["string", "shopAttachId", "\"SHOP\""]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["ShopBadges", "badges", "lobby.shopBadges"]
+            - ["bool", "adChestGiftBadge", "session.serverConfig.advertising.shopChest.enabled and lobby.advertising.shopChest.total > 0 and lobby.advertising.shopChest.current >= lobby.advertising.shopChest.total"]
+            - ["bool", "adPremiumGiftBadge", "session.serverConfig.advertising.shopPremium.enabled and lobby.advertising.shopPremium.total > 0 and lobby.advertising.shopPremium.current >= lobby.advertising.shopPremium.total"]
+            - ["bool", "adGiftBadge", "lobby.advertising.adsSupported and (adChestGiftBadge or adPremiumGiftBadge)"]
+            - ["bool", "showGiftBadge", "badges.hasGift or adGiftBadge"]
+            - ["bool", "showAdChestBadge", "session.serverConfig.advertising.shopChest.enabled and not badges.ignoreAdChestState and lobby.advertising.adsSupported and lobby.advertising.shopChestAdAvailable and session.stats.shopChestAds.nextViewTime <= session.serverTime and session.stats.shopChestAds.remainingAds > 0"]
+            - ["bool", "showAdPremiumBadge", "session.serverConfig.advertising.shopPremium.enabled and not badges.ignoreAdPremiumState and lobby.advertising.adsSupported and lobby.advertising.shopPremiumAdAvailable and session.stats.shopPremiumAds.nextViewTime <= session.serverTime and session.stats.shopPremiumAds.remainingAds > 0"]
+            - ["bool", "showAdGoldBadge", "session.serverConfig.advertising.hangar.enabled and not badges.ignoreAdGoldState and lobby.advertising.adsSupported and lobby.advertising.hangarAdAvailable and session.stats.hangarAds.nextViewTime <= session.serverTime and session.stats.hangarAds.remainingAds > 0"]
+            - ["bool", "showAdBadge", "showAdPremiumBadge or showAdChestBadge or showAdGoldBadge"]
+        Sound: {}
+        UIIdentifierComponent:
+            id: "header_shop_button"
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Lobby/Common/Button/ShopButton.style.yaml;~res:/UI/Screens3/ButtonSound.style.yaml"
+    bindings:
+    - ["UIAttachLayoutMasterComponent.attachId", "shopAttachId"]
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        pivot: [0.500000, 0.000000]
+        input: false
+        classes: "content-area"
+        components:
+            UIOpacityComponent: {}
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                bottomAnchorEnabled: true
+        children:
+        -   class: "UIParticles"
+            name: "Particle"
+            position: [37.000000, 40.000000]
+            size: [32.000000, 32.000000]
+            scale: [0.300000, 0.300000]
+            pivot: [0.500000, 0.500000]
+            input: false
+            effectPath: "~res:/3d/FX/UI/shop-button/shopEffect.sc2"
+        -   class: "UIControl"
+            name: "Icon"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                    vCenterAnchor: -6.000000
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 48.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 48.000000
+            children:
+            -   class: "UIControl"
+                name: "Icon"
+                input: false
+                components:
+                    Background:
+                        sprite: "~res:/Gfx/Lobby/icons/icon_shop.psd"
+                        perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 24.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 24.000000
+            -   class: "UIControl"
+                name: "Badge"
+                input: false
+                components:
+                    Anchor:
+                        rightAnchorEnabled: true
+                        rightAnchor: -6.000000
+                        topAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfChildrenSum"
+                    UIChildComponent0:
+                        condition: "showGiftBadge or showAdBadge or badges.badgesCount > 0"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Badge.yaml"
+                        args:
+                            "value": "str(badges.badgesCount)"
+                            "type": "when showGiftBadge -> eBadgeType.Gift, badges.badgesCount > 0 -> eBadgeType.Digit, showAdBadge -> eBadgeType.Advertising, eBadgeType.Digit"

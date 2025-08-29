@@ -1,0 +1,198 @@
+Header:
+    version: 161
+ImportedPackages:
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "Table"
+    size: [960.000000, 206.000000]
+    input: false
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/Lobby/Clan/Search/ClanListInit.animation;_FINISH,~res:/UI/Screens3/Lobby/Clan/Search/ClanListFinish.animation"
+        UIOpacityComponent:
+            opacity: 0.000000
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "isChina", "false", "false"]
+            - ["bool", "inverseSort", "false", "false"]
+            - ["bool", "loadMoreVisible", "false", "true"]
+            - ["bool", "isLoadingInProgress", "false", "false"]
+            - ["vector<ClanShortInfo>", "clans", "null", "[ { }; { }; ]"]
+            - ["eClanListSortMode", "sortMode", "eClanListSortMode.None", "eClanListSortMode.None"]
+            - ["int", "var", "0", "0"]
+            - ["float", "initScrollPosition", "0", "0"]
+            - ["bool", "useSearchedClans", "false", "false"]
+            events:
+            - "SwitchSortType(eClanListSortMode type)"
+            - "ScrollPositionChanged(float pos)"
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Clan/Search/ClanList.actions"
+    children:
+    -   class: "UIControl"
+        name: "ListHeader"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 836.000000
+                verticalPolicy: "FixedSize"
+                verticalValue: 50.000000
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Clan/Search/ClanListHeader.yaml"
+                args:
+                    "sortMode": "sortMode"
+                    "inverseSort": "inverseSort"
+                eventActions:
+                - ["SwitchSortType", "SwitchSortType", "_event.type"]
+    -   class: "UIControl"
+        name: "Spacer"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+                verticalValue: 8.000000
+    -   class: "UIControl"
+        name: "VerticalScrollView"
+        size: [845.000000, 379.000000]
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                hCenterAnchor: 5.000000
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 845.000000
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIScrollView"
+            name: "ScrollArea"
+            size: [850.000000, 148.000000]
+            autoUpdate: true
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    rightAnchorEnabled: true
+                    rightAnchor: 10.000000
+                    topAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfParent"
+                UISystemEventComponent:
+                    onActivated: "ScrollLoaded"
+                    onActivatedData: "initScrollPosition"
+            children:
+            -   class: "UIScrollViewContainer"
+                name: "scrollContainerControl"
+                scrollDirection: "kVertical"
+                components:
+                    Anchor: {}
+                    LinearLayout:
+                        orientation: "TopDown"
+                        spacing: 4.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfChildrenSum"
+                    UILayoutEventComponent:
+                        positionChangedEvent: "ScrollPositionChanged"
+                        positionChangedEventData: "_position.Y"
+                        sizeChangedEvent: "ScrollPositionChanged"
+                        sizeChangedEventData: "_position.Y"
+                children:
+                -   class: "UIControl"
+                    name: "List"
+                    input: false
+                    components:
+                        LinearLayout:
+                            orientation: "TopDown"
+                            spacing: 4.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfChildrenSum"
+                        UIRepeatComponent:
+                            control: "~res:/UI/Screens3/Lobby/Clan/Search/ClanListItem.yaml"
+                            dataContainer: "clans"
+                            args:
+                                "hideLanguages": "isChina"
+                                "previousRowsLoaded": "_index == 0 or (clans[_index].statsAreLoaded and clans[_index].membersAreLoaded)"
+                                "model": "_item"
+                            loadingPolicy: "Lazy"
+                            loadingDistance: 200.000000
+                            unloadingDistance: 200.000000
+                -   class: "UIControl"
+                    name: "Spacer"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 8.000000
+                    bindings:
+                    - ["visible", "loadMoreVisible"]
+                -   class: "UIControl"
+                    name: "ButtonWrapper"
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfMaxChild"
+                    bindings:
+                    - ["visible", "loadMoreVisible"]
+                    children:
+                    -   class: "UIControl"
+                        name: "Button"
+                        input: false
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfChildrenSum"
+                                verticalPolicy: "PercentOfChildrenSum"
+                            UIChildComponent0:
+                                prototypePath: "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+                                args:
+                                    "isCapitalize": "true"
+                                    "type": "eButtonType.OPTIONAL_LIGHT"
+                                    "caption": "localize(\"Clans/Search/LoadMoreButton\")"
+                                    "isBlur": "false"
+                                    "isCustBg": "true"
+                                    "maskStyle": "\"white-wild-sand-15-bg\""
+                                eventActions:
+                                - ["ON_CLICK_BUTTON", "LoadMoreClicked", ""]
+                        bindings:
+                        - ["visible", "not isLoadingInProgress and not Empty(clans)"]
+                    -   class: "UIControl"
+                        name: "Spinner"
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfMaxChild"
+                                verticalPolicy: "PercentOfMaxChild"
+                            UIChildComponent0:
+                                prototypePath: "~res:/UI/Screens3/Common/LoadingSpinner.yaml"
+                        bindings:
+                        - ["visible", "isLoadingInProgress"]
+        -   prototype: "VerticalScrollBar/VerticalScrollBar"
+            name: "VerticalScrollBar"
+            components:
+                Anchor:
+                    rightAnchorEnabled: true
+                    topAnchorEnabled: true
+                    bottomAnchorEnabled: true
+CustomData:
+    Guides:
+        Table:
+            Vertical:
+            - 267.000000

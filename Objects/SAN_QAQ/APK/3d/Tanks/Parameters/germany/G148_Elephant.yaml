@@ -12,8 +12,8 @@ resourcesPath:
     chassisSoundNPC: "tanks/npc/treads/ht"
     customEffects:
         hull:
-            HP_Track_Exhaus_01: "FX/Exhausts/left-down-front45.sc2"
-            HP_Track_Exhaus_02: "FX/Exhausts/right-down-front45.sc2"
+            HP_Track_Exhaus_01: "FX/Exhausts/right-down-front45.sc2"
+            HP_Track_Exhaus_02: "FX/Exhausts/left-down-front45.sc2"
 textureTransform: {}
 gunRecoil:
     gun_01:

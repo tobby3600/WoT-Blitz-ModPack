@@ -271,9 +271,9 @@ Prototypes:
                                 components:
                                     SizePolicy:
                                         horizontalPolicy: "FixedSize"
-                                        horizontalValue: 48.000000
+                                        horizontalValue: 56.000000
                                         verticalPolicy: "FixedSize"
-                                        verticalValue: 48.000000
+                                        verticalValue: 56.000000
                                     UIChildComponent0:
                                         condition: "(not (gameplayMode == eGameMode.Rating)) and (not (gameplayMode == eGameMode.Training))"
                                         prototypePath: "~res:/UI/Screens3/Lobby/Common/SortButton/IconSortButton.yaml"
@@ -294,9 +294,9 @@ Prototypes:
                                 components:
                                     SizePolicy:
                                         horizontalPolicy: "FixedSize"
-                                        horizontalValue: 48.000000
+                                        horizontalValue: 56.000000
                                         verticalPolicy: "FixedSize"
-                                        verticalValue: 48.000000
+                                        verticalValue: 56.000000
                                     UIChildComponent0:
                                         prototypePath: "~res:/UI/Screens3/Lobby/Common/SortButton/IconSortButton.yaml"
                                         args:
@@ -314,9 +314,9 @@ Prototypes:
                                 components:
                                     SizePolicy:
                                         horizontalPolicy: "FixedSize"
-                                        horizontalValue: 48.000000
+                                        horizontalValue: 56.000000
                                         verticalPolicy: "FixedSize"
-                                        verticalValue: 48.000000
+                                        verticalValue: 56.000000
                                     UIChildComponent0:
                                         prototypePath: "~res:/UI/Screens3/Lobby/Common/SortButton/IconSortButton.yaml"
                                         args:
@@ -391,9 +391,9 @@ Prototypes:
                                 components:
                                     SizePolicy:
                                         horizontalPolicy: "FixedSize"
-                                        horizontalValue: 48.000000
+                                        horizontalValue: 56.000000
                                         verticalPolicy: "FixedSize"
-                                        verticalValue: 48.000000
+                                        verticalValue: 56.000000
                                     UIChildComponent0:
                                         prototypePath: "~res:/UI/Screens3/Lobby/Common/SortButton/IconSortButton.yaml"
                                         args:
@@ -411,9 +411,9 @@ Prototypes:
                                 components:
                                     SizePolicy:
                                         horizontalPolicy: "FixedSize"
-                                        horizontalValue: 48.000000
+                                        horizontalValue: 56.000000
                                         verticalPolicy: "FixedSize"
-                                        verticalValue: 48.000000
+                                        verticalValue: 56.000000
                                     UIChildComponent0:
                                         prototypePath: "~res:/UI/Screens3/Lobby/Common/SortButton/IconSortButton.yaml"
                                         args:
@@ -432,9 +432,9 @@ Prototypes:
                                 components:
                                     SizePolicy:
                                         horizontalPolicy: "FixedSize"
-                                        horizontalValue: 48.000000
+                                        horizontalValue: 56.000000
                                         verticalPolicy: "FixedSize"
-                                        verticalValue: 48.000000
+                                        verticalValue: 56.000000
                                     UIChildComponent0:
                                         condition: "(not (gameplayMode == eGameMode.Rating)) and (not (gameplayMode == eGameMode.Training))"
                                         prototypePath: "~res:/UI/Screens3/Lobby/Common/SortButton/IconSortButton.yaml"

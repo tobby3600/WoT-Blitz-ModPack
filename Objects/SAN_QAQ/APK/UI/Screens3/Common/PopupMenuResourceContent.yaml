@@ -562,7 +562,6 @@ Slots:
     -   class: "UIControl"
         name: "LifeTime"
         input: false
-        classes: "t-body regular white-wild-sand-70-text"
         components:
             RichContent:
                 baseClasses: "regular t-body white-wild-sand-70-text"

@@ -1,0 +1,83 @@
+Header:
+    version: 157
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "ShopButton"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfMaxChild"
+            verticalPolicy: "PercentOfMaxChild"
+        UIDataParamsComponent:
+            params:
+            - ["int", "width", "150", "180"]
+            - ["bool", "enabled", "true", "true"]
+            - ["int", "count", "0", "100"]
+            - ["float", "discount", "0.000000", "0.300000"]
+            - ["string", "caption", "\"\"", "\"КУПИТЬ\""]
+            - ["bool", "isLoading", "false", "false"]
+            - ["bool", "alternative", "false", "true"]
+            events:
+            - "ON_CLICK_BUTTON"
+        UIChildComponent0:
+            childType: "kControl"
+            control: "ButtonWrapper"
+Slots:
+-   class: "UIControl"
+    name: "badge"
+    input: false
+    components:
+        Anchor:
+            leftAnchorEnabled: true
+            leftAnchor: -8.000000
+            topAnchorEnabled: true
+            topAnchor: -8.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfMaxChild"
+            verticalPolicy: "PercentOfMaxChild"
+        UIChildComponent0:
+            condition: "discount > 0"
+            prototypePath: "~res:/UI/Screens3/Common/DiscountLabel.yaml"
+            args:
+                "discount": "discount"
+-   class: "UIControl"
+    name: "leftContent"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "PercentOfMaxChild"
+        UIChildComponent0:
+            prototypePath: "~res:/UI/Screens3/Lobby/Common/XNLabel.yaml"
+            args:
+                "bgColor": "\"white-wild-sand-bg\""
+                "count": "count"
+                "textColor": "when alternative -> \"orange-tango-text\", \"green-la-palma-text\""
+-   class: "UIControl"
+    name: "ButtonWrapper"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            verticalPolicy: "PercentOfMaxChild"
+    bindings:
+    - ["SizePolicy.horizontalValue", "width"]
+    children:
+    -   prototype: "Button/Button"
+        name: "Button"
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+            UIDataParamsComponent:
+                args:
+                    "leftBadge": "badge"
+                    "rightContent": "when count > 0 -> leftContent, null"
+                    "enabled": "enabled"
+                    "isLoading": "isLoading"
+                    "type": "when alternative -> eButtonType.ALTERNATIVE, eButtonType.POSITIVE"
+                    "caption": "caption"
+                    "hasShadow": "false"
+                eventActions:
+                - ["ON_CLICK_BUTTON", "ON_CLICK_BUTTON", ""]

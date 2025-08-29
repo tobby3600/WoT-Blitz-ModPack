@@ -1,0 +1,935 @@
+Header:
+    version: 161
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/Blur.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "AuctionSlot"
+    position: [0.000000, 0.000000]
+    size: [304.000000, 304.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfFirstChild"
+            verticalPolicy: "PercentOfFirstChild"
+        UIDataParamsComponent:
+            params:
+            - ["AuctionSlotViewModel", "model", "null", "{ \"slot\" = { \"state\" = eAuctionSlotState.NotStartWithRevealed; }; }"]
+            - ["AuctionResources", "resources", "null", "{ }"]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["float", "shopScrollBottomOffset", "40.000000", "40.000000"]
+            - ["float", "shopScrollTopOffset", "48.000000", "48.000000"]
+            events:
+            - "SHOW_SLOT_INFO(int id)"
+            - "SELECT_SLOT(int id)"
+        UIDataLocalVarsComponent:
+            data:
+            - ["float", "offsetSize", "400.000000"]
+            - ["float", "offset", "when model.isSelected -> offsetSize, 0.000000"]
+            - ["int", "maxContentSlots", "3"]
+            - ["bool", "debugStateActive", "false"]
+            - ["bool", "debugStateSoldOut", "false"]
+            - ["bool", "debugStateEnd", "false"]
+            - ["bool", "debugStateMysteruiousKit", "false"]
+            - ["bool", "debugStateRevealed", "false"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["AuctionSlotModel", "slot", "model.slot"]
+            - ["float", "rewardOpacity", "1.000000"]
+            - ["int", "vehicleNumber", "slot.kit.vehicleNumber"]
+            - ["bool", "allContentFits", "slot.kit.rewards.Size() - vehicleNumber <= maxContentSlots"]
+            - ["int", "contentSlotsToShow", "when allContentFits -> slot.kit.rewards.Size(), maxContentSlots + vehicleNumber"]
+            - ["int", "moreRewardsCount", "when slot.kit.rewards.Size() - maxContentSlots > 0 -> slot.kit.rewards.Size() - maxContentSlots - vehicleNumber, 0"]
+            - ["bool", "showStateActive", "debugStateActive or model.slot.state == eAuctionSlotState.Active"]
+            - ["bool", "showStateSoldOut", "debugStateSoldOut or model.slot.state == eAuctionSlotState.EndWithSoldOut"]
+            - ["bool", "showStateEnd", "debugStateEnd or model.slot.state == eAuctionSlotState.EndWithTimeOut"]
+            - ["bool", "showStateMysteruiousKit", "debugStateMysteruiousKit or model.slot.state == eAuctionSlotState.NotStartWithHidden"]
+            - ["bool", "showStateRevealed", "debugStateRevealed or model.slot.state == eAuctionSlotState.NotStartWithRevealed"]
+            - ["color", "selectedBorderColor", "when showStateMysteruiousKit -> rgb(56, 88, 255), rgb(255, 168, 0)"]
+            - ["bool", "priceFall", "model.slot.kit.originalPriceValue > model.slot.kit.currentPriceValue"]
+            - ["bool", "footerVisible", "(showStateActive or showStateSoldOut or showStateEnd or showStateRevealed) and (slot.kit.rewards.Size() - vehicleNumber > 0)"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Auction/AuctionSlot.actions"
+    children:
+    -   class: "UIControl"
+        name: "ContentHolder"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/ButtonDecorator.yaml"
+                args:
+                    "content": "Content"
+                    "hasInput": "true"
+                    "isSelected": "model.isSelected"
+                    "ltrbSafeZone": "vec4(2.000000, 2.000000, 2.000000, 2.000000)"
+                    "pushScale": "vec2(0.980000, 0.980000)"
+                    "sound": "when model.isSelected -> eButtonSound.OPEN, eButtonSound.CHOOSE"
+                eventActions:
+                - ["PUSH", "PUSH", "_event.scale, _event.opacity, _event.time"]
+                - ["PULL", "PULL", "_event.time"]
+                - ["HOVER", "HOVER", "_event.brightness, _event.time"]
+                - ["CANCEL_HOVER", "CANCEL_HOVER", "_event.time"]
+                - ["SELECT", "SELECT", "_event.time"]
+                - ["CANCEL_SELECT", "CANCEL_SELECT", "_event.time"]
+                - ["ON_TOUCH", "ON_TOUCH", "model.slot.id"]
+Slots:
+-   class: "UIControl"
+    name: "Content"
+    input: false
+    components:
+        ClipContent: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfFirstChild"
+            verticalPolicy: "PercentOfFirstChild"
+    children:
+    -   class: "UIControl"
+        name: "Body"
+        position: [120.000000, 0.000000]
+        pivot: [0.500000, 0.500000]
+        input: false
+        components:
+            UIOpacityComponent: {}
+            ClipContent:
+                left: false
+                right: false
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfFirstChild"
+        children:
+        -   class: "UIControl"
+            name: "Bg"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "Formula"
+                    horizontalFormula: "240"
+                    verticalPolicy: "Formula"
+                    verticalFormula: "368"
+        -   class: "UIControl"
+            name: "SafeArea"
+            input: false
+            components:
+                Anchor:
+                    bottomAnchorEnabled: false
+                LinearLayout:
+                    enabled: false
+                    orientation: "TopDown"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "Group"
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 336.000000
+                children:
+                -   class: "UIControl"
+                    name: "ColorBg"
+                    visible: true
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_FILL"
+                            color: [0.117647, 0.133333, 0.137255, 0.701961]
+                        Anchor:
+                            topAnchorEnabled: false
+                            topAnchor: 0.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                            verticalValue: 100.000000
+                -   class: "UIControl"
+                    name: "BgImage"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_SCALE_TO_RECT"
+                        UIUrlImageComponent:
+                            placeholderScenePath: "~res:/UI/Screens3/Common/LoadingOverlay.yaml"
+                            placeholderControlName: "LoadingOverlay"
+                            checkUpdate: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                            verticalValue: 100.000000
+                    bindings:
+                    - ["visible", "showStateActive or showStateSoldOut or showStateEnd or showStateRevealed"]
+                    - ["UIUrlImageComponent.imageUrl", "when slot.kit.useStringStuff -> slot.kit.kitCoverKey, resources.graphics[slot.kit.kitCoverKey]"]
+                -   class: "UIControl"
+                    name: "TopTextArea"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_FILL"
+                            frame: 0
+                            color: [0.000000, 0.000000, 0.000000, 0.352941]
+                            colorInherit: "COLOR_IGNORE_PARENT"
+                        Anchor:
+                            leftAnchorEnabled: true
+                            topAnchorEnabled: true
+                            topAnchor: 0.000000
+                        LinearLayout:
+                            enabled: false
+                            orientation: "TopDown"
+                            spacing: 0.000000
+                            useRtl: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            horizontalValue: 100.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 58.000000
+                    bindings:
+                    - ["visible", "showStateActive or showStateSoldOut or showStateEnd or showStateRevealed"]
+                    children:
+                    -   class: "UIControl"
+                        name: "kitName"
+                        visible: true
+                        input: false
+                        classes: "t-content-h4 bold white-wild-sand-text"
+                        components:
+                            UITextComponent:
+                                fitting: "FITTING_POINTS"
+                            Anchor:
+                                enabled: true
+                                leftAnchorEnabled: false
+                                hCenterAnchorEnabled: true
+                                hCenterAnchor: 0.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                horizontalValue: 92.000000
+                                horizontalFormula: "min(parentRest, content)"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 32.000000
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml"
+                        bindings:
+                        - ["UITextComponent.text", "when slot.kit.useStringStuff -> localize(slot.kit.titleKey), localize(resources.strings[slot.kit.titleKey])"]
+                    -   class: "UIControl"
+                        name: "BundleLedt"
+                        position: [0.000000, 32.000000]
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            LinearLayout:
+                                orientation: "TopDown"
+                                spacing: 4.000000
+                                useRtl: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                horizontalValue: 100.000000
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 24.000000
+                        children:
+                        -   class: "UIControl"
+                            name: "text"
+                            input: false
+                            classes: "t-subtitle regular white-wild-sand-text"
+                            components:
+                                UITextComponent:
+                                    colorInheritType: "COLOR_IGNORE_PARENT"
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    horizontalFormula: "min(parentRest, content)"
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 24.000000
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml"
+                            bindings:
+                            - ["UITextComponent.text", "localize(\"auction-event-2025-newyear/BundleLeft\", { \"left_num\" = str(slot.kitLeftCount); })"]
+                -   class: "UIControl"
+                    name: "NextDropTime"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_FILL"
+                            frame: 5
+                            color: [0.992157, 0.305882, 0.047059, 0.701961]
+                        Anchor:
+                            leftAnchorEnabled: true
+                            topAnchorEnabled: true
+                            topAnchor: 62.000000
+                        LinearLayout:
+                            enabled: false
+                            orientation: "TopDown"
+                            spacing: 4.000000
+                            useRtl: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfFirstChild"
+                            horizontalValue: 110.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 31.000000
+                    bindings:
+                    - ["visible", "showStateActive and not slot.isLastDrop"]
+                    children:
+                    -   class: "UIControl"
+                        name: "text"
+                        input: false
+                        classes: "t-caption bold white-wild-sand-text"
+                        components:
+                            UITextComponent:
+                                colorInheritType: "COLOR_IGNORE_PARENT"
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                                vCenterAnchor: 0.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfContent"
+                                verticalValue: 100.000000
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml"
+                        bindings:
+                        - ["UITextComponent.text", "localize(\"auction-event-2025-newyear/NextDrop\", { \"next_drop\" = timeDiff(slot.nextDropTime - session.serverTime); })"]
+                        - ["UITextComponent.fontSize", "14"]
+                -   class: "UIControl"
+                    name: "FinalDropTime"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            leftAnchorEnabled: true
+                            topAnchorEnabled: true
+                            topAnchor: 62.000000
+                        LinearLayout:
+                            enabled: true
+                            orientation: "TopDown"
+                            spacing: 4.000000
+                            useRtl: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfFirstChild"
+                            horizontalValue: 110.000000
+                            verticalPolicy: "PercentOfChildrenSum"
+                    bindings:
+                    - ["visible", "showStateActive and slot.isLastDrop"]
+                    children:
+                    -   class: "UIControl"
+                        name: "EndIn"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            Background:
+                                drawType: "DRAW_FILL"
+                                frame: 5
+                                color: [0.992157, 0.305882, 0.047059, 0.701961]
+                            Anchor:
+                                leftAnchorEnabled: true
+                                topAnchorEnabled: true
+                                topAnchor: 62.000000
+                            LinearLayout:
+                                enabled: false
+                                orientation: "TopDown"
+                                spacing: 4.000000
+                                useRtl: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfFirstChild"
+                                horizontalValue: 110.000000
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 31.000000
+                        children:
+                        -   class: "UIControl"
+                            name: "text"
+                            input: false
+                            classes: "t-caption bold white-wild-sand-text"
+                            components:
+                                UITextComponent:
+                                    colorInheritType: "COLOR_IGNORE_PARENT"
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                    vCenterAnchorEnabled: true
+                                    vCenterAnchor: 0.000000
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    verticalPolicy: "PercentOfContent"
+                                    verticalValue: 100.000000
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml"
+                            bindings:
+                            - ["UITextComponent.text", "localize(\"auction-event-2025-newyear/TimeEndIn\", { \"time\" = timeDiff(slot.nextDropTime - session.serverTime); })"]
+                            - ["UITextComponent.fontSize", "14"]
+                    -   class: "UIControl"
+                        name: "FinalDrop"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            Background:
+                                drawType: "DRAW_FILL"
+                                frame: 5
+                                color: [0.992157, 0.305882, 0.047059, 0.701961]
+                            Anchor:
+                                leftAnchorEnabled: true
+                                topAnchorEnabled: true
+                                topAnchor: 62.000000
+                            LinearLayout:
+                                enabled: false
+                                orientation: "TopDown"
+                                spacing: 4.000000
+                                useRtl: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfFirstChild"
+                                horizontalValue: 110.000000
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 31.000000
+                        children:
+                        -   class: "UIControl"
+                            name: "text"
+                            input: false
+                            classes: "t-caption bold white-wild-sand-text"
+                            components:
+                                UITextComponent:
+                                    colorInheritType: "COLOR_IGNORE_PARENT"
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                    vCenterAnchorEnabled: true
+                                    vCenterAnchor: 0.000000
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    verticalPolicy: "PercentOfContent"
+                                    verticalValue: 100.000000
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml"
+                            bindings:
+                            - ["UITextComponent.text", "localize(\"auction-event-2025-newyear/LastDrop\")"]
+                            - ["UITextComponent.fontSize", "14"]
+                -   class: "UIControl"
+                    name: "Footer"
+                    input: false
+                    components:
+                        Anchor:
+                            bottomAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 240.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 47.000000
+                        UIChildComponent0:
+                            childType: "kControl"
+                            condition: "footerVisible"
+                            control: "FooterWrapper"
+                -   class: "UIControl"
+                    name: "MysteriousKit"
+                    input: false
+                    components:
+                        UITextureComponent:
+                            spritePath: "~res:/Gfx/Lobby/auction/mysterious_kit.packed"
+                            drawType: "DRAW_SCALE_TO_RECT"
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                            verticalValue: 100.000000
+                    bindings:
+                    - ["visible", "showStateMysteruiousKit"]
+                    children:
+                    -   class: "UIControl"
+                        name: "kitName"
+                        input: false
+                        classes: "t-content-h4 bold white-wild-sand-text"
+                        components:
+                            UITextComponent: {}
+                            Anchor:
+                                enabled: true
+                                leftAnchorEnabled: false
+                                hCenterAnchorEnabled: false
+                                hCenterAnchor: 0.000000
+                                topAnchorEnabled: true
+                                topAnchor: 15.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                horizontalFormula: "min(parentRest, content)"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 32.000000
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml"
+                        bindings:
+                        - ["UITextComponent.text", "localize(\"auction-event-2025-newyear/MysteriousKit\")"]
+                -   class: "UIControl"
+                    name: "SoldOut"
+                    size: [300.000000, 30.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            leftAnchorEnabled: true
+                            topAnchorEnabled: true
+                            topAnchor: 0.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            horizontalValue: 100.000000
+                            verticalPolicy: "PercentOfParent"
+                            verticalValue: 100.000000
+                    bindings:
+                    - ["visible", "showStateSoldOut"]
+                    children:
+                    -   class: "UIControl"
+                        name: "Bg"
+                        input: false
+                        components:
+                            Background:
+                                drawType: "DRAW_FILL"
+                                color: [0.000000, 0.000000, 0.000000, 0.501961]
+                            Anchor:
+                                topAnchorEnabled: false
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfParent"
+                                verticalValue: 100.000000
+                    -   class: "UIControl"
+                        name: "Bg_1"
+                        input: false
+                        components:
+                            Background:
+                                drawType: "DRAW_FILL"
+                                color: [0.992157, 0.776471, 0.011765, 0.701961]
+                            Anchor:
+                                topAnchorEnabled: false
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 60.000000
+                    -   class: "UIControl"
+                        name: "text"
+                        position: [65.500000, 10.000000]
+                        input: false
+                        classes: "t-title bold white-wild-sand-text"
+                        components:
+                            UITextComponent: {}
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                topAnchorEnabled: false
+                                vCenterAnchorEnabled: true
+                                vCenterAnchor: 0.000000
+                                bottomAnchorEnabled: false
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfContent"
+                                verticalValue: 100.000000
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml"
+                        bindings:
+                        - ["UITextComponent.text", "localize(\"auction-event-2025-newyear/SoldOut\")"]
+                        - ["UITextComponent.fontSize", "14"]
+                -   class: "UIControl"
+                    name: "End"
+                    size: [300.000000, 30.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            leftAnchorEnabled: true
+                            topAnchorEnabled: true
+                            topAnchor: 0.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            horizontalValue: 100.000000
+                            verticalPolicy: "PercentOfParent"
+                            verticalValue: 100.000000
+                    bindings:
+                    - ["visible", "showStateEnd"]
+                    children:
+                    -   class: "UIControl"
+                        name: "Bg"
+                        visible: true
+                        input: false
+                        components:
+                            Background:
+                                drawType: "DRAW_FILL"
+                                color: [0.000000, 0.000000, 0.000000, 0.501961]
+                            Anchor:
+                                topAnchorEnabled: false
+                                topAnchor: 120.000000
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfParent"
+                                verticalValue: 100.000000
+                    -   class: "UIControl"
+                        name: "Bg_1"
+                        visible: true
+                        input: false
+                        components:
+                            Background:
+                                drawType: "DRAW_FILL"
+                                color: [0.992157, 0.776471, 0.011765, 0.701961]
+                            Anchor:
+                                topAnchorEnabled: false
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 60.000000
+                    -   class: "UIControl"
+                        name: "text"
+                        position: [65.500000, 10.000000]
+                        input: false
+                        classes: "t-title bold white-wild-sand-text"
+                        components:
+                            UITextComponent: {}
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                topAnchorEnabled: false
+                                vCenterAnchorEnabled: true
+                                vCenterAnchor: 0.000000
+                                bottomAnchorEnabled: false
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfContent"
+                                verticalValue: 100.000000
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml"
+                        bindings:
+                        - ["UITextComponent.text", "localize(\"auction-event-2025-newyear/End\")"]
+                        - ["UITextComponent.fontSize", "14"]
+                -   class: "UIControl"
+                    name: "InfoIcon"
+                    input: false
+                    components:
+                        Anchor:
+                            rightAnchorEnabled: true
+                            rightAnchor: 5.000000
+                            topAnchorEnabled: true
+                            topAnchor: 75.000000
+                            bottomAnchorEnabled: false
+                            bottomAnchor: 210.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "Formula"
+                            verticalFormula: "lastChild + 4"
+                    bindings:
+                    - ["visible", "(showStateActive or showStateSoldOut or showStateEnd or showStateRevealed) and model.isSelected"]
+                    children:
+                    -   class: "UIControl"
+                        name: "Bg"
+                        visible: false
+                        input: false
+                        classes: "grey-shark-70-bg"
+                        components:
+                            Background: {}
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfParent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml"
+                    -   class: "UIControl"
+                        name: "Info"
+                        input: false
+                        classes: "white-wild-sand-50-bg"
+                        components:
+                            Background:
+                                drawType: "DRAW_ALIGNED"
+                                sprite: "~res:/Gfx/Lobby/icons/icon_info_xs"
+                                perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 24.000000
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 24.000000
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml"
+                -   class: "UIControl"
+                    name: "StartsInTime"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_FILL"
+                            frame: 5
+                            color: [0.992157, 0.305882, 0.047059, 0.701961]
+                        Anchor:
+                            leftAnchorEnabled: true
+                            topAnchorEnabled: true
+                            topAnchor: 62.000000
+                        LinearLayout:
+                            enabled: false
+                            orientation: "TopDown"
+                            spacing: 4.000000
+                            useRtl: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfFirstChild"
+                            horizontalValue: 110.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 31.000000
+                    bindings:
+                    - ["visible", "showStateMysteruiousKit or showStateRevealed"]
+                    children:
+                    -   class: "UIControl"
+                        name: "text"
+                        input: false
+                        classes: "t-caption bold white-wild-sand-text"
+                        components:
+                            UITextComponent: {}
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                                vCenterAnchor: 0.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfContent"
+                                verticalValue: 100.000000
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml"
+                        bindings:
+                        - ["UITextComponent.text", "localize(\"auction-event-2025-newyear/StartIn\", { \"time\" = timeDiff(slot.startTime - session.serverTime); })"]
+                        - ["UITextComponent.fontSize", "14"]
+                -   class: "UIControl"
+                    name: "SelectedWrapper"
+                    input: false
+                    components:
+                        Anchor:
+                            bottomAnchorEnabled: false
+                        LinearLayout:
+                            orientation: "TopDown"
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                    children:
+                    -   class: "UIControl"
+                        name: "Selected"
+                        size: [300.000000, 300.000000]
+                        visible: true
+                        input: false
+                        classes: "orange-orange-peel-bg"
+                        components:
+                            BorderComponent:
+                                border-outer: false
+                                border-thickness: 3U
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                horizontalValue: 100.000000
+                                verticalPolicy: "PercentOfParent"
+                                verticalValue: 100.000000
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml"
+                        bindings:
+                        - ["BorderComponent.border-visible", "model.isSelected"]
+                        - ["BorderComponent.border-color", "selectedBorderColor"]
+            -   class: "UIControl"
+                name: "Price"
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        rightAnchorEnabled: false
+                        rightAnchor: 0.000000
+                        bottomAnchorEnabled: true
+                        bottomAnchor: 2.000000
+                    LinearLayout:
+                        enabled: false
+                        spacing: 2.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 32.000000
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["visible", "showStateActive or showStateSoldOut or showStateEnd or showStateRevealed"]
+                children:
+                -   class: "UIControl"
+                    name: "PriceContent"
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            rightAnchorEnabled: false
+                            vCenterAnchorEnabled: true
+                            bottomAnchorEnabled: true
+                            bottomAnchor: 0.000000
+                        LinearLayout:
+                            spacing: 2.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "PercentOfMaxChild"
+                            verticalValue: 100.000000
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml"
+                    children:
+                    -   class: "UIControl"
+                        name: "Text"
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                                vCenterAnchor: 0.000000
+                                bottomAnchorEnabled: false
+                            LinearLayout:
+                                spacing: 5.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfChildrenSum"
+                                verticalPolicy: "PercentOfMaxChild"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml"
+                        children:
+                        -   class: "UIControl"
+                            name: "CurrentAmount"
+                            input: false
+                            classes: "bold t-subtitle white-wild-sand-text"
+                            components:
+                                UITextComponent:
+                                    useRtlAlign: "USE_BY_CONTENT"
+                                Anchor:
+                                    vCenterAnchorEnabled: false
+                                    bottomAnchorEnabled: false
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    verticalPolicy: "PercentOfContent"
+                            bindings:
+                            - ["UITextComponent.text", "str(slot.kit.currentPriceValue)"]
+                        -   class: "UIControl"
+                            name: "Delimiter"
+                            visible: false
+                            input: false
+                            classes: "t-headline bold white-wild-sand-text"
+                            components:
+                                UITextComponent:
+                                    text: "/"
+                                    fontSize: 30.000000
+                                    lineHeight: 32.000000
+                                    colorInheritType: "COLOR_IGNORE_PARENT"
+                                    useRtlAlign: "USE_BY_CONTENT"
+                                Anchor:
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    verticalPolicy: "PercentOfContent"
+                        -   class: "UIControl"
+                            name: "MaxAmount"
+                            input: false
+                            classes: "t-subtitle regular white-wild-sand-70-text"
+                            components:
+                                UITextComponent:
+                                    useRtlAlign: "USE_BY_CONTENT"
+                                Anchor:
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    verticalPolicy: "PercentOfContent"
+                            bindings:
+                            - ["visible", "priceFall"]
+                            - ["UITextComponent.text", "str(slot.kit.originalPriceValue)"]
+                            children:
+                            -   class: "UIControl"
+                                name: "Line"
+                                input: false
+                                classes: "white-wild-sand-bg"
+                                components:
+                                    Background:
+                                        color: [0.960784, 0.960784, 0.960784, 0.701961]
+                                    Anchor:
+                                        leftAnchorEnabled: true
+                                        leftAnchor: -2.000000
+                                        rightAnchorEnabled: true
+                                        rightAnchor: -2.000000
+                                        vCenterAnchorEnabled: true
+                                        vCenterAnchor: 1.000000
+                                    IgnoreLayout: {}
+                                    SizePolicy:
+                                        verticalPolicy: "FixedSize"
+                                        verticalValue: 1.000000
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                    -   class: "UIControl"
+                        name: "CurrencyAdapter"
+                        pivot: [0.500000, 0.500000]
+                        input: false
+                        classes: "content"
+                        components:
+                            UIOpacityComponent: {}
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfFirstChild"
+                                verticalPolicy: "PercentOfFirstChild"
+                            UIChildComponent0:
+                                prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/CurrencyAdapter.yaml"
+                                args:
+                                    "currencySize": "eCurrencySize.BIG_BOLD"
+                                    "forceHideValue": "true"
+                                    "inputEnabled": "false"
+                                    "isPlusTopPaneVisible": "false"
+                                    "resource": "slot.kit.priceResource"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Lobby/StatsInfoPanelItem.style.yaml"
+-   class: "UIControl"
+    name: "FooterWrapper"
+    size: [240.000000, 47.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "BlurWrapper"
+        input: false
+        components:
+            UIOpacityComponent: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   prototype: "Blur/Blur"
+            name: "Blur"
+            components:
+                UIPostProcessTextureComponent0:
+                    renderRequestingType: "ON_SIZE_CHANGED"
+                UIPostProcessTextureComponent1:
+                    renderRequestingType: "ON_SIZE_CHANGED"
+                UIPostProcessTextureComponent2:
+                    renderRequestingType: "ON_SIZE_CHANGED"
+                UIPostProcessPolicyComponent:
+                    canBeDelayed: true
+                    renderControlOnlyOnScreen: true
+                UIRoundedCornersComponent:
+                    radius: "0;0;2;2;"
+            bindings:
+            - ["UIPostProcessPolicyComponent.topOffset", "shopScrollTopOffset"]
+            - ["UIPostProcessPolicyComponent.bottomOffset", "shopScrollBottomOffset"]
+    -   class: "UIControl"
+        name: "Fade"
+        input: false
+        classes: "black-35-bg"
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+                sprite: "~res:/Gfx/Lobby/backgrounds/bg_fill"
+            UIRoundedCornersComponent:
+                radius: "0;0;2;2;"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
+    -   class: "UIControl"
+        name: "Footer"
+        input: false
+        components:
+            Anchor:
+                bottomAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                condition: "footerVisible"
+                prototypePath: "~res:/UI/Screens3/Lobby/Auction/AuctionBundleContent.yaml"
+                args:
+                    "onlyFirst": "false"
+                    "showFullContent": "false"
+                    "slot": "slot"

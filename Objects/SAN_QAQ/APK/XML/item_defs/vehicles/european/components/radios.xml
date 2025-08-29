@@ -1,5 +1,5 @@
 <root>
-	<nextAvailableId>56</nextAvailableId>
+	<nextAvailableId>58</nextAvailableId>
 	<ids>
 		<N19Mk3>1</N19Mk3>
 		<RV_4>2</RV_4>
@@ -50,6 +50,14 @@
 		<SEM80B>47</SEM80B>
 		<SEM25>48</SEM25>
 		<SEM_25>49</SEM_25>
+		<RKB_C_PL33>50</RKB_C_PL33>
+		<RKB_C_PL32>51</RKB_C_PL32>
+		<RKD_PL31>52</RKD_PL31>
+		<R123_PL30>53</R123_PL30>
+		<R-113P_PL28>54</R-113P_PL28>
+		<R-123_PL29>55</R-123_PL29>
+		<R123M_PL27>56</R123M_PL27>
+		<RV_4F>57</RV_4F>
 	</ids>
 	<shared>
 		<N19Mk3>
@@ -640,5 +648,101 @@
 			<maxRegenHealth>1</maxRegenHealth>
 			<repairCost>0</repairCost>
 		</SEM_25>
+		<RKB_C_PL33>
+			<userString>#european_vehicles:RKB_C_PL33</userString>
+			<description>#european_vehicles:RKB_C_PL33_descr</description>
+			<tags/>
+			<level>5</level>
+			<price>0</price>
+			<weight>100</weight>
+			<distance>1</distance>
+			<maxHealth>100</maxHealth>
+			<maxRegenHealth>1</maxRegenHealth>
+			<repairCost>0</repairCost>
+		</RKB_C_PL33>
+		<RKB_C_PL32>
+			<userString>#european_vehicles:RKB_C_PL32</userString>
+			<description>#european_vehicles:RKB_C_PL32_descr</description>
+			<tags/>
+			<level>6</level>
+			<price>0</price>
+			<weight>100</weight>
+			<distance>1</distance>
+			<maxHealth>100</maxHealth>
+			<maxRegenHealth>1</maxRegenHealth>
+			<repairCost>0</repairCost>
+		</RKB_C_PL32>
+		<RKD_PL31>
+			<userString>#european_vehicles:RKD_PL31</userString>
+			<description>#european_vehicles:RKD_PL31_descr</description>
+			<tags/>
+			<level>7</level>
+			<price>0</price>
+			<weight>100</weight>
+			<distance>1</distance>
+			<maxHealth>100</maxHealth>
+			<maxRegenHealth>1</maxRegenHealth>
+			<repairCost>0</repairCost>
+		</RKD_PL31>
+		<R123_PL30>
+			<userString>#european_vehicles:R123_PL30</userString>
+			<description>#european_vehicles:R123_PL30_descr</description>
+			<tags/>
+			<level>8</level>
+			<price>0</price>
+			<weight>100</weight>
+			<distance>1</distance>
+			<maxHealth>100</maxHealth>
+			<maxRegenHealth>1</maxRegenHealth>
+			<repairCost>0</repairCost>
+		</R123_PL30>
+		<R-113P_PL28>
+			<userString>#european_vehicles:R-113P_PL28</userString>
+			<description>#european_vehicles:R-113P_PL28_descr</description>
+			<tags/>
+			<level>9</level>
+			<price>0</price>
+			<weight>100</weight>
+			<distance>1</distance>
+			<maxHealth>100</maxHealth>
+			<maxRegenHealth>1</maxRegenHealth>
+			<repairCost>0</repairCost>
+		</R-113P_PL28>
+		<R-123_PL29>
+			<userString>#european_vehicles:R-123_PL29</userString>
+			<description>#european_vehicles:R-123_PL29_descr</description>
+			<tags/>
+			<level>10</level>
+			<price>0</price>
+			<weight>100</weight>
+			<distance>1</distance>
+			<maxHealth>100</maxHealth>
+			<maxRegenHealth>1</maxRegenHealth>
+			<repairCost>0</repairCost>
+		</R-123_PL29>
+		<R123M_PL27>
+			<userString>#european_vehicles:R123M_PL27</userString>
+			<description>#european_vehicles:R123M_PL27_descr</description>
+			<tags/>
+			<level>8</level>
+			<price>0</price>
+			<weight>100</weight>
+			<distance>1</distance>
+			<maxHealth>100</maxHealth>
+			<maxRegenHealth>1</maxRegenHealth>
+			<repairCost>0</repairCost>
+		</R123M_PL27>
+		<RV_4F>
+			<userString>#european_vehicles:RV_4F</userString>
+			<description>#european_vehicles:RV_4F_descr</description>
+			<tags/>
+			<level>10</level>
+			<price>0</price>
+			<weight>100</weight>
+			<distance>1</distance>
+			<maxHealth>180</maxHealth>
+			<maxRegenHealth>1</maxRegenHealth>
+			<repairCost>0</repairCost>
+		</RV_4F>
 	</shared>
 </root>

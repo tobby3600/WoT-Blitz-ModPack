@@ -1,5 +1,5 @@
 <root>
-	<nextAvailableId>230</nextAvailableId>
+	<nextAvailableId>232</nextAvailableId>
 	<ids>
 		<Chassis_Strv_74A2>1</Chassis_Strv_74A2>
 		<Chassis_Edelweiss>2</Chassis_Edelweiss>
@@ -112,6 +112,7 @@
 		<Chassis_2_Oth76_Destiny>220</Chassis_2_Oth76_Destiny>
 		<Chassis_3_Oth76_Destiny>221</Chassis_3_Oth76_Destiny>
 		<Chassis_4_Oth76_Destiny>222</Chassis_4_Oth76_Destiny>
+		<Chassis_Oth78_AC_17_P_Sterope>223</Chassis_Oth78_AC_17_P_Sterope>
 		<Chassis_Oth84_FVE_Defender>228</Chassis_Oth84_FVE_Defender>
 	</ids>
 	<shared/>

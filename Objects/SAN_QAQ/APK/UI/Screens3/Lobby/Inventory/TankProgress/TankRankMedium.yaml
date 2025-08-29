@@ -1,0 +1,74 @@
+Header:
+    version: 151
+Prototypes:
+-   class: "UIControl"
+    name: "TankRankMedium"
+    input: false
+    components:
+        Anchor:
+            vCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalValue: 40.000000
+            verticalPolicy: "FixedSize"
+            verticalValue: 40.000000
+        UIDataParamsComponent:
+            params:
+            - ["int", "rank", "1", "13"]
+            - ["eTankRankGrade", "grade", "eTankRankGrade.Legendary", "eTankRankGrade.Legendary"]
+            - ["int", "anchorVerticalDistance", "0", "0"]
+        UIDataLocalVarsComponent:
+            data:
+            - ["string", "numberIconPath", "\"~res:/Gfx/Lobby/backgrounds/tank-rank/bg_rank_countSmall_\""]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["string", "fontType", "when rank < 10 -> \"t-subtitle bold white-wild-sand-text\", \"t-body bold white-wild-sand-text\""]
+        UIIdentifierComponent:
+            id: "medium_rank_icon"
+            params:
+            - ["string", "rank_grade", "str(grade, eTankRankGrade)"]
+            - ["int", "rank_level", "rank"]
+    bindings:
+    - ["Anchor.vCenterAnchor", "anchorVerticalDistance"]
+    children:
+    -   class: "UIControl"
+        name: "RankIcon"
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_SCALE_PROPORTIONAL"
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
+        bindings:
+        - ["Background.sprite", "\"~res:/Gfx/Lobby/backgrounds/tank-rank/\" + str(grade, eTankRankGrade, \"icon\") + \"_s\""]
+    -   class: "UIControl"
+        name: "Rank"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+                vCenterAnchor: -2.750000
+            UITextComponent:
+                fontPath: "~res:/Fonts/AVICII.ttf"
+                align: ["HCENTER", "VCENTER"]
+                perPixelAccuracyType: "PER_PIXEL_ACCURACY_FORCED"
+            UIShadowComponent:
+                blurType: "Gauss"
+                indent: 4
+                canBeDelayed: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfContent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml"
+        bindings:
+        - ["classes", "fontType"]
+        - ["UITextComponent.text", "str(rank)"]
+        - ["UIShadowComponent.color", "when rank >= 40 -> rgba(255, 215, 0, 1.000000), rank >= 30 -> rgba(153, 138, 230, 1.000000), rank >= 20 -> rgba(115, 209, 255, 1.000000), rank >= 10 -> rgba(168, 230, 138, 1.000000), rgba(245, 245, 245, 1.000000)"]

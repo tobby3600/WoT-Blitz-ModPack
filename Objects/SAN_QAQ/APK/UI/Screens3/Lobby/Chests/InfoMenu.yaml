@@ -13,6 +13,9 @@ Prototypes:
         LinearLayout:
             orientation: "TopDown"
             dynamicSpacing: false
+        Background: {}
+        UIRoundedCornersComponent:
+            radius: "8"
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
             verticalPolicy: "PercentOfChildrenSum"
@@ -33,15 +36,11 @@ Prototypes:
             eventName: "ITEM_COLLAPSED"
             modelFieldExpression: "itemCollapsed"
             dataExpression: "not itemCollapsed"
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Color.style.yaml"
+    bindings:
+    - ["classes", "when itemCollapsed -> \"white-wild-sand-25-bg\", \"white-wild-sand-15-bg\""]
     children:
-    -   prototype: "BlurModified/BlurModified"
-        name: "Blur"
-        components:
-            UIDataParamsComponent:
-                args:
-                    "blurScale": "when itemCollapsed -> 0.250000, 1.000000"
-                    "bgStyle": "when itemCollapsed -> \"white-wild-sand-25-bg\", \"white-wild-sand-5-bg\""
-                    "roundCorner": "\"8\""
     -   class: "UIControl"
         name: "Title"
         input: true
@@ -61,14 +60,14 @@ Prototypes:
                 onTouchUpInside: "ShowInfo"
             Sound: {}
             StyleSheet:
-                styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Common/Touch.style.yaml;~res:/UI/Screens3/ButtonSound.style.yaml"
+                styles: "~res:/UI/Screens3/Common/Touch.style.yaml;~res:/UI/Screens3/ButtonSound.style.yaml"
         bindings:
         - ["UIOpacityComponent.opacity", "when itemCollapsed -> 1.000000, 0.500000"]
         children:
         -   class: "UIControl"
             name: "text"
             input: false
-            classes: "t-caps bold color=white-wild-sand-text"
+            classes: "t-caps bold white-wild-sand-text"
             components:
                 UITextComponent:
                     colorInheritType: "COLOR_IGNORE_PARENT"
@@ -79,7 +78,7 @@ Prototypes:
                     horizontalPolicy: "PercentOfContent"
                     verticalPolicy: "PercentOfContent"
                 StyleSheet:
-                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
             bindings:
             - ["UITextComponent.text", "capitalize(localize(title))"]
         -   class: "UIControl"
@@ -93,7 +92,7 @@ Prototypes:
         -   class: "UIControl"
             name: "additionalText"
             input: false
-            classes: "t-caps regular color=white-wild-sand-50-text"
+            classes: "t-caps regular white-wild-sand-50-text"
             components:
                 UITextComponent:
                     colorInheritType: "COLOR_IGNORE_PARENT"
@@ -104,7 +103,7 @@ Prototypes:
                     horizontalPolicy: "PercentOfContent"
                     verticalPolicy: "PercentOfContent"
                 StyleSheet:
-                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
             bindings:
             - ["UITextComponent.text", "capitalize(localize(additionalText))"]
         -   class: "UIControl"
@@ -114,16 +113,14 @@ Prototypes:
             classes: "white-wild-sand-bg"
             components:
                 Background:
+                    sprite: "~res:/Gfx/Lobby/icons/icon_chevron_l"
                     drawType: "DRAW_ALIGNED"
                 Anchor:
                     vCenterAnchorEnabled: true
                 SizePolicy:
                     horizontalPolicy: "PercentOfContent"
                     verticalPolicy: "PercentOfContent"
-                StyleSheet:
-                    styles: "~res:/UI/Screens3/Color.style.yaml"
             bindings:
-            - ["Background.sprite", "\"~res:/Gfx/Lobby/icons/icon_chevron_l\""]
             - ["Background.spriteModification", "when itemCollapsed -> FLIP_VERTICAL, FLIP_HORIZONTAL"]
     -   class: "UIControl"
         name: "Info"

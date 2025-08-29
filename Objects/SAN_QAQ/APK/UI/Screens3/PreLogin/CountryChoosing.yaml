@@ -1,0 +1,547 @@
+Header:
+    version: 153
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+- "~res:/UI/Screens3/Lobby/Common/RichText.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "CountryChoosing"
+    size: [960.000000, 640.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        ModalInput: {}
+        UIShortcutEventComponent:
+            shortcuts: "BACK_SHORTCUT,Back;BACK_SHORTCUT,Escape;CONFIRMATION_SHORTCUT,Enter"
+        UIDataParamsComponent:
+            params:
+            - ["PreLoginData", "preLoginData", "null", "{ }"]
+        UIDataLocalVarsComponent:
+            data:
+            - ["string", "styleLink", "\"regular\""]
+            - ["int", "startCell", "preLoginData.currentUserCountryIndex"]
+            - ["int", "scrollAreaSize", "392"]
+            - ["int", "cellSize", "56"]
+            - ["int", "picked", "0"]
+            - ["int", "wrappedIndex", "getPickerWrappedIndex(startCell, preLoginData.countriesList.Size(), cellSize, scrollAreaSize, true)"]
+            - ["float", "start", "getPickerStart(startCell, preLoginData.countriesList.Size(), cellSize, scrollAreaSize, true)"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["float", "scrWidth", "screenWidth"]
+            - ["float", "scrHeight", "screenHeight"]
+            - ["float", "scrollAreaDeviceSize", "when (screenHeight > 769) -> scrollAreaSize + screenHeight * 0.200000, scrollAreaSize"]
+            - ["int", "cellCount", "Size(preLoginData.countriesList)"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/PreLogin/CountryChoosing.actions"
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        position: [16.000000, 40.000000]
+        size: [960.000000, 640.000000]
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "Background"
+            input: false
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    rightAnchorEnabled: true
+                    topAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                IgnoreLayout: {}
+            children:
+            -   class: "UIControl"
+                name: "Holder"
+                size: [960.000000, 640.000000]
+                scale: [1.000000, 1.000000]
+                pivot: [0.500000, 0.500000]
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    ScalePolicy:
+                        horizontalFormula: "max(parentSize.X / size.X, parentSize.Y / size.Y)"
+                        verticalFormula: "max(parentSize.X / size.X, parentSize.Y / size.Y)"
+                children:
+                -   class: "UIControl"
+                    name: "MapContent"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                    children:
+                    -   class: "UIControl"
+                        name: "Background"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            Background:
+                                drawType: "DRAW_SCALE_TO_RECT"
+                                sprite: "~res:/Gfx/Lobby/backgrounds/server-screen/server-screen_bg"
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfParent"
+                    -   class: "UIControl"
+                        name: "Map"
+                        input: false
+                        components:
+                            Background:
+                                sprite: "~res:/Gfx/Lobby/backgrounds/server-screen/server-screen_map"
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfParent"
+                    -   class: "UIControl"
+                        name: "GradientsBG"
+                        position: [39.000000, 105.000000]
+                        size: [960.000000, 1080.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfParent"
+                        children:
+                        -   class: "UIControl"
+                            name: "Left"
+                            size: [32.000000, 32.000000]
+                            enabled: false
+                            input: false
+                            components:
+                                Background:
+                                    drawType: "DRAW_SCALE_TO_RECT"
+                                    sprite: "~res:/Gfx/Lobby/backgrounds/server-screen/server-screen_shadow_left"
+                                Anchor:
+                                    leftAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "Formula"
+                                    horizontalFormula: "parent / 4"
+                                    verticalPolicy: "PercentOfParent"
+                        -   class: "UIControl"
+                            name: "Right"
+                            size: [32.000000, 32.000000]
+                            enabled: false
+                            input: false
+                            components:
+                                Background:
+                                    drawType: "DRAW_SCALE_TO_RECT"
+                                    sprite: "~res:/Gfx/Lobby/backgrounds/server-screen/server-screen_shadow_right"
+                                Anchor:
+                                    rightAnchorEnabled: true
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "Formula"
+                                    horizontalFormula: "parent / 4"
+                                    verticalPolicy: "PercentOfParent"
+                    -   class: "UIControl"
+                        name: "Fades"
+                        position: [142.000000, 40.000000]
+                        size: [582.000000, 640.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            LinearLayout:
+                                dynamicSpacing: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfParent"
+                        children:
+                        -   class: "UIControl"
+                            name: "Left"
+                            input: false
+                            classes: "black-bg"
+                            components:
+                                Background:
+                                    drawType: "DRAW_SCALE_TO_RECT"
+                                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                                    spriteModification: ["FLIP_HORIZONTAL"]
+                                UIOpacityComponent:
+                                    opacity: 0.250000
+                                Anchor:
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "Formula"
+                                    horizontalFormula: "parent / 4"
+                                    verticalPolicy: "PercentOfParent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
+                        -   class: "UIControl"
+                            name: "Main"
+                            input: false
+                            classes: "black-bg"
+                            components:
+                                Background: {}
+                                UIOpacityComponent:
+                                    opacity: 0.400000
+                                IgnoreLayout: {}
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfParent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
+                        -   class: "UIControl"
+                            name: "Right"
+                            position: [720.000000, 54.000000]
+                            input: false
+                            classes: "black-bg"
+                            components:
+                                Background:
+                                    drawType: "DRAW_SCALE_TO_RECT"
+                                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                                UIOpacityComponent:
+                                    opacity: 0.250000
+                                Anchor:
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "Formula"
+                                    horizontalFormula: "parent / 4"
+                                    verticalPolicy: "PercentOfParent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
+        -   class: "UIControl"
+            name: "ScreenContent"
+            position: [0.000000, 7.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                LinearLayout:
+                    padding: "24"
+                    dynamicSpacing: true
+                    useRtl: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    horizontalMax: 1328.000000
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "Left"
+                position: [0.000000, 385.299988]
+                input: false
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        useRtl: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfMaxChild"
+                children:
+                -   class: "UIControl"
+                    name: "Spacer"
+                    position: [0.000000, 60.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 40.000000
+                            verticalPolicy: "PercentOfParent"
+                -   class: "UIControl"
+                    name: "Labels"
+                    position: [80.000000, 0.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        LinearLayout:
+                            orientation: "TopDown"
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfChildrenSum"
+                    children:
+                    -   class: "UIControl"
+                        name: "Title"
+                        input: false
+                        classes: "t-title bold white-wild-sand-text"
+                        components:
+                            UITextComponent:
+                                multiline: "MULTILINE_ENABLED"
+                                align: ["LEFT", "VCENTER"]
+                                useRtlAlign: "USE_BY_SYSTEM"
+                            Anchor: {}
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 400.000000
+                                verticalPolicy: "PercentOfContent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml"
+                        bindings:
+                        - ["UITextComponent.text", "localize(\"Registration/CountryChoosing/Title\")"]
+                    -   class: "UIControl"
+                        name: "Spacer"
+                        position: [0.000000, 72.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "FixedSize"
+                        bindings:
+                        - ["SizePolicy.verticalValue", "when (screenHeight > 769) -> screenHeight * 0.020000, 16"]
+                    -   class: "UIControl"
+                        name: "Subtitle"
+                        position: [0.000000, 57.000000]
+                        input: false
+                        classes: "t-subtitle regular white-wild-sand-text"
+                        components:
+                            UITextComponent:
+                                multiline: "MULTILINE_ENABLED"
+                                align: ["LEFT", "VCENTER"]
+                                useRtlAlign: "USE_BY_SYSTEM"
+                            Anchor: {}
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 400.000000
+                                verticalPolicy: "PercentOfContent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml"
+                        bindings:
+                        - ["UITextComponent.text", "localize(\"Registration/CountryChoosing/Description\")"]
+                    -   class: "UIControl"
+                        name: "Spacer"
+                        position: [0.000000, 117.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "FixedSize"
+                        bindings:
+                        - ["visible", "preLoginData.showCountryChoosingWarningText"]
+                        - ["SizePolicy.verticalValue", "when (screenHeight > 769) -> screenHeight * 0.060000, 32"]
+                    -   class: "UIControl"
+                        name: "Warning"
+                        position: [0.000000, 184.000000]
+                        input: false
+                        components:
+                            LinearLayout:
+                                padding: "20"
+                                spacing: 20.000000
+                                useRtl: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 400.000000
+                                verticalPolicy: "Formula"
+                                verticalFormula: "maxChild + 32"
+                        bindings:
+                        - ["visible", "preLoginData.showCountryChoosingWarningText"]
+                        children:
+                        -   class: "UIControl"
+                            name: "Background"
+                            position: [8.000000, 75.000000]
+                            input: false
+                            classes: "black-25-bg"
+                            components:
+                                Background: {}
+                                UIRoundedCornersComponent:
+                                    radius: "1"
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                    vCenterAnchorEnabled: true
+                                IgnoreLayout: {}
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfParent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
+                        -   class: "UIControl"
+                            name: "Icon"
+                            input: false
+                            classes: "orange-orange-peel-bg"
+                            components:
+                                Background:
+                                    drawType: "DRAW_ALIGNED"
+                                    sprite: "~res:/Gfx/Lobby/icons/icon_attention_s"
+                                Anchor:
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
+                        -   prototype: "RichText/RichText"
+                            name: "Description"
+                            position: [64.000000, 70.000000]
+                            components:
+                                RichContentAliases0:
+                                    aliases:
+                                    - ["download-link", "<control control=\"~res:/UI/Screens3/Lobby/Common/RichTextLink.yaml\" args1=\"isExternalLink=true\" args2=\"key=linkKey\" args3=\"baseFontSize=baseFontSize\" />"]
+                                Anchor:
+                                    enabled: true
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                FlowLayout:
+                                    useRtl: true
+                                UIDataParamsComponent:
+                                    args:
+                                        "baseFontSize": "\"t-subtitle\""
+                                        "baseFontStyle": "\"regular\""
+                                        "baseFontColor": "\"white-wild-sand-100-text\""
+                                        "key": "localize(\"Registration/CountryChoosing/AlternativeAppInfo\")"
+                                        "linkKey": "localize(\"Registration/CountryChoosing/AlternativeAppInfo/Link\")"
+                                        "resource1Model": "null"
+                                        "resource2Model": "null"
+                                        "resource3Model": "null"
+                                        "resource4Model": "null"
+                                        "customKeyProperty": "\"\""
+            -   class: "UIControl"
+                name: "Right"
+                position: [1520.000000, 0.000000]
+                size: [1896.000000, 1080.000000]
+                input: false
+                components:
+                    Anchor:
+                        rightAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "RightToLeft"
+                        useRtl: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   class: "UIControl"
+                    name: "PickerContent"
+                    position: [0.000000, 240.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                            vCenterAnchor: 40.000000
+                        LinearLayout:
+                            orientation: "TopDown"
+                            spacing: 32.000000
+                            dynamicSpacing: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfChildrenSum"
+                    children:
+                    -   class: "UIControl"
+                        name: "Selector"
+                        position: [40.000000, 296.000000]
+                        input: false
+                        classes: "orange-orange-peel-bg"
+                        components:
+                            Background:
+                                drawType: "DRAW_STRETCH_BOTH"
+                                sprite: "~res:/Gfx/Lobby/backgrounds/bg_border_1px_r4"
+                                perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                                leftRightStretchCap: 4.000000
+                                topBottomStretchCap: 4.000000
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                                vCenterAnchor: -40.000000
+                            IgnoreLayout: {}
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 56.000000
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml"
+                    -   class: "UIControl"
+                        name: "Picker"
+                        input: true
+                        components:
+                            ClipContent: {}
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 400.000000
+                                verticalPolicy: "FixedSize"
+                            UIPickerComponent:
+                                isLooped: false
+                                orientation: "Vertical"
+                                movedEventName: "PickerMoved"
+                                movedEventData: "_picked, _start, _wrappedIndex"
+                                finishedEventName: "PickerFinished"
+                                finishedEventData: "_picked, _start, _wrappedIndex"
+                                canceledEventName: "PickerCancelled"
+                                canceledEventData: "_picked, _start, _wrappedIndex"
+                            UIRepeatComponent:
+                                control: "~res:/UI/Screens3/PreLogin/ChoosingCell.yaml"
+                                dataContainer: "preLoginData.countriesList"
+                                args:
+                                    "isSelected": "_index == picked"
+                                    "cellPosition": "getPickerCellPosition(_index, start, preLoginData.countriesList.Size(), cellSize, wrappedIndex)"
+                                    "cellName": "_item.localizedName"
+                        bindings:
+                        - ["SizePolicy.verticalValue", "scrollAreaDeviceSize"]
+                        - ["UIPickerComponent.cellCount", "preLoginData.countriesList.Size()"]
+                        - ["UIPickerComponent.cellSize", "cellSize"]
+                        - ["UIPickerComponent.startCellIndex", "startCell"]
+                    -   class: "UIControl"
+                        name: "ConfirmButton"
+                        position: [0.000000, 424.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfFirstChild"
+                        children:
+                        -   prototype: "Button/Button"
+                            name: "Button"
+                            components:
+                                Anchor:
+                                    leftAnchorEnabled: true
+                                    rightAnchorEnabled: true
+                                UIDataParamsComponent:
+                                    args:
+                                        "caption": "capitalize(localize(\"Registration/CountryChoosing/Confirm\"))"
+                                        "sound": "eButtonSound.OPEN"
+                                    eventActions:
+                                    - ["ON_CLICK_BUTTON", "ON_CONFIRM_COUNTRY", ""]
+                            children:
+                            -   path: "TapArea/Content/Bg/Shadows/Colored/Right"
+                                position: [252.000000, 0.000000]
+    -   class: "UIControl"
+        name: "BackButton"
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                leftAnchor: 16.000000
+                topAnchorEnabled: true
+                topAnchor: 16.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+                args:
+                    "isBgVisible": "false"
+                    "image": "\"~res:/Gfx/Lobby/icons/icon_arrow-rounded\""
+                    "sound": "eButtonSound.CANCEL"
+                eventActions:
+                - ["ON_CLICK_BUTTON", "CANCEL_COUNTRY_CHOOSING", ""]

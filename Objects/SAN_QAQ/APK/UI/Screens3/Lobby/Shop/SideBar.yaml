@@ -1,7 +1,5 @@
 Header:
     version: 153
-ImportedPackages:
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "SideBar"
@@ -47,8 +45,18 @@ Prototypes:
             watchedDataExpression: "tempAnchor"
             eventName: "AnimateCurrentAnchor"
     children:
-    -   prototype: "BlurModified/BlurModified"
+    -   class: "UIControl"
         name: "Bg"
+        input: false
+        classes: "white-wild-sand-15-bg"
+        components:
+            Background: {}
+            IgnoreLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
     -   class: "UIControl"
         name: "SafeAreaInsetLeft"
         input: false

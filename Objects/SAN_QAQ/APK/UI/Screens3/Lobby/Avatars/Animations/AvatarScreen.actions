@@ -1,0 +1,160 @@
+action AvatarsContainerUpdate(float containerWidth, float containerHeight, float positionY)
+{
+	ChangeData(itemCountInRow, int((containerWidth - itemWidth) / (itemWidth + rowSpacing) + 1));
+	ChangeData(scrollItemPadding, (containerWidth - (itemWidth + rowSpacing) * int((containerWidth - itemWidth) / (itemWidth + rowSpacing) + 1) + rowSpacing) * 0.5);
+	Event("AVATARS_CONTAINER_UPDATE", arg1 = itemHeight, arg2 = containerHeight, arg3 = positionY + containerPositionOffsetY);
+}
+
+action ContainerPositionUpdate(float positionY)
+{
+	ChangeData(containerPositionOffsetY, positionY);
+}
+
+action BACK_SHORTCUT()
+{
+	PlaySound(sound="GUI/buttons/close");
+	Event("BACK_EVENT");
+}
+
+action NEXT_TAB()
+{
+	DirectEvent("ON_TAB_SELECTED", ".", (screenView.selectedCategory + 1) % eAvatarCategory.Count);
+	Wait(0.01);
+}
+
+action PREV_TAB()
+{
+	DirectEvent("ON_TAB_SELECTED", ".", (screenView.selectedCategory + eAvatarCategory.Count - 1) % eAvatarCategory.Count);
+	Wait(0.01);
+}
+
+action ON_LEFT()
+{
+	if (not selectedTabEmpty)
+	{
+		if (selectedCategory.selectedIndex > 0)
+		{
+			DirectEvent("ON_ITEM_SELECTED", ".", selectedCategory.selectedIndex - 1);
+			Wait(0.01);
+			if ((selectedCategory.selectedIndex + 1) % itemCountInRow == 0)
+			{
+				DirectEvent("ScrollToSelected", ".", 0.5);
+			}
+			PlaySound(sound="GUI/buttons/open");
+		}
+	}
+}
+
+action ON_RIGHT()
+{
+	if (not selectedTabEmpty)
+	{
+		if (selectedCategory.selectedIndex + 1 < selectedCategory.avatars.Size())
+		{	
+			DirectEvent("ON_ITEM_SELECTED", ".", selectedCategory.selectedIndex + 1);
+			Wait(0.01);
+			if (selectedCategory.selectedIndex % itemCountInRow == 0)
+			{
+				DirectEvent("ScrollToSelected", ".", 0.5);
+			}
+			PlaySound(sound="GUI/buttons/open");
+		}
+	}
+}
+
+action ON_UP()
+{
+	if (not selectedTabEmpty)
+	{
+		if (screenView.selectedCategory == eAvatarCategory.Accumulative)
+		{
+			if (selectedChain.avatars.Size() > 1 and selectedChain.selectedIndex > 0)
+			{
+				DirectEvent("ON_CHAIN_ITEM_SELECTED", ".", selectedChain.selectedIndex - 1);
+				Wait(0.01);
+				ScrollToEnsureControlOnScreen("**/chain_avatar_item_" + selectedChain.avatars[selectedChain.selectedIndex].resource.name);
+				PlaySound(sound="GUI/buttons/open");
+			}
+		}
+		else
+		{
+			if (itemCountInRow > 0 and selectedCategory.selectedIndex >= itemCountInRow)
+			{
+				DirectEvent("ON_ITEM_SELECTED", ".", selectedCategory.selectedIndex - itemCountInRow);
+				Wait(0.01);
+				DirectEvent("ScrollToSelected", ".", 0.5);
+				PlaySound(sound="GUI/buttons/open");
+			}
+		}
+	}
+}
+
+action ON_DOWN()
+{
+	if (not selectedTabEmpty)
+	{	
+		if (screenView.selectedCategory == eAvatarCategory.Accumulative)
+		{
+			if (selectedChain.avatars.Size() > 1 and selectedChain.selectedIndex + 1 < selectedChain.avatars.Size())
+			{
+				DirectEvent("ON_CHAIN_ITEM_SELECTED", ".", selectedChain.selectedIndex + 1);
+				Wait(0.01);
+				ScrollToEnsureControlOnScreen("**/chain_avatar_item_" + selectedChain.avatars[selectedChain.selectedIndex].resource.name);
+				PlaySound(sound="GUI/buttons/open");
+			}
+		}
+		else
+		{
+			if (itemCountInRow > 0 and selectedCategory.selectedIndex + itemCountInRow < selectedCategory.avatars.Size())
+			{
+				DirectEvent("ON_ITEM_SELECTED", ".", selectedCategory.selectedIndex + itemCountInRow);
+				Wait(0.01);
+				DirectEvent("ScrollToSelected", ".", 0.5);
+				PlaySound(sound="GUI/buttons/open");
+			}
+		}
+	}
+}
+
+action ON_MAIN_ACTION()
+{
+	if (not selectedTabEmpty and selectedChain.avatars[selectedChain.selectedIndex].resource.quantity > 0)
+	{
+		DirectEvent("ON_INSTALL", ".");
+		PlaySound(sound="GUI/buttons/open");
+	}
+}
+
+action ON_OPTIONAL_ACTION()
+{
+	if (not selectedTabEmpty and selectedChain.avatars[selectedChain.selectedIndex].resource.quantity > 0 and selectedChain.avatars[selectedChain.selectedIndex].sellable)
+	{
+		DirectEvent("ON_EXCHANGE", ".");
+		PlaySound(sound="GUI/buttons/open");
+	}
+}
+
+action ScrollToSelected(float time)
+{
+	if (not selectedTabEmpty)
+	{
+		ScrollToEnsureControlOnScreen("**/avatar_item_" + str(selectedCategory.selectedIndex), time, eScrollToControlPolicy.kCenter);
+    }
+}
+
+action ScrollDescriptionToSelected()
+{
+	if (not selectedTabEmpty and selectedChain.avatars.Size() > 1)
+	{
+		Scroll("**/AvatarChain/Scroll/UIScrollView", 0, 0, 0);
+		if (selectedChain.badgeCount > 0)
+		{
+			Wait(0.5);
+			ScrollToEnsureControlOnScreen("**/chain_avatar_item_" + str(selectedChain.selectedIndex), 1.5, eScrollToControlPolicy.kCenter);
+		}
+		else
+		{
+			ScrollToEnsureControlOnScreen("**/chain_avatar_item_" + str(selectedChain.selectedIndex), 0, eScrollToControlPolicy.kCenter);
+		}
+	}
+}

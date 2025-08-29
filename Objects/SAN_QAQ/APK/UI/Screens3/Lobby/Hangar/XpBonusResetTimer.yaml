@@ -59,23 +59,13 @@ Prototypes:
                 StyleSheet:
                     styles: "~res:/UI/Screens3/Lobby/Hangar/XpBonusResetTimer.style.yaml"
             children:
-            -   class: "UIControl"
+            -   prototype: "BlurModified/BlurModified"
                 name: "Bg"
-                input: false
                 components:
-                    IgnoreLayout: {}
-                    SizePolicy:
-                        horizontalPolicy: "Formula"
-                        horizontalFormula: "parent - 8"
-                        verticalPolicy: "PercentOfParent"
-                children:
-                -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
-                    components:
-                        UIDataParamsComponent:
-                            args:
-                                "bgStyle": "\"black-50-bg\""
-                                "roundCorner": "\"4\""
+                    UIDataParamsComponent:
+                        args:
+                            "bgStyle": "\"black-50-bg\""
+                            "roundCorner": "\"4\""
             -   class: "UIControl"
                 name: "Hover"
                 input: false

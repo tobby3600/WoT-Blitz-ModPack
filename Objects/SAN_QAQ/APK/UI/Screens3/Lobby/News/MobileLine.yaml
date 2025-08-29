@@ -1,0 +1,41 @@
+Header:
+    version: 112
+Prototypes:
+-   class: "UIControl"
+    name: "Line"
+    size: [801.000000, 256.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfMaxChild"
+        UIDataParamsComponent:
+            params:
+            - ["int", "selectedItem", "0", "0"]
+            - ["NewsMobileLine", "line", "{ }", "{ \"items\" = [ { \"item\" = { \"title\" = \"one\"; }; \"cardSize\" = eNewsCardSize.M; \"rssItemIndex\" = 0; }; { \"item\" = { \"title\" = \"two\"; }; \"cardSize\" = eNewsCardSize.M; \"rssItemIndex\" = 1; }; ]; }"]
+            events:
+            - "ON_TOUCH_UP_INSIDE"
+        UIDataLocalsComponent:
+            locals: []
+    children:
+    -   class: "UIControl"
+        name: "HorizontalList"
+        size: [32.000000, 32.000000]
+        input: true
+        components:
+            LinearLayout:
+                spacing: 16.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfMaxChild"
+            UIRepeatComponent:
+                control: "~res:/UI/Screens3/Lobby/News/NewsCard.yaml"
+                dataContainer: "line.items"
+                args:
+                    "index": "_item.rssItemIndex"
+                    "shouldAnimateOnStart": "_item.shouldAnimateOnStart"
+                    "animationIndex": "_item.animationIndex"
+                    "cardMobileSize": "_item.cardSize"
+                    "item": "_item.item"
+                eventActions:
+                - ["ON_TOUCH_UP_INSIDE", "ON_NEWS_ITEM_TOUCH", "_item.item"]

@@ -73,18 +73,16 @@ fragment_out fp_main(fragment_in input)
 		float2 albedoTexCoord = float2(input.texCoord.zw * localPos.xy + (input.texCoord.zw * 0.5 + input.texCoord.xy));
 		float3 localPosAbs = abs(localPos);
 		float3 localPosAbsStep = step(localPosAbs, const05List3);
-
-		#if ALBEDO_TRANSFORM
-			albedoTexCoord.y *= input.parameters.y;
-		#endif
-
 		float opacity = localPosAbsStep.x * localPosAbsStep.y * input.parameters.x;
 
 		#if DECAL_VERTICAL_FADE
-			localPosAbs.z += localPosAbs.z;
-			opacity *= min(1.0, -localPosAbs.z * invDecalVerticalFadeWidth + invDecalVerticalFadeWidth);
+			opacity *= saturate(-localPosAbs.z * invDecalVerticalFadeWidth * 2.0 + invDecalVerticalFadeWidth);
 		#else
 			opacity *= localPosAbsStep.z;
+		#endif
+
+		#if ALBEDO_TRANSFORM
+			albedoTexCoord.y *= input.parameters.y;
 		#endif
 
 		output.color = tex2D(albedo, albedoTexCoord);

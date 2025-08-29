@@ -341,12 +341,26 @@ Prototypes:
                 verticalPolicy: "Formula"
                 verticalFormula: "parent - 60"
         children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
+        -   class: "UIControl"
+            name: "Background"
+            input: false
             components:
-                UIDataParamsComponent:
-                    args:
-                        "roundCorner": "\"8\""
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "Formula"
+                    horizontalFormula: "parent + 20"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "bgStyle": "\"white-wild-sand-15-bg\""
+                            "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "spacer"
             input: false

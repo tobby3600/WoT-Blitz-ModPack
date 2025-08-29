@@ -1,0 +1,64 @@
+Header:
+    version: 127
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/BlurDynamic.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "BlurMaskPrototype"
+    input: false
+    components:
+        IgnoreLayout: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "isDualMask", "true", "true"]
+            - ["string", "background", "\"\"", "\"\""]
+            - ["string", "blur", "\"\"", "\"\""]
+            - ["string", "mask", "\"\"", "\"\""]
+            - ["string", "roundCorner", "\"\"", "\"\""]
+    bindings:
+    - ["visible", "isDualMask"]
+    children:
+    -   class: "UIControl"
+        name: "BlurMask"
+        visible: true
+        input: false
+        components:
+            UIPostProcessSourceComponent0: {}
+            UIRoundedCornersComponent: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["UIPostProcessSourceComponent0.id", "blur"]
+        - ["UIRoundedCornersComponent.radius", "roundCorner"]
+        children:
+        -   prototype: "BlurDynamic/BlurDynamic"
+            name: "BlurDynamic"
+            components:
+                UIPostProcessInputComponent: {}
+                UIPostProcessTextureComponent0:
+                    needClear: true
+                UIRoundedCornersComponent: {}
+            bindings:
+            - ["UIPostProcessInputComponent.id", "background"]
+            - ["UIRoundedCornersComponent.radius", "roundCorner"]
+        -   class: "UIControl"
+            name: "Mask"
+            input: false
+            components:
+                Background:
+                    usePostProcessedSprite: true
+                UIPostProcessInputComponent: {}
+                UIPostProcessTextureComponent0:
+                    materialPath: "~res:/Materials.custom/2d.Textured.Mask.material"
+                    needClear: true
+                UIRoundedCornersComponent: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            bindings:
+            - ["UIPostProcessInputComponent.id", "mask"]
+            - ["UIRoundedCornersComponent.radius", "roundCorner"]

@@ -1,0 +1,197 @@
+action LoadTasks()
+{
+	ChangeData(isTasksLoaded, true);
+}
+
+action OnWeekSelected()
+{
+	if (model.hasUnseenTaskProgress) 
+	{
+		PlaySound("play_ui_result_achiev_score_click", ".", true);
+		Wait(0.1); // need for preloading tasks controls
+		BroadcastEvent("AnimateTaskProgress", "**/Tasks");
+		ChangeData(progressAnimation, true);
+	}
+	else
+	{
+		Event("ON_TASK_PROGRESS_DISPLAYED", ".", "", weekIndex);
+		if (model.actualUntakenStages > 0)
+		{
+			Wait(0.1); // need for preloading tasks controls
+			Event("UpdateCollectButton", "**/BattlePassTabHeader", true);
+		}
+	}
+}
+
+action CollectStagesFromAllTasks()
+{
+	if (isSelected)
+	{
+		BroadcastEvent("CollectTaskStages", "**/Tasks", true);
+		Event("UpdateCollectButton", "**/BattlePassTabHeader", false);
+		Wait(0.2);
+		ChangeData(stagesToAnimate, 0);
+	}
+	else
+	{
+		Wait(0.2);	
+		ChangeData(animationIterator, 0);
+		repeat (stagesToAnimate)
+		{
+			DirectEvent("DisableReadyToTake", "**/NonSelectedWeekStages/Stage_" + str(animationIterator), 0.135 * animationIterator);
+			ChangeData(animationIterator, animationIterator + 1);
+		}
+        if (isTasksLoaded)
+        {
+            Event("UpdateCollectButton", "**/CurrentStateHeader/BattlePassTabHeader", false);
+        }
+		Wait(0.4);
+		ChangeData(stagesToAnimate, 0);
+		Event("UpdateLocalVarsHeader", "**/BattlePassTabHeader");
+		BroadcastEvent("UpdateLocalVarsTask", "**/Tasks");
+	}
+}
+
+action CollectStagesFromTask(string slotId, int indexInWeek)
+{
+	if (isSelected)
+	{
+		PlaySound("GUI/buttons/open");
+		DirectEvent("CollectTaskStages", "**/Tasks/BattlePassTask" + str(indexInWeek), false);
+		if (model.actualUntakenStages == 0)
+		{
+			Event("UpdateCollectButton", "**/BattlePassTabHeader", false);	
+            Wait(0.2);
+		    ChangeData(stagesToAnimate, 0);
+		}
+	}
+}
+
+action AnimateWeekUnlock(bool showLicenseEffect)
+{
+	ChangeData(unlockAnimationInProgress, true);
+	BroadcastEvent("EnableLockEffect", "../../TabsWrapper/Tabs", weekIndex);
+	Opacity("**/CurrentStateHeader", 0.0);
+	Opacity("**/PreviousStateHeader", 1.0);
+	ChangeData(showTimerEffect, true);
+
+	parallel
+	{
+        Opacity("**/Fade", 0.0, 0.75, EASE_OUT);
+		Opacity("**/LicenseBanner", 0.0, 0.75, EASE_OUT);
+		sequence
+		{
+			parallel
+			{
+				Scale("**/PreviousStateHeader/BattlePassTabHeader/BlockedState/DescriptionWrapper/TimerWrapper/TimerEffectWrapper", 0.0, 0.0, 0.25, EASE_OUT);
+				Opacity("**/PreviousStateHeader", 0.0, 0.5, EASE_OUT);
+			}
+
+			Wait(0.25);
+			Opacity("**/CurrentStateHeader", 1.0, 0.5, EASE_IN);
+		}
+	}
+	PlaySound("play_ui_unlock");
+	BroadcastEvent("ShowLockEffect", "../../TabsWrapper/Tabs", weekIndex);
+	Wait(0.1);
+	Event("WeekChangeStateAnimationFinished", arg1 = weekIndex);
+	Wait(0.2);
+	Opacity("**/Fade", 1.0);
+	Opacity("**/LicenseBanner", 1.0);
+	ChangeData(showTimerEffect, false);
+	Event("FlareTasks");
+	Event("ShowTabNameEffect", ".", weekIndex);
+
+	Event("OnWeekSelected", ".");
+   	if (showLicenseEffect)
+   	{
+		Event("ShowLicenseEffect");
+	}
+	Wait(0.5);
+	ChangeData(unlockAnimationInProgress, false);
+}
+
+action ON_ACTIVATE_WEEK()
+{
+	if (isSelected)
+	{
+		Opacity("**/CurrentStateHeader", 0.0);
+		Opacity("**/PreviousStateHeader", 1.0);
+		Opacity("**/PreviousStateHeader", 0.0, 0.25, EASE_OUT);
+		Opacity("**/CurrentStateHeader", 1.0, 0.25, EASE_IN);
+		ChangeData(showPreviousHeader, false);
+		Event("WeekChangeStateAnimationFinished", arg1 = weekIndex);
+		Event("FlareTasks");
+		Event("ShowTabNameEffect", ".", weekIndex);
+
+		if (model.actualUntakenStages > 0)
+		{
+			Event("UpdateCollectButton", "**/BattlePassTabHeader", true);
+		}
+	}
+}
+
+action OnTaskProgressEnded(string slotId)
+{
+	Event("ON_TASK_PROGRESS_DISPLAYED", ".", slotId, weekIndex);
+}
+
+action ProgressAnimationEnded()
+{
+	StopSound("play_ui_result_achiev_score_click");
+	if (model.actualUntakenStages > 0)
+	{
+		Event("UpdateCollectButton", "**/BattlePassTabHeader", true);
+	}
+	ChangeData(progressAnimation, false);
+}
+
+action FlareTasks()
+{
+	Wait(0.1); // need to lazy load control
+    PlaySound("play_ui_gliss");
+    BroadcastEvent("ShowBlinkEffect", "**/Tasks");
+}
+
+action ON_ACTIVATE_WEEK_CLICKED()
+{
+	ChangeData(showPreviousHeader, true);
+	Opacity("**/CurrentStateHeader", 0.0);
+	Opacity("**/PreviousStateHeader", 1.0);
+}
+
+action TurnOffRefreshMode()
+{
+	ChangeData(model.refreshMode, false);
+}
+
+
+action ShowLicenseEffect()
+{
+	Wait(1.2);
+	parallel
+	{
+		sequence
+		{
+			StartParticles("**/RefreshQuestsButton/GlowPurchase");
+			Wait(1.0);
+			StopParticles("**/RefreshQuestsButton/GlowPurchase");
+		}
+		BroadcastEvent("ShowLabelDisappearingEffect", "../../TabsWrapper/Tabs");
+	}
+	Event("LicenseAnimationFinished");
+}
+
+action UpdateButton
+{
+	Event("UpdateCollectButton", "**/BattlePassTabHeader", true);
+}
+
+action UpdateNonSelectedWeekStages()
+{
+	if (not empty(badgeAttachId))
+	{
+        Wait(0.5);
+		MoveToMaster("**/UntakenStages", badgeAttachId + str(weekIndex));
+	}
+}

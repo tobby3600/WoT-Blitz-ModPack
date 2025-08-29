@@ -23,7 +23,7 @@ Prototypes:
             virtualKeyAction: "Extra2"
             keyDownEvent: "ENTER_SHORTCUT"
         UIShortcutEventComponent:
-            shortcuts: "BACK_SHORTCUT,Back;BACK_SHORTCUT,Escape;ENTER_SHORTCUT,Enter;BACK_SHORTCUT,Gamepad A"
+            shortcuts: "BACK_SHORTCUT,Back;BACK_SHORTCUT,Escape;ENTER_SHORTCUT,Enter"
         UIDataParamsComponent:
             params:
             - ["float", "verticalIndent", "0", "0"]
@@ -305,7 +305,6 @@ Prototypes:
                                 "size": "eButtonSize.NORMAL"
                                 "sound": "eButtonSound.CANCEL"
                                 "enabled": "true"
-                                "iconPath": "when isGamepad -> \"~res:/Gfx/Shared/icons/nintendo-switch/icon_switch_b_m\", \"\""
                                 "isBlur": "false"
                             eventActions:
                             - ["ON_CLICK_BUTTON", "OPTIONAL_ACTION", "false"]
@@ -350,8 +349,6 @@ Slots:
                     "size": "eButtonSize.NORMAL"
                     "sound": "eButtonSound.UNKNOWN"
                     "enabled": "acceptButtonEnabled"
-                    "iconPath": "when isGamepad -> \"~res:/Gfx/Lobby/icons/nintendo-switch/icon_switch_y_m\", \"\""
-                    "isBlur": "false"
                 eventActions:
                 - ["ON_CLICK_BUTTON", "ACCENT_ACTION", "false"]
             UIIdentifierComponent:

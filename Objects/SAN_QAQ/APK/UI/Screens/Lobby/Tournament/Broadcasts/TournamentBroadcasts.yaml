@@ -5,6 +5,7 @@ ImportedPackages:
 - "~res:/UI/Screens/Lobby/Tournament/TournamentBackButton.yaml"
 - "~res:/UI/Screens/Common/ScrollBar.yaml"
 - "~res:/UI/Screens/Lobby/Common/BroadcastLabel.yaml"
+- "~res:/UI/Screens3/Common/BlurMask.yaml"
 Prototypes:
 -   class: "UIListCell"
     name: "BroadcastEntryProto"
@@ -152,6 +153,25 @@ Prototypes:
     -   prototype: "TournamentBackground/EffectsContainer"
         name: "EffectsContainer"
     -   class: "UIControl"
+        name: "TitleShadow"
+        position: [0.000000, 0.000000]
+        size: [1024.000000, 80.000000]
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+                sprite: "~res:/Gfx/UI/Tournament/gradient"
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                vCenterAnchorEnabled: false
+    -   prototype: "BlurMask/BlurMask"
+        name: "Blur"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "background": \"TournamentBroadcasts\""
+    -   class: "UIControl"
         name: "View"
         position: [0.000000, 0.000000]
         size: [1024.000000, 768.000000]
@@ -166,6 +186,8 @@ Prototypes:
                 orientation: "TopDown"
                 safeAreaPaddingInset: true
                 spacing: 20.000000
+            UIPostProcessSourceComponent0:
+                id: "maskTournamentBroadcasts"
         children:
         -   class: "UIControl"
             name: "Header"
@@ -176,20 +198,6 @@ Prototypes:
                     leftAnchorEnabled: true
                     rightAnchorEnabled: true
             children:
-            -   class: "UIControl"
-                name: "TitleShadow"
-                position: [0.000000, 0.000000]
-                size: [1024.000000, 80.000000]
-                input: false
-                components:
-                    Background:
-                        drawType: "DRAW_SCALE_TO_RECT"
-                        sprite: "~res:/Gfx/UI/Tournament/gradient"
-                    Anchor:
-                        leftAnchorEnabled: true
-                        rightAnchorEnabled: true
-                        topAnchorEnabled: true
-                        vCenterAnchorEnabled: false
             -   prototype: "TournamentBackButton/BackButton"
                 name: "BackButton"
             -   class: "UIControl"

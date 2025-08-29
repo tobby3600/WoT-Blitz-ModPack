@@ -3,7 +3,6 @@ Header:
 Prototypes:
 -   class: "UIControl"
     name: "BlurDynamic"
-    size: [200.000000, 200.000000]
     input: false
     components:
         Background:

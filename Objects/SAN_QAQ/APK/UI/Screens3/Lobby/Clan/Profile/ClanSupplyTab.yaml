@@ -45,24 +45,17 @@ Prototypes:
         components:
             Anchor:
                 hCenterAnchorEnabled: true
-            LinearLayout:
-                orientation: "TopDown"
-                padding: "-12"
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
-                horizontalValue: 80.000000
-                horizontalMin: 800.000000
-                horizontalMax: 1080.000000
                 verticalPolicy: "FixedSize"
                 verticalValue: 64.000000
             UIChildComponent0:
                 condition: ""
                 prototypePath: "~res:/UI/Screens3/Lobby/Common/Tabs/TextTabsBar.yaml"
                 args:
-                    "bgStyle": "\"\""
+                    "bgStyle": "\"white-wild-sand-15-bg\""
                     "info": "tabs"
                     "activeTab": "int(model.supplyViewModel.selectedTab)"
-                    "isBlur": "true"
                 eventActions:
                 - ["ON_SELECT_TAB", "ON_CLAN_SUPPLY_TAB_SELECTED", "toEnum(_event, eClanSupplyTab)"]
     -   class: "UIControl"
@@ -107,13 +100,3 @@ Prototypes:
             UIChildComponent2:
                 condition: "not model.supplyViewModel.isLoaded"
                 prototypePath: "~res:/UI/Screens3/Lobby/Clan/Profile/ClanProfileLoader.yaml"
-    -   class: "UIControl"
-        name: "NsPanelSpacer"
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "FixedSize"
-                verticalValue: 12.000000
-        bindings:
-        - ["visible", "isGamepad"]

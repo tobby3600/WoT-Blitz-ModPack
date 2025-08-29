@@ -1701,7 +1701,7 @@
 		<isTracer>true</isTracer>
 		<effects>largeAP</effects>
 		<damage>
-			<armor>305</armor>
+			<armor>360</armor>
 			<devices>142</devices>
 		</damage>
 		<normalizationAngle>5</normalizationAngle>

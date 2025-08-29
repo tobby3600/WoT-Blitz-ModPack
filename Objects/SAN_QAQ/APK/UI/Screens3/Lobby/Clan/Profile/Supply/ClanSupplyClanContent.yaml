@@ -2,7 +2,6 @@ Header:
     version: 152
 ImportedPackages:
 - "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ClanSupplyClanContent"
@@ -169,12 +168,6 @@ Prototypes:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfChildrenSum"
                     children:
-                    -   prototype: "BlurModified/BlurModified"
-                        name: "Blur"
-                        components:
-                            UIDataParamsComponent:
-                                args:
-                                    "roundCorner": "\"0;0;4;4\""
                     -   class: "UIControl"
                         name: "Fade"
                         input: false

@@ -1,0 +1,409 @@
+Header:
+    version: 160
+ImportedPackages:
+- "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
+- "~res:/UI/Screens3/Lobby/Inventory/Common/BottomInventorySpacer.yaml"
+- "~res:/UI/Screens3/Lobby/Inventory/Common/DynamicHorizontalPadding.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "AvatarsScreen"
+    size: [1382.000000, 887.000000]
+    input: false
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/Lobby/Avatars/Animations/AvatarScreen.animation"
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        ModalInput: {}
+        UISystemEventComponent:
+            onActivated: "ScrollDescriptionToSelected"
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Escape"
+            keyDownEvent: "BACK_SHORTCUT"
+        UIVirtualActionEventComponent1:
+            virtualKeyAction: "BaseNext"
+            keyDownEvent: "NEXT_TAB"
+        UIVirtualActionEventComponent2:
+            virtualKeyAction: "BasePrevious"
+            keyDownEvent: "PREV_TAB"
+        UIVirtualActionEventComponent3:
+            virtualKeyAction: "ActionLeft"
+            keyDownEvent: "ON_LEFT"
+        UIVirtualActionEventComponent4:
+            virtualKeyAction: "ActionRight"
+            keyDownEvent: "ON_RIGHT"
+        UIVirtualActionEventComponent5:
+            virtualKeyAction: "ActionUp"
+            keyDownEvent: "ON_UP"
+        UIVirtualActionEventComponent6:
+            virtualKeyAction: "ActionDown"
+            keyDownEvent: "ON_DOWN"
+        UIVirtualActionEventComponent7:
+            virtualKeyAction: "Extra2"
+            keyDownEvent: "ON_MAIN_ACTION"
+        UIVirtualActionEventComponent8:
+            virtualKeyAction: "Extra1"
+            keyDownEvent: "ON_OPTIONAL_ACTION"
+        UIDataParamsComponent:
+            params:
+            - ["LobbyDataModel", "lobby", "null", "{ }"]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["AvatarsScreenView", "screenView", "null", "{ }"]
+            events:
+            - "GO_TO_SHOP"
+            - "PREMIUM_INFO_EVENT"
+            - "BACK_EVENT"
+            - "SHOP_BUTTON(eRequiredResource requiredResource)"
+        UIDataLocalVarsComponent:
+            data:
+            - ["AvatarChain", "emptyChain", "{ }"]
+            - ["float", "itemWidth", "120.000000"]
+            - ["float", "itemHeight", "160.000000"]
+            - ["float", "rowSpacing", "16.000000"]
+            - ["float", "scrollItemPadding", "-1.000000"]
+            - ["int", "itemCountInRow", "0"]
+            - ["float", "containerPositionOffsetY", "0.000000"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["AvatarsScreenCategory", "selectedCategory", "screenView.allAvatars[screenView.selectedCategory]"]
+            - ["bool", "selectedTabEmpty", "selectedCategory.avatars.Size() == 0 and screenView.selectedCategory == eAvatarCategory.Temporary"]
+            - ["AvatarChain", "selectedChain", "when selectedTabEmpty -> emptyChain, selectedCategory.avatars[selectedCategory.selectedIndex]"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Avatars/Animations/AvatarScreen.actions"
+        UIEventOnDataComponent0:
+            watchedDataExpression: "screenView.selectedCategory"
+            ifExpression: "not selectedTabEmpty"
+            eventName: "ScrollToSelected"
+            eventData: "0.000000"
+        UIEventOnDataComponent1:
+            watchedDataExpression: "selectedCategory.selectedIndex"
+            eventName: "ScrollDescriptionToSelected"
+        UIEventOnDataComponent2:
+            watchedDataExpression: "screenView.selectedCategory"
+            eventName: "ScrollDescriptionToSelected"
+    children:
+    -   class: "UIControl"
+        name: "Header"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Avatars/AvatarsHeader.yaml"
+                args:
+                    "proxies": "screenView.avatarsExchangeProxies"
+                    "lobby": "lobby"
+                    "session": "session"
+                eventActions:
+                - ["GO_TO_SHOP", "GO_TO_SHOP", ""]
+                - ["SHOP_BUTTON", "SHOP_BUTTON", "_event.requiredResource"]
+                - ["BACK_EVENT", "BACK_EVENT", ""]
+                - ["PREMIUM_INFO_EVENT", "PREMIUM_INFO_EVENT", ""]
+    -   class: "UIControl"
+        name: "Tabs"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Tabs/TextTabsBar.yaml"
+                args:
+                    "info": "[ { \"text\" = capitalize(localize(str(eAvatarCategory.Premium, eAvatarCategory, \"title\"))); \"badge\" = { \"type\" = eBadgeType.Digit; \"value\" = str(screenView.allAvatars[eAvatarCategory.Premium].badgeCount); }; \"counter\" = screenView.allAvatars[eAvatarCategory.Premium].receivedCount; }; { \"text\" = capitalize(localize(str(eAvatarCategory.Accumulative, eAvatarCategory, \"title\"))); \"badge\" = { \"type\" = eBadgeType.Digit; \"value\" = str(screenView.allAvatars[eAvatarCategory.Accumulative].badgeCount); }; \"counter\" = screenView.allAvatars[eAvatarCategory.Accumulative].receivedCount; }; { \"text\" = capitalize(localize(str(eAvatarCategory.Special, eAvatarCategory, \"title\"))); \"badge\" = { \"type\" = eBadgeType.Digit; \"value\" = str(screenView.allAvatars[eAvatarCategory.Special].badgeCount); }; \"counter\" = screenView.allAvatars[eAvatarCategory.Special].receivedCount; }; { \"text\" = capitalize(localize(str(eAvatarCategory.Other, eAvatarCategory, \"title\"))); \"badge\" = { \"type\" = eBadgeType.Digit; \"value\" = str(screenView.allAvatars[eAvatarCategory.Other].badgeCount); }; \"counter\" = screenView.allAvatars[eAvatarCategory.Other].receivedCount; }; { \"text\" = capitalize(localize(str(eAvatarCategory.Temporary, eAvatarCategory, \"title\"))); \"badge\" = { \"type\" = eBadgeType.Digit; \"value\" = str(screenView.allAvatars[eAvatarCategory.Temporary].badgeCount); }; \"counter\" = screenView.allAvatars[eAvatarCategory.Temporary].receivedCount; }; ]"
+                    "activeTab": "int(screenView.selectedCategory)"
+                eventActions:
+                - ["ON_SELECT_TAB", "ON_TAB_SELECTED", "toEnum(_event, eAvatarCategory)"]
+    -   class: "UIControl"
+        name: "Spacer"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+                verticalValue: 20.000000
+    -   class: "UIControl"
+        name: "Content"
+        position: [0.000000, 0.000000]
+        size: [1566.000000, 798.000000]
+        input: false
+        classes: "inventory-limited-width"
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            LinearLayout:
+                dynamicPadding: true
+                dynamicSpacing: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                childType: "kControl"
+                condition: "selectedTabEmpty"
+                control: "EmptyTab"
+            UIChildComponent1:
+                childType: "kControl"
+                condition: "not selectedTabEmpty"
+                control: "ContentTab"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Common/Desktop.style.yaml"
+Slots:
+-   class: "UIControl"
+    name: "EmptyTab"
+    size: [1024.000000, 768.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "EmptyContainer"
+        input: false
+        classes: "empty-icon"
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+                padding: "0.000000"
+                spacing: 50.000000
+                dynamicSpacing: true
+            IgnoreLayout: {}
+            SizePolicy:
+                verticalPolicy: "PercentOfChildrenSum"
+        children:
+        -   class: "UIControl"
+            name: "Icon"
+            size: [145.000000, 157.000000]
+            visible: true
+            input: false
+            components:
+                Background:
+                    sprite: "~res:/Gfx/Lobby/icons/icon_ava-zero"
+                Anchor:
+                    hCenterAnchorEnabled: true
+        -   class: "UIControl"
+            name: "Description"
+            input: false
+            classes: "t-subtitle bold align-center white-wild-sand-text"
+            components:
+                UITextComponent:
+                    text: "storage/avatars/Comment"
+                    colorInheritType: "COLOR_IGNORE_PARENT"
+                    multiline: "MULTILINE_ENABLED"
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    horizontalValue: 80.000000
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+-   class: "UIControl"
+    name: "ContentTab"
+    size: [1600.000000, 462.000000]
+    input: false
+    components:
+        LinearLayout: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   prototype: "DynamicHorizontalPadding/DynamicHorizontalPadding"
+        name: "DynamicHorizontalPadding"
+        classes: "padding only-notch-padding desktop-unvisible"
+    -   class: "UIControl"
+        name: "ScrollableContent"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIScrollView"
+            name: "UIScrollView"
+            position: [68.000000, 0.000000]
+            size: [800.000000, 800.000000]
+            autoUpdate: true
+            components:
+                ClipContent:
+                    left: false
+                    right: false
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    horizontalMax: 1100.000000
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIScrollViewContainer"
+                name: "scrollContainerControl"
+                position: [0.000000, 12.000000]
+                refreshStylesOnInteract: false
+                scrollDirection: "kVertical"
+                components:
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfChildrenSum"
+                    UILayoutEventComponent:
+                        positionChangedEvent: "AvatarsContainerUpdate"
+                        positionChangedEventData: "_parentSize.X, _parentSize.Y, _position.Y"
+                        sizeChangedEvent: "AvatarsContainerUpdate"
+                        sizeChangedEventData: "_parentSize.X, _parentSize.Y, _position.Y"
+                children:
+                -   class: "UIControl"
+                    name: "InputContainer"
+                    size: [32.000000, 32.000000]
+                    components:
+                        IgnoreLayout: {}
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                -   class: "UIControl"
+                    name: "TextWrapper"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfFirstChild"
+                    bindings:
+                    - ["visible", "not selectedTabEmpty"]
+                    children:
+                    -   class: "UIControl"
+                        name: "TextValue"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        classes: "t-subtitle regular align-center white-wild-sand-text"
+                        components:
+                            UIOpacityComponent: {}
+                            UITextComponent: {}
+                            Anchor:
+                                leftAnchorEnabled: true
+                                hCenterAnchorEnabled: false
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfContent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml"
+                        bindings:
+                        - ["UIOpacityComponent.opacity", "when screenView.selectedCategory == eAvatarCategory.Temporary -> 0.000000, scrollItemPadding >= 0.000000 -> 1.000000, 0.000000"]
+                        - ["UITextComponent.text", "localize(\"#avatars/NumberOfReceived\", { \"received\" = str(selectedCategory.receivedCount); \"total\" = str(selectedCategory.avatars.Size()); })"]
+                        - ["Anchor.leftAnchor", "scrollItemPadding"]
+                -   class: "UIControl"
+                    name: "List"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        GridLayout:
+                            dynamicColumnCalulation: "bySize"
+                            columnDynamicPadding: true
+                            columnSpacing: 16.000000
+                            dynamicRowCalulation: "byControls"
+                            rowPadding: "8; 24"
+                            rowSpacing: 16.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfChildrenSum"
+                        UILayoutEventComponent:
+                            sizeChangedEvent: "ContainerPositionUpdate"
+                            sizeChangedEventData: "_position.Y"
+                        UIRepeatComponent:
+                            control: "~res:/UI/Screens3/Lobby/Avatars/AvatarItem.yaml"
+                            dataContainer: "screenView.allAvatars[screenView.selectedCategory].avatars"
+                            args:
+                                "session": "session"
+                                "isSelected": "when not selectedTabEmpty -> _index == selectedCategory.selectedIndex, false"
+                                "isInstalled": "_item.installedIndex >= 0"
+                                "chain": "_item"
+                                "index": "_index"
+                            eventActions:
+                            - ["ON_ITEM_SELECTED", "ON_ITEM_SELECTED", "_index"]
+                            elementNameExpression: "\"avatar_item_\" + str(_index)"
+                    bindings:
+                    - ["GridLayout.columnWidth", "itemWidth"]
+                    - ["GridLayout.rowHeight", "itemHeight"]
+    -   class: "UIControl"
+        name: "Spacer"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 16.000000
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["visible", "not selectedTabEmpty"]
+    -   class: "UIControl"
+        name: "DescriptionWrapper"
+        size: [348.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 348.000000
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["visible", "not selectedTabEmpty"]
+        children:
+        -   prototype: "VerticalScrollBar/VerticalScrollBar"
+            name: "VerticalScrollBar"
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    leftAnchor: -8.000000
+                    rightAnchorEnabled: false
+                    rightAnchor: 0.000000
+                UIScrollBarComponent:
+                    delegate: "../../ScrollableContent/UIScrollView"
+            children:
+            -   path: "slider"
+                visible: true
+                children: []
+        -   class: "UIControl"
+            name: "RightPanelWrapper"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "ResourceDescription"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    ClipContent:
+                        left: false
+                        right: false
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfParent"
+                    UIChildComponent0:
+                        condition: "not selectedTabEmpty"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Avatars/AvatarChain.yaml"
+                        args:
+                            "session": "session"
+                            "chain": "selectedCategory.avatars[selectedCategory.selectedIndex]"
+            -   prototype: "BottomInventorySpacer/BottomSpacer"
+                name: "BottomSpacer"
+    -   prototype: "DynamicHorizontalPadding/DynamicHorizontalPadding"
+        name: "DynamicHorizontalPadding_1"
+        classes: "padding only-notch-padding desktop-unvisible"

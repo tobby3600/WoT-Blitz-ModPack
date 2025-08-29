@@ -2,7 +2,7 @@ Header:
     version: 157
 ImportedPackages:
 - "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
+- "~res:/UI/Screens3/Common/BlurMask.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "DefaultOffer"
@@ -76,12 +76,20 @@ Prototypes:
                 horizontalPolicy: "PercentOfParent"
                 horizontalValue: 50.000000
                 verticalPolicy: "PercentOfParent"
+    -   prototype: "BlurMask/BlurMask"
+        name: "Blur"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "ID": "\"DefaultOffer\""
     -   class: "UIControl"
         name: "ContentWrapper"
         input: false
         components:
             ClipContent: {}
             LinearLayout: {}
+            UIPostProcessSourceComponent0:
+                id: "maskDefaultOffer"
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
@@ -132,12 +140,6 @@ Prototypes:
                     horizontalPolicy: "PercentOfLastChild"
                     verticalPolicy: "PercentOfParent"
             children:
-            -   prototype: "BlurModified/BlurModified"
-                name: "Blur"
-                components:
-                    UIDataParamsComponent:
-                        args:
-                            "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "CustomGradient"
                 input: false
@@ -460,6 +462,24 @@ Prototypes:
                     horizontalPolicy: "PercentOfMaxChild"
                     verticalPolicy: "PercentOfChildrenSum"
             children:
+            -   class: "UIControl"
+                name: "Background"
+                classes: "white-wild-sand-15-bg"
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    IgnoreLayout: {}
+                    Background: {}
+                    UIRoundedCornersComponent:
+                        radius: "8"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        horizontalValue: 105.000000
+                        verticalPolicy: "PercentOfParent"
+                        verticalValue: 105.000000
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
             -   class: "UIControl"
                 name: "ProductImage"
                 input: false

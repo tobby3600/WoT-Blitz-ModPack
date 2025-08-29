@@ -1,0 +1,131 @@
+Header:
+    version: 152
+Prototypes:
+-   class: "UIControl"
+    name: "ShortProfilePlayerInfo"
+    input: false
+    classes: "player-info"
+    components:
+        Anchor:
+            vCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "Formula"
+            horizontalFormula: "maxChild - 12"
+            verticalPolicy: "Formula"
+            verticalFormula: "maxChild - 16"
+        UIDataParamsComponent:
+            params:
+            - ["ProfileViewModel", "profile", "null", "{ }"]
+            events:
+            - "ON_TOUCH_UP"
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Lobby/Profile/ShortProfilePlayerInfo.style.yaml"
+    children:
+    -   class: "UIControl"
+        name: "TapArea"
+        position: [0.000000, 0.000000]
+        input: true
+        classes: "tap-area"
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "Formula"
+                horizontalFormula: "firstChild + 12"
+                verticalPolicy: "Formula"
+                verticalFormula: "childrenSum + 16"
+            UIInputEventComponent:
+                onTouchUpInside: "ON_TOUCH_UP"
+            Sound:
+                touchUpInside: "GUI/buttons/choose"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Lobby/Profile/ShortProfilePlayerInfo.style.yaml"
+        children:
+        -   class: "UIControl"
+            name: "ContentWrapper"
+            position: [135.500000, 32.000000]
+            pivot: [0.500000, 0.500000]
+            input: false
+            classes: "content-wrapper"
+            components:
+                UIOpacityComponent: {}
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                LinearLayout:
+                    spacing: 8.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfMaxChild"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Lobby/Profile/ShortProfilePlayerInfo.style.yaml"
+            children:
+            -   class: "UIControl"
+                name: "Avatar"
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfFirstChild"
+                        verticalPolicy: "PercentOfFirstChild"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/PlayerAvatar.yaml"
+                        args:
+                            "avatar": "profile.playerAvatar"
+                            "size": "eAvatarSize.MEDIUM"
+                            "visible": "true"
+                            "interactive": "false"
+                            "enabled": "true"
+                            "badge": "\"\""
+                            "animated": "true"
+            -   class: "UIControl"
+                name: "NicknameWrapper"
+                pivot: [0.500000, 0.500000]
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        spacing: 8.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfFirstChild"
+                children:
+                -   class: "UIControl"
+                    name: "PlayerTag"
+                    input: false
+                    components:
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfFirstChild"
+                            verticalPolicy: "PercentOfFirstChild"
+                        UIChildComponent0:
+                            prototypePath: "~res:/UI/Screens3/Lobby/Common/PlayerName.yaml"
+                            args:
+                                "clanTag": "when isNull(profile.clanInfo.clan) -> \"\", profile.clanInfo.clan.tag"
+                                "playerName": "profile.playerNameData.name"
+                                "playerNameSize": "ePlayerSize.kNormal"
+                -   class: "UIControl"
+                    name: "Icon"
+                    position: [231.000000, 15.000000]
+                    size: [24.000000, 19.000000]
+                    input: false
+                    classes: "icon"
+                    components:
+                        Background:
+                            drawType: "DRAW_SCALE_PROPORTIONAL"
+                            sprite: "~res:/Gfx/Lobby/icons/icon_copy_s"
+                        Anchor:
+                            rightAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                            vCenterAnchor: 0.000000
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 16.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 16.000000
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Lobby/Profile/ShortProfilePlayerInfo.style.yaml"

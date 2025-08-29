@@ -1,0 +1,244 @@
+Header:
+    version: 155
+Prototypes:
+-   class: "UIControl"
+    name: "Proto"
+    size: [967.000000, 552.000000]
+    input: false
+    refreshStylesOnInteract: false
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/Lobby/BattleResults/Page.animation"
+        UIOpacityComponent: {}
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            verticalPolicy: "FixedSize"
+        UIDataParamsComponent:
+            params:
+            - ["TanksRankConfigurationModel", "rankConfig", "null", "{ }"]
+            - ["float", "contentSizeY", "0.000000", "690.000000"]
+            - ["TutorialDataModel", "tutorialData", "null", "{ }"]
+            - ["bool", "isTutorialInProgress", "true", "true"]
+            - ["bool", "canWatchAd", "false", "true"]
+            - ["bool", "personalFirstShow", "true", "true"]
+            - ["bool", "teamFirstShow", "false", "true"]
+            - ["bool", "hasHeroBonus", "false", "true"]
+            - ["BattleResultsViewModel", "results", "null", "{ \"economics\" = { \"withPremium\" = false; }; \"gameplayMode\" = eGameMode.Rating; \"rating\" = { \"leagueType\" = eLeague.SILVER; \"currentRating\" = 2345; \"difference\" = 45; \"state\" = eBattleRatingState.HAS_RATING; \"calibrationBattlesLeft\" = 2; }; }"]
+            - ["bool", "hidden", "false", "false"]
+            - ["float", "proportion", "0.000000", "0.800000"]
+            - ["float", "point", "0.000000", "0.000000"]
+            - ["int", "index", "0", "0"]
+            - ["bool", "economyFirstShow", "false", "true"]
+            - ["ePageType", "selectedTab", "ePageType.Efficiency", "ePageType.Efficiency"]
+            - ["bool", "isSessionPlayerResults", "true", "true"]
+            - ["string", "bgStyle", "\"\"", "\"\""]
+            events:
+            - "ShowReactionLimitPopupWithParam(bool isEnemy, int index)"
+            - "SET_LIKE(LikeData likeData, TeamData data)"
+            - "TeamPageTableReverse"
+            - "TeamPageTableSorting(eTeamEffectivenessFilterType teamEffectivenessFilterType, bool reverse)"
+            - "SHOW_EXCELLENT_OFFER"
+            - "PLAY_VIDEO_AD"
+            - "SHOW_RIBBON_INFO"
+            - "SHOW_ACHIEVEMENT_INFO"
+            - "SHOW_SHORT_PROFILE"
+            - "OVERLAY_STATISTIC_SHOW"
+            - "BUY_PREMIUM"
+            - "ON_REWARD_CLICK"
+            - "STOP_ANIMATION"
+            - "OpenModulePageForResearch"
+        UIDataLocalVarsComponent:
+            data:
+            - ["string", "winLoseTitleStyle", "when results.battleResult == BattleResult.WIN -> \"bold white-wild-sand-text\", \"regular white-wild-sand-50-text\""]
+            - ["string", "winLoseTitle", "when results.battleResult == BattleResult.WIN -> \"#battle_results:Result/Victory\", results.battleResult == BattleResult.LOSE -> \"#battle_results:Result/Defeat\", \"#battle_results:Result/Draw\""]
+            - ["float", "minOpacity", "0.300000"]
+            - ["bool", "showPersonalPage", "false"]
+            - ["bool", "showEconomyPage", "false"]
+            - ["bool", "showTeamPage", "false"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["string", "winLoseFont", "when contentSizeY < 900 -> \"t-content-h4\", \"t-content-h2\""]
+            - ["bool", "stopLayerActiv", "(selectedTab == ePageType.Efficiency and personalFirstShow) or (selectedTab == ePageType.Economy and economyFirstShow) or (selectedTab == ePageType.TeamEffectiveness and teamFirstShow)"]
+            - ["bool", "enoughSpaceForTenVsTen", "(results.gameplayMode == eGameMode.TenVsTen) and ((contentSizeY - 160) > 680)"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/BattleResults/Page.actions"
+        UIEventOnDataComponent0:
+            watchedDataExpression: "point"
+            eventName: "Move"
+    bindings:
+    - ["visible", "not hidden"]
+    - ["UIOpacityComponent.opacity", "max(proportion, minOpacity)"]
+    - ["SizePolicy.horizontalValue", "screenWidth"]
+    - ["SizePolicy.verticalValue", "contentSizeY - 160"]
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        size: [32.000000, 32.000000]
+        input: false
+        refreshStylesOnInteract: false
+        components:
+            UIOpacityComponent: {}
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "FixedSize"
+            UIChildComponent0:
+                childType: "kControl"
+                condition: "toEnum(index, ePageType) == ePageType.Efficiency and (not ((teamFirstShow and toEnum(selectedTab, ePageType) == ePageType.TeamEffectiveness) or (economyFirstShow and toEnum(selectedTab, ePageType) == ePageType.Economy)))"
+                control: "PersonalEfficiency"
+            UIChildComponent1:
+                childType: "kControl"
+                condition: "toEnum(index, ePageType) == ePageType.Economy and (not ((teamFirstShow and toEnum(selectedTab, ePageType) == ePageType.TeamEffectiveness) or (personalFirstShow and toEnum(selectedTab, ePageType) == ePageType.Efficiency)))"
+                control: "Economy"
+            UIChildComponent2:
+                childType: "kControl"
+                condition: "toEnum(index, ePageType) == ePageType.TeamEffectiveness and (not ((economyFirstShow and toEnum(selectedTab, ePageType) == ePageType.Economy) or (personalFirstShow and toEnum(selectedTab, ePageType) == ePageType.Efficiency)))"
+                control: "TeamEffectiveness"
+        bindings:
+        - ["UIOpacityComponent.opacity", "when results.firstShow -> 1, 0"]
+        - ["SizePolicy.horizontalValue", "screenWidth"]
+        - ["SizePolicy.verticalValue", "contentSizeY - 160"]
+    -   class: "UIControl"
+        name: "StopLayer"
+        exclusiveInput: true
+        components:
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "FixedSize"
+            UIInputEventComponent:
+                onTouchUpInside: "STOP_ANIMATION"
+                onTouchUpInsideData: "true"
+        bindings:
+        - ["visible", "stopLayerActiv"]
+        - ["input", "stopLayerActiv"]
+        - ["SizePolicy.horizontalValue", "screenWidth"]
+        - ["SizePolicy.verticalValue", "contentSizeY - 80"]
+Slots:
+-   class: "UIControl"
+    name: "PersonalEfficiency"
+    size: [1440.000000, 480.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            verticalPolicy: "PercentOfParent"
+        UIChildComponent0:
+            condition: "showPersonalPage"
+            prototypePath: "~res:/UI/Screens3/Lobby/BattleResults/Personal/PersonalEfficiencyPage.yaml"
+            args:
+                "contentSizeY": "contentSizeY"
+                "personalFirstShow": "personalFirstShow"
+                "results": "results"
+                "bgStyle": "bgStyle"
+            eventActions:
+            - ["SHOW_EXCELLENT_OFFER", "SHOW_EXCELLENT_OFFER", ""]
+            - ["ON_RIBBON_PRESSED", "SHOW_RIBBON_INFO", "_event"]
+            - ["ON_ACHIEVEMENT_PRESSED", "SHOW_ACHIEVEMENT_INFO", "_event"]
+    bindings:
+    - ["SizePolicy.horizontalValue", "screenWidth"]
+-   class: "UIControl"
+    name: "Economy"
+    size: [798.000000, 510.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            verticalPolicy: "PercentOfParent"
+        UIChildComponent0:
+            condition: "showEconomyPage"
+            prototypePath: "~res:/UI/Screens3/Lobby/BattleResults/Economic/EconomyPage.yaml"
+            args:
+                "rankConfig": "rankConfig"
+                "contentSizeY": "contentSizeY"
+                "canAnimated": "selectedTab == ePageType.Economy"
+                "tutorialData": "tutorialData"
+                "isTutorialInProgress": "isTutorialInProgress"
+                "canWatchAd": "canWatchAd"
+                "results": "results"
+                "economyFirstShow": "economyFirstShow"
+                "bgStyle": "bgStyle"
+            eventActions:
+            - ["OpenModulePageForResearch", "OpenModulePageForResearch", ""]
+            - ["BUY_PREMIUM", "BUY_PREMIUM", ""]
+            - ["ON_REWARD_CLICK", "ON_REWARD_CLICK", "_event"]
+    bindings:
+    - ["SizePolicy.horizontalValue", "screenWidth"]
+-   class: "UIControl"
+    name: "TeamEffectiveness"
+    size: [960.000000, 480.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            verticalPolicy: "PercentOfParent"
+    bindings:
+    - ["SizePolicy.horizontalValue", "screenWidth"]
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        position: [0.000000, -10.000000]
+        size: [960.000000, 480.000000]
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 7.000000
+                skipInvisible: false
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+        bindings:
+        - ["Anchor.vCenterAnchor", "when contentSizeY < 900 -> 0, -64"]
+        - ["SizePolicy.verticalValue", "when enoughSpaceForTenVsTen -> 686, when (contentSizeY - 160) < 512 -> 484, 518"]
+        children:
+        -   class: "UIControl"
+            name: "Title"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                UITextComponent: {}
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    topAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 28.000000
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            bindings:
+            - ["visible", "selectedTab == ePageType.TeamEffectiveness"]
+            - ["classes", "winLoseTitleStyle + \" \" + \"align-parent-center\" + \" \" + winLoseFont"]
+            - ["UITextComponent.text", "localize(winLoseTitle)"]
+        -   class: "UIControl"
+            name: "TeamEffectivenessTable"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/BattleResults/TeamEffectiveness/TeamEffectivenessTable.yaml"
+                    args:
+                        "rankConfig": "rankConfig"
+                        "enoughSpaceForTenVsTen": "enoughSpaceForTenVsTen"
+                        "unavailableLimitsReacted": "results.unavailableLimitsReacted"
+                        "unavailableTimeExpired": "results.unavailableTimeExpired"
+                        "isReactionsAvailable": "results.isReactionsAvailable"
+                        "teamData": "results.teams"
+                        "battleResult": "results.battleResult"
+                        "gameplayMode": "results.gameplayMode"
+                        "results": "results"
+                        "isFirstShow": "teamFirstShow"
+                        "isSessionPlayerResults": "isSessionPlayerResults"
+                    eventActions:
+                    - ["ShowReactionLimitPopupWithParam", "ShowReactionLimitPopupWithParam", "_event.isEnemy, _event.index"]
+                    - ["SET_LIKE", "SET_LIKE", "_event.likeData, _event.data"]
+                    - ["TeamPageTableReverse", "TeamPageTableReverse", ""]
+                    - ["TeamPageTableSorting", "TeamPageTableSorting", "_event.teamEffectivenessFilterType, _event.reverse"]
+                    - ["SHOW_SHORT_PROFILE", "SHOW_SHORT_PROFILE", "_event"]

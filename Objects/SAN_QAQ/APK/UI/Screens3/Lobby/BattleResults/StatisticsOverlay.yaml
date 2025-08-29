@@ -2,7 +2,6 @@ Header:
     version: 144
 ImportedPackages:
 - "~res:/UI/Screens3/Common/HorizontalScrollBar.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "StatisticsOverlay"
@@ -44,7 +43,7 @@ Prototypes:
             args:
                 "info": "[ { \"text\" = localize(\"#battle_results:DetailsPage/StatisticPage\"); \"attachId\" = \"\"; }; { \"text\" = localize(\"#battle_results:DetailsPage/EfficiencyPage\"); \"attachId\" = \"\"; }; ]"
                 "activeTab": "selectedTab"
-                "isBlur": "true"
+                "bgStyle": "\"white-wild-sand-15-bg\""
             eventActions:
             - ["ON_SELECT_TAB", "ON_SELECT_TAB", "_event"]
         UIChildComponent0:
@@ -56,9 +55,10 @@ Prototypes:
                 "tabContent": "TabContent"
                 "content": "contentLocal"
                 "hasCustomBg": "true"
-                "scaleBg": "true"
                 "imageFromClient": "\"~res:/Gfx/UI/ProfileScreen/tank_statistics\""
                 "modifiedBg": "true"
+                "isBlurMask": "true"
+                "blurMaskID": "\"Statistic\""
             eventActions:
             - ["BACK_EVENT", "BACK_EVENT", ""]
             - ["CHANGE_SCROLL_POSITION", "CHANGE_SCROLL_POSITION", "_event"]
@@ -112,20 +112,20 @@ Slots:
             -   class: "UIControl"
                 name: "Stats"
                 input: false
+                classes: "white-wild-sand-15-bg"
                 components:
+                    Background: {}
+                    UIRoundedCornersComponent:
+                        radius: "8"
                     LinearLayout:
                         spacing: 48.000000
                         useRtl: true
                     SizePolicy:
                         horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "PercentOfMaxChild"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
                 children:
-                -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
-                    components:
-                        UIDataParamsComponent:
-                            args:
-                                "roundCorner": "\"8\""
                 -   class: "UIControl"
                     name: "LeftColumn"
                     input: false
@@ -134,7 +134,6 @@ Slots:
                             orientation: "TopDown"
                         SizePolicy:
                             horizontalPolicy: "PercentOfParent"
-                            horizontalValue: 100.000000
                             verticalPolicy: "Formula"
                             verticalFormula: "max(parent, childrenSum)"
                     children:
@@ -236,7 +235,6 @@ Slots:
                             orientation: "TopDown"
                         SizePolicy:
                             horizontalPolicy: "PercentOfParent"
-                            horizontalValue: 100.000000
                             verticalPolicy: "Formula"
                             verticalFormula: "max(parent, childrenSum)"
                     children:

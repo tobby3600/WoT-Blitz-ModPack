@@ -3,7 +3,6 @@ Header:
 ImportedPackages:
 - "~res:/UI/Screens/Lobby/Clan/ClanEmblem.yaml"
 - "~res:/UI/Screens/Lobby/Tournament/TeamLiftLabel.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIListCell"
     name: "MatchEntry"
@@ -49,8 +48,6 @@ Prototypes:
                     verticalPolicy: "FixedSize"
                     verticalValue: 36.000000
             children:
-            -   prototype: "BlurModified/BlurModified"
-                name: "Blur"
             -   class: "UIStaticText"
                 name: "Stage"
                 size: [101.000000, 36.000000]
@@ -145,8 +142,6 @@ Prototypes:
                         horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "PercentOfParent"
                 children:
-                -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
                 -   class: "UIControl"
                     name: "BackWinner"
                     input: false
@@ -267,8 +262,6 @@ Prototypes:
                     StyleSheet:
                         styles: "~res:/UI/Screens/CommonStyles.yaml"
                 children:
-                -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
                 -   class: "UIControl"
                     name: "Date"
                     input: false
@@ -311,8 +304,6 @@ Prototypes:
                         horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "PercentOfParent"
                 children:
-                -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
                 -   class: "UIControl"
                     name: "BackLoser"
                     input: false

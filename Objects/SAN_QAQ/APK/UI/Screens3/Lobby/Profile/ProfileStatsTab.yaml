@@ -6,28 +6,23 @@ ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Profile/Common/Statistic/CommonStatisticList.yaml"
 - "~res:/UI/Screens3/Lobby/Profile/Common/Statistic/RecordsStatisticList.yaml"
 - "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "StatsTab"
     size: [960.000000, 900.000000]
     input: false
     components:
-        UIPostProcessSourceComponent0: {}
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
             verticalPolicy: "PercentOfParent"
         UIDataParamsComponent:
             params:
             - ["ProfileViewModel", "profile", "null", "{ }"]
-            - ["string", "maskProfile", "\"\"", "\"\""]
         UIDataLocalBindingsComponent:
             data:
             - ["int", "battlesCount", "profile.dossier.battlesCount"]
             - ["int", "maxHistogramValue", "profile.maxHistogramValue"]
             - ["int", "baseHistogramValue", "224"]
-    bindings:
-    - ["UIPostProcessSourceComponent0.id", "maskProfile"]
     children:
     -   class: "UIScrollView"
         name: "UIScrollView"
@@ -83,22 +78,20 @@ Prototypes:
                     -   class: "UIControl"
                         name: "Left"
                         input: false
+                        classes: "white-wild-sand-15-bg"
                         components:
+                            Background: {}
+                            UIRoundedCornersComponent:
+                                radius: "8"
                             LinearLayout:
                                 orientation: "TopDown"
                                 spacing: 16.000000
                             SizePolicy:
                                 horizontalPolicy: "PercentOfParent"
                                 verticalPolicy: "PercentOfChildrenSum"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml"
                         children:
-                        -   prototype: "BlurModified/BlurModified"
-                            name: "Blur"
-                            components:
-                                UIDataParamsComponent:
-                                    args:
-                                        "isBlur": "false"
-                                        "bgStyle": "\"white-wild-sand-15-bg\""
-                                        "roundCorner": "\"8\""
                         -   prototype: "HorizontalDividerWithCaption/HorizontalDividerWithCaption"
                             name: "Header"
                             components:
@@ -131,22 +124,20 @@ Prototypes:
                         -   class: "UIControl"
                             name: "Average"
                             input: false
+                            classes: "white-wild-sand-15-bg"
                             components:
+                                Background: {}
+                                UIRoundedCornersComponent:
+                                    radius: "8"
                                 LinearLayout:
                                     orientation: "TopDown"
                                     spacing: 16.000000
                                 SizePolicy:
                                     horizontalPolicy: "PercentOfParent"
                                     verticalPolicy: "PercentOfChildrenSum"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
                             children:
-                            -   prototype: "BlurModified/BlurModified"
-                                name: "Blur"
-                                components:
-                                    UIDataParamsComponent:
-                                        args:
-                                            "isBlur": "false"
-                                            "bgStyle": "\"white-wild-sand-15-bg\""
-                                            "roundCorner": "\"8\""
                             -   prototype: "HorizontalDividerWithCaption/HorizontalDividerWithCaption"
                                 name: "Header"
                                 components:
@@ -164,22 +155,20 @@ Prototypes:
                             position: [0.000000, 320.000000]
                             size: [392.000000, 232.000000]
                             input: false
+                            classes: "white-wild-sand-15-bg"
                             components:
+                                Background: {}
+                                UIRoundedCornersComponent:
+                                    radius: "8"
                                 LinearLayout:
                                     orientation: "TopDown"
                                     spacing: 16.000000
                                 SizePolicy:
                                     horizontalPolicy: "PercentOfParent"
                                     verticalPolicy: "PercentOfChildrenSum"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
                             children:
-                            -   prototype: "BlurModified/BlurModified"
-                                name: "Blur"
-                                components:
-                                    UIDataParamsComponent:
-                                        args:
-                                            "isBlur": "false"
-                                            "bgStyle": "\"white-wild-sand-15-bg\""
-                                            "roundCorner": "\"8\""
                             -   prototype: "HorizontalDividerWithCaption/HorizontalDividerWithCaption"
                                 name: "Header"
                                 components:
@@ -245,24 +234,22 @@ Prototypes:
                         -   class: "UIControl"
                             name: "Type"
                             input: false
+                            classes: "white-wild-sand-15-bg"
                             components:
                                 Anchor:
                                     bottomAnchorEnabled: true
+                                Background: {}
+                                UIRoundedCornersComponent:
+                                    radius: "8"
                                 LinearLayout:
                                     orientation: "TopDown"
                                     spacing: 6.000000
                                 SizePolicy:
                                     horizontalPolicy: "PercentOfFirstChild"
                                     verticalPolicy: "PercentOfChildrenSum"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
                             children:
-                            -   prototype: "BlurModified/BlurModified"
-                                name: "Blur"
-                                components:
-                                    UIDataParamsComponent:
-                                        args:
-                                            "isBlur": "false"
-                                            "bgStyle": "\"white-wild-sand-15-bg\""
-                                            "roundCorner": "\"8\""
                             -   class: "UIControl"
                                 name: "BarsContainer"
                                 size: [32.000000, 32.000000]
@@ -298,24 +285,22 @@ Prototypes:
                             name: "Nation"
                             size: [32.000000, 32.000000]
                             input: false
+                            classes: "white-wild-sand-15-bg"
                             components:
                                 Anchor:
                                     bottomAnchorEnabled: true
+                                Background: {}
+                                UIRoundedCornersComponent:
+                                    radius: "8"
                                 LinearLayout:
                                     orientation: "TopDown"
                                     spacing: 6.000000
                                 SizePolicy:
                                     horizontalPolicy: "PercentOfFirstChild"
                                     verticalPolicy: "PercentOfChildrenSum"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
                             children:
-                            -   prototype: "BlurModified/BlurModified"
-                                name: "Blur"
-                                components:
-                                    UIDataParamsComponent:
-                                        args:
-                                            "isBlur": "false"
-                                            "bgStyle": "\"white-wild-sand-15-bg\""
-                                            "roundCorner": "\"8\""
                             -   class: "UIControl"
                                 name: "BarsContainer"
                                 size: [32.000000, 32.000000]
@@ -351,24 +336,22 @@ Prototypes:
                             name: "Level"
                             size: [32.000000, 32.000000]
                             input: false
+                            classes: "white-wild-sand-15-bg"
                             components:
                                 Anchor:
                                     bottomAnchorEnabled: true
+                                Background: {}
+                                UIRoundedCornersComponent:
+                                    radius: "8"
                                 LinearLayout:
                                     orientation: "TopDown"
                                     spacing: 6.000000
                                 SizePolicy:
                                     horizontalPolicy: "PercentOfFirstChild"
                                     verticalPolicy: "PercentOfChildrenSum"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
                             children:
-                            -   prototype: "BlurModified/BlurModified"
-                                name: "Blur"
-                                components:
-                                    UIDataParamsComponent:
-                                        args:
-                                            "isBlur": "false"
-                                            "bgStyle": "\"white-wild-sand-15-bg\""
-                                            "roundCorner": "\"8\""
                             -   class: "UIControl"
                                 name: "BarsContainer"
                                 input: false

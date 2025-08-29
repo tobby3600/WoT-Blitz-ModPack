@@ -114,9 +114,7 @@ Slots:
                     hCenterAnchorEnabled: true
                 SizePolicy:
                     horizontalPolicy: "PercentOfContent"
-                    horizontalValue: 100.000000
                     verticalPolicy: "PercentOfContent"
-                    verticalValue: 100.000000
         -   class: "UIControl"
             name: "Title"
             input: false

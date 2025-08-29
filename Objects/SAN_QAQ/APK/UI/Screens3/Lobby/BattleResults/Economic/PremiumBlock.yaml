@@ -1,0 +1,220 @@
+Header:
+    version: 161
+Prototypes:
+-   class: "UIControl"
+    name: "PremiumBlock"
+    size: [32.000000, 32.000000]
+    components:
+        LinearLayout:
+            spacing: 8.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "FixedSize"
+            verticalValue: 32.000000
+        UIInputEventComponent:
+            onTouchUpInside: "ON_CLICK_BUTTON"
+        UISystemEventComponent:
+            onActivated: "Init"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "canAnimated", "false", "false"]
+            - ["string", "buttonText", "\"\"", "\"Получить\""]
+            - ["bool", "isFirstShow", "false", "true"]
+            - ["int", "value", "0", "400"]
+            events:
+            - "END_PREMIUM_BLOCK_ANIMATION"
+            - "ON_CLICK_BUTTON"
+        UIDataLocalVarsComponent:
+            data:
+            - ["float", "animationTime", "when value < 1 -> 0.000000, value < 10000 -> 0.350000, value < 1000000 -> 0.550000, 0.650000"]
+            - ["int", "currentValue", "when isFirstShow -> 0, value"]
+            - ["bool", "isFirstShowLocal", "isFirstShow"]
+            - ["bool", "showPremButton", "false"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/BattleResults/Economic/PremiumBlock.actions"
+    children:
+    -   class: "UIControl"
+        name: "PremiumBonus"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "FixedSize"
+                verticalValue: 32.000000
+        children:
+        -   class: "UIControl"
+            name: "PremiumBonusWrapper"
+            input: false
+            components:
+                LinearLayout:
+                    spacing: 6.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 32.000000
+            children:
+            -   class: "UIControl"
+                name: "PremiumLockIcon"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfMaxChild"
+                children:
+                -   class: "UIControl"
+                    name: "Tiar"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_SCALE_TO_RECT"
+                            sprite: "~res:/Gfx/Lobby/icons/icon_tiar_m"
+                            color: [0.800000, 0.513726, 0.078431, 1.000000]
+                        UIOpacityComponent:
+                            opacity: 1.000000
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 32.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 32.000000
+                -   class: "UIControl"
+                    name: "LockIconWrapper"
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 24.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 24.000000
+                    children:
+                    -   class: "UIControl"
+                        name: "LockIcon"
+                        position: [16.000000, 16.000000]
+                        size: [32.000000, 32.000000]
+                        pivot: [0.500000, 0.500000]
+                        input: false
+                        components:
+                            Background:
+                                drawType: "DRAW_ALIGNED"
+                                sprite: "~res:/Gfx/Lobby/icons/icon_lock"
+                                color: [0.901961, 0.764706, 0.541176, 1.000000]
+                                perPixelAccuracy: "PER_PIXEL_ACCURACY_FORCED"
+                            UIOpacityComponent:
+                                opacity: 1.000000
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                                vCenterAnchor: 1.000000
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 24.000000
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 24.000000
+            -   class: "UIControl"
+                name: "BonusValueWrapper"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                        vCenterAnchor: -1.000000
+                    LinearLayout:
+                        spacing: 3.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfMaxChild"
+                children:
+                -   class: "UIControl"
+                    name: "Plus"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        UIOpacityComponent: {}
+                        UITextComponent:
+                            text: "+"
+                            fontPath: "~res:/Fonts/XinGothic-SC-W12.otf"
+                            fontSize: 17.000000
+                            lineHeight: 24.000000
+                            baseLine: 6.000000
+                            letterSpacing: 0.200000
+                            color: [0.901961, 0.764706, 0.541176, 1.000000]
+                            colorInheritType: "COLOR_IGNORE_PARENT"
+                        UIShadowComponent:
+                            blurType: "Gauss"
+                            color: [1.000000, 0.164706, 0.000000, 1.000000]
+                            indent: 16
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                            vCenterAnchor: -1.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                -   class: "UIControl"
+                    name: "BonusValue"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        UIOpacityComponent:
+                            opacity: 1.000000
+                        UITextComponent:
+                            fontPath: "~res:/Fonts/XinGothic-SC-W12.otf"
+                            fontSize: 17.000000
+                            lineHeight: 24.000000
+                            baseLine: 6.000000
+                            letterSpacing: 0.200000
+                            color: [0.901961, 0.764706, 0.541176, 1.000000]
+                            colorInheritType: "COLOR_IGNORE_PARENT"
+                        UIShadowComponent:
+                            blurType: "Gauss"
+                            color: [1.000000, 0.164706, 0.000000, 1.000000]
+                            indent: 16
+                            canBeDelayed: true
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                    bindings:
+                    - ["UITextComponent.text", "str1000Separated(currentValue)"]
+    -   class: "UIControl"
+        name: "PremiumButtonWrapper"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 120.000000
+                verticalPolicy: "FixedSize"
+                verticalValue: 32.000000
+        children:
+        -   class: "UIControl"
+            name: "PremiumButton"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                UIOpacityComponent:
+                    opacity: 0.000000
+                Anchor:
+                    leftAnchorEnabled: true
+                    leftAnchor: 0.000000
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfFirstChild"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Button/PremButton.yaml"
+                    args:
+                        "caption": "buttonText"
+                    eventActions:
+                    - ["ON_CLICK_BUTTON", "ON_CLICK_BUTTON", ""]
+            bindings:
+            - ["enabled", "showPremButton"]

@@ -1,0 +1,96 @@
+Header:
+    version: 152
+Prototypes:
+-   class: "UIControl"
+    name: "TankRankSmall"
+    input: false
+    components:
+        Anchor:
+            vCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalValue: 24.000000
+            verticalPolicy: "FixedSize"
+            verticalValue: 24.000000
+        UIDataParamsComponent:
+            params:
+            - ["int", "anchorVerticalDistance", "0", "0"]
+            - ["int", "rank", "1", "13"]
+            - ["eTankRankGrade", "grade", "eTankRankGrade.Legendary", "eTankRankGrade.Legendary"]
+            - ["bool", "readyToUnlock", "false", "true"]
+        UIIdentifierComponent:
+            id: "rank_icon"
+            params:
+            - ["string", "rank_grade", "str(grade, eTankRankGrade)"]
+            - ["int", "rank_level", "rank"]
+        StyleSheet: {}
+    bindings:
+    - ["Anchor.vCenterAnchor", "anchorVerticalDistance"]
+    children:
+    -   class: "UIControl"
+        name: "RankIcon"
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_ALIGNED"
+                sprite: "~res:/Gfx/Shared/backgrounds/rank"
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfContent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Lobby/Inventory/TankProgress/TankRankSmall.style.yaml"
+        bindings:
+        - ["classes", "str(grade, eTankRankGrade, \"color\")"]
+        children:
+        -   class: "UIControl"
+            name: "RankShadow"
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_ALIGNED"
+                    sprite: "~res:/Gfx/Shared/backgrounds/rank_shadow"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            bindings:
+            - ["classes", "str(grade, eTankRankGrade, \"color\")"]
+    -   class: "UIControl"
+        name: "Rank"
+        input: false
+        classes: "t-caption white-wild-sand-text"
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+                vCenterAnchor: -1.750000
+            UITextComponent:
+                fontPath: "~res:/Fonts/AVICII.ttf"
+                align: ["HCENTER", "VCENTER"]
+                perPixelAccuracyType: "PER_PIXEL_ACCURACY_FORCED"
+            UIShadowComponent:
+                blurType: "Gauss"
+                indent: 3
+                canBeDelayed: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfContent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml"
+        bindings:
+        - ["UITextComponent.text", "str(rank)"]
+        - ["UIShadowComponent.color", "when rank >= 40 -> rgba(255, 215, 0, 1.000000), rank >= 30 -> rgba(153, 138, 230, 1.000000), rank >= 20 -> rgba(115, 209, 255, 1.000000), rank >= 10 -> rgba(168, 230, 138, 1.000000), rgba(245, 245, 245, 1.000000)"]
+    -   class: "UIParticles"
+        name: "Fx"
+        scale: [0.275000, 0.275000]
+        effectPath: "~res:/3d/FX/UI/TankProgress/karuselFx.sc2"
+        autoStart: true
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            IgnoreLayout: {}
+        bindings:
+        - ["visible", "readyToUnlock"]

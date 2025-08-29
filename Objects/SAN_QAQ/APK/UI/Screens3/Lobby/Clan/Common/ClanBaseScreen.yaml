@@ -1,0 +1,92 @@
+Header:
+    version: 151
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Clan/Common/ClanBg.yaml"
+- "~res:/UI/Screens3/Lobby/Clan/Common/ClanHeader.yaml"
+- "~res:/UI/Screens3/Common/BlurMask.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "ClanBaseScreen"
+    size: [800.000000, 640.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Escape"
+            keyDownEvent: "BACK_SHORTCUT"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "isBlurMask", "false", "false"]
+            - ["bool", "isInClan", "false", "false"]
+            - ["float", "blurOpacity", "1.000000", "1.000000"]
+            - ["float", "fadeOpacity", "0.000000", "0.300000"]
+            - ["float", "headerOpacity", "1.000000", "1.000000"]
+            - ["string", "headerText", "\"\"", "\"#Заголовок\""]
+            - ["string", "blurMaskID", "\"\"", "\"\""]
+            - ["bool", "backVisible", "true", "true"]
+            - ["control", "content", "null", "null"]
+            events:
+            - "ON_BACK_CLICK"
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Clan/Common/ClanBaseScreen.actions"
+    children:
+    -   prototype: "ClanBg/ClanBg"
+        name: "ClanBg"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "fadeOpacity": "fadeOpacity"
+                    "blurOpacity": "blurOpacity"
+                    "texturePath": "when isInClan -> \"~res:/Gfx/Lobby/backgrounds/key-art/key-art_clan-2\", \"~res:/Gfx/Lobby/backgrounds/key-art/key-art_clan-1\""
+    -   prototype: "BlurMask/BlurMask"
+        name: "Blur"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "isBlurMask": "isBlurMask"
+                    "ID": "\"ClanBaseScreen\" + blurMaskID"
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                bottomAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+            UIPostProcessSourceComponent0: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIAnchorSafeAreaComponent:
+                leftSafeInset: "INSET"
+                rightSafeInset: "INSET"
+                bottomSafeInset: "INSET"
+        bindings:
+        - ["UIPostProcessSourceComponent0.id", "\"ClanBaseScreen\" + blurMaskID"]
+        children:
+        -   prototype: "ClanHeader/ClanHeader"
+            name: "ClanHeader"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "backVisible": "backVisible"
+                        "headerOpacity": "headerOpacity"
+                        "headerText": "headerText"
+                    eventActions:
+                    - ["BACK_EVENT", "ON_BACK_CLICK", ""]
+        -   class: "UIControl"
+            name: "SafeContentArea"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                UIChildComponent0:
+                    childType: "kControl"
+                    condition: "not isNull(content)"
+                    control: "content"

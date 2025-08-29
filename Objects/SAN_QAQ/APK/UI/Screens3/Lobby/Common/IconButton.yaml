@@ -24,10 +24,13 @@ Prototypes:
             - ["bool", "locked", "false", "false"]
             - ["bool", "rounded", "false", "true"]
             - ["bool", "visible", "true", "true"]
+            - ["bool", "isCustBg", "false", "false"]
             - ["eBadgeType", "badgeType", "eBadgeType.Empty", "eBadgeType.Camouflage"]
             - ["eButtonSound", "sound", "eButtonSound.UNKNOWN", "eButtonSound.UNKNOWN"]
             - ["eButtonType", "type", "eButtonType.OPTIONAL_LIGHT", "eButtonType.OPTIONAL_DARK"]
             - ["float", "imageOpacity", "1.000000", "1.000000"]
+            - ["float", "blurOpacity", "1.000000", "1.000000"]
+            - ["float", "bgOpacity", "1.000000", "1.000000"]
             - ["float", "value", "0.000000", "0.400000"]
             - ["int", "buttonSize", "48", "48"]
             - ["int", "flipImage", "0", "0"]
@@ -96,13 +99,16 @@ Prototypes:
                         args:
                             "isVisible": "isBgVisible"
                             "isBlur": "isBlur"
-                            "bgStyle": "when isBlur -> bgStyle, maskStyle"
+                            "blurOpacity": "blurOpacity"
+                            "bgOpacity": "blurOpacity"
+                            "bgStyle": "when isBlur or isCustBg -> bgStyle, maskStyle"
                             "roundCorner": "when rounded -> \"100\", roundCorner"
             -   class: "UIControl"
                 name: "Fade"
                 input: false
                 components:
                     Background:
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_r1"
                         drawType: "DRAW_STRETCH_BOTH"
                         leftRightStretchCap: 1.000000
                         topBottomStretchCap: 1.000000
@@ -116,7 +122,6 @@ Prototypes:
                 bindings:
                 - ["visible", "not rounded and not isBlur"]
                 - ["classes", "hoverStyle"]
-                - ["Background.sprite", "when rounded -> \"~res:/Gfx/Lobby/backgrounds/bg_r48\", \"~res:/Gfx/Lobby/backgrounds/bg_r1\""]
             -   class: "UIControl"
                 name: "Icon"
                 input: false
@@ -131,6 +136,8 @@ Prototypes:
                     SizePolicy:
                         horizontalPolicy: "FixedSize"
                         verticalPolicy: "FixedSize"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
                 bindings:
                 - ["classes", "iconColorStyle"]
                 - ["Background.sprite", "image"]

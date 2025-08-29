@@ -1,0 +1,139 @@
+Header:
+    version: 85
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/Resource/Price.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+- "~res:/UI/Screens3/Lobby/Common/ToggleWithLabel.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "AmmoFooter"
+    size: [1024.000000, 80.000000]
+    input: false
+    components:
+        LinearLayout:
+            dynamicSpacing: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["eTutorialHighlights", "tutorialHighlight", "eTutorialHighlights.kUnknown", "eTutorialHighlights.kUnknown"]
+            - ["ArtefactProviderModel", "artefacts", "null", "{ }"]
+            - ["StatsDataModel", "stats", "null", "{ }"]
+            - ["int", "maxAmmo", "0", "0"]
+            - ["int", "currentAmmo", "0", "0"]
+            - ["bool", "applyEnabled", "false", "false"]
+            - ["Price", "pricePay", "null", "{ }"]
+            - ["Price", "priceGet", "null", "{ }"]
+            - ["bool", "autoResupply", "false", "false"]
+            events:
+            - "ON_AUTO_RESUPPLY_CHANGED(bool isResupplyOn)"
+            - "ON_APPLY_AMMO"
+    children:
+    -   prototype: "ToggleWithLabel/ToggleWithLabel"
+        name: "ToggleWithLabel"
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            UIDataParamsComponent:
+                args:
+                    "text": "\"InventoryPanel/Footer/AutoRecharge\""
+                    "isDarkMode": "false"
+                    "turnedOn": "autoResupply"
+                eventActions:
+                - ["ON_TOGGLE_CHANGED", "ON_AUTO_RESUPPLY_CHANGED", "_event.isTurnedOn"]
+    -   class: "UIControl"
+        name: "AmmoFill"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                spacing: 3.000000
+                useRtl: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfMaxChild"
+        children:
+        -   class: "UIControl"
+            name: "Caption"
+            input: false
+            classes: "t-body regular color=white-wild-sand-50-text"
+            components:
+                UITextComponent:
+                    colorInheritType: "COLOR_IGNORE_PARENT"
+                    align: ["LEFT", "VCENTER"]
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "localize(\"Total ammo\")"]
+        -   class: "UIControl"
+            name: "Value"
+            input: false
+            classes: "t-body bold white-wild-sand-text"
+            components:
+                UITextComponent:
+                    align: ["LEFT", "VCENTER"]
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "str(currentAmmo) + \"/\" + str(maxAmmo)"]
+    -   class: "UIControl"
+        name: "RightPart"
+        input: false
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                padding: "0; 0"
+                spacing: 32.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfMaxChild"
+        children:
+        -   prototype: "Price/Price"
+            name: "Price"
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                UIDataParamsComponent:
+                    args:
+                        "artefacts": "artefacts"
+                        "stats": "stats"
+                        "priceGet": "priceGet"
+                        "pricePay": "pricePay"
+        -   class: "UIControl"
+            name: "FooterButton"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfChildrenSum"
+                UIAttachLayoutMasterComponent:
+                    attachId: "AMMO_APPLY"
+                UILayerComponent: {}
+            bindings:
+            - ["UILayerComponent.layer", "when tutorialHighlight == eTutorialHighlights.kAmmoApplay -> 1, 0"]
+            children:
+            -   prototype: "Button/Button"
+                name: "ButtonPositive"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "caption": "\"Apply\""
+                            "type": "eButtonType.POSITIVE"
+                            "size": "eButtonSize.NORMAL"
+                            "enabled": "applyEnabled"
+                        eventActions:
+                        - ["ON_CLICK_BUTTON", "ON_APPLY_AMMO", ""]

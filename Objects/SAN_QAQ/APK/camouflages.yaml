@@ -3732,6 +3732,31 @@ bats2019:
         spreadingProgress: 3.00
         spreadingStart: 0.55
     texture: "common/bats2019"
+battle_cry_01:
+    colorMap: "common/images_pbr/battle_cry_01_BC"
+    general:
+        decalTileRotation: 25.0
+    overrideTankRmMap: true
+    previewWith: "usa:M-6-Y"
+    rmMap: "common/images_pbr/battle_cry_01_RM"
+    scale:
+    - 0.55
+    - 0.55
+    specularity: 0.4
+    spreading:
+        progressPower: 1.25
+        spreadingAxis: 2
+        spreadingBorderColor:
+        - 2.55
+        - 2.55
+        - 2.55
+        - 1.28
+        spreadingBorderSize: 0.15
+        spreadingMode: 2
+        spreadingNoiseSize: 0.75
+        spreadingProgress: 3.00
+        spreadingStart: 0.55
+    texture: "common/battle_cry_01"
 battle_pass_july2020_1:
     albedoFlatColor:
     - 0.7
@@ -11774,7 +11799,6 @@ clan_wolf:
         spreadingProgress: 3.00
     texture: "common/clan_wolf"
 crash:
-    alpha: 1.0
     animation:
         aniMask: true
         isAnimated: true
@@ -11787,7 +11811,7 @@ crash:
         waveLength: 1.25
         waveSpeed: 5.55
     colorMap: "common/crash/images_pbr/crash_BC"
-    decalNormalBlend: 1.0
+    decalNormalBlend: 0.64
     normalMap: "common/crash/images_pbr/crash_NM"
     overrideTankNormalMap: true
     overrideTankRmMap: true
@@ -11807,6 +11831,28 @@ crash:
         spreadingMode: 1
         spreadingProgress: 3.00
     texture: "common/crash/crash"
+crowns_finest:
+    colorMap: "common/images_pbr/crowns_finest_BC"
+    general:
+        decalTileRotation: 15.0
+    overrideTankRmMap: true
+    previewWith: "usa:M-6-Y"
+    rmMap: "common/images_pbr/crowns_finest_RM"
+    scale:
+    - 0.54
+    - 0.54
+    specularity: 0.4
+    spreading:
+        progressPower: 1.25
+        spreadingBorderColor:
+        - 2.55
+        - 2.55
+        - 2.55
+        - 1.28
+        spreadingBorderSize: 0.15
+        spreadingMode: 1
+        spreadingProgress: 3.00
+    texture: "common/crowns_finest"
 custom_01:
     colorMap: "common/images_pbr/custom_01_BC"
     general:
@@ -16333,6 +16379,50 @@ madgames2021_anim:
         spreadingMode: 1
         spreadingProgress: 3.00
     texture: "common/MadGames2021_anim"
+move_slow_fire_fast_01:
+    colorMap: "common/images_pbr/move_slow_fire_fast_01_BC"
+    general:
+        decalTileRotation: -15.0
+    overrideTankRmMap: true
+    previewWith: "usa:M-6-Y"
+    rmMap: "common/images_pbr/move_slow_fire_fast_01_RM"
+    scale:
+    - 0.55
+    - 0.55
+    specularity: 0.4
+    spreading:
+        progressPower: 1.25
+        spreadingBorderColor:
+        - 2.55
+        - 2.55
+        - 2.55
+        - 1.28
+        spreadingBorderSize: 0.15
+        spreadingMode: 1
+        spreadingProgress: 3.007576
+    texture: "common/move_slow_fire_fast_01"
+move_slow_fire_fast_02:
+    colorMap: "common/images_pbr/move_slow_fire_fast_02_BC"
+    general:
+        decalTileRotation: 15.0
+    overrideTankRmMap: true
+    previewWith: "usa:M-6-Y"
+    rmMap: "common/images_pbr/move_slow_fire_fast_02_RM"
+    scale:
+    - 0.55
+    - 0.55
+    specularity: 0.4
+    spreading:
+        progressPower: 1.25
+        spreadingBorderColor:
+        - 2.55
+        - 2.55
+        - 2.55
+        - 1.28
+        spreadingBorderSize: 0.15
+        spreadingMode: 1
+        spreadingProgress: 3.00
+    texture: "common/move_slow_fire_fast_02"
 ms-1-rare:
     override:
         ussr:
@@ -22629,6 +22719,22 @@ skin2_chieftain_mk6:
     userString: "#gb_vehicles:GB84_Chieftain_Mk6_v2_Custom"
     previewWith: "uk:GB84_Chieftain_Mk6"
     type: 1
+skin2_ch57_bzt_70:
+    customEntities:
+        Skin_01_hull:
+            item: "Skin2_Ch57_BZT_70_hull"
+        Skin_01_turret_01:
+            item: "Skin2_Ch57_BZT_70_turret_01"
+        SlotType1:
+            item: "set_empty_dummy"
+        SlotType2:
+            item: "set_empty_dummy"
+    iconBig: "~res:/Gfx/UI/BigTankIcons/china-Ch57_BZT_70_skin2.txt"
+    preset: "Skin_02"
+    shortUserString: "#china_vehicles:Ch57_BZT_70_Custom_short_v2"
+    userString: "#china_vehicles:Ch57_BZT_70_Custom_v2"
+    previewWith: "china:Ch57_BZT_70"
+    type: 1
 skin2_cz04_t50_51:
     customEntities:
         Skin_02_gun_01:
@@ -22989,6 +23095,18 @@ skin2_it14_p44_pantera:
     userString: "#european_vehicles:It14_P44_Pantera_Custom_v2"
     previewWith: "european:It14_P44_Pantera"
     type: 1
+skin2_j20_type_2605:
+    customEntities:
+        Skin_02_hull:
+            item: "Skin2_J20_Type_2605_hull"
+        Skin_02_turret_01:
+            item: "Skin2_J20_Type_2605_turret_01"
+    iconBig: "~res:/Gfx/UI/BigTankIcons/japan-J20_Type_2605_skin2.txt"
+    preset: "Skin_02"
+    shortUserString: "#japan_vehicles:J20_Type_2605_Custom_short_v2"
+    userString: "#japan_vehicles:J20_Type_2605_Custom_v2"
+    previewWith: "japan:J20_Type_2605"
+    type: 1
 skin2_jagdpz_e100:
     customEntities:
         Skin_02_gun_04:
@@ -23242,6 +23360,20 @@ skin2_pl21_cs_63:
     shortUserString: "#european_vehicles:Pl21_CS_63_Custom_short_v2"
     userString: "#european_vehicles:Pl21_CS_63_Custom_v2"
     previewWith: "european:Pl21_CS_63"
+    type: 1
+skin2_pl30_sdp_wz58t:
+    customEntities:
+        Skin_01_gun_01:
+            item: "Skin2_Pl30_SDP_Wz58T_gun_01"
+        Skin_01_gun_02:
+            item: "Skin2_Pl30_SDP_Wz58T_gun_02"
+        Skin_01_hull:
+            item: "Skin2_Pl30_SDP_Wz58T_hull"
+    iconBig: "~res:/Gfx/UI/BigTankIcons/european-Pl30_SDP_Wz58T_skin2.txt"
+    preset: "Skin_02"
+    shortUserString: "#european_vehicles:Pl30_SDP_Wz58T_Custom_short_v2"
+    userString: "#european_vehicles:Pl30_SDP_Wz58T_Custom_v2"
+    previewWith: "european:Pl30_SDP_Wz58T"
     type: 1
 skin2_pzvib_tiger_ii:
     customEntities:
@@ -25859,6 +25991,22 @@ skin_g165_erich_koncep:
     userString: "#germany_vehicles:G165_Erich_Koncept_Custom"
     previewWith: "germany:G165_Erich_Koncept"
     type: 1
+skin_g166_lkpz_70_k:
+    customEntities:
+        Skin_01_gun_01:
+            item: "Skin_G166_LKpz_70_K_gun_01"
+        Skin_01_gun_01_mask:
+            item: "Skin_G166_LKpz_70_K_gun_01_mask"
+        Skin_01_hull:
+            item: "Skin_G166_LKpz_70_K_hull"
+        Skin_01_turret_01:
+            item: "Skin_G166_LKpz_70_K_turret_01"
+    iconBig: "~res:/Gfx/UI/BigTankIcons/germany-G166_LKpz_70_K_skin.txt"
+    preset: "Skin_01"
+    shortUserString: "#germany_vehicles:G166_LKpz_70_K_Custom_short"
+    userString: "#germany_vehicles:G166_LKpz_70_K_Custom"
+    previewWith: "germany:G166_LKpz_70_K"
+    type: 1
 skin_g64_panther_ii:
     customEntities:
         Skin_01_gun_02_mask:
@@ -26471,6 +26619,18 @@ skin_j20_ho_ri_type3:
     userString: "#japan_vehicles:J20_Ho_Ri_type3_Custom"
     previewWith: "japan:J20_Ho_Ri_type3"
     type: 1
+skin_j20_type_2605:
+    customEntities:
+        Skin_02_hull:
+            item: "Skin2_J20_Type_2605_hull"
+        Skin_02_turret_01:
+            item: "Skin2_J20_Type_2605_turret_01"
+    iconBig: "~res:/Gfx/UI/BigTankIcons/japan-J20_Type_2605_skin.txt"
+    preset: "Skin_01"
+    shortUserString: "#japan_vehicles:J20_Type_2605_Custom_short"
+    userString: "#japan_vehicles:J20_Type_2605_Custom"
+    previewWith: "japan:J20_Type_2605"
+    type: 1
 skin_j24_type_57:
     customEntities:
         SlotType3:
@@ -26970,6 +27130,102 @@ skin_pl23_cs_53:
     shortUserString: "#european_vehicles:Pl23_CS_53_Custom_short"
     userString: "#european_vehicles:Pl23_CS_53_Custom"
     previewWith: "european:Pl23_CS_53"
+    type: 1
+skin_pl27_sdp_wz_66t:
+    customEntities:
+        Skin_01_gun_01:
+            item: "Skin_Pl27_SDP_Wz_66T_gun_01"
+        Skin_01_gun_01_mask:
+            item: "Skin_Pl27_SDP_Wz_66T_gun_01_mask"
+        Skin_01_hull:
+            item: "Skin_Pl27_SDP_Wz_66T_hull"
+    iconBig: "~res:/Gfx/UI/BigTankIcons/european-Pl27_SDP_Wz_66T_skin.txt"
+    preset: "Skin_01"
+    shortUserString: "#european_vehicles:Pl27_SDP_Wz_66T_Custom_short"
+    userString: "#european_vehicles:Pl27_SDP_Wz_66T_Custom"
+    previewWith: "european:Pl27_SDP_Wz_66T"
+    type: 1
+skin_pl28_sdp_wz_60:
+    customEntities:
+        Skin_01_gun_03:
+            item: "Skin_Pl28_SDP_Wz_60_gun_03"
+        Skin_01_gun_04:
+            item: "Skin_Pl28_SDP_Wz_60_gun_04"
+        Skin_01_hull:
+            item: "Skin_Pl28_SDP_Wz_60_hull"
+    iconBig: "~res:/Gfx/UI/BigTankIcons/european-Pl28_SDP_Wz_60_skin.txt"
+    preset: "Skin_01"
+    shortUserString: "#european_vehicles:Pl28_SDP_Wz_60_Custom_short"
+    userString: "#european_vehicles:Pl28_SDP_Wz_60_Custom"
+    previewWith: "european:Pl28_SDP_Wz_60"
+    type: 1
+skin_pl29_nc_wz_70t:
+    customEntities:
+        Skin_01_gun_01:
+            item: "Skin_Pl29_NC_Wz_70T_gun_01"
+        Skin_01_hull:
+            item: "Skin_Pl29_NC_Wz_70T_hull"
+    iconBig: "~res:/Gfx/UI/BigTankIcons/european-Pl29_NC_Wz_70T_skin.txt"
+    preset: "Skin_01"
+    shortUserString: "#european_vehicles:Pl29_NC_Wz_70T_Custom_short"
+    userString: "#european_vehicles:Pl29_NC_Wz_70T_Custom"
+    previewWith: "european:Pl29_NC_Wz_70T"
+    type: 1
+skin_pl30_sdp_wz58t:
+    customEntities:
+        Skin_01_gun_01:
+            item: "Skin_Pl30_SDP_Wz58T_gun_01"
+        Skin_01_gun_02:
+            item: "Skin_Pl30_SDP_Wz58T_gun_02"
+        Skin_01_hull:
+            item: "Skin_Pl30_SDP_Wz58T_hull"
+    iconBig: "~res:/Gfx/UI/BigTankIcons/european-Pl30_SDP_Wz58T_skin.txt"
+    preset: "Skin_01"
+    shortUserString: "#european_vehicles:Pl30_SDP_Wz58T_Custom_short"
+    userString: "#european_vehicles:Pl30_SDP_Wz58T_Custom"
+    previewWith: "european:Pl30_SDP_Wz58T"
+    type: 1
+skin_pl31_sdp_wz_57d:
+    customEntities:
+        Skin_01_gun_01:
+            item: "Skin_Pl31_SDP_Wz_57D_gun_01"
+        Skin_01_gun_02:
+            item: "Skin_Pl31_SDP_Wz_57D_gun_02"
+        Skin_01_hull:
+            item: "Skin_Pl31_SDP_Wz_57D_hull"
+    iconBig: "~res:/Gfx/UI/BigTankIcons/european-Pl31_SDP_Wz_57D_skin.txt"
+    preset: "Skin_01"
+    shortUserString: "#european_vehicles:Pl31_SDP_Wz_57D_Custom_short"
+    userString: "#european_vehicles:Pl31_SDP_Wz_57D_Custom"
+    previewWith: "european:Pl31_SDP_Wz_57D"
+    type: 1
+skin_pl32_sdp_wz_44:
+    customEntities:
+        Skin_01_gun_01:
+            item: "Skin_Pl32_SDP_Wz_44_gun_01"
+        Skin_01_gun_02:
+            item: "Skin_Pl32_SDP_Wz_44_gun_02"
+        Skin_01_hull:
+            item: "Skin_Pl32_SDP_Wz_44_hull"
+    iconBig: "~res:/Gfx/UI/BigTankIcons/european-Pl32_SDP_Wz_44_skin.txt"
+    preset: "Skin_01"
+    shortUserString: "#european_vehicles:Pl32_SDP_Wz_44_Custom_short"
+    userString: "#european_vehicles:Pl32_SDP_Wz_44_Custom"
+    previewWith: "european:Pl32_SDP_Wz_44"
+    type: 1
+skin_pl33_sdp_wz_40:
+    customEntities:
+        Skin_01_gun_01:
+            item: "Skin_Pl33_SDP_Wz_40_gun_01"
+        Skin_01_gun_02:
+            item: "Skin_Pl33_SDP_Wz_40_gun_02"
+        Skin_01_hull:
+            item: "Skin_Pl33_SDP_Wz_40_hull"
+    iconBig: "~res:/Gfx/UI/BigTankIcons/european-Pl33_SDP_Wz_40_skin.txt"
+    preset: "Skin_01"
+    shortUserString: "#european_vehicles:Pl33_SDP_Wz_40_Custom_short"
+    userString: "#european_vehicles:Pl33_SDP_Wz_40_Custom"
+    previewWith: "european:Pl33_SDP_Wz_40"
     type: 1
 skin_priest:
     iconBig: "~res:/Gfx/UI/BigTankIcons/other-AMX_Dracula_Skin.txt"

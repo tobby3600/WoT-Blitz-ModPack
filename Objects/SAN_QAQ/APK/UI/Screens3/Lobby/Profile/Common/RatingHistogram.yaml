@@ -2,7 +2,6 @@ Header:
     version: 151
 ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Common/Vehicle/VehicleLevel.yaml"
-# - "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "RatingHistogram"
@@ -27,24 +26,6 @@ Prototypes:
         StyleSheet:
             styles: "~res:/UI/Screens3/Color.style.yaml"
     children:
-    # -   class: "UIControl"
-        # name: "Background"
-        # input: false
-        # components:
-            # Anchor: {}
-            # IgnoreLayout: {}
-            # SizePolicy:
-                # horizontalPolicy: "PercentOfParent"
-                # verticalPolicy: "FixedSize"
-        # bindings:
-        # - ["Anchor.topAnchorEnabled", "style != eRatingHistogramStyle.POSITIVE"]
-        # - ["Anchor.topAnchor", "when style == eRatingHistogramStyle.NEGATIVE -> 120, 96"]
-        # - ["Anchor.bottomAnchorEnabled", "style == eRatingHistogramStyle.POSITIVE"]
-        # - ["Anchor.bottomAnchor", "when style == eRatingHistogramStyle.POSITIVE -> 92, 0"]
-        # - ["SizePolicy.verticalValue", "when style == eRatingHistogramStyle.POSITIVE -> 68 * histogramPercent, when style == eRatingHistogramStyle.NEGATIVE -> 40 * histogramPercent, 24"]
-        # children:
-        # -   prototype: "BlurModified/BlurModified"
-            # name: "Blur"
     -   class: "UIControl"
         name: "Top"
         input: false
@@ -78,7 +59,6 @@ Prototypes:
                 name: "Icon"
                 size: [8.000000, 6.000000]
                 input: false
-                classes: "green-green-bg"
                 components:
                     Background:
                         drawType: "DRAW_SCALE_PROPORTIONAL"
@@ -91,11 +71,11 @@ Prototypes:
                         verticalPolicy: "FixedSize"
                         verticalValue: 6.000000
                 bindings:
-                - ["visible", "style == eRatingHistogramStyle.POSITIVE"]
+                - ["classes", "colorStyleOpacity"]
             -   class: "UIControl"
                 name: "Text"
                 input: false
-                classes: "t-caption bold color=white-wild-sand-text not-localize"
+                classes: "t-caption bold white-wild-sand-text"
                 components:
                     UITextComponent: {}
                     Anchor:
@@ -194,7 +174,6 @@ Prototypes:
                 name: "Icon"
                 size: [32.000000, 32.000000]
                 input: false
-                classes: "red-red-bg"
                 components:
                     Background:
                         drawType: "DRAW_SCALE_PROPORTIONAL"
@@ -208,7 +187,7 @@ Prototypes:
                         verticalPolicy: "FixedSize"
                         verticalValue: 6.000000
                 bindings:
-                - ["visible", "style == eRatingHistogramStyle.NEGATIVE"]
+                - ["classes", "colorStyleOpacity"]
             -   class: "UIControl"
                 name: "Text"
                 input: false

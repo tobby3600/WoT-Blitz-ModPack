@@ -39,7 +39,7 @@ Prototypes:
         -   path: "Overlay"
             position: [32.000000, 200.000000]
             children: []
-        -   path: "Overlay/Content"
+        -   path: "Overlay/Content/Content"
             position: [0.000000, 80.000000]
 Slots:
 -   class: "UIControl"
@@ -135,8 +135,6 @@ Slots:
             - ["visible", "slot.isPrem"]
     -   class: "UIControl"
         name: "DescriptionSection"
-        position: [110.000000, 136.000000]
-        size: [512.000000, 72.000000]
         input: false
         components:
             Anchor:
@@ -150,8 +148,6 @@ Slots:
         children:
         -   class: "UIControl"
             name: "TextInfo"
-            position: [0.000000, 0.000000]
-            size: [606.000000, 232.000000]
             input: false
             components:
                 LinearLayout:
@@ -164,7 +160,6 @@ Slots:
             children:
             -   class: "UIControl"
                 name: "Title"
-                position: [0.000000, 0.000000]
                 input: false
                 components:
                     UITextComponent:
@@ -176,7 +171,7 @@ Slots:
                         useRtl: true
                     SizePolicy:
                         horizontalPolicy: "FixedSize"
-                        horizontalValue: 612.000000
+                        horizontalValue: 620.000000
                         verticalPolicy: "PercentOfContent"
                     StyleSheet:
                         styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
@@ -185,21 +180,19 @@ Slots:
                 - ["UITextComponent.text", "localize(slot.shellDesc)"]
             -   class: "UIControl"
                 name: "Description"
-                position: [0.000000, 64.000000]
                 input: false
-                classes: "t-subtitle regular white-wild-sand-50-text"
                 components:
                     RichContent:
-                        baseClasses: "t-subtitle regular color=white-wild-sand-50-text"
+                        baseClasses: "t-subtitle regular white-wild-sand-50-text"
                     RichContentAliases0:
                         aliases:
-                        - ["text_white_bold", "<span class=\"t-subtitle bold color=white-wild-sand-text\" />"]
+                        - ["text_white_bold", "<span class=\"t-subtitle bold white-wild-sand-text\" />"]
                     Anchor:
-                        hCenterAnchorEnabled: true
-                        vCenterAnchorEnabled: true
+                        leftAnchorEnabled: true
+                        topAnchorEnabled: true
                     SizePolicy:
                         horizontalPolicy: "FixedSize"
-                        horizontalValue: 612.000000
+                        horizontalValue: 620.000000
                         verticalPolicy: "PercentOfChildrenSum"
                     FlowLayout:
                         alignment: "Left"

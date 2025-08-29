@@ -2,7 +2,6 @@ Header:
     version: 155
 ImportedPackages:
 - "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ChestsShopSliderInfoContent"
@@ -241,21 +240,18 @@ Prototypes:
                                         horizontalPolicy: "PercentOfParent"
                                         verticalPolicy: "PercentOfChildrenSum"
                                 children:
-                                -   prototype: "BlurModified/BlurModified"
-                                    name: "Blur"
-                                    components:
-                                        UIDataParamsComponent:
-                                            args:
-                                                "bgStyle": "\"white-wild-sand-25-bg\""
-                                                "roundCorner": "\"8\""
                                 -   class: "UIControl"
                                     name: "ChestList"
                                     size: [400.000000, 552.000000]
                                     input: false
+                                    classes: "white-wild-sand-25-bg"
                                     components:
                                         Anchor:
                                             hCenterAnchorEnabled: true
                                             bottomAnchorEnabled: true
+                                        Background: {}
+                                        UIRoundedCornersComponent:
+                                            radius: "8"
                                         SizePolicy:
                                             horizontalPolicy: "PercentOfParent"
                                             verticalPolicy: "PercentOfChildrenSum"
@@ -263,6 +259,8 @@ Prototypes:
                                             hSpacing: 8.000000
                                             vPadding: "4; 0"
                                             vSpacing: 8.000000
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
                                         UILayoutEventComponent:
                                             sizeChangedEvent: "StuffSizeChanged"
                                             sizeChangedEventData: "int(_size.Y)"
@@ -499,22 +497,21 @@ Slots:
                         horizontalPolicy: "PercentOfMaxChild"
                         verticalPolicy: "PercentOfMaxChild"
                 children:
-                -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
-                    components:
-                        UIDataParamsComponent:
-                            args:
-                                "bgStyle": "\"white-wild-sand-25-bg\""
-                                "roundCorner": "\"8\""
                 -   class: "UIControl"
                     name: "Description"
                     input: false
                     refreshStylesOnInteract: false
+                    classes: "white-wild-sand-25-bg"
                     components:
+                        Background: {}
+                        UIRoundedCornersComponent:
+                            radius: "8"
                         ClipContent: {}
                         SizePolicy:
                             horizontalPolicy: "FixedSize"
                             verticalPolicy: "PercentOfMaxChild"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml"
                         UIChildComponent0:
                             prototypePath: "~res:/UI/Screens3/Lobby/Shop/RichTextWrappers/ShopRichText.yaml"
                             args:

@@ -11,7 +11,7 @@ Prototypes:
     components:
         UIDataParamsComponent:
             params:
-            - ["bool", "isBlur", "true", "true"]
+            - ["bool", "isBlur", "false", "false"]
         StyleSheet:
             inheritsStylesFromParent: true
             styles: "~res:/UI/Screens/Lobby/Common/SearchTextField.yaml"

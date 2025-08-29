@@ -1,0 +1,1543 @@
+Header:
+    version: 128
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Profile/Common/HorizontalDividerWithCaption.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "OptionalDevicesInfo"
+    size: [1024.000000, 640.000000]
+    input: false
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        ModalInput: {}
+        UIInputEventComponent:
+            onTouchUpInside: "CLOSE_OVERLAY"
+        UIShortcutEventComponent:
+            shortcuts: "CLOSE_OVERLAY,Escape;CLOSE_OVERLAY,Back"
+        UIDataParamsComponent:
+            params: []
+            events:
+            - "OVERLAY_OPEN_FINISH"
+            - "BACK_EVENT"
+    children:
+    -   class: "UIControl"
+        name: "Overlay"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Overlay/Overlay.yaml"
+                args:
+                    "title": "localize(\"Equipment/InfoScreen/Header\")"
+                    "content": "SliderContent"
+                eventActions:
+                - ["OVERLAY_OPEN_FINISH", "OVERLAY_OPEN_FINISH", ""]
+                - ["BACK_EVENT", "BACK_EVENT", ""]
+Slots:
+-   class: "UIControl"
+    name: "SliderContent"
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfMaxChild"
+            verticalPolicy: "PercentOfChildrenSum"
+        UILayoutEventComponent: {}
+    children:
+    -   class: "UIControl"
+        name: "Spacer"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+                verticalValue: 24.000000
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 40.000000
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 800.000000
+                verticalPolicy: "PercentOfChildrenSum"
+        children:
+        -   class: "UIControl"
+            name: "Line_1"
+            position: [0.000000, 64.000000]
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                LinearLayout:
+                    dynamicSpacing: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "Left"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfMaxChild"
+                children:
+                -   class: "UIControl"
+                    name: "Icons"
+                    input: false
+                    components:
+                        LinearLayout:
+                            spacing: 16.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "PercentOfMaxChild"
+                    children:
+                    -   class: "UIControl"
+                        name: "Icon_1"
+                        input: false
+                        components:
+                            Background:
+                                drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                                sprite: "~res:/Gfx/UI/InventoryIcons/Big/OptionalDevices/rammer"
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 80.000000
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 80.000000
+                    -   class: "UIControl"
+                        name: "Icon_2"
+                        input: false
+                        components:
+                            Background:
+                                drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                                sprite: "~res:/Gfx/UI/InventoryIcons/Big/OptionalDevices/toolbox"
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 80.000000
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 80.000000
+                    -   class: "UIControl"
+                        name: "Icon_3"
+                        input: false
+                        components:
+                            Background:
+                                drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                                sprite: "~res:/Gfx/UI/InventoryIcons/Big/OptionalDevices/recycledEngineSpeed"
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 80.000000
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 80.000000
+                    -   class: "UIControl"
+                        name: "Icon_4"
+                        input: false
+                        components:
+                            Background:
+                                drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                                sprite: "~res:/Gfx/UI/InventoryIcons/Big/OptionalDevices/barrelPrecisionChannel"
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 80.000000
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 80.000000
+            -   class: "UIControl"
+                name: "Right"
+                input: false
+                components:
+                    Anchor:
+                        topAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "Spacer"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 8.000000
+                -   class: "UIControl"
+                    name: "Descriptions"
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        LinearLayout:
+                            orientation: "TopDown"
+                            spacing: 8.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfChildrenSum"
+                    children:
+                    -   class: "UIControl"
+                        name: "Description_1"
+                        input: false
+                        classes: "t-body regular white-wild-sand-70-text"
+                        components:
+                            UITextComponent:
+                                text: "Equipment/InfoScreen/IncreaseBattlePerformance"
+                                multiline: "MULTILINE_ENABLED"
+                                align: ["LEFT", "VCENTER"]
+                            Anchor:
+                                leftAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 384.000000
+                                verticalPolicy: "PercentOfContent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+                    -   class: "UIControl"
+                        name: "Description_2"
+                        position: [0.000000, 48.000000]
+                        input: false
+                        classes: "t-body regular white-wild-sand-70-text"
+                        components:
+                            UITextComponent:
+                                text: "Equipment/InfoScreen/ChangingEquipment"
+                                multiline: "MULTILINE_ENABLED"
+                                align: ["LEFT", "VCENTER"]
+                            Anchor:
+                                leftAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 384.000000
+                                verticalPolicy: "PercentOfContent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+        -   prototype: "HorizontalDividerWithCaption/HorizontalDividerWithCaption"
+            name: "HorizontalDividerWithCaption"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "text": "localize(\"Equipment/InfoScreen/Indication\")"
+        -   class: "UIControl"
+            name: "Line_2"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "Left"
+                input: false
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 342.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 66.000000
+                children:
+                -   class: "UIControl"
+                    name: "Installed"
+                    input: false
+                    components:
+                        Anchor:
+                            rightAnchorEnabled: true
+                            topAnchorEnabled: true
+                        LinearLayout:
+                            spacing: 16.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 18.000000
+                    children:
+                    -   class: "UIControl"
+                        name: "Text"
+                        input: false
+                        classes: "t-body regular green-green-text"
+                        components:
+                            UITextComponent:
+                                text: "Equipment/InfoScreen/Indication/Installed"
+                            Anchor:
+                                bottomAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfContent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+                    -   class: "UIControl"
+                        name: "Line"
+                        input: false
+                        classes: "white-wild-sand-25-bg"
+                        components:
+                            Background:
+                                drawType: "DRAW_FILL"
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 16.000000
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 1.000000
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml"
+                -   class: "UIControl"
+                    name: "NotAvailable"
+                    input: false
+                    components:
+                        Anchor:
+                            rightAnchorEnabled: true
+                            bottomAnchorEnabled: true
+                        LinearLayout:
+                            spacing: 16.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 18.000000
+                    children:
+                    -   class: "UIControl"
+                        name: "Text"
+                        input: false
+                        classes: "t-body regular white-wild-sand-50-text"
+                        components:
+                            UITextComponent:
+                                text: "Equipment/InfoScreen/Indication/NotAvailable"
+                            Anchor:
+                                bottomAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfContent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+                    -   class: "UIControl"
+                        name: "Line"
+                        input: false
+                        classes: "white-wild-sand-25-bg"
+                        components:
+                            Background:
+                                drawType: "DRAW_FILL"
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 16.000000
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 1.000000
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "Indicator"
+                position: [358.000000, 0.000000]
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 84.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 66.000000
+                children:
+                -   class: "UIControl"
+                    name: "Icon"
+                    input: false
+                    classes: "white-wild-sand-bg"
+                    components:
+                        Background:
+                            drawType: "DRAW_STRETCH_BOTH"
+                            sprite: "~res:/Gfx/Lobby/icons/icon_optdev_power_m"
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 48.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 48.000000
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                -   class: "UIControl"
+                    name: "Slots"
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        LinearLayout:
+                            dynamicSpacing: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                    children:
+                    -   class: "UIControl"
+                        name: "Left"
+                        input: false
+                        components:
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            LinearLayout:
+                                orientation: "TopDown"
+                                spacing: 6.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfMaxChild"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        children:
+                        -   class: "UIControl"
+                            name: "Slot_1"
+                            input: false
+                            classes: "green-green-bg"
+                            components:
+                                Background:
+                                    drawType: "DRAW_FILL"
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 6.000000
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 18.000000
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
+                        -   class: "UIControl"
+                            name: "Slot_2"
+                            input: false
+                            classes: "white-wild-sand-70-bg"
+                            components:
+                                Background:
+                                    drawType: "DRAW_FILL"
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 6.000000
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 18.000000
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
+                        -   class: "UIControl"
+                            name: "Slot_3"
+                            input: false
+                            classes: "white-wild-sand-25-bg"
+                            components:
+                                Background:
+                                    drawType: "DRAW_FILL"
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 6.000000
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 18.000000
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
+                    -   class: "UIControl"
+                        name: "Right"
+                        input: false
+                        components:
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            LinearLayout:
+                                orientation: "TopDown"
+                                spacing: 6.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfMaxChild"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        children:
+                        -   class: "UIControl"
+                            name: "Slot_1"
+                            input: false
+                            classes: "white-wild-sand-25-bg"
+                            components:
+                                Background:
+                                    drawType: "DRAW_FILL"
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 6.000000
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 18.000000
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
+                        -   class: "UIControl"
+                            name: "Slot_2"
+                            input: false
+                            classes: "white-wild-sand-70-bg"
+                            components:
+                                Background:
+                                    drawType: "DRAW_FILL"
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 6.000000
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 18.000000
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
+                        -   class: "UIControl"
+                            name: "Slot_3"
+                            input: false
+                            classes: "white-wild-sand-25-bg"
+                            components:
+                                Background:
+                                    drawType: "DRAW_FILL"
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 6.000000
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 18.000000
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "Right"
+                input: false
+                components:
+                    Anchor:
+                        rightAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 342.000000
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "Available"
+                    input: false
+                    components:
+                        Anchor:
+                            leftAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        LinearLayout:
+                            spacing: 16.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 18.000000
+                    children:
+                    -   class: "UIControl"
+                        name: "Line"
+                        input: false
+                        classes: "white-wild-sand-25-bg"
+                        components:
+                            Background:
+                                drawType: "DRAW_FILL"
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 16.000000
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 1.000000
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml"
+                    -   class: "UIControl"
+                        name: "Text"
+                        input: false
+                        classes: "t-body regular white-wild-sand-text"
+                        components:
+                            UITextComponent:
+                                text: "Equipment/InfoScreen/Indication/Available"
+                            Anchor:
+                                bottomAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfContent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+        -   prototype: "HorizontalDividerWithCaption/HorizontalDividerWithCaption"
+            name: "HorizontalDividerWithCaption_1"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "text": "localize(\"Equipment/InfoScreen/EquipmentUsage\")"
+        -   class: "UIControl"
+            name: "Line_3"
+            position: [0.000000, 354.000000]
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                LinearLayout:
+                    dynamicSpacing: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "Left"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "Spacer"
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 8.000000
+                -   class: "UIControl"
+                    name: "Icon"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        LinearLayout:
+                            spacing: 16.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "PercentOfMaxChild"
+                    children:
+                    -   class: "UIControl"
+                        name: "Icon_1"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            LinearLayout:
+                                spacing: 7.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfChildrenSum"
+                                verticalPolicy: "PercentOfMaxChild"
+                        children:
+                        -   class: "UIControl"
+                            name: "Container_1"
+                            input: false
+                            components:
+                                LinearLayout:
+                                    orientation: "TopDown"
+                                    spacing: 5.000000
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfMaxChild"
+                                    verticalPolicy: "PercentOfChildrenSum"
+                            children:
+                            -   class: "UIControl"
+                                name: "Line_1"
+                                input: false
+                                components:
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                    LinearLayout:
+                                        spacing: 5.000000
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfChildrenSum"
+                                        verticalPolicy: "PercentOfMaxChild"
+                                children:
+                                -   class: "UIControl"
+                                    name: "Slot_1"
+                                    input: false
+                                    classes: "white-wild-sand-70-bg"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_FILL"
+                                        Anchor:
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 10.000000
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 10.000000
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                                -   class: "UIControl"
+                                    name: "Slot_2"
+                                    input: false
+                                    classes: "white-wild-sand-70-bg"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_FILL"
+                                        Anchor:
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 10.000000
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 10.000000
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                                -   class: "UIControl"
+                                    name: "Slot_3"
+                                    input: false
+                                    classes: "white-wild-sand-70-bg"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_FILL"
+                                        Anchor:
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 10.000000
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 10.000000
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                            -   class: "UIControl"
+                                name: "Line_2"
+                                input: false
+                                components:
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                    LinearLayout:
+                                        spacing: 5.000000
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfChildrenSum"
+                                        verticalPolicy: "PercentOfMaxChild"
+                                children:
+                                -   class: "UIControl"
+                                    name: "Slot_1"
+                                    input: false
+                                    classes: "white-wild-sand-25-bg"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_FILL"
+                                        Anchor:
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 10.000000
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 10.000000
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                                -   class: "UIControl"
+                                    name: "Slot_2"
+                                    input: false
+                                    classes: "white-wild-sand-25-bg"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_FILL"
+                                        Anchor:
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 10.000000
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 10.000000
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                                -   class: "UIControl"
+                                    name: "Slot_3"
+                                    input: false
+                                    classes: "white-wild-sand-25-bg"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_FILL"
+                                        Anchor:
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 10.000000
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 10.000000
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                            -   class: "UIControl"
+                                name: "Line_3"
+                                input: false
+                                components:
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                    LinearLayout:
+                                        spacing: 5.000000
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfChildrenSum"
+                                        verticalPolicy: "PercentOfMaxChild"
+                                children:
+                                -   class: "UIControl"
+                                    name: "Slot_1"
+                                    input: false
+                                    classes: "white-wild-sand-25-bg"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_FILL"
+                                        Anchor:
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 10.000000
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 10.000000
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                                -   class: "UIControl"
+                                    name: "Slot_2"
+                                    input: false
+                                    classes: "white-wild-sand-25-bg"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_FILL"
+                                        Anchor:
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 10.000000
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 10.000000
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                                -   class: "UIControl"
+                                    name: "Slot_3"
+                                    input: false
+                                    classes: "white-wild-sand-25-bg"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_FILL"
+                                        Anchor:
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 10.000000
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 10.000000
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                        -   class: "UIControl"
+                            name: "Container_2"
+                            size: [32.000000, 32.000000]
+                            input: false
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfMaxChild"
+                                    verticalPolicy: "PercentOfParent"
+                            children:
+                            -   class: "UIControl"
+                                name: "Lock_1"
+                                input: false
+                                classes: "white-wild-sand-bg"
+                                components:
+                                    Background:
+                                        drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                                        sprite: "~res:/Gfx/Lobby/icons/icon_lock"
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                        vCenterAnchorEnabled: true
+                                        vCenterAnchor: 1.000000
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 8.000000
+                                        verticalPolicy: "FixedSize"
+                                        verticalValue: 16.000000
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                            -   class: "UIControl"
+                                name: "Lock_2"
+                                input: false
+                                classes: "white-wild-sand-bg"
+                                components:
+                                    Background:
+                                        drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                                        sprite: "~res:/Gfx/Lobby/icons/icon_lock"
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                        vCenterAnchorEnabled: true
+                                        vCenterAnchor: 16.000000
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 8.000000
+                                        verticalPolicy: "FixedSize"
+                                        verticalValue: 16.000000
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                    -   class: "UIControl"
+                        name: "Arrow"
+                        input: false
+                        components:
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            LinearLayout: {}
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfChildrenSum"
+                                verticalPolicy: "PercentOfMaxChild"
+                        children:
+                        -   class: "UIControl"
+                            name: "Line"
+                            input: false
+                            classes: "white-wild-sand-25-bg"
+                            components:
+                                Background: {}
+                                Anchor:
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 15.000000
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 1.000000
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
+                        -   class: "UIControl"
+                            name: "Triangle"
+                            position: [15.000000, 0.000000]
+                            input: false
+                            classes: "white-wild-sand-25-bg"
+                            components:
+                                Background:
+                                    drawType: "DRAW_SCALE_TO_RECT"
+                                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_triangle_horizontal"
+                                Anchor:
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 9.000000
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 9.000000
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
+                    -   class: "UIControl"
+                        name: "Icon_2"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            LinearLayout:
+                                spacing: 6.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfChildrenSum"
+                                verticalPolicy: "PercentOfMaxChild"
+                        children:
+                        -   class: "UIControl"
+                            name: "Container_1"
+                            input: false
+                            components:
+                                LinearLayout:
+                                    orientation: "TopDown"
+                                    spacing: 5.000000
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfMaxChild"
+                                    verticalPolicy: "PercentOfChildrenSum"
+                            children:
+                            -   class: "UIControl"
+                                name: "Line_1"
+                                input: false
+                                components:
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                    LinearLayout:
+                                        spacing: 5.000000
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfChildrenSum"
+                                        verticalPolicy: "PercentOfMaxChild"
+                                children:
+                                -   class: "UIControl"
+                                    name: "Slot_1"
+                                    input: false
+                                    classes: "green-green-bg"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_FILL"
+                                        Anchor:
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 10.000000
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 10.000000
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                                -   class: "UIControl"
+                                    name: "Slot_2"
+                                    input: false
+                                    classes: "green-green-bg"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_FILL"
+                                        Anchor:
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 10.000000
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 10.000000
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                                -   class: "UIControl"
+                                    name: "Slot_3"
+                                    input: false
+                                    classes: "green-green-bg"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_FILL"
+                                        Anchor:
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 10.000000
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 10.000000
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                            -   class: "UIControl"
+                                name: "Line_2"
+                                input: false
+                                components:
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                    LinearLayout:
+                                        spacing: 5.000000
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfChildrenSum"
+                                        verticalPolicy: "PercentOfMaxChild"
+                                children:
+                                -   class: "UIControl"
+                                    name: "Slot_1"
+                                    input: false
+                                    classes: "white-wild-sand-70-bg"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_FILL"
+                                        Anchor:
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 10.000000
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 10.000000
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                                -   class: "UIControl"
+                                    name: "Slot_2"
+                                    input: false
+                                    classes: "white-wild-sand-70-bg"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_FILL"
+                                        Anchor:
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 10.000000
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 10.000000
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                                -   class: "UIControl"
+                                    name: "Slot_3"
+                                    input: false
+                                    classes: "white-wild-sand-70-bg"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_FILL"
+                                        Anchor:
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 10.000000
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 10.000000
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                            -   class: "UIControl"
+                                name: "Line_3"
+                                input: false
+                                components:
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                    LinearLayout:
+                                        spacing: 5.000000
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfChildrenSum"
+                                        verticalPolicy: "PercentOfMaxChild"
+                                children:
+                                -   class: "UIControl"
+                                    name: "Slot_1"
+                                    input: false
+                                    classes: "white-wild-sand-25-bg"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_FILL"
+                                        Anchor:
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 10.000000
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 10.000000
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                                -   class: "UIControl"
+                                    name: "Slot_2"
+                                    input: false
+                                    classes: "white-wild-sand-25-bg"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_FILL"
+                                        Anchor:
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 10.000000
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 10.000000
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                                -   class: "UIControl"
+                                    name: "Slot_3"
+                                    input: false
+                                    classes: "white-wild-sand-25-bg"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_FILL"
+                                        Anchor:
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "FixedSize"
+                                            horizontalValue: 10.000000
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 10.000000
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                        -   class: "UIControl"
+                            name: "Container_2"
+                            size: [32.000000, 32.000000]
+                            input: false
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfMaxChild"
+                                    verticalPolicy: "PercentOfParent"
+                            children:
+                            -   class: "UIControl"
+                                name: "Installed"
+                                position: [0.000000, -5.000000]
+                                input: false
+                                classes: "white-wild-sand-bg"
+                                components:
+                                    Background:
+                                        drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                                        sprite: "~res:/Gfx/Lobby/icons/icon_tick_m"
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                        vCenterAnchorEnabled: true
+                                        vCenterAnchor: -15.000000
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 10.000000
+                                        verticalPolicy: "FixedSize"
+                                        verticalValue: 20.000000
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                            -   class: "UIControl"
+                                name: "Lock_2"
+                                position: [0.000000, 28.000000]
+                                input: false
+                                classes: "white-wild-sand-bg"
+                                components:
+                                    Background:
+                                        drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                                        sprite: "~res:/Gfx/Lobby/icons/icon_lock"
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                        vCenterAnchorEnabled: true
+                                        vCenterAnchor: 16.000000
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 8.000000
+                                        verticalPolicy: "FixedSize"
+                                        verticalValue: 16.000000
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                -   class: "UIControl"
+                    name: "Spacer"
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 24.000000
+                -   class: "UIControl"
+                    name: "Text"
+                    input: false
+                    classes: "t-body regular white-wild-sand-70-text"
+                    components:
+                        UITextComponent:
+                            text: "Equipment/InfoScreen/EquipmentUsage/UnlockingSlots"
+                            multiline: "MULTILINE_ENABLED"
+                            align: ["LEFT", "VCENTER"]
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 384.000000
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+            -   class: "UIControl"
+                name: "Right"
+                input: false
+                components:
+                    Anchor:
+                        topAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "TopDown"
+                        spacing: 16.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "OptionalDevicesSlot"
+                    input: false
+                    components:
+                        Anchor:
+                            leftAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 106.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 56.000000
+                    children:
+                    -   class: "UIControl"
+                        name: "Content"
+                        input: false
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfParent"
+                        children:
+                        -   class: "UIControl"
+                            name: "Background"
+                            input: false
+                            classes: "black-35-bg"
+                            components:
+                                Background:
+                                    drawType: "DRAW_FILL"
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfParent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
+                        -   class: "UIControl"
+                            name: "SlotsBG"
+                            size: [32.000000, 32.000000]
+                            input: false
+                            components:
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                    vCenterAnchorEnabled: true
+                                LinearLayout:
+                                    orientation: "LeftToRight"
+                                    spacing: 5.000000
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfChildrenSum"
+                                    verticalPolicy: "PercentOfMaxChild"
+                            children:
+                            -   class: "UIControl"
+                                name: "Left"
+                                size: [32.000000, 32.000000]
+                                input: false
+                                classes: "white-wild-sand-15-bg"
+                                components:
+                                    Background:
+                                        drawType: "DRAW_FILL"
+                                        sprite: "~res:/Gfx/UI/InventoryIcons/Big/OptionalDevices/rammer"
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 45.000000
+                                        verticalPolicy: "FixedSize"
+                                        verticalValue: 45.000000
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                            -   class: "UIControl"
+                                name: "Installed"
+                                angle: -90.000000
+                                input: false
+                                components:
+                                    UIOpacityComponent:
+                                        opacity: 0.800000
+                                    Anchor:
+                                        vCenterAnchorEnabled: true
+                                        vCenterAnchor: 45.000000
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 45.000000
+                                        verticalPolicy: "FixedSize"
+                                        verticalValue: 45.000000
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                                children:
+                                -   class: "UIControl"
+                                    name: "Element_1"
+                                    input: false
+                                    classes: "green-la-palma-bg"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_SCALE_TO_RECT"
+                                            sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                                        UIOpacityComponent:
+                                            opacity: 0.500000
+                                        Anchor:
+                                            rightAnchorEnabled: true
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "Formula"
+                                            horizontalFormula: "parent * 0.6"
+                                            verticalPolicy: "Formula"
+                                            verticalFormula: "parent"
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                                -   class: "UIControl"
+                                    name: "Element_2"
+                                    input: false
+                                    classes: "green-la-palma-bg"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_SCALE_TO_RECT"
+                                            sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                                        UIOpacityComponent:
+                                            opacity: 0.500000
+                                        Anchor:
+                                            rightAnchorEnabled: true
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "Formula"
+                                            horizontalFormula: "parent * 0.85"
+                                            verticalPolicy: "Formula"
+                                            verticalFormula: "parent * 0.8"
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                                -   class: "UIControl"
+                                    name: "Element_4"
+                                    input: false
+                                    classes: "green-la-palma-bg"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_SCALE_TO_RECT"
+                                            sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                                        UIOpacityComponent:
+                                            opacity: 0.500000
+                                        Anchor:
+                                            rightAnchorEnabled: true
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "Formula"
+                                            horizontalFormula: "parent * 0.95"
+                                            verticalPolicy: "Formula"
+                                            verticalFormula: "parent * 0.6"
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                                -   class: "UIControl"
+                                    name: "Element_5"
+                                    input: false
+                                    classes: "green-la-palma-bg"
+                                    components:
+                                        Background:
+                                            drawType: "DRAW_SCALE_TO_RECT"
+                                            sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                                        UIOpacityComponent:
+                                            opacity: 0.500000
+                                        Anchor:
+                                            rightAnchorEnabled: true
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "Formula"
+                                            horizontalFormula: "parent"
+                                            verticalPolicy: "Formula"
+                                            verticalFormula: "parent * 0.2"
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                        -   class: "UIControl"
+                            name: "Items"
+                            size: [32.000000, 32.000000]
+                            input: false
+                            components:
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                    vCenterAnchorEnabled: true
+                                LinearLayout:
+                                    spacing: 5.000000
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfChildrenSum"
+                                    verticalPolicy: "PercentOfMaxChild"
+                            children:
+                            -   class: "UIControl"
+                                name: "Left"
+                                size: [32.000000, 32.000000]
+                                input: false
+                                components:
+                                    Background:
+                                        drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                                        sprite: "~res:/Gfx/UI/InventoryIcons/Big/OptionalDevices/rammer"
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 45.000000
+                                        verticalPolicy: "FixedSize"
+                                        verticalValue: 45.000000
+                            -   class: "UIControl"
+                                name: "Right"
+                                position: [52.000000, 0.000000]
+                                size: [32.000000, 32.000000]
+                                input: false
+                                components:
+                                    Background:
+                                        drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                                        sprite: "~res:/Gfx/UI/InventoryIcons/Big/OptionalDevices/calibratedShells"
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 45.000000
+                                        verticalPolicy: "FixedSize"
+                                        verticalValue: 45.000000
+                    -   class: "UIControl"
+                        name: "Indicator"
+                        position: [71.000000, 2.000000]
+                        components:
+                            UIOpacityComponent: {}
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                hCenterAnchor: 25.000000
+                                topAnchorEnabled: true
+                                topAnchor: 1.500000
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 14.000000
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 3.000000
+                        children:
+                        -   class: "UIControl"
+                            name: "Glow"
+                            position: [-6.000000, -5.000000]
+                            size: [32.000000, 32.000000]
+                            visible: true
+                            input: false
+                            classes: "green-la-palma-bg"
+                            components:
+                                Background:
+                                    drawType: "DRAW_SCALE_TO_RECT"
+                                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_radial-gradient_full"
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "Formula"
+                                    horizontalFormula: "parent + 6"
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 10.000000
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Color.style.yaml"
+                        -   class: "UIControl"
+                            name: "Bg"
+                            input: false
+                            components:
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 14.000000
+                                    verticalPolicy: "FixedSize"
+                                    verticalValue: 3.000000
+                            children:
+                            -   class: "UIControl"
+                                name: "Center"
+                                position: [2.000000, 0.000000]
+                                input: false
+                                classes: "green-green-bg"
+                                components:
+                                    Background: {}
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                        vCenterAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 11.000000
+                                        verticalPolicy: "PercentOfParent"
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                            -   class: "UIControl"
+                                name: "Left"
+                                input: false
+                                classes: "green-green-bg"
+                                components:
+                                    Background:
+                                        drawType: "DRAW_SCALE_PROPORTIONAL"
+                                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_half-oval_40"
+                                    Anchor:
+                                        leftAnchorEnabled: true
+                                        vCenterAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 2.000000
+                                        verticalPolicy: "PercentOfParent"
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                            -   class: "UIControl"
+                                name: "Right"
+                                input: false
+                                classes: "green-green-bg"
+                                components:
+                                    Background:
+                                        drawType: "DRAW_SCALE_PROPORTIONAL"
+                                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_half-oval_40"
+                                        spriteModification: ["FLIP_HORIZONTAL"]
+                                    Anchor:
+                                        rightAnchorEnabled: true
+                                        vCenterAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 2.000000
+                                        verticalPolicy: "PercentOfParent"
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                -   class: "UIControl"
+                    name: "Text"
+                    input: false
+                    classes: "t-body regular white-wild-sand-70-text"
+                    components:
+                        UITextComponent:
+                            text: "Equipment/InfoScreen/EquipmentUsage/UnlockForCredits"
+                            multiline: "MULTILINE_ENABLED"
+                            align: ["LEFT", "VCENTER"]
+                        Anchor:
+                            leftAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 384.000000
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Font.style.yaml"
+    -   class: "UIControl"
+        name: "Spacer"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+                verticalValue: 24.000000
