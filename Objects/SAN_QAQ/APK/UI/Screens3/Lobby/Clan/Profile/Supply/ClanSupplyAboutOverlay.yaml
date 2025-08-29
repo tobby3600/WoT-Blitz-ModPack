@@ -1,0 +1,93 @@
+Header:
+    version: 153
+Prototypes:
+-   class: "UIControl"
+    name: "ClanInfoOverlay"
+    size: [800.000000, 600.000000]
+    input: false
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "wasPushed", "true", "true"]
+        UIDataLocalVarsComponent:
+            data:
+            - ["float", "contentHeight", "0.000000"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["int", "overallH", "int(contentHeight) + 80"]
+        UIDataOnEventComponent0:
+            eventName: "ContentHeightChanged"
+            modelFieldExpression: "contentHeight"
+            dataExpression: "_event"
+    children:
+    -   class: "UIControl"
+        name: "Overlay"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Overlay/OverlayBasic.yaml"
+                args:
+                    "title": "\"Clans/SupplyAboutOverlay/Title\""
+                    "hideHeader": "false"
+                    "alighBgCenter": "false"
+                    "isFooterVisible": "false"
+                    "wasPushed": "wasPushed"
+                    "forcedFullSize": "false"
+                    "contentHeight": "overallH"
+                    "content": "Content"
+                eventActions:
+                - ["BACK_EVENT", "BACK_EVENT", ""]
+Slots:
+-   class: "UIControl"
+    name: "Content"
+    size: [1024.000000, 768.000000]
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+            topAnchorEnabled: true
+            topAnchor: 100.000000
+        LinearLayout:
+            spacing: 20.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "PercentOfMaxChild"
+        UILayoutEventComponent:
+            sizeChangedEvent: "ContentHeightChanged"
+            sizeChangedEventData: "_size.Y"
+    children:
+    -   class: "UIControl"
+        name: "Icon"
+        input: false
+        components:
+            UITextureComponent:
+                spritePath: "~res:/Gfx/Lobby/icons/icon_sale-supply_l"
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "FixedSize"
+    -   class: "UIControl"
+        name: "Text"
+        input: false
+        classes: "t-body regular white-wild-sand-text"
+        components:
+            UITextComponent:
+                text: "Clans/SupplyAboutOverlay/Text"
+                colorInheritType: "COLOR_IGNORE_PARENT"
+                multiline: "MULTILINE_ENABLED"
+                align: ["LEFT", "VCENTER"]
+                useRtlAlign: "USE_BY_CONTENT"
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 400.000000
+                verticalPolicy: "PercentOfContent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"

@@ -60,7 +60,7 @@
 			<rates>5.0 10.0 25.0</rates>
 		</exhaust>
 		<turretPositions>
-			<turret>0.000000 0.7528 0.061753</turret>
+			<turret>-0.000000 1.680246 0.204353</turret>
 		</turretPositions>
 		<hitTester>
 			<collisionModel>vehicles/german/G88_Indien_Panzer/collision/Hull.model</collisionModel>
@@ -81,6 +81,7 @@
 			<armor_13>60</armor_13>
 			<armor_14>70</armor_14>
 			<armor_15>70</armor_15>
+			<armor_16>60</armor_16>
 		</armor>
 		<primaryArmor>armor_1 armor_3 armor_4</primaryArmor>
 		<weight>16795</weight>
@@ -171,7 +172,7 @@
 				<mud>mediumTankMud</mud>
 			</effects>
 			<sound>/vehicles/tanks/treads/treads_2</sound>
-			<hullPosition>0.000000 1 0.000000</hullPosition>
+			<hullPosition>0.000000 0.000000 -0.000000</hullPosition>
 			<hitTester>
 				<collisionModel>vehicles/german/G88_Indien_Panzer/collision/Chassis.model</collisionModel>
 			</hitTester>
@@ -263,7 +264,7 @@
 				<mud>mediumTankMud</mud>
 			</effects>
 			<sound>/vehicles/tanks/treads/treads_2</sound>
-			<hullPosition>0.000000 1 0.000000</hullPosition>
+			<hullPosition>0.000000 0.000000 -0.000000</hullPosition>
 			<hitTester>
 				<collisionModel>vehicles/german/G88_Indien_Panzer/collision/Chassis.model</collisionModel>
 			</hitTester>
@@ -307,7 +308,7 @@
 				<collisionModel>vehicles/german/G88_Indien_Panzer/collision/Turret_02.model</collisionModel>
 			</hitTester>
 			<yawLimits>-180 180</yawLimits>
-			<gunPosition>0.000000 0.3917 1.2208</gunPosition>
+			<gunPosition>-0.000719 0.450378 1.081006</gunPosition>
 			<armor>
 				<armor_1>60</armor_1>
 				<armor_2>50</armor_2>
@@ -323,6 +324,7 @@
 				<armor_12>40</armor_12>
 				<armor_13>90</armor_13>
 				<armor_14>35</armor_14>
+				<armor_16>35</armor_16>
 			</armor>
 			<primaryArmor>armor_1 armor_3 armor_4</primaryArmor>
 			<weight>9200</weight>

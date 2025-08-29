@@ -171,19 +171,6 @@ Prototypes:
                 args:
                     "content": "FooterContent"
                     "bgStyle": "\"black-50-bg\""
-    -   class: "UIControl"
-        name: "NavigationPanel"
-        size: [32.000000, 32.000000]
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                condition: "isGamepad"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/NavigationPanel.yaml"
-                args:
-                    "content": "NavigationPanelContent"
 Slots:
 -   class: "UIControl"
     name: "FooterContent"
@@ -228,27 +215,3 @@ Slots:
                     args:
                         "price": "currentTrainingInfo.price"
                         "canAfford": "CanAffordResources(currentTrainingInfo.price, session.stats.resources, session.artefacts.artefactIds)"
--   class: "UIControl"
-    name: "NavigationPanelContent"
-    size: [32.000000, 32.000000]
-    input: false
-    components:
-        LinearLayout:
-            spacing: 24.000000
-        SizePolicy:
-            horizontalPolicy: "PercentOfChildrenSum"
-            verticalPolicy: "PercentOfMaxChild"
-    children:
-    -   class: "UIControl"
-        name: "ButtonY"
-        size: [32.000000, 32.000000]
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfMaxChild"
-                verticalPolicy: "PercentOfMaxChild"
-            UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                args:
-                    "text": "trainButtonText"
-                    "icon": "eNintendoSwitchControls.Y"

@@ -2,7 +2,6 @@ Header:
     version: 149
 ImportedPackages:
 - "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "TankCounterOverlay"
@@ -59,6 +58,8 @@ Prototypes:
                 "content": "ContentWrapper"
                 "titleContent": "TitleWrapper"
                 "footerContent": "when readyToUnlock -> FooterWrapper, EmptyFooter"
+                "isBlurMask": "true"
+                "blurMaskID": "\"tankCounter\""
             eventActions:
             - ["BACK_EVENT", "BACK_EVENT", ""]
             - ["ON_STATS_ITEM_PRESSED", "OnFreeXpPressed", ""]
@@ -171,49 +172,50 @@ Slots:
                 -   class: "UIControl"
                     name: "ContentArea"
                     input: false
+                    classes: "white-wild-sand-15-bg"
                     components:
                         Anchor:
                             hCenterAnchorEnabled: true
+                        Background: {}
+                        UIRoundedCornersComponent:
+                            radius: "8"
                         LinearLayout:
                             orientation: "TopDown"
                             spacing: 16.000000
                         SizePolicy:
-                            horizontalPolicy: "PercentOfMaxChild"
+                            horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfChildrenSum"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml"
                     children:
-                    -   prototype: "BlurModified/BlurModified"
-                        name: "Blur"
-                        components:
-                            UIDataParamsComponent:
-                                args:
-                                    "roundCorner": "\"8\""
                     -   class: "UIControl"
                         name: "Description"
                         input: false
                         components:
                             SizePolicy:
-                                horizontalPolicy: "PercentOfMaxChild"
-                                verticalPolicy: "PercentOfMaxChild"
-                            UIChildComponent0:
-                                prototypePath: "~res:/UI/Screens3/Lobby/Common/RichTextContent.yaml"
-                                args:
-                                    "baseFontColor": "\"color =white-wild-sand-50-text\""
-                                    "alignment": "eFlowLayoutAlignment.Left"
-                                    "baseFontSize": "\"t-body\""
-                                    "key": "localize(descriptionKey)"
-                    -   class: "UIControl"
-                        name: "Tips"
-                        input: false
-                        components:
-                            SizePolicy:
-                                horizontalPolicy: "PercentOfMaxChild"
+                                horizontalPolicy: "PercentOfParent"
                                 verticalPolicy: "PercentOfMaxChild"
                             UIChildComponent0:
                                 prototypePath: "~res:/UI/Screens3/Lobby/Common/RichTextContent.yaml"
                                 args:
                                     "baseFontStyle": "\"light\""
                                     "baseFontSize": "\"t-body\""
-                                    "baseFontColor": "\"color =white-wild-sand-50-text\""
+                                    "baseFontColor": "\"white-wild-sand-50-text\""
+                                    "alignment": "eFlowLayoutAlignment.Left"
+                                    "key": "localize(descriptionKey)"
+                    -   class: "UIControl"
+                        name: "Tips"
+                        input: false
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfMaxChild"
+                            UIChildComponent0:
+                                prototypePath: "~res:/UI/Screens3/Lobby/Common/RichTextContent.yaml"
+                                args:
+                                    "baseFontStyle": "\"light\""
+                                    "baseFontSize": "\"t-body\""
+                                    "baseFontColor": "\"white-wild-sand-50-text\""
                                     "alignment": "eFlowLayoutAlignment.Left"
                                     "key": "localize(exampleKey)"
             -   prototype: "VerticalScrollBar/VerticalScrollBar"
@@ -279,7 +281,7 @@ Slots:
                 horizontalPolicy: "PercentOfContent"
                 verticalPolicy: "PercentOfContent"
             StyleSheet:
-                styles: "~res:/UI/Screens3/Font.style.yaml"
+                styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
         bindings:
         - ["UITextComponent.text", "localize(titleKey)"]
 -   class: "UIControl"
@@ -352,7 +354,7 @@ Slots:
     -   class: "UIControl"
         name: "Text"
         input: false
-        classes: "t-body regular color=white-wild-sand-50-text"
+        classes: "t-body regular white-wild-sand-50-text"
         components:
             UITextComponent: {}
             SizePolicy:
@@ -415,7 +417,7 @@ Slots:
                     UIChildComponent0:
                         prototypePath: "~res:/UI/Screens3/Lobby/Hangar/Offers/PRMP/AnimatedNumber/AnimatedNumber.yaml"
                         args:
-                            "textStyle": "\"t-subtitle bold color=white-wild-sand-text\""
+                            "textStyle": "\"t-subtitle bold white-wild-sand-text\""
                             "targetNumber": "currentProgress"
                             "initialNumber": "currentProgress"
             -   class: "UIControl"
@@ -429,6 +431,8 @@ Slots:
                     SizePolicy:
                         horizontalPolicy: "PercentOfChildrenSum"
                         verticalPolicy: "PercentOfMaxChild"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
                 children:
                 -   class: "UIControl"
                     name: "Label"
@@ -442,14 +446,12 @@ Slots:
                         SizePolicy:
                             horizontalPolicy: "PercentOfContent"
                             verticalPolicy: "PercentOfContent"
-                        StyleSheet:
-                            styles: "~res:/UI/Screens3/Font.style.yaml"
                     bindings:
                     - ["UITextComponent.text", "\"/\""]
                 -   class: "UIControl"
                     name: "MaxProgress"
                     input: false
-                    classes: "t-caption bold color=white-wild-sand-50-text"
+                    classes: "t-caption bold white-wild-sand-50-text"
                     components:
                         UITextComponent:
                             align: ["LEFT", "VCENTER"]
@@ -458,8 +460,6 @@ Slots:
                         SizePolicy:
                             horizontalPolicy: "PercentOfContent"
                             verticalPolicy: "PercentOfContent"
-                        StyleSheet:
-                            styles: "~res:/UI/Screens3/Font.style.yaml"
                     bindings:
                     - ["UITextComponent.text", "str1000Separated(maxProgress)"]
 -   class: "UIControl"

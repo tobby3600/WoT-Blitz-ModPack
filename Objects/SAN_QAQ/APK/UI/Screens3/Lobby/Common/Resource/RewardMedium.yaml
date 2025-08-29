@@ -25,6 +25,7 @@ Prototypes:
             - ["bool", "forceHideLockedBg", "false", "false"]
             - ["bool", "interactive", "true", "true"]
             - ["bool", "isBgVisible", "true", "true"]
+            - ["bool", "isBlur", "false", "fasle"]
             - ["bool", "isLocked", "false", "true"]
             - ["bool", "isSelected", "false", "true"]
             - ["bool", "isVisible", "true", "true"]
@@ -94,13 +95,13 @@ Prototypes:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "PercentOfParent"
             bindings:
-            - ["visible", "isBgVisible"]
+            - ["visible", "isBgVisible and not isBlur"]
         -   prototype: "BlurModified/BlurModified"
             name: "Background"
             components:
                 UIDataParamsComponent:
                     args:
-                        "isVisible": "isBgVisible"
+                        "isBlur": "isBlur"
                         "bgStyle": "bgStyle"
                         "roundCorner": "\"4\""
         -   class: "UIControl"

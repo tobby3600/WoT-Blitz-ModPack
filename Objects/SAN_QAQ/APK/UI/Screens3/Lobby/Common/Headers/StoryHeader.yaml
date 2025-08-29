@@ -17,8 +17,6 @@ Prototypes:
             - ["Story", "story", "null", "{ \"name\" = \"2023-NY\"; }"]
             - ["StoryStepModel", "selectedStep", "null", "{ }"]
             - ["StoryStringsKeys", "keys", "null", "{ }"]
-            - ["bool", "is3D", "false", "false"]
-            - ["bool", "isBlur", "true", "true"]
             - ["bool", "isFullScreen", "true", "true"]
             - ["bool", "showTimer", "true", "true"]
             - ["eCurrentScreen", "currentScreen", "eCurrentScreen.kUnknown", "eCurrentScreen.kStoryInfo"]
@@ -102,10 +100,9 @@ Prototypes:
             UIChildComponent0:
                 prototypePath: "~res:/UI/Screens3/Lobby/Common/Headers/Header.yaml"
                 args:
-                    "bgStyle": "when is3D ->\"black-50-bg\", bgStyle"
+                    "bgStyle": "bgStyle"
                     "content": "content"
                     "isFullScreen": "isFullScreen"
-                    "isBlur": "isBlur"
 Slots:
 -   class: "UIControl"
     name: "LeftContent"

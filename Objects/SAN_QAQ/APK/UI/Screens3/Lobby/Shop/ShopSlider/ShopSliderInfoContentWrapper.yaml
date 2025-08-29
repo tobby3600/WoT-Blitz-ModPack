@@ -52,23 +52,6 @@ Prototypes:
     - ["SizePolicy.horizontalValue", "width"]
     children:
     -   class: "UIControl"
-        name: "ImageWrapper"
-        input: false
-        components:
-            Anchor:
-                hCenterAnchorEnabled: true
-                topAnchorEnabled: true
-                topAnchor: -80.000000
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfParent"
-            UIChildComponent0:
-                condition: "not product.noArt"
-                prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopContentImageWrapper.yaml"
-                args:
-                    "parentWidth": "screenWidth"
-                    "imageUrl": "product.contentUrl"
-    -   class: "UIControl"
         name: "Title"
         input: false
         components:
@@ -127,6 +110,7 @@ Prototypes:
                         "timerSize": "eTimerSize.Small"
                         "bgVisible": "true"
                         "bgColorStyle": "\"white-wild-sand-25-bg\""
+                        "isBlur": "false"
             bindings:
             - ["visible", "isSimpleContent"]
     -   class: "UIControl"
@@ -314,5 +298,6 @@ Prototypes:
                                     "left": "product.availableTimes"
                                     "bgStyle": "\"white-wild-sand-25-bg\""
                                     "textStyle": "\"t-subtitle regular white-wild-sand-text\""
+                                    "isBlur": "false"
                         bindings:
                         - ["visible", "isSimpleContent and product.xTimed"]

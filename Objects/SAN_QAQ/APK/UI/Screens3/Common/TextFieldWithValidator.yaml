@@ -1,0 +1,314 @@
+Header:
+    version: 143
+Prototypes:
+-   class: "UIControl"
+    name: "TextField"
+    size: [364.000000, 48.000000]
+    input: false
+    components:
+        UIOpacityComponent: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfMaxChild"
+        UIDataParamsComponent:
+            params:
+            - ["int", "maxLength", "-1", "20"]
+            - ["eKeyboardType", "keyboardType", "eKeyboardType.KEYBOARD_TYPE_DEFAULT", "eKeyboardType.KEYBOARD_TYPE_DEFAULT"]
+            - ["eTextFieldType", "textFieldType", "eTextFieldType.Text", "eTextFieldType.Text"]
+            - ["bool", "isEnabled", "true", "true"]
+            - ["bool", "input", "true", "true"]
+            - ["bool", "canCleaned", "false", "true"]
+            - ["bool", "showValidate", "false", "false"]
+            - ["bool", "validatedWithError", "false", "false"]
+            - ["string", "placeholderText", "\"\"", "\"Placeholder text\""]
+            - ["string", "text", "\"\"", "\"Nagibator\""]
+            - ["string", "textStyle", "\"t-subtitle regular\"", "\"t-subtitle regular\""]
+            - ["string", "placeholderTextColor", "\"white-wild-sand-50-text\"", "\"white-wild-sand-50-text\""]
+            - ["string", "validatorRegExp", "\"\"", "\"\""]
+            - ["string", "filterRegExp", "\"\"", "\"\""]
+            - ["string", "bgStyle", "\"white-wild-sand-15-bg\"", "\"black-50-bg\""]
+            - ["bool", "isPassword", "false", "false"]
+            - ["bool", "isLastEdit", "false", "false"]
+            - ["string", "leftIconImage", "\"~res:/Gfx/Lobby/icons/icon_search_s\"", "\"~res:/Gfx/Lobby/icons/icon_search_s\""]
+            events:
+            - "FIELD_CLICKED"
+            - "EDITING_STARTED"
+            - "TEXT_CHANGED(string text, bool valid)"
+        UIDataLocalVarsComponent:
+            data:
+            - ["string", "fieldText", "text"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["bool", "showClean", "canCleaned and (not text.empty() and (not showValidate or validatedWithError))"]
+            - ["bool", "rightIconIsVisible", "showClean or showValidate"]
+            - ["string", "rightIconImage", "when showClean -> \"~res:/Gfx/Lobby/icons/icon_cancel_s\", (when showValidate -> (when validatedWithError -> \"\", \"~res:/Gfx/Lobby/icons/icon_tick_m\"), \"\")"]
+            - ["string", "rightIconStyle", "when showClean -> \"white-wild-sand-50-bg\", (when showValidate -> (when validatedWithError -> \"red-red-bg\", \"green-la-palma-bg\"), \"\")"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Common/TextFieldWithValidator.actions"
+        UIEventOnDataComponent0:
+            watchedDataExpression: "text"
+            eventName: "EDIT_ENDED"
+            eventData: "text"
+        UIIdentifierComponent:
+            id: "text_field"
+            params: []
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Common/Hover.style.yaml"
+    bindings:
+    - ["enabled", "isEnabled"]
+    - ["UIOpacityComponent.opacity", "when isEnabled -> 1, 0.500000"]
+    children:
+    -   class: "UIControl"
+        name: "Background"
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_STRETCH_BOTH"
+                sprite: "~res:/Gfx/Lobby/backgrounds/bg_r4"
+                leftRightStretchCap: 4.000000
+                topBottomStretchCap: 4.000000
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
+        bindings:
+        - ["classes", "bgStyle"]
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            LinearLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfMaxChild"
+        children:
+        -   class: "UIControl"
+            name: "Left"
+            position: [0.000000, 0.000000]
+            size: [24.000000, 76.000000]
+            input: false
+            components:
+                LinearLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "Spacer"
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 16.000000
+                        verticalPolicy: "PercentOfParent"
+                bindings:
+                - ["visible", "textFieldType != eTextFieldType.Search"]
+            -   class: "UIControl"
+                name: "IconWrapper"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        topAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 40.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 48.000000
+                bindings:
+                - ["visible", "textFieldType == eTextFieldType.Search"]
+                children:
+                -   class: "UIControl"
+                    name: "Icon"
+                    input: false
+                    classes: "white-wild-sand-50-bg"
+                    components:
+                        Background:
+                            drawType: "DRAW_ALIGNED"
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 24.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 24.000000
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["Background.sprite", "leftIconImage"]
+        -   class: "UIControl"
+            name: "Center"
+            input: false
+            components:
+                ClipContent: {}
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "Placeholder"
+                input: false
+                components:
+                    UITextComponent:
+                        multiline: "MULTILINE_DISABLED"
+                        align: ["LEFT", "VCENTER"]
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                        vCenterAnchor: 3.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["visible", "fieldText.empty()"]
+                - ["classes", "textStyle + \" \" + placeholderTextColor"]
+                - ["UITextComponent.text", "placeholderText"]
+            -   class: "UITextField"
+                name: "UITextField"
+                fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
+                fontSize: 17.000000
+                textcolor: [1.000000, 1.000000, 1.000000, 1.000000]
+                selectioncolor: [0.000000, 1.000000, 0.000000, 0.701961]
+                autoCapitalizationType: "AUTO_CAPITALIZATION_TYPE_NONE"
+                autoCorrectionType: "AUTO_CORRECTION_TYPE_NO"
+                spellCheckingType: "SPELL_CHECKING_TYPE_NO"
+                startEditingEvent: "EDITING_STARTED"
+                keyboardShowEvent: "KEYBOARD_SHOWN"
+                returnPressedEvent: "KEYBOARD_RETURN"
+                returnPressedEventData: "isLastEdit"
+                cancelPressedEvent: "KEYBOARD_CANCEL"
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 48.000000
+                    UIInputEventComponent:
+                        onTouchUpInside: "FIELD_CLICKED"
+                        onValueChanged: "TEXT_CHANGED"
+                        onValueChangedData: "_text, _valid"
+                        onEditingFinished: "EDIT_ENDED"
+                        onEditingFinishedData: "_text"
+                    Focus:
+                        state: "Enabled"
+                        focusWithAnimation: true
+                    UITextPatternComponent0:
+                        componentType: "FILTER"
+                        regularExpression: "filterRegExp"
+                    UITextPatternComponent1:
+                        regularExpression: "validatorRegExp"
+                bindings:
+                - ["input", "input"]
+                - ["text", "fieldText"]
+                - ["maxLength", "maxLength"]
+                - ["isPassword", "isPassword"]
+                - ["keyboardType", "keyboardType"]
+        -   class: "UIControl"
+            name: "Right"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                LinearLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "Spacer"
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 16.000000
+                        verticalPolicy: "PercentOfParent"
+                bindings:
+                - ["visible", "not rightIconIsVisible"]
+            -   class: "UIControl"
+                name: "ContentWrapper"
+                classes: "text-field-icon"
+                components:
+                    Anchor:
+                        topAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 40.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 48.000000
+                    UIInputEventComponent:
+                        onTouchUpInside: "CLEAR_FIELD"
+                    UIIdentifierComponent:
+                        id: "textfield_button"
+                        params:
+                        - ["bool", "is_clean_button", "showClean"]
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Common/Hover.style.yaml;~res:/UI/Screens3/Common/Touch.style.yaml"
+                bindings:
+                - ["visible", "rightIconIsVisible"]
+                - ["enabled", "isEnabled"]
+                - ["input", "showClean and input"]
+                children:
+                -   class: "UIControl"
+                    name: "IconWrapper"
+                    position: [20.000000, 24.000000]
+                    pivot: [0.500000, 0.500000]
+                    input: false
+                    classes: "content-area"
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 24.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 24.000000
+                    children:
+                    -   class: "UIControl"
+                        name: "Icon"
+                        input: false
+                        components:
+                            Background:
+                                drawType: "DRAW_ALIGNED"
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfParent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml"
+                        bindings:
+                        - ["classes", "rightIconStyle"]
+                        - ["Background.sprite", "rightIconImage"]
+    -   class: "UIControl"
+        name: "Error"
+        input: false
+        classes: "red-red-bg"
+        components:
+            Background:
+                drawType: "DRAW_STRETCH_BOTH"
+                sprite: "~res:/Gfx/Lobby/backgrounds/bg_border_1px_r4"
+                leftRightStretchCap: 4.000000
+                topBottomStretchCap: 4.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
+        bindings:
+        - ["visible", "validatedWithError"]

@@ -2,7 +2,6 @@ Header:
     version: 161
 ImportedPackages:
 - "~res:/UI/Screens3/Common/HorizontalScrollBar.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ChainBundlesScreen"
@@ -181,6 +180,7 @@ Prototypes:
                                 "serverTime": "session.serverTime"
                                 "time": "chain.promoExpiresAt"
                                 "alertTime": "3600L"
+                                "isBlur": "false"
             -   class: "UIControl"
                 name: "Spacer"
                 size: [0.000000, 100.000000]
@@ -247,20 +247,20 @@ Prototypes:
                                         horizontalPolicy: "PercentOfLastChild"
                                         verticalPolicy: "PercentOfMaxChild"
                                 children:
-                                -   prototype: "BlurModified/BlurModified"
-                                    name: "Blur"
-                                    components:
-                                        UIDataParamsComponent:
-                                            args:
-                                                "roundCorner": "\"8\""
                                 -   class: "UIControl"
                                     name: "ShopChainBundle"
                                     input: false
+                                    classes: "white-wild-sand-25-bg"
                                     components:
                                         LinearLayout: {}
+                                        Background: {}
+                                        UIRoundedCornersComponent:
+                                            radius: "8"
                                         SizePolicy:
                                             horizontalPolicy: "FixedSize"
                                             verticalPolicy: "FixedSize"
+                                        StyleSheet:
+                                            styles: "~res:/UI/Screens3/Color.style.yaml"
                                         UIRepeatComponent:
                                             control: "~res:/UI/Screens3/Lobby/Shop/ShopChain/ShopChainBundle.yaml"
                                             dataContainer: "chain.products"

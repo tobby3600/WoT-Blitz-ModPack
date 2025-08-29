@@ -1,0 +1,376 @@
+Header:
+    version: 153
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+- "~res:/UI/Screens3/Lobby/Common/RichText.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "EnterParentalEmail"
+    size: [960.000000, 640.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UILayoutEventComponent:
+            visibilityMarginsEvent: "KEYBOARD_EVENT"
+            visibilityMarginsEventData: "_visibilityMargins.bottom"
+        ModalInput: {}
+        UIShortcutEventComponent:
+            shortcuts: "BACK_SHORTCUT,Back;BACK_SHORTCUT,Escape;CONFIRMATION_SHORTCUT,Enter"
+        UIDataParamsComponent:
+            params:
+            - ["EnterParentalEmailData", "enterParentalEmailData", "null", "{ }"]
+        UIDataLocalVarsComponent:
+            data:
+            - ["float", "keyboardHeight", "0.000000"]
+            - ["bool", "isButtonEnabled", "not empty(enterParentalEmailData.parentalEmail)"]
+            - ["bool", "showEmailError", "false"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/PreLogin/EnterParentalEmail.actions"
+    children:
+    -   class: "UIControl"
+        name: "Background"
+        position: [14.000000, 0.000000]
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                bottomAnchorEnabled: true
+            IgnoreLayout: {}
+        children:
+        -   class: "UIControl"
+            name: "Fades"
+            position: [142.000000, 40.000000]
+            size: [582.000000, 640.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                LinearLayout:
+                    dynamicSpacing: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "Left"
+                input: false
+                classes: "black-bg"
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_TO_RECT"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                        spriteModification: ["FLIP_HORIZONTAL"]
+                    UIOpacityComponent:
+                        opacity: 0.250000
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "Formula"
+                        horizontalFormula: "parent / 4"
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "Main"
+                input: false
+                classes: "black-bg"
+                components:
+                    Background: {}
+                    UIOpacityComponent:
+                        opacity: 0.400000
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "Right"
+                position: [720.000000, 54.000000]
+                input: false
+                classes: "black-bg"
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_TO_RECT"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                    UIOpacityComponent:
+                        opacity: 0.250000
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "Formula"
+                        horizontalFormula: "parent / 4"
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+    -   class: "UIScrollView"
+        name: "Scroll"
+        classes: "notch-tightly-bottom-inset"
+        autoUpdate: true
+        centerContent: true
+        components:
+            ClipContent:
+                enabled: false
+            Anchor:
+                hCenterAnchorEnabled: true
+                topAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "Formula"
+                verticalFormula: "parent - keyboardHeight"
+            UIAnchorSafeAreaComponent: {}
+            StyleSheet:
+                styles: "~res:/UI/Screens3/SafeArea.style.yaml"
+        children:
+        -   class: "UIScrollViewContainer"
+            name: "scrollContainerControl"
+            position: [0.000000, 454.000000]
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    rightAnchorEnabled: true
+                LinearLayout:
+                    orientation: "TopDown"
+                    dynamicPadding: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "Content"
+                position: [16.000000, 40.000000]
+                size: [960.000000, 640.000000]
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   class: "UIControl"
+                    name: "ScreenContent"
+                    position: [296.000000, -79.000000]
+                    size: [960.000000, 640.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        LinearLayout:
+                            padding: "24"
+                            dynamicSpacing: true
+                            useRtl: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            horizontalMax: 1328.000000
+                            verticalPolicy: "PercentOfParent"
+                    children:
+                    -   class: "UIControl"
+                        name: "Left"
+                        position: [0.000000, 246.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                leftAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            LinearLayout:
+                                useRtl: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfChildrenSum"
+                                verticalPolicy: "PercentOfParent"
+                        children:
+                        -   class: "UIControl"
+                            name: "Spacer"
+                            position: [0.000000, 60.000000]
+                            input: false
+                            components:
+                                Anchor:
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 40.000000
+                                    verticalPolicy: "PercentOfParent"
+                        -   class: "UIControl"
+                            name: "Labels"
+                            position: [40.000000, 463.000000]
+                            input: false
+                            components:
+                                Anchor:
+                                    vCenterAnchorEnabled: true
+                                LinearLayout:
+                                    orientation: "TopDown"
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfMaxChild"
+                                    verticalPolicy: "PercentOfChildrenSum"
+                            bindings:
+                            - ["LinearLayout.spacing", "when (screenHeight > 769) -> screenHeight * 0.020000, 16"]
+                            children:
+                            -   class: "UIControl"
+                                name: "Title"
+                                input: false
+                                classes: "t-title bold white-wild-sand-text"
+                                components:
+                                    UITextComponent:
+                                        text: "Registration/EnterParentalEmail/Header"
+                                        multiline: "MULTILINE_ENABLED"
+                                        align: ["LEFT", "VCENTER"]
+                                        useRtlAlign: "USE_BY_SYSTEM"
+                                    Anchor:
+                                        leftAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 400.000000
+                                        verticalPolicy: "PercentOfContent"
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                            -   prototype: "RichText/RichText"
+                                name: "Description"
+                                position: [-8.000000, 0.000000]
+                                components:
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 400.000000
+                                    UIDataParamsComponent:
+                                        args:
+                                            "baseFontColor": "\"white-wild-sand-text\""
+                                            "baseFontStyle": "\"regular\""
+                                            "baseFontSize": "\"t-subtitle\""
+                                            "key": "localize(\"Registration/EnterParentalEmail/Info\")"
+                    -   class: "UIControl"
+                        name: "Right"
+                        position: [560.000000, 0.000000]
+                        size: [1896.000000, 1080.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                rightAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            LinearLayout:
+                                orientation: "RightToLeft"
+                                useRtl: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfChildrenSum"
+                                verticalPolicy: "PercentOfParent"
+                        children:
+                        -   class: "UIControl"
+                            name: "RightContent"
+                            position: [0.000000, 0.000000]
+                            input: false
+                            components:
+                                Anchor:
+                                    vCenterAnchorEnabled: true
+                                LinearLayout:
+                                    orientation: "TopDown"
+                                    dynamicPadding: true
+                                    spacing: 32.000000
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfMaxChild"
+                                    verticalPolicy: "PercentOfParent"
+                            children:
+                            -   class: "UIControl"
+                                name: "NicknameEdit"
+                                input: false
+                                components:
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                        verticalPolicy: "PercentOfFirstChild"
+                                    UIAttachLayoutMasterComponent:
+                                        attachId: "EMAIL"
+                                    UIChildComponent0:
+                                        prototypePath: "~res:/UI/Screens3/Common/TextField.yaml"
+                                        args:
+                                            "keyboardType": "eKeyboardType.KEYBOARD_TYPE_EMAIL_ADDRESS"
+                                            "textFieldType": "eTextFieldType.Text"
+                                            "isEnabled": "true"
+                                            "canCleaned": "true"
+                                            "filterRegExp": "\"^[a-zA-Z0-9@\\._-]+$\""
+                                            "validatedWithError": "showEmailError"
+                                            "showValidate": "enterParentalEmailData.isParentalEmailAccepted"
+                                            "placeholderText": "localize(\"Registration/EnterParentalEmail/ParentalEmailHint\")"
+                                            "text": "enterParentalEmailData.parentalEmail"
+                                            "textStyle": "\"t-subtitle regular\""
+                                            "placeholderTextColor": "\"white-wild-sand-50-text\""
+                                            "bgStyle": "\"black-50-bg\""
+                                            "leftIconImage": "\"~res:/Gfx/Lobby/icons/icon_search_s\""
+                                            "maxLength": "50"
+                                        eventActions:
+                                        - ["FIELD_CLICKED", "HIDE_ERROR_HINT", ""]
+                                        - ["EDITING_STARTED", "HIDE_ERROR_HINT", ""]
+                                        - ["TEXT_CHANGED", "EMAIL_TEXT_CHANGED", "_event"]
+                            -   class: "UIControl"
+                                name: "ConfirmButton"
+                                position: [0.000000, 80.000000]
+                                input: false
+                                components:
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 400.000000
+                                        verticalPolicy: "PercentOfFirstChild"
+                                children:
+                                -   prototype: "Button/Button"
+                                    name: "Button"
+                                    components:
+                                        Anchor:
+                                            leftAnchorEnabled: true
+                                            rightAnchorEnabled: true
+                                        UIDataParamsComponent:
+                                            args:
+                                                "caption": "capitalize(localize(\"Registration/EnterParentalEmail/Confirm\"))"
+                                                "sound": "eButtonSound.OPEN"
+                                                "enabled": "isButtonEnabled"
+                                            eventActions:
+                                            - ["ON_CLICK_BUTTON", "ON_CLICK_CONFIRM_BUTTON", ""]
+                                    children:
+                                    -   path: "TapArea/Content/Bg/Shadows/Colored/Right"
+                                        position: [252.000000, 0.000000]
+                        -   class: "UIControl"
+                            name: "HintLayer"
+                            input: false
+                            components:
+                                IgnoreLayout: {}
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfParent"
+                                UIChildComponent0:
+                                    condition: "showEmailError"
+                                    prototypePath: "~res:/UI/Screens3/Common/PopupMenu.yaml"
+                                    args:
+                                        "isAlignLeft": "false"
+                                        "title": "\"\""
+                                        "text": "localize(\"Registration_invalid_email\")"
+                                        "defaultTextHMax": "400"
+                                        "masterId": "\"EMAIL\""
+                                        "slaveAlign": "ePositionAlign.Top"
+                                    eventActions:
+                                    - ["FINISH_HIDE_POPUP_ANIMATION", "FINISH_HIDE_POPUP_ANIMATION", ""]
+    -   class: "UIControl"
+        name: "BackButton"
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                leftAnchor: 16.000000
+                topAnchorEnabled: true
+                topAnchor: 16.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+                args:
+                    "isBgVisible": "false"
+                    "image": "\"~res:/Gfx/Lobby/icons/icon_arrow-rounded\""
+                    "sound": "eButtonSound.CANCEL"
+                eventActions:
+                - ["ON_CLICK_BUTTON", "CANCEL_ENTER_PARENTAL_EMAIL", ""]

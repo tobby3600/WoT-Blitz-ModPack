@@ -211,7 +211,7 @@ Prototypes:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfMaxChild"
                         UIChildComponent0:
-                            condition: "not isGamepad and communityContainer.Contains(\"Portal\")"
+                            condition: "communityContainer.Contains(\"Portal\")"
                             prototypePath: "~res:/UI/Screens3/Lobby/Hangar/Sidebar/CommunityPanel/CommunityItem.yaml"
                             args:
                                 "text": "localize(\"#community:Portal\")"
@@ -227,7 +227,7 @@ Prototypes:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfMaxChild"
                         UIChildComponent0:
-                            condition: "not isGamepad and communityContainer.Contains(\"WARGAMING\")"
+                            condition: "communityContainer.Contains(\"WARGAMING\")"
                             prototypePath: "~res:/UI/Screens3/Lobby/Hangar/Sidebar/CommunityPanel/CommunityItem.yaml"
                             args:
                                 "text": "localize(\"#community:WargamingNet\")"

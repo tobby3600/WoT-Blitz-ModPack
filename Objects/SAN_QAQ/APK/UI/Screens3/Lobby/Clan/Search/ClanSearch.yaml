@@ -2,7 +2,7 @@ Header:
     version: 161
 ImportedPackages:
 - "~res:/UI/Screens3/Common/TextField.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
+- "~res:/UI/Screens3/Common/BlurMask.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ClanSearch"
@@ -55,7 +55,6 @@ Prototypes:
             Background:
                 drawType: "DRAW_SCALE_TO_RECT"
                 sprite: "~res:/Gfx/Lobby/backgrounds/key-art/key-art_clan-1"
-                align: []
             Anchor:
                 hCenterAnchorEnabled: true
                 vCenterAnchorEnabled: true
@@ -68,18 +67,23 @@ Prototypes:
                 horizontalFormula: "max(parentSize.X / size.X, parentSize.Y / size.Y)"
                 verticalFormula: "max(parentSize.X / size.X, parentSize.Y / size.Y)"
     -   class: "UIControl"
-        name: "Blur"
+        name: "Fade"
         input: false
+        classes: "black-50-bg"
         components:
+            Background: {}
             IgnoreLayout: {}
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
-            UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Common/BlurAndFade.yaml"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
+    -   prototype: "BlurMask/BlurMask"
+        name: "Blur"
+        components:
+            UIDataParamsComponent:
                 args:
-                    "fadeOpacity": "0.500000"
-                    "blurOpacity": "0.000000"
+                    "ID": "\"ClanSearch\""
     -   class: "UIControl"
         name: "Content"
         input: false
@@ -87,6 +91,8 @@ Prototypes:
             LinearLayout:
                 orientation: "TopDown"
                 padding: "0; 24"
+            UIPostProcessSourceComponent0:
+                id: "maskClanSearch"
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
@@ -107,14 +113,14 @@ Prototypes:
             -   class: "UIControl"
                 name: "TopBlock"
                 input: false
+                classes: "white-wild-sand-15-bg"
                 components:
+                    Background: {}
                     SizePolicy:
                         horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "FixedSize"
                         verticalValue: 72.000000
                 children:
-                -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
                 -   class: "UIControl"
                     name: "Back"
                     input: false
@@ -170,7 +176,6 @@ Prototypes:
                                 "text": "model.searchString"
                                 "textFieldType": "eTextFieldType.Search"
                                 "isVisible": "true"
-                                "isBlur": "true"
                             eventActions:
                             - ["EDIT_ENDED", "EDIT_ENDED", "_event"]
                         UIDataLocalBindingsComponent:

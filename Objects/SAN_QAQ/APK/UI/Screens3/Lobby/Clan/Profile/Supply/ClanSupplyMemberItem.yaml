@@ -1,7 +1,5 @@
 Header:
     version: 151
-ImportedPackages:
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "MemberItem"
@@ -42,12 +40,19 @@ Prototypes:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
         children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
+        -   class: "UIControl"
+            name: "Highlight"
+            input: false
             components:
-                UIDataParamsComponent:
-                    args:
-                        "bgStyle": "when isSelf -> \"gold-shining-20-bg\", \"\""
+                Background: {}
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["classes", "when isSelf -> \"gold-shining-20-bg\", \"white-wild-sand-15-bg\""]
         -   class: "UIControl"
             name: "ProfileBg"
             size: [32.000000, 32.000000]

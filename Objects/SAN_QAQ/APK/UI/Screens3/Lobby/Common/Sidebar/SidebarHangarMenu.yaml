@@ -231,7 +231,7 @@ Prototypes:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfMaxChild"
             UIChildComponent0:
-                condition: "not account.tutorialData.isTutorialActive and needShowCommunityLinks and not app.netease.neteaseAvailable and not isGamepad"
+                condition: "not account.tutorialData.isTutorialActive and needShowCommunityLinks and not app.netease.neteaseAvailable"
                 prototypePath: "~res:/UI/Screens3/Lobby/Common/Sidebar/SidebarItem/SideBarItem.yaml"
                 args:
                     "switchId": "int(eMenuType.Community)"

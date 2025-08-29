@@ -1,0 +1,507 @@
+Header:
+    version: 133
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "Screen"
+    size: [1200.000000, 600.000000]
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/Login/Tutorial/TutorialTanksScreen.animation; NATION_SELECTED,~res:/UI/Screens3/Login/Tutorial/NationSelected.animation"
+        Anchor:
+            leftAnchorEnabled: true
+            rightAnchorEnabled: true
+            topAnchorEnabled: true
+            bottomAnchorEnabled: true
+        ModalInput: {}
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "BasePrevious"
+            keyDownEvent: "ON_NATION_PREV_CLICKED"
+        UIVirtualActionEventComponent1:
+            virtualKeyAction: "BaseNext"
+            keyDownEvent: "ON_NATION_NEXT_CLICKED"
+        UIVirtualActionEventComponent2:
+            virtualKeyAction: "Extra2"
+            keyDownEvent: "NATION_SELECTED"
+        UIDataParamsComponent:
+            params:
+            - ["DownloadModel", "downloadModel", "null", "{ }"]
+            - ["TutorialTanks", "tutorialTanks", "null", "{ \"selectedNation\" = eNation.USA; }"]
+            events: []
+        UIDataLocalVarsComponent:
+            data:
+            - ["float", "pageSize", "1024.000000"]
+            - ["int", "pageCount", "Size(tutorialTanks.nations)"]
+            - ["int", "currentIndex", "tutorialTanks.selectedPage"]
+            - ["int", "rightIndex", "0"]
+            - ["float", "rightPosition", "0.000000"]
+            - ["vector<string>", "nationImages", "[ \"~res:/Gfx/Lobby/backgrounds/tutor-tanks/select-nations/tank_usa\"; \"~res:/Gfx/Lobby/backgrounds/tutor-tanks/select-nations/tank_european\"; \"~res:/Gfx/Lobby/backgrounds/tutor-tanks/select-nations/tank_ger\"; \"~res:/Gfx/Lobby/backgrounds/tutor-tanks/select-nations/tank_ussr\"; \"~res:/Gfx/Lobby/backgrounds/tutor-tanks/select-nations/tank_uk\"; \"~res:/Gfx/Lobby/backgrounds/tutor-tanks/select-nations/tank_japan\"; \"~res:/Gfx/Lobby/backgrounds/tutor-tanks/select-nations/tank_ch\"; \"~res:/Gfx/Lobby/backgrounds/tutor-tanks/select-nations/tank_france\"; ]"]
+            - ["bool", "nationSelected", "false"]
+            - ["bool", "showUsa", "true"]
+            - ["bool", "showEuropean", "false"]
+            - ["bool", "showGermany", "false"]
+            - ["bool", "showUssr", "false"]
+            - ["bool", "showUk", "false"]
+            - ["bool", "showJapan", "false"]
+            - ["bool", "showChina", "false"]
+            - ["bool", "showFrance", "false"]
+            - ["float", "parallaxBackgroundFactor", "0.020000"]
+            - ["float", "parallaxMiddleFactor", "0.050000"]
+            - ["float", "parallaxGroundFactor", "1.000000"]
+            - ["float", "parallaxBackgroundPositionX", "0.000000"]
+            - ["float", "parallaxMiddlePositionX", "0.000000"]
+            - ["float", "parallaxGroundPositionX", "0.000000"]
+            - ["vector<int>", "effectPositionsX", "[ 664; 664; 620; 599; 409; 608; 649; 618; ]"]
+            - ["vector<int>", "effectPositionsY", "[ 133; 133; 116; 120; 137; 142; 100; 130; ]"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["string", "tankType", "tutorialTanks.nationsStrings[tutorialTanks.selectedNation].type"]
+            - ["string", "tankTypeName", "localize(tankType)"]
+            - ["string", "tankClass", "when tankType == \"Light\" -> \"tank_class_light\", tankType == \"Medium\" -> \"tank_class_medium\", tankType == \"Heavy\" -> \"tank_class_heavy\", tankType == \"AT-SPG\" -> \"tank_class_at_spg\", \"\""]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Login/Tutorial/NationSwiper.actions"
+    children:
+    -   class: "UIControl"
+        name: "Background"
+        classes: "black-bg"
+        components:
+            Background: {}
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                bottomAnchorEnabled: true
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
+    -   class: "UIControl"
+        name: "TankContainerHolder"
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                bottomAnchorEnabled: true
+                bottomAnchor: 120.000000
+        children:
+        -   class: "UIControl"
+            name: "ParallaxContainer"
+            size: [1024.000000, 648.000000]
+            pivot: [0.500000, 0.500000]
+            input: false
+            components:
+                Background: {}
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                ScalePolicy:
+                    horizontalFormula: "max(parentSize.X / size.X, parentSize.Y / size.Y)"
+                    verticalFormula: "max(parentSize.X / size.X, parentSize.Y / size.Y)"
+            bindings:
+            - ["enabled", "not nationSelected"]
+            children:
+            -   class: "UIControl"
+                name: "ParallaxBackground"
+                size: [1024.000000, 384.000000]
+                components:
+                    Background:
+                        sprite: "~res:/Gfx/Lobby/backgrounds/tutor-tanks/select-nations/far_plane"
+                        align: ["LEFT", "TOP"]
+                    Anchor:
+                        leftAnchorEnabled: true
+                        topAnchorEnabled: true
+                bindings:
+                - ["Anchor.leftAnchor", "parallaxBackgroundPositionX"]
+                children:
+                -   class: "UIControl"
+                    name: "parTile"
+                    position: [1024.000000, 0.000000]
+                    size: [1024.000000, 384.000000]
+                    components:
+                        Background:
+                            sprite: "~res:/Gfx/Lobby/backgrounds/tutor-tanks/select-nations/far_plane_tile"
+                            align: ["LEFT", "TOP"]
+                        Anchor:
+                            topAnchorEnabled: true
+                -   class: "UIControl"
+                    name: "parTile2"
+                    position: [-50.000000, 0.000000]
+                    size: [50.000000, 384.000000]
+                    components:
+                        Background:
+                            sprite: "~res:/Gfx/Lobby/backgrounds/tutor-tanks/select-nations/far_plane_left_tile"
+                            align: ["LEFT", "TOP"]
+                        Anchor:
+                            topAnchorEnabled: true
+                -   class: "UIParticles"
+                    name: "house_smoke_sky3"
+                    position: [891.000000, 446.000000]
+                    size: [32.000000, 32.000000]
+                    effectPath: "~res:/3d/FX/UI/Tutorial/Tanks_select2.0/house_smoke_sky3.sc2"
+                    autoStart: true
+                -   class: "UIParticles"
+                    name: "BG_Glow"
+                    position: [1125.000000, 558.000000]
+                    size: [32.000000, 34.000000]
+                    effectPath: "~res:/3d/FX/UI/Tutorial/Tanks_select2.0/BG_glow.sc2"
+                    autoStart: true
+                -   class: "UIParticles"
+                    name: "house_smoke_sky1"
+                    position: [25.000000, 333.000000]
+                    size: [32.000000, 32.000000]
+                    effectPath: "~res:/3d/FX/UI/Tutorial/Tanks_select2.0/house_smoke_sky1.sc2"
+                    autoStart: true
+                    components:
+                        Update:
+                            updateInvisible: false
+            -   class: "UIControl"
+                name: "ParallaxMiddle"
+                size: [2048.000000, 768.000000]
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        topAnchorEnabled: true
+                bindings:
+                - ["Anchor.leftAnchor", "parallaxMiddlePositionX"]
+                children:
+                -   class: "UIControl"
+                    name: "p1"
+                    position: [-600.000000, 0.000000]
+                    size: [1024.000000, 506.000000]
+                    components:
+                        Background:
+                            sprite: "~res:/Gfx/Lobby/backgrounds/tutor-tanks/select-nations/middle_plane_1"
+                        Anchor: {}
+                -   class: "UIControl"
+                    name: "p2"
+                    position: [424.000000, 0.000000]
+                    size: [1024.000000, 506.000000]
+                    components:
+                        Background:
+                            sprite: "~res:/Gfx/Lobby/backgrounds/tutor-tanks/select-nations/middle_plane_2"
+                        Anchor: {}
+                -   class: "UIParticles"
+                    name: "fire_big"
+                    position: [1232.000000, 384.000000]
+                    size: [32.000000, 32.000000]
+                    effectPath: "~res:/3d/FX/UI/Tutorial/Tanks_select2.0/fire_big.sc2"
+                    autoStart: true
+                -   class: "UIParticles"
+                    name: "MainFire"
+                    position: [844.000000, 459.000000]
+                    size: [32.000000, 32.000000]
+                    effectPath: "~res:/3d/FX/UI/Tutorial/Tanks_select2.0/MainFire.sc2"
+                    autoStart: true
+            -   class: "UIControl"
+                name: "ParallaxGround"
+                position: [0.000000, 330.000000]
+                size: [1024.000000, 250.000000]
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        topAnchorEnabled: true
+                        topAnchor: 330.000000
+                bindings:
+                - ["Anchor.leftAnchor", "parallaxGroundPositionX"]
+                children:
+                -   class: "UIControl"
+                    name: "parGround"
+                    position: [-1077.000000, 152.000000]
+                    size: [10000.000000, 400.000000]
+                    components:
+                        Background:
+                            drawType: "DRAW_TILED"
+                            sprite: "~res:/Gfx/Lobby/backgrounds/tutor-tanks/select-nations/ground_tile"
+                        Anchor: {}
+            -   class: "UIControl"
+                name: "Ground"
+                size: [10.000000, 10.000000]
+            -   class: "UIControl"
+                name: "ParallaxMain"
+                input: false
+                components:
+                    Anchor:
+                        topAnchorEnabled: true
+                        topAnchor: 200.000000
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 1024.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 400.000000
+                children:
+                -   class: "UIControl"
+                    name: "Swiper"
+                    position: [171.000000, 100.000000]
+                    input: true
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            topAnchorEnabled: true
+                            bottomAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfMaxChild"
+                        UISwipeComponent:
+                            mode: "Page"
+                            direction: "RightLeft"
+                            swipeOffsetEvent: "SwipeOffset"
+                            swipeOffsetEventData: "_leftIndex, _rightIndex, _leftPosition, _rightPosition"
+                            swipeCancelEvent: "SwipeCanceled"
+                            pageChangedEvent: "PageChanged"
+                            pageChangedEventData: "_pageIndex"
+                        UIRepeatComponent:
+                            control: "~res:/UI/Screens3/Login/Tutorial/NationPage.yaml"
+                            dataContainer: "tutorialTanks.nations"
+                            args:
+                                "image": "nationImages[_index]"
+                                "hidden": "false"
+                                "point": "(_index - rightIndex) * pageSize + rightPosition"
+                                "pageSize": "pageSize"
+                                "effectPosX": "effectPositionsX[_index]"
+                                "effectPosY": "effectPositionsY[_index]"
+                    bindings:
+                    - ["UISwipeComponent.pageCount", "pageCount"]
+                    - ["UISwipeComponent.currentPageIndex", "tutorialTanks.selectedPage"]
+            -   class: "UIParticles"
+                name: "big_smoke"
+                position: [347.000000, 519.000000]
+                size: [32.000000, 31.000000]
+                effectPath: "~res:/3d/FX/UI/Tutorial/Tanks_select2.0/big_smoke.sc2"
+                autoStart: true
+            -   class: "UIParticles"
+                name: "burned_paper"
+                position: [470.000000, 455.000000]
+                size: [32.000000, 32.000000]
+                effectPath: "~res:/3d/FX/UI/Tutorial/Tanks_select2.0/burned_paper.sc2"
+                autoStart: true
+            -   class: "UIParticles"
+                name: "big_smoke3"
+                position: [363.000000, 324.000000]
+                size: [32.000000, 32.000000]
+                effectPath: "~res:/3d/FX/UI/Tutorial/Tanks_select2.0/big_smoke3.sc2"
+                autoStart: true
+            -   class: "UIParticles"
+                name: "sparks"
+                position: [563.000000, 580.000000]
+                size: [32.000000, 32.000000]
+                effectPath: "~res:/3d/FX/UI/Tutorial/Tanks_select2.0/sparks.sc2"
+                autoStart: true
+            -   class: "UIParticles"
+                name: "glow_environment"
+                position: [470.000000, 298.000000]
+                size: [32.000000, 32.000000]
+                effectPath: "~res:/3d/FX/UI/Tutorial/Tanks_select2.0/glow_environment.sc2"
+                autoStart: true
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            Anchor:
+                bottomAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+                dynamicSpacing: true
+                skipInvisible: false
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+                verticalValue: 40.000000
+                verticalMin: 260.000000
+                verticalMax: 300.000000
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml"
+        children:
+        -   class: "UIControl"
+            name: "TileWrapper"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "Formula"
+                    verticalFormula: "firstChild + 24"
+            children:
+            -   class: "UIControl"
+                name: "Title"
+                input: false
+                classes: "t-headline bold white-wild-sand-text"
+                components:
+                    UITextComponent:
+                        text: "hangarTutorial/selectNation/header"
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+        -   class: "UIControl"
+            name: "Nations"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                    bottomAnchor: 161.000000
+                LinearLayout:
+                    orientation: "LeftToRight"
+                    dynamicPadding: true
+                    spacing: 4.000000
+                    dynamicSpacing: false
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
+                UIIdentifierComponent:
+                    id: "nations_list"
+            children:
+            -   class: "UIControl"
+                name: "Spacer1"
+                size: [10.000000, 10.000000]
+                input: false
+            -   class: "UIControl"
+                name: "Items"
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    LinearLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfMaxChild"
+                    UIRepeatComponent:
+                        control: "~res:/UI/Screens3/Login/Tutorial/NationItem.yaml"
+                        dataContainer: "tutorialTanks.nations"
+                        args:
+                            "nation": "_item"
+                            "icon": "when _item == eNation.USA -> \"~res:/Gfx/Lobby/flags/flag_tank-tree_usa\", _item == eNation.GERMANY -> \"~res:/Gfx/Lobby/flags/flag_tank-tree_germany\", _item == eNation.USSR -> \"~res:/Gfx/Lobby/flags/flag_tank-tree_ussr\", _item == eNation.UK -> \"~res:/Gfx/Lobby/flags/flag_tank-tree_uk\", _item == eNation.JAPAN -> \"~res:/Gfx/Lobby/flags/flag_tank-tree_japan\", _item == eNation.CHINA -> \"~res:/Gfx/Lobby/flags/flag_tank-tree_china\", _item == eNation.FRANCE -> \"~res:/Gfx/Lobby/flags/flag_tank-tree_france\", _item == eNation.EUROPEAN -> \"~res:/Gfx/Lobby/flags/flag_tank-tree_european\", \"\""
+                            "selected": "_item == tutorialTanks.selectedNation"
+            -   class: "UIControl"
+                name: "Spacer2"
+                size: [10.000000, 10.000000]
+                input: false
+        -   class: "UIControl"
+            name: "Footer"
+            input: false
+            components:
+                LinearLayout:
+                    orientation: "TopDown"
+                    spacing: 16.000000
+                    dynamicSpacing: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            bindings:
+            - ["visible", "not nationSelected"]
+            children:
+            -   class: "UIControl"
+                name: "VehicleInfo"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    LinearLayout:
+                        spacing: 16.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "Formula"
+                        verticalFormula: "maxChild + 24"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                children:
+                -   class: "UIControl"
+                    name: "TankTypeContainer"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        LinearLayout:
+                            spacing: 5.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "PercentOfMaxChild"
+                    children:
+                    -   class: "UIControl"
+                        name: "TankClass"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            UITextureComponent:
+                                perPixelAccuracy: "PER_PIXEL_ACCURACY_FORCED"
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 12.000000
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 24.000000
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Lobby/Common/Vehicle/VehicleInfo.style.yaml"
+                        bindings:
+                        - ["classes", "tankClass"]
+                    -   class: "UIControl"
+                        name: "TankType"
+                        input: false
+                        classes: "t-subtitle regular white-wild-sand-text"
+                        components:
+                            UITextComponent: {}
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfContent"
+                        bindings:
+                        - ["UITextComponent.text", "tankTypeName"]
+                -   class: "UIControl"
+                    name: "TankName"
+                    input: false
+                    classes: "t-subtitle bold white-wild-sand-text"
+                    components:
+                        UITextComponent: {}
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                    bindings:
+                    - ["UITextComponent.text", "localize(tutorialTanks.nationsStrings[tutorialTanks.selectedNation].localizationKey)"]
+            -   prototype: "Button/Button"
+                name: "ButtonPositive"
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 186.000000
+                    UIDataParamsComponent:
+                        args:
+                            "size": "eButtonSize.NORMAL"
+                            "type": "eButtonType.POSITIVE"
+                            "enabled": "true"
+                            "caption": "\"hangarTutorial/selectNation/button\""
+                            "soundDisable": "true"
+                        eventActions:
+                        - ["ON_CLICK_BUTTON", "NATION_SELECTED", ""]
+                    UIIdentifierComponent:
+                        id: "nations_ok_button"
+                        params:
+                        - ["bool", "input_enabled", "not bool(inputDisabled)"]
+            -   class: "UIControl"
+                name: "Spacer"
+                size: [32.000000, 20.000000]
+                input: false
+    -   class: "UIControl"
+        name: "Congratulations"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                condition: "nationSelected"
+                prototypePath: "~res:/UI/Screens3/Login/Tutorial/SelectNationCongratulations.yaml"
+                args:
+                    "promptKeys": "tutorialTanks.promptKeys"
+                    "nation": "tutorialTanks.selectedNation"
+                    "tankName": "localize(tutorialTanks.nationsStrings[tutorialTanks.selectedNation].localizationKey)"
+                    "downloadModel": "downloadModel"
+                    "packDownloaded": "tutorialTanks.packLoaded"
+        bindings:
+        - ["visible", "nationSelected"]

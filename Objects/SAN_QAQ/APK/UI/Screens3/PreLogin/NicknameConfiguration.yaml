@@ -1,0 +1,448 @@
+Header:
+    version: 159
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "NicknameConfiguration"
+    size: [960.000000, 640.000000]
+    input: false
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/PreLogin/NicknameConfigurationInitialization.animation"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UILayoutEventComponent:
+            visibilityMarginsEvent: "KEYBOARD_EVENT"
+            visibilityMarginsEventData: "_visibilityMargins.bottom"
+        UIShortcutEventComponent:
+            shortcuts: "BACK_SHORTCUT,Back;BACK_SHORTCUT,Escape;CONFIRMATION_SHORTCUT,Enter"
+        UIDataParamsComponent:
+            params:
+            - ["NicknameData", "nicknameData", "null", "{ }"]
+            - ["bool", "isChina", "false", "false"]
+            - ["bool", "quicked", "false", "true"]
+            events:
+            - "FIELD_CLICKED"
+            - "EDITING_STARTED"
+            - "NICKNAME_CHANGED(string nickname)"
+            - "CONFIRM_NICKNAME"
+            - "CANCEL_NICKNAME_CONFIGURATION"
+        UIDataLocalVarsComponent:
+            data:
+            - ["float", "keyboardHeight", "0.000000"]
+            - ["string", "nicknameMasterId", "\"NICKNAME\""]
+            - ["bool", "reinitHint", "false"]
+            - ["bool", "errorShown", "false"]
+            - ["string", "currentError", "\"\""]
+            - ["string", "nextError", "\"\""]
+            - ["string", "currentMasterId", "\"\""]
+            - ["string", "nextMasterId", "\"\""]
+            - ["string", "selectedHint", "\"\""]
+            - ["bool", "suggestionsShown", "false"]
+            - ["float", "hintsHideTime", "0.300000"]
+            - ["float", "hintsShowTime", "0.300000"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["bool", "canConfirm", "not empty(nicknameData.nickname)"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/PreLogin/NicknameConfiguration.actions"
+        UIEventOnDataComponent0:
+            watchedDataExpression: "nicknameData.suggestions"
+            eventName: "RequestAnimateSuggestions"
+    children:
+    -   class: "UIControl"
+        name: "Background"
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                bottomAnchorEnabled: true
+            IgnoreLayout: {}
+        children:
+        -   class: "UIControl"
+            name: "Fades"
+            position: [142.000000, 40.000000]
+            size: [582.000000, 640.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                LinearLayout:
+                    dynamicSpacing: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "Left"
+                input: false
+                classes: "black-bg"
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_TO_RECT"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                        spriteModification: ["FLIP_HORIZONTAL"]
+                    UIOpacityComponent:
+                        opacity: 0.250000
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "Formula"
+                        horizontalFormula: "parent / 4"
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "Main"
+                input: false
+                classes: "black-bg"
+                components:
+                    Background: {}
+                    UIOpacityComponent:
+                        opacity: 0.400000
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "Right"
+                position: [720.000000, 54.000000]
+                input: false
+                classes: "black-bg"
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_TO_RECT"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                    UIOpacityComponent:
+                        opacity: 0.250000
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "Formula"
+                        horizontalFormula: "parent / 4"
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+    -   class: "UIScrollView"
+        name: "Scroll"
+        classes: "notch-tightly-bottom-inset"
+        autoUpdate: true
+        centerContent: true
+        components:
+            ClipContent:
+                enabled: false
+            Anchor:
+                hCenterAnchorEnabled: true
+                topAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "Formula"
+                verticalFormula: "parent - keyboardHeight"
+            UIAnchorSafeAreaComponent: {}
+            StyleSheet:
+                styles: "~res:/UI/Screens3/SafeArea.style.yaml"
+        children:
+        -   class: "UIScrollViewContainer"
+            name: "scrollContainerControl"
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    rightAnchorEnabled: true
+                LinearLayout:
+                    orientation: "TopDown"
+                SizePolicy:
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   class: "UIControl"
+                name: "ScreenContent"
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        padding: "24"
+                        dynamicSpacing: true
+                        useRtl: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        horizontalMax: 1328.000000
+                        verticalPolicy: "PercentOfLastChild"
+                children:
+                -   class: "UIControl"
+                    name: "Left"
+                    position: [24.000000, 0.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        LinearLayout:
+                            useRtl: true
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 400.000000
+                            verticalPolicy: "PercentOfMaxChild"
+                    children:
+                    -   class: "UIControl"
+                        name: "Spacer"
+                        position: [0.000000, -9.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 40.000000
+                                verticalPolicy: "PercentOfParent"
+                    -   class: "UIControl"
+                        name: "Labels"
+                        position: [40.000000, 0.000000]
+                        size: [800.000000, 154.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            LinearLayout:
+                                orientation: "TopDown"
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfMaxChild"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        bindings:
+                        - ["LinearLayout.spacing", "when (screenHeight > 769) -> screenHeight * 0.020000, 16"]
+                        children:
+                        -   class: "UIControl"
+                            name: "TitleLabel"
+                            position: [0.000000, 118.000000]
+                            input: false
+                            classes: "t-title bold white-wild-sand-text"
+                            components:
+                                UITextComponent:
+                                    text: "Registration/NicknameConfiguration/Title"
+                                    multiline: "MULTILINE_ENABLED"
+                                    align: ["LEFT", "VCENTER"]
+                                    useRtlAlign: "USE_BY_SYSTEM"
+                                Anchor:
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 400.000000
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml"
+                        -   class: "UIControl"
+                            name: "Description"
+                            position: [400.000000, 0.000000]
+                            input: false
+                            classes: "t-subtitle regular white-wild-sand-text"
+                            components:
+                                UITextComponent:
+                                    text: "Registration/Nickname/Info"
+                                    multiline: "MULTILINE_ENABLED"
+                                    align: ["LEFT", "VCENTER"]
+                                    useRtlAlign: "USE_BY_SYSTEM"
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 400.000000
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml"
+                -   class: "UIControl"
+                    name: "Right"
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfChildrenSum"
+                    children:
+                    -   class: "UIControl"
+                        name: "Forms"
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            LinearLayout:
+                                orientation: "TopDown"
+                                spacing: 32.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfMaxChild"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        children:
+                        -   class: "UIControl"
+                            name: "InterativeHolder"
+                            input: false
+                            components:
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                LinearLayout:
+                                    orientation: "TopDown"
+                                    spacing: 24.000000
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 400.000000
+                                    verticalPolicy: "PercentOfChildrenSum"
+                            children:
+                            -   class: "UIControl"
+                                name: "Nicknames"
+                                input: false
+                                components:
+                                    LinearLayout:
+                                        orientation: "TopDown"
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                        verticalPolicy: "PercentOfChildrenSum"
+                                children:
+                                -   class: "UIControl"
+                                    name: "NicknameEdit"
+                                    input: false
+                                    components:
+                                        SizePolicy:
+                                            horizontalPolicy: "PercentOfParent"
+                                            verticalPolicy: "PercentOfFirstChild"
+                                        UIAttachLayoutMasterComponent:
+                                            attachId: "NICKNAME"
+                                        UIChildComponent0:
+                                            prototypePath: "~res:/UI/Screens3/Common/TextField.yaml"
+                                            args:
+                                                "isLastEdit": "true"
+                                                "maxLength": "24"
+                                                "bgStyle": "\"black-50-bg\""
+                                                "placeholderTextColor": "\"white-wild-sand-50-text\""
+                                                "valueTextColor": "\"white-wild-sand-text\""
+                                                "textStyle": "\"t-subtitle regular\""
+                                                "text": "nicknameData.nickname"
+                                                "placeholderText": "localize(\"Registration/NicknameConfiguration/NicknamePlaceholder\")"
+                                                "validatedWithError": "currentMasterId == nicknameMasterId"
+                                                "showValidate": "nicknameData.nicknameAccepted"
+                                                "filterRegExp": "when isChina -> \"\", \"^[a-zA-Z0-9_]+$\""
+                                                "canCleaned": "true"
+                                                "input": "not nicknameData.confirmationPending"
+                                                "textFieldType": "eTextFieldType.Text"
+                                                "keyboardType": "eKeyboardType.KEYBOARD_TYPE_DEFAULT"
+                                            eventActions:
+                                            - ["FIELD_CLICKED", "FIELD_CLICKED", "eLoginFieldId.PlayerName"]
+                                            - ["EDITING_STARTED", "EDITING_STARTED", "eLoginFieldId.PlayerName"]
+                                            - ["TEXT_CHANGED", "NICKNAME_TEXT_CHANGED", "_event, true"]
+                                -   class: "UIControl"
+                                    name: "NicknameVariants"
+                                    input: false
+                                    components:
+                                        LinearLayout:
+                                            orientation: "TopDown"
+                                        SizePolicy:
+                                            horizontalPolicy: "PercentOfParent"
+                                            verticalPolicy: "PercentOfChildrenSum"
+                                    children:
+                                    -   class: "UIControl"
+                                        name: "Spacer"
+                                        position: [-51.000000, 0.000000]
+                                        input: false
+                                        components:
+                                            Anchor:
+                                                hCenterAnchorEnabled: true
+                                            SizePolicy:
+                                                horizontalPolicy: "PercentOfParent"
+                                                verticalPolicy: "FixedSize"
+                                                verticalValue: 8.000000
+                                    -   class: "UIControl"
+                                        name: "Variants"
+                                        position: [-47.000000, 8.000000]
+                                        input: false
+                                        components:
+                                            Anchor:
+                                                hCenterAnchorEnabled: true
+                                            SizePolicy:
+                                                horizontalPolicy: "PercentOfParent"
+                                                verticalPolicy: "PercentOfChildrenSum"
+                                            FlowLayout:
+                                                hSpacing: 8.000000
+                                                vSpacing: 8.000000
+                                                useRtl: true
+                                            UIRepeatComponent:
+                                                control: "~res:/UI/Screens3/PreLogin/NicknameHint.yaml"
+                                                dataContainer: "nicknameData.displaySuggestions"
+                                                args:
+                                                    "input": "not nicknameData.confirmationPending"
+                                                    "index": "_index"
+                                                    "lastIndex": "nicknameData.suggestions.Size() - 1"
+                                                    "text": "_item"
+                                                    "selected": "selectedHint == _item"
+                                                eventActions:
+                                                - ["HINT_PRESSED", "OnNicknameHintPressed", "_item"]
+                            -   class: "UIControl"
+                                name: "ConfirmButton"
+                                position: [-36.000000, 224.000000]
+                                input: false
+                                components:
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                        verticalPolicy: "PercentOfFirstChild"
+                                children:
+                                -   prototype: "Button/Button"
+                                    name: "Button"
+                                    components:
+                                        Anchor:
+                                            leftAnchorEnabled: true
+                                            rightAnchorEnabled: true
+                                        UIDataParamsComponent:
+                                            args:
+                                                "sound": "eButtonSound.OK"
+                                                "caption": "\"Registration/NicknameConfiguration/Confirm\""
+                                                "enabled": "canConfirm"
+                                                "isLoading": "nicknameData.confirmationPending"
+                                            eventActions:
+                                            - ["ON_CLICK_BUTTON", "CONFIRMATION_REQUESTED", ""]
+            -   class: "UIControl"
+                name: "HintLayer"
+                input: false
+                components:
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    UIChildComponent0:
+                        condition: "errorShown"
+                        prototypePath: "~res:/UI/Screens3/Common/PopupMenu.yaml"
+                        args:
+                            "isAlignLeft": "false"
+                            "title": "\"\""
+                            "text": "localize(currentError)"
+                            "defaultTextHMax": "200"
+                            "masterId": "currentMasterId"
+                            "slaveAlign": "ePositionAlign.Top"
+                        eventActions:
+                        - ["FINISH_HIDE_POPUP_ANIMATION", "FINISH_HIDE_POPUP_ANIMATION", ""]
+    -   class: "UIControl"
+        name: "BackButton"
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                leftAnchor: 16.000000
+                topAnchorEnabled: true
+                topAnchor: 16.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+                args:
+                    "isBgVisible": "false"
+                    "image": "\"~res:/Gfx/Lobby/icons/icon_arrow-rounded\""
+                    "sound": "eButtonSound.CLOSE"
+                eventActions:
+                - ["ON_CLICK_BUTTON", "CANCEL_NICKNAME_CONFIGURATION", ""]

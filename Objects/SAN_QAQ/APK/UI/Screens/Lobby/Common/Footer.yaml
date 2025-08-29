@@ -18,6 +18,10 @@ Prototypes:
         UIAnchorSafeAreaComponent:
             leftSafeInset: "INSET"
             rightSafeInset: "INSET"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "isBlur", "true", "true"]
+            - ["string", "bgStyle", "\"grey-shark-70-bg\"", "\"grey-shark-70-bg\""]
         StyleSheet:
             styles: "~res:/UI/Screens3/SafeArea.style.yaml;~res:/UI/Screens3/Background.style.yaml;~res:/UI/Screens/Fonts.yaml"
     children:
@@ -41,4 +45,5 @@ Prototypes:
             components:
                 UIDataParamsComponent:
                     args:
-                        "bgStyle": "\"grey-shark-70-bg\""
+                        "isBlur": "isBlur"
+                        "bgStyle": "bgStyle"

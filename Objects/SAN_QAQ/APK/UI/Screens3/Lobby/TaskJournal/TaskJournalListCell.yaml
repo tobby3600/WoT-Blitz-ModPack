@@ -87,35 +87,6 @@ Prototypes:
                 styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Lobby/TaskJournal/TaskJournalTask.style.yaml"
         bindings:
         - ["classes", "when (displayingTask.isPremiumQuest) -> \"color-golden-quest-30-bg\", \"white-wild-sand-15-bg\""]
-        children:
-        -   class: "UIControl"
-            name: "Blur"
-            input: false
-            components:
-                Background:
-                    usePostProcessedSprite: true
-                UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                    needClearAlphaAfterRender: true
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent1:
-                    materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                UIPostProcessTextureComponent2:
-                    materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                    scale: 0.500000
-                    useVirtualCoordinateSystem: true
-                    minFilter: "Linear"
-                    magFilter: "Linear"
-                SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "PercentOfParent"
     -   class: "UIControl"
         name: "Fade"
         visible: true
@@ -441,47 +412,23 @@ Slots:
             horizontalFormula: "childrenSum + 16"
             verticalPolicy: "PercentOfMaxChild"
     children:
-    -   class: "UIControl"
-        name: "ButtonWrapper"
-        size: [32.000000, 32.000000]
-        input: false
+    -   prototype: "Button/Button"
+        name: "BuyPaidBattlePassButton"
         components:
-            SizePolicy:
-                horizontalPolicy: "FixedSize"
-                horizontalValue: 50.000000
-                verticalPolicy: "FixedSize"
-                verticalValue: 50.000000
-        bindings:
-        - ["visible", "displayingTask.isQuestLocked and not displayingTask.isLessonExist"]
-        children:
-        -   prototype: "Button/Button"
-            name: "Button"
-            components:
-                Anchor:
-                    hCenterAnchorEnabled: true
-                    vCenterAnchorEnabled: true
-                SizePolicy:
-                    horizontalPolicy: "FixedSize"
-                    horizontalValue: 52.000000
-                UIDataParamsComponent:
-                    args:
-                        "inputDisabled": "isChangingAnimationInProgress"
-                        "iconPath": "\"~res:/Gfx/UI/TaskJournal/Basic/icon_book\""
-                        "caption": "\"BattlePass/BuyPaidBattlePass/Button\""
-                        "type": "eButtonType.ALTERNATIVE"
-                        "size": "eButtonSize.NORMAL"
-                        "enabled": "true"
-                    eventActions:
-                    - ["ON_CLICK_BUTTON", "APPLY_QUEST_PRESSED", "displayingTask.slotId"]
-            children:
-            -   path: "TapArea/Content/CaptionWrapper"
-                components:
-                    Anchor:
-                        leftAnchor: 0.000000
-                        rightAnchor: 0.000000
-                children: []
-            -   path: "TapArea/Content/CaptionWrapper/Caption"
-                visible: false
+            Anchor:
+                vCenterAnchorEnabled: true
+            UIDataParamsComponent:
+                args:
+                    "inputDisabled": "isChangingAnimationInProgress"
+                    "iconPath": "\"~res:/Gfx/UI/TaskJournal/Basic/icon_book\""
+                    "caption": "\"BattlePass/BuyPaidBattlePass/Button\""
+                    "type": "eButtonType.ALTERNATIVE"
+                    "size": "eButtonSize.NORMAL"
+                    "visible": "displayingTask.isQuestLocked and not displayingTask.isLessonExist"
+                    "enabled": "true"
+                    "hasShadow": "false"
+                eventActions:
+                - ["ON_CLICK_BUTTON", "APPLY_QUEST_PRESSED", "displayingTask.slotId"]
     -   class: "UIControl"
         name: "BodyRegular"
         input: false
@@ -512,24 +459,20 @@ Slots:
             horizontalFormula: "childrenSum + 16"
             verticalPolicy: "PercentOfMaxChild"
     children:
-    -   class: "UIControl"
+    -   prototype: "Button/Button"
         name: "LessonButton"
-        input: false
         components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfFirstChild"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                condition: "displayingTask.isLessonExist and isGeneralPackLoaded"
-                prototypePath: "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+            Anchor:
+                vCenterAnchorEnabled: true
+            UIDataParamsComponent:
                 args:
                     "type": "eButtonType.OPTIONAL_LIGHT"
                     "sound": "eButtonSound.OK"
                     "image": "\"~res:/Gfx/Lobby/icons/icon_arrow_s\""
+                    "visible": "displayingTask.isLessonExist and isGeneralPackLoaded"
+                    "isBlur": "false"
                 eventActions:
                 - ["ON_CLICK_BUTTON", "SHOW_LESSON", "displayingTask.slotId"]
-        bindings:
-        - ["visible", "displayingTask.isLessonExist and isGeneralPackLoaded"]
     -   class: "UIControl"
         name: "BodyRegular"
         input: false
@@ -567,6 +510,7 @@ Slots:
                     "type": "eButtonType.OPTIONAL_LIGHT"
                     "sound": "eButtonSound.OPEN"
                     "image": "\"~res:/Gfx/Lobby/icons/icon_video_change_m\""
+                    "isBlur": "false"
                 eventActions:
                 - ["ON_CLICK_BUTTON", "ADVERTISING_REPLACE", "displayingTask.slotId"]
         bindings:
@@ -605,6 +549,7 @@ Slots:
                     "caption": "\"missionJournal/getReward/button\""
                     "locked": "isButtonLocked"
                     "inputDisabled": "isChangingAnimationInProgress"
+                    "hasShadow": "false"
                 eventActions:
                 - ["ON_CLICK_BUTTON", "APPLY_QUEST_PRESSED", "displayingTask.slotId"]
         children:
@@ -665,6 +610,7 @@ Slots:
                     "sound": "eButtonSound.OK"
                     "enabled": "true"
                     "iconPath": "when displayingTask.isQuestLocked -> \"~res:/Gfx/UI/TaskJournal/Basic/icon_book\", \"\""
+                    "hasShadow": "false"
                 eventActions:
                 - ["ON_CLICK_BUTTON", "APPLY_QUEST_PRESSED", "displayingTask.slotId"]
     -   class: "UIControl"

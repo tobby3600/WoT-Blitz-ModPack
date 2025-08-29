@@ -1,0 +1,653 @@
+Header:
+    version: 161
+Prototypes:
+-   class: "UIControl"
+    name: "TankProgress"
+    size: [432.000000, 124.000000]
+    input: false
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+            padding: "6;0"
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalValue: 432.000000
+            verticalPolicy: "PercentOfChildrenSum"
+        UISystemEventComponent:
+            onActivated: "Init"
+        UIDataParamsComponent:
+            params:
+            - ["eGameMode", "gameModeFromBattleResults", "eGameMode.Unknown", "eGameMode.Unknown"]
+            - ["bool", "isTutorialInProgress", "false", "false"]
+            - ["VehicleDataModel", "moduleInfoData", "{ }", "{ }"]
+            - ["TankStats", "moduleStatData", "{ }", "{ }"]
+            - ["bool", "isFirstShow", "false", "false"]
+            - ["bool", "isPremium", "false", "false"]
+            - ["TankProgressModel", "model", "{ \"bestVehicleModule\" = null; }", "{ \"bestVehicleModule\" = null; \"showProgressBarPart\" = true; \"isModuleAvailableForResearch\" = false; }"]
+            - ["int", "previousXp", "0", "456"]
+            - ["int", "battleXp", "0", "55"]
+            - ["int", "boosterXp", "0", "44"]
+            - ["int", "premXp", "0", "33"]
+            events:
+            - "OpenModulePageForResearch"
+        UIDataLocalVarsComponent:
+            data:
+            - ["bool", "moduleValid", "not isNull(model.bestModule)"]
+            - ["bool", "vehicleModuleValid", "not isNull(model.bestVehicleModule)"]
+            - ["bool", "didNotHaveModules", "isNull(model.bestModule) and isNull(model.bestVehicleModule)"]
+            - ["bool", "isAllModulesFinished", "didNotHaveModules and moduleStatData.isElite"]
+            - ["bool", "tankProgressOutOfLine", "model.progressBarData.hasXp and model.totalXp > (when moduleValid -> model.bestModule.cost, (when vehicleModuleValid -> model.bestVehicleModule.cost, 0))"]
+            - ["int", "currentXp", "when isFirstShow -> (when model.progressBarData.hasPreviousXp -> previousXp, 0), model.totalXp"]
+            - ["string", "classIconName", "when moduleValid and not isNull(moduleInfoData) -> (when moduleInfoData.tankClass == eTankClass.TANK_CLASS_LIGHT -> \"iconTankClassLight\", moduleInfoData.tankClass == eTankClass.TANK_CLASS_MEDIUM -> \"iconTankClassMedium\", moduleInfoData.tankClass == eTankClass.TANK_CLASS_HEAVY -> \"iconTankClassHeavy\", moduleInfoData.tankClass == eTankClass.TANK_CLASS_AT_SPG -> \"iconTankClassAtSpg\", \"\"), not moduleValid and not isNull(model.bestVehicleModule) and not isNull(model.bestVehicleModule.info) -> (when model.bestVehicleModule.info.tankClass == eTankClass.TANK_CLASS_LIGHT -> \"iconTankClassLight\", model.bestVehicleModule.info.tankClass == eTankClass.TANK_CLASS_MEDIUM -> \"iconTankClassMedium\", model.bestVehicleModule.info.tankClass == eTankClass.TANK_CLASS_HEAVY -> \"iconTankClassHeavy\", model.bestVehicleModule.info.tankClass == eTankClass.TANK_CLASS_AT_SPG -> \"iconTankClassAtSpg\", \"\"), \"\""]
+            - ["string", "classIcon", "when not isNull(moduleInfoData) -> (when isAllModulesFinished -> \"~res:/Gfx/Lobby/icons/tank-tiers/common/currency_elite_xp_common_xxl\", (when moduleValid -> (when moduleInfoData.tankClass == eTankClass.TANK_CLASS_NONE or moduleInfoData.tankClass == eTankClass.TANK_CLASS_MAX_VALUE or moduleInfoData.tankClass == eTankClass.TANK_CLASS_SPG -> \"\", str(eVehicleInfoSize.xl, eVehicleInfoSize, classIconName)), (when isNull(model.bestVehicleModule) or model.bestVehicleModule.info.tankClass == eTankClass.TANK_CLASS_NONE or model.bestVehicleModule.info.tankClass == eTankClass.TANK_CLASS_MAX_VALUE or model.bestVehicleModule.info.tankClass == eTankClass.TANK_CLASS_SPG -> \"\", str(eVehicleInfoSize.xl, eVehicleInfoSize, classIconName)))), \"\""]
+            - ["float", "animationTimeLocal", "0.750000"]
+            - ["int", "previousXpValue", "when isFirstShow and model.showProgressBarPart -> model.progressBarDataPart.previousXpBlockSize, model.progressBarData.previousXpBlockSize"]
+            - ["int", "battleXpValue", "when isFirstShow -> 0, model.progressBarData.battleXpBlockSize + model.progressBarData.boosterXpBlockSize"]
+            - ["int", "boosterXpValue", "when isFirstShow -> 0, model.progressBarData.boosterXpBlockSize"]
+            - ["int", "premXpValue", "when isFirstShow -> 0, model.progressBarData.premXpBlockSize"]
+            - ["int", "helperControlYSize", "when model.isModuleAvailableForResearch and not isTutorialInProgress -> (when moduleValid and not isFirstShow -> 40, when not moduleValid and not isFirstShow -> 28, 0), 0"]
+            - ["bool", "isMaxProgressVisible", "not (model.showProgressBarPart and isFirstShow)"]
+            - ["bool", "bestVehicleModuleValid", "not isNull(moduleInfoData) and not isNull(model.bestVehicleModule) and not isNull(model.bestVehicleModule.info)"]
+            - ["eTankClass", "vehicleTankClass", "when not isNull(model.bestVehicleModule) -> model.bestVehicleModule.info.tankClass, eTankClass.TANK_CLASS_NONE"]
+            - ["eTankClass", "tankClassArg", "when moduleValid -> moduleInfoData.tankClass, vehicleTankClass"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/BattleResults/Economic/TankProgress.actions"
+    children:
+    -   class: "UIControl"
+        name: "Module"
+        input: false
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+                bottomAnchorEnabled: true
+                bottomAnchor: 52.000000
+            LinearLayout:
+                orientation: "TopDown"
+            IgnoreLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfChildrenSum"
+        bindings:
+        - ["Anchor.rightAnchor", "when moduleValid -> 14, 0"]
+        - ["LinearLayout.spacing", "when moduleValid -> 8, 4"]
+        children:
+        -   class: "UIControl"
+            name: "IconWrapper"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfLastChild"
+                    verticalPolicy: "PercentOfLastChild"
+            children:
+            -   class: "UIControl"
+                name: "TankClassIcon"
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_ALIGNED"
+                        perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                    Anchor:
+                        leftAnchorEnabled: true
+                        topAnchorEnabled: true
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                bindings:
+                - ["classes", "when not isNull(moduleInfoData) -> (when not moduleValid and not isNull(model.bestVehicleModule) and not isNull(model.bestVehicleModule.info) -> (when model.bestVehicleModule.info.isCollectible -> \"blue-rimmi-bg\", model.bestVehicleModule.info.isPremium -> \"yellow-lightning-bg\", model.bestVehicleModule.tankStatsModel.isPremiumized -> \"yellow-chalky-bg\", \"white-wild-sand-bg\"), (when moduleInfoData.isCollectible -> \"blue-rimmi-bg\", moduleInfoData.isPremium -> \"yellow-lightning-bg\", moduleStatData.isPremiumized -> \"yellow-chalky-bg\", \"white-wild-sand-bg\")), \"\""]
+                - ["Background.sprite", "classIcon"]
+                - ["Background.color", "when not moduleValid and not isNull(model.bestVehicleModule) and not isNull(model.bestVehicleModule.info) -> (when model.bestVehicleModule.info.isCollectible -> hsb(200, 55, 100), model.bestVehicleModule.info.isPremium -> hsb(43, 83, 100), model.bestVehicleModule.tankStatsModel.isPremiumized -> hsb(37, 40, 90), hsb(0, 0, 96)), (when moduleInfoData.isCollectible -> hsb(200, 55, 100), moduleInfoData.isPremium -> hsb(43, 83, 100), moduleStatData.isPremiumized -> hsb(37, 40, 90), hsb(0, 0, 96))"]
+                - ["Anchor.leftAnchor", "when isAllModulesFinished -> 8, (when moduleValid -> -70, when vehicleModuleValid -> -48, 0)"]
+                - ["Anchor.topAnchor", "when isAllModulesFinished -> -4, (when moduleValid -> -36, when vehicleModuleValid -> -20, 0)"]
+            -   class: "UIControl"
+                name: "IconFx"
+                pivot: [0.500000, 0.500000]
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    UIChildComponent0:
+                        childType: "kControl"
+                        condition: "not moduleValid"
+                        control: "TankFx"
+                    UIChildComponent1:
+                        childType: "kControl"
+                        condition: "moduleValid"
+                        control: "ModuleFx"
+            -   class: "UIControl"
+                name: "Icon"
+                size: [97.000000, 60.000000]
+                input: false
+                components:
+                    UITextureComponent: {}
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        verticalPolicy: "FixedSize"
+                bindings:
+                - ["visible", "not isAllModulesFinished"]
+                - ["UITextureComponent.spritePath", "when isAllModulesFinished -> \"\", (when moduleValid -> model.bestModule.iconPath, (when vehicleModuleValid -> model.bestVehicleModule.info.bigIconPath, \"\"))"]
+                - ["SizePolicy.horizontalValue", "when moduleValid -> 64, 160"]
+                - ["SizePolicy.verticalValue", "when moduleValid -> 64, 100"]
+                children:
+                -   class: "UIControl"
+                    name: "CheckMarkHolder"
+                    input: false
+                    components:
+                        Anchor:
+                            rightAnchorEnabled: true
+                            bottomAnchorEnabled: true
+                        IgnoreLayout: {}
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 24.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 24.000000
+                        UIChildComponent0:
+                            condition: "model.isModuleAlreadyResearched"
+                            prototypePath: "~res:/UI/Screens3/Lobby/Common/CheckMark.yaml"
+                            args:
+                                "type": "eCheckMarkType.kLarge"
+                                "isVisible": "true"
+                    bindings:
+                    - ["visible", "model.isModuleAlreadyResearched"]
+                    - ["Anchor.rightAnchor", "when moduleValid -> -4, 4"]
+                    - ["Anchor.bottomAnchor", "when moduleValid -> -4, 4"]
+            -   class: "UIControl"
+                name: "VehicleInfoHolder"
+                input: false
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfFirstChild"
+                        verticalPolicy: "PercentOfFirstChild"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Vehicle/VehicleInfo.yaml"
+                        args:
+                            "onlyLevelVisible": "moduleValid"
+                            "class": "when bestVehicleModuleValid -> tankClassArg, eTankClass.TANK_CLASS_NONE"
+                            "type": "when not isNull(moduleInfoData) and not isNull(model.bestVehicleModule) and not isNull(model.bestVehicleModule.info) -> (when moduleValid -> (when moduleInfoData.isPremium -> eVehicleDescriptionType.PREMIUM, moduleInfoData.isCollectible -> eVehicleDescriptionType.COLLECTIBLE, moduleStatData.isPremiumized -> eVehicleDescriptionType.PREMIUMISED, eVehicleDescriptionType.NORMAL), (when model.bestVehicleModule.info.isPremium -> eVehicleDescriptionType.PREMIUM, model.bestVehicleModule.info.isCollectible -> eVehicleDescriptionType.COLLECTIBLE, model.bestVehicleModule.tankStatsModel.isPremiumized -> eVehicleDescriptionType.PREMIUMISED, eVehicleDescriptionType.NORMAL)), eVehicleDescriptionType.NORMAL"
+                            "elite": "when not isNull(moduleInfoData) and not isNull(model.bestVehicleModule) and not isNull(model.bestVehicleModule.info) -> (when moduleValid -> moduleStatData.isElite, model.bestVehicleModule.tankStatsModel.isElite), false"
+                            "level": "when not isNull(moduleInfoData) and not isNull(model.bestVehicleModule) and not isNull(model.bestVehicleModule.info) -> (when moduleValid -> moduleInfoData.level, model.bestVehicleModule.info.level), 1"
+                bindings:
+                - ["visible", "not isAllModulesFinished"]
+                - ["Anchor.leftAnchor", "when moduleValid -> -4, 0"]
+        -   class: "UIControl"
+            name: "HelperControl"
+            input: false
+            components:
+                Anchor:
+                    bottomAnchorEnabled: true
+                SizePolicy:
+                    verticalPolicy: "FixedSize"
+            bindings:
+            - ["SizePolicy.verticalValue", "helperControlYSize"]
+        -   class: "UIControl"
+            name: "Button"
+            input: false
+            components:
+                UIOpacityComponent:
+                    opacity: 0.000000
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                    bottomAnchor: -24.000000
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfFirstChild"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Button/PremButton.yaml"
+                    args:
+                        "animatedInitialization": "true"
+                        "enable": "true"
+                        "isPremiumColor": "false"
+                        "caption": "\"#hangar_showcase:ResearchOkButton\""
+                    eventActions:
+                    - ["ON_CLICK_BUTTON", "OpenModulePageForResearch", ""]
+            bindings:
+            - ["visible", "model.isModuleAvailableForResearch and gameModeFromBattleResults != eGameMode.Tutorial"]
+    -   class: "UIControl"
+        name: "TankProgressBar"
+        input: false
+        components:
+            LinearLayout: {}
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 432.000000
+                verticalPolicy: "FixedSize"
+                verticalValue: 22.000000
+        children:
+        -   class: "UIControl"
+            name: "ProgressLines"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                UIOpacityComponent:
+                    opacity: 1.000000
+                Anchor:
+                    vCenterAnchorEnabled: true
+                LinearLayout:
+                    spacing: 2.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 12.000000
+            bindings:
+            - ["visible", "not isAllModulesFinished"]
+            children:
+            -   class: "UIControl"
+                name: "PreviousXp"
+                input: false
+                components:
+                    UIOpacityComponent:
+                        opacity: 0.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfFirstChild"
+                        verticalPolicy: "PercentOfFirstChild"
+                    UIChildComponent0:
+                        childType: "kPrototype"
+                        condition: "model.progressBarData.hasPreviousXp"
+                        prototypePath: "~res:/UI/Screens3/Lobby/BattleResults/Economic/TankProgressGrayLine.yaml"
+                        args:
+                            "rectSize": "previousXpValue"
+            -   class: "UIControl"
+                name: "BattleXp"
+                position: [397.000000, 0.000000]
+                input: false
+                components:
+                    UIOpacityComponent:
+                        opacity: 0.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfFirstChild"
+                        verticalPolicy: "PercentOfFirstChild"
+                    UIChildComponent0:
+                        childType: "kPrototype"
+                        condition: "model.progressBarData.hasXp"
+                        prototypePath: "~res:/UI/Screens3/Lobby/BattleResults/Economic/TankProgressLine.yaml"
+                        args:
+                            "shadow": "rgb(28, 129, 184)"
+                            "medium": "rgb(78, 197, 255)"
+                            "dark": "rgb(85, 168, 208)"
+                            "light": "rgb(110, 209, 255)"
+                            "lightAlpha": "rgba(110, 209, 255, 0)"
+                            "rectSize": "battleXpValue"
+                bindings:
+                - ["visible", "model.progressBarData.hasXp"]
+            -   class: "UIControl"
+                name: "PremXp"
+                input: false
+                components:
+                    UIOpacityComponent:
+                        opacity: 0.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfFirstChild"
+                        verticalPolicy: "PercentOfFirstChild"
+                    UIChildComponent0:
+                        childType: "kPrototype"
+                        condition: "isPremium"
+                        prototypePath: "~res:/UI/Screens3/Lobby/BattleResults/Economic/TankProgressLine.yaml"
+                        args:
+                            "shadow": "hsba(15, 86, 93, 1)"
+                            "medium": "hsba(44, 27, 100, 1)"
+                            "dark": "hsba(43, 45, 100, 1)"
+                            "light": "hsba(44, 27, 100, 1)"
+                            "lightAlpha": "hsba(44, 27, 100, 0)"
+                            "rectSize": "premXpValue"
+                    UIChildComponent1:
+                        childType: "kPrototype"
+                        condition: "not isPremium"
+                        prototypePath: "~res:/UI/Screens3/Lobby/BattleResults/Economic/TankProgressHollowLine.yaml"
+                        args:
+                            "rectSize": "premXpValue"
+                bindings:
+                - ["visible", "model.progressBarData.hasPremXp"]
+        -   class: "UIControl"
+            name: "Scale"
+            input: false
+            components:
+                ClipContent:
+                    top: false
+                    bottom: false
+                Anchor:
+                    rightAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                LinearLayout:
+                    orientation: "RightToLeft"
+                SizePolicy:
+                    horizontalPolicy: "Formula"
+                    horizontalFormula: "parentRest"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 10.000000
+            bindings:
+            - ["visible", "not isAllModulesFinished and not model.badData"]
+            children:
+            -   class: "UIControl"
+                name: "WideScale"
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_TILED"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_curve-progress_decoration-2"
+                        perPixelAccuracy: "PER_PIXEL_ACCURACY_FORCED"
+                    Anchor:
+                        rightAnchorEnabled: true
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "Formula"
+                        horizontalFormula: "(round(parentRest/26))*26"
+                        verticalPolicy: "PercentOfContent"
+                bindings:
+                - ["Background.color", "when isPremium -> hsba(28, 86, 95, 0.500000), hsba(0, 0, 96, 0.250000)"]
+            -   class: "UIControl"
+                name: "SmallScale"
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_TILED"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_curve-progress_decoration-1"
+                        perPixelAccuracy: "PER_PIXEL_ACCURACY_FORCED"
+                    Anchor:
+                        rightAnchorEnabled: true
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "Formula"
+                        horizontalFormula: "(round((parentRest - 13)/26))*26"
+                        verticalPolicy: "PercentOfContent"
+                bindings:
+                - ["Background.color", "when isPremium -> hsba(28, 86, 95, 0.500000), hsba(0, 0, 96, 0.250000)"]
+        -   class: "UIControl"
+            name: "ScaleHorizLine"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 1.000000
+            children:
+            -   class: "UIControl"
+                name: "PremiumFxHolder"
+                pivot: [0.500000, 0.500000]
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        hCenterAnchor: 65.000000
+                    UIChildComponent0:
+                        childType: "kControl"
+                        condition: "isPremium"
+                        control: "PremiumFx"
+            -   class: "UIControl"
+                name: "Line"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_TO_RECT"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                bindings:
+                - ["Background.color", "when isPremium -> hsba(28, 86, 95, 0.800000), hsba(0, 0, 96, 0.800000)"]
+            -   class: "UIControl"
+                name: "DecorLineWrapper"
+                input: false
+                components:
+                    Anchor:
+                        rightAnchorEnabled: true
+                        rightAnchor: 55.000000
+                    LinearLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 1.000000
+                children:
+                -   class: "UIControl"
+                    name: "LineLeft"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_FILL"
+                        UIGradientComponent:
+                            startColor: [1.000000, 1.000000, 1.000000, 0.843137]
+                            finishColor: [1.000000, 1.000000, 1.000000, 0.000000]
+                            orientation: "RightToLeft"
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 35.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 1.000000
+                -   class: "UIControl"
+                    name: "LineRigrht"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_FILL"
+                        UIGradientComponent:
+                            startColor: [1.000000, 1.000000, 1.000000, 0.843137]
+                            finishColor: [1.000000, 1.000000, 1.000000, 0.000000]
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 35.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 1.000000
+        -   class: "UIControl"
+            name: "ScaleVerLineContainer"
+            input: false
+            components:
+                ClipContent:
+                    left: false
+                    right: false
+                Anchor:
+                    rightAnchorEnabled: true
+                    rightAnchor: -8.000000
+                    bottomAnchorEnabled: true
+                    bottomAnchor: 0.900000
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 20.000000
+            bindings:
+            - ["visible", "not isAllModulesFinished"]
+            children:
+            -   class: "UIControl"
+                name: "ScaleVerLine"
+                size: [32.000000, 32.000000]
+                angle: 25.000000
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_FILL"
+                        colorInherit: "COLOR_MULTIPLY_ON_PARENT"
+                    Anchor:
+                        bottomAnchorEnabled: true
+                        bottomAnchor: -2.000000
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 1.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 20.000000
+                bindings:
+                - ["Background.color", "when isPremium -> hsba(28, 86, 95, 0.500000), hsba(0, 0, 96, 0.250000)"]
+    -   class: "UIControl"
+        name: "ValueWrapper"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfMaxChild"
+        children:
+        -   class: "UIControl"
+            name: "ProgressWrapper"
+            input: false
+            components:
+                UIOpacityComponent:
+                    opacity: 1.000000
+                Anchor:
+                    rightAnchorEnabled: true
+                LinearLayout:
+                    spacing: 4.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 26.000000
+            children:
+            -   class: "UIControl"
+                name: "CurrentProgress"
+                input: false
+                components:
+                    UITextComponent:
+                        fontPath: "~res:/Fonts/XinGothic-SC-W12.otf"
+                        fontSize: 17.000000
+                        lineHeight: 24.000000
+                        baseLine: 6.000000
+                        letterSpacing: 0.200000
+                        color: [0.960784, 0.960784, 0.960784, 1.000000]
+                        colorInheritType: "COLOR_IGNORE_PARENT"
+                        align: ["LEFT", "VCENTER"]
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                bindings:
+                - ["UITextComponent.text", "str1000Separated(currentXp)"]
+            -   class: "UIControl"
+                name: "MaxProgressWrapper"
+                position: [33.000000, 3.000000]
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                        vCenterAnchor: 2.000000
+                    LinearLayout:
+                        spacing: 2.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfMaxChild"
+                bindings:
+                - ["visible", "isMaxProgressVisible"]
+                children:
+                -   class: "UIControl"
+                    name: "Label"
+                    input: false
+                    components:
+                        UITextComponent:
+                            text: "/"
+                            fontPath: "~res:/Fonts/XinGothic-SC-W12.otf"
+                            fontSize: 13.000000
+                            lineHeight: 20.000000
+                            baseLine: 6.000000
+                            letterSpacing: 0.500000
+                            color: [0.960784, 0.960784, 0.960784, 0.501961]
+                            colorInheritType: "COLOR_IGNORE_PARENT"
+                            align: ["LEFT", "VCENTER"]
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                    bindings:
+                    - ["visible", "not isAllModulesFinished"]
+                -   class: "UIControl"
+                    name: "MaxProgress"
+                    input: false
+                    components:
+                        UITextComponent:
+                            fontPath: "~res:/Fonts/XinGothic-SC-W12.otf"
+                            fontSize: 13.000000
+                            lineHeight: 20.000000
+                            baseLine: 6.000000
+                            letterSpacing: 0.500000
+                            color: [0.960784, 0.960784, 0.960784, 0.501961]
+                            colorInheritType: "COLOR_IGNORE_PARENT"
+                            align: ["LEFT", "VCENTER"]
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                    bindings:
+                    - ["visible", "not isAllModulesFinished"]
+                    - ["UITextComponent.text", "when moduleValid -> str1000Separated(model.bestModule.cost), (when vehicleModuleValid -> str1000Separated(model.bestVehicleModule.cost), \"\")"]
+                -   class: "UIControl"
+                    name: "EliteXpIcon"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_SCALE_TO_RECT"
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                            vCenterAnchor: -2.000000
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 16.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 16.000000
+                    bindings:
+                    - ["Background.sprite", "when isAllModulesFinished -> \"~res:/Gfx/Lobby/currency/currency_elite-xp_s\", \"~res:/Gfx/Lobby/currency/currency_battle-xp_m\""]
+                -   class: "UIControl"
+                    name: "DiscountLabelWrapper"
+                    input: false
+                    components:
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        LinearLayout:
+                            padding: "4;0"
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 36.000000
+                            verticalPolicy: "PercentOfFirstChild"
+                    bindings:
+                    - ["visible", "not moduleValid and vehicleModuleValid and model.bestVehicleModule.discount != 0"]
+                    children:
+                    -   class: "UIControl"
+                        name: "DiscountLabelHolder"
+                        input: false
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfFirstChild"
+                                verticalPolicy: "PercentOfFirstChild"
+                            UIChildComponent0:
+                                condition: "not moduleValid and vehicleModuleValid and model.bestVehicleModule.discount != 0"
+                                prototypePath: "~res:/UI/Screens3/Common/DiscountLabel.yaml"
+                                args:
+                                    "discount": "model.bestVehicleModule.discount * 0.010000"
+Slots:
+-   class: "UIParticles"
+    name: "ModuleFx"
+    scale: [1.500000, 1.500000]
+    visible: false
+    input: false
+    autoStart: true
+    startDelay: 0.200000
+    bindings:
+    - ["effectPath", "when moduleValid -> \"~res:/3d/FX/UI/BattlePass/GlowReward.sc2\", \"\""]
+-   class: "UIParticles"
+    name: "TankFx"
+    scale: [2.000000, 2.000000]
+    visible: false
+    input: false
+    autoStart: true
+    startDelay: 0.200000
+    bindings:
+    - ["effectPath", "when moduleValid -> \"\", \"~res:/3d/FX/UI/BattlePass/GlowReward.sc2\""]
+-   class: "UIParticles"
+    name: "PremiumFx"
+    scale: [1.000000, 0.200000]
+    input: false
+    autoStart: true
+    startDelay: 0.400000
+    bindings:
+    - ["effectPath", "when isPremium -> \"~res:/3d/FX/UI/BattleResult/TeamTable/GlowLineLose.sc2\", \"\""]

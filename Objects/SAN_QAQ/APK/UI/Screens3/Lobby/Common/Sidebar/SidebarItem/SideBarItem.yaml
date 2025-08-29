@@ -33,6 +33,7 @@ Prototypes:
             - ["eCurrentScreen", "currentScreen", "eCurrentScreen.kUnknown", "eCurrentScreen.kUnknown"]
             - ["string", "attachId", "\"\"", "\"\""]
             - ["bool", "select", "false", "true"]
+            - ["bool", "isFlag", "false", "false"]
             - ["string", "icon", "\"\"", "\"~res:/Gfx/UI/Hangar/SidebarIcons\""]
             - ["string", "textureParams", "\"saturation,0\"", "\"saturation,0\""]
             - ["bool", "lock", "false", "true"]
@@ -118,15 +119,10 @@ Prototypes:
                 styles: "~res:/UI/Screens3/Lobby/Common/Sidebar/SidebarItem/SideBarItem.style.yaml"
         children:
         -   class: "UIControl"
-            name: "Icon"
-            size: [32.000000, 32.000000]
+            name: "IconContent"
             input: false
-            classes: "content white-wild-sand-bg"
+            classes: "content"
             components:
-                UITextureComponent:
-                    materialPath: "~res:/Materials.custom/2d.Textured.Saturation.material"
-                    drawType: "DRAW_SCALE_PROPORTIONAL"
-                    perPixelAccuracy: "PER_PIXEL_ACCURACY_FORCED"
                 UIOpacityComponent: {}
                 SizePolicy:
                     horizontalPolicy: "FixedSize"
@@ -134,10 +130,43 @@ Prototypes:
                     verticalPolicy: "FixedSize"
                     verticalValue: 48.000000
                 StyleSheet:
-                    styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Lobby/Common/Sidebar/SidebarItem/SideBarItem.style.yaml"
-            bindings:
-            - ["UITextureComponent.spritePath", "icon"]
-            - ["UITextureComponent.materialParams", "textureParams"]
+                    styles: "~res:/UI/Screens3/Lobby/Common/Sidebar/SidebarItem/SideBarItem.style.yaml"
+            children:
+            -   class: "UIControl"
+                name: "Icon"
+                size: [32.000000, 32.000000]
+                input: false
+                classes: "white-wild-sand-bg"
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_PROPORTIONAL"
+                        perPixelAccuracy: "PER_PIXEL_ACCURACY_FORCED"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["visible", "not isFlag"]
+                - ["Background.sprite", "icon"]
+            -   class: "UIControl"
+                name: "Flag"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    UITextureComponent:
+                        materialPath: "~res:/Materials.custom/2d.Textured.Saturation.material"
+                        drawType: "DRAW_SCALE_PROPORTIONAL"
+                        perPixelAccuracy: "PER_PIXEL_ACCURACY_FORCED"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Lobby/Common/Sidebar/SidebarItem/SideBarItem.style.yaml"
+                bindings:
+                - ["visible", "isFlag"]
+                - ["UITextureComponent.spritePath", "icon"]
+                - ["UITextureComponent.materialParams", "textureParams"]
         -   class: "UIControl"
             name: "Lock"
             size: [32.000000, 32.000000]

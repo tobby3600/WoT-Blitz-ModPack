@@ -57,8 +57,8 @@ Prototypes:
             - ["int", "screenSize", "when isNull(model) -> 0, model.screenSize"]
             - ["int", "scrollPositionForNs", "0"]
             - ["eNewsTab", "activeTabLocal", "activeTab"]
-            - ["int", "scrollPosition", "when isGamepad or isNull(model) -> 0, model.scrollPosition"]
-            - ["int", "selectedItem", "when isGamepad and (not isNull(model)) -> model.selectedItem, -1"]
+            - ["int", "scrollPosition", "when isNull(model) -> 0, model.scrollPosition"]
+            - ["int", "selectedItem", "-1"]
         UIDataLocalBindingsComponent:
             data:
             - ["float", "opacity", "clamp(float((abs(scrollPosition)) / 24.000000), 0.000000, 1.000000)"]
@@ -80,14 +80,10 @@ Prototypes:
             modelFieldExpression: "scrollPosition"
             dataExpression: "_event"
         UIDataOnEventComponent3:
-            eventName: "CHANGE_SCROLL_POSITION_NS"
-            modelFieldExpression: "scrollPositionForNs"
-            dataExpression: "_event"
-        UIDataOnEventComponent4:
             eventName: "CHANGE_SCREEN_SIZE"
             modelFieldExpression: "screenSize"
             dataExpression: "int(_event)"
-        UIDataOnEventComponent5:
+        UIDataOnEventComponent4:
             eventName: "SHOW_FADE"
             modelFieldExpression: "showFade"
             dataExpression: "_event"
@@ -101,15 +97,10 @@ Prototypes:
             eventName: "CHANGE_HEADER_OPACITY"
             eventData: "0"
         UIEventOnDataComponent2:
-            watchedDataExpression: "scrollPositionForNs"
-            ifExpression: "isGamepad"
-            eventName: "SCROLL_POSITION_FOR_SELECTED_ITEM_CHANGED"
-            eventData: "screenSize - scrollPositionForNs"
-        UIEventOnDataComponent3:
             watchedDataExpression: "screenSize"
             eventName: "SCREEN_SIZE_WAS_CHANGED"
             eventData: "screenSize"
-        UIEventOnDataComponent4:
+        UIEventOnDataComponent3:
             watchedDataExpression: "showFade"
             ifExpression: "showFade == true"
             eventName: "OPEN_NEWS"
@@ -128,19 +119,6 @@ Prototypes:
             StyleSheet:
                 styles: "~res:/UI/Screens3/Color.style.yaml"
     -   class: "UIControl"
-        name: "NavigationPanel"
-        size: [32.000000, 32.000000]
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                condition: "isGamepad"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/NavigationPanel.yaml"
-                args:
-                    "content": "NewsNavigatePanel"
-    -   class: "UIControl"
         name: "Content"
         position: [0.000000, 112.000000]
         size: [32.000000, 32.000000]
@@ -157,7 +135,6 @@ Prototypes:
                     "markReadIsVisible": "session.newsNotifications.unreadCount > 0"
                     "model": "model"
                 eventActions:
-                - ["CHANGE_SCROLL_POSITION_NS", "CHANGE_SCROLL_POSITION_NS", "_event.position"]
                 - ["CHANGE_POSITION_SELECTED_ITEM", "CHANGE_POSITION_SELECTED_ITEM", "_event"]
                 - ["NEWS_TAB_INIT", "NEWS_TAB_INIT", ""]
                 - ["SCROLL_TO_SELECTED_ITEM", "SCROLL_TO_SELECTED_ITEM", ""]
@@ -299,77 +276,3 @@ Slots:
                 styles: "~res:/UI/Screens3/Font.style.yaml"
         bindings:
         - ["UITextComponent.text", "title"]
--   class: "UIControl"
-    name: "NewsNavigatePanel"
-    size: [768.000000, 40.000000]
-    input: false
-    components:
-        LinearLayout:
-            spacing: 24.000000
-            dynamicSpacing: true
-        SizePolicy:
-            horizontalPolicy: "PercentOfChildrenSum"
-            verticalPolicy: "PercentOfMaxChild"
-    children:
-    -   class: "UIControl"
-        name: "Back"
-        size: [32.000000, 32.000000]
-        input: false
-        components:
-            LinearLayout:
-                spacing: 24.000000
-            SizePolicy:
-                horizontalPolicy: "PercentOfChildrenSum"
-                verticalPolicy: "PercentOfMaxChild"
-            UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                args:
-                    "text": "\"Switch/HubridPanel/Lobby/Back\""
-                    "icon": "eNintendoSwitchControls.B"
-    -   class: "UIControl"
-        name: "ChoiceNews"
-        size: [32.000000, 32.000000]
-        input: false
-        components:
-            LinearLayout:
-                spacing: 24.000000
-            SizePolicy:
-                horizontalPolicy: "PercentOfChildrenSum"
-                verticalPolicy: "PercentOfMaxChild"
-            UIChildComponent0:
-                condition: "activeTabLocal == eNewsTab.News and (not Empty(session.newsNotifications.items))"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                args:
-                    "text": "\"Switch/HubridPanel/News/ChoiceNews\""
-                    "icon": "eNintendoSwitchControls.AllArrows"
-    -   class: "UIControl"
-        name: "OpenNews"
-        size: [32.000000, 32.000000]
-        input: false
-        components:
-            Anchor:
-                hCenterAnchorEnabled: true
-            SizePolicy:
-                horizontalPolicy: "PercentOfFirstChild"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                condition: "activeTabLocal == eNewsTab.News and (not Empty(session.newsNotifications.items))"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                args:
-                    "text": "\"Switch/HubridPanel/News/OpenNews\""
-                    "icon": "eNintendoSwitchControls.Y"
-    -   class: "UIControl"
-        name: "MarkAsReadedAllNews"
-        size: [32.000000, 32.000000]
-        input: false
-        components:
-            Anchor: {}
-            SizePolicy:
-                horizontalPolicy: "PercentOfFirstChild"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                condition: "activeTabLocal == eNewsTab.News and session.newsNotifications.unreadCount > 0"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                args:
-                    "text": "\"Switch/HubridPanel/News/MarkAsReadedAllNews\""
-                    "icon": "eNintendoSwitchControls.X"

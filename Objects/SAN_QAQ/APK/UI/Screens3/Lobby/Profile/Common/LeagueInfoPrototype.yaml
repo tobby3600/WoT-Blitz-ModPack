@@ -1,7 +1,5 @@
 Header:
     version: 157
-ImportedPackages:
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "LeaguesPrototype"
@@ -23,35 +21,40 @@ Prototypes:
             data:
             - ["int", "size", "when league == eLeague.BRONZE -> 10, league == eLeague.SILVER -> 42, league == eLeague.GOLD -> 74, league == eLeague.PLATINUM -> 108, league == eLeague.DIAMOND -> 140, 0"]
             - ["string", "colorStyle", "str(league, eLeague, \"color\")"]
-            - ["string", "iconScale", "when isCurrentLeague -> \"1;1\", \"0.6;0.6\""]
         StyleSheet:
             inheritsStylesFromParent: true
             styles: "~res:/UI/Screens3/Lobby/Profile/Common/LeagueInfoPrototype.yaml"
     bindings:
-    - ["SizePolicy.horizontalValue", "sizeX"]
+    - ["SizePolicy.horizontalValue", "when isCurrentLeague -> sizeX + 16, sizeX"]
     children:
-    -   prototype: "BlurModified/BlurModified"
-        name: "Blur"
-        components:
-            Anchor:
-                bottomAnchorEnabled: true
-            UIDataParamsComponent:
-                args:
-                    "bgStyle": "when isCurrentLeague -> \"white-wild-sand-25-bg\", \"white-wild-sand-5-bg\""
-                    "blurScale": "when isCurrentLeague -> 0.250000, 0.500000"
-                    "roundCorner": "\"8\""
     -   class: "UIControl"
-        name: "CommonBackground"
+        name: "Background"
         input: false
         components:
-            Anchor:
-                bottomAnchorEnabled: true
+            Background: {}
+            UIRoundedCornersComponent:
+                radius: "8"
+            IgnoreLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
+        bindings:
+        - ["classes", "when isCurrentLeague -> \"gold-shining-20-bg\", \"white-wild-sand-15-bg\""]
+    -   class: "UIControl"
+        name: "Gradient"
+        input: false
+        components:
+            Background: {}
             UIGradientComponent:
-                startColor: [1.000000, 1.000000, 1.000000, 0.000000]
-                endColor: [1.000000, 1.000000, 1.000000, 0.500000]
+                startColor: [0.960784, 0.960784, 0.960784, 0.000000]
+                endColor: [0.960784, 0.960784, 0.960784, 0.500000]
                 orientation: "TopDown"
             UIRoundedCornersComponent:
                 radius: "8"
+            Anchor:
+                bottomAnchorEnabled: true
             IgnoreLayout: {}
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
@@ -187,7 +190,7 @@ Prototypes:
             components:
                 Anchor:
                     leftAnchorEnabled: true
-                    leftAnchor: 58.000000
+                    leftAnchor: 64.000000
                     bottomAnchorEnabled: true
                     bottomAnchor: -10.000000
                 IgnoreLayout: {}

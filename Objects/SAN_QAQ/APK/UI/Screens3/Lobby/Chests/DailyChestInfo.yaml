@@ -1,7 +1,5 @@
 Header:
     version: 144
-ImportedPackages:
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "DailyChestInfo"
@@ -76,18 +74,6 @@ Prototypes:
                 - ["ON_INFO_CLICKED", "ON_INFO_CLICKED", ""]
                 - ["ON_REWARD_CLICKED", "ON_REWARD_CLICKED", "_event.resource, _event.name"]
                 - ["EXTRA2_ACTION", "MainActionRequested", ""]
-    -   class: "UIControl"
-        name: "NavigationPanel"
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                condition: "isGamepad"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/NavigationPanel.yaml"
-                args:
-                    "content": "NavigationPanel"
 Slots:
 -   class: "UIControl"
     name: "Footer"
@@ -214,10 +200,15 @@ Slots:
                         "timerSize": "eTimerSize.Medium"
                         "bgVisible": "true"
                         "bgColorStyle": "\"white-wild-sand-25-bg\""
+                        "isBlur": "false"
 -   class: "UIControl"
     name: "FreeLeft"
     input: false
+    classes: "white-wild-sand-15-bg"
     components:
+        Background: {}
+        UIRoundedCornersComponent:
+            radius: "4"
         LinearLayout:
             padding: "4"
             spacing: 8.000000
@@ -225,18 +216,13 @@ Slots:
             horizontalPolicy: "PercentOfChildrenSum"
             verticalPolicy: "FixedSize"
             verticalValue: 32.000000
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Color.style.yaml"
     children:
-    -   prototype: "BlurModified/BlurModified"
-        name: "Blur"
-        components:
-            UIDataParamsComponent:
-                args:
-                    "bgStyle": "\"white-wild-sand-25-bg\""
-                    "roundCorner": "\"4\""
     -   class: "UIControl"
         name: "text"
         input: false
-        classes: "t-subtitle regular color=white-wild-sand-text"
+        classes: "t-subtitle regular white-wild-sand-text"
         components:
             UITextComponent:
                 colorInheritType: "COLOR_IGNORE_PARENT"
@@ -253,7 +239,7 @@ Slots:
     -   class: "UIControl"
         name: "count"
         input: false
-        classes: "t-subtitle regular color=white-wild-sand-text"
+        classes: "t-subtitle regular white-wild-sand-text"
         components:
             UITextComponent:
                 colorInheritType: "COLOR_IGNORE_PARENT"
@@ -267,37 +253,3 @@ Slots:
                 styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
         bindings:
         - ["UITextComponent.text", "str(dailyChest.chestData.freeChestsToOpen)"]
--   class: "UIControl"
-    name: "NavigationPanel"
-    input: false
-    components:
-        LinearLayout:
-            spacing: 24.000000
-        SizePolicy:
-            horizontalPolicy: "PercentOfChildrenSum"
-            verticalPolicy: "PercentOfMaxChild"
-    children:
-    -   class: "UIControl"
-        name: "Back"
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfFirstChild"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                args:
-                    "text": "\"Switch/HubridPanel/Lobby/Back\""
-                    "icon": "eNintendoSwitchControls.B"
-    -   class: "UIControl"
-        name: "Information"
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfFirstChild"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                args:
-                    "text": "buttonCaption"
-                    "icon": "eNintendoSwitchControls.Y"

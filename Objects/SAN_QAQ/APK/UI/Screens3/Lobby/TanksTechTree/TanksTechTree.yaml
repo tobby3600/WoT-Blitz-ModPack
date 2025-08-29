@@ -42,7 +42,6 @@ Prototypes:
             - "BACK_EVENT"
         UIDataLocalBindingsComponent:
             data:
-            - ["map<eNintendoSwitchControls,string>", "nintendoNavigationLabels", "{ eNintendoSwitchControls.B = \"Switch/HubridPanel/Lobby/Back\"; eNintendoSwitchControls.VArrows = \"Switch/HubridPanel/TanksTree/ChoiceNation\"; }"]
             - ["int", "levelToSelect", "when not isNull(session.playerTanks.currentTank) -> session.playerTanks.currentTank.info.level, 1"]
             - ["vector<int>", "levels", "[ 1; 2; 3; 4; 5; 6; 7; 8; 9; 10; ]"]
             - ["int", "rowHeight", "96"]
@@ -53,24 +52,6 @@ Prototypes:
     bindings:
     - ["visible", "model.visible"]
     children:
-    -   class: "UIControl"
-        name: "NavigationPanel"
-        size: [32.000000, 32.000000]
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                condition: "isGamepad and not account.tutorialData.isTutorialActive"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/NavigationPanel.yaml"
-                args:
-                    "content": "NavigationPanel"
-            UIChildComponent1:
-                condition: "account.tutorialData.isTutorialActive and isGamepad"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/NavigationPanel.yaml"
-                args:
-                    "content": "TutorialNavigationPanel"
     -   class: "UIControl"
         name: "ContentWrapper"
         position: [0.000000, 48.000000]
@@ -436,43 +417,3 @@ Prototypes:
                 - ["PREMIUM_INFO_EVENT", "PREMIUM_INFO_EVENT", ""]
                 - ["BACK_EVENT", "BACK_EVENT", ""]
                 - ["SHOP_BUTTON", "SHOP_BUTTON", "_event.requiredResource"]
-Slots:
--   class: "UIControl"
-    name: "NavigationPanel"
-    size: [768.000000, 40.000000]
-    input: false
-    components:
-        LinearLayout:
-            spacing: 24.000000
-        SizePolicy:
-            horizontalPolicy: "PercentOfChildrenSum"
-            verticalPolicy: "PercentOfMaxChild"
-    children:
-    -   class: "UIControl"
-        name: "Labels"
-        size: [32.000000, 32.000000]
-        input: false
-        components:
-            LinearLayout:
-                spacing: 24.000000
-            SizePolicy:
-                horizontalPolicy: "PercentOfChildrenSum"
-                verticalPolicy: "PercentOfMaxChild"
-            UIRepeatComponent:
-                control: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                dataContainer: "nintendoNavigationLabels"
-                args:
-                    "text": "_item"
-                    "icon": "_key"
--   class: "UIControl"
-    name: "TutorialNavigationPanel"
-    size: [768.000000, 40.000000]
-    input: false
-    components:
-        SizePolicy:
-            horizontalPolicy: "PercentOfParent"
-            verticalPolicy: "PercentOfMaxChild"
-        UIChildComponent0:
-            prototypePath: "~res:/UI/Screens3/Lobby/Common/TutorialNavigationPanel.yaml"
-            args:
-                "currentHiglightControl": "account.tutorialData.currentHighlightControl"

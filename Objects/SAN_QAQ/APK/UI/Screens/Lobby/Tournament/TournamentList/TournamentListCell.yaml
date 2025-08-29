@@ -148,8 +148,6 @@ Prototypes:
                         horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "PercentOfParent"
                 children:
-                -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
                 -   class: "UIStaticText"
                     name: "Title"
                     classes: "header5"
@@ -176,8 +174,6 @@ Prototypes:
                         horizontalValue: 170.000000
                         verticalPolicy: "PercentOfParent"
                 children:
-                -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
                 -   class: "UIStaticText"
                     name: "Registration"
                     classes: "text2-small"
@@ -203,8 +199,6 @@ Prototypes:
                         horizontalValue: 86.000000
                         verticalPolicy: "PercentOfParent"
                 children:
-                -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
                 -   class: "UIStaticText"
                     name: "Levels"
                     size: [86.000000, 32.000000]
@@ -231,8 +225,6 @@ Prototypes:
                         horizontalValue: 136.000000
                         verticalPolicy: "PercentOfParent"
                 children:
-                -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
                 -   class: "UIStaticText"
                     name: "StartTime"
                     size: [136.000000, 32.000000]
@@ -261,8 +253,6 @@ Prototypes:
                         horizontalValue: 146.000000
                         verticalPolicy: "PercentOfParent"
                 children:
-                -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
                 -   class: "UIStaticText"
                     name: "Prize"
                     size: [146.000000, 32.000000]
@@ -323,8 +313,6 @@ Prototypes:
                 verticalPolicy: "FixedSize"
                 verticalValue: 40.000000
         children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
         -   prototype: "BroadcastLabel/BroadcastLabel"
             name: "BroadcastLabel"
             components:
@@ -861,6 +849,8 @@ Prototypes:
                     horizontalValue: 230.000000
                     verticalPolicy: "PercentOfParent"
             children:
+            -   prototype: "BlurModified/BlurModified"
+                name: "Blur"
             -   prototype: "ClanEmblem/ClanEmblem"
                 name: "ClanEmblem"
                 size: [32.000000, 32.000000]

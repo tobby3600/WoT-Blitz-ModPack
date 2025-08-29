@@ -1,7 +1,5 @@
 Header:
     version: 160
-ImportedPackages:
-- "~res:/UI/Screens3/Lobby/Common/BlurLite.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "BattlePassTabPage"
@@ -275,7 +273,6 @@ Prototypes:
                             "unlockingTime": "1L"
                             "replacedTask": "replacedTask"
                             "model": "model"
-                            "isBlur": "(not selectedWeekBlocked and not previousStateIsBlocked) or tabAbsolutePosition == 0.000000 or tasksAbsolutePosition == 0.000000"
                         eventActions:
                         - ["AnimateQuestUnlockFinished", "AnimateQuestUnlockFinished", ""]
                         - ["StageCollected", "StageCollected", ""]
@@ -293,9 +290,11 @@ Prototypes:
                     verticalPolicy: "PercentOfParent"
                     verticalValue: 200.000000
     -   class: "UIControl"
-        name: "BlurAndFade"
-        input: true
+        name: "Fade"
+        input: false
+        classes: "black-35-bg"
         components:
+            Background: {}
             UIOpacityComponent: {}
             Anchor:
                 hCenterAnchorEnabled: true
@@ -304,35 +303,11 @@ Prototypes:
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "FixedSize"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
         bindings:
         - ["visible", "(selectedWeekBlocked or previousStateIsBlocked) and (tabAbsolutePosition != 0.000000 and tasksAbsolutePosition != 0.000000)"]
         - ["Anchor.topAnchor", "tasksAbsolutePosition - tabAbsolutePosition - 16"]
-        children:
-        -   prototype: "BlurLite/BlurLite"
-            name: "BlurLite"
-            components:
-                UIPostProcessTextureComponent0:
-                    needClear: true
-                UIPostProcessTextureComponent1:
-                    needClear: true
-                UIPostProcessTextureComponent2:
-                    needClear: true
-        -   class: "UIControl"
-            name: "Fade"
-            input: false
-            classes: "black-bg"
-            components:
-                Background: {}
-                UIOpacityComponent:
-                    opacity: 0.300000
-                Anchor:
-                    hCenterAnchorEnabled: true
-                    vCenterAnchorEnabled: true
-                SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "PercentOfParent"
-                StyleSheet:
-                    styles: "~res:/UI/Screens3/Color.style.yaml"
     -   class: "UIControl"
         name: "LicenseBanner"
         position: [145.000000, 456.000000]

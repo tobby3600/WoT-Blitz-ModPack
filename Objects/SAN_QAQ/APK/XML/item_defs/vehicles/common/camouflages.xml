@@ -1,5 +1,5 @@
 <root>
-	<nextAvailableId>1112</nextAvailableId>
+	<nextAvailableId>1128</nextAvailableId>
 	<nextAvailableIdForDynamicContent>2142</nextAvailableIdForDynamicContent>
 	<groups>
 		<standard>
@@ -10684,7 +10684,7 @@
 			<category>free</category>
 			<group>legendary</group>
 			<kind>desert summer winter</kind>
-			<notInShop>true</notInShop>
+			<notInShop>false</notInShop>
 			<script>Camouflage</script>
 			<unlockCostCategory>ultimate-skins-gold</unlockCostCategory>
 			<vehicleFilter>
@@ -10809,6 +10809,120 @@
 				</include>
 			</vehicleFilter>
 		</skin2_a175_atac>
+		<battle_cry_01>
+			<id>1116</id>
+			<userString>#vehicle_customization:camouflage/battle_cry_01/Name</userString>
+			<description>#vehicle_customization:camouflage/Universal/Descr</description>
+			<icon/>
+			<category>free</category>
+			<group>improved</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<unlockCostCategory>rare-camo-gold</unlockCostCategory>
+			<script>Camouflage</script>
+			<vehicleFilter>
+				<exclude>
+					<vehicle>
+						<tags>eventCamouflage_user</tags>
+					</vehicle>
+				</exclude>
+			</vehicleFilter>
+		</battle_cry_01>
+		<crowns_finest>
+			<id>1117</id>
+			<userString>#vehicle_customization:camouflage/crowns_finest/Name</userString>
+			<description>#vehicle_customization:camouflage/Universal/Descr</description>
+			<icon/>
+			<category>free</category>
+			<group>improved</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<unlockCostCategory>rare-camo-gold</unlockCostCategory>
+			<script>Camouflage</script>
+			<vehicleFilter>
+				<exclude>
+					<vehicle>
+						<tags>eventCamouflage_user</tags>
+					</vehicle>
+				</exclude>
+			</vehicleFilter>
+		</crowns_finest>
+		<move_slow_fire_fast_01>
+			<id>1118</id>
+			<userString>#vehicle_customization:camouflage/move_slow_fire_fast_01/Name</userString>
+			<description>#vehicle_customization:camouflage/Universal/Descr</description>
+			<icon/>
+			<category>free</category>
+			<group>improved</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<unlockCostCategory>rare-camo-gold</unlockCostCategory>
+			<script>Camouflage</script>
+			<vehicleFilter>
+				<exclude>
+					<vehicle>
+						<tags>eventCamouflage_user</tags>
+					</vehicle>
+				</exclude>
+			</vehicleFilter>
+		</move_slow_fire_fast_01>
+		<move_slow_fire_fast_02>
+			<id>1119</id>
+			<userString>#vehicle_customization:camouflage/move_slow_fire_fast_02/Name</userString>
+			<description>#vehicle_customization:camouflage/Universal/Descr</description>
+			<icon/>
+			<category>free</category>
+			<group>improved</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<unlockCostCategory>rare-camo-gold</unlockCostCategory>
+			<script>Camouflage</script>
+			<vehicleFilter>
+				<exclude>
+					<vehicle>
+						<tags>eventCamouflage_user</tags>
+					</vehicle>
+				</exclude>
+			</vehicleFilter>
+		</move_slow_fire_fast_02>
+		<skin2_j20_type_2605>
+			<id>1123</id>
+			<userString>#vehicle_customization:camouflage/skin2_j20_type_2605/Name</userString>
+			<description>#vehicle_customization:camouflage/skin2_j20_type_2605/Descr</description>
+			<icon>~res:/Gfx/UI/CamouflagesShop/Skin/japan-J20_Type_2605_skin2.txt</icon>
+			<category>free</category>
+			<group>legendary</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<script>Camouflage</script>
+			<unlockCostCategory>ultimate-skins-gold</unlockCostCategory>
+			<vehicleFilter>
+				<include>
+					<vehicle>
+						<name>japan:J20_Type_2605</name>
+					</vehicle>
+				</include>
+			</vehicleFilter>
+		</skin2_j20_type_2605>
+		<skin2_pl30_sdp_wz58t>
+			<id>1127</id>
+			<userString>#vehicle_customization:camouflage/skin2_pl30_sdp_wz58t/Name</userString>
+			<description>#vehicle_customization:camouflage/skin2_pl30_sdp_wz58t/Descr</description>
+			<icon>~res:/Gfx/UI/CamouflagesShop/Skin/european-Pl30_SDP_Wz58T_skin2.txt</icon>
+			<category>free</category>
+			<group>legendary</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<script>Camouflage</script>
+			<unlockCostCategory>legendary-skins-gold</unlockCostCategory>
+			<vehicleFilter>
+				<include>
+					<vehicle>
+						<name>european:Pl30_SDP_Wz58T</name>
+					</vehicle>
+				</include>
+			</vehicleFilter>
+		</skin2_pl30_sdp_wz58t>
 		<skin_e25>
 			<id>255</id>
 			<userString>#vehicle_customization:camouflage/Number1/Name</userString>
@@ -15882,7 +15996,7 @@
 			<category>free</category>
 			<group>legendary</group>
 			<kind>desert summer winter</kind>
-			<notInShop>true</notInShop>
+			<notInShop>false</notInShop>
 			<script>Camouflage</script>
 			<unlockCostCategory>ultimate-skins-gold</unlockCostCategory>
 			<vehicleFilter>
@@ -16026,6 +16140,196 @@
 				</include>
 			</vehicleFilter>
 		</skin_f36_amx_ac_mle1948>
+		<skin2_ch57_bzt_70>
+			<id>1112</id>
+			<userString>#vehicle_customization:camouflage/skin2_ch57_bzt_70/Name</userString>
+			<description>#vehicle_customization:camouflage/skin2_ch57_bzt_70/Descr</description>
+			<icon>~res:/Gfx/UI/CamouflagesShop/Skin/china-Ch57_BZT_70_skin2.txt</icon>
+			<category>free</category>
+			<group>legendary</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<script>Camouflage</script>
+			<unlockCostCategory>ultimate-skins-gold</unlockCostCategory>
+			<vehicleFilter>
+				<include>
+					<vehicle>
+						<name>china:Ch57_BZT_70</name>
+					</vehicle>
+				</include>
+			</vehicleFilter>
+		</skin2_ch57_bzt_70>
+		<skin_pl28_sdp_wz_60>
+			<id>1113</id>
+			<userString>#vehicle_customization:camouflage/skin_pl28_sdp_wz_60/Name</userString>
+			<description>#vehicle_customization:camouflage/skin_pl28_sdp_wz_60/Descr</description>
+			<icon>~res:/Gfx/UI/CamouflagesShop/Skin/european-Pl28_SDP_Wz_60_skin.txt</icon>
+			<category>free</category>
+			<group>legendary</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<script>Camouflage</script>
+			<unlockCostCategory>legendary-skins-gold</unlockCostCategory>
+			<vehicleFilter>
+				<include>
+					<vehicle>
+						<name>european:Pl28_SDP_Wz_60</name>
+					</vehicle>
+				</include>
+			</vehicleFilter>
+		</skin_pl28_sdp_wz_60>
+		<skin_j20_type_2605>
+			<id>1114</id>
+			<userString>#vehicle_customization:camouflage/skin_j20_type_2605/Name</userString>
+			<description>#vehicle_customization:camouflage/skin_j20_type_2605/Descr</description>
+			<icon>~res:/Gfx/UI/CamouflagesShop/Skin/japan-J20_Type_2605_skin.txt</icon>
+			<category>free</category>
+			<group>legendary</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<script>Camouflage</script>
+			<unlockCostCategory>legendary-skins-gold</unlockCostCategory>
+			<vehicleFilter>
+				<include>
+					<vehicle>
+						<name>japan:J20_Type_2605</name>
+					</vehicle>
+				</include>
+			</vehicleFilter>
+		</skin_j20_type_2605>
+		<skin_pl31_sdp_wz_57d>
+			<id>1115</id>
+			<userString>#vehicle_customization:camouflage/skin_pl31_sdp_wz_57d/Name</userString>
+			<description>#vehicle_customization:camouflage/skin_pl31_sdp_wz_57d/Descr</description>
+			<icon>~res:/Gfx/UI/CamouflagesShop/Skin/european-Pl31_SDP_Wz_57D_skin.txt</icon>
+			<category>free</category>
+			<group>legendary</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<script>Camouflage</script>
+			<unlockCostCategory>legendary-skins-gold</unlockCostCategory>
+			<vehicleFilter>
+				<include>
+					<vehicle>
+						<name>european:Pl31_SDP_Wz_57D</name>
+					</vehicle>
+				</include>
+			</vehicleFilter>
+		</skin_pl31_sdp_wz_57d>
+		<skin_pl30_sdp_wz58t>
+			<id>1120</id>
+			<userString>#vehicle_customization:camouflage/skin_pl30_sdp_wz58t/Name</userString>
+			<description>#vehicle_customization:camouflage/skin_pl30_sdp_wz58t/Descr</description>
+			<icon>~res:/Gfx/UI/CamouflagesShop/Skin/european-Pl30_SDP_Wz58T_skin.txt</icon>
+			<category>free</category>
+			<group>legendary</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<script>Camouflage</script>
+			<unlockCostCategory>legendary-skins-gold</unlockCostCategory>
+			<vehicleFilter>
+				<include>
+					<vehicle>
+						<name>european:Pl30_SDP_Wz58T</name>
+					</vehicle>
+				</include>
+			</vehicleFilter>
+		</skin_pl30_sdp_wz58t>
+		<skin_g166_lkpz_70_k>
+			<id>1121</id>
+			<userString>#vehicle_customization:camouflage/skin_g166_lkpz_70_k/Name</userString>
+			<description>#vehicle_customization:camouflage/skin_g166_lkpz_70_k/Descr</description>
+			<icon>~res:/Gfx/UI/CamouflagesShop/Skin/germany-G166_LKpz_70_K_skin.txt</icon>
+			<category>free</category>
+			<group>legendary</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<script>Camouflage</script>
+			<unlockCostCategory>legendary-skins-gold</unlockCostCategory>
+			<vehicleFilter>
+				<include>
+					<vehicle>
+						<name>germany:G166_LKpz_70_K</name>
+					</vehicle>
+				</include>
+			</vehicleFilter>
+		</skin_g166_lkpz_70_k>
+		<skin_pl33_sdp_wz_40>
+			<id>1122</id>
+			<userString>#vehicle_customization:camouflage/skin_pl33_sdp_wz_40/Name</userString>
+			<description>#vehicle_customization:camouflage/skin_pl33_sdp_wz_40/Descr</description>
+			<icon>~res:/Gfx/UI/CamouflagesShop/Skin/european-Pl33_SDP_Wz_40_skin.txt</icon>
+			<category>free</category>
+			<group>legendary</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<script>Camouflage</script>
+			<unlockCostCategory>legendary-skins-gold</unlockCostCategory>
+			<vehicleFilter>
+				<include>
+					<vehicle>
+						<name>european:Pl33_SDP_Wz_40</name>
+					</vehicle>
+				</include>
+			</vehicleFilter>
+		</skin_pl33_sdp_wz_40>
+		<skin_pl29_nc_wz_70t>
+			<id>1124</id>
+			<userString>#vehicle_customization:camouflage/skin_pl29_nc_wz_70t/Name</userString>
+			<description>#vehicle_customization:camouflage/skin_pl29_nc_wz_70t/Descr</description>
+			<icon>~res:/Gfx/UI/CamouflagesShop/Skin/european-Pl29_NC_Wz_70T_skin.txt</icon>
+			<category>free</category>
+			<group>legendary</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<script>Camouflage</script>
+			<unlockCostCategory>legendary-skins-gold</unlockCostCategory>
+			<vehicleFilter>
+				<include>
+					<vehicle>
+						<name>european:Pl29_NC_Wz_70T</name>
+					</vehicle>
+				</include>
+			</vehicleFilter>
+		</skin_pl29_nc_wz_70t>
+		<skin_pl27_sdp_wz_66t>
+			<id>1125</id>
+			<userString>#vehicle_customization:camouflage/skin_pl27_sdp_wz_66t/Name</userString>
+			<description>#vehicle_customization:camouflage/skin_pl27_sdp_wz_66t/Descr</description>
+			<icon>~res:/Gfx/UI/CamouflagesShop/Skin/european-Pl27_SDP_Wz_66T_skin.txt</icon>
+			<category>free</category>
+			<group>legendary</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<script>Camouflage</script>
+			<unlockCostCategory>legendary-skins-gold</unlockCostCategory>
+			<vehicleFilter>
+				<include>
+					<vehicle>
+						<name>european:Pl27_SDP_Wz_66T</name>
+					</vehicle>
+				</include>
+			</vehicleFilter>
+		</skin_pl27_sdp_wz_66t>
+		<skin_pl32_sdp_wz_44>
+			<id>1126</id>
+			<userString>#vehicle_customization:camouflage/skin_pl32_sdp_wz_44/Name</userString>
+			<description>#vehicle_customization:camouflage/skin_pl32_sdp_wz_44/Descr</description>
+			<icon>~res:/Gfx/UI/CamouflagesShop/Skin/european-Pl32_SDP_Wz_44_skin.txt</icon>
+			<category>free</category>
+			<group>legendary</group>
+			<kind>desert summer winter</kind>
+			<notInShop>true</notInShop>
+			<script>Camouflage</script>
+			<unlockCostCategory>legendary-skins-gold</unlockCostCategory>
+			<vehicleFilter>
+				<include>
+					<vehicle>
+						<name>european:Pl32_SDP_Wz_44</name>
+					</vehicle>
+				</include>
+			</vehicleFilter>
+		</skin_pl32_sdp_wz_44>
 		<custom_set_Object252>
 			<id>1000</id>
 			<userString>#vehicle_customization:customSet/set_mskin_IS6/Name</userString>

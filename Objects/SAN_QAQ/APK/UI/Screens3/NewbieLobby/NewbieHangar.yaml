@@ -109,6 +109,19 @@ Prototypes:
                     - ["init_anim_stopped", "ShowButtons", ""]
                     - ["anim_tank_stoped", "PREBATTLE_ANIMATION_FINISHED", ""]
                 Update: {}
+        -   prototype: "Blur/Blur"
+            name: "Blur"
+            visible: false
+            components:
+                UIOpacityComponent:
+                    opacity: 0.000000
+                UIPostProcessInputComponent:
+                    id: "NEWBIE_HANGAR"
+                UIPostProcessCacheComponent:
+                    cachedFileId: "HangarBlur"
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
         -   class: "UIControl"
             name: "HangarSceneScreenshot"
             visible: false
@@ -141,10 +154,7 @@ Prototypes:
                 UIPostProcessInputComponent:
                     id: "NEWBIE_HANGAR_SCREENSHOT"
                 UIPostProcessTextureComponent0:
-                    materialPath: "~res:/Materials.custom/2d.Textured.BlurLite.material"
                     needClearAlphaAfterRender: false
-                UIPostProcessTextureComponent1:
-                    materialPath: "~res:/Materials.custom/2d.Textured.HBlurLite.material"
                 Anchor:
                     vCenterAnchorEnabled: true
                 SizePolicy:

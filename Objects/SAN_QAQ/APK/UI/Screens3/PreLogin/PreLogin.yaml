@@ -1,7 +1,8 @@
 Header:
     version: 161
 ImportedPackages:
-- "~res:/UI/Screens3/Lobby/Common/BlurDynamic.yaml"
+- "~res:/UI/Screens3/Lobby/Common/BlurDynamicLite.yaml"
+- "~res:/UI/Screens3/Common/BlurMask.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "PreLogin"
@@ -37,8 +38,6 @@ Prototypes:
         name: "KeyArt"
         input: false
         components:
-            UIPostProcessSourceComponent0:
-                id: "BLUR_SRC"
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
@@ -53,14 +52,14 @@ Prototypes:
                 args:
                     "deviceType": "app.constants.deviceType"
         bindings:
-        - ["visible", "not isServerSelectionActive and not isBlurVisible"]
-    -   prototype: "BlurDynamic/BlurDynamic"
+        - ["visible", "not isServerSelectionActive"]
+    -   prototype: "BlurMask/BlurMask"
         name: "Blur"
         components:
-            UIPostProcessInputComponent:
-                id: "BLUR_SRC"
-        bindings:
-        - ["visible", "not isServerSelectionActive and isBlurVisible"]
+            UIDataParamsComponent:
+                args:
+                    "isBlurMask": "not isServerSelectionActive"
+                    "ID": "\"PreLogin\""
     -   class: "UIControl"
         name: "ContentLayer"
         input: false
@@ -70,7 +69,37 @@ Prototypes:
                 rightAnchorEnabled: true
                 topAnchorEnabled: true
                 bottomAnchorEnabled: true
+            UIPostProcessSourceComponent0:
+                id: "maskPreLogin"
         children:
+        -   class: "UIControl"
+            name: "Fade"
+            input: false
+            classes: "black-bg"
+            components:
+                IgnoreLayout: {}
+                Background: {}
+                UIOpacityComponent:
+                    opacity: 0.6000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            bindings:
+            - ["visible", "not isServerSelectionActive and isBlurVisible"]
+        -   class: "UIControl"
+            name: "Version"
+            enabled: true
+            input: false
+            refreshStylesOnInteract: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/PreLogin/Version.yaml"
+                    args:
+                        "buildInfo": "preLoginData.version.buildInfo"
+                        "versionText": "preLoginData.version.text"
         -   class: "UIControl"
             name: "Content"
             input: false
@@ -280,20 +309,6 @@ Prototypes:
                     - ["RELOAD_CAPTCHA", "RELOAD_CAPTCHA", ""]
                     - ["CONFIRM_CAPTCHA", "CONFIRM_CAPTCHA", ""]
                     - ["CANCEL_CAPTCHA", "CANCEL_CAPTCHA", ""]
-    -   class: "UIControl"
-        name: "VersionLayer"
-        enabled: true
-        input: false
-        refreshStylesOnInteract: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfParent"
-            UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/PreLogin/Version.yaml"
-                args:
-                    "buildInfo": "preLoginData.version.buildInfo"
-                    "versionText": "preLoginData.version.text"
     -   class: "UIControl"
         name: "OverlayLayer"
         input: false

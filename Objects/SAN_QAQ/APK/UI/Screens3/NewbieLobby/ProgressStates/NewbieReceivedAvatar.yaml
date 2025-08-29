@@ -1,0 +1,222 @@
+Header:
+    version: 133
+Prototypes:
+-   class: "UIControl"
+    name: "NewbieReceivedAvatar"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/NewbieLobby/ProgressStates/Animations/NewbieReceivedAvatarInit.animation;FINISH,~res:/UI/Screens3/NewbieLobby/ProgressStates/Animations/NewbieReceivedAvatarFinish.animation;ON_SWITCH_ACCEPT,~res:/UI/Screens3/NewbieLobby/ProgressStates/Animations/NewbieButtonFinish.animation"
+        UIOpacityComponent: {}
+        Anchor:
+            hCenterAnchorEnabled: true
+            vCenterAnchorEnabled: true
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalValue: 400.000000
+            verticalPolicy: "FixedSize"
+            verticalValue: 500.000000
+        UIDataParamsComponent:
+            params:
+            - ["NewbieProgressViewModel", "newbieProgress", "null", "{ }"]
+            - ["bool", "enableTestCorner", "false", "true"]
+            events:
+            - "ANCHOR_AVATAR"
+            - "ON_FINISHED"
+        UIDataLocalVarsComponent:
+            data:
+            - ["bool", "turnOffAvatarPositioning", "false"]
+            - ["bool", "inputDisabled", "false"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["string", "effectPath", "when newbieProgress.hangarLevel == 1 -> \"~res:/3d/FX/UI/DefaultGlow/DefaultGlow.sc2\", \"~res:/3d/FX/UI/DefaultGlow/DefaultGlowArrows.sc2\""]
+            - ["string", "rankTitle", "when newbieProgress.hangarLevel == 1 -> \"NewbieHangar/ReceivedAvatar/RankAcquire\", \"NewbieHangar/ReceivedAvatar/RankUpgrade\""]
+            - ["string", "rankString", "when newbieProgress.hangarLevel == 1 -> \"NewbieHangar/ReceivedAvatar/CapralRank\", newbieProgress.hangarLevel == 2 -> \"NewbieHangar/ReceivedAvatar/SergeantRank\", newbieProgress.hangarLevel == 3 -> \"NewbieHangar/ReceivedAvatar/StaffSergeantRank\", \"\""]
+            - ["int", "avatarIndex", "newbieProgress.hangarLevel - 1"]
+            - ["PlayerAvatar", "oldAvatar", "when avatarIndex - 1 >= 0 and avatarIndex - 1 < newbieProgress.avatars.Size() -> newbieProgress.avatars[avatarIndex - 1], null"]
+            - ["PlayerAvatar", "newAvatar", "when avatarIndex >= 0 and avatarIndex < newbieProgress.avatars.Size() -> newbieProgress.avatars[avatarIndex], null"]
+        UIIdentifierComponent:
+            id: "newbie_received_avatar"
+            params: []
+    children:
+    -   class: "UIControl"
+        name: "Avatar"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfMaxChild"
+        children:
+        -   class: "UIControl"
+            name: "OldAvatar"
+            size: [32.000000, 32.000000]
+            pivot: [0.500000, 0.500000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfChildrenSum"
+                UIChildComponent0:
+                    condition: "not isNull(oldAvatar)"
+                    prototypePath: "~res:/UI/Screens3/NewbieLobby/ProgressStates/Elements/NewbieAvatar.yaml"
+                    args:
+                        "avatar": "oldAvatar"
+        -   class: "UIControl"
+            name: "NewAvatarWrapper"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfMaxChild"
+            bindings:
+            - ["Anchor.hCenterAnchorEnabled", "not turnOffAvatarPositioning"]
+            children:
+            -   class: "UIParticles"
+                name: "AvatarEffect"
+                position: [106.000000, 120.000000]
+                size: [32.000000, 32.000000]
+                scale: [3.500000, 3.500000]
+                pivot: [0.500000, 0.500000]
+                input: false
+                bindings:
+                - ["effectPath", "effectPath"]
+            -   class: "UIControl"
+                name: "NewAvatar"
+                position: [106.000000, 128.000000]
+                size: [32.000000, 32.000000]
+                pivot: [0.500000, 0.500000]
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfChildrenSum"
+                    UIChildComponent0:
+                        condition: "not isNull(newAvatar)"
+                        prototypePath: "~res:/UI/Screens3/NewbieLobby/ProgressStates/Elements/NewbieAvatar.yaml"
+                        args:
+                            "avatar": "newAvatar"
+    -   class: "UIControl"
+        name: "Additional"
+        size: [400.000000, 400.000000]
+        input: false
+        components:
+            UIOpacityComponent: {}
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 64.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "AvatarText"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                LinearLayout:
+                    orientation: "TopDown"
+                    spacing: 16.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   class: "UIControl"
+                name: "AvatarCaption"
+                input: false
+                classes: "t-title regular color=white-wild-sand-text"
+                components:
+                    UITextComponent:
+                        colorInheritType: "COLOR_IGNORE_PARENT"
+                        align: ["LEFT", "VCENTER"]
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "localize(rankTitle)"]
+            -   class: "UIControl"
+                name: "AvatarDescription"
+                input: false
+                components:
+                    RichContent:
+                        baseClasses: "t-subtitle regular color=white-wild-sand-70-text"
+                    RichContentAliases0:
+                        aliases:
+                        - ["orange_bold", "<span class=\"t-subtitle bold orange-orange-peel-text\" />"]
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfMaxChild"
+                    FlowLayout:
+                        hSpacing: 5.000000
+                        useRtl: true
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["RichContent.text", "localize(rankString)"]
+        -   class: "UIControl"
+            name: "ButtonContainer"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfFirstChild"
+            children:
+            -   class: "UIControl"
+                name: "Button"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    UIOpacityComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfChildrenSum"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+                        args:
+                            "caption": "\"#common:DialogButton/OK\""
+                            "inputDisabled": "inputDisabled"
+                        eventActions:
+                        - ["ON_CLICK_BUTTON", "FINISH", ""]
+                    UIIdentifierComponent:
+                        id: "ok_button"
+                        params:
+                        - ["bool", "input_enabled", "not bool(inputDisabled)"]
+        -   class: "UIControl"
+            name: "Control"
+            size: [32.000000, 32.000000]
+            input: false
+    -   class: "UIControl"
+        name: "TopLeftCornerForAvatar"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            IgnoreLayout: {}
+            UIAttachLayoutMasterComponent: {}
+        bindings:
+        - ["UIAttachLayoutMasterComponent.attachId", "when enableTestCorner -> \"TOP_LEFT_CORNER\", \"\""]

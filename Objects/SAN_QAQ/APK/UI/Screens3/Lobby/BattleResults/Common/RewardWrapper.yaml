@@ -23,6 +23,7 @@ Prototypes:
             - ["float", "animationStartDelay", "0.000000", "0.000000"]
             - ["ResourceDetailed", "resource", "null", "{ }"]
             - ["int", "id", "0", "0"]
+            - ["string", "bgStyle", "\"\"", "\"\""]
             events:
             - "ON_REWARD_CLICK(int id)"
         UIDataLocalVarsComponent:
@@ -44,11 +45,12 @@ Prototypes:
                 horizontalPolicy: "PercentOfMaxChild"
                 verticalPolicy: "PercentOfMaxChild"
             UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/RewardMediumNoBlur.yaml"
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/RewardMedium.yaml"
                 args:
                     "attachId": "attachId"
                     "resource": "resource"
                     "id": "id"
-                    "isBgVisible": "false"
+                    "isBlur": "true"
+                    "bgStyle": "bgStyle"
                 eventActions:
                 - ["ON_REWARD_CLICK", "ON_REWARD_CLICK", "_event.id"]

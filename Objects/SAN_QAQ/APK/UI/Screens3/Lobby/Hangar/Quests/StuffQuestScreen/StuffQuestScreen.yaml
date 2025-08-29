@@ -1,0 +1,242 @@
+Header:
+    version: 157
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "StuffQuestsScreen"
+    size: [960.000000, 640.000000]
+    input: true
+    components:
+        Anchor:
+            leftAnchorEnabled: true
+            rightAnchorEnabled: true
+            topAnchorEnabled: true
+            bottomAnchorEnabled: true
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UILayoutEventComponent:
+            sizeChangedEvent: "SIZE_CHANGED"
+            sizeChangedEventData: "int(_size.X)"
+        ModalInput: {}
+        UIVirtualActionEventComponent0:
+            virtualKeyAction: "Escape"
+            keyDownEvent: "BACK_SHORTCUT"
+        UIVirtualActionEventComponent1:
+            virtualKeyAction: "BaseNext"
+            keyDownEvent: "ON_NEXT"
+        UIVirtualActionEventComponent2:
+            virtualKeyAction: "BasePrevious"
+            keyDownEvent: "PREV_TAB"
+        UIVirtualActionEventComponent3:
+            virtualKeyAction: "Extra2"
+            keyDownEvent: "ON_QUEST_Y_ACTION"
+        UIVirtualActionEventComponent4:
+            virtualKeyAction: "Extra1"
+            keyDownEvent: "ON_QUEST_X_ACTION"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "previewFromTooltip", "false", "true"]
+            - ["int", "initialSelectedQuestIndex", "0", "3"]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["StuffQuestList", "model", "null", "{ }"]
+            events:
+            - "StuffQuestStageSizeChanged(int index, int rewardIndex, float size)"
+            - "ON_INFO_CLICKED(int index)"
+            - "ON_TAKE_REWARDS_CLICKED(int index)"
+            - "ON_DELAY_CLICKED(int index)"
+            - "ON_CLOSE_CLICKED(int index)"
+            - "ON_START_CLICKED(int index)"
+            - "ON_PROLONGATE_CLICKED(int index)"
+            - "ON_REWARD_CLICKED"
+        UIDataLocalVarsComponent:
+            data:
+            - ["int", "currentIndex", "initialSelectedQuestIndex"]
+            - ["int", "leftIndex", "initialSelectedQuestIndex"]
+            - ["int", "rightIndex", "initialSelectedQuestIndex"]
+            - ["float", "leftPosition", "0.000000"]
+            - ["float", "rightPosition", "0.000000"]
+            - ["float", "leftProportion", "1.000000"]
+            - ["float", "rightProportion", "1.000000"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["float", "farPosition", "screenWidth * -2.000000"]
+            - ["int", "questsSize", "model.quests.Size()"]
+            - ["bool", "canClose", "currentIndex >= 0 and currentIndex < questsSize and model.quests[currentIndex].status != eQuestStatus.Failed and model.quests[currentIndex].status != eQuestStatus.Completed"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Hangar/Quests/StuffQuestScreen/StuffQuestScreen.actions"
+        UIDataOnEventComponent0:
+            eventName: "ON_PREV"
+            modelFieldExpression: "currentIndex"
+            dataExpression: "when currentIndex == 0 -> questsSize - 1, currentIndex - 1"
+        UIDataOnEventComponent1:
+            eventName: "ON_NEXT"
+            modelFieldExpression: "currentIndex"
+            dataExpression: "when currentIndex == questsSize - 1 -> 0, currentIndex + 1"
+        UIEventOnDataComponent0:
+            watchedDataExpression: "questsSize"
+            eventName: "OnPageCountChanged"
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "Swiper"
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                LinearLayout:
+                    enabled: false
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                UISwipeComponent:
+                    mode: "Page"
+                    direction: "RightLeft"
+                    swipeOffsetEvent: "SwipeOffset"
+                    swipeOffsetEventData: "_leftIndex, _rightIndex, _leftPosition, _rightPosition, _leftProportion, _rightProportion, _isInertion"
+                    swipeFinishedEvent: "SwipeFinished"
+                    swipeCancelEvent: "SwipeCanceled"
+                    pagesLooped: true
+                    pageChangedEvent: "PageChanged"
+                    pageChangedEventData: "_pageIndex"
+                UIRepeatComponent:
+                    control: "~res:/UI/Screens3/Lobby/Hangar/Quests/StuffQuestScreen/StuffQuestSlide.yaml"
+                    dataContainer: "model.quests"
+                    args:
+                        "isRewardGroupSelectionInProgress": "model.isRewardGroupSelectionInProgress"
+                        "previewFromTooltip": "previewFromTooltip"
+                        "quest": "_item"
+                        "session": "session"
+                        "hidden": "_index != leftIndex and _index != rightIndex"
+                        "proportion": "when _index == leftIndex -> leftProportion, (when _index == rightIndex -> rightProportion, 0.000000)"
+                        "point": "when _index == leftIndex -> leftPosition, (when _index == rightIndex -> rightPosition, farPosition)"
+                        "index": "_index"
+                    eventActions:
+                    - ["StuffQuestStageSizeChanged", "StuffQuestStageSizeChanged", "_index, _event.id, _event.size"]
+                    - ["ON_CLICK_BUTTON", "ON_INFO_CLICKED", "_index"]
+                    - ["ON_PROGRESS_ANIMATED", "ON_PROGRESS_ANIMATED", "_index"]
+                    - ["ON_TAKE_REWARD_CLICKED", "ON_TAKE_REWARD_CLICKED", "_index"]
+                    - ["ON_DELAY_CLICKED", "ON_DELAY_CLICKED", "_index"]
+                    - ["ON_SKIP_CLICKED", "BACK_EVENT", ""]
+                    - ["ON_CLOSE_CLICKED", "ON_CLOSE_CLICKED", "_index"]
+                    - ["ON_PROLONGATE_CLICKED", "ON_PROLONGATE_CLICKED", "_index"]
+                    - ["ON_REWARD_CLICKED", "ON_REWARD_CLICKED", "_index, _event.rewardId, _event.rewardIndex"]
+                    - ["ON_START_CLICKED", "ON_START_CLICKED", "_index"]
+                    elementNameExpression: "\"StuffQuest\" + str(_index)"
+            bindings:
+            - ["input", "questsSize > 1"]
+            - ["UISwipeComponent.pageCount", "questsSize"]
+            - ["UISwipeComponent.currentPageIndex", "when currentIndex < questsSize -> currentIndex, 0"]
+        -   class: "UIControl"
+            name: "CloseButtonWrapper"
+            position: [0.000000, 16.000000]
+            size: [32.000000, 32.000000]
+            enabled: false
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    topAnchorEnabled: true
+                    topAnchor: 16.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
+                UIAnchorSafeAreaComponent:
+                    leftSafeInset: "INSET"
+                    rightSafeInset: "INSET"
+            bindings:
+            - ["visible", "canClose"]
+            children:
+            -   prototype: "IconButton/IconButton"
+                name: "CloseButton"
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        leftAnchor: 16.000000
+                        vCenterAnchorEnabled: true
+                    UIAnchorSafeAreaComponent:
+                        leftSafeInset: "INSET"
+                        rightSafeInset: "INSET"
+                    UIDataParamsComponent:
+                        args:
+                            "sound": "eButtonSound.CLOSE"
+                            "image": "\"~res:/Gfx/Shared/icons/icon_close_n\""
+                            "isBgVisible": "false"
+                        eventActions:
+                        - ["ON_CLICK_BUTTON", "BACK_EVENT", ""]
+        -   class: "UIControl"
+            name: "Footer"
+            input: false
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    rightAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                    bottomAnchor: 20.000000
+                SizePolicy:
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "LeftButton"
+                input: false
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        leftAnchor: 24.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfFirstChild"
+                        verticalPolicy: "PercentOfFirstChild"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Button/TextIconButton.yaml"
+                        args:
+                            "icon": "\"~res:/Gfx/Lobby/icons/icon_arrow_s\""
+                            "iconColorStyle": "\"white-wild-sand-bg\""
+                            "iconIsLeft": "true"
+                            "caption": "localize(\"#hangar:Offer/Previous\")"
+                            "type": "eButtonType.OPTIONAL_DARK"
+                            "size": "eButtonSize.NORMAL"
+                            "sound": "eButtonSound.CHOOSE"
+                            "enabled": "true"
+                            "locked": "false"
+                            "iconFlip": "FLIP_HORIZONTAL"
+                        eventActions:
+                        - ["ON_CLICK_BUTTON", "ON_PREV", ""]
+                bindings:
+                - ["visible", "questsSize > 1"]
+            -   class: "UIControl"
+                name: "RightButton"
+                input: false
+                components:
+                    Anchor:
+                        rightAnchorEnabled: true
+                        rightAnchor: 24.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfMaxChild"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Lobby/Common/Button/TextIconButton.yaml"
+                        args:
+                            "icon": "\"~res:/Gfx/Lobby/icons/icon_arrow_s\""
+                            "iconColorStyle": "\"white-wild-sand-bg\""
+                            "iconIsLeft": "false"
+                            "caption": "localize(\"#hangar:Offer/Next\")"
+                            "type": "eButtonType.OPTIONAL_DARK"
+                            "size": "eButtonSize.NORMAL"
+                            "sound": "eButtonSound.CHOOSE"
+                            "enabled": "true"
+                            "locked": "false"
+                            "iconFlip": "0"
+                        eventActions:
+                        - ["ON_CLICK_BUTTON", "ON_NEXT", ""]
+                bindings:
+                - ["visible", "questsSize > 1"]

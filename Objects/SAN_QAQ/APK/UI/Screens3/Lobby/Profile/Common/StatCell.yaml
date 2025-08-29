@@ -1,0 +1,62 @@
+Header:
+    version: 152
+Prototypes:
+-   class: "UIControl"
+    name: "StatCell"
+    size: [200.000000, 64.000000]
+    input: false
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "Formula"
+            verticalFormula: "max(parent, childrenSum)"
+        UIDataParamsComponent:
+            params:
+            - ["string", "header", "\"#header\"", "\"#header\""]
+            - ["string", "value", "\"#value\"", "\"#value\""]
+            - ["string", "valueColor", "\"white-wild-sand-text\"", "\"white-wild-sand-text\""]
+    children:
+    -   class: "UIControl"
+        name: "Header"
+        input: false
+        classes: "t-caps bold white-wild-sand-70-text"
+        components:
+            UITextComponent:
+                multiline: "MULTILINE_ENABLED"
+                fitting: "FITTING_POINTS"
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "Formula"
+                horizontalFormula: "parent - 16"
+                verticalPolicy: "PercentOfContent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml"
+        bindings:
+        - ["UITextComponent.text", "capitalize(header)"]
+    -   class: "UIControl"
+        name: "Spacer"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "Formula"
+                verticalFormula: "max(6, parentRest)"
+    -   class: "UIControl"
+        name: "Value"
+        input: false
+        components:
+            UITextComponent: {}
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfContent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml"
+        bindings:
+        - ["classes", "\"t-title bold \" + valueColor"]
+        - ["UITextComponent.text", "value"]

@@ -1,0 +1,113 @@
+action CHANGE_HEADER_OPACITY(int position)
+{
+	if(position < 0)
+	{
+		ChangeProperty("**/BlurDynamic", "", "visible", true);
+	}
+	else
+	{
+		ChangeProperty("**/BlurDynamic", "", "visible", false);
+	}
+
+	if(activeTabLocal == eNewsTab.News and position <= 0)
+	{
+		ChangeProperty("**/BlurAndFade", "UIOpacityComponent", "opacity", clamp(float((abs(position)) / 24.000000),0.0,1.0), 1.0, EASE_OUT);
+	}
+	else
+	{
+		ChangeProperty("**/BlurAndFade", "UIOpacityComponent", "opacity", 0, 0.0, EASE_OUT);
+	}
+}
+
+action ON_MARK_READ_EVENT_BY_SCHORTCUT
+{
+	if(session.newsNotifications.unreadCount > 0)
+	{
+		PlaySound("GUI/buttons/cancel");
+		Event("ON_MARK_READ_CLICK");
+	}
+}
+action ON_MARK_READ_CLICK
+{
+	Event("ON_MARK_READ");
+	DirectEvent("SHOW_POPOVER", "**/Popover", 0.2);
+	DirectEvent("HIDE_POPOVER", "**/Popover", 3.0);
+}
+
+action SCROLL_TO_SELECTED_ITEM
+{
+	ScrollToEnsureControlOnScreen("**/ControlForScroll", 1);
+}
+
+action NEWS_UPDATED
+{
+	ChangeProperty("**/NewsContent", "UIOpacityComponent", "opacity", 0.0,0);
+
+	if(activeTabLocal == eNewsTab.News)
+	{
+		if(selectedItem >= 0)
+		{
+			if( model.scrollPositionForSelectedItem < 0)
+			{
+				ChangeProperty("**/BlurDynamic", "", "visible", true);
+				ChangeProperty("**/BlurAndFade", "UIOpacityComponent", "opacity", clamp(float((abs(model.scrollPositionForSelectedItem)) / 24.000000),0.0,1.0) , 0.0, EASE_OUT);
+
+			}
+			else
+			{
+				ChangeProperty("**/BlurDynamic", "", "visible", false);
+				ChangeProperty("**/BlurAndFade", "UIOpacityComponent", "opacity", 0, 0.0, EASE_OUT);
+			}
+			ScrollToEnsureControlOnScreen("**/ControlForScroll", 0.0);
+		}
+		else
+		{
+			if(opacity > 0)
+			{
+				ChangeProperty("**/BlurDynamic", "", "visible", true);
+			}
+			ScrollRel("**/UIScrollView",0,abs(model.scrollPosition),0);
+			ChangeProperty("**/BlurAndFade", "UIOpacityComponent", "opacity", opacity, 0.0, EASE_OUT);
+		}
+		ChangeProperty("**/NewsContent", "UIOpacityComponent", "opacity", 1.0,0);
+	}
+}
+action NEWS_TAB_INIT
+{
+	if(newsUpdated)
+	{
+	Event("NEWS_UPDATED");
+	}
+}
+action SELECTED_ITEM_WAS_CHANGED(int selectedItem)
+{
+	PlaySound(sound="GUI/buttons/choose");
+	Event("SELECTED_ITEM_CHANGED",arg1 = selectedItem);
+}
+
+action ON_NEWS_ITEM_CLICK_EVENT_BY_SCHORTCUT(int selectedItem)
+{
+	if(not Empty(session.newsNotifications.items))
+	{
+		PlaySound("GUI/buttons/open");
+		Event("ON_NEWS_ITEM_CLICK",arg1 = selectedItem);
+	}
+}
+
+action BACK_EVENT_BY_SHORTCUT()
+{
+	PlaySound("GUI/buttons/close");
+	Event("BACK_EVENT");
+}
+
+action ON_SELECT_TAB(int id)
+{
+	Event("ON_ACTIVE_TAB_CHANGED", arg1 = toEnum(id, eNewsTab));
+	Event("ON_SELECT_TAB_CHANCGED", arg1 = toEnum(id, eNewsTab));
+}
+
+action CHANGE_POSITION(int position)
+{
+	Event("POSITION_WAS_CHANGED", arg1 = position);
+	Event("CHANGE_HEADER_OPACITY", arg1 = position);
+}

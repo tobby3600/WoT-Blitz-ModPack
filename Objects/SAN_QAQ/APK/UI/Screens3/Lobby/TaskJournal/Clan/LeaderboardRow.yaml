@@ -51,6 +51,21 @@ Prototypes:
                 styles: "~res:/UI/Screens3/Color.style.yaml"
         children:
         -   class: "UIControl"
+            name: "Background"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Background: {}
+                UIOpacityComponent: {}
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Lobby/TaskJournal/Clan/LeaderboardRow.style.yaml"
+            bindings:
+            - ["classes", "backgroundStyle"]
+        -   class: "UIControl"
             name: "Bg"
             size: [32.000000, 32.000000]
             input: false
@@ -204,21 +219,6 @@ Prototypes:
                         styles: "~res:/UI/Screens3/Color.style.yaml"
                 bindings:
                 - ["classes", "brightColor"]
-        -   class: "UIControl"
-            name: "Background"
-            size: [32.000000, 32.000000]
-            input: false
-            components:
-                Background: {}
-                UIOpacityComponent: {}
-                IgnoreLayout: {}
-                SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "PercentOfParent"
-                StyleSheet:
-                    styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Lobby/TaskJournal/Clan/LeaderboardRow.style.yaml"
-            bindings:
-            - ["classes", "backgroundStyle"]
         -   class: "UIControl"
             name: "Hover"
             size: [32.000000, 32.000000]

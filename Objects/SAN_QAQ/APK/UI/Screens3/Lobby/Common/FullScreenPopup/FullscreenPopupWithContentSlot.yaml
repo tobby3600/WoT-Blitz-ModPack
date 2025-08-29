@@ -131,30 +131,10 @@ Prototypes:
                         args:
                             "locked": "false"
                             "visible": "isButtonVisible"
-                            "isBgVisible": "true"
+                            "isBgVisible": "false"
                             "image": "\"~res:/Gfx/Shared/icons/icon_close_n\""
                             "type": "eButtonType.OPTIONAL_LIGHT"
                             "sound": "eButtonSound.CLOSE"
                             "enabled": "true"
                         eventActions:
                         - ["ON_CLICK_BUTTON", "ON_CLOSE", ""]
-    -   class: "UIControl"
-        name: "NavigationPanel"
-        size: [32.000000, 32.000000]
-        input: false
-        components:
-            Anchor:
-                bottomAnchorEnabled: true
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                condition: "isGamepad and isButtonVisible"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/LobbyNavigationPanel.yaml"
-                args:
-                    "labels": "{ eNintendoSwitchControls.B = \"Switch/HubridPanel/Lobby/Close\"; }"
-            UIChildComponent1:
-                condition: "isGamepad and not isButtonVisible"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/LobbyNavigationPanel.yaml"
-                args:
-                    "labels": "{ }"

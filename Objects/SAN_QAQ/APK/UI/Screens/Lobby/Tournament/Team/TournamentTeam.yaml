@@ -11,7 +11,7 @@ ImportedPackages:
 - "~res:/UI/Screens/Lobby/Tournament/TournamentBackButton.yaml"
 - "~res:/UI/Screens/Common/IconButton.yaml"
 - "~res:/UI/Screens/Lobby/Common/Footer.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
+- "~res:/UI/Screens3/Common/BlurMask.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "Content"
@@ -76,6 +76,12 @@ Prototypes:
                 rightAnchorEnabled: true
                 topAnchorEnabled: true
                 vCenterAnchorEnabled: false
+    -   prototype: "BlurMask/BlurMask"
+        name: "Blur"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "ID": "\"TournamentTeamTop\""
     -   class: "UIControl"
         name: "Header"
         size: [960.000000, 80.000000]
@@ -90,6 +96,8 @@ Prototypes:
                 safeAreaPaddingInset: true
                 dynamicSpacing: true
                 skipInvisible: false
+            UIPostProcessSourceComponent0:
+                id: "maskTournamentTeamTop"
         children:
         -   class: "UIControl"
             name: "LeftContent"
@@ -121,12 +129,19 @@ Prototypes:
                     verticalPolicy: "PercentOfChildrenSum"
                     verticalValue: 125.000000
             children:
-            -   prototype: "BlurModified/BlurModified"
-                name: "Blur"
+            -   class: "UIControl"
+                name: "Background"
+                classes: "white-wild-sand-15-bg"
                 components:
-                    UIDataParamsComponent:
-                        args:
-                            "roundCorner": "\"8\""
+                    IgnoreLayout: {}
+                    Background: {}
+                    UIRoundedCornersComponent:
+                        radius: "8"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
             -   class: "UIControl"
                 name: "TitleTexts"
                 size: [180.000000, 31.000000]
@@ -147,6 +162,8 @@ Prototypes:
                     size: [55.000000, 31.000000]
                     classes: "header1 clan-tag"
                     components:
+                        Anchor:
+                            vCenterAnchorEnabled: true
                         UITextComponent:
                             text: "[TAG]"
                         SizePolicy:
@@ -156,6 +173,8 @@ Prototypes:
                     name: "Title"
                     classes: "header1 text-color-white"
                     components:
+                        Anchor:
+                            vCenterAnchorEnabled: true
                         UITextComponent:
                             text: "WWWWWW"
                             fitting: "FITTING_POINTS"
@@ -174,6 +193,7 @@ Prototypes:
                         useRtlAlign: "USE_BY_CONTENT"
                     Anchor:
                         hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
                     SizePolicy:
                         horizontalPolicy: "PercentOfContent"
                         verticalPolicy: "PercentOfContent"
@@ -290,23 +310,22 @@ Prototypes:
                         position: [0.000000, 69.000000]
                         size: [222.000000, 50.000000]
                         input: false
+                        classes: "black-50-bg"
                         components:
                             Anchor:
                                 topAnchorEnabled: true
                                 topAnchor: -5.000000
                                 bottomAnchorEnabled: true
+                            Background: {}
+                            UIRoundedCornersComponent:
+                                radius: "10"
                             SizePolicy:
                                 horizontalPolicy: "PercentOfParent"
                                 verticalPolicy: "FixedSize"
                                 verticalValue: 50.000000
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml"
                         children:
-                        -   prototype: "BlurModified/BlurModified"
-                            name: "Blur"
-                            components:
-                                UIDataParamsComponent:
-                                    args:
-                                        "bgStyle": "\"black-50-bg\""
-                                        "roundCorner": "\"10\""
                         -   class: "UIControl"
                             name: "BattleStartsTimer"
                             visible: true
@@ -345,22 +364,20 @@ Prototypes:
                         position: [0.000000, -5.000000]
                         size: [234.000000, 105.000000]
                         input: false
+                        classes: "black-50-bg"
                         components:
                             Anchor:
                                 topAnchorEnabled: true
                                 topAnchor: -5.000000
                             IgnoreLayout: {}
+                            Background: {}
+                            UIRoundedCornersComponent:
+                                radius: "10"
                             SizePolicy:
                                 horizontalPolicy: "PercentOfParent"
                                 verticalPolicy: "PercentOfParent"
-                        children:
-                        -   prototype: "BlurModified/BlurModified"
-                            name: "Blur"
-                            components:
-                                UIDataParamsComponent:
-                                    args:
-                                        "bgStyle": "\"black-50-bg\""
-                                        "roundCorner": "\"10\""
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml"
                     -   prototype: "StyledButton/StyledButton"
                         name: "ConfirmWithHintButton"
                         classes: "button color=button-color-gray button-choose-sound"
@@ -486,7 +503,12 @@ Prototypes:
         children:
         -   prototype: "TournamentBackground/EffectsContainer"
             name: "EffectsContainer"
-            position: [0.000000, 0.000000]
+        -   prototype: "BlurMask/BlurMask"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "ID": "\"TournamentTeamBottom\""
         -   class: "UIControl"
             name: "BottomContent"
             position: [0.000000, 70.000000]
@@ -497,6 +519,8 @@ Prototypes:
                     topAnchorEnabled: true
                     topAnchor: 70.000000
                     bottomAnchorEnabled: true
+                UIPostProcessSourceComponent0:
+                    id: "maskTournamentTeamBottom"
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "PercentOfParent"
@@ -591,9 +615,6 @@ Prototypes:
                                             SizePolicy:
                                                 horizontalPolicy: "PercentOfParent"
                                                 verticalPolicy: "PercentOfParent"
-                                        children:
-                                        -   prototype: "BlurModified/BlurModified"
-                                            name: "Blur"
                                     -   class: "UIStaticText"
                                         name: "PlayersStatsText"
                                         size: [202.000000, 38.000000]
@@ -628,9 +649,6 @@ Prototypes:
                                             SizePolicy:
                                                 horizontalPolicy: "PercentOfParent"
                                                 verticalPolicy: "PercentOfParent"
-                                        children:
-                                        -   prototype: "BlurModified/BlurModified"
-                                            name: "Blur"
                                     -   class: "UIControl"
                                         name: "Flag"
                                         size: [25.000000, 38.000000]
@@ -684,9 +702,6 @@ Prototypes:
                                             SizePolicy:
                                                 horizontalPolicy: "PercentOfParent"
                                                 verticalPolicy: "PercentOfParent"
-                                        children:
-                                        -   prototype: "BlurModified/BlurModified"
-                                            name: "Blur"
                                     -   class: "UIControl"
                                         name: "TicketImage"
                                         size: [25.000000, 38.000000]
@@ -788,9 +803,6 @@ Prototypes:
                                     SizePolicy:
                                         horizontalPolicy: "PercentOfParent"
                                         verticalPolicy: "PercentOfParent"
-                                children:
-                                -   prototype: "BlurModified/BlurModified"
-                                    name: "Blur"
                             -   class: "UIStaticText"
                                 name: "Text"
                                 size: [371.000000, 38.000000]
@@ -893,6 +905,9 @@ Prototypes:
                     components:
                         LinearLayout:
                             dynamicSpacing: true
+                        UIDataParamsComponent:
+                            args:
+                                "isBlur": "false"
                     children:
                     -   path: "FooterBackground"
                         components:

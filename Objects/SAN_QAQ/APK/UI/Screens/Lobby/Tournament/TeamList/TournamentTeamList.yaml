@@ -1,0 +1,429 @@
+Header:
+    version: 157
+ImportedPackages:
+- "~res:/UI/Screens/Common/StyledButton.yaml"
+- "~res:/UI/Screens/Lobby/Tournament/TournamentBackground.yaml"
+- "~res:/UI/Screens/Lobby/Tournament/TournamentTabControl.yaml"
+- "~res:/UI/Screens/Lobby/Tournament/TeamsList.yaml"
+- "~res:/UI/Screens/Lobby/Tournament/TournamentBackButton.yaml"
+- "~res:/UI/Screens/Lobby/Common/SearchTextField.yaml"
+- "~res:/UI/Screens3/Common/BlurMask.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "SearchPopUpElement"
+    size: [340.000000, 64.000000]
+    classes: "button"
+    components:
+        Anchor:
+            leftAnchorEnabled: true
+            rightAnchorEnabled: true
+        LinearLayout:
+            padding: "5.000000"
+            spacing: 5.000000
+        StyleSheet:
+            inheritsStylesFromParent: true
+            styles: "~res:/UI/Styles/ButtonStyle.yaml;~res:/UI/Screens/Fonts.yaml"
+    children:
+    -   class: "UIControl"
+        name: "Icon"
+        size: [28.000000, 64.000000]
+        input: false
+        components:
+            Background:
+                sprite: "~res:/Gfx/UI/Tournament/search_type"
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfParent"
+    -   class: "UIStaticText"
+        name: "Title"
+        size: [44.000000, 64.000000]
+        classes: "text1 text-color-white"
+        components:
+            UITextComponent:
+                text: "Text1"
+                colorInheritType: "COLOR_IGNORE_PARENT"
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfParent"
+-   class: "UIControl"
+    name: "Content"
+    size: [1024.000000, 768.000000]
+    components:
+        Anchor:
+            leftAnchorEnabled: true
+            rightAnchorEnabled: true
+            topAnchorEnabled: true
+            bottomAnchorEnabled: true
+        StyleSheet:
+            styles: "~res:/UI/Screens/Fonts.yaml"
+    children:
+    -   prototype: "TournamentBackground/EffectsContainer"
+        name: "EffectsContainer"
+    -   class: "UIControl"
+        name: "TitleShadow"
+        position: [0.000000, 0.000000]
+        size: [1024.000000, 102.000000]
+        components:
+            Background:
+                drawType: "DRAW_SCALE_TO_RECT"
+                sprite: "~res:/Gfx/UI/Tournament/gradient"
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                vCenterAnchorEnabled: false
+    -   prototype: "BlurMask/BlurMask"
+        name: "Blur"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "ID": "\"TournamentTeamList\""
+    -   class: "UIControl"
+        name: "View"
+        position: [0.000000, 0.000000]
+        size: [1024.000000, 768.000000]
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                bottomAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 20.000000
+            UIPostProcessSourceComponent0:
+                id: "maskTournamentTeamList"
+        children:
+        -   class: "UIControl"
+            name: "Header"
+            position: [0.000000, 0.000000]
+            size: [1024.000000, 80.000000]
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    rightAnchorEnabled: true
+                    topAnchorEnabled: true
+            children:
+            -   prototype: "TournamentBackButton/BackButton"
+                name: "BackButton"
+            -   class: "UIControl"
+                name: "TournamentInfo"
+                size: [324.000000, 72.000000]
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "TopDown"
+                        dynamicPadding: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfParent"
+                        verticalValue: 90.000000
+                children:
+                -   class: "UIControl"
+                    name: "Top"
+                    size: [324.000000, 36.000000]
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        LinearLayout:
+                            spacing: 20.000000
+                            useRtl: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "PercentOfParent"
+                    children:
+                    -   class: "UIStaticText"
+                        name: "Title"
+                        classes: "header1"
+                        components:
+                            UITextComponent:
+                                text: "tournaments/TeamScreen/Header"
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfContent"
+                    -   class: "UIStaticText"
+                        name: "Count"
+                        classes: "header1 text-color-blue"
+                        components:
+                            UITextComponent:
+                                text: "112 / 200"
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfContent"
+                -   class: "UIControl"
+                    name: "Bottom"
+                    size: [299.000000, 36.000000]
+                    visible: true
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        LinearLayout:
+                            spacing: 20.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "PercentOfParent"
+                    children:
+                    -   class: "UIControl"
+                        name: "Forming"
+                        size: [178.000000, 36.000000]
+                        components:
+                            LinearLayout:
+                                spacing: 5.000000
+                                useRtl: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfChildrenSum"
+                                verticalPolicy: "PercentOfParent"
+                        children:
+                        -   class: "UIStaticText"
+                            name: "Title"
+                            classes: "text2 text-color-blue"
+                            components:
+                                UITextComponent:
+                                    text: "tournaments/TeamScreen/RequestsSent"
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    verticalPolicy: "PercentOfContent"
+                        -   class: "UIStaticText"
+                            name: "Count"
+                            classes: "text2 text-color-blue"
+                            components:
+                                UITextComponent:
+                                    text: "112"
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    verticalPolicy: "PercentOfContent"
+                    -   class: "UIControl"
+                        name: "Created"
+                        size: [101.000000, 36.000000]
+                        components:
+                            LinearLayout:
+                                spacing: 5.000000
+                                useRtl: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfChildrenSum"
+                                verticalPolicy: "PercentOfParent"
+                        children:
+                        -   class: "UIStaticText"
+                            name: "Title"
+                            classes: "text2 text-color-blue"
+                            components:
+                                UITextComponent:
+                                    text: "tournaments/TeamScreen/TeamsCreated"
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    verticalPolicy: "PercentOfContent"
+                        -   class: "UIStaticText"
+                            name: "Count"
+                            classes: "text2 text-color-blue"
+                            components:
+                                UITextComponent:
+                                    text: "450"
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    verticalPolicy: "PercentOfContent"
+            -   prototype: "StyledButton/StyledButton"
+                name: "MyTeamButton"
+                size: [240.000000, 64.000000]
+                classes: "button button-color-green"
+                components:
+                    Anchor:
+                        rightAnchorEnabled: true
+                        rightAnchor: 8.000000
+                        topAnchorEnabled: true
+                        topAnchor: 8.000000
+                    UIAnchorSafeAreaComponent:
+                        rightSafeInset: "INSET"
+                children:
+                -   path: "Caption"
+                    position: [0.000000, 0.000000]
+                    components:
+                        UITextComponent:
+                            text: "tournaments/Button/MyTeam"
+            -   prototype: "StyledButton/StyledButton"
+                name: "CreateTeamButton"
+                size: [240.000000, 64.000000]
+                classes: "button button-color-green"
+                components:
+                    Anchor:
+                        rightAnchorEnabled: true
+                        rightAnchor: 8.000000
+                        topAnchorEnabled: true
+                        topAnchor: 8.000000
+                    UIAnchorSafeAreaComponent:
+                        rightSafeInset: "INSET"
+                children:
+                -   path: "Caption"
+                    position: [0.000000, 0.000000]
+                    components:
+                        UITextComponent:
+                            text: "tournaments/Button/CreateTeam"
+        -   class: "UIControl"
+            name: "ListOfTeams"
+            position: [237.000000, 100.000000]
+            size: [550.000000, 668.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                LinearLayout:
+                    orientation: "TopDown"
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 550.000000
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   prototype: "SearchTextField/SearchTextField"
+                name: "SearchTextField"
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                children:
+                -   path: "Background"
+                    children:
+                    -   class: "UIControl"
+                        name: "DropDown"
+                        position: [500.000000, 0.000000]
+                        size: [50.000000, 50.000000]
+                        input: true
+                        components:
+                            Background:
+                                drawType: "DRAW_ALIGNED"
+                                sprite: "~res:/Gfx/UI/CommonUIElements/IconArrowDropDownMenu"
+                                frame: 0
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            UIAttachLayoutMasterComponent:
+                                attachId: "TournamentTeamSearchPopup"
+                            Sound:
+                                touchUpInside: "GUI/buttons/open"
+                -   path: "Background/TextField/Hint"
+                    components:
+                        UITextComponent:
+                            text: "tournaments/SearchHint/ClanTag"
+            -   class: "UIControl"
+                name: "Space"
+                size: [32.000000, 16.000000]
+                input: false
+            -   prototype: "TournamentTabControl/TabPanel"
+                name: "Header"
+                children:
+                -   prototype: "TournamentTabControl/TabControl"
+                    name: "confirmed"
+                    children:
+                    -   class: "UIStaticText"
+                        name: "text"
+                        size: [271.000000, 70.000000]
+                        classes: "header3"
+                        components:
+                            UITextComponent:
+                                text: "tournaments/TeamScreen/Tabs/Registered"
+                                fitting: "FITTING_REDUCE"
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfParent"
+                -   prototype: "TournamentTabControl/TabControl"
+                    name: "forming"
+                    children:
+                    -   class: "UIStaticText"
+                        name: "text"
+                        size: [271.000000, 70.000000]
+                        classes: "header3"
+                        components:
+                            UITextComponent:
+                                text: "tournaments/TeamScreen/Tabs/Enrolment"
+                                fitting: "FITTING_REDUCE"
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfParent"
+            -   class: "UIControl"
+                name: "ListContainer"
+                input: false
+                classes: ""
+                components:
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   class: "UIControl"
+                    name: "EmptyContainer"
+                    size: [550.000000, 532.000000]
+                    components:
+                        LinearLayout:
+                            orientation: "TopDown"
+                            padding: "20.000000"
+                            spacing: 20.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                    children:
+                    -   class: "UIControl"
+                        name: "Image"
+                        position: [195.000000, 20.000000]
+                        size: [160.000000, 160.000000]
+                        components:
+                            Background:
+                                sprite: "~res:/Gfx/UI/Tournament/empty_teams"
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                    -   class: "UIStaticText"
+                        name: "Header"
+                        size: [451.000000, 29.000000]
+                        classes: "header2"
+                        components:
+                            UITextComponent:
+                                text: "tournaments/TeamScreen/NoTeams/Header"
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfContent"
+                    -   class: "UIStaticText"
+                        name: "Comment"
+                        size: [667.000000, 23.000000]
+                        classes: "text2 text-color-blue"
+                        components:
+                            UITextComponent:
+                                text: "tournaments/TeamScreen/NoTeams/Comment"
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfContent"
+                    -   prototype: "StyledButton/StyledButton"
+                        name: "CreateTeamButton"
+                        size: [240.000000, 64.000000]
+                        classes: "button button-color-green"
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                        children:
+                        -   path: "Caption"
+                            components:
+                                UITextComponent:
+                                    text: "tournaments/Button/CreateTeam"
+                -   prototype: "TeamsList/TeamsListContainer"
+                    name: "TeamsContainer"
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"

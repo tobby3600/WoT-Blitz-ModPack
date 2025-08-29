@@ -103,8 +103,8 @@ Prototypes:
             - ["bool", "isSessionPlayerResults", "session.playerName == results.playerName.playerName"]
         UIDataLocalBindingsComponent:
             data:
-            - ["float", "contentSizeY", "when not (isGamepad and lobby.hasOwnedNavigationPanel) -> screenHeight - 8.000000, screenHeight - 48.000000"]
-            - ["int", "bottomPart", "when isGamepad -> 200, 160"]
+            - ["float", "contentSizeY", "screenHeight - 8.000000"]
+            - ["int", "bottomPart", "160"]
             - ["float", "distanceBgWin", "screenWidth + 100.000000"]
             - ["bool", "adBonusValid", "results.economics.adBonus.expirationTime > session.serverTime and not results.economics.adBonus.rewards.Empty()"]
             - ["bool", "adPlaysiteActive", "app.sDlc.isGeneralPackLoaded and session.serverConfig.advertising.enabled and session.serverConfig.advertising.battleResults.enabled and lobby.advertising.battleResultsAdAvailable and session.stats.battleResultsAds.remainingAds > 0 and session.stats.battleResultsAds.nextViewTime <= session.serverTime"]
@@ -116,6 +116,7 @@ Prototypes:
             - ["string", "backText", "when lobby.labelType == eBackLabel.Back -> \"Switch/HubridPanel/Lobby/Back\", lobby.labelType == eBackLabel.Close -> \"Switch/HubridPanel/Lobby/Close\", lobby.labelType == eBackLabel.Hangar -> \"Switch/HubridPanel/Lobby/Hangar\", \"\""]
             - ["string", "bgWinStyle", "when contentSizeY >= 830 -> \"t-content-huge\", \"t-content-h0\""]
             - ["int", "pageCount", "Size(pages)"]
+            - ["string", "bgStyle", "when results.battleResult == BattleResult.WIN -> \"black-25-bg\", \"white-wild-sand-15-bg\""]
         UIActionComponent:
             actionsPath: "~res:/UI/Screens3/Lobby/BattleResults/BattleResults.actions"
         UIDataOnEventComponent0:
@@ -145,7 +146,7 @@ Prototypes:
             Update:
                 updateInvisible: true
         bindings:
-        - ["visible", "not (showOverlay and selectedTab == ePageType.TeamEffectiveness)"]
+        - ["visible", "selectedTab != ePageType.TeamEffectiveness"]
         - ["SceneComponent.scene3d", "battleResultsScene"]
     -   class: "UIControl"
         name: "Blur"
@@ -181,8 +182,10 @@ Prototypes:
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
+            Update:
+                updateInvisible: true
         bindings:
-        - ["UIOpacityComponent.opacity", "when selectedTab == ePageType.TeamEffectiveness -> 1, blurOpacity"]
+        - ["UIOpacityComponent.opacity", "when selectedTab == ePageType.TeamEffectiveness -> 1.000000, blurOpacity"]
     -   class: "UIControl"
         name: "BgWin"
         size: [32.000000, 32.000000]
@@ -380,6 +383,8 @@ Prototypes:
                         "economyProgress": "economyProgress"
                         "selectedTab": "selectedTab"
                         "tabsInfo": "tabsInfo"
+                        "bgStyle": "bgStyle"
+                        "blurOpacity": "1.000000 - blurOpacity"
                     eventActions:
                     - ["SendReactionsForAutotest", "SendReactionsForAutotest", ""]
                     - ["SendReactionsForMyEveryone", "SendReactionsForMyEveryone", ""]
@@ -431,6 +436,7 @@ Prototypes:
                         "point": "(_index - rightIndex) * screenWidth + rightPosition"
                         "economyFirstShow": "economyFirstShow"
                         "isSessionPlayerResults": "isSessionPlayerResults"
+                        "bgStyle": "bgStyle"
                     eventActions:
                     - ["ShowReactionLimitPopupWithParam", "ShowReactionLimitPopupWithParam", "_event.isEnemy, _event.index"]
                     - ["SET_LIKE", "SET_LIKE", "_event.likeData, _event.data"]
@@ -480,6 +486,8 @@ Prototypes:
                         "app": "app"
                         "account": "account"
                         "results": "results"
+                        "bgStyle": "bgStyle"
+                        "blurOpacity": "1.000000 - blurOpacity"
                     eventActions:
                     - ["STOP_ANIMATION", "STOP_ANIMATION", "_event"]
                     - ["StopBlockInput", "StopBlockInput", ""]
@@ -525,10 +533,11 @@ Prototypes:
                             "inputDisabled": "nextButtonOpacity == 0.000000"
                             "sound": "eButtonSound.CHOOSE"
                             "isRoundedProgressBar": "true"
-                            "image": "when isGamepad -> \"~res:/Gfx/Lobby/icons/nintendo-switch/icon_switch_right_m\", \"~res:/Gfx/Lobby/icons/icon_arrow_s\""
+                            "image": "\"~res:/Gfx/Lobby/icons/icon_arrow_s\""
                             "value": "nextButtonProgress"
                             "rounded": "true"
                             "type": "eButtonType.OPTIONAL_DARK"
+                            "bgStyle": "bgStyle"
                         eventActions:
                         - ["ON_CLICK_BUTTON", "NEXT_EVENT_FROM_BUTTON", ""]
                 bindings:
@@ -543,19 +552,6 @@ Prototypes:
                         verticalPolicy: "FixedSize"
                         verticalValue: 48.000000
     -   class: "UIControl"
-        name: "NavigationPanel"
-        size: [32.000000, 32.000000]
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                condition: "isGamepad and lobby.hasOwnedNavigationPanel"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/NavigationPanel.yaml"
-                args:
-                    "content": "NavigationPanelContent"
-    -   class: "UIControl"
         name: "BlockInputFooter"
         components:
             Anchor:
@@ -567,7 +563,6 @@ Prototypes:
                 verticalValue: 80.000000
         bindings:
         - ["input", "isInputBlocked or (currentSwipeIndex != selectedTab)"]
-        - ["Anchor.bottomAnchor", "when isGamepad -> 40, 0"]
         - ["SizePolicy.horizontalValue", "screenWidth"]
     -   class: "UIControl"
         name: "BlockInputHeader"
@@ -591,48 +586,3 @@ Prototypes:
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
-Slots:
--   class: "UIControl"
-    name: "NavigationPanelContent"
-    size: [32.000000, 32.000000]
-    input: false
-    components:
-        LinearLayout:
-            orientation: "LeftToRight"
-            spacing: 24.000000
-        SizePolicy:
-            horizontalPolicy: "PercentOfChildrenSum"
-            verticalPolicy: "PercentOfMaxChild"
-        UIShadowHoleComponent: {}
-    bindings:
-    - ["UIShadowHoleComponent.isEnabled", "account.tutorialData.isTutorialActive"]
-    children:
-    -   class: "UIControl"
-        name: "Back"
-        size: [32.000000, 32.000000]
-        input: false
-        components:
-            LinearLayout:
-                spacing: 24.000000
-            SizePolicy:
-                horizontalPolicy: "PercentOfChildrenSum"
-                verticalPolicy: "PercentOfMaxChild"
-            UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                args:
-                    "text": "when lobby.labelType == eBackLabel.Hangar -> \"Switch/HubridPanel/Lobby/Hangar\", \"Switch/HubridPanel/Lobby/Back\""
-                    "icon": "eNintendoSwitchControls.B"
-    -   class: "UIControl"
-        name: "ChooseTab"
-        size: [32.000000, 32.000000]
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfFirstChild"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                condition: "not account.tutorialData.isTutorialActive or account.tutorialData.currentLesson > eTutorialLesson.kExcellentBattle"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconsWithLabel.yaml"
-                args:
-                    "text": "\"Switch/HubridPanel/Lobby/ChooseInventoryScreen\""
-                    "nsControls": "[ eNintendoSwitchControls.LeftShoulder; eNintendoSwitchControls.RightShoulder; ]"

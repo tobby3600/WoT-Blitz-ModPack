@@ -309,12 +309,12 @@ Prototypes:
                         vCenterAnchorEnabled: true
                     SizePolicy:
                         horizontalPolicy: "FixedSize"
-                        horizontalValue: 48.000000
+                        horizontalValue: 56.000000
                         verticalPolicy: "FixedSize"
                         verticalValue: 56.000000
                 bindings:
                 - ["visible", "not (gameMode == eGameMode.Rating) and not (gameMode == eGameMode.Training)"]
-                - ["classes", "tankNameStyle + \" \" + \"not-localize\""]
+                - ["classes", "tankNameStyle"]
                 - ["UIOpacityComponent.opacity", "textOpacity"]
                 - ["UITextComponent.text", "when data.xp == 0 -> \"–\", str1000Separated(personalXPValue)"]
             -   class: "UIControl"
@@ -329,13 +329,13 @@ Prototypes:
                         vCenterAnchorEnabled: true
                     SizePolicy:
                         horizontalPolicy: "FixedSize"
-                        horizontalValue: 48.000000
+                        horizontalValue: 56.000000
                         verticalPolicy: "FixedSize"
                         verticalValue: 56.000000
                 bindings:
-                - ["classes", "tankNameStyle + \" \" + \"not-localize\""]
+                - ["classes", "tankNameStyle"]
                 - ["UIOpacityComponent.opacity", "textOpacity"]
-                - ["UITextComponent.text", "when data.kills == 0 -> \"\", data.kills"]
+                - ["UITextComponent.text", "when data.kills == 0 -> \"–\", data.kills"]
             -   class: "UIControl"
                 name: "Damage"
                 size: [32.000000, 32.000000]
@@ -348,11 +348,11 @@ Prototypes:
                         vCenterAnchorEnabled: true
                     SizePolicy:
                         horizontalPolicy: "FixedSize"
-                        horizontalValue: 48.000000
+                        horizontalValue: 56.000000
                         verticalPolicy: "FixedSize"
                         verticalValue: 56.000000
                 bindings:
-                - ["classes", "tankNameStyle + \" \" + \"not-localize\""]
+                - ["classes", "tankNameStyle"]
                 - ["UIOpacityComponent.opacity", "textOpacity"]
                 - ["UITextComponent.text", "when data.dmg == 0 -> \"–\", str1000Separated(personalDmgValue)"]
         -   class: "UIControl"
@@ -677,7 +677,7 @@ Slots:
                         verticalPolicy: "FixedSize"
                 bindings:
                 - ["visible", "data.rating.state != eBattleRatingState.CALIBRATION"]
-                - ["classes", "tankNameStyle + \" \" + \"not-localize\""]
+                - ["classes", "tankNameStyle"]
                 - ["UIOpacityComponent.opacity", "textOpacity"]
                 - ["UITextComponent.text", "str1000Separated(data.rating.currentRating)"]
                 - ["SizePolicy.verticalValue", "rowHeight"]
@@ -750,7 +750,7 @@ Slots:
                         verticalPolicy: "PercentOfContent"
                 bindings:
                 - ["visible", "data.rating.state != eBattleRatingState.CALIBRATION and data.rating.difference != 0"]
-                - ["classes", "(when data.rating.difference > 0 -> \"t-body green-green-text\", \"t-body red-red-text\") + \" \" + \"bold not-localize\""]
+                - ["classes", "(when data.rating.difference > 0 -> \"t-body green-green-text\", \"t-body red-red-text\") + \" \" + \"bold\""]
                 - ["UIOpacityComponent.opacity", "textOpacity"]
                 - ["UITextComponent.text", "abs(data.rating.difference)"]
             -   class: "UIControl"

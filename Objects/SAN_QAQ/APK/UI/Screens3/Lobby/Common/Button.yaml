@@ -20,6 +20,7 @@ Prototypes:
             params:
             - ["TutorialDataModel", "tutorialData", "null", "{ }"]
             - ["bool", "enabled", "true", "true"]
+            - ["bool", "visible", "true", "true"]
             - ["bool", "inputDisabled", "false", "false"]
             - ["bool", "isBlur", "true", "true"]
             - ["bool", "isCustBg", "false", "false"]
@@ -29,6 +30,7 @@ Prototypes:
             - ["bool", "isLoading", "false", "false"]
             - ["bool", "locked", "false", "false"]
             - ["bool", "soundDisable", "false", "false"]
+            - ["bool", "hasShadow", "true", "true"]
             - ["control", "leftBadge", "null", "null"]
             - ["control", "rightContent", "null", "null"]
             - ["control", "timerContent", "null", "null"]
@@ -36,7 +38,7 @@ Prototypes:
             - ["eButtonSound", "sound", "eButtonSound.UNKNOWN", "eButtonSound.CANCEL"]
             - ["eButtonType", "type", "eButtonType.POSITIVE", "eButtonType.OPTIONAL_LIGHT"]
             - ["string", "caption", "\"\"", "\"BUTTON\""]
-            - ["string", "iconPath", "\"\"", "when isGamepad -> \"~res:/Gfx/Lobby/icons/nintendo-switch/icon_switch_x_m\", \"\""]
+            - ["string", "iconPath", "\"\"", "\"\""]
             - ["string", "maskStyle", "\"\"", "\"\""]
             events:
             - "ON_CLICK_BUTTON"
@@ -56,6 +58,7 @@ Prototypes:
             actionsPath: "~res:/UI/Screens3/Lobby/Common/Button.actions"
     bindings:
     - ["input", "locked"]
+    - ["visible", "visible"]
     - ["SizePolicy.verticalValue", "when size == eButtonSize.NORMAL -> 48, 40"]
     children:
     -   class: "UIControl"
@@ -129,7 +132,7 @@ Prototypes:
                         StyleSheet:
                             styles: "~res:/UI/Screens3/Lobby/Common/Button.style.yaml"
                     bindings:
-                    - ["visible", "isColoredButton"]
+                    - ["visible", "isColoredButton and hasShadow"]
                     children:
                     -   class: "UIControl"
                         name: "Common"
@@ -310,7 +313,7 @@ Prototypes:
                             verticalPolicy: "FixedSize"
                             verticalValue: 24.000000
                     bindings:
-                    - ["visible", "locked and iconPath != \"\" and not isGamepad"]
+                    - ["visible", "locked and iconPath != \"\""]
                     - ["UITextureComponent.spritePath", "iconPath"]
                 -   class: "UIControl"
                     name: "ConsoleButtonIcon"

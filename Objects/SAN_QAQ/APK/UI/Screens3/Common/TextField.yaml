@@ -68,25 +68,14 @@ Prototypes:
     - ["enabled", "isEnabled"]
     - ["UIOpacityComponent.opacity", "when isEnabled -> 1, 0.500000"]
     children:
-    -   class: "UIControl"
+    -   prototype: "BlurModified/BlurModified"
         name: "Background"
-        input: false
         components:
-            Anchor:
-                hCenterAnchorEnabled: true
-                vCenterAnchorEnabled: true
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfParent"
-        children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
-            components:
-                UIDataParamsComponent:
-                    args:
-                        "isBlur": "isBlur"
-                        "bgStyle": "bgStyle"
-                        "roundCorner": "\"4\""
+            UIDataParamsComponent:
+                args:
+                    "isBlur": "isBlur"
+                    "bgStyle": "bgStyle"
+                    "roundCorner": "\"4\""
     -   class: "UIControl"
         name: "Content"
         input: false

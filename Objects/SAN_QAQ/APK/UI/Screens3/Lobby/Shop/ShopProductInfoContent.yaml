@@ -2,7 +2,6 @@ Header:
     version: 155
 ImportedPackages:
 - "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ShopProductInfoContent"
@@ -139,6 +138,7 @@ Slots:
                             "timerSize": "eTimerSize.Medium"
                             "bgVisible": "true"
                             "bgColorStyle": "\"white-wild-sand-25-bg\""
+                            "isBlur": "false"
             -   class: "UIControl"
                 name: "XTime"
                 input: false
@@ -166,6 +166,7 @@ Slots:
                                 "left": "product.availableTimes"
                                 "bgStyle": "\"white-wild-sand-25-bg\""
                                 "textStyle": "\"t-subtitle regular white-wild-sand-text\""
+                                "isBlur": "false"
             -   class: "UIControl"
                 name: "MainReward"
                 input: false
@@ -388,22 +389,21 @@ Slots:
                         horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "PercentOfChildrenSum"
                 children:
-                -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
-                    components:
-                        UIDataParamsComponent:
-                            args:
-                                "bgStyle": "\"white-wild-sand-25-bg\""
-                                "roundCorner": "\"8\""
                 -   class: "UIControl"
                     name: "StuffList"
                     size: [32.000000, 32.000000]
                     input: false
                     refreshStylesOnInteract: false
+                    classes: "white-wild-sand-25-bg"
                     components:
+                        Background: {}
+                        UIRoundedCornersComponent:
+                            radius: "8"
                         SizePolicy:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "PercentOfMaxChild"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml"
                         UIChildComponent0:
                             childType: "kControl"
                             condition: "not isNull(chest)"
@@ -571,22 +571,21 @@ Slots:
                         horizontalPolicy: "PercentOfMaxChild"
                         verticalPolicy: "PercentOfMaxChild"
                 children:
-                -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
-                    components:
-                        UIDataParamsComponent:
-                            args:
-                                "bgStyle": "\"white-wild-sand-25-bg\""
-                                "roundCorner": "\"8\""
                 -   class: "UIControl"
                     name: "Description"
                     input: false
                     refreshStylesOnInteract: false
+                    classes: "white-wild-sand-25-bg"
                     components:
+                        Background: {}
+                        UIRoundedCornersComponent:
+                            radius: "8"
                         ClipContent: {}
                         SizePolicy:
                             horizontalPolicy: "FixedSize"
                             verticalPolicy: "PercentOfMaxChild"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml"
                         UIChildComponent0:
                             prototypePath: "~res:/UI/Screens3/Lobby/Shop/RichTextWrappers/ShopRichText.yaml"
                             args:

@@ -1,0 +1,188 @@
+Header:
+    version: 92
+Prototypes:
+-   class: "UIControl"
+    name: "TankBirthdayLabelBig"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalValue: 80.000000
+            verticalPolicy: "FixedSize"
+            verticalValue: 68.000000
+        UIDataParamsComponent:
+            params:
+            - ["int", "xpFactor", "0", "5"]
+            - ["int", "creditsFactor", "0", "2"]
+    children:
+    -   class: "UIControl"
+        name: "Confetti"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Background:
+                sprite: "~res:/Gfx/Lobby/icons/icon_confetti_l"
+            Anchor:
+                leftAnchorEnabled: true
+                topAnchorEnabled: true
+                topAnchor: -48.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfContent"
+    -   class: "UIControl"
+        name: "Bg"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            LinearLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "Left"
+            size: [32.000000, 32.000000]
+            input: false
+            classes: "red-tamarillo-bg"
+            components:
+                Background:
+                    drawType: "DRAW_ALIGNED"
+                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_leaf_68_r8_left"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfParent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+        -   class: "UIControl"
+            name: "Center"
+            size: [32.000000, 32.000000]
+            input: false
+            classes: "red-tamarillo-bg"
+            components:
+                Background: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+        -   class: "UIControl"
+            name: "Right"
+            size: [32.000000, 32.000000]
+            input: false
+            classes: "red-tamarillo-bg"
+            components:
+                Background:
+                    drawType: "DRAW_ALIGNED"
+                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_leaf_68_r8_left"
+                    spriteModification: ["FLIP_HORIZONTAL", "FLIP_VERTICAL"]
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfParent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+    -   class: "UIControl"
+        name: "Content"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 4.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfChildrenSum"
+        children:
+        -   class: "UIControl"
+            name: "Xp"
+            position: [0.000000, 0.000000]
+            size: [16.000000, 16.000000]
+            input: false
+            components:
+                Anchor:
+                    rightAnchorEnabled: true
+                    rightAnchor: -2.000000
+                LinearLayout:
+                    padding: "-2;0"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "Icon"
+                input: false
+                components:
+                    UITextureComponent:
+                        spritePath: "~res:/Gfx/Lobby/currency/currency_battle-xp_m"
+                        drawType: "DRAW_SCALE_PROPORTIONAL"
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 24.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 24.000000
+            -   class: "UIControl"
+                name: "Factor"
+                input: false
+                classes: "t-headline bold white-wild-sand-text"
+                components:
+                    UITextComponent: {}
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 20.000000
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "\"×\" + str(xpFactor)"]
+        -   class: "UIControl"
+            name: "Credits"
+            position: [0.000000, 0.000000]
+            size: [16.000000, 16.000000]
+            input: false
+            components:
+                Anchor:
+                    rightAnchorEnabled: true
+                    rightAnchor: 2.000000
+                LinearLayout:
+                    padding: "-2;0"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "Icon"
+                input: false
+                components:
+                    UITextureComponent:
+                        spritePath: "~res:/Gfx/Lobby/currency/currency_silver_m"
+                        drawType: "DRAW_SCALE_PROPORTIONAL"
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 24.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 24.000000
+            -   class: "UIControl"
+                name: "Factor"
+                input: false
+                classes: "t-headline bold white-wild-sand-text"
+                components:
+                    UITextComponent: {}
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 20.000000
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "\"×\" + str(creditsFactor)"]

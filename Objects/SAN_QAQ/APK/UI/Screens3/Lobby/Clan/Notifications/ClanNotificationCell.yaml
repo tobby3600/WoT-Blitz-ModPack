@@ -1,13 +1,12 @@
 Header:
     version: 151
-ImportedPackages:
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ClanNotificationCell"
     size: [608.000000, 64.000000]
-    classes: "touchable hoverable button-open-sound"
+    classes: "white-wild-sand-15-bg touchable hoverable button-open-sound"
     components:
+        Background: {}
         Anchor:
             hCenterAnchorEnabled: true
         LinearLayout: {}
@@ -38,8 +37,6 @@ Prototypes:
         StyleSheet:
             styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Common/Touch.style.yaml;~res:/UI/Screens3/Common/Hover.style.yaml;~res:/UI/Screens3/ButtonSound.style.yaml"
     children:
-    -   prototype: "BlurModified/BlurModified"
-        name: "Blur"
     -   class: "UIControl"
         name: "icon"
         input: false

@@ -32,7 +32,7 @@ Prototypes:
             - ["float", "percentageBestPlayers", "when seasonInfo.totalPlayers > 0 -> (float(seasonInfo.ratingPosition) / float(seasonInfo.totalPlayers)) * 100, 0"]
             - ["eLeague", "league", "rating.leagueType"]
             - ["string", "leagueColorTextStyle", "when league == eLeague.NO_LEAGUE -> \"white-wild-sand-50-text\", league == eLeague.BRONZE -> \"orange-tango-text\", league == eLeague.SILVER -> \"blue-riptide-text\", league == eLeague.GOLD -> \"yellow-lightning-text\", league == eLeague.PLATINUM -> \"orange-orange-peel-text\", league == eLeague.DIAMOND -> \"purple-chupretto-text\", \"\""]
-            - ["string", "leagueStyle", "when league == eLeague.NO_LEAGUE -> \"t-content-h2 regular not-localize \" + leagueColorTextStyle, \"t-content-h2 bold not-localize \" + leagueColorTextStyle"]
+            - ["string", "leagueStyle", "when league == eLeague.NO_LEAGUE -> \"t-content-h2 regular \" + leagueColorTextStyle, \"t-content-h2 bold \" + leagueColorTextStyle"]
             - ["string", "leagueName", "localize(\"ratingBattles/leagueName/\" + str(league, eLeague, \"lower_case\"))"]
             - ["string", "description", "localize(\"ratingBattles/ratingSeasonCompleted/Description\")"]
             - ["bool", "canShowRewards", "rating.currentRating >= 3000 and not rewards.Empty()"]
@@ -103,9 +103,7 @@ Slots:
                     hCenterAnchorEnabled: true
                 SizePolicy:
                     horizontalPolicy: "PercentOfContent"
-                    horizontalValue: 100.000000
                     verticalPolicy: "PercentOfContent"
-                    verticalValue: 100.000000
         -   class: "UIControl"
             name: "Title"
             input: false
@@ -257,7 +255,7 @@ Slots:
                                 name: "Value"
                                 position: [56.000000, 26.000000]
                                 input: false
-                                classes: "bold t-headline white-wild-sand-text not-localize"
+                                classes: "bold t-headline white-wild-sand-text"
                                 components:
                                     UITextComponent:
                                         multiline: "MULTILINE_DISABLED"
@@ -305,7 +303,7 @@ Slots:
                                 name: "Value"
                                 position: [0.000000, 20.000000]
                                 input: false
-                                classes: "bold t-headline white-wild-sand-text not-localize"
+                                classes: "bold t-headline white-wild-sand-text"
                                 components:
                                     UITextComponent:
                                         multiline: "MULTILINE_DISABLED"
@@ -363,7 +361,7 @@ Slots:
                                         verticalPolicy: "FixedSize"
                                         verticalValue: 24.000000
                                 bindings:
-                                - ["classes", "\"bold t-headline not-localize\" + \" \" + winrateColor"]
+                                - ["classes", "\"bold t-headline\" + \" \" + winrateColor"]
                                 - ["UITextComponent.text", "percent(winPercentageInSeason, 2)"]
                         -   class: "UIControl"
                             name: "Block4"
@@ -400,7 +398,7 @@ Slots:
                             -   class: "UIControl"
                                 name: "Value"
                                 input: false
-                                classes: "bold t-headline white-wild-sand-text not-localize"
+                                classes: "bold t-headline white-wild-sand-text"
                                 components:
                                     UITextComponent:
                                         multiline: "MULTILINE_DISABLED"
@@ -618,7 +616,7 @@ Slots:
                                                 horizontalPolicy: "PercentOfContent"
                                                 verticalPolicy: "PercentOfContent"
                                         bindings:
-                                        - ["classes", "\"t-content-h0 bold not-localize\" + \" \" + ratingPositionColor + \"-text\""]
+                                        - ["classes", "\"t-content-h0 bold\" + \" \" + ratingPositionColor + \"-text\""]
                                         - ["UITextComponent.text", "seasonInfo.ratingPosition"]
                                 -   class: "UIControl"
                                     name: "LaurelRight"
@@ -699,7 +697,7 @@ Slots:
                                 name: "RatingValue"
                                 size: [39.000000, 24.000000]
                                 input: false
-                                classes: "t-content-h2 bold yellow-submarine-text not-localize"
+                                classes: "t-content-h2 bold yellow-submarine-text"
                                 components:
                                     UITextComponent:
                                         colorInheritType: "COLOR_IGNORE_PARENT"
@@ -762,7 +760,7 @@ Slots:
                                 name: "RatingValue"
                                 size: [39.000000, 24.000000]
                                 input: false
-                                classes: "t-content-h2 bold yellow-submarine-text not-localize"
+                                classes: "t-content-h2 bold yellow-submarine-text"
                                 components:
                                     UITextComponent:
                                         colorInheritType: "COLOR_IGNORE_PARENT"
@@ -956,7 +954,7 @@ Slots:
                                 name: "Value"
                                 position: [48.000000, 26.000000]
                                 input: false
-                                classes: "bold t-headline yellow-submarine-text not-localize"
+                                classes: "bold t-headline yellow-submarine-text"
                                 components:
                                     UITextComponent:
                                         multiline: "MULTILINE_DISABLED"
@@ -1007,7 +1005,7 @@ Slots:
                             -   class: "UIControl"
                                 name: "Value"
                                 input: false
-                                classes: "bold t-headline yellow-submarine-text not-localize"
+                                classes: "bold t-headline yellow-submarine-text"
                                 components:
                                     UITextComponent:
                                         multiline: "MULTILINE_DISABLED"
@@ -1240,7 +1238,7 @@ Slots:
 -   class: "UIControl"
     name: "RatingPositionIntValue"
     input: false
-    classes: "bold t-headline white-wild-sand-text not-localize"
+    classes: "bold t-headline white-wild-sand-text"
     components:
         UITextComponent:
             multiline: "MULTILINE_DISABLED"
@@ -1299,7 +1297,7 @@ Slots:
                 horizontalPolicy: "PercentOfContent"
                 verticalPolicy: "PercentOfContent"
         bindings:
-        - ["classes", "\"t-content-h4 bold not-localize\" + \" \" + ratingPositionColor + \"-text\""]
+        - ["classes", "\"t-content-h4 bold\" + \" \" + ratingPositionColor + \"-text\""]
         - ["UITextComponent.text", "seasonInfo.ratingPosition"]
     -   class: "UIControl"
         name: "LaurelRight"

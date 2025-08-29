@@ -136,7 +136,7 @@ Prototypes:
                 name: "Battles"
                 position: [0.000000, 0.000000]
                 input: false
-                classes: "t-body bold color=white-wild-sand-text not-localize"
+                classes: "t-body bold color=white-wild-sand-text"
                 components:
                     UITextComponent: {}
                     Anchor:
@@ -165,14 +165,14 @@ Prototypes:
                     StyleSheet:
                         styles: "~res:/UI/Screens3/Font.style.yaml"
                 bindings:
-                - ["classes", "\"t-body bold not-localize \" + winRateTextColor"]
+                - ["classes", "\"t-body bold \" + winRateTextColor"]
                 - ["UITextComponent.text", "winRate"]
             -   class: "UIControl"
                 name: "Experience"
                 position: [141.500000, 0.000000]
                 visible: false
                 input: false
-                classes: "t-body bold color=white-wild-sand-text not-localize"
+                classes: "t-body bold color=white-wild-sand-text"
                 components:
                     UITextComponent: {}
                     Anchor:
@@ -188,7 +188,7 @@ Prototypes:
                 name: "Damage"
                 visible: false
                 input: false
-                classes: "t-body bold color=white-wild-sand-text not-localize"
+                classes: "t-body bold color=white-wild-sand-text"
                 components:
                     UITextComponent: {}
                     Anchor:
@@ -247,5 +247,6 @@ Prototypes:
                         "size": "eButtonSize.NORMAL"
                         "type": "eButtonType.POSITIVE"
                         "caption": "localize(\"buyout_tank/overlay/button\")"
+                        "hasShadow": "false"
                     eventActions:
                     - ["ON_CLICK_BUTTON", "ON_BUYOUT_CLICKED", "model.itemCompDescr"]

@@ -32,6 +32,8 @@ Prototypes:
             - ["bool", "isPremium", "false", "false"]
             - ["vector<TabIconInfo>", "tabsInfo", "null", "[ { \"sprite\" = \"~res:/Gfx/Lobby/icons/icon_battles_m\"; \"tabSize\" = eTabSize.L; }; { \"sprite\" = \"~res:/Gfx/Lobby/icons/icon_tank_m\"; \"tabSize\" = eTabSize.L; }; { \"sprite\" = \"~res:/Gfx/Lobby/icons/icon_command_m\"; \"tabSize\" = eTabSize.L; }; ]"]
             - ["ePageType", "selectedTab", "ePageType.Efficiency", "ePageType.Efficiency"]
+            - ["string", "bgStyle", "\"\"", "\"\""]
+            - ["float", "blurOpacity", "1.000000", "1.000000"]
             events:
             - "SendReactionsForAutotest"
             - "SendReactionsForMyEveryone"
@@ -129,7 +131,9 @@ Prototypes:
                 components:
                     UIDataParamsComponent:
                         args:
-                            "isBlur": "selectedTab != ePageType.TeamEffectiveness"
+                            "blurOpacity": "blurOpacity"
+                            "bgOpacity": "blurOpacity"
+                            "bgStyle": "bgStyle"
                             "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "CloseButton"
@@ -418,7 +422,9 @@ Prototypes:
                 components:
                     UIDataParamsComponent:
                         args:
-                            "isBlur": "selectedTab != ePageType.TeamEffectiveness"
+                            "blurOpacity": "blurOpacity"
+                            "bgOpacity": "blurOpacity"
+                            "bgStyle": "bgStyle"
                             "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "Tabs"

@@ -180,7 +180,7 @@ Prototypes:
                 - ["visible", "type == eDialogType.CHOOSE or type == eDialogType.FILL"]
                 children:
                 -   prototype: "Button/Button"
-                    name: "ButtonOptionalLight"
+                    name: "ButtonAlternative"
                     components:
                         Anchor:
                             vCenterAnchorEnabled: true
@@ -216,7 +216,7 @@ Prototypes:
                         eventActions:
                         - ["ON_CLICK_BUTTON", "ACCENT_CLICKED", "_event"]
             -   prototype: "Button/Button"
-                name: "CancelButton"
+                name: "ButtonOptionalLight"
                 components:
                     SizePolicy:
                         horizontalPolicy: "PercentOfParent"

@@ -1,0 +1,176 @@
+Header:
+    version: 149
+Prototypes:
+-   class: "UIControl"
+    name: "ShortProfileTankCounter"
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+            vCenterAnchorEnabled: true
+        UIOpacityComponent: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfMaxChild"
+            verticalPolicy: "PercentOfMaxChild"
+        UIDataParamsComponent:
+            params:
+            - ["int", "indexInScrollableContainer", "0", "2"]
+            - ["bool", "hasInput", "true", "true"]
+            - ["int", "counterId", "0", "1"]
+            - ["int", "vehicleId", "0", "0"]
+            - ["CountersConfiguration", "countersInfo", "null", "{ }"]
+            - ["RankState", "state", "null", "{ }"]
+            events:
+            - "OnCounterClicked"
+        UIDataLocalBindingsComponent:
+            data:
+            - ["Counter", "counter", "when countersInfo.counters.Contains(counterId) -> countersInfo.counters[counterId], null"]
+            - ["int", "progress", "when not isNull(counter) and state.counters.Contains(counter.actionId) -> state.counters[counter.actionId], 0"]
+            - ["CounterLevelData", "levelData", "when not isNull(counter) -> GetRankLevelData(counter.levels, progress), null"]
+            - ["int", "currentLevel", "when not isNull(levelData) -> levelData.level, 0"]
+            - ["float", "progressPercent", "when not isNull(levelData) and levelData.progressCount > 0 -> float(progress - levelData.minProgress) / float(levelData.progressCount), 0.900000"]
+            - ["CounterGrade", "defaultGrade", "when countersInfo.grades.Contains(1) -> countersInfo.grades[1], null"]
+            - ["int", "upperBoundGrade", "previuosUpperBound(countersInfo.grades, currentLevel, -1)"]
+            - ["CounterGrade", "grade", "when upperBoundGrade >= 0 and countersInfo.grades.Contains(upperBoundGrade) -> countersInfo.grades[upperBoundGrade], null"]
+            - ["string", "iconKey", "when isNull(grade) -> \"\", grade.iconKey"]
+            - ["string", "decorationKey", "when isNull(grade) -> \"\", grade.decorationKey"]
+            - ["string", "icon", "when not isNull(counter) and counter.viewData.graphics.Contains(iconKey) -> counter.viewData.graphics[iconKey], not isNull(counter) and not isNull(defaultGrade) and counter.viewData.graphics.Contains(defaultGrade.iconKey) -> counter.viewData.graphics[defaultGrade.iconKey], \"\""]
+            - ["string", "decorationIcon", "when not isNull(counter) and counter.viewData.graphics.Contains(decorationKey) -> counter.viewData.graphics[decorationKey], not isNull(counter) and not isNull(defaultGrade) and counter.viewData.graphics.Contains(defaultGrade.decorationKey) -> counter.viewData.graphics[defaultGrade.decorationKey], \"\""]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Profile/ShortProfileTankCounter.actions"
+    children:
+    -   class: "UIControl"
+        name: "ContentWrapper"
+        classes: "tank-counter button-open-sound"
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            UIOpacityComponent: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIInputEventComponent:
+                onTouchUpInside: "OnCounterClicked"
+            Sound: {}
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Lobby/Inventory/TankProgress/TankRank.style.yaml;~res:/UI/Screens3/ButtonSound.style.yaml"
+        bindings:
+        - ["input", "hasInput"]
+        children:
+        -   class: "UIControl"
+            name: "Counter"
+            pivot: [0.500000, 0.500000]
+            input: false
+            classes: "content-area"
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                LinearLayout:
+                    orientation: "TopDown"
+                    spacing: 8.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   class: "UIControl"
+                name: "IconWrapper"
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 96.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 96.000000
+                children:
+                -   class: "UIControl"
+                    name: "CounterIcon"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_SCALE_TO_RECT"
+                        UIUrlImageComponent: {}
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                    bindings:
+                    - ["UIUrlImageComponent.imageUrl", "icon"]
+                -   class: "UIControl"
+                    name: "ProgressWrapper"
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                    children:
+                    -   class: "UIControl"
+                        name: "Progress"
+                        input: false
+                        components:
+                            Background:
+                                drawType: "DRAW_SCALE_TO_RECT"
+                                sprite: "~res:/Gfx/Lobby/backgrounds/tank-rank/bg_rankCounter_Progress_s"
+                            UIOpacityComponent: {}
+                            UIClipPolygon: {}
+                            RadialProgressComponent:
+                                startAngle: 180.000000
+                                endAngle: 540.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfParent"
+                        bindings:
+                        - ["RadialProgressComponent.progress", "progressPercent"]
+                -   class: "UIControl"
+                    name: "DecorationIcon"
+                    input: false
+                    components:
+                        Background:
+                            drawType: "DRAW_SCALE_TO_RECT"
+                        UIUrlImageComponent: {}
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                    bindings:
+                    - ["UIUrlImageComponent.imageUrl", "decorationIcon"]
+                -   class: "UIControl"
+                    name: "Level"
+                    input: false
+                    classes: "t-body bold white-wild-sand-text"
+                    components:
+                        UITextComponent:
+                            colorInheritType: "COLOR_IGNORE_PARENT"
+                            fitting: "FITTING_REDUCE"
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            topAnchorEnabled: true
+                            topAnchor: 66.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml"
+                    bindings:
+                    - ["UITextComponent.text", "currentLevel"]
+            -   class: "UIControl"
+                name: "Progress"
+                input: false
+                classes: "t-body bold white-wild-sand-text"
+                components:
+                    UITextComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "str1000Separated(progress)"]

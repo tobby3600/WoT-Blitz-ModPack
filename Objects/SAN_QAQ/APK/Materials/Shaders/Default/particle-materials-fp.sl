@@ -212,7 +212,9 @@ fragment_out fp_main(fragment_in input)
 		output.color.rgb *= input.shadowColor;
 	#endif
 
-	#include "color-grading.slh"
+	#if !DRAW_WATER_DEFORMATION
+		#include "color-grading.slh"
+	#endif
 
 	#if RETRIEVE_FRAG_DEPTH_AVAILABLE && SOFT_PARTICLES
 		float3 projPos = input.projPos.xyz / input.projPos.w;

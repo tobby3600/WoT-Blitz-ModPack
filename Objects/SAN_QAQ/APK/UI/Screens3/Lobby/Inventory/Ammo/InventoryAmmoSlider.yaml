@@ -351,7 +351,7 @@ Prototypes:
                                                 "minValue": "slot.piercingMin"
                                     children:
                                     -   path: "CaptionRegular"
-                                        classes: "t-body bold white-wild-sand-text not-localize"
+                                        classes: "t-body bold white-wild-sand-text"
                                 -   prototype: "AmmoInfoLine/DamageInfoLine"
                                     name: "Damage"
                                     components:
@@ -367,7 +367,7 @@ Prototypes:
                                                 "minValue": "slot.damageMin"
                                     children:
                                     -   path: "CaptionRegular"
-                                        classes: "t-body bold white-wild-sand-text not-localize"
+                                        classes: "t-body bold white-wild-sand-text"
                     -   class: "UIControl"
                         name: "TutorialInfoControl"
                         position: [0.000000, 19.000000]

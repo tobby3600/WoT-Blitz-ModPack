@@ -1,0 +1,172 @@
+Header:
+    version: 152
+Prototypes:
+-   class: "UIControl"
+    name: "ChestsShopSliderInfo"
+    size: [1200.000000, 1090.000000]
+    input: false
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["AppDataModel", "app", "null", "{ }"]
+            - ["SessionDataModel", "session", "null", "{ }"]
+            - ["string", "taxMessage", "\"\"", "\"All prices include tax\""]
+            - ["ShopSlider", "slider", "null", "{ }"]
+            - ["ShopSliderInfoViewModel", "model", "null", "{ }"]
+            - ["bool", "hasOpenedOverlays", "false", "true"]
+            - ["bool", "wasPushed", "true", "true"]
+            events:
+            - "OnPresentRequested"
+            - "OnPurchaseRequested(int productId)"
+            - "OnMainRewardInfoRequested(int productId)"
+            - "OnRewardInfoRequested(ResourceDetailed resource, string attachId)"
+            - "OnInfoRequested(int productId)"
+            - "OnRetryPurchaseRequested"
+        UIDataLocalVarsComponent:
+            data:
+            - ["bool", "debugMode", "false"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["ShopProduct", "currentProduct", "when not slider.products.Empty() -> slider.products[0], null"]
+            - ["int", "currentProductId", "when not isNull(currentProduct) -> currentProduct.id, -1"]
+            - ["StuffResource", "chest", "when not isNull(currentProduct) and not currentProduct.content.Empty() -> currentProduct.content[0].stuff, null"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Shop/ShopSlider/ChestsShopSliderInfo.actions"
+        UIDataOnEventComponent0:
+            eventName: "TOGGLE_DEBUG"
+            modelFieldExpression: "debugMode"
+            dataExpression: "not debugMode"
+    children:
+    -   class: "UIControl"
+        name: "Overlay"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Overlay/OverlayBasic.yaml"
+                args:
+                    "customBgStyle": "\"black-bg\""
+                    "headerCurrencies": "model.headerCurrencies"
+                    "backContent": "when not isNull(currentProduct) and not currentProduct.contentUrl.empty() -> ContentImageWrapper, null"
+                    "closeButtonIcon": "when hasOpenedOverlays -> \"~res:/Gfx/Lobby/icons/icon_arrow-back\", \"\""
+                    "wasPushed": "wasPushed"
+                    "contentHeight": "600"
+                    "rightCornerContent": "when model.infoButtons.Contains(currentProductId) and model.infoButtons[currentProductId] -> InfoButton, null"
+                    "titleContent": "Title"
+                    "hasCustomBg": "true"
+                    "content": "Content"
+                    "customBgURL": "currentProduct.backgroundUrl"
+                    "isBlurMask": "true"
+                    "blurMaskID": "\"chestsShopSlider\""
+                eventActions:
+                - ["SHIFT_D", "TOGGLE_DEBUG", ""]
+                - ["OVERLAY_CONTENT_HEIGHT_CHANGED", "OVERLAY_CONTENT_HEIGHT_CHANGED", "_event"]
+                - ["EXTRA2_ACTION", "MainActionRequested", ""]
+                - ["BACK_EVENT", "BACK_EVENT", ""]
+    -   class: "UIControl"
+        name: "Loading"
+        exclusiveInput: true
+        components:
+            IgnoreLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            ModalInput: {}
+            UIChildComponent0:
+                condition: "model.purchaseInProgress"
+                prototypePath: "~res:/UI/Screens3/Common/LoadingOverlay.yaml"
+        bindings:
+        - ["visible", "model.purchaseInProgress"]
+Slots:
+-   class: "UIControl"
+    name: "Title"
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+            topAnchorEnabled: true
+            topAnchor: 32.000000
+        LinearLayout:
+            spacing: 16.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "PercentOfMaxChild"
+        UIChildComponent0:
+            condition: "not isNull(chest) and not isNull(currentProduct)"
+            prototypePath: "~res:/UI/Screens3/Lobby/Chests/ChestTite.yaml"
+            args:
+                "title": "currentProduct.name"
+                "grade": "chest.grade"
+-   class: "UIControl"
+    name: "InfoButton"
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+            vCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfMaxChild"
+            verticalPolicy: "PercentOfMaxChild"
+        UIChildComponent0:
+            prototypePath: "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+            args:
+                "isBgVisible": "false"
+                "type": "eButtonType.OPTIONAL_DARK"
+                "sound": "eButtonSound.OPEN"
+                "image": "\"~res:/Gfx/Lobby/icons/icon_info_xs\""
+            eventActions:
+            - ["ON_CLICK_BUTTON", "OnInfoRequested", "currentProductId"]
+-   class: "UIControl"
+    name: "Content"
+    size: [832.000000, 600.000000]
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "Formula"
+            horizontalFormula: "when parent < 1200 -> 832, 1072"
+            verticalPolicy: "PercentOfParent"
+        UIChildComponent0:
+            condition: "not isNull(currentProduct)"
+            prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopSlider/ChestsShopSliderInfoContent.yaml"
+            args:
+                "app": "app"
+                "session": "session"
+                "taxMessage": "taxMessage"
+                "product": "currentProduct"
+                "slider": "slider"
+                "chest": "when model.chests.Contains(currentProductId) -> model.chests[currentProductId], null"
+                "containsRealCurrencyProduct": "model.containsRealCurrencyProduct"
+                "containsXTimedProduct": "model.containsXTimedProduct"
+                "containsGiftableProduct": "model.containsGiftableProduct"
+                "debugMode": "debugMode"
+            eventActions:
+            - ["OnPresentRequested", "OnPresentRequested", ""]
+            - ["OnPurchaseRequested", "OnPurchaseRequested", "_event.productId"]
+            - ["OnMainRewardInfoRequested", "OnMainRewardInfoRequested", "_event.productId"]
+            - ["OnRewardInfoRequested", "OnRewardInfoRequested", "_event.resource, _event.attachId"]
+            - ["OnPurchaseState", "OnPurchaseState", "_event.started, _event.time, _event.offset"]
+            - ["OnRetryPurchaseRequested", "OnRetryPurchaseRequested", ""]
+-   class: "UIControl"
+    name: "ContentImageWrapper"
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+            topAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIChildComponent0:
+            prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopContentImageWrapper.yaml"
+            args:
+                "parentWidth": "screenWidth"
+                "imageUrl": "currentProduct.contentUrl"

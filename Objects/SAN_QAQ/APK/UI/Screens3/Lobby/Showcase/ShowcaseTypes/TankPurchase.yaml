@@ -94,7 +94,7 @@ Prototypes:
                         prototypePath: "~res:/UI/Screens3/Common/Footer.yaml"
                         args:
                             "content": "FooterContent"
-                            "isBlur": "false"
+                            "bgStyle": "\"black-50-bg\""
             -   class: "UIControl"
                 name: "DealInfoContainer"
                 enabled: true

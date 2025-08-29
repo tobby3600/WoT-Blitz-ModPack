@@ -4,7 +4,6 @@ ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Common/PlayerName.yaml"
 - "~res:/UI/Screens3/Lobby/Common/Button.yaml"
 - "~res:/UI/Screens3/Lobby/Profile/Common/ShortProfileTableCell.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ShortProfileOverlay"
@@ -43,7 +42,7 @@ Prototypes:
             - ["color", "stripBgEndColor", "when shortProfile.battleResult == BattleResult.WIN -> hsba(210, 44, 70, 0.000000), shortProfile.battleResult == BattleResult.LOSE -> hsba(7, 50, 50, 0.000000), hsba(0, 0, 35, 0.000000)"]
             - ["color", "stripBgStartColor", "when shortProfile.battleResult == BattleResult.WIN -> hsba(210, 44, 70, 0.800000), shortProfile.battleResult == BattleResult.LOSE -> hsba(7, 50, 50, 0.800000), hsba(0, 0, 35, 0.800000)"]
             - ["color", "stripDecorationEndColor", "when shortProfile.battleResult == BattleResult.WIN -> hsba(205, 25, 95, 0.000000), shortProfile.battleResult == BattleResult.LOSE -> hsba(10, 70, 65, 0.000000), hsba(0, 0, 50, 0.000000)"]
-            - ["color", "stripDecorationStartColor", "when shortProfile.battleResult == BattleResult.WIN -> hsba(205, 25, 95, 1.000000), shortProfile.battleResult == BattleResult.LOSE -> hsba(10, 70, 65, 1.000000), hsba(0, 0, 50, 1.000000)"]
+            - ["color", "stripDecorationStartColor", "when shortProfile.battleResult == BattleResult.WIN -> hsba(205, 25, 95, 0.800000), shortProfile.battleResult == BattleResult.LOSE -> hsba(10, 70, 65, 0.800000), hsba(0, 0, 50, 0.800000)"]
             - ["float", "winrate", "when isNull(profile.dossier) -> 0.000000, round(profile.dossier.winsRate * 100.000000) * 0.010000"]
             - ["string", "winrateColor", "when winrate >= 90.000000 -> \"red-red-text\", winrate >= 80.000000 -> \"gold-shining-text\", winrate >= 70.000000 -> \"purple-zhuk-text\", winrate >= 60.000000 -> \"blue-rimmi-text\", winrate >= 50.000000 -> \"green-zmilly-text\", \"white-wild-sand-text\""]
             - ["BattleResult", "battleResult", "shortProfile.battleResult"]
@@ -68,6 +67,8 @@ Prototypes:
                 "customBgURL": "profileBackground"
                 "hasCustomBg": "not profileBackground.empty()"
                 "scaleBg": "true"
+                "isBlurMask": "true"
+                "blurMaskID": "\"shortProfile\""
             eventActions:
             - ["OVERLAY_OPEN_FINISH", "OVERLAY_OPEN_FINISH", ""]
             - ["BACK_EVENT", "BACK_EVENT", ""]
@@ -100,22 +101,32 @@ Slots:
     -   class: "UIControl"
         name: "TopBlock"
         input: false
+        classes: "white-wild-sand-15-bg"
         components:
+            Background: {}
+            UIRoundedCornersComponent:
+                radius: "8"
             Anchor:
                 hCenterAnchorEnabled: true
             LinearLayout:
                 spacing: 24.000000
             SizePolicy:
                 horizontalPolicy: "Formula"
-                horizontalFormula: "parent - 128"
-                verticalPolicy: "PercentOfMaxChild"
+                horizontalFormula: "parent - 256"
+                verticalPolicy: "Formula"
+                verticalFormula: "maxChild + 12"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
         children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
+        -   class: "UIControl"
+            name: "Spacer"
+            input: false
             components:
-                UIDataParamsComponent:
-                    args:
-                        "roundCorner": "\"8\""
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 0.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 0.000000
         -   class: "UIControl"
             name: "Vehicle"
             input: false
@@ -163,7 +174,6 @@ Slots:
                     prototypePath: "~res:/UI/Screens3/Lobby/Profile/ShortProfilePlayerInfo.yaml"
                     args:
                         "profile": "profile"
-                        "isInteractive": "not isGamepad"
                     eventActions:
                     - ["ON_TOUCH_UP", "OnCopyNickname", ""]
         -   class: "UIControl"
@@ -192,6 +202,7 @@ Slots:
                             "size": "eButtonSize.NORMAL"
                             "sound": "eButtonSound.OPEN"
                             "enabled": "true"
+                            "hasShadow": "false"
                         eventActions:
                         - ["ON_CLICK_BUTTON", "OnShowFullProfile", ""]
             -   class: "UIControl"
@@ -217,13 +228,22 @@ Slots:
                 bindings:
                 - ["visible", "shortProfile.reportData.reportAvailability != eReportAvailability.Unavailable"]
                 - ["UIOpacityComponent.opacity", "when shortProfile.reportData.reportAvailability == eReportAvailability.Available -> 1, 0.500000"]
+        -   class: "UIControl"
+            name: "Spacer"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 0.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 0.000000
     -   class: "UIControl"
-        name: "Spacer1"
+        name: "Spacer"
         input: false
         components:
             SizePolicy:
                 verticalPolicy: "FixedSize"
-                verticalValue: 28.000000
+                verticalValue: 16.000000
     -   class: "UIControl"
         name: "StatsBlock"
         input: false
@@ -231,133 +251,69 @@ Slots:
             Anchor:
                 hCenterAnchorEnabled: true
             LinearLayout:
-                spacing: 24.000000
+                orientation: "TopDown"
+                spacing: 8.000000
             SizePolicy:
                 horizontalPolicy: "Formula"
-                horizontalFormula: "parent - 128"
-                verticalPolicy: "PercentOfMaxChild"
+                horizontalFormula: "firstChild + 48"
+                verticalPolicy: "PercentOfChildrenSum"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
         children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
-            components:
-                UIDataParamsComponent:
-                    args:
-                        "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "BaseStats"
             input: false
+            classes: "white-wild-sand-15-bg"
             components:
                 Anchor:
                     hCenterAnchorEnabled: true
+                Background: {}
+                UIRoundedCornersComponent:
+                    radius: "8"
                 LinearLayout:
-                    spacing: 34.000000
+                    spacing: 35.000000
                 SizePolicy:
-                    horizontalPolicy: "PercentOfChildrenSum"
-                    verticalPolicy: "PercentOfMaxChild"
+                    horizontalPolicy: "Formula"
+                    horizontalFormula: "childrenSum + 36"
+                    verticalPolicy: "Formula"
+                    verticalFormula: "maxChild + 18"
             children:
             -   class: "UIControl"
-                name: "Column1"
+                name: "Spacer"
                 input: false
                 components:
-                    LinearLayout:
-                        orientation: "TopDown"
-                        spacing: 18.000000
                     SizePolicy:
-                        horizontalPolicy: "PercentOfMaxChild"
-                        verticalPolicy: "PercentOfChildrenSum"
-                children:
-                -   class: "UIControl"
-                    name: "Battles"
-                    input: false
-                    components:
-                        SizePolicy:
-                            horizontalPolicy: "PercentOfFirstChild"
-                            verticalPolicy: "PercentOfFirstChild"
-                        UIChildComponent0:
-                            prototypePath: "~res:/UI/Screens3/Lobby/Profile/Common/ShortProfileStatCell.yaml"
-                            args:
-                                "header": "\"profile/Brief/TotalBattles\""
-                                "value": "str1000Separated(totalBattlesCount)"
-                -   class: "UIControl"
-                    name: "AverageDamage"
-                    input: false
-                    components:
-                        SizePolicy:
-                            horizontalPolicy: "PercentOfFirstChild"
-                            verticalPolicy: "PercentOfFirstChild"
-                        UIChildComponent0:
-                            prototypePath: "~res:/UI/Screens3/Lobby/Profile/Common/ShortProfileStatCell.yaml"
-                            args:
-                                "header": "\"shortProfile/averageDamage\""
-                                "value": "str1000Separated(int(round(avgDamage)))"
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 0.000000
             -   class: "UIControl"
-                name: "Column2"
+                name: "Battles"
                 input: false
                 components:
-                    LinearLayout:
-                        orientation: "TopDown"
-                        spacing: 18.000000
+                    Anchor:
+                        vCenterAnchorEnabled: true
                     SizePolicy:
-                        horizontalPolicy: "PercentOfMaxChild"
-                        verticalPolicy: "PercentOfChildrenSum"
-                children:
-                -   class: "UIControl"
-                    name: "WinRate"
-                    input: false
-                    components:
-                        SizePolicy:
-                            horizontalPolicy: "PercentOfFirstChild"
-                            verticalPolicy: "PercentOfFirstChild"
-                        UIChildComponent0:
-                            prototypePath: "~res:/UI/Screens3/Lobby/Profile/Common/ShortProfileStatCell.yaml"
-                            args:
-                                "header": "\"profile/Brief/TotalVictories\""
-                                "value": "percent(winRate, 2)"
-                                "valueColor": "winrateColor"
-                -   class: "UIControl"
-                    name: "MaxDamage"
-                    input: false
-                    components:
-                        SizePolicy:
-                            horizontalPolicy: "PercentOfFirstChild"
-                            verticalPolicy: "PercentOfFirstChild"
-                        UIAttachLayoutMasterComponent:
-                            attachId: "MaxDamage"
-                        UIChildComponent0:
-                            prototypePath: "~res:/UI/Screens3/Lobby/Profile/Common/ShortProfileStatCell.yaml"
-                            args:
-                                "header": "\"shortProfile/maxDamage\""
-                                "value": "str1000Separated(when isNull(profile.dossier) -> 0, profile.dossier.maxDamage)"
-                                "interactive": "true"
-                            eventActions:
-                            - ["OnStatTouch", "OnShowMaxDamage", ""]
-        -   class: "UIControl"
-            name: "RatingButton"
-            input: false
-            components:
-                Anchor:
-                    vCenterAnchorEnabled: true
-                SizePolicy:
-                    horizontalPolicy: "PercentOfFirstChild"
-                    verticalPolicy: "PercentOfFirstChild"
-                UIChildComponent0:
-                    prototypePath: "~res:/UI/Screens3/Lobby/Profile/Common/ShortProfileRatingButton.yaml"
-                    args:
-                        "rating": "profile.rating"
-                    eventActions:
-                    - ["OnButtonClicked", "OnShowRating", ""]
-        -   class: "UIControl"
-            name: "Counters"
-            input: false
-            components:
-                ClipContent:
-                    right: false
-                LinearLayout:
-                    spacing: 24.000000
-                SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "PercentOfMaxChild"
-            children:
+                        horizontalPolicy: "PercentOfFirstChild"
+                        verticalPolicy: "PercentOfFirstChild"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Lobby/Profile/Common/ShortProfileStatCell.yaml"
+                        args:
+                            "header": "\"profile/Brief/TotalBattles\""
+                            "value": "str1000Separated(totalBattlesCount)"
+            -   class: "UIControl"
+                name: "WinRate"
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfFirstChild"
+                        verticalPolicy: "PercentOfFirstChild"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Lobby/Profile/Common/ShortProfileStatCell.yaml"
+                        args:
+                            "header": "\"profile/Brief/TotalVictories\""
+                            "value": "percent(winRate, 2)"
+                            "valueColor": "winrateColor"
             -   class: "UIControl"
                 name: "Separator"
                 input: false
@@ -365,31 +321,101 @@ Slots:
                 components:
                     Background: {}
                     Anchor:
+                        hCenterAnchorEnabled: true
                         vCenterAnchorEnabled: true
                     SizePolicy:
                         horizontalPolicy: "FixedSize"
                         horizontalValue: 1.000000
-                        verticalPolicy: "FixedSize"
-                        verticalValue: 60.000000
+                        verticalPolicy: "Formula"
+                        verticalFormula: "parent - 18"
                     StyleSheet:
                         styles: "~res:/UI/Screens3/Color.style.yaml"
-                bindings:
-                - ["visible", "shortProfile.unlockedCounterIds.Size() * counterItemWidth > counterViewWidth"]
             -   class: "UIControl"
-                name: "CountersBlock"
+                name: "RatingButton"
                 input: false
                 components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
                     SizePolicy:
-                        horizontalPolicy: "PercentOfParent"
+                        horizontalPolicy: "PercentOfFirstChild"
                         verticalPolicy: "PercentOfFirstChild"
                     UIChildComponent0:
-                        childType: "kControl"
-                        condition: "shortProfile.isLoadingDossier"
-                        control: "VehicleDossierLoading"
-                    UIChildComponent1:
-                        childType: "kControl"
-                        condition: "not isNull(shortProfile.tankDossier) and session.rankConfig.countersInfo.vehicles.Contains(vehicleId)"
-                        control: "VehicleCountersWrapper"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Profile/Common/ShortProfileRatingButton.yaml"
+                        args:
+                            "rating": "profile.rating"
+                        eventActions:
+                        - ["OnButtonClicked", "OnShowRating", ""]
+            -   class: "UIControl"
+                name: "Separator"
+                input: false
+                classes: "white-wild-sand-25-bg"
+                components:
+                    Background: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 1.000000
+                        verticalPolicy: "Formula"
+                        verticalFormula: "parent - 18"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "AverageDamage"
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfFirstChild"
+                        verticalPolicy: "PercentOfFirstChild"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Lobby/Profile/Common/ShortProfileStatCell.yaml"
+                        args:
+                            "header": "\"shortProfile/averageDamage\""
+                            "value": "str1000Separated(int(round(avgDamage)))"
+            -   class: "UIControl"
+                name: "MaxDamage"
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfFirstChild"
+                        verticalPolicy: "PercentOfFirstChild"
+                    UIAttachLayoutMasterComponent:
+                        attachId: "MaxDamage"
+                    UIChildComponent0:
+                        prototypePath: "~res:/UI/Screens3/Lobby/Profile/Common/ShortProfileStatCell.yaml"
+                        args:
+                            "header": "\"shortProfile/maxDamage\""
+                            "value": "str1000Separated(when isNull(profile.dossier) -> 0, profile.dossier.maxDamage)"
+                            "interactive": "true"
+                        eventActions:
+                        - ["OnStatTouch", "OnShowMaxDamage", ""]
+        -   class: "UIControl"
+            name: "Counters"
+            input: false
+            classes: "white-wild-sand-15-bg"
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                Background: {}
+                ClipContent: {}
+                UIRoundedCornersComponent:
+                    radius: "8"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfMaxChild"
+                UIChildComponent0:
+                    childType: "kControl"
+                    condition: "shortProfile.isLoadingDossier"
+                    control: "VehicleDossierLoading"
+                UIChildComponent1:
+                    childType: "kControl"
+                    condition: "not isNull(shortProfile.tankDossier) and session.rankConfig.countersInfo.vehicles.Contains(vehicleId)"
+                    control: "VehicleCountersWrapper"
     -   class: "UIControl"
         name: "Spacer1"
         input: false
@@ -400,7 +426,11 @@ Slots:
     -   class: "UIControl"
         name: "CurrentBattleBlock"
         input: false
+        classes: "white-wild-sand-15-bg"
         components:
+            Background: {}
+            UIRoundedCornersComponent:
+                radius: "8"
             Anchor:
                 hCenterAnchorEnabled: true
             LinearLayout:
@@ -410,81 +440,22 @@ Slots:
                 horizontalPolicy: "Formula"
                 horizontalFormula: "parent - 128"
                 verticalPolicy: "PercentOfChildrenSum"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
         children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
-            components:
-                UIDataParamsComponent:
-                    args:
-                        "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "CurrentBattleBlockTitle"
             input: false
             components:
                 Anchor:
                     hCenterAnchorEnabled: true
-                LinearLayout:
-                    spacing: 16.000000
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "PercentOfMaxChild"
-            children:
-            -   class: "UIControl"
-                name: "LeftLine"
-                input: false
-                classes: "white-wild-sand-25-bg"
-                components:
-                    Background: {}
-                    UIGradientComponent:
-                        startColor: [0.960784, 0.960784, 0.960784, 1.000000]
-                        finishColor: [0.960784, 0.960784, 0.960784, 0.000000]
-                        orientation: "RightToLeft"
-                    Anchor:
-                        vCenterAnchorEnabled: true
-                    SizePolicy:
-                        horizontalPolicy: "PercentOfParent"
-                        verticalPolicy: "FixedSize"
-                        verticalValue: 1.000000
-                    StyleSheet:
-                        styles: "~res:/UI/Screens3/Color.style.yaml"
-            -   class: "UIControl"
-                name: "Label"
-                input: false
-                classes: "t-overline bold white-wild-sand-text"
-                components:
-                    UITextComponent: {}
-                    SizePolicy:
-                        horizontalPolicy: "PercentOfContent"
-                        verticalPolicy: "PercentOfContent"
-                    StyleSheet:
-                        styles: "~res:/UI/Screens3/Font.style.yaml"
-                bindings:
-                - ["UITextComponent.text", "capitalize(localize(\"shortProfile/currentBattleStats\"))"]
-            -   class: "UIControl"
-                name: "RightLine"
-                input: false
-                classes: "white-wild-sand-25-bg"
-                components:
-                    Background: {}
-                    UIGradientComponent:
-                        startColor: [0.960784, 0.960784, 0.960784, 1.000000]
-                        finishColor: [0.960784, 0.960784, 0.960784, 0.000000]
-                        orientation: "LeftToRight"
-                    Anchor:
-                        vCenterAnchorEnabled: true
-                    SizePolicy:
-                        horizontalPolicy: "PercentOfParent"
-                        verticalPolicy: "FixedSize"
-                        verticalValue: 1.000000
-                    StyleSheet:
-                        styles: "~res:/UI/Screens3/Color.style.yaml"
-        -   class: "UIControl"
-            name: "Spacer1"
-            input: false
-            components:
-                SizePolicy:
-                    verticalPolicy: "FixedSize"
-                    verticalValue: 4.000000
+                    verticalPolicy: "PercentOfFirstChild"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/DividerWithCaption.yaml"
+                    args:
+                        "text": "localize(\"shortProfile/currentBattleStats\")"
         -   class: "UIControl"
             name: "Stats"
             input: false
@@ -507,7 +478,6 @@ Slots:
                         orientation: "TopDown"
                     SizePolicy:
                         horizontalPolicy: "PercentOfParent"
-                        horizontalValue: 100.000000
                         verticalPolicy: "Formula"
                         verticalFormula: "max(parent, childrenSum)"
                 children:
@@ -574,7 +544,6 @@ Slots:
                         orientation: "TopDown"
                     SizePolicy:
                         horizontalPolicy: "PercentOfParent"
-                        horizontalValue: 100.000000
                         verticalPolicy: "Formula"
                         verticalFormula: "max(parent, childrenSum)"
                 children:
@@ -683,20 +652,15 @@ Slots:
         bindings:
         - ["visible", "hasMedals"]
         children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
-            components:
-                UIDataParamsComponent:
-                    args:
-                        "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "Strip"
             input: false
             components:
+                UIRoundedCornersComponent:
+                    radius: "8"
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "FixedSize"
-                    verticalValue: 104.000000
+                    verticalPolicy: "PercentOfParent"
             children:
             -   class: "UIControl"
                 name: "Bg"
@@ -709,8 +673,7 @@ Slots:
                     LinearLayout: {}
                     SizePolicy:
                         horizontalPolicy: "PercentOfParent"
-                        verticalPolicy: "FixedSize"
-                        verticalValue: 104.000000
+                        verticalPolicy: "PercentOfParent"
                 children:
                 -   class: "UIControl"
                     name: "Left"
@@ -989,66 +952,48 @@ Slots:
                 verticalPolicy: "PercentOfParent"
             UIChildComponent0:
                 prototypePath: "~res:/UI/Screens3/Common/Loaders/LoaderCircle.yaml"
--   class: "UIControl"
+-   class: "UIScrollView"
     name: "VehicleCountersWrapper"
     size: [300.000000, 124.000000]
-    input: false
+    autoUpdate: true
     components:
-        LinearLayout:
-            orientation: "RightToLeft"
+        Anchor:
+            hCenterAnchorEnabled: true
+        ClipContent: {}
         SizePolicy:
-            horizontalPolicy: "PercentOfParent"
+            horizontalPolicy: "PercentOfFirstChild"
             verticalPolicy: "PercentOfMaxChild"
+        UILayoutEventComponent:
+            sizeChangedEvent: "OnCountersScrollViewWidthChanged"
+            sizeChangedEventData: "_size.X"
     children:
-    -   class: "UIScrollView"
-        name: "VehicleCountersScrollView"
-        size: [100.000000, 124.000000]
-        autoUpdate: true
+    -   class: "UIScrollViewContainer"
+        name: "VehicleCounters"
+        scrollDirection: "kHorizontal"
+        input: false
         components:
-            ClipContent:
-                left: false
-                right: false
             Anchor:
-                rightAnchorEnabled: true
+                hCenterAnchorEnabled: true
+            LinearLayout:
+                padding: "16"
+                spacing: 24.000000
             SizePolicy:
-                horizontalPolicy: "Formula"
-                horizontalFormula: "min(parentRest, firstChild)"
+                horizontalPolicy: "PercentOfChildrenSum"
                 verticalPolicy: "PercentOfMaxChild"
+            UIRepeatComponent:
+                control: "~res:/UI/Screens3/Lobby/Profile/ShortProfileTankCounter.yaml"
+                dataContainer: "shortProfile.unlockedCounterIds"
+                args:
+                    "indexInScrollableContainer": "_index"
+                    "counterId": "_item"
+                    "state": "shortProfile.tankDossier.rankState"
+                    "countersInfo": "session.rankConfig.countersInfo"
+                    "vehicleId": "vehicleId"
+                eventActions:
+                - ["OnCounterClicked", "OnShowCounterInfo", "_item"]
             UILayoutEventComponent:
-                sizeChangedEvent: "OnCountersScrollViewWidthChanged"
-                sizeChangedEventData: "_size.X"
-        children:
-        -   class: "UIScrollViewContainer"
-            name: "scrollContainerControl"
-            scrollDirection: "kHorizontal"
-            components:
-                SizePolicy:
-                    horizontalPolicy: "PercentOfFirstChild"
-                    verticalPolicy: "PercentOfMaxChild"
-                UILayoutEventComponent:
-                    positionChangedEvent: "UpdateCountersVisibility"
-                    positionChangedEventData: "_parentSize.X, _position.X"
-            children:
-            -   class: "UIControl"
-                name: "VehicleCounters"
-                input: false
-                components:
-                    LinearLayout:
-                        padding: "0; 64"
-                    SizePolicy:
-                        horizontalPolicy: "PercentOfChildrenSum"
-                        verticalPolicy: "PercentOfMaxChild"
-                    UIRepeatComponent:
-                        control: "~res:/UI/Screens3/Lobby/Profile/ShortProfileTankCounter.yaml"
-                        dataContainer: "shortProfile.unlockedCounterIds"
-                        args:
-                            "indexInScrollableContainer": "_index"
-                            "counterId": "_item"
-                            "state": "shortProfile.tankDossier.rankState"
-                            "countersInfo": "session.rankConfig.countersInfo"
-                            "vehicleId": "vehicleId"
-                        eventActions:
-                        - ["OnCounterClicked", "OnShowCounterInfo", "_item"]
+                positionChangedEvent: "UpdateCountersVisibility"
+                positionChangedEventData: "_parentSize.X, _position.X"
 -   class: "UIControl"
     name: "PopoverContent"
     input: false

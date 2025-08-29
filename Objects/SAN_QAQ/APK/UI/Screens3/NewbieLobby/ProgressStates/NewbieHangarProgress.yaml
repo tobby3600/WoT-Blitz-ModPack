@@ -1,0 +1,616 @@
+Header:
+    version: 133
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+- "~res:/UI/Screens3/Lobby/Common/ProgressBarWithCheckmarks.yaml"
+- "~res:/UI/Screens3/NewbieLobby/ProgressStates/Elements/Spacer.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "NewbieHangarProgress"
+    size: [1200.000000, 600.000000]
+    input: false
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/NewbieLobby/ProgressStates/Animations/NewbieHangarProgressInit.animation;FINISH,~res:/UI/Screens3/NewbieLobby/ProgressStates/Animations/NewbieHangarProgressFinish.animation;ON_SWITCH_ACCEPT,~res:/UI/Screens3/NewbieLobby/ProgressStates/Animations/NewbieButtonFinish.animation"
+        Anchor:
+            topAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "isNextHangar", "true", "true"]
+            - ["NewbieProgressViewModel", "newbieProgress", "null", "{ \"hangarLevel\" = 3; }"]
+            events:
+            - "ON_FINISHED"
+        UIDataLocalVarsComponent:
+            data:
+            - ["bool", "isDisplayingNations", "false"]
+            - ["bool", "showEffect", "false"]
+            - ["int", "currentStep", "newbieProgress.hangarLevel - 1"]
+            - ["float", "currentProgress", "0.000000"]
+            - ["bool", "inputDisabled", "false"]
+            - ["bool", "displayFinalDescription", "false"]
+            - ["float", "movingTime", "1.000000"]
+            - ["int", "nationsVerticalShift", "70"]
+            - ["float", "finishAnimationTime", "0.800000"]
+            - ["float", "lockDesintegrationPeriod", "0.300000"]
+            - ["float", "nationsAppearingTime", "1.000000"]
+            - ["bool", "showNationsUnlockAnimation", "false"]
+            - ["float", "locksEffectTime", "3.000000"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["string", "highlightStartRichAlias", "\"<white_bold>\""]
+            - ["string", "highlightEndRichAlias", "\"</white_bold>\""]
+            - ["string", "DescriptionKey1", "\"NewbieHangar/Progress/Win2Battles\""]
+            - ["string", "DescriptionKey2", "\"NewbieHangar/Progress/Win1Battle\""]
+            - ["string", "DescriptionKey3", "\"NewbieHangar/Progress/AllStagesFinished\""]
+            - ["string", "DescriptionKey4", "\"NewbieHangar/Progress/HangarFinished\""]
+            - ["string", "finalDescriptionKey", "when displayFinalDescription -> DescriptionKey4, currentStep == 0 -> DescriptionKey1, currentStep == 1 -> DescriptionKey2, currentStep == 2 -> DescriptionKey3, \"\""]
+            - ["string", "finalDescriptionString", "localize(finalDescriptionKey, { \"highlight_start\" = highlightStartRichAlias; \"highlight_end\" = highlightEndRichAlias; })"]
+            - ["vector<int>", "progressIndexes", "[ 0; 1; 2; ]"]
+            - ["vector<int>", "pointIndexes", "[ 0; 1; 2; 3; ]"]
+            - ["string", "presetName", "when newbieProgress.hangarPresetNames.Size() > currentStep -> newbieProgress.hangarPresetNames[currentStep], \"\""]
+            - ["vector<eNation>", "nations", "[ eNation.USA; eNation.EUROPEAN; eNation.GERMANY; eNation.USSR; eNation.UK; eNation.JAPAN; eNation.CHINA; eNation.FRANCE; ]"]
+            - ["string", "DescriptionKey6", "localize(\"NewbieHangar/NationPreselect/Description\", { \"highlight_start\" = highlightStartRichAlias; \"highlight_end\" = highlightEndRichAlias; })"]
+        UIIdentifierComponent:
+            id: "newbie_hangar_progress"
+            params: []
+    children:
+    -   class: "UIControl"
+        name: "CenteredContent"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+                dynamicPadding: true
+                dynamicSpacing: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "Formula"
+                verticalFormula: "max(parent - 300, childrenSum)"
+        children:
+        -   class: "UIControl"
+            name: "Caption"
+            input: false
+            classes: "t-title regular color=white-wild-sand-text"
+            components:
+                UIOpacityComponent: {}
+                UITextComponent:
+                    text: "NewbieHangar/Progress/Congratulations"
+                    colorInheritType: "COLOR_IGNORE_PARENT"
+                    align: ["LEFT", "VCENTER"]
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+        -   prototype: "Spacer/Spacer"
+            name: "Spacer"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "height": "33"
+        -   class: "UIControl"
+            name: "ProgressContainer"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                UIOpacityComponent: {}
+                LinearLayout:
+                    orientation: "TopDown"
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   class: "UIControl"
+                name: "HangarSteps"
+                input: false
+                components:
+                    UIOpacityComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    LinearLayout:
+                        skipInvisible: false
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfMaxChild"
+                children:
+                -   class: "UIControl"
+                    name: "Step1"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        UIOpacityComponent: {}
+                        Anchor:
+                            bottomAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 160.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 118.000000
+                    children:
+                    -   class: "UIControl"
+                        name: "Image"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            Background:
+                                sprite: "~res:/Gfx/Lobby/backgrounds/tutor-tanks/icon_newcomers_hangar_lv1"
+                            UIOpacityComponent: {}
+                            Anchor:
+                                bottomAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfParent"
+                -   class: "UIControl"
+                    name: "Spacer36"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 36.000000
+                -   class: "UIControl"
+                    name: "Step2"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        UIOpacityComponent: {}
+                        Anchor:
+                            bottomAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 180.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 133.000000
+                    children:
+                    -   class: "UIParticles"
+                        name: "Effect2"
+                        position: [82.000000, 79.000000]
+                        size: [32.000000, 32.000000]
+                        scale: [3.500000, 3.800000]
+                        pivot: [0.500000, 0.500000]
+                        visible: true
+                        input: false
+                        effectPath: "~res:/3d/FX/UI/HangarGlow/Glow.sc2"
+                        autoStart: false
+                        components:
+                            UIOpacityComponent: {}
+                    -   class: "UIControl"
+                        name: "Image"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            Background:
+                                sprite: "~res:/Gfx/Lobby/backgrounds/tutor-tanks/icon_newcomers_hangar_lv2"
+                            UIOpacityComponent: {}
+                            Anchor:
+                                bottomAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfParent"
+                -   class: "UIControl"
+                    name: "Spacer36"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 36.000000
+                -   class: "UIControl"
+                    name: "Step3"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        UIOpacityComponent: {}
+                        Anchor:
+                            bottomAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 200.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 148.000000
+                    children:
+                    -   class: "UIParticles"
+                        name: "Effect3"
+                        position: [91.000000, 83.000000]
+                        size: [32.000000, 32.000000]
+                        scale: [3.400000, 4.300000]
+                        pivot: [0.500000, 0.500000]
+                        input: false
+                        effectPath: "~res:/3d/FX/UI/HangarGlow/Glow.sc2"
+                        autoStart: false
+                        components:
+                            UIOpacityComponent: {}
+                    -   class: "UIControl"
+                        name: "Image"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            Background:
+                                sprite: "~res:/Gfx/Lobby/backgrounds/tutor-tanks/icon_newcomers_hangar_lv3"
+                            UIOpacityComponent: {}
+                            Anchor:
+                                bottomAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfParent"
+                -   class: "UIControl"
+                    name: "Spacer20"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 20.000000
+                -   class: "UIControl"
+                    name: "Step4"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        UIOpacityComponent: {}
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 260.000000
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 192.000000
+                    children:
+                    -   class: "UIControl"
+                        name: "StartPoint"
+                        size: [32.000000, 32.000000]
+                        pivot: [0.500000, 0.500000]
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            IgnoreLayout: {}
+                    -   class: "UIParticles"
+                        name: "Effect4"
+                        position: [117.000000, 110.000000]
+                        size: [32.000000, 32.000000]
+                        scale: [5.700000, 7.500000]
+                        pivot: [0.500000, 0.500000]
+                        visible: true
+                        input: false
+                        effectPath: "~res:/3d/FX/UI/HangarGlow/GlowFinalHangar.sc2"
+                        autoStart: false
+                        components:
+                            UIOpacityComponent: {}
+                    -   class: "UIControl"
+                        name: "Image"
+                        size: [32.000000, 32.000000]
+                        input: false
+                        components:
+                            Background:
+                                sprite: "~res:/Gfx/Lobby/backgrounds/tutor-tanks/icon_newcomers_hangar_lv4"
+                            UIOpacityComponent: {}
+                            Anchor:
+                                bottomAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfParent"
+            -   prototype: "Spacer/Spacer"
+                name: "Spacer_1"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "height": "18"
+            -   class: "UIControl"
+                name: "ComplexProgressBar"
+                size: [32.000000, 32.000000]
+                input: false
+                components:
+                    UIOpacityComponent: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfMaxChild"
+                children:
+                -   class: "UIControl"
+                    name: "ProgressBarSections"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        LinearLayout:
+                            padding: "49"
+                            spacing: 158.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 46.000000
+                    children:
+                    -   prototype: "ProgressBarWithCheckmarks/Progressbar"
+                        name: "Progressbar"
+                        components:
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            UIDataParamsComponent:
+                                args:
+                                    "pointIndexes": "pointIndexes"
+                                    "progressIndexes": "progressIndexes"
+                                    "progressWidth": "202"
+                                    "progressHeight": "8"
+                                    "currentStep": "currentStep"
+                                    "currentProgress": "currentProgress"
+                                    "lockType": "true"
+            -   class: "UIControl"
+                name: "FinalPoint"
+                size: [32.000000, 32.000000]
+                pivot: [0.500000, 0.500000]
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                        vCenterAnchor: 15.000000
+                    IgnoreLayout: {}
+            -   class: "UIControl"
+                name: "AnimatedStep4"
+                size: [32.000000, 32.000000]
+                scale: [1.150000, 1.150000]
+                pivot: [0.500000, 0.500000]
+                visible: false
+                input: false
+                components:
+                    UIOpacityComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                        vCenterAnchor: 15.000000
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 260.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 192.000000
+                children:
+                -   class: "UIParticles"
+                    name: "AnimatedEffect4"
+                    size: [32.000000, 32.000000]
+                    scale: [4.000000, 4.000000]
+                    pivot: [0.500000, 0.500000]
+                    input: false
+                    effectPath: "~res:/3d/FX/UI/DefaultGlow/DefaultGlow.sc2"
+                    components:
+                        UIOpacityComponent: {}
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                -   class: "UIControl"
+                    name: "Image"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        Background:
+                            sprite: "~res:/Gfx/Lobby/backgrounds/tutor-tanks/icon_newcomers_hangar_lv4"
+                        UIOpacityComponent: {}
+                        Anchor:
+                            bottomAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+        -   class: "UIControl"
+            name: "BottomContainer"
+            position: [0.000000, 325.000000]
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 264.000000
+            children:
+            -   class: "UIControl"
+                name: "Bottom"
+                input: false
+                components:
+                    UIOpacityComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "TopDown"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfChildrenSum"
+                bindings:
+                - ["visible", "not isDisplayingNations"]
+                children:
+                -   prototype: "Spacer/Spacer"
+                    name: "Spacer_2"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "height": "51"
+                -   class: "UIControl"
+                    name: "AchievementDescription"
+                    input: false
+                    components:
+                        UIOpacityComponent: {}
+                        RichContent:
+                            baseClasses: "t-subtitle regular color=white-wild-sand-70-text"
+                        RichContentAliases0:
+                            aliases:
+                            - ["white_bold", "<span class=\"t-subtitle bold white-wild-sand-text\" />"]
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "PercentOfChildrenSum"
+                        FlowLayout:
+                            alignment: "Center"
+                            hSpacing: 5.000000
+                            useRtl: true
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["RichContent.text", "finalDescriptionString"]
+                -   prototype: "Spacer/Spacer"
+                    name: "Spacer_3"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "height": "48"
+                -   class: "UIControl"
+                    name: "ButtonContainer"
+                    size: [32.000000, 32.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfFirstChild"
+                            verticalPolicy: "PercentOfFirstChild"
+                    children:
+                    -   prototype: "Button/Button"
+                        name: "Button"
+                        components:
+                            UIOpacityComponent: {}
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            UIDataParamsComponent:
+                                args:
+                                    "inputDisabled": "inputDisabled"
+                                    "caption": "\"#common:DialogButton/OK\""
+                                eventActions:
+                                - ["ON_CLICK_BUTTON", "FINISH", ""]
+                            UIIdentifierComponent:
+                                id: "ok_button"
+                                params:
+                                - ["bool", "input_enabled", "not bool(inputDisabled)"]
+    -   class: "UIControl"
+        name: "NationsContent"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "NationsContainer"
+            size: [32.000000, 160.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                    verticalValue: 40.000000
+                    verticalMin: 260.000000
+                    verticalMax: 300.000000
+            children:
+            -   class: "UIControl"
+                name: "Nations"
+                components:
+                    UIOpacityComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "TopDown"
+                        dynamicSpacing: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfMaxChild"
+                        verticalPolicy: "PercentOfParent"
+                bindings:
+                - ["visible", "isDisplayingNations"]
+                - ["Anchor.bottomAnchor", "nationsVerticalShift"]
+                children:
+                -   class: "UIControl"
+                    name: "DescriptionWrapper"
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfFirstChild"
+                            verticalPolicy: "Formula"
+                            verticalFormula: "firstChild + 24"
+                    children:
+                    -   class: "UIControl"
+                        name: "Description"
+                        input: false
+                        components:
+                            RichContent:
+                                baseClasses: "t-subtitle regular color=white-wild-sand-70-text"
+                            RichContentAliases0:
+                                aliases:
+                                - ["white_bold", "<span class=\"t-subtitle bold white-wild-sand-text\" />"]
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfChildrenSum"
+                                verticalPolicy: "PercentOfMaxChild"
+                            FlowLayout:
+                                hSpacing: 5.000000
+                                useRtl: true
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                        bindings:
+                        - ["RichContent.text", "DescriptionKey6"]
+                -   class: "UIControl"
+                    name: "NationsWithLocks"
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfFirstChild"
+                            verticalPolicy: "PercentOfFirstChild"
+                    children:
+                    -   class: "UIControl"
+                        name: "Items"
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            LinearLayout: {}
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfChildrenSum"
+                                verticalPolicy: "PercentOfMaxChild"
+                            UIRepeatComponent:
+                                control: "~res:/UI/Screens3/Login/Tutorial/NationItem.yaml"
+                                dataContainer: "nations"
+                                args:
+                                    "locked": "true"
+                                    "nation": "_item"
+                                    "icon": "when _item == eNation.USA -> \"~res:/Gfx/Lobby/flags/flag_tank-tree_usa\", _item == eNation.GERMANY -> \"~res:/Gfx/Lobby/flags/flag_tank-tree_germany\", _item == eNation.USSR -> \"~res:/Gfx/Lobby/flags/flag_tank-tree_ussr\", _item == eNation.UK -> \"~res:/Gfx/Lobby/flags/flag_tank-tree_uk\", _item == eNation.JAPAN -> \"~res:/Gfx/Lobby/flags/flag_tank-tree_japan\", _item == eNation.CHINA -> \"~res:/Gfx/Lobby/flags/flag_tank-tree_china\", _item == eNation.FRANCE -> \"~res:/Gfx/Lobby/flags/flag_tank-tree_france\", _item == eNation.EUROPEAN -> \"~res:/Gfx/Lobby/flags/flag_tank-tree_european\", \"\""
+                                    "selected": "false"
+                    -   class: "UIControl"
+                        name: "Locks"
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            LinearLayout: {}
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfParent"
+                            UIRepeatComponent:
+                                control: "~res:/UI/Screens3/NewbieLobby/ProgressStates/Elements/NationLock.yaml"
+                                dataContainer: "nations"
+                                args:
+                                    "showUnlock": "showNationsUnlockAnimation"
+                                    "desintegrationPeriod": "lockDesintegrationPeriod * (_index)"
+                -   class: "UIControl"
+                    name: "Spacer"
+                    input: false
+                    components:
+                        SizePolicy:
+                            verticalPolicy: "PercentOfParent"

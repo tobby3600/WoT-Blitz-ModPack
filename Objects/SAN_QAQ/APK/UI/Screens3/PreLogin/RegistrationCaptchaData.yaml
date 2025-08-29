@@ -1,0 +1,466 @@
+Header:
+    version: 159
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "RegistrationCaptchaData"
+    size: [960.000000, 640.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UILayoutEventComponent:
+            visibilityMarginsEvent: "KEYBOARD_EVENT"
+            visibilityMarginsEventData: "_visibilityMargins.bottom"
+        UIShortcutEventComponent:
+            shortcuts: "BACK_SHORTCUT,Back;BACK_SHORTCUT,Escape;CONFIRMATION_SHORTCUT,Enter"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "isLogin", "false", "true"]
+            - ["RegistrationLoginCaptchaData", "registrationCaptchaData", "null", "{ }"]
+            - ["bool", "isChina", "false", "false"]
+            - ["bool", "quicked", "false", "true"]
+            events:
+            - "FIELD_CLICKED"
+            - "EDITING_STARTED"
+            - "CAPTCHA_CHANGED(string captcha)"
+            - "RELOAD_CAPTCHA"
+            - "CONFIRM_CAPTCHA"
+            - "CANCEL_CAPTCHA"
+        UIDataLocalVarsComponent:
+            data:
+            - ["float", "keyboardHeight", "0.000000"]
+            - ["string", "captchaMasterId", "\"CAPTCHA\""]
+            - ["bool", "reinitHint", "false"]
+            - ["bool", "errorShown", "false"]
+            - ["string", "currentError", "\"\""]
+            - ["string", "nextError", "\"\""]
+            - ["string", "currentMasterId", "\"\""]
+            - ["string", "nextMasterId", "\"\""]
+            - ["string", "selectedHint", "\"\""]
+            - ["bool", "suggestionsShown", "false"]
+            - ["float", "hintsHideTime", "0.300000"]
+            - ["float", "hintsShowTime", "0.300000"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["bool", "canConfirm", "not empty(registrationCaptchaData.captchaInput)"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/PreLogin/RegistrationCaptchaData.actions"
+    children:
+    -   class: "UIControl"
+        name: "Background"
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                rightAnchorEnabled: true
+                topAnchorEnabled: true
+                bottomAnchorEnabled: true
+            IgnoreLayout: {}
+        children:
+        -   class: "UIControl"
+            name: "Fades"
+            position: [142.000000, 40.000000]
+            size: [582.000000, 640.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                LinearLayout:
+                    dynamicSpacing: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "Left"
+                input: false
+                classes: "black-bg"
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_TO_RECT"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                        spriteModification: ["FLIP_HORIZONTAL"]
+                    UIOpacityComponent:
+                        opacity: 0.250000
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "Formula"
+                        horizontalFormula: "parent / 4"
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "Main"
+                input: false
+                classes: "black-bg"
+                components:
+                    Background: {}
+                    UIOpacityComponent:
+                        opacity: 0.400000
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "Right"
+                position: [720.000000, 54.000000]
+                input: false
+                classes: "black-bg"
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_TO_RECT"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                    UIOpacityComponent:
+                        opacity: 0.250000
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "Formula"
+                        horizontalFormula: "parent / 4"
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+    -   class: "UIScrollView"
+        name: "Scroll"
+        classes: "notch-tightly-bottom-inset"
+        autoUpdate: true
+        centerContent: true
+        components:
+            ClipContent:
+                enabled: false
+            Anchor:
+                hCenterAnchorEnabled: true
+                topAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "Formula"
+                verticalFormula: "parent - keyboardHeight"
+            UIAnchorSafeAreaComponent: {}
+            StyleSheet:
+                styles: "~res:/UI/Screens3/SafeArea.style.yaml"
+        children:
+        -   class: "UIScrollViewContainer"
+            name: "scrollContainerControl"
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    rightAnchorEnabled: true
+                LinearLayout:
+                    orientation: "TopDown"
+                SizePolicy:
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   class: "UIControl"
+                name: "ScreenContent"
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        padding: "24"
+                        dynamicSpacing: true
+                        useRtl: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        horizontalMax: 1328.000000
+                        verticalPolicy: "PercentOfLastChild"
+                children:
+                -   class: "UIControl"
+                    name: "Left"
+                    position: [24.000000, 0.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        LinearLayout:
+                            useRtl: true
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 400.000000
+                            verticalPolicy: "PercentOfMaxChild"
+                    children:
+                    -   class: "UIControl"
+                        name: "Spacer"
+                        position: [0.000000, -9.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 40.000000
+                                verticalPolicy: "PercentOfParent"
+                    -   class: "UIControl"
+                        name: "Labels"
+                        position: [40.000000, 0.000000]
+                        size: [800.000000, 154.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            LinearLayout:
+                                orientation: "TopDown"
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfMaxChild"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        bindings:
+                        - ["LinearLayout.spacing", "when (screenHeight > 769) -> screenHeight * 0.020000, 16"]
+                        children:
+                        -   class: "UIControl"
+                            name: "TitleLabel"
+                            position: [0.000000, 118.000000]
+                            input: false
+                            classes: "t-title bold white-wild-sand-text"
+                            components:
+                                UITextComponent:
+                                    text: "Registration/NicknameConfiguration/Title"
+                                    multiline: "MULTILINE_ENABLED"
+                                    align: ["LEFT", "VCENTER"]
+                                    useRtlAlign: "USE_BY_SYSTEM"
+                                Anchor:
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 400.000000
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml"
+                            bindings:
+                            - ["visible", "not isLogin"]
+                        -   class: "UIControl"
+                            name: "Description"
+                            position: [400.000000, 0.000000]
+                            input: false
+                            classes: "t-subtitle regular white-wild-sand-text"
+                            components:
+                                UITextComponent:
+                                    text: "Registration/NicknameConfiguration/Info"
+                                    multiline: "MULTILINE_ENABLED"
+                                    align: ["LEFT", "VCENTER"]
+                                    useRtlAlign: "USE_BY_SYSTEM"
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 400.000000
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml"
+                            bindings:
+                            - ["visible", "not isLogin"]
+                        -   class: "UIControl"
+                            name: "DescriptionLogin"
+                            position: [400.000000, 0.000000]
+                            input: false
+                            classes: "t-subtitle regular white-wild-sand-text"
+                            components:
+                                UITextComponent:
+                                    text: "Login/Captcha/Info"
+                                    multiline: "MULTILINE_ENABLED"
+                                    align: ["LEFT", "VCENTER"]
+                                    useRtlAlign: "USE_BY_SYSTEM"
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 400.000000
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml"
+                            bindings:
+                            - ["visible", "isLogin"]
+                -   class: "UIControl"
+                    name: "Right"
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfMaxChild"
+                    children:
+                    -   class: "UIControl"
+                        name: "Forms"
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                            LinearLayout:
+                                orientation: "TopDown"
+                                spacing: 32.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfMaxChild"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        children:
+                        -   class: "UIControl"
+                            name: "InterativeHolder"
+                            input: false
+                            components:
+                                Anchor:
+                                    hCenterAnchorEnabled: true
+                                LinearLayout:
+                                    orientation: "TopDown"
+                                    spacing: 32.000000
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 400.000000
+                                    verticalPolicy: "PercentOfChildrenSum"
+                            children:
+                            -   class: "UIControl"
+                                name: "CaptchaContainer"
+                                position: [0.000000, 0.000000]
+                                input: false
+                                components:
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                        useRtl: true
+                                    LinearLayout:
+                                        spacing: 16.000000
+                                    SizePolicy:
+                                        horizontalPolicy: "FixedSize"
+                                        horizontalValue: 400.000000
+                                        verticalPolicy: "PercentOfFirstChild"
+                                bindings:
+                                - ["visible", "registrationCaptchaData.withCaptcha"]
+                                children:
+                                -   class: "UIControl"
+                                    name: "CaptchaImage"
+                                    position: [0.000000, 24.000000]
+                                    input: false
+                                    components:
+                                        Anchor:
+                                            vCenterAnchorEnabled: true
+                                        SizePolicy:
+                                            horizontalPolicy: "PercentOfFirstChild"
+                                            verticalPolicy: "PercentOfMaxChild"
+                                        UIChildComponent0:
+                                            prototypePath: "~res:/UI/Screens3/Common/Captcha.yaml"
+                                            args:
+                                                "loading": "registrationCaptchaData.loadingCaptcha"
+                                                "captchaSpriteName": "registrationCaptchaData.captchaSpritePath"
+                                            eventActions:
+                                            - ["RELOAD_CAPTCHA", "RELOAD_CAPTCHA", ""]
+                                -   class: "UIControl"
+                                    name: "TextfieldWrapper"
+                                    input: false
+                                    components:
+                                        Anchor:
+                                            vCenterAnchorEnabled: true
+                                            vCenterAnchor: -104.000000
+                                        SizePolicy:
+                                            horizontalPolicy: "PercentOfParent"
+                                            verticalPolicy: "FixedSize"
+                                            verticalValue: 256.000000
+                                    children:
+                                    -   class: "UIControl"
+                                        name: "CaptchaText"
+                                        position: [0.000000, 152.000000]
+                                        input: false
+                                        components:
+                                            Anchor:
+                                                hCenterAnchorEnabled: true
+                                                bottomAnchorEnabled: true
+                                            SizePolicy:
+                                                horizontalPolicy: "PercentOfParent"
+                                                verticalPolicy: "PercentOfMaxChild"
+                                            UIAttachLayoutMasterComponent:
+                                                attachId: "CAPTCHA"
+                                            UIChildComponent0:
+                                                prototypePath: "~res:/UI/Screens3/Common/TextField.yaml"
+                                                args:
+                                                    "isLastEdit": "registrationCaptchaData.withCaptcha"
+                                                    "maxLength": "12"
+                                                    "leftIconImage": "\"~res:/Gfx/Lobby/icons/icon_search_s\""
+                                                    "bgStyle": "\"black-50-bg\""
+                                                    "placeholderTextColor": "\"white-wild-sand-50-text\""
+                                                    "textStyle": "\"t-subtitle regular\""
+                                                    "text": "registrationCaptchaData.captchaInput"
+                                                    "placeholderText": "localize(\"Registration/NicknameConfiguration/Captcha/Placeholder\")"
+                                                    "validatedWithError": "currentMasterId == captchaMasterId"
+                                                    "filterRegExp": "\"^[0123456789abcdefghijklmnopqrstuvwxyz]+$\""
+                                                    "showValidate": "false"
+                                                    "canCleaned": "true"
+                                                    "input": "true"
+                                                    "textFieldType": "eTextFieldType.Text"
+                                                    "keyboardType": "eKeyboardType.KEYBOARD_TYPE_DEFAULT"
+                                                eventActions:
+                                                - ["TEXT_CHANGED", "CAPTCHA_TEXT_CHANGED", "_event"]
+                                    -   class: "UIControl"
+                                        name: "HintLayer"
+                                        position: [0.000000, -24.000000]
+                                        input: false
+                                        components:
+                                            Anchor:
+                                                hCenterAnchorEnabled: true
+                                                vCenterAnchorEnabled: true
+                                            IgnoreLayout: {}
+                                            SizePolicy:
+                                                horizontalPolicy: "PercentOfParent"
+                                                verticalPolicy: "PercentOfParent"
+                                            UIChildComponent0:
+                                                condition: "errorShown"
+                                                prototypePath: "~res:/UI/Screens3/Common/PopupMenu.yaml"
+                                                args:
+                                                    "isAlignLeft": "false"
+                                                    "title": "\"\""
+                                                    "text": "localize(currentError)"
+                                                    "defaultTextHMax": "200 - 16 * 2 - 32"
+                                                    "masterId": "currentMasterId"
+                                                    "slaveAlign": "ePositionAlign.Top"
+                                                eventActions:
+                                                - ["FINISH_HIDE_POPUP_ANIMATION", "FINISH_HIDE_POPUP_ANIMATION", ""]
+                            -   class: "UIControl"
+                                name: "ConfirmButton"
+                                position: [-36.000000, 224.000000]
+                                input: false
+                                components:
+                                    Anchor:
+                                        hCenterAnchorEnabled: true
+                                    SizePolicy:
+                                        horizontalPolicy: "PercentOfParent"
+                                        verticalPolicy: "PercentOfFirstChild"
+                                children:
+                                -   prototype: "Button/Button"
+                                    name: "Button"
+                                    components:
+                                        Anchor:
+                                            leftAnchorEnabled: true
+                                            rightAnchorEnabled: true
+                                        UIDataParamsComponent:
+                                            args:
+                                                "sound": "eButtonSound.OK"
+                                                "caption": "\"Registration/NicknameConfiguration/Confirm\""
+                                                "enabled": "canConfirm"
+                                                "isLoading": "false"
+                                            eventActions:
+                                            - ["ON_CLICK_BUTTON", "CONFIRMATION_REQUESTED", ""]
+    -   class: "UIControl"
+        name: "BackButton"
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                leftAnchor: 16.000000
+                topAnchorEnabled: true
+                topAnchor: 16.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+                args:
+                    "isBgVisible": "false"
+                    "image": "\"~res:/Gfx/Lobby/icons/icon_arrow-rounded\""
+                    "sound": "eButtonSound.CLOSE"
+                eventActions:
+                - ["ON_CLICK_BUTTON", "CANCEL_CAPTCHA", ""]

@@ -1,13 +1,15 @@
 Header:
     version: 140
-ImportedPackages:
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "BattleStatsDetails"
     size: [768.000000, 593.000000]
     input: false
+    classes: "white-wild-sand-15-bg"
     components:
+        Background: {}
+        UIRoundedCornersComponent:
+            radius: "8"
         LinearLayout:
             orientation: "TopDown"
             spacing: -24.000000
@@ -34,13 +36,9 @@ Prototypes:
             - ["int", "premiumIndent", "when economics.withPremium -> 0, 54"]
             - ["float", "commonOpacity", "when economics.withPremium -> 0.500000, 1.000000"]
             - ["float", "premiumOpacity", "when economics.withPremium -> 1.000000, 0.500000"]
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Color.style.yaml"
     children:
-    -   prototype: "BlurModified/BlurModified"
-        name: "Blur"
-        components:
-            UIDataParamsComponent:
-                args:
-                    "roundCorner": "\"8\""
     -   class: "UIControl"
         name: "Title"
         size: [32.000000, 32.000000]
@@ -453,5 +451,6 @@ Prototypes:
                             "type": "eButtonType.ALTERNATIVE"
                             "caption": "\"#battle_results:GetPremium/Button\""
                             "size": "eButtonSize.SMALL"
+                            "hasShadow": "false"
                         eventActions:
                         - ["ON_CLICK_BUTTON", "BUY_PREMIUM", ""]

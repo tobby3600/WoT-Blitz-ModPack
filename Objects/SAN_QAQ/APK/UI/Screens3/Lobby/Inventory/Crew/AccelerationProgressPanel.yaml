@@ -1,0 +1,335 @@
+Header:
+    version: 127
+Prototypes:
+-   class: "UIControl"
+    name: "ProgressPanel"
+    input: false
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/Lobby/Inventory/Crew/AccelerationProgressBarInitialization.animation"
+        Background: {}
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalValue: 800.000000
+            verticalPolicy: "FixedSize"
+            verticalValue: 100.000000
+        UIDataParamsComponent:
+            params:
+            - ["CrewSkillsAccelerationViewModel", "model", "null", "{ }"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["float", "currentProgress", "when not isNull(model) -> float(model.currentExp) / float(model.nextLevelExp) * 100.000000, 0"]
+            - ["float", "accelerationProgress", "when not isNull(model) -> float(model.accelerationExp) / float(model.nextLevelExp) * 100.000000, 0"]
+            - ["int", "accelerationExp", "when not isNull(model) -> model.accelerations[model.selected].accelerationExp, 0"]
+            - ["string", "style", "when not isNull(model) -> \"crew_skills \" + model.skillName, \"\""]
+            writeAllowed: false
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Inventory/Crew/AccelerationProgressBar.actions"
+        UIEventOnDataComponent0:
+            watchedDataExpression: "currentProgress"
+            eventName: "PROGRESS_CHANGED"
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Color.style.yaml"
+    children:
+    -   class: "UIControl"
+        name: "BG"
+        input: false
+        classes: "grey-shark-70-bg"
+        components:
+            Background: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            LinearLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfMaxChild"
+        children:
+        -   class: "UIControl"
+            name: "IconWrapper"
+            input: false
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "Formula"
+                    horizontalFormula: "maxChild + 32"
+                    verticalPolicy: "Formula"
+                    verticalFormula: "maxChild + 32"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Lobby/Inventory/Crew/SkillImage.style.yaml"
+            bindings:
+            - ["classes", "style"]
+            children:
+            -   class: "UIControl"
+                name: "Icon"
+                input: false
+                classes: "skill-img"
+                components:
+                    Background:
+                        drawType: "DRAW_SCALE_PROPORTIONAL"
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 64.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 64.000000
+        -   class: "UIControl"
+            name: "ProgressWrapper"
+            input: false
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                LinearLayout:
+                    orientation: "TopDown"
+                    spacing: 8.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfChildrenSum"
+            children:
+            -   class: "UIControl"
+                name: "ProgresCenter"
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "TopDown"
+                        spacing: 4.000000
+                    SizePolicy:
+                        horizontalPolicy: "Formula"
+                        horizontalFormula: "parent - 48"
+                        verticalPolicy: "PercentOfChildrenSum"
+                children:
+                -   class: "UIControl"
+                    name: "Heading"
+                    input: false
+                    components:
+                        LinearLayout:
+                            dynamicSpacing: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfMaxChild"
+                    children:
+                    -   class: "UIControl"
+                        name: "SkillName"
+                        input: false
+                        classes: "t-subtitle regular"
+                        components:
+                            UITextComponent: {}
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfContent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml"
+                        bindings:
+                        - ["UITextComponent.text", "localize(model.userString)"]
+                    -   class: "UIControl"
+                        name: "AccelerationExp"
+                        input: false
+                        components:
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            LinearLayout:
+                                spacing: 8.000000
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfChildrenSum"
+                                verticalPolicy: "PercentOfChildrenSum"
+                        bindings:
+                        - ["visible", "accelerationExp > 0"]
+                        children:
+                        -   class: "UIControl"
+                            name: "Delta"
+                            input: false
+                            classes: "delta-up-good"
+                            components:
+                                Background:
+                                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_triangle.psd"
+                                    perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                                Anchor:
+                                    vCenterAnchorEnabled: true
+                                    vCenterAnchor: 1.000000
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Lobby/Common/VehicleParamsPanel/VehicleParams.style.yaml"
+                        -   class: "UIControl"
+                            name: "Value"
+                            input: false
+                            classes: "t-body bold green-green-text"
+                            components:
+                                UITextComponent: {}
+                                Anchor:
+                                    enabled: true
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfContent"
+                                    verticalPolicy: "PercentOfContent"
+                                StyleSheet:
+                                    styles: "~res:/UI/Screens3/Font.style.yaml"
+                            bindings:
+                            - ["UITextComponent.text", "str1000Separated(accelerationExp)"]
+                -   class: "UIControl"
+                    name: "Progress"
+                    position: [0.000000, 32.000000]
+                    input: false
+                    components:
+                        Anchor: {}
+                        LinearLayout:
+                            spacing: 24.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 20.000000
+                    children:
+                    -   class: "UIControl"
+                        name: "Bar"
+                        input: false
+                        components:
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 8.000000
+                        children:
+                        -   class: "UIControl"
+                            name: "Bg"
+                            input: false
+                            classes: "white-wild-sand-15-bg"
+                            components:
+                                Background: {}
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfParent"
+                        -   class: "UIControl"
+                            name: "AccelerationExp"
+                            input: false
+                            classes: "green-green-bg"
+                            components:
+                                Background: {}
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    verticalPolicy: "PercentOfParent"
+                            bindings:
+                            - ["SizePolicy.horizontalValue", "accelerationProgress"]
+                        -   class: "UIControl"
+                            name: "CurrentExp"
+                            visible: true
+                            input: false
+                            classes: "yellow-chalky-bg"
+                            components:
+                                Background: {}
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfParent"
+                                    horizontalValue: 22.000000
+                                    verticalPolicy: "PercentOfParent"
+                -   class: "UIControl"
+                    name: "CurrentXpNextLevelXp"
+                    position: [250.000000, 8.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            hCenterAnchorEnabled: true
+                        LinearLayout: {}
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                            verticalPolicy: "PercentOfChildrenSum"
+                    children:
+                    -   class: "UIControl"
+                        name: "Value"
+                        input: false
+                        classes: "t-subtitle regular"
+                        components:
+                            UITextComponent:
+                                multiline: "MULTILINE_DISABLED"
+                                align: ["HCENTER", "VCENTER"]
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfContent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml"
+                        bindings:
+                        - ["UITextComponent.text", "when not isNull(model) -> str1000Separated(model.accelerationExp) + \" / \" + str1000Separated(model.nextLevelExp), \"\""]
+                    -   class: "UIControl"
+                        name: "Icon"
+                        input: false
+                        components:
+                            Background:
+                                drawType: "DRAW_SCALE_PROPORTIONAL"
+                                sprite: "~res:/Gfx/UI/LobbyCommon/CurrencyIconsBig"
+                                frame: 4
+                            Anchor:
+                                vCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfContent"
+                                verticalPolicy: "PercentOfParent"
+            -   class: "UIControl"
+                name: "Value"
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        dynamicSpacing: true
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfMaxChild"
+                children:
+                -   class: "UIControl"
+                    name: "CurrentLevel"
+                    input: false
+                    classes: "t-body bold"
+                    components:
+                        UITextComponent: {}
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml"
+                    bindings:
+                    - ["UITextComponent.text", "when not isNull(model) -> model.currentLevel, 0"]
+                -   class: "UIControl"
+                    name: "NextLevel"
+                    position: [679.000000, 8.000000]
+                    size: [8.000000, 20.000000]
+                    input: false
+                    classes: "t-body bold"
+                    components:
+                        UITextComponent: {}
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfContent"
+                            verticalPolicy: "PercentOfContent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml"
+                    bindings:
+                    - ["UITextComponent.text", "when not isNull(model) -> model.currentLevel + 1, 0"]
+        -   class: "UIControl"
+            name: "RightSpacer"
+            input: false
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 16.000000
+                    verticalPolicy: "PercentOfParent"

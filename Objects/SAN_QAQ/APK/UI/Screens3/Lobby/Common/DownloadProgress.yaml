@@ -197,6 +197,7 @@ Prototypes:
                     components:
                         UIDataParamsComponent:
                             args:
+                                "bgStyle": "\"white-wild-sand-15-bg\""
                                 "roundCorner": "\"8\""
                 -   class: "UIControl"
                     name: "Status"
@@ -258,7 +259,7 @@ Prototypes:
                                 StyleSheet:
                                     styles: "~res:/UI/Screens3/Font.style.yaml"
                             bindings:
-                            - ["classes", "progressStyle + \" not-localize\""]
+                            - ["classes", "progressStyle"]
                             - ["UITextComponent.text", "currentString"]
                         -   class: "UIControl"
                             name: "Separator"
@@ -276,7 +277,7 @@ Prototypes:
                                 StyleSheet:
                                     styles: "~res:/UI/Screens3/Font.style.yaml"
                             bindings:
-                            - ["classes", "progressStyle + \" not-localize\""]
+                            - ["classes", "progressStyle"]
                         -   class: "UIControl"
                             name: "Total"
                             position: [29.000000, 0.000000]
@@ -294,7 +295,7 @@ Prototypes:
                                 StyleSheet:
                                     styles: "~res:/UI/Screens3/Font.style.yaml"
                             bindings:
-                            - ["classes", "progressStyle + \" not-localize\""]
+                            - ["classes", "progressStyle"]
                             - ["UITextComponent.text", "progressTotal"]
                     -   class: "UIControl"
                         name: "Units"

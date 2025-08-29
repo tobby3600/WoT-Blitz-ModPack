@@ -1,0 +1,65 @@
+Header:
+    version: 142
+Prototypes:
+-   class: "UIControl"
+    name: "CurrencyPrivateWithMinus"
+    size: [73.000000, 24.000000]
+    input: false
+    components:
+        LinearLayout:
+            spacing: 2.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "PercentOfMaxChild"
+        UIDataParamsComponent:
+            params:
+            - ["eCurrencySize", "currencySize", "eCurrencySize.BIG", "eCurrencySize.BIG"]
+            - ["bool", "forceFullValue", "false", "false"]
+            - ["int", "quantity", "0", "-86400"]
+            - ["ResourceType", "type", "ResourceType.undefined", "ResourceType.stuff"]
+        UIDataLocalVarsComponent:
+            data:
+            - ["string", "fontStyle", "when currencySize == eCurrencySize.HUGE_REGULAR -> \"regular t-headline\", currencySize == eCurrencySize.HUGE_PROXY -> \"regular t-subtitle\", currencySize == eCurrencySize.HUGE_BOLD -> \"t-headline bold\", currencySize == eCurrencySize.SMALL -> \"bold t-caption\", currencySize == eCurrencySize.BIG_BOLD or currencySize == eCurrencySize.HUGE_PROXY_BOLD -> \"bold t-subtitle\", currencySize == eCurrencySize.BODY -> \"t-body bold\", currencySize == eCurrencySize.BUTTON_BOLD -> \"t-button bold\", currencySize == eCurrencySize.BODY_REGULAR -> \"t-body regular\", currencySize == eCurrencySize.H4_BOLD -> \"t-content-h4 bold\", \"regular t-subtitle\""]
+            - ["bool", "isMinusValue", "when quantity < 0 -> true, false"]
+    children:
+    -   class: "UIControl"
+        name: "Minus"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            UITextComponent:
+                text: "−"
+                colorInheritType: "COLOR_IGNORE_PARENT"
+                perPixelAccuracyType: "PER_PIXEL_ACCURACY_FORCED"
+                fitting: "FITTING_POINTS"
+                align: ["LEFT", "VCENTER"]
+                useRtlAlign: "USE_BY_CONTENT"
+            Anchor:
+                vCenterAnchorEnabled: true
+                vCenterAnchor: -1.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+        bindings:
+        - ["visible", "isMinusValue"]
+        - ["classes", "fontStyle + \" red-red-text\""]
+    -   class: "UIControl"
+        name: "CurrencyPrivateHolder"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/CurrencyPrivate.yaml"
+                args:
+                    "currencySize": "currencySize"
+                    "forceFullValue": "forceFullValue"
+                    "forceRedText": "isMinusValue"
+                    "quantity": "abs(quantity)"
+                    "type": "type"

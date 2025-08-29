@@ -1,10 +1,10 @@
 Header:
     version: 161
 ImportedPackages:
+- "~res:/UI/Screens3/Common/HorizontalScrollBar.yaml"
 - "~res:/UI/Screens3/Lobby/Common/Button.yaml"
 - "~res:/UI/Screens3/Lobby/Common/Timer.yaml"
-- "~res:/UI/Screens3/Common/HorizontalScrollBar.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
+- "~res:/UI/Screens3/Lobby/Hangar/Quests/StuffQuestScreen/StuffBlurMask.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "StuffQuestSlide"
@@ -428,12 +428,6 @@ Slots:
                 horizontalValue: 620.000000
                 verticalPolicy: "PercentOfChildrenSum"
         children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
-            components:
-                UIDataParamsComponent:
-                    args:
-                        "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "Background"
             input: false
@@ -447,6 +441,12 @@ Slots:
                     verticalPolicy: "PercentOfParent"
             bindings:
             - ["Background.color", "when quest.status == eQuestStatus.Completed -> rgb(8112203), rgb(12988180)"]
+        -   prototype: "StuffBlurMask/StuffBlurMask"
+            name: "Blur"
+            components:
+                UIDataParamsComponent:
+                    args:
+                        "ID": "\"QuestsInfo\""
         -   class: "UIControl"
             name: "IconWrapper"
             position: [280.000000, -33.000000]
@@ -855,7 +855,6 @@ Slots:
                     args:
                         "timerContent": "SkipTimer"
                         "caption": "\"stuff_quest/screen/buttons/start_later\""
-                        "iconPath": "when isGamepad -> \"~res:/Gfx/Lobby/icons/nintendo-switch/icon_switch_x_m\", \"\""
                         "size": "eButtonSize.NORMAL"
                         "type": "eButtonType.ALTERNATIVE"
                     eventActions:
@@ -874,7 +873,6 @@ Slots:
                     prototypePath: "~res:/UI/Screens3/Lobby/Common/Button.yaml"
                     args:
                         "caption": "\"stuff_quest/screen/buttons/ok\""
-                        "iconPath": "when isGamepad -> \"~res:/Gfx/Lobby/icons/nintendo-switch/icon_switch_x_m\", \"\""
                         "size": "eButtonSize.NORMAL"
                         "type": "when canProlongate and not previewFromTooltip and isFailed -> eButtonType.OPTIONAL_LIGHT, eButtonType.POSITIVE"
                     eventActions:
@@ -899,7 +897,6 @@ Slots:
                         horizontalValue: 188.000000
                     UIDataParamsComponent:
                         args:
-                            "iconPath": "when not isGamepad -> \"\", when showButtonTakeReward -> \"~res:/Gfx/Lobby/icons/nintendo-switch/icon_switch_x_m\", \"~res:/Gfx/Lobby/icons/nintendo-switch/icon_switch_y_m\""
                             "size": "eButtonSize.NORMAL"
                             "type": "when isFailed -> eButtonType.POSITIVE, eButtonType.OPTIONAL_LIGHT"
                             "enabled": "showButtonProlong and not hasTwoBlocksRewards"
@@ -939,7 +936,6 @@ Slots:
                         "locked": "isFailed and session.serverTime <= quest.time + 4L"
                         "timerContent": "SkipTimer"
                         "caption": "\"stuff_quest/screen/buttons/take_reward\""
-                        "iconPath": "when isGamepad -> \"~res:/Gfx/Lobby/icons/nintendo-switch/icon_switch_y_m\", \"\""
                         "size": "eButtonSize.NORMAL"
                         "type": "when isFailed and canProlongate -> eButtonType.OPTIONAL_LIGHT, eButtonType.POSITIVE"
                     eventActions:
@@ -958,7 +954,6 @@ Slots:
                     prototypePath: "~res:/UI/Screens3/Lobby/Common/Button.yaml"
                     args:
                         "caption": "\"stuff_quest/screen/buttons/start_now\""
-                        "iconPath": "when isGamepad -> \"~res:/Gfx/Lobby/icons/nintendo-switch/icon_switch_y_m\", \"\""
                         "size": "eButtonSize.NORMAL"
                         "type": "when canProlongate -> eButtonType.OPTIONAL_LIGHT, eButtonType.POSITIVE"
                     eventActions:
@@ -1017,6 +1012,7 @@ Slots:
                         "time": "quest.time"
                         "serverTime": "when isStarted -> session.serverTime, 0L"
                         "bgVisible": "true"
+                        "bgStyle": "white-wild-sand-15-bg"
     -   class: "UIControl"
         name: "TimeInfoShort"
         input: false
@@ -1068,6 +1064,7 @@ Slots:
                         "time": "quest.time"
                         "serverTime": "when isStarted -> session.serverTime, 0L"
                         "bgVisible": "true"
+                        "bgStyle": "white-wild-sand-15-bg"
 -   class: "UIControl"
     name: "SingleRewardContent"
     size: [960.000000, 640.000000]
@@ -1242,7 +1239,6 @@ Slots:
                             horizontalValue: 188.000000
                         UIDataParamsComponent:
                             args:
-                                "iconPath": "when isGamepad -> \"~res:/Gfx/Lobby/icons/nintendo-switch/icon_switch_x_m\", \"\""
                                 "size": "eButtonSize.NORMAL"
                                 "type": "eButtonType.POSITIVE"
                                 "enabled": "showButtonProlong and hasTwoBlocksRewards"
@@ -1342,7 +1338,6 @@ Slots:
                             "locked": "false and isFailed and session.serverTime <= quest.time + 4L"
                             "timerContent": "SkipTimer"
                             "caption": "\"stuff_quest/screen/buttons/take_reward\""
-                            "iconPath": "when isGamepad -> \"~res:/Gfx/Lobby/icons/nintendo-switch/icon_switch_y_m\", \"\""
                             "size": "eButtonSize.NORMAL"
                             "type": "when isFailed and canProlongate -> eButtonType.OPTIONAL_LIGHT, eButtonType.POSITIVE"
                         eventActions:
@@ -1478,12 +1473,12 @@ Slots:
             bindings:
             - ["visible", "hasRewards"]
             children:
-            -   prototype: "BlurModified/BlurModified"
+            -   prototype: "StuffBlurMask/StuffBlurMask"
                 name: "Blur"
                 components:
                     UIDataParamsComponent:
                         args:
-                            "roundCorner": "\"8\""
+                            "ID": "\"MultipleRewards\""
             -   class: "UIControl"
                 name: "Header"
                 input: false
@@ -1903,12 +1898,6 @@ Slots:
                         horizontalPolicy: "PercentOfMaxChild"
                         verticalPolicy: "PercentOfChildrenSum"
                 children:
-                -   prototype: "BlurModified/BlurModified"
-                    name: "Blur"
-                    components:
-                        UIDataParamsComponent:
-                            args:
-                                "roundCorner": "\"8\""
                 -   class: "UIControl"
                     name: "Background"
                     input: false
@@ -1922,6 +1911,12 @@ Slots:
                             verticalPolicy: "PercentOfParent"
                     bindings:
                     - ["Background.color", "when quest.status == eQuestStatus.Completed -> rgb(8112203), rgb(12988180)"]
+                -   prototype: "StuffBlurMask/StuffBlurMask"
+                    name: "Blur"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "ID": "\"StageQuest\""
                 -   class: "UIControl"
                     name: "Spacer"
                     input: false
@@ -2137,6 +2132,7 @@ Slots:
                                 "time": "quest.time"
                                 "serverTime": "when isStarted -> session.serverTime, 0L"
                                 "bgVisible": "true"
+                                "bgStyle": "white-wild-sand-15-bg"
         -   class: "UIControl"
             name: "Stages"
             input: false
@@ -2147,16 +2143,9 @@ Slots:
                 LinearLayout:
                     orientation: "TopDown"
                 SizePolicy:
-                    horizontalPolicy: "Formula"
-                    horizontalFormula: "parent - 30"
+                    horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "PercentOfChildrenSum"
             children:
-            -   prototype: "BlurModified/BlurModified"
-                name: "Blur"
-                components:
-                    UIDataParamsComponent:
-                        args:
-                            "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "Background"
                 input: false
@@ -2194,6 +2183,12 @@ Slots:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "Formula"
                             verticalFormula: "parent+2"
+            -   prototype: "StuffBlurMask/StuffBlurMask"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "ID": "\"Stages\""
             -   class: "UIControl"
                 name: "ScrollableContent"
                 input: false

@@ -1,0 +1,182 @@
+action ScrollPositionChanged(float pos)
+{
+	if (abs(scrollPos - abs(pos)) > 100 and not selectionAnimationInProgress)
+	{
+		ChangeData(scrollPos, abs(int(pos)));
+	}
+
+	if (view.scrollPos != int(pos))
+	{
+		ChangeData(view.scrollPos, int(pos));
+	}
+}
+
+action UpdateCurrentSection()
+{
+	if (not selectionAnimationInProgress and not view.sectionSizes.Empty())
+	{
+		if (sectionUpperBound < 0)
+		{
+			if (not(currentSection == shop.sections.Size() - 1))
+			{
+				ChangeData(currentSection, shop.sections.Size() - 1);
+				DirectEvent("CURRENT_SECTION_CHANGED", "**/SideBar/SideBar", shop.sections.Size() - 1);
+			}
+		}
+		else
+		{
+			if (sectionUpperBound == shop.sections.Size() - 2 and view.sectionSizes[sectionUpperBound + 1] < shopYSize + scrollPos - 300)
+			{
+				ChangeData(currentSection, sectionUpperBound + 1);
+				DirectEvent("CURRENT_SECTION_CHANGED", "**/SideBar/SideBar", sectionUpperBound + 1);
+			}
+			else
+			{
+				if (shop.sections.Size() > sectionUpperBound and view.sectionSizes[sectionUpperBound] < 0.5 * shopYSize + scrollPos)
+				{
+					if (not(currentSection == sectionUpperBound))
+					{
+						ChangeData(currentSection, sectionUpperBound);
+						DirectEvent("CURRENT_SECTION_CHANGED", "**/SideBar/SideBar", sectionUpperBound);
+					}
+				}
+				else
+				{
+					if (not(sectionUpperBound == 0) and not(currentSection == sectionUpperBound - 1) and shop.sections.Size() > sectionUpperBound - 1)
+					{
+						ChangeData(currentSection, sectionUpperBound - 1);
+						DirectEvent("CURRENT_SECTION_CHANGED", "**/SideBar/SideBar", sectionUpperBound - 1);
+					}
+				}
+			}
+		}
+	}
+}
+
+action OnSelectSection(int section)
+{
+	ChangeData(selectionAnimationInProgress, true);
+	if (view.sectionSizes.Size() > section)
+	{
+		if (section == shop.sections.Size() - 2 and abs(view.sectionSizes[section + 1] - view.sectionSizes[section]) < shopYSize - 200)
+		{
+			DirectEvent("SelectSection", "**/SideBar/SideBar", arg1=section, arg2=shortBarScroll);
+			Scroll("**/UIScrollView", 0, view.sectionSizes[section] - (shopYSize - abs(view.sectionSizes[section + 1] - view.sectionSizes[section]) - 200), shortScroll, SINE_IN_SINE_OUT);
+		}
+		else
+		{
+			if ((heightDiff > 1 and abs(scrollPos - view.sectionSizes[section]) < heightDiff) or (sectionsDiff > 0 and abs(currentSection - section) <= sectionsDiff))
+			{
+				DirectEvent("SelectSection", "**/SideBar/SideBar", arg1=section, arg2=shortBarScroll);
+				Scroll("**/UIScrollView", 0, view.sectionSizes[section], shortScroll, SINE_IN_SINE_OUT);
+			}
+			else
+			{
+				DirectEvent("SelectSection", "**/SideBar/SideBar", arg1=section, arg2=longBarScroll);
+				Scroll("**/UIScrollView", 0, view.sectionSizes[section], longScroll, SINE_IN_SINE_OUT);
+			}
+		}
+	}
+	ChangeData(currentSection, section);
+	ChangeData(selectionAnimationInProgress, false);
+}
+
+action SelectSection(int section, bool fromSidebar)
+{
+	if (not selectionAnimationInProgress)
+	{
+		if (not fromSidebar)
+		{
+			PlaySound(sound="GUI/buttons/choose");
+		}
+		Event("OnSelectSection", arg1=section);
+	}
+}
+
+action BACK_ACTION
+{
+	PlaySound("GUI/buttons/close");
+	Event("BACK_EVENT");
+}
+
+action ShopScrollSizeChanged(float shopScrollViewYPosition, float shopScrollViewYSize)
+{
+	ChangeData(scrollViewTopOffset, shopScrollViewYPosition);
+	ChangeData(scrollViewBottomOffset, shopYSize - (shopScrollViewYPosition + shopScrollViewYSize));
+}
+
+action OnMoveUp()
+{
+	if (not selectionAnimationInProgress)
+	{
+		Event("MOVE_UP", arg1=(when smallScreen -> 3, 4));
+	}
+}
+
+action OnMoveDown()
+{
+	if (not selectionAnimationInProgress)
+	{
+		Event("MOVE_DOWN", arg1=(when smallScreen -> 3, 4));
+	}
+}
+
+action OnMoveLeft()
+{
+	if (not selectionAnimationInProgress)
+	{
+		Event("MOVE_LEFT", arg1=(when smallScreen -> 3, 4));
+	}
+}
+
+action OnMoveRight()
+{
+	if (not selectionAnimationInProgress)
+	{
+		Event("MOVE_RIGHT", arg1=(when smallScreen -> 3, 4));
+	}
+}
+
+action DETAILS_OPENED()
+{
+	PlaySound(sound="GUI/buttons/open");
+}
+
+action SELECTION_CHANGED
+{
+}
+
+action CONTENT_RESIZED(int width)
+{
+	if (contentWidth != width)
+	{
+		ChangeData(contentWidth, width);
+	}
+
+	if (not initializationEnded)
+	{
+		Wait(0.1);
+		Event("CONTENT_SIZE_RECEIVED");
+	}
+}
+
+action OnPreviousSection()
+{
+	if (not selectionAnimationInProgress)
+	{
+		Event("PREV_SECTION");
+	}
+}
+
+action OnNextSection()
+{
+	if (not selectionAnimationInProgress)
+	{
+		Event("NEXT_SECTION");
+	}
+}
+
+action OnLoadProducts
+{
+	ChangeData(view.showAllCamo, true);
+}

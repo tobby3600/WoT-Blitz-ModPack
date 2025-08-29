@@ -17,6 +17,7 @@ Prototypes:
             - ["bool", "enabled", "false", "true"]
             - ["bool", "iconIsLeft", "true", "true"]
             - ["bool", "isBlur", "true", "true"]
+            - ["bool", "isCustBg", "false", "false"]
             - ["bool", "locked", "false", "false"]
             - ["bool", "visible", "true", "true"]
             - ["eButtonSize", "size", "eButtonSize.NORMAL", "eButtonSize.NORMAL"]
@@ -33,7 +34,7 @@ Prototypes:
             data:
             - ["eButtonSound", "soundType", "when sound != eButtonSound.UNKNOWN -> sound, type == eButtonType.POSITIVE or type == eButtonType.NO_BG or type == eButtonType.NO_BG_WHITE -> eButtonSound.OPEN, type == eButtonType.ALTERNATIVE -> eButtonSound.OK, type == eButtonType.ALTERNATIVE -> eButtonSound.OK, type == eButtonType.NEGATIVE -> eButtonSound.SELL, eButtonSound.CANCEL"]
             - ["bool", "isColoredButton", "type == eButtonType.POSITIVE or type == eButtonType.ALTERNATIVE or type == eButtonType.NEGATIVE or type == eButtonType.SPECIAL"]
-            - ["string", "bgStyle", "when isBlur -> maskStyle, str(type, eButtonType, \"color_style\")"]
+            - ["string", "bgStyle", "when isBlur or isCustBg -> maskStyle, str(type, eButtonType, \"color_style\")"]
             - ["string", "coloredButtonType", "str(type, eButtonType, \"sprite_name\")"]
             - ["string", "soundStyle", "when soundType == eButtonSound.OPEN -> \"button-open-sound\", soundType == eButtonSound.OK -> \"button-ok-sound\", soundType == eButtonSound.CANCEL -> \"button-cancel-sound\", soundType == eButtonSound.SELL -> \"button-sell-sound\", soundType == eButtonSound.BUY -> \"button-buy-sound\", soundType == eButtonSound.CHOOSE -> \"button-choose-sound\", \"\""]
     bindings:

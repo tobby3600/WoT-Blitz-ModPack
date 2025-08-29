@@ -372,7 +372,7 @@ Prototypes:
                     -   class: "UIControl"
                         name: "Icon"
                         input: false
-                        classes: "battle-type-button-icon"
+                        classes: "battle-type-button"
                         components:
                             UITextureComponent:
                                 materialPath: "~res:/Materials.custom/2d.Textured.HSV.material"

@@ -6,14 +6,12 @@ ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Profile/Common/StatCell.yaml"
 - "~res:/UI/Screens3/Lobby/Profile/Common/MaxDamage.yaml"
 - "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "BriefTab"
     size: [1093.000000, 1100.000000]
     input: false
     components:
-        UIPostProcessSourceComponent0: {}
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
             verticalPolicy: "PercentOfParent"
@@ -22,7 +20,6 @@ Prototypes:
             - ["bool", "isWgc", "false", "false"]
             - ["AccountDataModel", "account", "null", "{ }"]
             - ["ProfileViewModel", "profile", "null", "{ }"]
-            - ["string", "maskProfile", "\"\"", "\"\""]
             events:
             - "CHANGE_AVATAR"
             - "CHANGE_NAME"
@@ -53,8 +50,6 @@ Prototypes:
             - ["bool", "isInClan", "when isNull(profile.clanInfo.clan) -> false, true"]
             - ["eClanApiError", "lastClanApiError", "profile.clanInfo.lastClanApiError"]
             - ["bool", "showClanError", "lastClanApiError == eClanApiError.InternalServerError or lastClanApiError == eClanApiError.ServerOnMaintenance"]
-    bindings:
-    - ["UIPostProcessSourceComponent0.id", "maskProfile"]
     children:
     -   class: "UIScrollView"
         name: "UIScrollView"
@@ -108,21 +103,19 @@ Prototypes:
                     children:
                     -   class: "UIControl"
                         name: "TopContent"
+                        classes: "white-wild-sand-15-bg"
                         components:
+                            Background: {}
+                            UIRoundedCornersComponent:
+                                radius: "8"
                             LinearLayout:
                                 orientation: "TopDown"
                             SizePolicy:
                                 horizontalPolicy: "PercentOfParent"
                                 verticalPolicy: "PercentOfChildrenSum"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml"
                         children:
-                        -   prototype: "BlurModified/BlurModified"
-                            name: "Blur"
-                            components:
-                                UIDataParamsComponent:
-                                    args:
-                                        "isBlur": "false"
-                                        "bgStyle": "\"white-wild-sand-15-bg\""
-                                        "roundCorner": "\"8\""
                         -   class: "UIControl"
                             name: "Spacer"
                             input: false
@@ -209,21 +202,19 @@ Prototypes:
                         name: "Stats"
                         position: [0.000000, 188.000000]
                         input: false
+                        classes: "white-wild-sand-15-bg"
                         components:
+                            Background: {}
+                            UIRoundedCornersComponent:
+                                radius: "8"
                             LinearLayout:
                                 orientation: "TopDown"
                             SizePolicy:
                                 horizontalPolicy: "PercentOfParent"
                                 verticalPolicy: "PercentOfChildrenSum"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml"
                         children:
-                        -   prototype: "BlurModified/BlurModified"
-                            name: "Blur"
-                            components:
-                                UIDataParamsComponent:
-                                    args:
-                                        "isBlur": "false"
-                                        "bgStyle": "\"white-wild-sand-15-bg\""
-                                        "roundCorner": "\"8\""
                         -   class: "UIControl"
                             name: "DividerHolder"
                             input: false
@@ -385,7 +376,7 @@ Prototypes:
                                     -   class: "UIControl"
                                         name: "Value1"
                                         input: false
-                                        classes: "t-title bold not-localize color=white-wild-sand-text"
+                                        classes: "t-title bold white-wild-sand-text"
                                         components:
                                             UITextComponent:
                                                 align: ["RIGHT", "VCENTER"]
@@ -399,7 +390,7 @@ Prototypes:
                                     -   class: "UIControl"
                                         name: "Separator"
                                         input: false
-                                        classes: "t-title regular not-localize color=white-wild-sand-50-text"
+                                        classes: "t-title regular white-wild-sand-50-text"
                                         components:
                                             UITextComponent:
                                                 text: "/"
@@ -411,7 +402,7 @@ Prototypes:
                                     -   class: "UIControl"
                                         name: "Value2"
                                         input: false
-                                        classes: "t-title bold not-localize color=white-wild-sand-50-text"
+                                        classes: "t-title bold white-wild-sand-50-text"
                                         components:
                                             UITextComponent:
                                                 align: ["LEFT", "VCENTER"]
@@ -434,21 +425,19 @@ Prototypes:
                     -   class: "UIControl"
                         name: "Achievements"
                         input: false
+                        classes: "white-wild-sand-15-bg"
                         components:
+                            Background: {}
+                            UIRoundedCornersComponent:
+                                radius: "8"
                             LinearLayout:
                                 orientation: "TopDown"
                             SizePolicy:
                                 horizontalPolicy: "PercentOfParent"
                                 verticalPolicy: "PercentOfChildrenSum"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml"
                         children:
-                        -   prototype: "BlurModified/BlurModified"
-                            name: "Blur"
-                            components:
-                                UIDataParamsComponent:
-                                    args:
-                                        "isBlur": "false"
-                                        "bgStyle": "\"white-wild-sand-15-bg\""
-                                        "roundCorner": "\"8\""
                         -   class: "UIControl"
                             name: "DividerHolder"
                             input: false
@@ -531,7 +520,7 @@ Prototypes:
                                     hCenterAnchorEnabled: true
                                 SizePolicy:
                                     horizontalPolicy: "FixedSize"
-                                    horizontalValue: 196.000000
+                                    horizontalValue: 216.000000
                                 UIDataParamsComponent:
                                     args:
                                         "locked": "false"
@@ -558,24 +547,22 @@ Prototypes:
                     -   class: "UIControl"
                         name: "ClanInfo"
                         input: false
+                        classes: "white-wild-sand-15-bg"
                         components:
+                            Background: {}
+                            UIRoundedCornersComponent:
+                                radius: "8"
                             LinearLayout:
                                 orientation: "TopDown"
                                 spacing: 16.000000
                             SizePolicy:
                                 horizontalPolicy: "PercentOfParent"
                                 verticalPolicy: "PercentOfChildrenSum"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml"
                         bindings:
                         - ["visible", "isClanSectionVisible"]
                         children:
-                        -   prototype: "BlurModified/BlurModified"
-                            name: "Blur"
-                            components:
-                                UIDataParamsComponent:
-                                    args:
-                                        "isBlur": "false"
-                                        "bgStyle": "\"white-wild-sand-15-bg\""
-                                        "roundCorner": "\"8\""
                         -   class: "UIControl"
                             name: "DividerHolder"
                             input: false
@@ -894,6 +881,7 @@ Prototypes:
                                             "size": "eButtonSize.NORMAL"
                                             "sound": "eButtonSound.OPEN"
                                             "enabled": "isInClan and not showClanError"
+                                            "hasShadow": "false"
                                         eventActions:
                                         - ["ON_CLICK_BUTTON", "SHOW_CLAN_PROFILE", "when isInClan -> profile.clanInfo.clan.clanId, 0L"]
                                 bindings:
@@ -914,6 +902,7 @@ Prototypes:
                                             "size": "eButtonSize.NORMAL"
                                             "sound": "eButtonSound.OPEN"
                                             "enabled": "not isInClan and isSelfProfile and not showClanError"
+                                            "hasShadow": "false"
                                         eventActions:
                                         - ["ON_CLICK_BUTTON", "FIND_CLAN", ""]
                                 bindings:
@@ -933,6 +922,7 @@ Prototypes:
                                             "size": "eButtonSize.NORMAL"
                                             "sound": "eButtonSound.UNKNOWN"
                                             "enabled": "isInClan == false and isSelfProfile == false and profile.canBeInvitedByMe and not profile.isInviteInClanExists and not showClanError"
+                                            "hasShadow": "false"
                                         eventActions:
                                         - ["ON_CLICK_BUTTON", "INVITE_TO_CLAN", ""]
                                 bindings:
@@ -973,7 +963,7 @@ Prototypes:
                                     hCenterAnchorEnabled: true
                                 SizePolicy:
                                     horizontalPolicy: "FixedSize"
-                                    horizontalValue: 176.000000
+                                    horizontalValue: 216.000000
                                 UIDataParamsComponent:
                                     args:
                                         "locked": "false"
@@ -982,8 +972,6 @@ Prototypes:
                                         "size": "eButtonSize.NORMAL"
                                         "sound": "eButtonSound.OPEN"
                                         "enabled": "true"
-                                        "isBlur": "false"
-                                        "isCustBg": "true"
                                         "maskStyle": "\"white-wild-sand-15-bg\""
                                     eventActions:
                                     - ["ON_CLICK_BUTTON", "SHOW_PLAYER_TEAMS", ""]

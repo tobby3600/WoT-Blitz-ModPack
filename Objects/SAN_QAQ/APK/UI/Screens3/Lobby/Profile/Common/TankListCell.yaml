@@ -167,7 +167,7 @@ Prototypes:
             -   class: "UIControl"
                 name: "Battles"
                 input: false
-                classes: "t-body bold color=white-wild-sand-text not-localize"
+                classes: "t-body bold white-wild-sand-text"
                 components:
                     UITextComponent: {}
                     SizePolicy:
@@ -192,12 +192,12 @@ Prototypes:
                     StyleSheet:
                         styles: "~res:/UI/Screens3/Font.style.yaml"
                 bindings:
-                - ["classes", "\"t-body bold not-localize \" + winRateColor"]
+                - ["classes", "\"t-body bold \" + winRateColor"]
                 - ["UITextComponent.text", "percent(winRate, 0)"]
             -   class: "UIControl"
                 name: "Experience"
                 input: false
-                classes: "t-body bold color=white-wild-sand-text not-localize"
+                classes: "t-body bold white-wild-sand-text"
                 components:
                     UITextComponent: {}
                     SizePolicy:
@@ -212,7 +212,7 @@ Prototypes:
             -   class: "UIControl"
                 name: "Damage"
                 input: false
-                classes: "t-body bold color=white-wild-sand-text not-localize"
+                classes: "t-body bold white-wild-sand-text"
                 components:
                     UITextComponent: {}
                     SizePolicy:

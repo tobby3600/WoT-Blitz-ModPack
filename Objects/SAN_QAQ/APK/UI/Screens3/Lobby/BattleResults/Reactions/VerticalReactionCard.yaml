@@ -1,0 +1,112 @@
+Header:
+    version: 155
+Prototypes:
+-   class: "UIControl"
+    name: "VerticalReactionCard"
+    input: false
+    refreshStylesOnInteract: false
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/Lobby/BattleResults/Reactions/VerticalReactionCard.animation"
+        UIOpacityComponent:
+            opacity: 0.000000
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalValue: 0.000000
+            verticalPolicy: "FixedSize"
+            verticalValue: 102.000000
+        UIDataParamsComponent:
+            params:
+            - ["string", "icon", "\"\"", "\"\""]
+            - ["bool", "isAccontSetReaction", "false", "true"]
+            - ["int", "value", "0", "4"]
+        UIEventOnDataComponent0:
+            watchedDataExpression: "isAccontSetReaction"
+            ifExpression: "true"
+            eventName: "AccontSetReaction"
+    children:
+    -   class: "UIControl"
+        name: "IconHolderWrapper"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                topAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 64.000000
+                verticalPolicy: "FixedSize"
+                verticalValue: 64.000000
+        children:
+        -   class: "UIControl"
+            name: "IconHolder"
+            scale: [0.000000, 0.000000]
+            pivot: [0.500000, 0.500000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 64.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 64.000000
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/BattleResults/Reactions/ReactionIcon.yaml"
+                    args:
+                        "icon": "icon"
+                        "size": "64"
+    -   class: "UIControl"
+        name: "ValueWrapper"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                bottomAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 36.000000
+                verticalPolicy: "FixedSize"
+                verticalValue: 32.000000
+        children:
+        -   class: "UIControl"
+            name: "Bg"
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_FILL"
+                    color: [1.000000, 0.760784, 0.149020, 1.000000]
+                UIOpacityComponent:
+                    opacity: 0.200000
+                UIRoundedCornersComponent:
+                    radius: "8"
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 32.000000
+            bindings:
+            - ["visible", "isAccontSetReaction"]
+            - ["SizePolicy.horizontalValue", "when value > 9 -> 36, 32"]
+        -   class: "UIControl"
+            name: "Value"
+            input: false
+            components:
+                UITextComponent:
+                    fontPath: "~res:/Fonts/XinGothic-SC-W12.otf"
+                    fontSize: 20.000000
+                    ascendScale: 0.650000
+                    descendScale: 0.500000
+                    letterSpacing: 0.400000
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+            bindings:
+            - ["UITextComponent.text", "value"]
+            - ["UITextComponent.color", "when isAccontSetReaction -> hsb(43, 85, 100), hsb(0, 0, 96)"]

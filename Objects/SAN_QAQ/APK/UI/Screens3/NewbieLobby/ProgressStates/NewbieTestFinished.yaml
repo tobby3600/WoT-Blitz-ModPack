@@ -1,0 +1,137 @@
+Header:
+    version: 133
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "NewbieTestFinished"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        UIAnimationComponent:
+            animations: "_INIT,~res:/UI/Screens3/NewbieLobby/ProgressStates/Animations/NewbieTestFinishedInit.animation;FINISH,~res:/UI/Screens3/NewbieLobby/ProgressStates/Animations/NewbieTestFinishedFinish.animation;ON_SWITCH_ACCEPT,~res:/UI/Screens3/NewbieLobby/ProgressStates/Animations/NewbieButtonFinish.animation"
+        Anchor:
+            hCenterAnchorEnabled: true
+            vCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfMaxChild"
+            verticalPolicy: "PercentOfChildrenSum"
+        UIDataParamsComponent:
+            params:
+            - ["NewbieProgressViewModel", "newbieProgress", "null", "{ }"]
+            events:
+            - "ON_FINISHED"
+        UIDataLocalVarsComponent:
+            data:
+            - ["bool", "inputDisabled", "false"]
+        UIIdentifierComponent:
+            id: "newbie_test_finished"
+            params: []
+    children:
+    -   class: "UIControl"
+        name: "Additional"
+        size: [400.000000, 400.000000]
+        input: false
+        components:
+            UIOpacityComponent: {}
+            Anchor:
+                hCenterAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfChildrenSum"
+        children:
+        -   class: "UIControl"
+            name: "Image"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Background:
+                    sprite: "~res:/Gfx/Lobby/backgrounds/tutor-tanks/bg_newcomers_tanks"
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+        -   class: "UIControl"
+            name: "Caption"
+            input: false
+            classes: "t-title regular color=white-wild-sand-text"
+            components:
+                UITextComponent:
+                    text: "NewbieHangar/TestFinished/TestFinished"
+                    colorInheritType: "COLOR_IGNORE_PARENT"
+                    align: ["LEFT", "VCENTER"]
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+        -   class: "UIControl"
+            name: "Spacer"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 16.000000
+        -   class: "UIControl"
+            name: "Description"
+            input: false
+            classes: "t-subtitle regular color=white-wild-sand-70-text"
+            components:
+                UITextComponent:
+                    text: "NewbieHangar/TestFinished/Description"
+                    colorInheritType: "COLOR_IGNORE_PARENT"
+                    multiline: "MULTILINE_ENABLED"
+                    align: ["HCENTER", "VCENTER"]
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 512.000000
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+        -   class: "UIControl"
+            name: "Spacer_1"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    verticalPolicy: "Formula"
+                    verticalFormula: "when screenHeight <= 640 -> 32, 64"
+        -   class: "UIControl"
+            name: "ButtonContainer"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfFirstChild"
+            children:
+            -   prototype: "Button/Button"
+                name: "Button"
+                components:
+                    UIOpacityComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    UIDataParamsComponent:
+                        args:
+                            "inputDisabled": "inputDisabled"
+                            "caption": "\"#common:DialogButton/OK\""
+                        eventActions:
+                        - ["ON_CLICK_BUTTON", "FINISH", ""]
+                    UIIdentifierComponent:
+                        id: "ok_button"
+                        params:
+                        - ["bool", "input_enabled", "not bool(inputDisabled)"]

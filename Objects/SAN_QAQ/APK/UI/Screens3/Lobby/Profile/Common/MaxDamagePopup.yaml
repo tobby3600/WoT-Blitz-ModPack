@@ -77,7 +77,7 @@ Prototypes:
                     components:
                         UIDataParamsComponent:
                             args:
-                                "bgStyle": "\"grey-shark-70-bg\""
+                                "bgStyle": "\"white-wild-sand-15-bg\""
                                 "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "Flag"
@@ -345,7 +345,7 @@ Prototypes:
                     spriteModification: ["FLIP_HORIZONTAL"]
                 Anchor:
                     leftAnchorEnabled: true
-                    leftAnchor: -7.500000
+                    leftAnchor: -8.000000
                     vCenterAnchorEnabled: true
                 SizePolicy:
                     horizontalPolicy: "PercentOfContent"

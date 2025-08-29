@@ -388,6 +388,8 @@ Prototypes:
                                         horizontalValue: 16.000000
                                         verticalPolicy: "FixedSize"
                                         verticalValue: 16.000000
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Color.style.yaml"
                             -   class: "UIControl"
                                 name: "Value"
                                 input: false

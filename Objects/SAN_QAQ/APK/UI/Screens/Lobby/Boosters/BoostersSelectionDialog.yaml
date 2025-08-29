@@ -99,18 +99,3 @@ Prototypes:
     -   prototype: "StyledBackButton/StyledBackButton"
         name: "BackButton"
         position: [8.000000, 8.000000]
-    -   class: "UIControl"
-        name: "NavigationPanel"
-        size: [32.000000, 32.000000]
-        input: false
-        components:
-            Anchor:
-                bottomAnchorEnabled: true
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                condition: "isGamepad"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/LobbyNavigationPanel.yaml"
-                args:
-                    "labels": "{ eNintendoSwitchControls.B = \"Switch/HubridPanel/Lobby/Back\"; }"

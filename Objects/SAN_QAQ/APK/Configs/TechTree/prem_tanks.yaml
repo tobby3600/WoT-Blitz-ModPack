@@ -462,19 +462,19 @@
 #九级
 #MT
 "european:It12_Prototipo_Standard_B":
-- other:Oth11_T-55A
+- other:Oth78_AC_17_P_Sterope
 - other:Oth84_FVE_Defender
 "european:Cz02_T50":
-- other:Oth11_T-55A
+- other:Oth78_AC_17_P_Sterope
 - other:Oth84_FVE_Defender
 "european:Pl22_CS_59":
 - other:Oth11_T-55A
 - other:Oth75_Braniaq_DM5
 "france:F120_Project_Louis":
 - other:Oth11_T-55A
-- other:Oth75_Braniaq_DM5
+- other:Oth78_AC_17_P_Sterope
 "germany:E-50":
-- other:Oth75_Braniaq_DM5
+- other:Oth11_T-55A
 - other:Oth84_FVE_Defender
 "germany:Pro_Ag_A":
 - other:Oth75_Braniaq_DM5
@@ -487,16 +487,16 @@
 - other:Oth75_Braniaq_DM5
 "uk:GB24_Centurion_Mk3":
 - other:Oth41_Centurion_Mk3_S2
-- other:Oth84_FVE_Defender
+- other:Oth78_AC_17_P_Sterope
 "usa:M46_Patton":
 - other:Oth41_Centurion_Mk3_S2
-- other:Oth84_FVE_Defender
+- other:Oth78_AC_17_P_Sterope
 "usa:T54E1":
 - other:Oth11_T-55A
-- other:Oth41_Centurion_Mk3_S2
+- other:Oth78_AC_17_P_Sterope
 "ussr:T-54":
 - other:Oth11_T-55A
-- other:Oth41_Centurion_Mk3_S2
+- other:Oth78_AC_17_P_Sterope
 #HT
 "european:It119_ProgettoC50mod66":
 - other:Oth38_50TP_Tyszkiewicza_S1

@@ -1,0 +1,184 @@
+Header:
+    version: 141
+Prototypes:
+-   class: "UIControl"
+    name: "CrewContent"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalValue: 60.000000
+            verticalPolicy: "FixedSize"
+            verticalValue: 32.000000
+        UIDataParamsComponent:
+            params:
+            - ["InventoryPanelCrewViewModel", "crew", "null", "{ \"buttonState\" = eCrewButtonState.NO_MASTERY; }"]
+            - ["OwnedTank", "tank", "null", "{ }"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["bool", "progressBarIsVisible", "crew.buttonState == eCrewButtonState.NO_TANK or crew.buttonState == eCrewButtonState.NO_MASTERY or crew.buttonState == eCrewButtonState.TRAINING_SKILL"]
+            - ["int", "mastery", "when not isNull(tank) -> tank.mastery, 0"]
+    children:
+    -   class: "UIControl"
+        name: "DiscountEffect"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            IgnoreLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["visible", "crew.hasPriceUpdate"]
+        children:
+        -   class: "UIParticles"
+            name: "Glow"
+            scale: [1.000000, 1.000000]
+            effectPath: "~res:/3d/FX/UI/Crew_button/Glow.sc2"
+            autoStart: true
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+        -   class: "UIParticles"
+            name: "Wave"
+            scale: [0.800000, 1.000000]
+            effectPath: "~res:/3d/FX/UI/Crew_button/Wave.sc2"
+            autoStart: true
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    leftAnchor: -12.000000
+                    vCenterAnchorEnabled: true
+    -   class: "UIControl"
+        name: "Mastery"
+        position: [0.000000, 4.000000]
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfMaxChild"
+        bindings:
+        - ["visible", "crew.buttonState == eCrewButtonState.NO_MASTERY or crew.buttonState == eCrewButtonState.NO_TANK"]
+        children:
+        -   class: "UIControl"
+            name: "MasteryWrapper"
+            position: [0.000000, 0.000000]
+            size: [61.000000, 24.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                LinearLayout:
+                    padding: "-2"
+                    dynamicSpacing: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "Icon"
+                input: false
+                classes: "white-wild-sand-50-bg"
+                components:
+                    Background:
+                        drawType: "DRAW_ALIGNED"
+                        sprite: "~res:/Gfx/Lobby/icons/icon_crew"
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                        vCenterAnchor: 1.000000
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 20.000000
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 20.000000
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "Percentage"
+                position: [24.000000, 0.000000]
+                input: false
+                classes: "t-subtitle regular white-wild-sand-text"
+                components:
+                    UITextComponent: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "str(mastery) + \"%\""]
+    -   class: "UIControl"
+        name: "SkillIconWrapper"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+                verticalValue: 28.000000
+        bindings:
+        - ["visible", "crew.buttonState == eCrewButtonState.TRAINING_SKILL or crew.buttonState == eCrewButtonState.HAS_SKILL"]
+        children:
+        -   class: "UIControl"
+            name: "SkillIcon"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_SCALE_PROPORTIONAL"
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 40.000000
+            bindings:
+            - ["visible", "crew.buttonState == eCrewButtonState.TRAINING_SKILL or crew.buttonState == eCrewButtonState.HAS_SKILL"]
+            - ["Background.sprite", "crew.skillIcon"]
+            - ["Background.frame", "crew.skillFrame"]
+    -   class: "UIControl"
+        name: "AllMasteryIcon"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Background:
+                sprite: "~res:/Gfx/Lobby/icons/icon_checkmark_green"
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 32.000000
+                verticalPolicy: "FixedSize"
+                verticalValue: 32.000000
+        bindings:
+        - ["visible", "crew.buttonState == eCrewButtonState.ALL_TRAINED"]
+    -   class: "UIControl"
+        name: "ProgressBarHolder"
+        enabled: false
+        input: false
+        components:
+            Anchor:
+                bottomAnchorEnabled: true
+                bottomAnchor: -3.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+                verticalValue: 3.000000
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/ProgressBar.yaml"
+                args:
+                    "minimum": "0"
+                    "maximum": "100"
+                    "value": "when crew.buttonState == eCrewButtonState.NO_MASTERY -> (when isNull(tank) -> 0, tank.mastery), int(crew.percentage)"
+                    "progressColor": "\"yellow-chalky-bg\""
+        bindings:
+        - ["visible", "progressBarIsVisible"]

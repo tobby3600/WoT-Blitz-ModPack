@@ -4,7 +4,7 @@ ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Common/Resource/Currency.yaml"
 - "~res:/UI/Screens3/Lobby/Common/Timer.yaml"
 - "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
+- "~res:/UI/Screens3/Common/BlurMask.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "NewbieTab"
@@ -20,7 +20,6 @@ Prototypes:
             vCenterAnchorEnabled: true
         LinearLayout:
             spacing: 12.000000
-        UIPostProcessSourceComponent0: {}
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
             horizontalValue: 96.000000
@@ -33,7 +32,6 @@ Prototypes:
             - ["SessionDataModel", "session", "null", "{ }"]
             - ["TaskJournal", "model", "null", "{ }"]
             - ["bool", "isDeveloperUI", "false", "true"]
-            - ["string", "maskTaskJournal", "\"\"", "\"\""]
             events:
             - "REMOVE_OLD_CHAIN_TASK(string slotId)"
             - "ON_TASK_REWARD_CLICKED(string slotId, int rewardIndex)"
@@ -59,8 +57,6 @@ Prototypes:
             eventName: "ANIMATE_PROGRESS"
         StyleSheet:
             styles: "~res:/UI/Screens3/Common/Desktop.style.yaml"
-    bindings:
-    - ["UIPostProcessSourceComponent0.id", "maskTaskJournal"]
     children:
     -   class: "UIControl"
         name: "DailyAndTasksContainer"
@@ -97,15 +93,21 @@ Prototypes:
                 input: false
                 components:
                     Background:
+                        sprite: "~res:/Gfx/UI/TaskJournal/Basic/bg_task-jornal"
                         drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
                     ClipContent: {}
                     UIRoundedCornersComponent:
-                        radius: " 8; 8; 0; 0;"
+                        radius: "8;8;0;0"
                     SizePolicy:
                         horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "PercentOfParent"
-                bindings:
-                - ["Background.sprite", "\"~res:/Gfx/UI/TaskJournal/Basic/bg_task-jornal\""]
+            -   prototype: "BlurMask/BlurMask"
+                name: "Blur"
+                components:
+                    UIDataParamsComponent:
+                        args:
+                            "ID": "\"TaskJournalBg\""
+                            "roundCorner": "\"8;8;0;0\""
             -   class: "UIControl"
                 name: "Content"
                 input: false
@@ -113,6 +115,8 @@ Prototypes:
                     Anchor:
                         hCenterAnchorEnabled: true
                         vCenterAnchorEnabled: true
+                    UIPostProcessSourceComponent0:
+                        id: "maskTaskJournalBg"
                     SizePolicy:
                         horizontalPolicy: "PercentOfParent"
                         horizontalValue: 85.000000
@@ -163,7 +167,6 @@ Prototypes:
                                     "time": "model.progress.daily.progressResetTime"
                                     "serverTime": "session.serverTime"
                                     "bgVisible": "true"
-                                    "bgColorStyle": "\"black-25-bg\""
                 -   class: "UIControl"
                     name: "Rewards"
                     input: false
@@ -199,6 +202,7 @@ Prototypes:
                             args:
                                 "maximum": "int(maxDailyProgress * 100.000000)"
                                 "value": "int((when isInited -> displayingDailyProgress, realDailyProgress) * 100.000000)"
+                                "isBlur": "false"
                     children:
                     -   class: "UIControl"
                         name: "CurrentProgressIndicator"
@@ -246,7 +250,13 @@ Prototypes:
                             -   class: "UIControl"
                                 name: "ProxyPrice"
                                 input: false
+                                classes: "white-wild-sand-15-bg"
                                 components:
+                                    Background:
+                                        drawType: "DRAW_FILL"
+                                        perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                                    UIRoundedCornersComponent:
+                                        radius: "4"
                                     Anchor:
                                         enabled: true
                                         hCenterAnchorEnabled: true
@@ -258,14 +268,9 @@ Prototypes:
                                         horizontalFormula: "childrenSum+6"
                                         verticalPolicy: "Formula"
                                         verticalFormula: "maxChild+4"
+                                    StyleSheet:
+                                        styles: "~res:/UI/Screens3/Color.style.yaml"
                                 children:
-                                -   prototype: "BlurModified/BlurModified"
-                                    name: "Blur"
-                                    components:
-                                        UIDataParamsComponent:
-                                            args:
-                                                "bgStyle": "white-wild-sand-15-bg"
-                                                "roundCorner": "\"4\""
                                 -   class: "UIControl"
                                     name: "Value"
                                     input: false

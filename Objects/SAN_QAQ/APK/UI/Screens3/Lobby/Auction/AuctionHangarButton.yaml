@@ -1,0 +1,73 @@
+Header:
+    version: 161
+Prototypes:
+-   class: "UIControl"
+    name: "Button"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfFirstChild"
+            verticalPolicy: "PercentOfFirstChild"
+        UIDataParamsComponent:
+            params:
+            - ["int64", "serverTime", "1561565973L", "1561565973L"]
+            - ["AuctionHangarEntry", "auction", "{ }", "{ \"state\" = eAuctionState.Close; }"]
+            - ["eScreenSizeType", "deviceType", "eScreenSizeType.Large", "eScreenSizeType.Large"]
+            - ["bool", "isReady", "false", "false"]
+            events:
+            - "AUCTION_BUTTON_PRESSED"
+        UIDataLocalVarsComponent:
+            data:
+            - ["int", "level", "1"]
+        UIDataLocalBindingsComponent:
+            data: []
+    children:
+    -   class: "UIControl"
+        name: "ContentHolder"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                childType: "kPrototype"
+                prototypePath: "~res:/UI/Screens3/Lobby/Auction/AuctionButtonWidget.yaml"
+                args:
+                    "data": "auction"
+                    "deviceType": "deviceType"
+                    "showFx": "auction.state == eAuctionState.Active"
+                    "serverTime": "serverTime"
+                eventActions:
+                - ["ON_TOUCH", "AUCTION_BUTTON_PRESSED", ""]
+Slots:
+-   class: "UIControl"
+    name: "LevelWrapper"
+    size: [96.000000, 96.000000]
+    visible: true
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "Level"
+        visible: true
+        input: false
+        classes: "t-content-h4 bold white-wild-sand-text"
+        components:
+            UITextComponent: {}
+            Anchor:
+                hCenterAnchorEnabled: true
+                topAnchorEnabled: true
+                topAnchor: 63.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfContent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml"
+        bindings:
+        - ["UITextComponent.text", "when level > 10060 -> \"\", level > 60 -> (when (level > 10000) -> (level - 10000), \"\"), level"]

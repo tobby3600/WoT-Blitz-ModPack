@@ -1,0 +1,170 @@
+Header:
+    version: 153
+Prototypes:
+-   class: "UIControl"
+    name: "ClanRecruitmentParam"
+    size: [640.000000, 64.000000]
+    input: false
+    components:
+        LinearLayout:
+            padding: "24"
+            spacing: 16.000000
+            dynamicSpacing: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfMaxChild"
+        UIDataParamsComponent:
+            params:
+            - ["ClanRecruitmentParam", "param", "null", "{ }"]
+            events:
+            - "ON_SLIDER_MINUS(eClanRestrictionParam restriction)"
+            - "ON_SLIDER_PLUS(eClanRestrictionParam restriction)"
+            - "ON_SLIDER_CHANGED(eClanRestrictionParam restriction, float value)"
+            - "ON_SLIDER_TOUCHED(eClanRestrictionParam restriction)"
+            - "ON_SLIDER_EDITING_FINISHED(eClanRestrictionParam restriction, float value)"
+        UIDataLocalBindingsComponent:
+            data:
+            - ["float", "currentValue", "float(param.value)"]
+            - ["float", "battlesTotalStep", "when currentValue > 5000.000000 -> 1000.000000, when currentValue > 1000.000000 -> 500.000000, when currentValue > 100.000000 -> 100.000000, when currentValue > 10.000000 -> 10.000000, 1.000000"]
+            - ["float", "winRateStep", "when currentValue > 80.000000 -> 5.000000, when currentValue > 40.000000 -> 1.000000, when currentValue > 30.000000 -> 5.000000, 10.000000"]
+            - ["float", "avgDamageStep", "when currentValue > 500.000000 -> 100.000000, 50.000000"]
+            - ["float", "step", "0.000000"]
+            - ["bool", "arabicLocalization", "localize(\"LANGUAGE_CODE\") == \"ar\""]
+    children:
+    -   class: "UIControl"
+        name: "Title"
+        input: false
+        classes: "t-overline bold color=white-wild-sand-text"
+        components:
+            UITextComponent:
+                colorInheritType: "COLOR_IGNORE_PARENT"
+            Anchor:
+                leftAnchorEnabled: true
+                leftAnchor: 24.000000
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfContent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+        bindings:
+        - ["UITextComponent.text", "capitalize(localize(str(param.restriction, eClanRestrictionParam, \"caption\")))"]
+    -   class: "UIControl"
+        name: "SliderWrapper"
+        input: false
+        components:
+            LinearLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "FixedSize"
+                verticalValue: 52.000000
+        children:
+        -   class: "UIControl"
+            name: "TitleBold"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                LinearLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfMaxChild"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml"
+            children:
+            -   class: "UIControl"
+                name: "Percent_arabic"
+                input: false
+                classes: "t-subtitle bold color=white-wild-sand-text"
+                components:
+                    UITextComponent:
+                        text: "%"
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["visible", "arabicLocalization and param.restriction == eClanRestrictionParam.WinRate"]
+            -   class: "UIControl"
+                name: "Value"
+                input: false
+                classes: "t-subtitle bold color=white-wild-sand-text"
+                components:
+                    UITextComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "str(param.value)"]
+            -   class: "UIControl"
+                name: "Plus_arabic"
+                input: false
+                classes: "t-subtitle bold color=white-wild-sand-text"
+                components:
+                    UITextComponent:
+                        text: "+"
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["visible", "arabicLocalization"]
+            -   class: "UIControl"
+                name: "Plus"
+                input: false
+                classes: "t-subtitle bold color=white-wild-sand-text"
+                components:
+                    UITextComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["visible", "not arabicLocalization"]
+                - ["UITextComponent.text", "when param.restriction == eClanRestrictionParam.WinRate -> \"% +\", \" +\""]
+        -   class: "UIControl"
+            name: "Slider"
+            position: [30.000000, 0.000000]
+            input: false
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 420.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 64.000000
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Slider.yaml"
+                    args:
+                        "step": "0.001000"
+                        "minAllowedValue": "0.000000"
+                        "minValue": "0.000000"
+                        "maxAllowedValue": "1.000000"
+                        "maxValue": "1.000000"
+                        "currentValue": "param.currentSliderValue"
+                        "hideValue": "true"
+                    eventActions:
+                    - ["ON_SLIDER_EDITING_FINISHED", "ON_SLIDER_EDITING_FINISHED", "param.restriction, _event.value"]
+                    - ["ON_SLIDER_TOUCHED", "ON_SLIDER_TOUCHED", "param.restriction"]
+                    - ["ON_SLIDER_CHANGED", "ON_SLIDER_CHANGED", "param.restriction, _event.value"]
+                    - ["ON_SLIDER_PLUS", "ON_SLIDER_PLUS", "param.restriction"]
+                    - ["ON_SLIDER_MINUS", "ON_SLIDER_MINUS", "param.restriction"]

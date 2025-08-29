@@ -109,8 +109,9 @@ Prototypes:
                     "contentHeight": "600"
                     "rightCornerContent": "when showInfoButtons.Contains(currentProductId) and showInfoButtons[currentProductId] -> InfoButton, null"
                     "titleContent": "null"
-                    "hasCustomBg": "false"
                     "content": "Swiper"
+                    "isBlurMask": "true"
+                    "blurMaskID": "\"swipableShopSlider\""
                 eventActions:
                 - ["SHIFT_D", "TOGGLE_DEBUG", ""]
                 - ["OVERLAY_CONTENT_HEIGHT_CHANGED", "OVERLAY_CONTENT_HEIGHT_CHANGED", "_event"]
@@ -131,18 +132,6 @@ Prototypes:
                 prototypePath: "~res:/UI/Screens3/Common/LoadingOverlay.yaml"
         bindings:
         - ["visible", "showLoading"]
-    -   class: "UIControl"
-        name: "NavigationPanel"
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                condition: "isGamepad"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/NavigationPanel.yaml"
-                args:
-                    "content": "NavigationPanel"
 Slots:
 -   class: "UIControl"
     name: "Swiper"
@@ -258,6 +247,8 @@ Slots:
                         "locked": "false"
                         "iconFlip": "FLIP_HORIZONTAL"
                         "maskStyle": "\"white-wild-sand-25-bg\""
+                        "isBlur": "false"
+                        "isCustBg": "true"
                     eventActions:
                     - ["ON_CLICK_BUTTON", "PREVIOUS_PRODUCT", ""]
         -   class: "UIControl"
@@ -286,6 +277,7 @@ Slots:
                             "selectedItem": "currentIndex"
                             "pointCount": "pageCount"
                             "bgStyle": "\"white-wild-sand-25-bg\""
+                            "isBlur": "false"
                         eventActions:
                         - ["CHANGED_SELECTED_ITEM", "CHANGED_SELECTED_ITEM", "_event"]
         -   class: "UIControl"
@@ -312,6 +304,8 @@ Slots:
                         "locked": "false"
                         "iconFlip": "0"
                         "maskStyle": "\"white-wild-sand-25-bg\""
+                        "isBlur": "false"
+                        "isCustBg": "true"
                     eventActions:
                     - ["ON_CLICK_BUTTON", "NEXT_PRODUCT", ""]
         -   class: "UIControl"
@@ -320,40 +314,6 @@ Slots:
             components:
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
--   class: "UIControl"
-    name: "NavigationPanel"
-    input: false
-    components:
-        LinearLayout:
-            spacing: 24.000000
-        SizePolicy:
-            horizontalPolicy: "PercentOfChildrenSum"
-            verticalPolicy: "PercentOfMaxChild"
-    children:
-    -   class: "UIControl"
-        name: "Back"
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfFirstChild"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                args:
-                    "text": "\"Switch/HubridPanel/Lobby/Back\""
-                    "icon": "eNintendoSwitchControls.B"
-    -   class: "UIControl"
-        name: "Information"
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfFirstChild"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                args:
-                    "text": "buttonCaption"
-                    "icon": "eNintendoSwitchControls.Y"
 -   class: "UIControl"
     name: "Image"
     size: [1000.000000, 1000.000000]
@@ -399,3 +359,20 @@ Slots:
         bindings:
         - ["UIOpacityComponent.opacity", "rightProportion"]
         - ["UIUrlImageComponent.imageUrl", "rightBgUrl"]
+    -   class: "UIControl"
+        name: "CurrentProductImageContent"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                topAnchorEnabled: true
+            IgnoreLayout: {}
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            UIChildComponent0:
+                condition: "not currentProduct.noArt"
+                prototypePath: "~res:/UI/Screens3/Lobby/Shop/ShopContentImageWrapper.yaml"
+                args:
+                    "parentWidth": "screenWidth"
+                    "imageUrl": "currentProduct.contentUrl"

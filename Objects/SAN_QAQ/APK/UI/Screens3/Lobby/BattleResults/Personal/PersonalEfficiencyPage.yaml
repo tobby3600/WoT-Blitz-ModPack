@@ -22,6 +22,7 @@ Prototypes:
             - ["float", "contentSizeY", "0.000000", "690.000000"]
             - ["bool", "personalFirstShow", "false", "true"]
             - ["BattleResultsViewModel", "results", "null", "{ \"battleResult\" = BattleResult.WIN; \"gameplayMode\" = eGameMode.Rating; \"rating\" = { \"leagueType\" = eLeague.SILVER; \"currentRating\" = 2990; \"difference\" = -34; \"state\" = eBattleRatingState.HAS_RATING; \"calibrationBattlesLeft\" = 2; }; }"]
+            - ["string", "bgStyle", "\"\"", "\"\""]
             events:
             - "SHOW_EXCELLENT_OFFER"
             - "ON_RIBBON_PRESSED"
@@ -81,16 +82,9 @@ Prototypes:
                     vCenterAnchorEnabled: true
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
-                    horizontalValue: 100.000000
                     verticalPolicy: "FixedSize"
                     verticalValue: 104.000000
             children:
-            -   prototype: "BlurModified/BlurModified"
-                name: "Blur"
-                components:
-                    UIDataParamsComponent:
-                        args:
-                            "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "Bg"
                 size: [32.000000, 32.000000]
@@ -106,6 +100,14 @@ Prototypes:
                         verticalPolicy: "FixedSize"
                         verticalValue: 104.000000
                 children:
+                -   prototype: "BlurModified/BlurModified"
+                    name: "Blur"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "bgOpacity": "0.500000"
+                                "bgStyle": "bgStyle"
+                                "roundCorner": "\"8\""
                 -   class: "UIControl"
                     name: "Left"
                     size: [32.000000, 32.000000]
@@ -343,18 +345,33 @@ Prototypes:
                     skipInvisible: false
                 SizePolicy:
                     horizontalPolicy: "Formula"
-                    horizontalFormula: "min(parent, 616)"
+                    horizontalFormula: "min(min(parent, 616), childrenSum * 1.15)"
                     verticalPolicy: "PercentOfChildrenSum"
             bindings:
             - ["Anchor.vCenterAnchor", "statsVDistance"]
+            - ["Anchor.rightAnchor", "when screenWidth > 1168 -> -48, -80"]
             - ["LinearLayout.spacing", "when isRatingBattle -> (when results.rating.leagueType == 4 -> 8, 32), 0"]
             children:
-            -   prototype: "BlurModified/BlurModified"
-                name: "Blur"
+            -   class: "UIControl"
+                name: "Background"
+                input: false
                 components:
-                    UIDataParamsComponent:
-                        args:
-                            "roundCorner": "\"8\""
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                        verticalValue: 125.000000
+                children:
+                -   prototype: "BlurModified/BlurModified"
+                    name: "Blur"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "bgStyle": "bgStyle"
+                                "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "RatingHolder"
                 position: [32.000000, 0.000000]
@@ -363,8 +380,9 @@ Prototypes:
                 components:
                     UIOpacityComponent: {}
                     Anchor:
-                        leftAnchorEnabled: true
+                        hCenterAnchorEnabled: true
                     SizePolicy:
+                        horizontalPolicy: "PercentOfFirstChild"
                         verticalPolicy: "PercentOfFirstChild"
                     UIChildComponent0:
                         condition: "isRatingBattle"
@@ -379,23 +397,30 @@ Prototypes:
                 bindings:
                 - ["visible", "isRatingBattle"]
                 - ["UIOpacityComponent.opacity", "when personalFirstShowLocal -> 0, 1"]
-                - ["Anchor.leftAnchor", "when screenWidth > 1168 -> 32, 0"]
             -   class: "UIControl"
                 name: "StatsWrapper"
                 size: [32.000000, 32.000000]
                 input: false
                 components:
                     Anchor:
-                        leftAnchorEnabled: true
+                        hCenterAnchorEnabled: true
                     LinearLayout:
                         orientation: "LeftToRight"
                         skipInvisible: false
                     SizePolicy:
-                        verticalPolicy: "PercentOfFirstChild"
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfMaxChild"
                 bindings:
-                - ["Anchor.leftAnchor", "when screenWidth > 1168 -> 80, 48"]
                 - ["LinearLayout.spacing", "hStatsSpacing"]
                 children:
+                -   class: "UIControl"
+                    name: "Spacer"
+                    input: false
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 0.000000
+                            verticalPolicy: "PercentOfParent"
                 -   class: "UIControl"
                     name: "Left"
                     size: [32.000000, 32.000000]

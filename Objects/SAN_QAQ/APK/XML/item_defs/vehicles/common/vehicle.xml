@@ -347,6 +347,7 @@
 		<respawnMoonwalkGravitizing index="188">NoneExtra: Moonwalk</respawnMoonwalkGravitizing>
 		<freeAfterburning index="189">NoneExtra: ImprovedAfterburning</freeAfterburning>
 		<projectileModifier index="190">NoneExtra: ProjectileModifier</projectileModifier>
+		<trayShell index="191">NoneExtra: TrayShell</trayShell>
 	</extras>
 	<deviceExtras>
 		<devices>

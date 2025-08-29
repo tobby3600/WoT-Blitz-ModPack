@@ -1,0 +1,143 @@
+Header:
+    version: 150
+Prototypes:
+-   class: "UIControl"
+    name: "TextField"
+    size: [364.000000, 48.000000]
+    input: false
+    components:
+        UIOpacityComponent: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfMaxChild"
+        UIDataParamsComponent:
+            params:
+            - ["int", "maxLength", "0", "10"]
+            - ["bool", "isEnabled", "true", "true"]
+            - ["bool", "input", "true", "true"]
+            - ["int", "number", "0", "0"]
+            - ["int", "maxValue", "2147483647", "1000"]
+            - ["string", "textStyle", "\"t-subtitle regular\"", "\"t-subtitle regular\""]
+            - ["string", "placeholderTextColor", "\"white-wild-sand-50-text\"", "\"white-wild-sand-50-text\""]
+            - ["string", "bgStyle", "\"white-wild-sand-15-bg\"", "\"black-50-bg\""]
+            - ["bool", "isPassword", "false", "false"]
+            - ["bool", "isLastEdit", "false", "false"]
+            - ["string", "leftIconImage", "\"~res:/Gfx/Lobby/icons/icon_search_s\"", "\"~res:/Gfx/Lobby/icons/icon_search_s\""]
+            - ["control", "additionalContent", "null", "null"]
+            events:
+            - "EDIT_ENDED"
+            - "FIELD_CLICKED"
+            - "EDITING_STARTED"
+            - "TEXT_CHANGED"
+        UIDataLocalVarsComponent:
+            data:
+            - ["int", "fieldNumber", "number"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["string", "regex", "\"^([0-9]|[1-9][0-9]|\" + str(maxValue) + \")$\""]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Clan/Profile/XpConverterTextField.actions"
+        UIEventOnDataComponent0:
+            watchedDataExpression: "number"
+            eventName: "EDIT_ENDED"
+            eventData: "str(number)"
+        UIIdentifierComponent:
+            id: "text_field"
+            params: []
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Common/Hover.style.yaml"
+    bindings:
+    - ["enabled", "isEnabled"]
+    - ["UIOpacityComponent.opacity", "when isEnabled -> 1, 0.500000"]
+    children:
+    -   class: "UIControl"
+        name: "Background"
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_STRETCH_BOTH"
+                sprite: "~res:/Gfx/Lobby/backgrounds/bg_r4"
+                leftRightStretchCap: 4.000000
+                topBottomStretchCap: 4.000000
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
+        bindings:
+        - ["classes", "bgStyle"]
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                dynamicPadding: true
+                spacing: 4.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfMaxChild"
+        children:
+        -   class: "UITextField"
+            name: "UITextField"
+            fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
+            fontSize: 17.000000
+            textcolor: [1.000000, 1.000000, 1.000000, 1.000000]
+            selectioncolor: [0.000000, 1.000000, 0.000000, 0.701961]
+            textalign: ["HCENTER", "VCENTER"]
+            autoCapitalizationType: "AUTO_CAPITALIZATION_TYPE_NONE"
+            autoCorrectionType: "AUTO_CORRECTION_TYPE_NO"
+            spellCheckingType: "SPELL_CHECKING_TYPE_NO"
+            keyboardType: "KEYBOARD_TYPE_NUMBER_PAD"
+            startEditingEvent: "EDITING_STARTED"
+            keyboardShowEvent: "KEYBOARD_SHOWN"
+            returnPressedEvent: "KEYBOARD_RETURN"
+            returnPressedEventData: "isLastEdit"
+            cancelPressedEvent: "KEYBOARD_CANCEL"
+            components:
+                ClipContent:
+                    enabled: true
+                Anchor:
+                    vCenterAnchorEnabled: true
+                    vCenterAnchor: -2.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 48.000000
+                UIInputEventComponent:
+                    onTouchUpInside: "FIELD_CLICKED"
+                    onValueChanged: "TEXT_CHANGED"
+                    onValueChangedData: "_text"
+                    onEditingFinished: "EDIT_ENDED"
+                    onEditingFinishedData: "_text"
+                Focus:
+                    state: "Enabled"
+                    focusWithAnimation: true
+                UITextPatternComponent0:
+                    componentType: "FILTER"
+                    regularExpression: "regex"
+            bindings:
+            - ["input", "input"]
+            - ["text", "str(fieldNumber)"]
+            - ["maxLength", "maxLength"]
+        -   class: "UIControl"
+            name: "Icon"
+            visible: false
+            input: false
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfChildrenSum"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/Currency.yaml"
+                    args:
+                        "resource": "{ \"type\" = ResourceType.free_xp; }"
+                        "hideValue": "true"
+                        "currencySize": "eCurrencySize.SMALL"

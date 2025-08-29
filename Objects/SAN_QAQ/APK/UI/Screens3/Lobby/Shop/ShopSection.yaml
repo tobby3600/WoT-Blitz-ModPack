@@ -1,12 +1,14 @@
 Header:
     version: 161
-ImportedPackages:
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ShopSection"
     input: false
+    classes: "white-wild-sand-15-bg"
     components:
+        Background: {}
+        UIRoundedCornersComponent:
+            radius: "16"
         LinearLayout:
             orientation: "TopDown"
             spacing: 8.000000
@@ -64,13 +66,9 @@ Prototypes:
             - ["int", "itemsLimit", "when smallScreen -> 6, 8"]
         UIActionComponent:
             actionsPath: "~res:/UI/Screens3/Lobby/Shop/ShopSection.actions"
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Color.style.yaml"
     children:
-    -   prototype: "BlurModified/BlurModified"
-        name: "Blur"
-        components:
-            UIDataParamsComponent:
-                args:
-                    "roundCorner": "\"16\""
     -   class: "UIControl"
         name: "PremShopBanner"
         input: false

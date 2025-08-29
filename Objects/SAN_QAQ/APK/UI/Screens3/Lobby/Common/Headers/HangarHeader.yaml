@@ -39,7 +39,7 @@ Prototypes:
             - "BACK_EVENT"
             - "SHOW_ACHIEVEMENTS"
         UIChildComponent0:
-            prototypePath: "~res:/UI/Screens3/Lobby/Common/Headers/BaseHeaderNoBlur.yaml"
+            prototypePath: "~res:/UI/Screens3/Lobby/Common/Headers/BaseHeader.yaml"
             args:
                 "isBackButtonHasSounds": "isBackButtonHasSounds"
                 "session": "session"
@@ -173,7 +173,7 @@ Slots:
         components:
             UITextComponent:
                 text: "hangar/squad/squadGame"
-                fontPath: "~res:/Fonts/HelveticaNeueWorld-55Roman.ttf"
+                fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
                 fontSize: 17.000000
                 ascendScale: 0.700000
                 descendScale: 0.750000

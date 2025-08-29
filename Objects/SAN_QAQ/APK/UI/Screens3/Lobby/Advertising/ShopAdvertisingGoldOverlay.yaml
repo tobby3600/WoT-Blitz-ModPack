@@ -55,6 +55,8 @@ Prototypes:
                 "customBgURL": "\"\""
                 "content": "Content"
                 "fullWidthFooter": "true"
+                "isBlurMask": "true"
+                "blurMaskID": "\"shopAdvertisingGold\""
             eventActions:
             - ["EXTRA2_ACTION", "EXTRA2_ACTION", ""]
             - ["OVERLAY_CONTENT_HEIGHT_CHANGED", "OVERLAY_CONTENT_HEIGHT_CHANGED", "_event"]

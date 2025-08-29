@@ -15,7 +15,6 @@ Prototypes:
         Anchor:
             hCenterAnchorEnabled: true
             vCenterAnchorEnabled: true
-        UIPostProcessSourceComponent0: {}
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
             horizontalValue: 96.000000
@@ -26,7 +25,6 @@ Prototypes:
             - ["SessionDataModel", "session", "null", "{ }"]
             - ["TaskJournal", "model", "null", "{ }"]
             - ["TaskJournalCache", "cache", "null", "{ }"]
-            - ["string", "maskTaskJournal", "\"\"", "\"\""]
             events:
             - "CLAN_TASKS_COLLECT_QUEST(string slotId)"
             - "ON_CLAN_TASK_REWARD_CLICKED(eClanTasksGroup group, string slotId, int rewardIndex)"
@@ -51,8 +49,6 @@ Prototypes:
             actionsPath: "~res:/UI/Screens3/Lobby/TaskJournal/Animations/ClanTab.actions"
         StyleSheet:
             styles: "~res:/UI/Screens3/Common/Desktop.style.yaml"
-    bindings:
-    - ["UIPostProcessSourceComponent0.id", "maskTaskJournal"]
     children:
     -   class: "UIControl"
         name: "RewardsWithProgress"

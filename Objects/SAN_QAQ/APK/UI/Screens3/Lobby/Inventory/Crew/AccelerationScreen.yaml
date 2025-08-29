@@ -216,6 +216,8 @@ Prototypes:
             UIDataParamsComponent:
                 args:
                     "content": "FooterContent"
+                    "isBlur": "false"
+                    "bgStyle": "\"grey-shark-70-bg\""
 Slots:
 -   class: "UIControl"
     name: "FooterContent"

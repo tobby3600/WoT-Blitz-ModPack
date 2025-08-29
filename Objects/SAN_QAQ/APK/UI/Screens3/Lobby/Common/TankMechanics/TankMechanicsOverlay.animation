@@ -1,0 +1,20 @@
+animation TankMechanicsOverlayAnimation
+{
+	parallel
+	{
+		ChangeData(opacity, 0.000000, 0.25, EASE_IN);
+		ChangeData(hAnchor, 64.000000, 0.25, EASE_IN);
+		ChangeData(vAnchorIcon, -144.000000, 0.25, EASE_IN);
+		ChangeData(vAnchorText, 16.000000, 0.25, EASE_IN);
+	}
+
+	Wait(0.75);
+
+	parallel
+	{
+		ChangeData(opacity, 1.000000, 0.25, EASE_OUT);
+		ChangeData(hAnchor, 128.000000, 0.25, EASE_OUT);
+		ChangeData(vAnchorIcon, -80.000000, 0.25, EASE_OUT);
+		ChangeData(vAnchorText, -80.000000, 0.25, EASE_OUT);
+	}
+}

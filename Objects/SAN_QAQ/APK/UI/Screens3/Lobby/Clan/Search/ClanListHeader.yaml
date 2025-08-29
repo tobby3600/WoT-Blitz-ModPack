@@ -1,0 +1,90 @@
+Header:
+    version: 151
+Prototypes:
+-   class: "UIControl"
+    name: "Header"
+    input: false
+    components:
+        LinearLayout:
+            padding: "0; 5"
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalValue: 836.000000
+            verticalPolicy: "FixedSize"
+            verticalValue: 50.000000
+        UIDataParamsComponent:
+            params:
+            - ["bool", "inverseSort", "false", "false"]
+            - ["eClanListSortMode", "sortMode", "eClanListSortMode.None", "eClanListSortMode.None"]
+            events:
+            - "SwitchSortType(eClanListSortMode type)"
+    children:
+    -   class: "UIControl"
+        name: "Spacer"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+    -   class: "UIControl"
+        name: "Statistics"
+        input: false
+        components:
+            LinearLayout:
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 432.000000
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "ClanPersonnel"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/SortButton/IconSortButton.yaml"
+                    args:
+                        "inverseSort": "inverseSort"
+                        "isSelected": "sortMode == eClanListSortMode.Members"
+                        "iconPath": "\"~res:/Gfx/Lobby/icons/icon_clans_s\""
+                        "isBlur": "false"
+                        "bgStyle": "\"white-wild-sand-15-bg\""
+                    eventActions:
+                    - ["ON_CLICK_SORT_BUTTON", "SwitchSortType", "eClanListSortMode.Members"]
+        -   class: "UIControl"
+            name: "Battles"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/SortButton/IconSortButton.yaml"
+                    args:
+                        "inverseSort": "inverseSort"
+                        "isSelected": "sortMode == eClanListSortMode.Battles"
+                        "iconPath": "\"~res:/Gfx/Lobby/icons/icon_battles-clan_s\""
+                        "isBlur": "false"
+                        "bgStyle": "\"white-wild-sand-15-bg\""
+                    eventActions:
+                    - ["ON_CLICK_SORT_BUTTON", "SwitchSortType", "eClanListSortMode.Battles"]
+        -   class: "UIControl"
+            name: "WinRate"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfParent"
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/SortButton/IconSortButton.yaml"
+                    args:
+                        "inverseSort": "inverseSort"
+                        "isSelected": "sortMode == eClanListSortMode.WinRate"
+                        "iconPath": "\"~res:/Gfx/Lobby/icons/icon_victory_s\""
+                        "isBlur": "false"
+                        "bgStyle": "\"white-wild-sand-15-bg\""
+                    eventActions:
+                    - ["ON_CLICK_SORT_BUTTON", "SwitchSortType", "eClanListSortMode.WinRate"]

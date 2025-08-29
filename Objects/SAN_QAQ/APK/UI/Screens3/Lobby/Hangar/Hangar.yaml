@@ -95,9 +95,6 @@ Prototypes:
             - ["bool", "isInSquad", "not isNull(squadModel)"]
             - ["bool", "showSquadUI", "isInSquad and squadModel.showSquadUI"]
             - ["OwnedTank", "selectedTank", "session.playerTanks.currentTank"]
-            - ["map<eNintendoSwitchControls,string>", "nintendoNavigationFilterLabels", "{ eNintendoSwitchControls.Y = \"Switch/HubridPanel/VehicleFilter/SaveClose\"; eNintendoSwitchControls.X = \"Switch/HubridPanel/VehicleFilter/Reset\"; }"]
-            - ["map<eNintendoSwitchControls,string>", "nintendoNavigationHangarPremTankLabels", "{ eNintendoSwitchControls.Up = \"Switch/HubridPanel/Hangar/VehicleFilter\"; eNintendoSwitchControls.Down = \"Switch/HubridPanel/Hangar/TanksTree\"; }"]
-            - ["map<eNintendoSwitchControls,string>", "nintendoNavigationHangarLabels", "{ eNintendoSwitchControls.Up = \"Switch/HubridPanel/Hangar/VehicleFilter\"; eNintendoSwitchControls.Down = \"Switch/HubridPanel/Hangar/TanksTree\"; eNintendoSwitchControls.Y = \"Switch/HubridPanel/Hangar/Service\"; }"]
             - ["int", "messagesCountFromClanCanal", "when session.chatInfo.clanMessagesCount > 0 -> 1, 0"]
             - ["eTutorialLesson", "currentLesson", "account.tutorialData.currentLesson"]
             - ["eTutorialHighlights", "currentHighlightControl", "account.tutorialData.currentHighlightControl"]
@@ -897,6 +894,9 @@ Prototypes:
                                                             Anchor:
                                                                 rightAnchorEnabled: true
                                                                 bottomAnchorEnabled: true
+                                                            LinearLayout:
+                                                                orientation: "LeftToRight"
+                                                                spacing: 4.000000
                                                             SizePolicy:
                                                                 horizontalPolicy: "PercentOfChildrenSum"
                                                                 verticalPolicy: "PercentOfMaxChild"
@@ -1223,124 +1223,7 @@ Prototypes:
                             verticalValue: 24.000000
                         StyleSheet:
                             styles: "~res:/UI/Screens3/Font.style.yaml"
-    -   class: "UIControl"
-        name: "NavigationPanel"
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                condition: "isGamepad and isFilterNavPanel and not account.tutorialData.isTutorialActive"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/NavigationPanel.yaml"
-                args:
-                    "content": "NavigationPanelFilterContent"
-            UIChildComponent1:
-                condition: "isGamepad and not isFilterNavPanel and not account.tutorialData.isTutorialActive"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/NavigationPanel.yaml"
-                args:
-                    "content": "NavigationPanelHangarContent"
-            UIChildComponent2:
-                condition: "isGamepad and account.tutorialData.isTutorialActive"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/NavigationPanel.yaml"
-                args:
-                    "content": "NavigationPanelHangarTutorialContent"
 Slots:
--   class: "UIControl"
-    name: "NavigationPanelHangarContent"
-    input: false
-    components:
-        LinearLayout:
-            orientation: "LeftToRight"
-            spacing: 24.000000
-        SizePolicy:
-            horizontalPolicy: "PercentOfChildrenSum"
-            verticalPolicy: "PercentOfMaxChild"
-    children:
-    -   class: "UIControl"
-        name: "SelectTank"
-        size: [32.000000, 32.000000]
-        visible: true
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfFirstChild"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconsWithLabel.yaml"
-                args:
-                    "text": "\"Switch/HubridPanel/Hangar/ChoiceTank\""
-                    "nsControls": "[ eNintendoSwitchControls.LeftTrigger; eNintendoSwitchControls.RightTrigger; ]"
-    -   class: "UIControl"
-        name: "ButtonsList"
-        size: [32.000000, 32.000000]
-        input: false
-        components:
-            LinearLayout:
-                spacing: 24.000000
-            SizePolicy:
-                horizontalPolicy: "PercentOfChildrenSum"
-                verticalPolicy: "PercentOfMaxChild"
-            UIRepeatComponent:
-                control: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                dataContainer: "when not offeredTankSelected -> nintendoNavigationHangarLabels, nintendoNavigationHangarPremTankLabels"
-                args:
-                    "text": "_item"
-                    "icon": "_key"
-    -   class: "UIControl"
-        name: "BattleButton"
-        size: [32.000000, 32.000000]
-        input: false
-        components:
-            LinearLayout:
-                spacing: 24.000000
-            SizePolicy:
-                horizontalPolicy: "PercentOfChildrenSum"
-                verticalPolicy: "PercentOfMaxChild"
-            UIChildComponent0:
-                condition: "not offeredTankSelected"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                args:
-                    "text": "localize(xButtonText)"
-                    "icon": "eNintendoSwitchControls.X"
--   class: "UIControl"
-    name: "NavigationPanelHangarTutorialContent"
-    input: false
-    components:
-        LinearLayout:
-            orientation: "LeftToRight"
-            spacing: 24.000000
-        SizePolicy:
-            horizontalPolicy: "PercentOfChildrenSum"
-            verticalPolicy: "PercentOfMaxChild"
-        UIChildComponent0:
-            prototypePath: "~res:/UI/Screens3/Lobby/Common/TutorialNavigationPanel.yaml"
-            args:
-                "currentHiglightControl": "account.tutorialData.currentHighlightControl"
--   class: "UIControl"
-    name: "NavigationPanelFilterContent"
-    input: false
-    components:
-        SizePolicy:
-            horizontalPolicy: "PercentOfMaxChild"
-            verticalPolicy: "PercentOfMaxChild"
-    children:
-    -   class: "UIControl"
-        name: "ButtonsList"
-        size: [32.000000, 32.000000]
-        input: false
-        components:
-            LinearLayout:
-                spacing: 24.000000
-            SizePolicy:
-                horizontalPolicy: "PercentOfChildrenSum"
-                verticalPolicy: "PercentOfMaxChild"
-            UIRepeatComponent:
-                control: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                dataContainer: "nintendoNavigationFilterLabels"
-                args:
-                    "text": "_item"
-                    "icon": "_key"
 -   class: "UIControl"
     name: "Promotions"
     input: false

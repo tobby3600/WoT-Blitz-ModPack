@@ -17,6 +17,10 @@ Prototypes:
             horizontalPolicy: "PercentOfParent"
             verticalPolicy: "FixedSize"
             verticalValue: 94.000000
+        UIDataParamsComponent:
+            params:
+            - ["bool", "isBlur", "true", "true"]
+            - ["string", "bgStyle", "\"grey-shark-70-bg\"", "\"grey-shark-70-bg\""]
         StyleSheet:
             inheritsStylesFromParent: true
             styles: "~res:/UI/Screens3/Background.style.yaml"
@@ -26,4 +30,5 @@ Prototypes:
             components:
                 UIDataParamsComponent:
                     args:
-                        "bgStyle": "\"grey-shark-70-bg\""
+                        "isBlur": "isBlur"
+                        "bgStyle": "bgStyle"

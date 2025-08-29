@@ -188,12 +188,12 @@ Prototypes:
         name: "Fade"
         input: false
         components:
+            Background: {}
+            UIOpacityComponent: {}
             IgnoreLayout: {}
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
-            StyleSheet:
-                styles: "~res:/UI/Screens3/Color.style.yaml"
         bindings:
         - ["visible", "panel.tabsMode"]
         children:

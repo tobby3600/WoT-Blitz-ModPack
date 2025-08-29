@@ -440,25 +440,6 @@ Prototypes:
                         "visible": "hasTrademark"
                     eventActions:
                     - ["ON_POPOVER_BUTTON_CLICKED", "ON_POPOVER_BUTTON_CLICKED", ""]
-    -   class: "UIControl"
-        name: "NavigationPanel"
-        size: [32.000000, 32.000000]
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                condition: "not account.tutorialData.isTutorialActive and isGamepad and showcaseModel.state != eShowcaseState.kTrain"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/NavigationPanel.yaml"
-                args:
-                    "content": "NavigationPanelContent"
-            UIChildComponent1:
-                childType: "kPrototype"
-                condition: "account.tutorialData.isTutorialActive and isGamepad"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/NavigationPanel.yaml"
-                args:
-                    "content": "TutorialModulesPanel"
 Slots:
 -   class: "UIControl"
     name: "ResourceInfo"
@@ -529,53 +510,3 @@ Slots:
                 styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
         bindings:
         - ["RichContent.text", "localize(resourceInfoDescription, { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; })"]
--   class: "UIControl"
-    name: "NavigationPanelContent"
-    size: [32.000000, 32.000000]
-    input: false
-    components:
-        LinearLayout:
-            spacing: 24.000000
-        SizePolicy:
-            horizontalPolicy: "PercentOfChildrenSum"
-            verticalPolicy: "PercentOfMaxChild"
-    children:
-    -   class: "UIControl"
-        name: "ButtonB"
-        size: [221.000000, 24.000000]
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfMaxChild"
-                verticalPolicy: "PercentOfMaxChild"
-            UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                args:
-                    "text": "\"Switch/HubridPanel/Lobby/Back\""
-                    "icon": "eNintendoSwitchControls.B"
-    -   class: "UIControl"
-        name: "ButtonY"
-        size: [32.000000, 32.000000]
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfMaxChild"
-                verticalPolicy: "PercentOfMaxChild"
-            UIChildComponent0:
-                condition: "showcaseModel.state != eShowcaseState.kPreview"
-                prototypePath: "~res:/UI/Screens3/Common/NintendoSwitch/NavigationPanel/IconWithLabel.yaml"
-                args:
-                    "text": "yButtonText"
-                    "icon": "eNintendoSwitchControls.Y"
--   class: "UIControl"
-    name: "TutorialModulesPanel"
-    size: [768.000000, 40.000000]
-    input: false
-    components:
-        SizePolicy:
-            horizontalPolicy: "PercentOfParent"
-            verticalPolicy: "PercentOfMaxChild"
-        UIChildComponent0:
-            prototypePath: "~res:/UI/Screens3/Lobby/Common/TutorialNavigationPanel.yaml"
-            args:
-                "currentHiglightControl": "account.tutorialData.currentHighlightControl"

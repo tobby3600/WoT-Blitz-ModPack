@@ -1,0 +1,441 @@
+Header:
+    version: 153
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+- "~res:/UI/Screens3/Lobby/Common/RichText.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "DateOfBirth"
+    size: [960.000000, 640.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        ModalInput: {}
+        UIShortcutEventComponent:
+            shortcuts: "BACK_SHORTCUT,Back;BACK_SHORTCUT,Escape;CONFIRMATION_SHORTCUT,Enter"
+        UIDataParamsComponent:
+            params:
+            - ["DateOfBirthData", "dateOfBirthData", "null", "{ }"]
+        UIDataLocalVarsComponent:
+            data:
+            - ["int", "daysListSize", "dateOfBirthData.daysListSize"]
+            - ["int", "monthsListSize", "dateOfBirthData.monthsListSize"]
+            - ["int", "yearsListSize", "dateOfBirthData.yearsListSize"]
+            - ["bool", "isPickersMoved", "dateOfBirthData.isNextStepEnabled"]
+            - ["int", "yearsStartCell", "dateOfBirthData.yearsIndex"]
+            - ["int", "monthsStartCell", "dateOfBirthData.monthsIndex"]
+            - ["int", "daysStartCell", "dateOfBirthData.daysIndex"]
+            - ["int", "scrollAreaSize", "392"]
+            - ["int", "cellSize", "56"]
+            - ["int", "yearsPicked", "0"]
+            - ["int", "monthsPicked", "0"]
+            - ["int", "daysPicked", "0"]
+            - ["int", "yearsWrappedIndex", "getPickerWrappedIndex(yearsStartCell, dateOfBirthData.yearsListSize, cellSize, scrollAreaSize, true)"]
+            - ["int", "monthsWrappedIndex", "getPickerWrappedIndex(monthsStartCell, dateOfBirthData.monthsListSize, cellSize, scrollAreaSize, true)"]
+            - ["int", "daysWrappedIndex", "getPickerWrappedIndex(daysStartCell, dateOfBirthData.daysListSize, cellSize, scrollAreaSize, true)"]
+            - ["float", "yearsStart", "getPickerStart(yearsStartCell, dateOfBirthData.yearsListSize, cellSize, scrollAreaSize, true)"]
+            - ["float", "monthsStart", "getPickerStart(monthsStartCell, dateOfBirthData.monthsListSize, cellSize, scrollAreaSize, true)"]
+            - ["float", "daysStart", "getPickerStart(daysStartCell, dateOfBirthData.daysListSize, cellSize, scrollAreaSize, true)"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["float", "scrollAreaDeviceSize", "when (screenHeight > 769) -> scrollAreaSize + screenHeight * 0.200000, scrollAreaSize"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/PreLogin/DateOfBirth.actions"
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        position: [16.000000, 40.000000]
+        size: [960.000000, 640.000000]
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "Background"
+            input: false
+            components:
+                Anchor:
+                    leftAnchorEnabled: true
+                    rightAnchorEnabled: true
+                    topAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                IgnoreLayout: {}
+            children:
+            -   class: "UIControl"
+                name: "Fades"
+                position: [142.000000, 40.000000]
+                size: [582.000000, 640.000000]
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        dynamicSpacing: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   class: "UIControl"
+                    name: "Left"
+                    input: false
+                    classes: "black-bg"
+                    components:
+                        Background:
+                            drawType: "DRAW_SCALE_TO_RECT"
+                            sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                            spriteModification: ["FLIP_HORIZONTAL"]
+                        UIOpacityComponent:
+                            opacity: 0.250000
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "Formula"
+                            horizontalFormula: "parent / 4"
+                            verticalPolicy: "PercentOfParent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                -   class: "UIControl"
+                    name: "Main"
+                    input: false
+                    classes: "black-bg"
+                    components:
+                        Background: {}
+                        UIOpacityComponent:
+                            opacity: 0.400000
+                        IgnoreLayout: {}
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfParent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml"
+                -   class: "UIControl"
+                    name: "Right"
+                    position: [720.000000, 54.000000]
+                    input: false
+                    classes: "black-bg"
+                    components:
+                        Background:
+                            drawType: "DRAW_SCALE_TO_RECT"
+                            sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
+                        UIOpacityComponent:
+                            opacity: 0.250000
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "Formula"
+                            horizontalFormula: "parent / 4"
+                            verticalPolicy: "PercentOfParent"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Color.style.yaml"
+        -   class: "UIControl"
+            name: "ScreenContent"
+            position: [0.000000, 0.000000]
+            size: [960.000000, 640.000000]
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                LinearLayout:
+                    padding: "24"
+                    dynamicSpacing: true
+                    useRtl: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    horizontalMax: 1328.000000
+                    verticalPolicy: "PercentOfParent"
+            children:
+            -   class: "UIControl"
+                name: "Left"
+                position: [0.000000, 282.000000]
+                input: false
+                components:
+                    Anchor:
+                        leftAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        useRtl: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfMaxChild"
+                children:
+                -   class: "UIControl"
+                    name: "Spacer"
+                    position: [0.000000, 60.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "FixedSize"
+                            horizontalValue: 40.000000
+                            verticalPolicy: "PercentOfParent"
+                -   class: "UIControl"
+                    name: "Labels"
+                    input: false
+                    components:
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        LinearLayout:
+                            orientation: "TopDown"
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfChildrenSum"
+                    bindings:
+                    - ["LinearLayout.spacing", "when (screenHeight > 769) -> screenHeight * 0.020000, 16"]
+                    children:
+                    -   prototype: "RichText/RichText"
+                        name: "Title"
+                        position: [-8.000000, 0.000000]
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 400.000000
+                            UIDataParamsComponent:
+                                args:
+                                    "baseFontColor": "\"white-wild-sand-text\""
+                                    "baseFontStyle": "\"bold\""
+                                    "baseFontSize": "\"t-title\""
+                                    "key": "when (isPickersMoved) -> localize(\"Registration/DateOfBirth/AgeInfo\", { \"playerAge\" = dateOfBirthData.playerAge; }), localize(\"Registration/DateOfBirth/Header\")"
+                    -   class: "UIControl"
+                        name: "Description"
+                        position: [87.000000, 60.000000]
+                        input: false
+                        classes: "t-subtitle regular white-wild-sand-text"
+                        components:
+                            UITextComponent:
+                                text: "Registration/DateOfBirth/DatePickerOrderHint"
+                                multiline: "MULTILINE_ENABLED"
+                                align: ["LEFT", "VCENTER"]
+                                useRtlAlign: "USE_BY_SYSTEM"
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 400.000000
+                                verticalPolicy: "PercentOfContent"
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Font.style.yaml"
+            -   class: "UIControl"
+                name: "Right"
+                position: [560.000000, 0.000000]
+                size: [1896.000000, 1080.000000]
+                input: false
+                components:
+                    Anchor:
+                        rightAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        orientation: "RightToLeft"
+                        useRtl: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfParent"
+                children:
+                -   class: "UIControl"
+                    name: "RightContent"
+                    position: [0.000000, 123.000000]
+                    input: false
+                    components:
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                            vCenterAnchor: 40.000000
+                        LinearLayout:
+                            orientation: "TopDown"
+                            spacing: 32.000000
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "PercentOfChildrenSum"
+                    children:
+                    -   class: "UIControl"
+                        name: "Selector"
+                        position: [-12.000000, 168.000000]
+                        input: false
+                        classes: "orange-orange-peel-bg"
+                        components:
+                            Background:
+                                drawType: "DRAW_STRETCH_BOTH"
+                                sprite: "~res:/Gfx/Lobby/backgrounds/bg_border_1px_r4"
+                                perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                                leftRightStretchCap: 4.000000
+                                topBottomStretchCap: 4.000000
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                                vCenterAnchorEnabled: true
+                                vCenterAnchor: -40.000000
+                            IgnoreLayout: {}
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "FixedSize"
+                                verticalValue: 56.000000
+                            StyleSheet:
+                                styles: "~res:/UI/Screens3/Color.style.yaml"
+                    -   class: "UIControl"
+                        name: "Pickers"
+                        position: [-9.000000, 7.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            LinearLayout:
+                                useRtl: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfChildrenSum"
+                                verticalPolicy: "PercentOfMaxChild"
+                        children:
+                        -   class: "UIControl"
+                            name: "YearsPicker"
+                            input: true
+                            components:
+                                ClipContent: {}
+                                Anchor:
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 128.000000
+                                    verticalPolicy: "FixedSize"
+                                UIPickerComponent:
+                                    isLooped: false
+                                    orientation: "Vertical"
+                                    movedEventName: "YearsPickerMoved"
+                                    movedEventData: "_picked, _start, _wrappedIndex, _cellCount"
+                                    finishedEventName: "YearsPickerFinished"
+                                    finishedEventData: "_picked, _start, _wrappedIndex, _cellCount"
+                                    canceledEventName: "YearsPickerCancelled"
+                                    canceledEventData: "_picked, _start, _wrappedIndex, _cellCount"
+                                UIRepeatComponent:
+                                    control: "~res:/UI/Screens3/PreLogin/ChoosingCell.yaml"
+                                    dataContainer: "dateOfBirthData.yearsList"
+                                    args:
+                                        "isVisible": "_index < yearsListSize"
+                                        "isSelected": "_index == yearsPicked"
+                                        "cellPosition": "getPickerCellPosition(_index, yearsStart, yearsListSize, cellSize, yearsWrappedIndex)"
+                                        "cellName": "_item"
+                            bindings:
+                            - ["SizePolicy.verticalValue", "scrollAreaDeviceSize"]
+                            - ["UIPickerComponent.cellCount", "dateOfBirthData.yearsListSize"]
+                            - ["UIPickerComponent.cellSize", "cellSize"]
+                            - ["UIPickerComponent.startCellIndex", "yearsStartCell"]
+                        -   class: "UIControl"
+                            name: "MonthsPicker"
+                            position: [110.000000, 0.000000]
+                            input: true
+                            components:
+                                ClipContent: {}
+                                Anchor:
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "PercentOfMaxChild"
+                                    horizontalMin: 184.000000
+                                    verticalPolicy: "FixedSize"
+                                UIPickerComponent:
+                                    isLooped: false
+                                    orientation: "Vertical"
+                                    movedEventName: "MonthsPickerMoved"
+                                    movedEventData: "_picked, _start, _wrappedIndex, _cellCount"
+                                    finishedEventName: "MonthsPickerFinished"
+                                    finishedEventData: "_picked, _start, _wrappedIndex, _cellCount"
+                                    canceledEventName: "MonthsPickerCancelled"
+                                    canceledEventData: "_picked, _start, _wrappedIndex, _cellCount"
+                                UIRepeatComponent:
+                                    control: "~res:/UI/Screens3/PreLogin/ChoosingCell.yaml"
+                                    dataContainer: "dateOfBirthData.monthsList"
+                                    args:
+                                        "isVisible": "_index < monthsListSize"
+                                        "isSelected": "_index == monthsPicked"
+                                        "cellPosition": "getPickerCellPosition(_index, monthsStart, monthsListSize, cellSize, monthsWrappedIndex)"
+                                        "cellName": "_item"
+                            bindings:
+                            - ["SizePolicy.verticalValue", "scrollAreaDeviceSize"]
+                            - ["UIPickerComponent.cellCount", "dateOfBirthData.monthsListSize"]
+                            - ["UIPickerComponent.cellSize", "cellSize"]
+                            - ["UIPickerComponent.startCellIndex", "monthsStartCell"]
+                        -   class: "UIControl"
+                            name: "DaysPicker"
+                            position: [270.000000, 0.000000]
+                            input: true
+                            components:
+                                ClipContent: {}
+                                Anchor:
+                                    vCenterAnchorEnabled: true
+                                SizePolicy:
+                                    horizontalPolicy: "FixedSize"
+                                    horizontalValue: 88.000000
+                                    verticalPolicy: "FixedSize"
+                                UIPickerComponent:
+                                    isLooped: false
+                                    orientation: "Vertical"
+                                    movedEventName: "DaysPickerMoved"
+                                    movedEventData: "_picked, _start, _wrappedIndex, _cellCount"
+                                    finishedEventName: "DaysPickerFinished"
+                                    finishedEventData: "_picked, _start, _wrappedIndex, _cellCount"
+                                    canceledEventName: "DaysPickerCancelled"
+                                    canceledEventData: "_picked, _start, _wrappedIndex, _cellCount"
+                                UIRepeatComponent:
+                                    control: "~res:/UI/Screens3/PreLogin/ChoosingCell.yaml"
+                                    dataContainer: "dateOfBirthData.daysList"
+                                    args:
+                                        "isVisible": "_index < daysListSize"
+                                        "isSelected": "_index == daysPicked"
+                                        "cellPosition": "getPickerCellPosition(_index, daysStart, daysListSize, cellSize, daysWrappedIndex)"
+                                        "cellName": "_item"
+                            bindings:
+                            - ["SizePolicy.verticalValue", "scrollAreaDeviceSize"]
+                            - ["UIPickerComponent.cellCount", "dateOfBirthData.daysListSize"]
+                            - ["UIPickerComponent.cellSize", "cellSize"]
+                            - ["UIPickerComponent.startCellIndex", "daysStartCell"]
+                    -   class: "UIControl"
+                        name: "ConfirmButton"
+                        position: [0.000000, 424.000000]
+                        input: false
+                        components:
+                            Anchor:
+                                hCenterAnchorEnabled: true
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfParent"
+                                verticalPolicy: "PercentOfFirstChild"
+                        children:
+                        -   prototype: "Button/Button"
+                            name: "Button"
+                            components:
+                                Anchor:
+                                    leftAnchorEnabled: true
+                                    rightAnchorEnabled: true
+                                UIDataParamsComponent:
+                                    args:
+                                        "caption": "capitalize(localize(\"Registration/DateOfBirth/Confirm\"))"
+                                        "sound": "eButtonSound.OPEN"
+                                        "enabled": "isPickersMoved"
+                                    eventActions:
+                                    - ["ON_CLICK_BUTTON", "ON_CONFIRM_DATE_OF_BIRTH", ""]
+                            children:
+                            -   path: "TapArea/Content/Bg/Shadows/Colored/Right"
+                                position: [252.000000, 0.000000]
+    -   class: "UIControl"
+        name: "BackButton"
+        input: false
+        components:
+            Anchor:
+                leftAnchorEnabled: true
+                leftAnchor: 16.000000
+                topAnchorEnabled: true
+                topAnchor: 16.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/IconButton.yaml"
+                args:
+                    "isBgVisible": "false"
+                    "image": "\"~res:/Gfx/Lobby/icons/icon_arrow-rounded\""
+                    "sound": "eButtonSound.CANCEL"
+                eventActions:
+                - ["ON_CLICK_BUTTON", "CANCEL_DATE_OF_BIRTH", ""]

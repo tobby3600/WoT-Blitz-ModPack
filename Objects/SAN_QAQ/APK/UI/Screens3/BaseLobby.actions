@@ -1,0 +1,109 @@
+action AnimateScreenShot(float animTime) 
+{
+	ChangeProperty("**/ScreenSwitchScreenShot", "", "visible", true);
+	Opacity("**/ScreenSwitchScreenShot", opacity = 1.0);
+	Opacity("**/ScreenSwitchScreenShot", opacity = 0.0, time = animTime);
+	ChangeProperty("**/ScreenSwitchScreenShot", "", "visible", false);
+	ChangeProperty("**/ScreenSwitchScreenShot", "Background", "sprite", "");
+}
+
+action POPUP_ON_CLOSE_ACTION
+{
+	if (tutorialLayerPresent)
+	{
+		DirectEvent("TAP_TO_LAYER", "TutorialLayer/TutorialLayer");
+	}
+}
+
+action POPUP_ON_CLOSE_ACTION_BY_SHORTCUT()
+{
+	DirectEvent("POPUP_ON_CLOSE_ACTION", "**/PopupLayer/PopupLayer");
+}
+
+action SERVICE_2()
+{
+	if (tutorialData.isTutorialActive and(not eventReceiver.empty()) and allowStepsForEventService2)
+	{
+		DirectEvent("SERVICE_EVENT_2", eventReceiver);
+	}
+	else
+	{
+		Event("SKIP_HINT");
+	}
+}
+
+action SERVICE_1()
+{
+	if (tutorialData.isTutorialActive and(not eventReceiver.empty()) and allowStepsForEventService1)
+	{
+		DirectEvent("SERVICE_EVENT_1", eventReceiver);
+	}
+	else
+	{
+		Event("SKIP_HINT");
+	}
+}
+
+action ACTION_UP()
+{
+	if (tutorialData.isTutorialActive and(not eventReceiver.empty()) and allowStepsForEventUp)
+	{
+		DirectEvent("ACTION_UP", eventReceiver);
+	}
+	else
+	{
+		Event("SKIP_HINT");
+	}
+}
+
+action ACTION_DOWN()
+{
+	if (tutorialData.isTutorialActive and(not eventReceiver.empty()) and allowStepsForEventDown)
+	{
+		DirectEvent("ACTION_DOWN", eventReceiver);
+	}
+	else
+	{
+		Event("SKIP_HINT");
+	}
+}
+
+action SKIP_HINT()
+{
+	if (skipHints or skipNotTutorHints)
+	{
+		DirectEvent("POPUP_ON_CLOSE_ACTION", "**/PopupLayer/PopupLayer");
+		ChangeData(skipNotTutorHints, false);
+	}
+}
+
+action SET_SKIP_NOT_TUTOR_FLAG_EVENT
+{
+	ChangeData(skipNotTutorHints, true);
+}
+
+action SKIP_HINT_BASE_PREVIOUS
+{
+	if (skipHints or skipNotTutorHints)
+	{
+		DirectEvent("POPUP_ON_CLOSE_ACTION", "**/PopupLayer/PopupLayer");
+	}
+	if (skipNotTutorHints)
+	{
+		DirectEvent("SKIP_TO_PREVIOUS_TAB", "**/InventoryWrapper/Inventory");
+		ChangeData(skipNotTutorHints, false);
+	}
+}
+
+action SKIP_HINT_BASE_NEXT
+{
+	if (skipHints or skipNotTutorHints)
+	{
+		DirectEvent("POPUP_ON_CLOSE_ACTION", "**/PopupLayer/PopupLayer");
+	}
+	if (skipNotTutorHints)
+	{
+		DirectEvent("SKIP_TO_NEXT_TAB", "**/InventoryWrapper/Inventory");
+		ChangeData(skipNotTutorHints, false);
+	}
+}

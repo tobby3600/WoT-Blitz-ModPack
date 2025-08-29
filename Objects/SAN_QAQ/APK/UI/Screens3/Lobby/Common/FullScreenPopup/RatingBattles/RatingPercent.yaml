@@ -1,0 +1,24 @@
+Header:
+    version: 157
+Prototypes:
+-   class: "UIControl"
+    name: "Value"
+    input: false
+    classes: "bold t-headline white-wild-sand-text"
+    components:
+        UITextComponent:
+            multiline: "MULTILINE_DISABLED"
+        Anchor:
+            hCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalValue: 148.000000
+            verticalPolicy: "FixedSize"
+            verticalValue: 24.000000
+        UIDataParamsComponent:
+            params:
+            - ["float", "percentageBestPlayers", "0.000000", "10.000000"]
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Font.style.yaml"
+    bindings:
+    - ["UITextComponent.text", "percent(percentageBestPlayers, 2)"]

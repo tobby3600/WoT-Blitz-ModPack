@@ -10,6 +10,10 @@ Prototypes:
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
             verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["float", "blurOpacity", "1.000000", "1.000000"]
+            - ["float", "fadeOpacity", "0.600000", "0.600000"]
         UIInputEventComponent:
             onTouchUpInside: "CLOSE_OVERLAY"
     children:
@@ -22,6 +26,8 @@ Prototypes:
             Background:
                 drawType: "DRAW_SCALE_TO_RECT"
             UIOpacityComponent: {}
+        bindings:
+        - ["UIOpacityComponent.opacity", "blurOpacity"]
     -   class: "UIControl"
         name: "Fade"
         input: false
@@ -31,10 +37,11 @@ Prototypes:
                 hCenterAnchorEnabled: true
                 vCenterAnchorEnabled: true
             Background: {}
-            UIOpacityComponent:
-                opacity: 0.600000
+            UIOpacityComponent: {}
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
             StyleSheet:
                 styles: "~res:/UI/Screens3/Color.style.yaml"
+        bindings:
+        - ["UIOpacityComponent.opacity", "fadeOpacity"]

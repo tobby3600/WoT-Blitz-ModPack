@@ -1,10 +1,9 @@
 <root>
-	<nextAvailableId>1049</nextAvailableId>
+	<nextAvailableId>1050</nextAvailableId>
 	<ids>
 		<_76mm_L-11>0</_76mm_L-11>
 		<_76mm_F-34>2</_76mm_F-34>
 		<_45mm_VT-42>3</_45mm_VT-42>
-		<_57mm_ZiS-8T>1003</_57mm_ZiS-8T>
 		<_57mm_ZiS-4>5</_57mm_ZiS-4>
 		<_76mm_S-54>6</_76mm_S-54>
 		<_85mm_D-5S>7</_85mm_D-5S>
@@ -23,6 +22,7 @@
 		<_76mm_ZiS-5>27</_76mm_ZiS-5>
 		<_122mm_cannon_U-11>28</_122mm_cannon_U-11>
 		<_152mm_M-10>29</_152mm_M-10>
+		<_100mm_D46T>30</_100mm_D46T>
 		<_122mm_A-19>31</_122mm_A-19>
 		<_152mm_ML-20_mod_1937>32</_152mm_ML-20_mod_1937>
 		<_152mm_ML-20C>33</_152mm_ML-20C>
@@ -37,7 +37,6 @@
 		<_130mm_S-70>58</_130mm_S-70>
 		<_85mm_D-5S-85A>62</_85mm_D-5S-85A>
 		<_76mm_ZiS-96>65</_76mm_ZiS-96>
-		<_76mm_ZiS-96A>1002</_76mm_ZiS-96A>
 		<_85mm_LB-2S>68</_85mm_LB-2S>
 		<QF_6_pounder_Mk_III>69</QF_6_pounder_Mk_III>
 		<_152mm_BL-10>70</_152mm_BL-10>
@@ -48,7 +47,6 @@
 		<_76mm_L-10U>75</_76mm_L-10U>
 		<_100mm_D10T_obr_45>76</_100mm_D10T_obr_45>
 		<_100mm_LB-1>77</_100mm_LB-1>
-		<_100mm_LB-1A>256</_100mm_LB-1A>
 		<_100mm_D54_obr_45>78</_100mm_D54_obr_45>
 		<_152mm_ML-20CM_obr1944>80</_152mm_ML-20CM_obr1944>
 		<_107mm_ZiS-6M>82</_107mm_ZiS-6M>
@@ -64,39 +62,36 @@
 		<_130mm_B-13-S2>101</_130mm_B-13-S2>
 		<_152mm_M64>103</_152mm_M64>
 		<_100mm_D54_TS>105</_100mm_D54_TS>
-		<_100mm_D54_TSA>1005</_100mm_D54_TSA>
 		<_100mm_D-10T2S>107</_100mm_D-10T2S>
 		<_130mm_S-70A>108</_130mm_S-70A>
 		<_122-mm_D-25S_with_wedges_shutter_A>109</_122-mm_D-25S_with_wedges_shutter_A>
 		<_122mm_M62-T2S>110</_122mm_M62-T2S>
 		<_100mm_LB-1S>111</_100mm_LB-1S>
+		<_100mm_D54_M>119</_100mm_D54_M>
 		<_45mm_automatic_S-20>121</_45mm_automatic_S-20>
-		<_57mm_automatic_S-10>1001</_57mm_automatic_S-10>
 		<_85mm_D10_85>128</_85mm_D10_85>
 		<_122-mm_D-25T_with_wedges_shutter_B>134</_122-mm_D-25T_with_wedges_shutter_B>
 		<_122mm_D-25C_mod1944_B>136</_122mm_D-25C_mod1944_B>
 		<_100mm_D10TK>137</_100mm_D10TK>
+		<_122-mm_D-25TA>138</_122-mm_D-25TA>
 		<_76mm_KT-28A>140</_76mm_KT-28A>
 		<_122mm_D25TA>141</_122mm_D25TA>
 		<_85mm_ZiS_S-53_Victory>253</_85mm_ZiS_S-53_Victory>
-		<_85mm_ZiS_S-53_Rudy>1000</_85mm_ZiS_S-53_Rudy>
-		<_23mm_VJA_tutorial>2000</_23mm_VJA_tutorial>
-		<_37mm_Gochkins_tutorial>2001</_37mm_Gochkins_tutorial>
-		<_100mm_D54_M>119</_100mm_D54_M>
-		<_122-mm_D-25TA>138</_122-mm_D-25TA>
 		<_122-mm_D-30A>254</_122-mm_D-30A>
 		<_107mm_ZiS-6D>255</_107mm_ZiS-6D>
-		<_100mm_D46T>30</_100mm_D46T>
+		<_100mm_LB-1A>256</_100mm_LB-1A>
+		<_85mm_ZiS_S-53_Rudy>1000</_85mm_ZiS_S-53_Rudy>
+		<_57mm_automatic_S-10>1001</_57mm_automatic_S-10>
+		<_76mm_ZiS-96A>1002</_76mm_ZiS-96A>
+		<_57mm_ZiS-8T>1003</_57mm_ZiS-8T>
 		<_130mm_S-26A>1004</_130mm_S-26A>
-		<_37mm_B-3_tutorial>2002</_37mm_B-3_tutorial>
-		<_45mm_20K_tutorial>2003</_45mm_20K_tutorial>
-		<_76mm_Gun_M1A2A>1008</_76mm_Gun_M1A2A>
-		<_57mm_ZiS-8_SA>1009</_57mm_ZiS-8_SA>
+		<_100mm_D54_TSA>1005</_100mm_D54_TSA>
 		<_76mm_ZiS-3_mod_42A>1006</_76mm_ZiS-3_mod_42A>
 		<_76mm_F-32A>1007</_76mm_F-32A>
-		<_37mm_automatic_SH-37A>1011</_37mm_automatic_SH-37A>
+		<_76mm_Gun_M1A2A>1008</_76mm_Gun_M1A2A>
+		<_57mm_ZiS-8_SA>1009</_57mm_ZiS-8_SA>
 		<_85mm_D5T-85BM_A>1010</_85mm_D5T-85BM_A>
-		<_37mm_B-3A>2004</_37mm_B-3A>
+		<_37mm_automatic_SH-37A>1011</_37mm_automatic_SH-37A>
 		<_122mm_BL_13>1012</_122mm_BL_13>
 		<_45mm_20K_2>1013</_45mm_20K_2>
 		<_45mm_20K_3>1014</_45mm_20K_3>
@@ -130,6 +125,12 @@
 		<_100mm_D54_TA>1046</_100mm_D54_TA>
 		<_122mm_M62-T2_IS4>1047</_122mm_M62-T2_IS4>
 		<_122mm_D_25T_N>1048</_122mm_D_25T_N>
+		<_130mm_M_65B>1049</_130mm_M_65B>
+		<_23mm_VJA_tutorial>2000</_23mm_VJA_tutorial>
+		<_37mm_Gochkins_tutorial>2001</_37mm_Gochkins_tutorial>
+		<_37mm_B-3_tutorial>2002</_37mm_B-3_tutorial>
+		<_45mm_20K_tutorial>2003</_45mm_20K_tutorial>
+		<_37mm_B-3A>2004</_37mm_B-3A>
 	</ids>
 	<shared>
 		<_20mm_TNSH>
@@ -6970,5 +6971,55 @@
 				</_122mm_UOF_472N>
 			</shots>
 		</_122mm_D_25T_N>
+		<_130mm_M_65B>
+			<userString>#ussr_vehicles:_130mm_M_65B</userString>
+			<shortUserString>#ussr_vehicles:_130mm_M_65B_short</shortUserString>
+			<description>#ussr_vehicles:_130mm_M_65B_descr</description>
+			<tags/>
+			<level>8</level>
+			<price>0</price>
+			<impulse>0.62</impulse>
+			<effects>wpn_shot_large_extra</effects>
+			<turretYawLimits>-180 180</turretYawLimits>
+			<pitchLimits>-1 1</pitchLimits>
+			<rotationSpeed>50</rotationSpeed>
+			<reloadTime>0.1</reloadTime>
+			<maxAmmo>1</maxAmmo>
+			<aimingTime>1.0</aimingTime>
+			<weight>1200</weight>
+			<maxHealth>220</maxHealth>
+			<maxRegenHealth>110</maxRegenHealth>
+			<repairCost>0</repairCost>
+			<invisibilityFactorAtShot>0.1</invisibilityFactorAtShot>
+			<shotDispersionRadius>0.1</shotDispersionRadius>
+			<shotDispersionFactors>
+				<turretRotation>0.1</turretRotation>
+				<afterShot>4</afterShot>
+				<whileGunDamaged>2.0</whileGunDamaged>
+			</shotDispersionFactors>
+			<shots>
+				<_130mm_53_VBR_482B>
+					<defaultPortion>0.8</defaultPortion>
+					<speed>1100</speed>
+					<gravity>9.81</gravity>
+					<maxDistance>720</maxDistance>
+					<piercingPower>250 234</piercingPower>
+				</_130mm_53_VBR_482B>
+				<_130mm_3VBKB>
+					<defaultPortion>0</defaultPortion>
+					<speed>1250</speed>
+					<gravity>9.81</gravity>
+					<maxDistance>720</maxDistance>
+					<piercingPower>311 311</piercingPower>
+				</_130mm_3VBKB>
+				<_130mm_53_VOF_482VB>
+					<defaultPortion>0.2</defaultPortion>
+					<speed>880</speed>
+					<gravity>9.81</gravity>
+					<maxDistance>720</maxDistance>
+					<piercingPower>70 70</piercingPower>
+				</_130mm_53_VOF_482VB>
+			</shots>
+		</_130mm_M_65B>
 	</shared>
 </root>

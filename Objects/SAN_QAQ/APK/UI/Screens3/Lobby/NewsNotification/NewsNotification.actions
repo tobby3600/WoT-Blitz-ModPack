@@ -1,0 +1,42 @@
+action ENTER_EVENT
+{
+	if (buttonType == eButtonType.POSITIVE) {
+		PlaySound("GUI/buttons/open");
+	}
+	else
+	{
+		if (buttonType == eButtonType.ALTERNATIVE)
+		{
+			PlaySound("GUI/buttons/ok");
+		}
+	}
+	Event("ON_BUTTON_PRESSED");
+}
+
+action CLOSE_EVENT
+{
+	PlaySound("GUI/buttons/close");
+	Event("BACK_EVENT");
+}
+
+action CLOSE_EVENT_FROM_BUTTON
+{
+	Event("BACK_EVENT");
+}
+
+action ON_BUTTON_PRESSED
+{
+	Event("ON_BUTTON_ITEM_PRESSED", arg1 = news[selectedItem].url);
+}
+
+action GO_TO_BACK_BY_SHORTCUT
+{
+	PlaySound(sound = "GUI/buttons/choose");
+	Event("GO_TO_BACK");
+}
+
+action GO_TO_NEXT_BY_SHORTCUT
+{
+	PlaySound(sound = "GUI/buttons/choose");
+	Event("GO_TO_NEXT");
+}

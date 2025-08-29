@@ -18,7 +18,6 @@ Prototypes:
         LinearLayout:
             orientation: "TopDown"
             spacing: 0.000000
-        UIPostProcessSourceComponent0: {}
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
             verticalPolicy: "PercentOfParent"
@@ -49,9 +48,6 @@ Prototypes:
             - ["bool", "hasTankStats", "not profile.dossier.vehicleDossiersCut.Empty()"]
             - ["bool", "isSelfProfile", "profile.profileType == ePlayerProfileType.SELF"]
             - ["int", "activeTab", "profile.activeTab"]
-            - ["string", "backgroundProfile", "\"backgroundProfile\""]
-            - ["string", "blurProfile", "\"blurProfile\""]
-            - ["string", "maskProfile", "\"maskProfile\""]
         UIDataLocalControlComponent0:
             name: "headerContent"
             prototypePath: "~res:/UI/Screens3/Lobby/Common/Headers/TitleWithSubtitle.yaml"
@@ -81,206 +77,212 @@ Prototypes:
         bindings:
         - ["visible", "isPreview or profileBackground != \"\""]
     -   class: "UIControl"
-        name: "PreviewBackground"
+        name: "ProfileBackground"
         input: false
         components:
             Background:
                 drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
             UIUrlImageComponent: {}
             IgnoreLayout: {}
-            UIPostProcessSourceComponent0: {}
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
         bindings:
         - ["visible", "isPreview or profileBackground != \"\""]
         - ["UIUrlImageComponent.imageUrl", "profileBackground"]
-        - ["UIPostProcessSourceComponent0.id", "backgroundProfile"]
     -   prototype: "BlurMask/BlurMask"
         name: "Blur"
         components:
             UIDataParamsComponent:
                 args:
                     "isBlurMask": "isPreview or profileBackground != \"\""
-                    "background": "backgroundProfile"
-                    "blur": "blurProfile"
-                    "mask": "maskProfile"
+                    "ID": "\"Profile\""
     -   class: "UIControl"
-        name: "Header"
+        name: "ContentWrapper"
         input: false
         components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfFirstChild"
-            UIChildComponent0:
-                prototypePath: "~res:/UI/Screens3/Lobby/Common/Headers/BaseHeader.yaml"
-                args:
-                    "session": "session"
-                    "lobby": "lobby"
-                    "leftContent": "headerContent"
-                    "bgStyle": "\"white-wild-sand-15-bg\""
-                    "isGeneralPackLoaded": "app.sDlc.isGeneralPackLoaded"
-                    "showBackButton": "not isPreview"
-                    "isBackButtonInitiallyClickable": "false"
-                    "isFullScreen": "true"
-                eventActions:
-                - ["GO_TO_SHOP", "GO_TO_SHOP", ""]
-                - ["PREMIUM_INFO_EVENT", "PREMIUM_INFO_EVENT", ""]
-                - ["BACK_EVENT", "BACK_EVENT", ""]
-                - ["SHOP_BUTTON", "SHOP_BUTTON", "_event.requiredResource"]
-        bindings:
-        - ["visible", "not isPreview"]
-    -   class: "UIControl"
-        name: "PreviewHeader"
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "FixedSize"
-                verticalValue: 48.000000
-            UILayerComponent:
-                layer: 2
-        bindings:
-        - ["visible", "isPreview"]
-    -   class: "UIControl"
-        name: "Content"
-        input: false
-        components:
-            Anchor:
-                hCenterAnchorEnabled: true
+            IgnoreLayout: {}
             LinearLayout:
                 orientation: "TopDown"
+            UIPostProcessSourceComponent0:
+                id: "maskProfile"
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
         children:
         -   class: "UIControl"
-            name: "TabHeaders"
+            name: "Header"
             input: false
             components:
-                Anchor:
-                    hCenterAnchorEnabled: true
-                LinearLayout: {}
                 SizePolicy:
-                    horizontalPolicy: "PercentOfChildrenSum"
+                    horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "PercentOfFirstChild"
-            children:
-            -   prototype: "TextTabsBar/TextTabsBar"
-                name: "TabBar"
-                components:
-                    SizePolicy:
-                        horizontalPolicy: "PercentOfChildrenSum"
-                    UIDataParamsComponent:
-                        args:
-                            "activeTab": "profile.activeTab"
-                            "info": "when hasTankStats -> tabsInfoAllTabs, tabsInfoNoTanks"
-                            "isBlur": "true"
-                            "bgStyle": "\"white-wild-sand-15-bg\""
-                        eventActions:
-                        - ["ON_SELECT_TAB", "ON_SELECT_TAB", "_event"]
-                children:
-                -   path: "TabsScrollView"
-                    components:
-                        SizePolicy:
-                            horizontalPolicy: "PercentOfChildrenSum"
-                    children: []
-                -   path: "TabsScrollView/scrollContainerControl"
-                    position: [0.000000, 0.000000]
-            -   class: "UIControl"
-                name: "ReplayButton"
-                input: false
-                components:
-                    Anchor:
-                        bottomAnchorEnabled: true
-                        bottomAnchor: 8.000000
-                    LinearLayout:
-                        padding: "24;0"
-                    SizePolicy:
-                        horizontalPolicy: "PercentOfMaxChild"
-                        verticalPolicy: "FixedSize"
-                        verticalValue: 32.000000
-                bindings:
-                - ["visible", "not app.constants.nsb and isSelfProfile and (account.diaryDataModel.isReplayMenuButtonIsVisible or account.diaryDataModel.isReplaysAvailable)"]
-                children:
-                -   prototype: "Button/Button"
-                    name: "Button"
-                    components:
-                        SizePolicy:
-                            horizontalPolicy: "FixedSize"
-                            horizontalValue: 176.000000
-                        UIAttachLayoutMasterComponent:
-                            attachId: "REPLAYS_BUTTON"
-                        UIDataParamsComponent:
-                            args:
-                                "locked": "false"
-                                "caption": "localize(\"profile/Replays/Title\")"
-                                "type": "eButtonType.OPTIONAL_LIGHT"
-                                "size": "eButtonSize.NORMAL"
-                                "sound": "eButtonSound.OPEN"
-                                "enabled": "true"
-                                "maskStyle": "\"white-wild-sand-15-bg\""
-                            eventActions:
-                            - ["ON_CLICK_BUTTON", "SHOW_REPLAYS", ""]
-                    bindings:
-                    - ["SizePolicy.verticalValue", "32"]
+                UIChildComponent0:
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Headers/BaseHeader.yaml"
+                    args:
+                        "session": "session"
+                        "lobby": "lobby"
+                        "leftContent": "headerContent"
+                        "bgStyle": "\"white-wild-sand-15-bg\""
+                        "isGeneralPackLoaded": "app.sDlc.isGeneralPackLoaded"
+                        "showBackButton": "not isPreview"
+                        "isBackButtonInitiallyClickable": "false"
+                        "isFullScreen": "true"
+                        "isBlur": "false"
+                    eventActions:
+                    - ["GO_TO_SHOP", "GO_TO_SHOP", ""]
+                    - ["PREMIUM_INFO_EVENT", "PREMIUM_INFO_EVENT", ""]
+                    - ["BACK_EVENT", "BACK_EVENT", ""]
+                    - ["SHOP_BUTTON", "SHOP_BUTTON", "_event.requiredResource"]
+            bindings:
+            - ["visible", "not isPreview"]
         -   class: "UIControl"
-            name: "TabContent"
+            name: "PreviewHeader"
+            input: false
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 48.000000
+                UILayerComponent:
+                    layer: 2
+            bindings:
+            - ["visible", "isPreview"]
+        -   class: "UIControl"
+            name: "Content"
             input: false
             components:
                 Anchor:
                     hCenterAnchorEnabled: true
-                    topAnchorEnabled: true
+                LinearLayout:
+                    orientation: "TopDown"
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "PercentOfParent"
-                UIChildComponent0:
-                    condition: "activeTab == eProfileTab.BRIEF"
-                    prototypePath: "~res:/UI/Screens3/Lobby/Profile/ProfileBriefTab.yaml"
-                    args:
-                        "isWgc": "app.constants.wgc"
-                        "account": "account"
-                        "profile": "profile"
-                        "maskProfile": "maskProfile"
-                    eventActions:
-                    - ["SHOW_PLAYER_TEAMS", "SHOW_PLAYER_TEAMS", "_event"]
-                    - ["SHOW_AVATAR_INFO", "SHOW_AVATAR_INFO", "_event"]
-                    - ["CHANGE_AVATAR", "CHANGE_AVATAR", "_event"]
-                    - ["CHANGE_NAME", "CHANGE_NAME", "_event"]
-                    - ["SEND_MESSAGE", "SEND_MESSAGE", "_event"]
-                    - ["ADD_FRIEND", "ADD_FRIEND", "_event"]
-                    - ["REMOVE_FRIEND", "REMOVE_FRIEND", "_event"]
-                    - ["SHOW_RATING", "SHOW_RATING", "_event"]
-                    - ["SHOW_CLAN_PROFILE", "SHOW_CLAN_PROFILE", "_event, \"test\""]
-                    - ["FIND_CLAN", "FIND_CLAN", "_event"]
-                    - ["INVITE_TO_CLAN", "INVITE_TO_CLAN", "_event"]
-                    - ["SHOW_ACHIEVEMENT_INFO", "SHOW_ACHIEVEMENT_INFO", "_event"]
-                    - ["SHOW_ACHIEVEMENTS", "SHOW_ACHIEVEMENTS", "_event"]
-                    - ["SHOW_EXTERNAL_ACHIEVEMENTS", "SHOW_EXTERNAL_ACHIEVEMENTS", "_event"]
-                    - ["SHOW_MAX_DAMAGE", "SHOW_MAX_DAMAGE", "_event"]
-                UIChildComponent1:
-                    condition: "activeTab == eProfileTab.STATS"
-                    prototypePath: "~res:/UI/Screens3/Lobby/Profile/ProfileStatsTab.yaml"
-                    args:
-                        "profile": "profile"
-                        "maskProfile": "maskProfile"
-                UIChildComponent2:
-                    condition: "activeTab == eProfileTab.TANKS"
-                    prototypePath: "~res:/UI/Screens3/Lobby/Profile/ProfileTanksTab.yaml"
-                    args:
-                        "rankConfig": "session.rankConfig"
-                        "profile": "profile"
-                        "maskProfile": "maskProfile"
-                    eventActions:
-                    - ["SHOW_ACHIEVEMENT_INFO", "SHOW_ACHIEVEMENT_INFO", "_event"]
-                    - ["BUYOUT_TANKS", "BUYOUT_TANKS", ""]
-                    - ["ON_TANK_CLICKED", "ON_TANK_CLICKED", "_event"]
-                    - ["SWITCH_SORT_TYPE", "SWITCH_SORT_TYPE", "_event"]
-                    - ["ON_ONLY_HANGAR_VEHICLE_CHANGED", "ON_ONLY_HANGAR_VEHICLE_CHANGED", "_event.isTurnedOn"]
-                UIChildComponent3:
-                    condition: "activeTab == eProfileTab.REPLAYS"
-                    prototypePath: "~res:/UI/Screens3/Lobby/Profile/ProfileReplaysTab.yaml"
-                    args:
-                        "profile": "profile"
+            children:
+            -   class: "UIControl"
+                name: "TabHeaders"
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                    LinearLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfChildrenSum"
+                        verticalPolicy: "PercentOfFirstChild"
+                children:
+                -   prototype: "TextTabsBar/TextTabsBar"
+                    name: "TabBar"
+                    components:
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfChildrenSum"
+                        UIDataParamsComponent:
+                            args:
+                                "activeTab": "profile.activeTab"
+                                "info": "when hasTankStats -> tabsInfoAllTabs, tabsInfoNoTanks"
+                                "bgStyle": "\"white-wild-sand-15-bg\""
+                            eventActions:
+                            - ["ON_SELECT_TAB", "ON_SELECT_TAB", "_event"]
+                    children:
+                    -   path: "TabsScrollView"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "PercentOfChildrenSum"
+                        children: []
+                    -   path: "TabsScrollView/scrollContainerControl"
+                        position: [0.000000, 0.000000]
+                -   class: "UIControl"
+                    name: "ReplayButton"
+                    input: false
+                    components:
+                        Anchor:
+                            bottomAnchorEnabled: true
+                            bottomAnchor: 8.000000
+                        LinearLayout:
+                            padding: "24;0"
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfMaxChild"
+                            verticalPolicy: "FixedSize"
+                            verticalValue: 32.000000
+                    bindings:
+                    - ["visible", "not app.constants.nsb and isSelfProfile and (account.diaryDataModel.isReplayMenuButtonIsVisible or account.diaryDataModel.isReplaysAvailable)"]
+                    children:
+                    -   prototype: "Button/Button"
+                        name: "Button"
+                        components:
+                            SizePolicy:
+                                horizontalPolicy: "FixedSize"
+                                horizontalValue: 176.000000
+                            UIAttachLayoutMasterComponent:
+                                attachId: "REPLAYS_BUTTON"
+                            UIDataParamsComponent:
+                                args:
+                                    "locked": "false"
+                                    "caption": "localize(\"profile/Replays/Title\")"
+                                    "type": "eButtonType.OPTIONAL_LIGHT"
+                                    "size": "eButtonSize.NORMAL"
+                                    "sound": "eButtonSound.OPEN"
+                                    "enabled": "true"
+                                    "isBlur": "false"
+                                eventActions:
+                                - ["ON_CLICK_BUTTON", "SHOW_REPLAYS", ""]
+                        bindings:
+                        - ["SizePolicy.verticalValue", "32"]
+            -   class: "UIControl"
+                name: "TabContent"
+                input: false
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        topAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    UIChildComponent0:
+                        condition: "activeTab == eProfileTab.BRIEF"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Profile/ProfileBriefTab.yaml"
+                        args:
+                            "isWgc": "app.constants.wgc"
+                            "account": "account"
+                            "profile": "profile"
+                        eventActions:
+                        - ["SHOW_PLAYER_TEAMS", "SHOW_PLAYER_TEAMS", "_event"]
+                        - ["SHOW_AVATAR_INFO", "SHOW_AVATAR_INFO", "_event"]
+                        - ["CHANGE_AVATAR", "CHANGE_AVATAR", "_event"]
+                        - ["CHANGE_NAME", "CHANGE_NAME", "_event"]
+                        - ["SEND_MESSAGE", "SEND_MESSAGE", "_event"]
+                        - ["ADD_FRIEND", "ADD_FRIEND", "_event"]
+                        - ["REMOVE_FRIEND", "REMOVE_FRIEND", "_event"]
+                        - ["SHOW_RATING", "SHOW_RATING", "_event"]
+                        - ["SHOW_CLAN_PROFILE", "SHOW_CLAN_PROFILE", "_event, \"test\""]
+                        - ["FIND_CLAN", "FIND_CLAN", "_event"]
+                        - ["INVITE_TO_CLAN", "INVITE_TO_CLAN", "_event"]
+                        - ["SHOW_ACHIEVEMENT_INFO", "SHOW_ACHIEVEMENT_INFO", "_event"]
+                        - ["SHOW_ACHIEVEMENTS", "SHOW_ACHIEVEMENTS", "_event"]
+                        - ["SHOW_EXTERNAL_ACHIEVEMENTS", "SHOW_EXTERNAL_ACHIEVEMENTS", "_event"]
+                        - ["SHOW_MAX_DAMAGE", "SHOW_MAX_DAMAGE", "_event"]
+                    UIChildComponent1:
+                        condition: "activeTab == eProfileTab.STATS"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Profile/ProfileStatsTab.yaml"
+                        args:
+                            "profile": "profile"
+                    UIChildComponent2:
+                        condition: "activeTab == eProfileTab.TANKS"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Profile/ProfileTanksTab.yaml"
+                        args:
+                            "rankConfig": "session.rankConfig"
+                            "profile": "profile"
+                        eventActions:
+                        - ["SHOW_ACHIEVEMENT_INFO", "SHOW_ACHIEVEMENT_INFO", "_event"]
+                        - ["BUYOUT_TANKS", "BUYOUT_TANKS", ""]
+                        - ["ON_TANK_CLICKED", "ON_TANK_CLICKED", "_event"]
+                        - ["SWITCH_SORT_TYPE", "SWITCH_SORT_TYPE", "_event"]
+                        - ["ON_ONLY_HANGAR_VEHICLE_CHANGED", "ON_ONLY_HANGAR_VEHICLE_CHANGED", "_event.isTurnedOn"]
+                    UIChildComponent3:
+                        condition: "activeTab == eProfileTab.REPLAYS"
+                        prototypePath: "~res:/UI/Screens3/Lobby/Profile/ProfileReplaysTab.yaml"
+                        args:
+                            "profile": "profile"
     -   class: "UIControl"
         name: "PreviewDialogInputLayer"
         input: true
@@ -360,11 +362,11 @@ Prototypes:
             name: "Content"
             input: false
             components:
-                UIOpacityComponent:
-                    opacity: 0.000000
                 Anchor:
                     hCenterAnchorEnabled: true
                     vCenterAnchorEnabled: true
+                UIOpacityComponent:
+                    opacity: 0.000000
                 LinearLayout:
                     dynamicPadding: true
                     spacing: 36.000000

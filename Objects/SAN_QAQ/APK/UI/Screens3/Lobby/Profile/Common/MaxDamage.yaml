@@ -168,5 +168,5 @@ Prototypes:
                 StyleSheet:
                     styles: "~res:/UI/Screens3/Font.style.yaml"
             bindings:
-            - ["classes", "\"t-title bold not-localize color=\" + ValueColor"]
+            - ["classes", "\"t-title bold \" + ValueColor"]
             - ["UITextComponent.text", "str1000Separated(value)"]

@@ -4,6 +4,7 @@ ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Subscription/SubscriptionBlur.yaml"
 - "~res:/UI/Screens3/Common/KeyArtPrototype.yaml"
 - "~res:/UI/Screens3/Tutorial/Higlight.yaml"
+- "~res:/UI/Screens3/Common/BlurMask.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "SubscriptionScreen"
@@ -99,6 +100,13 @@ Prototypes:
                     verticalPolicy: "PercentOfParent"
                 StyleSheet:
                     styles: "~res:/UI/Screens3/Color.style.yaml"
+    -   prototype: "BlurMask/BlurMask"
+        name: "Blur"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "isBlurMask": "subscription.hideBlur"
+                    "ID": "\"Subscription\""
     -   class: "UIControl"
         name: "Content"
         input: false
@@ -111,6 +119,8 @@ Prototypes:
             LinearLayout:
                 orientation: "TopDown"
                 spacing: 40.000000
+            UIPostProcessSourceComponent0:
+                id: "maskSubscription"
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfChildrenSum"
@@ -193,32 +203,9 @@ Prototypes:
                     name: "scrollContainerControl"
                     refreshStylesOnInteract: false
                     components:
-                        Background:
-                            usePostProcessedSprite: true
-                        UIPostProcessTextureComponent0:
-                            materialPath: "~res:/Materials.custom/2d.Textured.Blur.material"
-                            needClearAlphaAfterRender: true
-                            scale: 0.500000
-                            useVirtualCoordinateSystem: true
-                            minFilter: "Linear"
-                            magFilter: "Linear"
-                        UIPostProcessTextureComponent1:
-                            materialPath: "~res:/Materials.custom/2d.Textured.HBlur.material"
-                            scale: 0.500000
-                            useVirtualCoordinateSystem: true
-                            minFilter: "Linear"
-                            magFilter: "Linear"
-                        UIPostProcessTextureComponent2:
-                            materialPath: "~res:/Materials.custom/2d.Textured.UpscaleClamp.material"
-                            scale: 0.500000
-                            useVirtualCoordinateSystem: true
-                            minFilter: "Linear"
-                            magFilter: "Linear"
-                        UIRoundedCornersComponent:
-                            radius: "8"
                         LinearLayout: {}
                         SizePolicy:
-                            horizontalPolicy: "PercentOfChildrenSum + 16"
+                            horizontalPolicy: "PercentOfChildrenSum"
                             verticalPolicy: "PercentOfMaxChild"
                     children:
                     -   class: "UIControl"
@@ -232,7 +219,7 @@ Prototypes:
                                 horizontalPolicy: "PercentOfChildrenSum"
                                 verticalPolicy: "PercentOfMaxChild"
                             UIRepeatComponent:
-                                control: "~res:/UI/Screens3/Lobby/Subscription/SubscriptionStageNoBlur.yaml"
+                                control: "~res:/UI/Screens3/Lobby/Subscription/SubscriptionStage.yaml"
                                 dataContainer: "subscription.stages"
                                 args:
                                     "attachId": "subscription.name + \"_\" + str(_index)"

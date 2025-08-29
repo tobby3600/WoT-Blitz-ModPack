@@ -1,7 +1,5 @@
 Header:
     version: 161
-ImportedPackages:
-- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "SmartDlcInitialization"
@@ -17,75 +15,8 @@ Prototypes:
             events:
             - "ICP_NUMBER_LINK_PRESS"
     children:
-    -   class: "UIControl"
-        name: "FadesWrapper"
-        input: false
-        components:
-            Anchor:
-                hCenterAnchorEnabled: true
-                vCenterAnchorEnabled: true
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "PercentOfParent"
-        children:
-        -   class: "UIControl"
-            name: "BackButtonFade"
-            input: false
-            classes: "black-10-bg"
-            components:
-                Background:
-                    drawType: "DRAW_SCALE_TO_RECT"
-                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_radial-gradient_quarter"
-                Anchor:
-                    leftAnchorEnabled: true
-                    topAnchorEnabled: true
-                SizePolicy:
-                    horizontalPolicy: "FixedSize"
-                    horizontalValue: 480.000000
-                    verticalPolicy: "FixedSize"
-                    verticalValue: 480.000000
-                StyleSheet:
-                    styles: "~res:/UI/Screens3/Color.style.yaml"
-        -   class: "UIControl"
-            name: "TopFade"
-            input: false
-            classes: "black-10-bg"
-            components:
-                Background:
-                    drawType: "DRAW_SCALE_TO_RECT"
-                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_vertical_0-100"
-                    spriteModification: ["FLIP_VERTICAL"]
-                Anchor:
-                    hCenterAnchorEnabled: true
-                    topAnchorEnabled: true
-                SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "PercentOfParent"
-                    verticalValue: 50.000000
-                StyleSheet:
-                    styles: "~res:/UI/Screens3/Color.style.yaml"
-        -   class: "UIControl"
-            name: "BottomFade"
-            position: [0.000000, 514.000000]
-            input: false
-            classes: "black-35-bg"
-            components:
-                Background:
-                    drawType: "DRAW_STRETCH_BOTH"
-                    sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_vertical_0-100"
-                Anchor:
-                    hCenterAnchorEnabled: true
-                    bottomAnchorEnabled: true
-                IgnoreLayout: {}
-                SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "PercentOfParent"
-                    verticalValue: 50.000000
-                StyleSheet:
-                    styles: "~res:/UI/Screens3/Color.style.yaml"
     -   class: "UIStaticText"
         name: "DescriptionControl"
-        position: [512.000000, 409.000000]
         size: [1024.000000, 60.000000]
         pivot: [0.500000, 0.000000]
         classes: "t-body regular white-wild-sand-text"
@@ -95,9 +26,7 @@ Prototypes:
                 align: ["HCENTER", "TOP", "VCENTER"]
             Anchor:
                 leftAnchorEnabled: true
-                leftAnchor: 0.000000
                 rightAnchorEnabled: true
-                rightAnchor: 0.000000
                 vCenterAnchorEnabled: true
                 vCenterAnchor: 55.000000
             StyleSheet:
@@ -121,36 +50,39 @@ Prototypes:
         name: "AOGASControl"
         position: [374.000000, 64.000000]
         input: false
+        classes: "white-wild-sand-15-bg"
         components:
             Anchor:
                 hCenterAnchorEnabled: true
                 topAnchorEnabled: true
-                topAnchor: 64.000000
+            Background: {}
+            UIRoundedCornersComponent:
+                radius: "8"
             SizePolicy:
                 horizontalPolicy: "PercentOfChildrenSum"
                 horizontalValue: 115.000000
                 verticalPolicy: "PercentOfChildrenSum"
                 verticalValue: 125.000000
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
             UIChildComponent0:
                 condition: "preLoginData.isChina"
                 prototypePath: "~res:/UI/Screens3/PreLogin/AOGASControl.yaml"
         bindings:
         - ["visible", "preLoginData.isChina"]
-        children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
-            components:
-                UIDataParamsComponent:
-                    args:
-                        "roundCorner": "\"8\""
+        - ["Anchor.topAnchor", "when (screenHeight > 640 and screenHeight < 1023) -> 64.000000, screenHeight / 13.500000"]
     -   class: "UIControl"
         name: "AgeRatingInfo"
         size: [265.000000, 220.000000]
         input: false
+        classes: "white-wild-sand-15-bg"
         components:
             Anchor:
                 hCenterAnchorEnabled: true
                 bottomAnchorEnabled: true
+            Background: {}
+            UIRoundedCornersComponent:
+                radius: "8"
             LinearLayout:
                 orientation: "TopDown"
                 dynamicPadding: true
@@ -160,16 +92,12 @@ Prototypes:
                 horizontalValue: 115.000000
                 verticalPolicy: "PercentOfChildrenSum"
                 verticalValue: 125.000000
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Color.style.yaml"
         bindings:
         - ["visible", "preLoginData.isChina"]
-        - ["Anchor.bottomAnchor", "when (screenHeight > 640 and screenHeight < 1023) -> 16.000000, screenHeight * 0.060000"]
+        - ["Anchor.bottomAnchor", "when (screenHeight > 640 and screenHeight < 1023) -> 16.000000, screenHeight / 54.000000"]
         children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
-            components:
-                UIDataParamsComponent:
-                    args:
-                        "roundCorner": "\"8\""
         -   class: "UIControl"
             name: "SelfRegulatoryConvention"
             input: false

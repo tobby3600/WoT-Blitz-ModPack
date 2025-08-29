@@ -1,0 +1,171 @@
+Header:
+    version: 153
+Prototypes:
+-   class: "UIControl"
+    name: "Point"
+    classes: "button-open-sound battlepass-reward"
+    components:
+        UIOpacityComponent: {}
+        Anchor:
+            hCenterAnchorEnabled: true
+            vCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "Formula"
+            horizontalFormula: "xSize"
+            verticalPolicy: "Formula"
+            verticalFormula: "ySize"
+        UIInputEventComponent:
+            onTouchUpInside: "ON_SUPPLY_LEVEL_CLICKED"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "disableInput", "false", "false"]
+            - ["bool", "disableAnimation", "false", "false"]
+            - ["bool", "isLocked", "false", "true"]
+            - ["bool", "isPersonalLocked", "false", "true"]
+            - ["eClanSupplyPointsSize", "size", "eClanSupplyPointsSize.Small", "eClanSupplyPointsSize.Small"]
+            - ["bool", "isNext", "false", "true"]
+            - ["bool", "visible", "true", "true"]
+            - ["int", "supplyLevel", "0", "0"]
+            events:
+            - "ON_SUPPLY_LEVEL_CLICKED"
+        UIDataLocalVarsComponent:
+            data:
+            - ["float", "opacity", "when not isNext and isLocked -> 0.500000, 1.000000"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["string", "textFont", "when size == eClanSupplyPointsSize.Big -> \"t-headline\", size == eClanSupplyPointsSize.Medium -> \"t-subtitle\", \"t-overline\""]
+            - ["int", "imageSize", "when size == eClanSupplyPointsSize.Big -> 70, size == eClanSupplyPointsSize.Medium -> 56, 48"]
+            - ["float", "ySize", "when size == eClanSupplyPointsSize.Big -> 48.000000, size == eClanSupplyPointsSize.Medium -> 38.400002, 34.000000"]
+            - ["float", "xSize", "when size == eClanSupplyPointsSize.Big -> 54.000000, size == eClanSupplyPointsSize.Medium -> 42.299999, 36.000000"]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Clan/Profile/Supply/ClanSupplyProgressBarPoints.actions"
+        UIEventOnDataComponent0:
+            watchedDataExpression: "isLocked"
+            eventName: "LockedChanged"
+        Sound: {}
+        StyleSheet:
+            styles: "~res:/UI/Screens3/ButtonSound.style.yaml;~res:/UI/Screens3/Common/Hover.style.yaml"
+    bindings:
+    - ["visible", "visible"]
+    - ["input", "not disableInput"]
+    - ["UIOpacityComponent.opacity", "opacity"]
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        pivot: [0.500000, 0.500000]
+        input: false
+        classes: "content-area"
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Common/Touch.style.yaml"
+        children:
+        -   class: "UIControl"
+            name: "Background"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    verticalPolicy: "FixedSize"
+                UIChildComponent0:
+                    childType: "kControl"
+                    condition: "not disableAnimation"
+                    control: "InnerPolygonAnimated"
+                UIChildComponent1:
+                    childType: "kControl"
+                    condition: "disableAnimation"
+                    control: "InnerPolygon"
+            bindings:
+            - ["SizePolicy.horizontalValue", "imageSize"]
+            - ["SizePolicy.verticalValue", "imageSize"]
+        -   class: "UIControl"
+            name: "SupplyLevel"
+            pivot: [0.500000, 0.500000]
+            input: false
+            components:
+                UITextComponent: {}
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                    vCenterAnchor: 1.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["classes", "textFont + \" bold yellow-lightning-text\""]
+            - ["UITextComponent.text", "roman(max(1, supplyLevel))"]
+        -   class: "UIControl"
+            name: "Lock"
+            input: false
+            classes: "yellow-lightning-bg"
+            components:
+                Background:
+                    drawType: "DRAW_ALIGNED"
+                    sprite: "~res:/Gfx/Lobby/icons/icon_lock"
+                    perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                UIOpacityComponent:
+                    ignoreParentOpacity: true
+                UIShadowComponent:
+                    radius: 6
+                    color: [1.000000, 0.505882, 0.149020, 1.000000]
+                    canBeDelayed: true
+                Anchor:
+                    bottomAnchorEnabled: true
+                    bottomAnchor: -12.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["visible", "isPersonalLocked"]
+Slots:
+-   class: "UIControl"
+    name: "InnerPolygonAnimated"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            verticalPolicy: "FixedSize"
+        UIChildAnimatedSwitchingComponent:
+            switchPolicy: "kWithRemovingAnimation"
+        UIChildComponent0:
+            condition: "not isNext"
+            prototypePath: "~res:/UI/Screens3/Lobby/Clan/Profile/Supply/ClanSupplyProgressBarPoint.yaml"
+            args:
+                "imagePath": "\"~res:/Gfx/Lobby/backgrounds/bg_clan_level\""
+                "size": "size"
+        UIChildComponent1:
+            condition: "isNext"
+            prototypePath: "~res:/UI/Screens3/Lobby/Clan/Profile/Supply/ClanSupplyProgressBarPoint.yaml"
+            args:
+                "imagePath": "\"~res:/Gfx/Lobby/backgrounds/bg_clan_level_selected\""
+                "size": "size"
+    bindings:
+    - ["SizePolicy.horizontalValue", "imageSize"]
+    - ["SizePolicy.verticalValue", "imageSize"]
+-   class: "UIControl"
+    name: "InnerPolygon"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            verticalPolicy: "FixedSize"
+        UIChildComponent0:
+            prototypePath: "~res:/UI/Screens3/Lobby/Clan/Profile/Supply/ClanSupplyProgressBarPoint.yaml"
+            args:
+                "imagePath": "when isNext -> \"~res:/Gfx/Lobby/backgrounds/bg_clan_level_selected\", \"~res:/Gfx/Lobby/backgrounds/bg_clan_level\""
+                "size": "size"
+    bindings:
+    - ["SizePolicy.horizontalValue", "imageSize"]
+    - ["SizePolicy.verticalValue", "imageSize"]

@@ -3,7 +3,6 @@ Header:
 Prototypes:
 -   class: "UIControl"
     name: "Item"
-    size: [88.000000, 72.000000]
     components:
         Anchor:
             hCenterAnchorEnabled: true
@@ -30,7 +29,6 @@ Prototypes:
     children:
     -   class: "UIControl"
         name: "Selection"
-        size: [32.000000, 32.000000]
         input: false
         classes: "orange-orange-peel-bg"
         components:
@@ -46,8 +44,6 @@ Prototypes:
         - ["visible", "selected"]
     -   class: "UIControl"
         name: "IconWrapper"
-        position: [44.000000, 36.000000]
-        size: [32.000000, 32.000000]
         pivot: [0.500000, 0.500000]
         input: false
         components:
@@ -61,7 +57,6 @@ Prototypes:
         -   class: "UIControl"
             name: "Icon"
             input: false
-            classes: "white-wild-sand-bg"
             components:
                 UITextureComponent:
                     materialPath: "~res:/Materials.custom/2d.Textured.Saturation.material"
@@ -74,7 +69,5 @@ Prototypes:
                     horizontalValue: 48.000000
                     verticalPolicy: "FixedSize"
                     verticalValue: 48.000000
-                StyleSheet:
-                    styles: "~res:/UI/Screens3/Color.style.yaml"
             bindings:
             - ["UITextureComponent.spritePath", "icon"]

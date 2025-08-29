@@ -27,6 +27,7 @@ Prototypes:
             - ["BattleResultsViewModel", "results", "null", "{ \"economics\" = { \"withPremium\" = false; \"boosterXp\" = 56; \"totalXp\" = { \"base\" = 567; \"premium\" = 768; }; \"tankProgress\" = { \"showProgressBarPart\" = true; \"isModuleAvailableForResearch\" = true; }; }; \"gameplayMode\" = eGameMode.Rating; \"rating\" = { \"leagueType\" = eLeague.SILVER; \"currentRating\" = 2345; \"difference\" = 45; \"state\" = eBattleRatingState.HAS_RATING; \"calibrationBattlesLeft\" = 2; }; \"tank\" = { \"tankRank\" = 0; }; }"]
             - ["bool", "economyFirstShow", "false", "true"]
             - ["bool", "isStartByEvent", "true", "false"]
+            - ["string", "bgStyle", "\"\"", "\"\""]
             events:
             - "OpenModulePageForResearch"
             - "BUY_PREMIUM"
@@ -139,6 +140,7 @@ Prototypes:
                         components:
                             UIDataParamsComponent:
                                 args:
+                                    "bgStyle": "bgStyle"
                                     "roundCorner": "\"8\""
                     -   class: "UIControl"
                         name: "TankRankWrapper"
@@ -303,6 +305,7 @@ Prototypes:
                                         "resource": "_item"
                                         "id": "_index"
                                         "animationStartDelay": "when Size(results.economics.resources) > 4 -> float(_index * (animationTime / 4)), float(_index * (animationTime / 5))"
+                                        "bgStyle": "bgStyle"
                                     eventActions:
                                     - ["ON_REWARD_CLICK", "ON_REWARD_CLICK_IN_ECONOMY_PAGE", "_event.id"]
                             bindings:
@@ -363,12 +366,27 @@ Prototypes:
             - ["Anchor.hCenterAnchor", "when contentSizeY > 880 -> -64, 0"]
             - ["LinearLayout.spacing", "when contentSizeY > 880 -> 64, 32"]
             children:
-            -   prototype: "BlurModified/BlurModified"
-                name: "Blur"
+            -   class: "UIControl"
+                name: "Background"
+                input: false
                 components:
-                    UIDataParamsComponent:
-                        args:
-                            "roundCorner": "\"8\""
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "FixedSize"
+                        horizontalValue: 540.000000
+                        verticalPolicy: "PercentOfParent"
+                        verticalValue: 125.000000
+                children:
+                -   prototype: "BlurModified/BlurModified"
+                    name: "Blur"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "bgStyle": "bgStyle"
+                                "roundCorner": "\"8\""
             -   class: "UIControl"
                 name: "XpBlock"
                 size: [32.000000, 32.000000]
@@ -480,7 +498,7 @@ Prototypes:
                                 input: false
                                 components:
                                     UITextComponent:
-                                        fontPath: "~res:/Fonts/HelveticaNeueWorld-75Bold.ttf"
+                                        fontPath: "~res:/Fonts/XinGothic-SC-W12.otf"
                                         fontSize: 50.000000
                                         lineHeight: 56.000000
                                         baseLine: 9.000000
@@ -803,7 +821,7 @@ Prototypes:
                                 input: false
                                 components:
                                     UITextComponent:
-                                        fontPath: "~res:/Fonts/HelveticaNeueWorld-75Bold.ttf"
+                                        fontPath: "~res:/Fonts/XinGothic-SC-W12.otf"
                                         fontSize: 50.000000
                                         lineHeight: 56.000000
                                         baseLine: 9.000000

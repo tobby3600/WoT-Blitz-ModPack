@@ -190,6 +190,8 @@ Prototypes:
                                             "isSelected": "model.sortTypeApplications == eClanMemberSortType.Name"
                                             "inverseSort": "model.isInverseSortingApplications"
                                             "text": "\"Clans/Profile/Member/Header/Player\""
+                                            "isBlur": "false"
+                                            "bgStyle": "\"white-wild-sand-15-bg\""
                                         eventActions:
                                         - ["ON_CLICK_SORT_BUTTON", "OnSwitchSortTypeApplications", "eTankSortMode.SORT_BY_LEVEL"]
                             -   class: "UIControl"
@@ -205,6 +207,8 @@ Prototypes:
                                             "isSelected": "model.sortTypeApplications == eClanMemberSortType.Battles"
                                             "inverseSort": "model.isInverseSortingApplications"
                                             "iconPath": "\"~res:/Gfx/Lobby/icons/icon_battles_xs\""
+                                            "isBlur": "false"
+                                            "bgStyle": "\"white-wild-sand-15-bg\""
                                         eventActions:
                                         - ["ON_CLICK_SORT_BUTTON", "OnSwitchSortTypeApplications", "eClanMemberSortType.Battles"]
                                 bindings:
@@ -222,6 +226,8 @@ Prototypes:
                                             "isSelected": "model.sortTypeApplications == eClanMemberSortType.WinRate"
                                             "inverseSort": "model.isInverseSortingApplications"
                                             "iconPath": "\"~res:/Gfx/Lobby/icons/icon_victory_s\""
+                                            "isBlur": "false"
+                                            "bgStyle": "\"white-wild-sand-15-bg\""
                                         eventActions:
                                         - ["ON_CLICK_SORT_BUTTON", "OnSwitchSortTypeApplications", "eClanMemberSortType.WinRate"]
                                 bindings:
@@ -240,6 +246,8 @@ Prototypes:
                                             "inverseSort": "model.isInverseSortingApplications"
                                             "iconPath": "\"~res:/Gfx/Lobby/icons/icon_rating_m\""
                                             "scaleIconToRect": "true"
+                                            "isBlur": "false"
+                                            "bgStyle": "\"white-wild-sand-15-bg\""
                                         eventActions:
                                         - ["ON_CLICK_SORT_BUTTON", "OnSwitchSortTypeApplications", "eClanMemberSortType.Rating"]
                                 bindings:
@@ -258,6 +266,8 @@ Prototypes:
                                             "isSelected": "model.sortTypeApplications == eClanMemberSortType.AvgTankLevel"
                                             "inverseSort": "model.isInverseSortingApplications"
                                             "text": "\"Clans/Profile/Member/Header/AvgLevel\""
+                                            "isBlur": "false"
+                                            "bgStyle": "\"white-wild-sand-15-bg\""
                                         eventActions:
                                         - ["ON_CLICK_SORT_BUTTON", "OnSwitchSortTypeApplications", "eClanMemberSortType.AvgTankLevel"]
                                 bindings:
@@ -275,6 +285,8 @@ Prototypes:
                                             "isSelected": "model.sortTypeApplications == eClanMemberSortType.AvgDamage"
                                             "inverseSort": "model.isInverseSortingApplications"
                                             "iconPath": "\"~res:/Gfx/Lobby/icons/icon_damage_s\""
+                                            "isBlur": "false"
+                                            "bgStyle": "\"white-wild-sand-15-bg\""
                                         eventActions:
                                         - ["ON_CLICK_SORT_BUTTON", "OnSwitchSortTypeApplications", "eClanMemberSortType.AvgDamage"]
                                 bindings:
@@ -292,6 +304,8 @@ Prototypes:
                                             "isSelected": "model.sortTypeApplications == eClanMemberSortType.ClanTasksPoints"
                                             "inverseSort": "model.isInverseSortingApplications"
                                             "iconPath": "\"~res:/Gfx/Lobby/icons/icon_currency_clan_medal_s\""
+                                            "isBlur": "false"
+                                            "bgStyle": "\"white-wild-sand-15-bg\""
                                         eventActions:
                                         - ["ON_CLICK_SORT_BUTTON", "OnSwitchSortTypeApplications", "eClanMemberSortType.ClanTasksPoints"]
                                 bindings:
@@ -302,7 +316,7 @@ Prototypes:
                                 components:
                                     SizePolicy:
                                         horizontalPolicy: "FixedSize"
-                                        horizontalValue: 124.000000
+                                        horizontalValue: 100.000000
                                         verticalPolicy: "PercentOfParent"
                                     UIChildComponent0:
                                         prototypePath: "~res:/UI/Screens3/Lobby/Common/SortButton/IconSortButton.yaml"
@@ -310,6 +324,8 @@ Prototypes:
                                             "isSelected": "model.sortTypeApplications == eClanMemberSortType.LastBattleDate"
                                             "inverseSort": "model.isInverseSortingApplications"
                                             "iconPath": "\"~res:/Gfx/Lobby/icons/icon_timer\""
+                                            "isBlur": "false"
+                                            "bgStyle": "\"white-wild-sand-15-bg\""
                                         eventActions:
                                         - ["ON_CLICK_SORT_BUTTON", "OnSwitchSortTypeApplications", "eClanMemberSortType.LastBattleDate"]
                             -   class: "UIControl"
@@ -318,7 +334,7 @@ Prototypes:
                                 components:
                                     SizePolicy:
                                         horizontalPolicy: "FixedSize"
-                                        horizontalValue: 84.000000
+                                        horizontalValue: 108.000000
                                         verticalPolicy: "PercentOfParent"
                                 bindings:
                                 - ["visible", "canEdit"]
@@ -399,9 +415,6 @@ Prototypes:
                                     eventActions:
                                     - ["SHOW_MEMBER_POPUP", "SHOW_MEMBER_POPUP", "_index"]
                                     elementNameExpression: "\"ClanMember_\" + str(_item.playerInfo.nameModel.dbId)"
-                                    loadingPolicy: "Lazy"
-                                    loadingDistance: 0.000000
-                                    unloadingDistance: 0.000000
             -   prototype: "VerticalScrollBar/VerticalScrollBar"
                 name: "VerticalScrollBar"
                 components:
@@ -411,16 +424,6 @@ Prototypes:
                         bottomAnchorEnabled: true
                     UIScrollBarComponent:
                         delegate: "../ScrollArea"
-    -   class: "UIControl"
-        name: "NsPanelSpacer"
-        input: false
-        components:
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "FixedSize"
-                verticalMax: 40.000000
-        bindings:
-        - ["visible", "isGamepad"]
 Slots:
 -   class: "UIControl"
     name: "PlayersHeaderSlot"
@@ -451,6 +454,8 @@ Slots:
                     "isSelected": "model.sortType == eClanMemberSortType.Name"
                     "inverseSort": "model.isInverseSorting"
                     "text": "\"Clans/Profile/Member/Header/Player\""
+                    "isBlur": "false"
+                    "bgStyle": "\"white-wild-sand-15-bg\""
                 eventActions:
                 - ["ON_CLICK_SORT_BUTTON", "SORT_BUTTON_HANDLER", "eClanMemberSortType.Name"]
     -   class: "UIControl"
@@ -466,6 +471,8 @@ Slots:
                     "isSelected": "model.sortType == eClanMemberSortType.Battles"
                     "inverseSort": "model.isInverseSorting"
                     "iconPath": "\"~res:/Gfx/Lobby/icons/icon_battles_xs\""
+                    "isBlur": "false"
+                    "bgStyle": "\"white-wild-sand-15-bg\""
                 eventActions:
                 - ["ON_CLICK_SORT_BUTTON", "SORT_BUTTON_HANDLER", "eClanMemberSortType.Battles"]
         bindings:
@@ -483,6 +490,8 @@ Slots:
                     "isSelected": "model.sortType == eClanMemberSortType.WinRate"
                     "inverseSort": "model.isInverseSorting"
                     "iconPath": "\"~res:/Gfx/Lobby/icons/icon_victory_s\""
+                    "isBlur": "false"
+                    "bgStyle": "\"white-wild-sand-15-bg\""
                 eventActions:
                 - ["ON_CLICK_SORT_BUTTON", "SORT_BUTTON_HANDLER", "eClanMemberSortType.WinRate"]
         bindings:
@@ -501,6 +510,8 @@ Slots:
                     "inverseSort": "model.isInverseSorting"
                     "iconPath": "\"~res:/Gfx/Lobby/icons/icon_rating_m\""
                     "scaleIconToRect": "true"
+                    "isBlur": "false"
+                    "bgStyle": "\"white-wild-sand-15-bg\""
                 eventActions:
                 - ["ON_CLICK_SORT_BUTTON", "SORT_BUTTON_HANDLER", "eClanMemberSortType.Rating"]
         bindings:
@@ -519,6 +530,8 @@ Slots:
                     "isSelected": "model.sortType == eClanMemberSortType.AvgTankLevel"
                     "inverseSort": "model.isInverseSorting"
                     "text": "\"Clans/Profile/Member/Header/AvgLevel\""
+                    "isBlur": "false"
+                    "bgStyle": "\"white-wild-sand-15-bg\""
                 eventActions:
                 - ["ON_CLICK_SORT_BUTTON", "SORT_BUTTON_HANDLER", "eClanMemberSortType.AvgTankLevel"]
         bindings:
@@ -536,6 +549,8 @@ Slots:
                     "isSelected": "model.sortType == eClanMemberSortType.AvgDamage"
                     "inverseSort": "model.isInverseSorting"
                     "iconPath": "\"~res:/Gfx/Lobby/icons/icon_damage_s\""
+                    "isBlur": "false"
+                    "bgStyle": "\"white-wild-sand-15-bg\""
                 eventActions:
                 - ["ON_CLICK_SORT_BUTTON", "SORT_BUTTON_HANDLER", "eClanMemberSortType.AvgDamage"]
         bindings:
@@ -553,6 +568,8 @@ Slots:
                     "isSelected": "model.sortType == eClanMemberSortType.ClanTasksPoints"
                     "inverseSort": "model.isInverseSorting"
                     "iconPath": "\"~res:/Gfx/Lobby/icons/icon_currency_clan_medal_s\""
+                    "isBlur": "false"
+                    "bgStyle": "\"white-wild-sand-15-bg\""
                 eventActions:
                 - ["ON_CLICK_SORT_BUTTON", "SORT_BUTTON_HANDLER", "eClanMemberSortType.ClanTasksPoints"]
         bindings:
@@ -563,7 +580,7 @@ Slots:
         components:
             SizePolicy:
                 horizontalPolicy: "FixedSize"
-                horizontalValue: 100.000000
+                horizontalValue: 124.000000
                 verticalPolicy: "PercentOfParent"
             UIChildComponent0:
                 prototypePath: "~res:/UI/Screens3/Lobby/Common/SortButton/IconSortButton.yaml"
@@ -571,6 +588,8 @@ Slots:
                     "isSelected": "model.sortType == eClanMemberSortType.LastBattleDate"
                     "inverseSort": "model.isInverseSorting"
                     "iconPath": "\"~res:/Gfx/Lobby/icons/icon_timer\""
+                    "isBlur": "false"
+                    "bgStyle": "\"white-wild-sand-15-bg\""
                 eventActions:
                 - ["ON_CLICK_SORT_BUTTON", "SORT_BUTTON_HANDLER", "eClanMemberSortType.LastBattleDate"]
     -   class: "UIControl"
@@ -579,7 +598,7 @@ Slots:
         components:
             SizePolicy:
                 horizontalPolicy: "FixedSize"
-                horizontalValue: 108.000000
+                horizontalValue: 84.000000
                 verticalPolicy: "PercentOfParent"
         bindings:
         - ["visible", "canEdit"]

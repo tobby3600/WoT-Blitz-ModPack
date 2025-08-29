@@ -1,0 +1,37 @@
+Header:
+    version: 108
+ImportedPackages:
+- "~res:/UI/Screens3/Common/Tooltip.yaml"
+Controls:
+-   class: "UIControl"
+    name: "UseNewGun"
+    size: [32.000000, 32.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["TutorialDataModel", "tutorialData", "{ }", "{ }"]
+            events:
+            - "FINISH_HIDE_POPUP_ANIMATION"
+    children:
+    -   prototype: "Tooltip/Slave"
+        name: "Slave"
+        position: [-84.000000, 65.000000]
+        components:
+            UIDataParamsComponent:
+                args:
+                    "isAlignLeft": "false"
+                    "buttonVisible": "false"
+                    "rewardVisible": "true"
+                    "slaveAlign": "ePositionAlign.Top"
+                    "resource": "tutorialData.currentLessonBonus"
+                    "title": "\"\""
+                    "text": "\"hangarTutorial/Task/UseNewGun\""
+                    "colorClass": "\"color=white-wild-sand-text\""
+                    "masterId": "\"TUTORIAL_HIGHLIGHT\""
+                eventActions:
+                - ["CONTINUE", "", ""]
+                - ["FINISH_HIDE_POPUP_ANIMATION", "FINISH_HIDE_POPUP_ANIMATION", ""]

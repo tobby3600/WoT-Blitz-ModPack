@@ -373,7 +373,6 @@ Prototypes:
                     -   class: "UIControl"
                         name: "RatingBattlesText"
                         input: false
-                        classes: "t-body bold white-wild-sand-text"
                         components:
                             LinearLayout:
                                 dynamicPadding: true
@@ -382,7 +381,7 @@ Prototypes:
                                 verticalPolicy: "Formula"
                                 verticalFormula: "maxChild + 2"
                             StyleSheet:
-                                styles: "~res:/UI/Screens3/Font.style.yaml"
+                                styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
                         bindings:
                         - ["visible", "not isCamoBattlesCompleted"]
                         children:
@@ -437,7 +436,7 @@ Prototypes:
                                     horizontalPolicy: "PercentOfContent"
                                     verticalPolicy: "PercentOfContent"
                             bindings:
-                            - ["classes", "when isCalibration -> \"t-subtitle bold white-wild-sand-text not-localize\", currentLeague == eLeague.PLATINUM or currentLeague == eLeague.DIAMOND -> \"t-subtitle bold yellow-submarine-text not-localize\", \"t-subtitle bold white-wild-sand-25-text not-localize\""]
+                            - ["classes", "when isCalibration -> \"t-subtitle bold white-wild-sand-text\", currentLeague == eLeague.PLATINUM or currentLeague == eLeague.DIAMOND -> \"t-subtitle bold yellow-submarine-text\", \"t-subtitle bold white-wild-sand-25-text\""]
                             - ["UITextComponent.text", "startValue"]
                             - ["UIShadowComponent.color", "when currentLeague == eLeague.PLATINUM -> hsb(15, 86, 93), currentLeague == eLeague.DIAMOND -> hsb(285, 85, 100), hsb(0, 0, 0)"]
                         -   class: "UIControl"
@@ -453,7 +452,7 @@ Prototypes:
                                     horizontalPolicy: "PercentOfContent"
                                     verticalPolicy: "PercentOfContent"
                             bindings:
-                            - ["classes", "when currentLeague == eLeague.PLATINUM or currentLeague == eLeague.DIAMOND -> \"t-caption regular yellow-submarine-text not-localize\", \"t-caption regular white-wild-sand-25-text not-localize\""]
+                            - ["classes", "when currentLeague == eLeague.PLATINUM or currentLeague == eLeague.DIAMOND -> \"t-caption regular yellow-submarine-text\", \"t-caption regular white-wild-sand-25-text\""]
                             - ["UIOpacityComponent.opacity", "when currentLeague == eLeague.PLATINUM or currentLeague == eLeague.DIAMOND -> 0.500000, 1.000000"]
                             - ["UITextComponent.text", "when isCalibration -> \"/10\", \"/50\""]
                         -   class: "UIControl"

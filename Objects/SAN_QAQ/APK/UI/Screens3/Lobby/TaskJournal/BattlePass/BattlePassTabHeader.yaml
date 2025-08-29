@@ -8,7 +8,9 @@ Prototypes:
     name: "BattlePassTabHeader"
     size: [960.000000, 64.000000]
     input: false
+    classes: "white-wild-sand-15-bg"
     components:
+        Background: {}
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
             verticalPolicy: "FixedSize"
@@ -38,8 +40,9 @@ Prototypes:
             data:
             - ["bool", "activateWeekClicked", "false"]
             - ["bool", "collectButtonClicked", "false"]
-            - ["bool", "collectButtonInputEnabled", "when week.lastDisplayedUntakenStages == 0 -> false, true"]
-            - ["bool", "refreshButtonInputEnabled", "when week.lastDisplayedUntakenStages == 0 and week.actualUntakenStages == 0 -> true, false"]
+            - ["bool", "collectButtonInputEnabled", "week.lastDisplayedUntakenStages != 0"]
+            - ["float", "collectButtonOpacity", "when week.lastDisplayedUntakenStages == 0 -> 0.000000, 1.000000"]
+            - ["bool", "refreshButtonInputEnabled", "week.lastDisplayedUntakenStages == 0 and week.actualUntakenStages == 0"]
             - ["float", "refreshButtonOpacity", "when week.lastDisplayedUntakenStages == 0 and week.actualUntakenStages == 0 -> 1.000000, 0.000000"]
             - ["float", "activeWeekTextOpacity", "when isWidgetActive -> 0.000000, 1.000000"]
         UIDataLocalBindingsComponent:
@@ -80,6 +83,8 @@ Prototypes:
             watchedDataExpression: "week.actualUntakenStages"
             ifExpression: "week.actualUntakenStages > 0"
             eventName: "ActualUntakenStagesChanged"
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Color.style.yaml"
 Slots:
 -   class: "UIControl"
     name: "FreeRefreshInfo"
@@ -90,7 +95,6 @@ Slots:
             dynamicPadding: true
         SizePolicy:
             horizontalPolicy: "PercentOfMaxChild"
-            horizontalValue: 100.000000
             verticalPolicy: "FixedSize"
             verticalValue: 48.000000
     children:
@@ -230,6 +234,18 @@ Slots:
                         condition: "showTimerEffect"
                         control: "TimerEffect"
             -   class: "UIControl"
+                name: "Bg"
+                input: false
+                classes: "white-wild-sand-15-bg"
+                components:
+                    Background: {}
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
                 name: "Timer"
                 input: false
                 components:
@@ -243,8 +259,6 @@ Slots:
                         args:
                             "time": "time"
                             "serverTime": "session.serverTime"
-                            "bgVisible": "true"
-                            "bgColorStyle": "\"white-wild-sand-15-bg\""
         -   class: "UIControl"
             name: "Description"
             input: false
@@ -291,27 +305,9 @@ Slots:
             dynamicSpacing: true
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
-            verticalPolicy: "Formula"
-            verticalFormula: "maxChild + 16"
+            verticalPolicy: "PercentOfMaxChild"
+            verticalMin: 64.000000
     children:
-    -   class: "UIControl"
-        name: "Bg"
-        input: false
-        components:
-            Anchor:
-                vCenterAnchorEnabled: true
-            IgnoreLayout: {}
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "FixedSize"
-                verticalValue: 64.000000
-        children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
-            components:
-                UIDataParamsComponent:
-                    args:
-                        "bgStyle": "\"white-wild-sand-15-bg\""
     -   class: "UIControl"
         name: "DescriptionWrapper"
         input: false
@@ -376,16 +372,16 @@ Slots:
         components:
             Anchor:
                 vCenterAnchorEnabled: true
-            LinearLayout:
-                spacing: 8.000000
             SizePolicy:
-                horizontalPolicy: "PercentOfChildrenSum"
-                verticalPolicy: "PercentOfMaxChild"
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 152.000000
+                verticalPolicy: "PercentOfParent"
         children:
         -   class: "UIControl"
             name: "CollectLevelsButton"
             input: false
             components:
+                UIOpacityComponent: {}
                 Anchor:
                     hCenterAnchorEnabled: true
                     vCenterAnchorEnabled: true
@@ -401,10 +397,11 @@ Slots:
                         "inputDisabled": "collectButtonClicked or disableInput or not collectButtonInputEnabled"
                         "size": "eButtonSize.NORMAL"
                         "type": "eButtonType.POSITIVE"
+                        "hasShadow": "false"
                     eventActions:
                     - ["ON_CLICK_BUTTON", "ON_COLLECT_ALL", ""]
             bindings:
-            - ["visible", "week.lastDisplayedUntakenStages != 0"]
+            - ["UIOpacityComponent.opacity", "collectButtonOpacity"]
         -   class: "UIControl"
             name: "RefreshQuestsButton"
             input: false
@@ -425,6 +422,7 @@ Slots:
                         "iconPath": "when week.refreshMode -> \"\", \"~res:/Gfx/Lobby/icons/icon_angled-arrow\""
                         "size": "eButtonSize.NORMAL"
                         "type": "eButtonType.POSITIVE"
+                        "hasShadow": "false"
                     eventActions:
                     - ["ON_CLICK_BUTTON", "ON_REFRESH_QUESTS", ""]
             bindings:
@@ -473,7 +471,7 @@ Slots:
             components:
                 SizePolicy:
                     horizontalPolicy: "FixedSize"
-                    horizontalValue: 4.000000
+                    horizontalValue: 0.000000
                     verticalPolicy: "PercentOfParent"
 -   class: "UIControl"
     name: "InactiveState"
@@ -489,27 +487,9 @@ Slots:
             dynamicSpacing: true
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
-            verticalPolicy: "Formula"
-            verticalFormula: "maxChild + 16"
+            verticalPolicy: "PercentOfMaxChild"
+            verticalMin: 64.000000
     children:
-    -   class: "UIControl"
-        name: "Bg"
-        input: false
-        components:
-            Anchor:
-                vCenterAnchorEnabled: true
-            IgnoreLayout: {}
-            SizePolicy:
-                horizontalPolicy: "PercentOfParent"
-                verticalPolicy: "FixedSize"
-                verticalValue: 64.000000
-        children:
-        -   prototype: "BlurModified/BlurModified"
-            name: "Blur"
-            components:
-                UIDataParamsComponent:
-                    args:
-                        "bgStyle": "\"white-wild-sand-15-bg\""
     -   class: "UIControl"
         name: "DescriptionInactive"
         input: false
@@ -554,26 +534,22 @@ Slots:
                         "enabled": "true"
                         "caption": "\"missionJournal/battlePass/activateWeek\""
                         "locked": "locked"
+                        "hasShadow": "false"
                     eventActions:
                     - ["ON_CLICK_BUTTON", "ON_ACTIVATE_WEEK_CLICKED", ""]
-        -   class: "UIControl"
+        -   prototype: "Button/Button"
             name: "BuyLicenseButton"
-            input: false
             components:
                 Anchor:
-                    hCenterAnchorEnabled: true
                     vCenterAnchorEnabled: true
-                SizePolicy:
-                    horizontalPolicy: "PercentOfChildrenSum"
-                    verticalPolicy: "PercentOfChildrenSum"
-                UIChildComponent0:
-                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+                UIDataParamsComponent:
                     args:
                         "inputDisabled": "disableInput"
                         "caption": "when usePremBpAsLicense -> localize(\"missionJournal/battlePass/premiumPass\"), localize(\"missionJournal/battlePass/license\")"
                         "enabled": "true"
                         "size": "eButtonSize.NORMAL"
                         "type": "eButtonType.ALTERNATIVE"
+                        "hasShadow": "false"
                     eventActions:
                     - ["ON_CLICK_BUTTON", "ON_LICENSE_CLICKED", ""]
         -   class: "UIControl"
@@ -583,5 +559,5 @@ Slots:
             components:
                 SizePolicy:
                     horizontalPolicy: "FixedSize"
-                    horizontalValue: 4.000000
+                    horizontalValue: 0.000000
                     verticalPolicy: "PercentOfParent"

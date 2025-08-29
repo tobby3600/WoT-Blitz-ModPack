@@ -22,6 +22,8 @@ Prototypes:
                 "headerText": "\"Clans/Notifications/ClanNotifications\""
                 "content": "NotificationsContent"
                 "blurOpacity": "0.000000"
+                "isBlurMask": "true"
+                "blurMaskID": "\"clanNotifications\""
             eventActions:
             - ["ON_BACK_CLICK", "BACK_EVENT", ""]
 Slots:

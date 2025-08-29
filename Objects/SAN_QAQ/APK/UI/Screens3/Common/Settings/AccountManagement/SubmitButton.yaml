@@ -1,0 +1,39 @@
+Header:
+    version: 142
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/Button.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "ButtonAccept"
+    size: [200.000000, 50.000000]
+    input: false
+    components:
+        Anchor:
+            vCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfChildrenSum"
+        UIDataParamsComponent:
+            params:
+            - ["bool", "loading", "true", "true"]
+            - ["bool", "enabled", "true", "true"]
+            events:
+            - "SUBMIT"
+    children:
+    -   prototype: "Button/Button"
+        name: "ButtonPositive"
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+            UIDataParamsComponent:
+                args:
+                    "isLoading": "loading"
+                    "caption": "localize(\"AccountDeletionCodeDialog/SubmitCodeBtn\")"
+                    "type": "eButtonType.POSITIVE"
+                    "size": "eButtonSize.NORMAL"
+                    "sound": "eButtonSound.UNKNOWN"
+                    "enabled": "enabled"
+                eventActions:
+                - ["ON_CLICK_BUTTON", "SUBMIT", ""]
+            UIIdentifierComponent:
+                id: "button_positive"

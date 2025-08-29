@@ -24,6 +24,8 @@ Prototypes:
             - ["bool", "isVisible", "true", "true"]
             - ["bool", "freeTextAllowed", "true", "true"]
             - ["bool", "isSelected", "false", "true"]
+            - ["bool", "isBlur", "true", "true"]
+            - ["string", "bgStyle", "\"black-50-bg\", \"black-50-bg\""]
         UIDataLocalBindingsComponent:
             data:
             - ["bool", "isPriceInitialValid", "when not isNull(priceInitial) -> not priceInitial.resources.Empty(), false"]
@@ -89,24 +91,15 @@ Prototypes:
                     StyleSheet:
                         styles: "~res:/UI/Screens3/Color.style.yaml;"
                 children:
-                -   class: "UIControl"
+                -   prototype: "BlurModified/BlurModified"
                     name: "ButtonWrapper"
-                    size: [208.000000, 62.000000]
-                    input: false
                     components:
-                        UIOpacityComponent: {}
-                        SizePolicy:
-                            horizontalPolicy: "PercentOfParent"
-                            verticalPolicy: "PercentOfParent"
-                    bindings:
-                    - ["UIOpacityComponent.opacity", "buttonOpacity"]
-                    children:
-                    -   prototype: "BlurModified/BlurModified"
-                        name: "Blur"
-                        components:
-                            UIDataParamsComponent:
-                                args:
-                                    "bgStyle": "\"white-wild-sand-15-bg\""
+                        UIDataParamsComponent:
+                            args:
+                                "isBlur": "isBlur"
+                                "bgStyle": "bgStyle"
+                                "bgOpacity": "buttonOpacity"
+                                "blurOpacity": "buttonOpacity"
                 -   prototype: "Selection/Selection"
                     name: "Selection"
                     components:

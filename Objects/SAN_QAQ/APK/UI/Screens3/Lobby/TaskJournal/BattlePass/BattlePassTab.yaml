@@ -228,7 +228,6 @@ Prototypes:
                             "animatedLabel": "(not model.usePremiumBpAsLicense and (not model.haveLicense or not model.previousHaveLicense)) or (model.usePremiumBpAsLicense and (not model.havePremBp or not model.previousHavePremBp))"
                             "labelTab": "model.activatedIndex"
                             "labelControl": "when (not model.usePremiumBpAsLicense and (not model.haveLicense or not model.previousHaveLicense)) or (model.usePremiumBpAsLicense and (not model.havePremBp or not model.previousHavePremBp)) -> ActiveStateLabel, null"
-                            "isBlur": "true"
 Slots:
 -   class: "UIControl"
     name: "ActiveStateLabel"

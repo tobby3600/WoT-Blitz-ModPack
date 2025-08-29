@@ -23,10 +23,6 @@ Prototypes:
             - ["int", "itemSpacer", "2"]
             - ["int", "itemHeight", "80"]
             - ["int", "footerSpace", "16"]
-        UIDataLocalBindingsComponent:
-            data:
-            - ["string", "blurTankBuyout", "\"blurTankBuyout\""]
-            - ["string", "maskTankBuyout", "\"maskTankBuyout\""]
         UIChildComponent0:
             prototypePath: "~res:/UI/Screens3/Lobby/Common/Overlay/OverlayBasic.yaml"
             args:
@@ -39,8 +35,7 @@ Prototypes:
                 "imageFromClient": "\"~res:/Gfx/UI/ProfileScreen/tank_buyout_bg\""
                 "modifiedBg": "true"
                 "isBlurMask": "true"
-                "blurOverlay": "blurTankBuyout"
-                "maskOverlay": "maskTankBuyout"
+                "blurMaskID": "\"tankBuyout\""
             eventActions:
             - ["BACK_EVENT", "BACK_EVENT", ""]
 Slots:
@@ -53,13 +48,10 @@ Slots:
             hCenterAnchorEnabled: true
         LinearLayout:
             orientation: "TopDown"
-        UIPostProcessSourceComponent0: {}
         SizePolicy:
             horizontalPolicy: "Formula"
             horizontalFormula: "max(640, parent - 40)"
             verticalPolicy: "PercentOfParent"
-    bindings:
-    - ["UIPostProcessSourceComponent0.id", "maskTankBuyout"]
     children:
     -   class: "UIControl"
         name: "Header"
@@ -101,8 +93,8 @@ Slots:
                     - ["text_white_bold", "<span class=\"t-body bold color=white-wild-sand-text\" />"]
                     - ["white_bold", "<span class=\"t-subtitle bold color=white-wild-sand-text\" />"]
                     - ["yellow_bold", "<span class=\"t-body bold color=yellow-lightning-text\" />"]
-                    - ["orange", "<span class=\"t-body regular color=orange-orange-peel-text\" />"]
-                    - ["rare", "<span class=\"t-body regular color=blue-curious-blue-text\" />"]
+                    - ["orange", "<span class=\"t-body bold color=orange-orange-peel-text\" />"]
+                    - ["rare", "<span class=\"t-body bold color=blue-curious-blue-text\" />"]
                 Anchor:
                     hCenterAnchorEnabled: true
                     vCenterAnchorEnabled: true
@@ -337,7 +329,7 @@ Slots:
                 name: "UIScrollView"
                 size: [800.000000, 800.000000]
                 autoUpdate: true
-                centerContent: false
+                centerContent: true
                 components:
                     Anchor:
                         leftAnchorEnabled: true
