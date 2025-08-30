@@ -2,7 +2,7 @@ Header:
     version: 157
 ImportedPackages:
 - "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
-- "~res:/UI/Screens3/Common/BlurMask.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "DefaultOffer"
@@ -76,20 +76,12 @@ Prototypes:
                 horizontalPolicy: "PercentOfParent"
                 horizontalValue: 50.000000
                 verticalPolicy: "PercentOfParent"
-    -   prototype: "BlurMask/BlurMask"
-        name: "Blur"
-        components:
-            UIDataParamsComponent:
-                args:
-                    "ID": "\"DefaultOffer\""
     -   class: "UIControl"
         name: "ContentWrapper"
         input: false
         components:
             ClipContent: {}
             LinearLayout: {}
-            UIPostProcessSourceComponent0:
-                id: "maskDefaultOffer"
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
@@ -125,6 +117,13 @@ Prototypes:
                 - ["visible", "gradientVisible"]
                 - ["Background.color", "rgba(offer.gradientColor.red * 255.000000, offer.gradientColor.green * 255.000000, offer.gradientColor.blue * 255.000000, offer.gradientColor.alpha)"]
                 - ["SizePolicy.verticalValue", "contentHeight + 48"]
+                children:
+                -   prototype: "BlurModified/BlurModified"
+                    name: "Blur"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "roundCorner": "\"4\""
         -   class: "UIControl"
             name: "LeftContentWrapper"
             input: false
@@ -163,6 +162,13 @@ Prototypes:
                 - ["Background.color", "rgba(offer.gradientColor.red * 255.000000, offer.gradientColor.green * 255.000000, offer.gradientColor.blue * 255.000000, offer.gradientColor.alpha)"]
                 - ["SizePolicy.horizontalValue", "614 + centerSpacerWidth"]
                 - ["SizePolicy.verticalValue", "contentHeight + 48"]
+                children:
+                -   prototype: "BlurModified/BlurModified"
+                    name: "Blur"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "roundCorner": "\"4\""
             -   class: "UIControl"
                 name: "LeftContent"
                 input: false
@@ -250,7 +256,7 @@ Prototypes:
                 -   class: "UIControl"
                     name: "Title"
                     input: false
-                    classes: "t-content-h2 bold color=white-wild-sand-text"
+                    classes: "t-content-h2 bold white-wild-sand-text"
                     components:
                         UITextComponent:
                             colorInheritType: "COLOR_IGNORE_PARENT"
@@ -309,7 +315,7 @@ Prototypes:
                     -   class: "UIControl"
                         name: "ContainerLabel"
                         input: false
-                        classes: "t-caps bold color=white-wild-sand-text"
+                        classes: "t-caps bold white-wild-sand-text"
                         components:
                             UITextComponent:
                                 colorInheritType: "COLOR_IGNORE_PARENT"
@@ -462,24 +468,6 @@ Prototypes:
                     horizontalPolicy: "PercentOfMaxChild"
                     verticalPolicy: "PercentOfChildrenSum"
             children:
-            -   class: "UIControl"
-                name: "Background"
-                classes: "white-wild-sand-15-bg"
-                components:
-                    Anchor:
-                        hCenterAnchorEnabled: true
-                        vCenterAnchorEnabled: true
-                    IgnoreLayout: {}
-                    Background: {}
-                    UIRoundedCornersComponent:
-                        radius: "8"
-                    SizePolicy:
-                        horizontalPolicy: "PercentOfParent"
-                        horizontalValue: 105.000000
-                        verticalPolicy: "PercentOfParent"
-                        verticalValue: 105.000000
-                    StyleSheet:
-                        styles: "~res:/UI/Screens3/Color.style.yaml"
             -   class: "UIControl"
                 name: "ProductImage"
                 input: false
