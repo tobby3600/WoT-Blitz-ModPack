@@ -6,7 +6,7 @@
 
 一款针对国服适配的整合很多优质模组的整合包。
 
-**使用本整合包前请注意，本整合包可能带来卡顿或恶性bug**
+**使用整合包前请注意，本整合包可能带来卡顿或恶性bug**
 
 ### ✅主要功能
 - [x] **玩梗文本** - 加入了很多梗的文本包，修改了几乎所有文本
@@ -39,7 +39,7 @@
 2. 如果需要保留游戏数据(如回放和已安装的模组)，请备份`/storage/emulated/0/Android/data/com.netease.wotb/`目录内的文件
 3. 卸载原先的游戏
 4. 安装模组版本的游戏
-5. 将`data.zip`的内容放入 `/storage/emulated/0/Android/data/com.netease.wotb/files/packs/`目录内(`data.zip`其实就是`./Objects/SAN_QAQ/DATA`目录内的文件)
+5. 将`data.zip`的内容放入 `/storage/emulated/0/Android/data/com.netease.wotb/files/packs/`目录内(`data.zip`在下方有说明)
 6. 启动游戏检查模组是否生效
 
 ##### 安装更新
@@ -50,12 +50,39 @@
 #### 手动修改安装包并安装
 
 1. 下载存储库，准备一个[mt管理器](https://mt2.cn/download/)
-2. 准备好当前版本的官方安装包
-3. 将`./ModPack`目录内的文件放入官方安装包的`./assets/Data/`目录内
-4. 将`./Objects/SAN_QAQ/APK`目录内的文件放入官方安装包的`./assets/Data/`目录内
+2. 准备好当前版本的官方安装包([国服APK下载链接](https://adl.netease.com/d/g/wotb/c/gw?type=android))
+3. 将`./Objects/SAN_QAQ/APK/`目录内的文件放入官方安装包的`./assets/Data/`目录内
+4. 如果有热更新，还需要将`./Objects/SAN_QAQ/APK_FIX/`目录内的文件也放入官方安装包的`./assets/Data/`目录内
 5. 签名修改好后的安装包
 6. (可选但推荐)使用mt的`注入文件提供器`功能，这样未root的设备也可以直接访问游戏在`/data/`目录内存放的数据
-7. 此时已修改完成，可以参考上面的方法进行后续安装
+7. 此时已修改完成，可以根据上面的步骤安装`data.zip`，也可以按照以下步骤手动组合`data.zip`:
+   - 新建一个文件夹用于存放`data.zip`所需内容
+   - 将`./Objects/SAN_QAQ/DATA`和`./Objects/SAN_QAQ/DATA_FIX`文件夹的内容放入`data.zip`文件夹
+   - 将`./Objects/SOUND EFFCTS/DATA`文件夹的内容放入`data.zip`文件夹
+   - 将`./ModPack/`文件夹的内容放入`data.zip`文件夹
+   - 在上述操作中一律使用后来的文件覆盖先前的文件
+
+
+### 🗂️ 文件结构
+
+仓库中存储的主要文件结构如下
+
+```
+└─SAN-QAQ-ModPack
+    ├─ModPack  - 用户需要安装的模组包(data)
+    └─Objects  - 整合包的源文件
+        ├─ANDROID
+        │  └─res  - 一些图片
+        ├─SAN_QAQ
+        │  ├─APK  - APK内的内容
+        │  ├─APK_FIX  - 热更新时需要对APK覆盖的内容
+        │  ├─DATA  - DATA内的内容
+        │  ├─DATA_FIX  - 热更新时需要对DATA覆盖的内容
+        │  └─DATA_USER0  - QAQ设备上的data文件(一般是语言文件)
+        └─SOUND EFFECTS  - 音效文件
+            ├─APK
+            └─DATA
+```
 
 ### ⚠️ 注意事项
 

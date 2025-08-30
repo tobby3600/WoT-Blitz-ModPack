@@ -4,7 +4,7 @@ ImportedPackages:
 - "~res:/UI/Screens3/Common/HorizontalScrollBar.yaml"
 - "~res:/UI/Screens3/Lobby/Common/Button.yaml"
 - "~res:/UI/Screens3/Lobby/Common/Timer.yaml"
-- "~res:/UI/Screens3/Lobby/Hangar/Quests/StuffQuestScreen/StuffBlurMask.yaml"
+- "~res:/UI/Screens3/Common/BlurAlphaMask.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "StuffQuestSlide"
@@ -441,7 +441,7 @@ Slots:
                     verticalPolicy: "PercentOfParent"
             bindings:
             - ["Background.color", "when quest.status == eQuestStatus.Completed -> rgb(8112203), rgb(12988180)"]
-        -   prototype: "StuffBlurMask/StuffBlurMask"
+        -   prototype: "BlurAlphaMask/BlurAlphaMask"
             name: "Blur"
             components:
                 UIDataParamsComponent:
@@ -1473,7 +1473,7 @@ Slots:
             bindings:
             - ["visible", "hasRewards"]
             children:
-            -   prototype: "StuffBlurMask/StuffBlurMask"
+            -   prototype: "BlurAlphaMask/BlurAlphaMask"
                 name: "Blur"
                 components:
                     UIDataParamsComponent:
@@ -1911,7 +1911,7 @@ Slots:
                             verticalPolicy: "PercentOfParent"
                     bindings:
                     - ["Background.color", "when quest.status == eQuestStatus.Completed -> rgb(8112203), rgb(12988180)"]
-                -   prototype: "StuffBlurMask/StuffBlurMask"
+                -   prototype: "BlurAlphaMask/BlurAlphaMask"
                     name: "Blur"
                     components:
                         UIDataParamsComponent:
@@ -2183,7 +2183,7 @@ Slots:
                             horizontalPolicy: "PercentOfParent"
                             verticalPolicy: "Formula"
                             verticalFormula: "parent+2"
-            -   prototype: "StuffBlurMask/StuffBlurMask"
+            -   prototype: "BlurAlphaMask/BlurAlphaMask"
                 name: "Blur"
                 components:
                     UIDataParamsComponent:
