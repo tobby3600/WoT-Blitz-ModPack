@@ -7,7 +7,6 @@ ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Inventory/Common/BottomInventorySpacer.yaml"
 - "~res:/UI/Screens3/Lobby/Inventory/Common/DynamicTopSpacer.yaml"
 - "~res:/UI/Screens3/Lobby/Inventory/Common/DynamicHorizontalPadding.yaml"
-- "~res:/UI/Screens3/Lobby/Common/BlurDynamic.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "ModulesTree"

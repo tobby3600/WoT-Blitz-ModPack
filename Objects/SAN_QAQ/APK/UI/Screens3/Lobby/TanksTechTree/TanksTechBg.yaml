@@ -1,0 +1,33 @@
+Header:
+    version: 114
+Prototypes:
+-   class: "UIControl"
+    name: "TanksTechBg"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+        UIDataParamsComponent:
+            params:
+            - ["eNation", "nation", "eNation.UNKNOWN", "eNation.USSR"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["string", "nationBackground", "\"~res:/Gfx/Lobby/flags/flag_tank_tree_bg_\" + (when nation == eNation.USA -> \"usa\", nation == eNation.GERMANY -> \"germany\", nation == eNation.USSR -> \"ussr\", nation == eNation.UK -> \"uk\", nation == eNation.JAPAN -> \"japan\", nation == eNation.CHINA -> \"china\", nation == eNation.FRANCE -> \"france\", nation == eNation.EUROPEAN -> \"european\", nation == eNation.OTHER -> \"other\", \"\")"]
+    children:
+    -   class: "UIControl"
+        name: "Flag"
+        input: false
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+                bottomAnchorEnabled: true
+            Background:
+                drawType: "DRAW_SCALE_PROPORTIONAL_ONE"
+                perPixelAccuracy: "PER_PIXEL_ACCURACY_ENABLED"
+                align: ["RIGHT", "BOTTOM"]
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfContent"
+        bindings:
+        - ["Background.sprite", "nationBackground"]

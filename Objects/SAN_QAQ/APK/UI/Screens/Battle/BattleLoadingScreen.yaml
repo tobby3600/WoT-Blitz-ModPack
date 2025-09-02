@@ -351,7 +351,7 @@ Prototypes:
                 IgnoreLayout: {}
                 SizePolicy:
                     horizontalPolicy: "Formula"
-                    horizontalFormula: "parent + 20"
+                    horizontalFormula: "parent + 60"
                     verticalPolicy: "PercentOfParent"
             children:
             -   prototype: "BlurModified/BlurModified"
@@ -360,7 +360,7 @@ Prototypes:
                     UIDataParamsComponent:
                         args:
                             "bgStyle": "\"white-wild-sand-15-bg\""
-                            "roundCorner": "\"8\""
+                            "roundCorner": "\"16\""
         -   class: "UIControl"
             name: "spacer"
             input: false

@@ -7,6 +7,7 @@ ImportedPackages:
 - "~res:/UI/Screens3/Lobby/Hangar/TanksPanel/ClassFilterButton.yaml"
 - "~res:/UI/Screens3/Lobby/Hangar/TanksPanel/ResetFilterButton.yaml"
 - "~res:/UI/Screens3/Lobby/Hangar/TanksPanel/FilterButton.yaml"
+- "~res:/UI/Screens3/Lobby/Hangar/TanksPanel/RandomTankButton.yaml"
 - "~res:/UI/Screens3/Common/HorizontalScrollBar.yaml"
 - "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
@@ -404,13 +405,23 @@ Prototypes:
             refreshStylesOnInteract: false
             components:
                 LinearLayout:
-                    orientation: "TopDown"
                     padding: "8"
                     spacing: 8.000000
                 SizePolicy:
-                    horizontalPolicy: "PercentOfMaxChild"
+                    horizontalPolicy: "PercentOfChildrenSum"
                     verticalPolicy: "PercentOfParent"
             children:
+            -   prototype: "RandomTankButton/RandomTankButton"
+                name: "RandomTankButton"
+                components:
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    UIDataParamsComponent:
+                        args:
+                            "enabled": "tanks.Size() > 1"
+                        eventActions:
+                        - ["ON_CLICK_BUTTON", "SELECT_RANDOM_TANK", ""]
             -   prototype: "CarouselFilterButton/CarouselFilterButton"
                 name: "FilterSwitchButton"
                 components:

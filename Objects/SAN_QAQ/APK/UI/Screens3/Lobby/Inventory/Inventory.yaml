@@ -1,9 +1,10 @@
 Header:
     version: 157
 ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/BlurDynamic.yaml"
 - "~res:/UI/Screens3/Lobby/Common/SideBar.yaml"
 - "~res:/UI/Screens3/Lobby/InventoryPanel/InventoryPanel.yaml"
-- "~res:/UI/Screens3/Lobby/Common/BlurDynamic.yaml"
+- "~res:/UI/Screens3/Common/BlurMask.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "Inventory"
@@ -99,12 +100,27 @@ Prototypes:
                 childType: "kPrototype"
                 condition: "view.selectedTab == InventoryTabType.PROGRESS and tankProgress.currentTab == eTankProgressTab.Achievements"
                 prototypePath: "~res:/UI/Screens3/Lobby/Inventory/TankProgress/Background.yaml"
+            UIChildComponent1:
+                childType: "kPrototype"
+                condition: "view.selectedTab == InventoryTabType.PROGRESS and tankProgress.currentTab == eTankProgressTab.Modules"
+                prototypePath: "~res:/UI/Screens3/Lobby/TanksTechTree/TanksTechBg.yaml"
+                args:
+                    "nation": "modulesModel.currentVehicle.vehicle.vehicleDataModel.nation"
+    -   prototype: "BlurMask/BlurMask"
+        name: "Blur"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "isBlur": "view.selectedTab == InventoryTabType.PROGRESS and tankProgress.currentTab == eTankProgressTab.Modules"
+                    "ID": "\"Inventory\""
     -   class: "UIControl"
         name: "Content"
         input: false
         components:
             LinearLayout:
                 orientation: "RightToLeft"
+            UIPostProcessSourceComponent0:
+                id: "maskInventory"
             SizePolicy:
                 horizontalPolicy: "PercentOfParent"
                 verticalPolicy: "PercentOfParent"
