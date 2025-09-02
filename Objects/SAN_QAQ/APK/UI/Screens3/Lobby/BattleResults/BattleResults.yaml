@@ -384,7 +384,7 @@ Prototypes:
                         "selectedTab": "selectedTab"
                         "tabsInfo": "tabsInfo"
                         "bgStyle": "bgStyle"
-                        "blurOpacity": "1.000000 - blurOpacity"
+                        "blurOpacity": "when selectedTab == ePageType.TeamEffectiveness -> 0.000000, 1.0 - blurOpacity"
                     eventActions:
                     - ["SendReactionsForAutotest", "SendReactionsForAutotest", ""]
                     - ["SendReactionsForMyEveryone", "SendReactionsForMyEveryone", ""]
@@ -487,7 +487,7 @@ Prototypes:
                         "account": "account"
                         "results": "results"
                         "bgStyle": "bgStyle"
-                        "blurOpacity": "1.000000 - blurOpacity"
+                        "blurOpacity": "when selectedTab == ePageType.TeamEffectiveness -> 0.000000, 1.0 - blurOpacity"
                     eventActions:
                     - ["STOP_ANIMATION", "STOP_ANIMATION", "_event"]
                     - ["StopBlockInput", "StopBlockInput", ""]

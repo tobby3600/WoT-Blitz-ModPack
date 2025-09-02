@@ -5,7 +5,6 @@ ImportedPackages:
 Prototypes:
 -   class: "UIControl"
     name: "NationTanksTechTree"
-    size: [638.000000, 404.000000]
     input: false
     components:
         LinearLayout:
@@ -28,7 +27,6 @@ Prototypes:
     children:
     -   class: "UIControl"
         name: "InvisibleLevelAnchors"
-        size: [32.000000, 32.000000]
         input: false
         components:
             LinearLayout: {}
@@ -41,7 +39,6 @@ Prototypes:
                 dataContainer: "levels"
     -   class: "UIControl"
         name: "Cells"
-        size: [638.000000, 404.000000]
         input: false
         components:
             GridLayout: {}
@@ -69,37 +66,21 @@ Prototypes:
         children:
         -   class: "UIControl"
             name: "PremiumSection"
-            size: [2160.000000, 192.000000]
+            classes: "white-wild-sand-10-bg"
             input: false
             components:
+                Background: {}
                 SizePolicy:
                     horizontalPolicy: "FixedSize"
                     verticalPolicy: "FixedSize"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
             bindings:
             - ["SizePolicy.horizontalValue", "model.columnsCount * columnWidth * 2"]
             - ["SizePolicy.verticalValue", "model.premiumRows * rowHeight"]
             children:
             -   class: "UIControl"
-                name: "Bg"
-                input: false
-                classes: "white-wild-sand-10-bg"
-                components:
-                    Background:
-                        drawType: "DRAW_STRETCH_BOTH"
-                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_vertical_0-100"
-                    Anchor:
-                        leftAnchorEnabled: true
-                        bottomAnchorEnabled: true
-                    SizePolicy:
-                        horizontalPolicy: "PercentOfParent"
-                        verticalPolicy: "FixedSize"
-                        verticalValue: 96.000000
-                    StyleSheet:
-                        styles: "~res:/UI/Screens3/Color.style.yaml"
-            -   class: "UIControl"
                 name: "InfoButtonWrapper"
-                position: [20.000000, 128.000000]
-                size: [32.000000, 32.000000]
                 input: true
                 classes: "button button-open-sound"
                 components:
@@ -140,7 +121,6 @@ Prototypes:
                         children: []
                 -   class: "UIControl"
                     name: "Label"
-                    size: [32.000000, 32.000000]
                     input: false
                     classes: "t-caps bold white-wild-sand-text"
                     components:
