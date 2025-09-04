@@ -3,7 +3,6 @@ Header:
 Prototypes:
 -   class: "UIControl"
     name: "Screen"
-    size: [960.000000, 640.000000]
     input: false
     components:
         SizePolicy:

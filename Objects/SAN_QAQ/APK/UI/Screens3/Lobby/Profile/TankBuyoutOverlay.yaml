@@ -5,7 +5,6 @@ ImportedPackages:
 Prototypes:
 -   class: "UIControl"
     name: "TankBuyoutOverlay"
-    size: [1200.000000, 900.000000]
     input: false
     components:
         SizePolicy:
@@ -41,7 +40,6 @@ Prototypes:
 Slots:
 -   class: "UIControl"
     name: "TankBuyoutOverlayContent"
-    size: [1000.000000, 600.000000]
     input: false
     components:
         Anchor:
@@ -210,7 +208,6 @@ Slots:
                 -   class: "UIControl"
                     name: "Main"
                     position: [208.000000, 0.000000]
-                    size: [356.500000, 64.000000]
                     components:
                         LinearLayout:
                             dynamicPadding: true
@@ -221,7 +218,6 @@ Slots:
                     children:
                     -   class: "UIControl"
                         name: "Spacer"
-                        size: [32.000000, 32.000000]
                         visible: false
                         input: false
                         components:
@@ -231,7 +227,6 @@ Slots:
                                 verticalPolicy: "PercentOfParent"
                     -   class: "UIControl"
                         name: "SortByBattlesLevel"
-                        size: [32.000000, 32.000000]
                         input: false
                         components:
                             SizePolicy:
@@ -250,7 +245,6 @@ Slots:
                                 - ["ON_CLICK_SORT_BUTTON", "SWITCH_SORT_TYPE", "eTankSortMode.SORT_BY_BATTLES"]
                     -   class: "UIControl"
                         name: "SortByVictories"
-                        size: [32.000000, 32.000000]
                         visible: false
                         input: false
                         components:
@@ -310,7 +304,6 @@ Slots:
                                 styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
                 -   class: "UIControl"
                     name: "ButtonSpacer"
-                    size: [32.000000, 32.000000]
                     input: false
                     components:
                         SizePolicy:
@@ -327,7 +320,6 @@ Slots:
             children:
             -   class: "UIScrollView"
                 name: "UIScrollView"
-                size: [800.000000, 800.000000]
                 autoUpdate: true
                 centerContent: true
                 components:

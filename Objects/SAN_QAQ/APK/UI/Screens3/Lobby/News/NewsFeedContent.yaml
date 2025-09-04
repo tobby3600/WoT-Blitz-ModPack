@@ -5,7 +5,6 @@ ImportedPackages:
 Prototypes:
 -   class: "UIControl"
     name: "NewsContent"
-    size: [1265.000000, 412.000000]
     input: false
     components:
         UIAnimationComponent:
@@ -50,7 +49,6 @@ Prototypes:
     children:
     -   class: "UIScrollView"
         name: "UIScrollView"
-        size: [1265.000000, 763.000000]
         autoUpdate: true
         components:
             ClipContent:
@@ -81,7 +79,6 @@ Prototypes:
             children:
             -   class: "UIControl"
                 name: "VerticalList"
-                size: [32.000000, 32.000000]
                 input: false
                 components:
                     Anchor:
@@ -124,8 +121,6 @@ Prototypes:
                         positionChangedEventData: "_position.Y"
         -   class: "UIControl"
             name: "leftSpace"
-            position: [0.000000, 0.000000]
-            size: [32.000000, 32.000000]
             input: false
             components:
                 SizePolicy:
@@ -135,7 +130,6 @@ Prototypes:
             children:
             -   class: "UIControl"
                 name: "markReadButton"
-                size: [32.000000, 32.000000]
                 input: false
                 components:
                     Anchor:
@@ -167,7 +161,6 @@ Prototypes:
                 styles: "~res:/UI/Screens3/SafeArea.style.yaml"
     -   class: "UIControl"
         name: "PopoverContainer"
-        size: [32.000000, 32.000000]
         input: false
         components:
             Anchor:

@@ -60,7 +60,6 @@ Prototypes:
         children:
         -   class: "UIControl"
             name: "Content"
-            position: [32.000000, 32.000000]
             pivot: [0.500000, 0.500000]
             input: false
             classes: "content-area"
@@ -89,10 +88,11 @@ Prototypes:
                         leftRightStretchCap: 1.000000
                         topBottomStretchCap: 1.000000
                     UIOpacityComponent: {}
-                    IgnoreLayout: {}
                     SizePolicy:
                         horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml;~res:/UI/Screens3/Lobby/Common/Button.style.yaml"
                 bindings:
                 - ["visible", "not isBlur"]
                 - ["classes", "hoverStyle"]

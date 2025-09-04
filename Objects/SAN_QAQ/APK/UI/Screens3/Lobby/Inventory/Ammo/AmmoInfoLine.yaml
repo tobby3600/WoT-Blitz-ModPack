@@ -1,5 +1,5 @@
 Header:
-    version: "84"
+    version: 84
 Prototypes:
 -   class: "UIControl"
     name: "DamageInfoLine"

@@ -111,7 +111,7 @@ Prototypes:
         components:
             UIDataParamsComponent:
                 args:
-                    "isBlur": "view.selectedTab == InventoryTabType.PROGRESS and tankProgress.currentTab == eTankProgressTab.Modules"
+                    "isBlurMask": "view.selectedTab == InventoryTabType.PROGRESS and tankProgress.currentTab == eTankProgressTab.Modules"
                     "ID": "\"Inventory\""
     -   class: "UIControl"
         name: "Content"

@@ -5,7 +5,6 @@ ImportedPackages:
 Prototypes:
 -   class: "UIControl"
     name: "News"
-    size: [1210.000000, 516.000000]
     input: false
     components:
         UIAnimationComponent: {}
@@ -107,7 +106,6 @@ Prototypes:
     children:
     -   class: "UIControl"
         name: "AdditionalBg"
-        size: [32.000000, 32.000000]
         input: false
         classes: "grey-shark-50-bg"
         components:
@@ -121,7 +119,6 @@ Prototypes:
     -   class: "UIControl"
         name: "Content"
         position: [0.000000, 112.000000]
-        size: [32.000000, 32.000000]
         input: false
         components:
             SizePolicy:
@@ -148,7 +145,6 @@ Prototypes:
                     "text": "\"#news:emptyNewsList\""
     -   class: "UIControl"
         name: "HeaderAndTabWrapper"
-        size: [32.000000, 32.000000]
         input: false
         components:
             LinearLayout:
@@ -159,7 +155,6 @@ Prototypes:
         children:
         -   class: "UIControl"
             name: "BlurAndFade"
-            size: [32.000000, 32.000000]
             input: false
             components:
                 UIOpacityComponent:
@@ -179,7 +174,6 @@ Prototypes:
                         verticalPolicy: "PercentOfParent"
             -   class: "UIControl"
                 name: "Fade"
-                size: [32.000000, 32.000000]
                 input: false
                 classes: "black-50-bg"
                 components:
@@ -192,7 +186,6 @@ Prototypes:
                         styles: "~res:/UI/Screens3/Color.style.yaml"
         -   class: "UIControl"
             name: "TextTabsBar"
-            size: [32.000000, 32.000000]
             input: false
             components:
                 SizePolicy:
@@ -201,7 +194,6 @@ Prototypes:
                 UIChildComponent0:
                     prototypePath: "~res:/UI/Screens3/Lobby/Common/Tabs/TextTabsBar.yaml"
                     args:
-                        "bgStyle": "\"\""
                         "activeTab": "int(activeTabLocal)"
                         "info": "[ { \"text\" = localize(\"#news:tab/news\"); \"badge\" = { \"value\" = (when session.newsNotifications.unreadCount > 0 -> str(session.newsNotifications.unreadCount), \" \"); \"type\" = eBadgeType.Digit; }; }; { \"text\" = localize(\"NEWS_SCREEN_TAB_NOTIFICATIONS\"); \"badge\" = { \"value\" = (when session.systemMessages.unreadCount > 0 -> str(session.systemMessages.unreadCount), \" \"); \"type\" = eBadgeType.Digit; }; }; { \"text\" = localize(\"NEWS_SCREEN_TAB_TOURNAMENTS\"); \"badge\" = { \"value\" = (when tournamentNotificationsCount > 0 -> str(tournamentNotificationsCount), \" \"); \"type\" = eBadgeType.Digit; }; }; ]"
         -   class: "UIControl"
@@ -227,7 +219,6 @@ Prototypes:
                     - ["SHOP_BUTTON", "SHOP_BUTTON", "_event.requiredResource"]
     -   class: "UIControl"
         name: "LoadingControl"
-        size: [32.000000, 32.000000]
         input: false
         components:
             IgnoreLayout: {}
@@ -242,7 +233,6 @@ Prototypes:
 Slots:
 -   class: "UIControl"
     name: "LeftContent"
-    size: [256.000000, 48.000000]
     input: false
     components:
         LinearLayout: {}

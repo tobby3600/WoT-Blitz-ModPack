@@ -1,53 +1,72 @@
-action InventoryFullscreen(bool fullscreen) {
-	if (fullscreen) {
-		parallel {
+action InventoryFullscreen(bool fullscreen)
+{
+	if (fullscreen)
+	{
+		parallel
+		{
 			{
 				ChangeProperty("**/Sidebar", "Anchor", "leftAnchor", -88, 0.4, EASE_IN);
-			} {
+			}
+			{
 				MoveRel("**/Header", 0, -72, 0.4, EASE_IN);
-			} {
+			}
+			{
 				MoveRel("**/InventoryWrapper", 0, -72, 0.4, EASE_IN);
-			} {
+			}
+			{
 				Opacity("**/SidebarWrapper", opacity = 0.0, time = 0.4, interpolation = EASE_IN);
 				ChangeProperty("**/SidebarWrapper", "", "visible", false);
-			} {
+			}
+			{
 				Opacity("**/Header", opacity = 0.0, time = 0.4, interpolation = EASE_IN);
 				ChangeProperty("**/Header", "", "visible", false);
-			} {
+			}
+			{
 				Opacity("**/InventoryWrapper", opacity = 0.0, time = 0.4, interpolation = EASE_IN);
-				parallel {
+				parallel
+				{
 					{
 						ChangeProperty("**/InventoryWrapper", "", "visible", false);
-					} {
+					}
+					{
 						ChangeProperty("**/FullscreenButton", "Anchor", "topAnchor", 160, 0.0);
 					}
 				}
 			}
-
 		}
-	} else {
-		parallel {
+	}
+	else
+	{
+		parallel
+		{
 			{
 				ChangeProperty("**/Sidebar", "Anchor", "leftAnchor", 0, 0.4, EASE_OUT);
-			} {
+			}
+			{
 				ChangeProperty("**/SidebarWrapper", "", "visible", true);
 				Opacity("**/SidebarWrapper", opacity = 1.0, time = 0.4, interpolation = EASE_IN);
-			} {
+			}
+			{
 				ChangeProperty("**/Header", "", "visible", true);
 				Opacity("**/Header", opacity = 1.0, time = 0.4, interpolation = EASE_IN);
-			} {
+			}
+			{
 				Move("**/Header", 0, -72, 0.0, EASE_IN);
 				Move("**/Header", 0, 0, 0.4, EASE_IN);
-			} {
-				parallel {
+			}
+			{
+				parallel
+				{
 					{
 						ChangeProperty("**/InventoryWrapper", "", "visible", true);
-					} {
+					}
+					{
 						ChangeProperty("**/FullscreenButton", "Anchor", "topAnchor", 16, 0.0);
 					}
 				}
 				Opacity("**/InventoryWrapper", opacity = 1.0, time = 0.4, interpolation = EASE_IN);
-			} {
+			}
+			{
 				Move("**/InventoryWrapper", 0, -72, 0.0, EASE_IN);
 				Move("**/InventoryWrapper", 0, 48, 0.4, EASE_IN);
 			}
@@ -55,51 +74,66 @@ action InventoryFullscreen(bool fullscreen) {
 	}
 }
 
-action SCROLL_TO_SELECTED {
+action SCROLL_TO_SELECTED
+{
 	ScrollToEnsureControlOnScreen("**/SelectedCamo", 1);
 }
 
-action BACK_SHORTCUT {
-	if (account.tutorialData.currentHint != eTutorialHint.kAmmo and account.tutorialData.currentHint != eTutorialHint.NonFade) {
+action BACK_SHORTCUT
+{
+	if (account.tutorialData.currentHint != eTutorialHint.kAmmo and account.tutorialData.currentHint != eTutorialHint.NonFade)
+	{
 		PlaySound(sound = "GUI/buttons/close");
 		Event("BACK_EVENT");
 	}
 }
 
-action BUTTON_STATE_CHANGED(string buttonName) {
-	if (equipmentActionText != buttonName) {
+action BUTTON_STATE_CHANGED(string buttonName)
+{
+	if (equipmentActionText != buttonName)
+	{
 		ChangeData(equipmentActionText, buttonName);
 	}
 }
 
-action UPDATE_BUTTON_STATE {
+action UPDATE_BUTTON_STATE
+{
 	DirectEvent("GET_BUTTON_TEXT", "**/InventoryItems/Footer/Footer/ContentWrapper/Content/PriceFooter");
 }
 
-action SHOP_BUTTON_AVAILABLE(bool available) {
+action SHOP_BUTTON_AVAILABLE(bool available)
+{
 	ChangeData(isShopButtonAvailable, available);
 }
 
-action SHOP_BUTTON_INVENTORY {
-	if (isShopButtonAvailable) {
+action SHOP_BUTTON_INVENTORY
+{
+	if (isShopButtonAvailable)
+	{
 		Event("GO_TO_SHOP");
 	}
 }
 
-action AnimateRankUnlock() {
+action AnimateRankUnlock()
+{
 	DirectEvent("AnimateRankUnlock", "**/Content/AchievementsTab");
 }
 
-action OnAchievementsContentPositionChanged(int position) {
-	if (view.selectedTab == InventoryTabType.PROGRESS and tankProgress.currentTab == eTankProgressTab.Achievements and position <= 0) {
+action OnAchievementsContentPositionChanged(int position)
+{
+	if (view.selectedTab == InventoryTabType.PROGRESS and tankProgress.currentTab == eTankProgressTab.Achievements and position <= 0)
+	{
 		ChangeProperty("**/BlurAndFade/BlurDynamic", "", "visible", true);
 		ChangeProperty("**/BlurAndFade", "UIOpacityComponent", "opacity", clamp(float((abs(position)) / 24.000000), 0.0, 1.0), 1.0, EASE_OUT);
-	} else {
+	}
+	else
+	{
 		ChangeProperty("**/BlurAndFade", "UIOpacityComponent", "opacity", 0, 0.0, EASE_OUT);
 		ChangeProperty("**/BlurAndFade/BlurDynamic", "", "visible", false);
 	}
 }
 
-action OnSelectedTabChanged() {
+action OnSelectedTabChanged()
+{
 	Event("OnAchievementsContentPositionChanged", arg1 = 0);
 }

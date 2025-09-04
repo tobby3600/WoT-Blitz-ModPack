@@ -5,7 +5,6 @@ ImportedPackages:
 Prototypes:
 -   class: "UIControl"
     name: "Screen"
-    size: [1264.000000, 782.000000]
     components:
         LinearLayout:
             orientation: "TopDown"
@@ -58,7 +57,7 @@ Prototypes:
             StyleSheet: {}
         children:
         -   prototype: "DynamicHorizontalPadding/DynamicHorizontalPadding"
-            name: "DynamicHorizontalPadding_1"
+            name: "DynamicHorizontalPadding"
             classes: "padding fixed-padding desktop-unvisible"
         -   class: "UIControl"
             name: "Sliders"
@@ -70,7 +69,7 @@ Prototypes:
                     vCenterAnchorEnabled: true
                 LinearLayout:
                     orientation: "TopDown"
-                    padding: "0; 16"
+                    padding: "0;16"
                     dynamicPadding: true
                     spacing: 16.000000
                     dynamicSpacing: true

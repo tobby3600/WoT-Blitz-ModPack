@@ -5,7 +5,6 @@ ImportedPackages:
 Prototypes:
 -   class: "UIControl"
     name: "TeamEffectivenessTable"
-    size: [948.000000, 814.000000]
     input: false
     refreshStylesOnInteract: false
     components:
@@ -71,7 +70,6 @@ Prototypes:
     children:
     -   class: "UIControl"
         name: "TableWrapper"
-        size: [32.000000, 32.000000]
         input: false
         refreshStylesOnInteract: false
         components:
@@ -111,7 +109,6 @@ Prototypes:
             children:
             -   class: "UIControl"
                 name: "TableNavHolder"
-                size: [32.000000, 32.000000]
                 input: false
                 refreshStylesOnInteract: false
                 components:
@@ -124,7 +121,6 @@ Prototypes:
                 children:
                 -   class: "UIControl"
                     name: "TableNav"
-                    size: [32.000000, 32.000000]
                     input: false
                     refreshStylesOnInteract: false
                     components:
@@ -143,7 +139,6 @@ Prototypes:
                     children:
                     -   class: "UIControl"
                         name: "MyTeam"
-                        size: [474.000000, 56.000000]
                         input: true
                         refreshStylesOnInteract: false
                         components:
@@ -155,7 +150,6 @@ Prototypes:
                         children:
                         -   class: "UIControl"
                             name: "LeftContent"
-                            size: [32.000000, 32.000000]
                             input: false
                             refreshStylesOnInteract: false
                             components:
@@ -166,7 +160,6 @@ Prototypes:
                             children:
                             -   class: "UIControl"
                                 name: "MyTeamTableTitle"
-                                size: [32.000000, 32.000000]
                                 input: false
                                 classes: "t-caps bold align-left white-wild-sand-text"
                                 refreshStylesOnInteract: false
@@ -185,7 +178,6 @@ Prototypes:
                         -   class: "UIControl"
                             name: "RightContent"
                             position: [242.000000, 0.000000]
-                            size: [232.000000, 56.000000]
                             input: false
                             refreshStylesOnInteract: false
                             components:
@@ -201,7 +193,6 @@ Prototypes:
                             children:
                             -   class: "UIControl"
                                 name: "Relations"
-                                size: [32.000000, 32.000000]
                                 input: true
                                 components:
                                     SizePolicy:
@@ -213,7 +204,6 @@ Prototypes:
                                 - ["visible", "isSessionPlayerResults"]
                             -   class: "UIControl"
                                 name: "Rating"
-                                size: [32.000000, 32.000000]
                                 input: false
                                 components:
                                     SizePolicy:
@@ -265,7 +255,6 @@ Prototypes:
                                         - ["UITextComponent.text", "teamData.my.totalRating"]
                             -   class: "UIControl"
                                 name: "Xp"
-                                size: [32.000000, 32.000000]
                                 input: false
                                 refreshStylesOnInteract: false
                                 components:
@@ -288,7 +277,6 @@ Prototypes:
                                 - ["visible", "not (gameplayMode == eGameMode.Rating) and not (gameplayMode == eGameMode.Training)"]
                             -   class: "UIControl"
                                 name: "Kills"
-                                size: [32.000000, 32.000000]
                                 input: false
                                 refreshStylesOnInteract: false
                                 components:
@@ -308,7 +296,6 @@ Prototypes:
                                         - ["ON_CLICK_SORT_BUTTON", "ON_CLICK_SORT_BUTTON", "eTeamEffectivenessFilterType.Kills"]
                             -   class: "UIControl"
                                 name: "Damage"
-                                size: [32.000000, 32.000000]
                                 input: false
                                 refreshStylesOnInteract: false
                                 components:
@@ -328,7 +315,6 @@ Prototypes:
                                         - ["ON_CLICK_SORT_BUTTON", "ON_CLICK_SORT_BUTTON", "eTeamEffectivenessFilterType.Damage"]
                     -   class: "UIControl"
                         name: "EnemyTeam"
-                        size: [474.000000, 56.000000]
                         input: true
                         components:
                             LinearLayout:
@@ -340,7 +326,6 @@ Prototypes:
                         children:
                         -   class: "UIControl"
                             name: "LeftContent"
-                            size: [32.000000, 32.000000]
                             input: false
                             components:
                                 LinearLayout:
@@ -353,7 +338,6 @@ Prototypes:
                             children:
                             -   class: "UIControl"
                                 name: "EnemyTeamTableTitle"
-                                size: [32.000000, 32.000000]
                                 input: false
                                 classes: "t-caps bold align-right white-wild-sand-text"
                                 components:
@@ -371,7 +355,6 @@ Prototypes:
                         -   class: "UIControl"
                             name: "RightContent"
                             position: [242.000000, 0.000000]
-                            size: [232.000000, 56.000000]
                             input: false
                             components:
                                 UIOpacityComponent: {}
@@ -386,7 +369,6 @@ Prototypes:
                             children:
                             -   class: "UIControl"
                                 name: "Damage"
-                                size: [32.000000, 32.000000]
                                 input: false
                                 components:
                                     SizePolicy:
@@ -406,7 +388,6 @@ Prototypes:
                                         - ["ON_CLICK_SORT_BUTTON", "ON_CLICK_SORT_BUTTON", "eTeamEffectivenessFilterType.Damage"]
                             -   class: "UIControl"
                                 name: "Kills"
-                                size: [32.000000, 32.000000]
                                 input: false
                                 components:
                                     SizePolicy:
@@ -426,7 +407,6 @@ Prototypes:
                                         - ["ON_CLICK_SORT_BUTTON", "ON_CLICK_SORT_BUTTON", "eTeamEffectivenessFilterType.Kills"]
                             -   class: "UIControl"
                                 name: "Xp"
-                                size: [32.000000, 32.000000]
                                 input: false
                                 refreshStylesOnInteract: false
                                 components:
@@ -449,7 +429,6 @@ Prototypes:
                                 - ["visible", "not (gameplayMode == eGameMode.Rating) and not (gameplayMode == eGameMode.Training)"]
                             -   class: "UIControl"
                                 name: "Rating"
-                                size: [32.000000, 32.000000]
                                 input: false
                                 components:
                                     SizePolicy:
@@ -462,7 +441,6 @@ Prototypes:
                                 children:
                                 -   class: "UIControl"
                                     name: "Bg"
-                                    size: [32.000000, 32.000000]
                                     input: false
                                     classes: "white-wild-sand-15-bg"
                                     components:
@@ -482,7 +460,6 @@ Prototypes:
                                     children:
                                     -   class: "UIControl"
                                         name: "Value"
-                                        size: [32.000000, 32.000000]
                                         input: false
                                         classes: "t-subtitle bold white-wild-sand-50-text align-parent-center"
                                         components:
@@ -499,7 +476,6 @@ Prototypes:
                                         - ["UITextComponent.text", "teamData.enemy.totalRating"]
                             -   class: "UIControl"
                                 name: "Relations"
-                                size: [32.000000, 32.000000]
                                 input: true
                                 components:
                                     SizePolicy:
@@ -511,7 +487,6 @@ Prototypes:
                                 - ["visible", "isSessionPlayerResults"]
             -   class: "UIControl"
                 name: "ContentWrapper"
-                size: [944.000000, 392.000000]
                 input: false
                 refreshStylesOnInteract: false
                 components:
@@ -526,7 +501,6 @@ Prototypes:
                 children:
                 -   class: "UIControl"
                     name: "TopHorSeparator"
-                    size: [32.000000, 32.000000]
                     input: false
                     components:
                         Anchor:
@@ -545,7 +519,6 @@ Prototypes:
                     children:
                     -   class: "UIControl"
                         name: "Separators"
-                        size: [32.000000, 32.000000]
                         input: false
                         components:
                             Anchor:
@@ -560,7 +533,6 @@ Prototypes:
                         children:
                         -   class: "UIControl"
                             name: "LeftWrapper"
-                            size: [32.000000, 32.000000]
                             input: false
                             components:
                                 SizePolicy:
@@ -570,7 +542,6 @@ Prototypes:
                             children:
                             -   class: "UIControl"
                                 name: "LeftSeparator"
-                                size: [32.000000, 32.000000]
                                 input: false
                                 components:
                                     Background:
@@ -590,7 +561,6 @@ Prototypes:
                                 - ["Background.color", "separatorStyle"]
                         -   class: "UIControl"
                             name: "RightWrapper"
-                            size: [32.000000, 32.000000]
                             input: false
                             components:
                                 SizePolicy:
@@ -600,7 +570,6 @@ Prototypes:
                             children:
                             -   class: "UIControl"
                                 name: "RightSeparator"
-                                size: [32.000000, 32.000000]
                                 input: false
                                 components:
                                     Background:
@@ -620,7 +589,6 @@ Prototypes:
                                 - ["Background.color", "separatorStyle"]
                     -   class: "UIControl"
                         name: "FxTop"
-                        size: [32.000000, 32.000000]
                         input: false
                         components:
                             Anchor:
@@ -659,7 +627,6 @@ Prototypes:
                                     control: "VerticalLineTop"
                 -   class: "UIControl"
                     name: "VerticalSeparatorWrapper"
-                    size: [32.000000, 32.000000]
                     input: false
                     components:
                         Anchor:
@@ -674,7 +641,6 @@ Prototypes:
                     children:
                     -   class: "UIControl"
                         name: "VerticalSeparator"
-                        size: [32.000000, 32.000000]
                         input: false
                         components:
                             Background:
@@ -721,7 +687,6 @@ Prototypes:
                         children:
                         -   class: "UIControl"
                             name: "MyCommandRows"
-                            size: [32.000000, 32.000000]
                             input: false
                             refreshStylesOnInteract: false
                             components:
@@ -757,7 +722,6 @@ Prototypes:
                             - ["SizePolicy.horizontalValue", "rowWidth"]
                         -   class: "UIControl"
                             name: "EnemyCommandRows"
-                            size: [32.000000, 32.000000]
                             input: false
                             refreshStylesOnInteract: false
                             components:
@@ -801,7 +765,6 @@ Prototypes:
                                 delegate: ".."
                 -   class: "UIControl"
                     name: "BottomHorSeparator"
-                    size: [32.000000, 32.000000]
                     input: false
                     components:
                         Anchor:
@@ -813,7 +776,6 @@ Prototypes:
                     children:
                     -   class: "UIControl"
                         name: "FxBottom"
-                        size: [32.000000, 32.000000]
                         input: false
                         components:
                             Anchor:
@@ -843,7 +805,6 @@ Prototypes:
                                     control: "VerticalLineBottom"
                 -   class: "UIControl"
                     name: "TotalDamage"
-                    size: [32.000000, 32.000000]
                     input: false
                     components:
                         Anchor:
@@ -859,7 +820,6 @@ Prototypes:
                     children:
                     -   class: "UIControl"
                         name: "Spacer"
-                        size: [32.000000, 32.000000]
                         input: false
                         components:
                             SizePolicy:
@@ -869,7 +829,6 @@ Prototypes:
                                 verticalValue: 9.000000
                     -   class: "UIControl"
                         name: "TotalDamageWrapper"
-                        size: [32.000000, 32.000000]
                         input: false
                         components:
                             SizePolicy:
@@ -881,7 +840,6 @@ Prototypes:
                         children:
                         -   class: "UIControl"
                             name: "MyTeamTotalDamage"
-                            size: [32.000000, 32.000000]
                             input: false
                             classes: "t-body bold align-parent-center white-wild-sand-text"
                             components:
@@ -900,7 +858,6 @@ Prototypes:
                             - ["Anchor.hCenterAnchor", "-totalDamageValueOffset"]
                         -   class: "UIControl"
                             name: "TotalDamageTitle"
-                            size: [32.000000, 32.000000]
                             scale: [1.000000, 1.000000]
                             pivot: [0.500000, 0.500000]
                             input: false
@@ -921,7 +878,6 @@ Prototypes:
                             - ["UITextComponent.text", "localize(\"#battle_results:TeamEffectiveness/TotalDamage\")"]
                         -   class: "UIControl"
                             name: "EnemyTeamTotalDamage"
-                            size: [32.000000, 32.000000]
                             input: false
                             classes: "t-body bold align-parent-center white-wild-sand-text"
                             components:

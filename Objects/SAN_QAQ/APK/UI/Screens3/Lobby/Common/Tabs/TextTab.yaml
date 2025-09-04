@@ -1,0 +1,301 @@
+Header:
+    version: 155
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/BadgeHolder.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "TextTab"
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+        LinearLayout:
+            spacing: 8.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+        UIAttachLayoutMasterComponent: {}
+        UIInputEventComponent:
+            onTouchDown: "TOUCH_DOWN"
+            onTouchUpInside: "ON_PRESSED"
+        UISwitchBarElementComponent: {}
+        UIDataParamsComponent:
+            params:
+            - ["string", "badgeAttachId", "\"\"", "\"\""]
+            - ["bool", "zeroCounterVisible", "false", "false"]
+            - ["bool", "isSelected", "false", "true"]
+            - ["TabTextInfo", "tabInfo", "null", "{ \"badge\" = { \"type\" = eBadgeType.Digit; \"value\" = \"2\"; }; \"counter\" = 0; \"isLocked\" = true; }"]
+            - ["int", "tabID", "0", "0"]
+            - ["control", "labelControl", "null", "TestLabel"]
+            - ["bool", "isLastTab", "false", "false"]
+            events:
+            - "changeBadgeWrapperSize"
+            - "ON_PRESSED"
+            - "TOUCH_DOWN"
+        UIDataLocalVarsComponent:
+            data:
+            - ["float", "animationUnlockProgress", "0.000000"]
+            - ["float", "labelDisappearingProgress", "1.000000"]
+            - ["float", "badgeWrapperXSize", "when isLastTab or tabInfo.badge.value == \"0\" -> 0, 32"]
+            - ["float", "rightSpacerXSize", "when isLastTab or tabInfo.badge.type == eBadgeType.Empty or (tabInfo.badge.type == eBadgeType.Digit and tabInfo.badge.value == \"0\") -> 16, 0"]
+        UIDataLocalBindingsComponent:
+            data:
+            - ["bool", "isLocked", "tabInfo.isLocked"]
+            - ["float", "badgeSize", "when tabInfo.badge.value == \"0\" -> 0, 32"]
+            - ["float", "spacerSize", "when tabInfo.badge.type == eBadgeType.Empty or (tabInfo.badge.type == eBadgeType.Digit and tabInfo.badge.value == \"0\") -> 8, 0"]
+            - ["bool", "readyToDisplay", "tabInfo.badge.value != \"0\""]
+        UIActionComponent:
+            actionsPath: "~res:/UI/Screens3/Lobby/Common/Tabs/Tab.actions"
+        UIDataOnEventComponent0:
+            eventName: "changeBadgeWrapperXSize"
+            modelFieldExpression: "badgeWrapperXSize"
+            dataExpression: "badgeSize"
+        UIDataOnEventComponent1:
+            eventName: "changeRightSpacerXSize"
+            modelFieldExpression: "rightSpacerXSize"
+            dataExpression: "spacerSize"
+        UIEventOnDataComponent0:
+            watchedDataExpression: "tabInfo.badge.value"
+            ifExpression: "tabInfo.badge.value == \"0\""
+            eventName: "changeBadgeWrapperSize"
+        UIEventOnDataComponent1:
+            watchedDataExpression: "badgeSize"
+            ifExpression: "readyToDisplay"
+            eventName: "changeBadgeWrapperXSize"
+        UIEventOnDataComponent2:
+            watchedDataExpression: "spacerSize"
+            ifExpression: "readyToDisplay"
+            eventName: "changeRightSpacerXSize"
+        StyleSheet:
+            styles: "~res:/UI/Screens3/Lobby/Common/Tabs/Tab.style.yaml"
+    bindings:
+    - ["classes", "\"tab \" + (when isLocked -> \"locked\", \"\")"]
+    - ["SizePolicy.verticalPolicy", "when not isNull(labelControl) -> eSizePolicy.PercentOfMaxChild, eSizePolicy.FixedSize"]
+    - ["SizePolicy.verticalValue", "when not isNull(labelControl) -> 100, 48"]
+    - ["UIAttachLayoutMasterComponent.attachId", "tabInfo.attachId"]
+    - ["UISwitchBarElementComponent.id", "tabID"]
+    children:
+    -   class: "UIControl"
+        name: "LeftSpacer"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 16.000000
+                verticalPolicy: "PercentOfParent"
+    -   class: "UIControl"
+        name: "LeftItem"
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                condition: "tabInfo.counter > 0 or zeroCounterVisible"
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Resource/ItemCount.yaml"
+                args:
+                    "count": "tabInfo.counter"
+                    "roundedCorners": "true"
+            UIChildComponent1:
+                childType: "kPrototype"
+                condition: "isLocked or tabInfo.showLock or animationUnlockProgress > 0.000000"
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Tabs/TextTabLock.yaml"
+                args:
+                    "forceShow": "isLocked or tabInfo.showLock"
+                    "animationUnlockProgress": "animationUnlockProgress"
+        bindings:
+        - ["visible", "tabInfo.counter > 0 or zeroCounterVisible or isLocked or tabInfo.showLock or animationUnlockProgress > 0.000000"]
+    -   class: "UIControl"
+        name: "CenterItem"
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfMaxChild"
+            UIChildComponent0:
+                childType: "kControl"
+                condition: "not isNull(labelControl)"
+                control: "LabelWrapper"
+        children:
+        -   class: "UIControl"
+            name: "InnerContent"
+            pivot: [0.500000, 0.500000]
+            input: false
+            classes: "inner-content"
+            components:
+                UIOpacityComponent: {}
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 48.000000
+                UIChildComponent0:
+                    childType: "kControl"
+                    control: "SelectionWrapper"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Lobby/Common/Tabs/Tab.style.yaml"
+            children:
+            -   class: "UIControl"
+                name: "Name"
+                pivot: [0.500000, 0.500000]
+                input: false
+                classes: "t-overline bold white-wild-sand-text"
+                components:
+                    UITextComponent: {}
+                    Anchor:
+                        hCenterAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        horizontalMin: 64.000000
+                        horizontalMax: 320.000000
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "capitalize(localize(tabInfo.text))"]
+    -   class: "UIControl"
+        name: "RightItemWrapper"
+        input: false
+        components:
+            UIOpacityComponent: {}
+            ClipContent:
+                left: false
+                top: false
+                bottom: false
+            Anchor:
+                vCenterAnchorEnabled: true
+            LinearLayout: {}
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "PercentOfChildrenSum"
+            UIAttachLayoutMasterComponent: {}
+        bindings:
+        - ["Anchor.vCenterAnchor", "when tabInfo.badge.type == eBadgeType.Empty -> -17, -8"]
+        - ["SizePolicy.horizontalValue", "badgeWrapperXSize"]
+        - ["UIAttachLayoutMasterComponent.attachId", "badgeAttachId"]
+        children:
+        -   prototype: "BadgeHolder/BadgeHolder"
+            name: "RightItem"
+            components:
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                UIDataParamsComponent:
+                    args:
+                        "type": "tabInfo.badge.type"
+                        "value": "tabInfo.badge.value"
+            bindings:
+            - ["visible", "type == eBadgeType.Digit and value != \"0\""]
+    -   class: "UIControl"
+        name: "RightSpacer"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                verticalPolicy: "PercentOfParent"
+        bindings:
+        - ["SizePolicy.horizontalValue", "rightSpacerXSize"]
+Slots:
+-   class: "UIControl"
+    name: "SelectionWrapper"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "PercentOfParent"
+    children:
+    -   class: "UIControl"
+        name: "SelectionPlace"
+        input: false
+        components:
+            Anchor:
+                hCenterAnchorEnabled: true
+                bottomAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "FixedSize"
+                verticalValue: 4.000000
+-   class: "UIControl"
+    name: "LabelWrapper"
+    size: [100.000000, 100.000000]
+    input: false
+    components:
+        UIOpacityComponent: {}
+        Anchor:
+            hCenterAnchorEnabled: true
+            vCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "FixedSize"
+            horizontalFormula: "parent + 12"
+            verticalPolicy: "PercentOfFirstChild"
+    bindings:
+    - ["UIOpacityComponent.opacity", "labelDisappearingProgress"]
+    children:
+    -   class: "UIControl"
+        name: "LabelHolder"
+        visible: false
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfFirstChild"
+            UIChildComponent0:
+                childType: "kControl"
+                condition: "not isNull(labelControl)"
+                control: "labelControl"
+    -   class: "UIControl"
+        name: "LabelBaseWrapper"
+        visible: false
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+-   class: "UIControl"
+    name: "TestLabel"
+    size: [100.000000, 30.000000]
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "FixedSize"
+    children:
+    -   class: "UIControl"
+        name: "GradientBg"
+        input: false
+        components:
+            Background:
+                drawType: "DRAW_FILL"
+            UIOpacityComponent:
+                opacity: 0.450000
+            UIGradientComponent:
+                startColor: [0.933333, 0.501961, 0.090196, 1.000000]
+                finishColor: [0.929412, 0.317647, 0.105882, 0.000000]
+                orientation: "TopDown"
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+    -   class: "UIControl"
+        name: "Name"
+        pivot: [0.500000, 0.500000]
+        selected: false
+        input: false
+        classes: "t-caps regular yellow-chalky-text"
+        components:
+            UIOpacityComponent:
+                ignoreParentOpacity: true
+            UITextComponent:
+                text: "Label"
+            Anchor:
+                hCenterAnchorEnabled: true
+                topAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfContent"
+                verticalPolicy: "PercentOfContent"
+            UIShadowHoleComponent: {}
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml"
