@@ -14,6 +14,8 @@ Prototypes:
         components:
             LinearLayout:
                 orientation: "TopDown"
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Battle/MarksTerrain/MarkTerrainDistanceCounter.style.yaml"
         children:
         -   class: "UIControl"
             name: "MarkNameHolder"
@@ -38,7 +40,7 @@ Prototypes:
                 name: "Name"
                 position: [7.000000, 0.000000]
                 input: false
-                classes: "name"
+                classes: "name localize"
                 components:
                     UITextComponent:
                         text: "CAPS REGULAR"
@@ -48,8 +50,6 @@ Prototypes:
                         horizontalPolicy: "PercentOfContent"
                         verticalPolicy: "FixedSize"
                         verticalValue: 14.000000
-                    StyleSheet:
-                        styles: "~res:/UI/Screens3/Battle/MarksTerrain/MarkTerrainDistanceCounter.style.yaml"
         -   class: "UIControl"
             name: "MarkIcon"
             size: [28.000000, 28.000000]
@@ -108,11 +108,10 @@ Prototypes:
                 -   class: "UIControl"
                     name: "Distance"
                     input: false
-                    classes: "counter-text-color"
+                    classes: "counter-text-color localize"
                     components:
                         UITextComponent:
                             text: "321"
-                            fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
                             fontSize: 13.000000
                             lineHeight: 15.000000
                             baseLine: 2.000000
@@ -122,11 +121,10 @@ Prototypes:
                 -   class: "UIControl"
                     name: "M"
                     input: false
-                    classes: "counter-text-color"
+                    classes: "counter-text-color localize"
                     components:
                         UITextComponent:
                             text: "#common:Shortening/Meter"
-                            fontPath: "~res:/Fonts/XinGothic-SC-W6.otf"
                             fontSize: 13.000000
                             lineHeight: 15.000000
                             baseLine: 2.000000

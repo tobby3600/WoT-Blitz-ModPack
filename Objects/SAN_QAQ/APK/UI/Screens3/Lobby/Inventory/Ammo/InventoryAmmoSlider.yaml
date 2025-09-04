@@ -10,7 +10,6 @@ ImportedPackages:
 Prototypes:
 -   class: "UIControl"
     name: "AmmoSlider"
-    size: [900.000000, 96.000000]
     components:
         SizePolicy:
             horizontalPolicy: "PercentOfParent"
@@ -94,7 +93,6 @@ Prototypes:
             -   class: "UIControl"
                 name: "Left"
                 position: [14.000000, 0.000000]
-                size: [342.000000, 85.000000]
                 components:
                     Anchor:
                         vCenterAnchorEnabled: true
@@ -121,8 +119,6 @@ Prototypes:
                     children:
                     -   class: "UIControl"
                         name: "Content"
-                        position: [0.000000, 0.000000]
-                        size: [266.000000, 104.000000]
                         pivot: [0.500000, 0.500000]
                         input: false
                         classes: "content-area"
@@ -149,6 +145,8 @@ Prototypes:
                             components:
                                 Anchor:
                                     leftAnchorEnabled: true
+                                    topAnchorEnabled: true
+                                    topAnchor: -24.000000
                                     useRtl: true
                                 LinearLayout:
                                     spacing: 4.000000
@@ -229,7 +227,6 @@ Prototypes:
                             children:
                             -   class: "UIControl"
                                 name: "Left"
-                                position: [87.000000, 0.000000]
                                 input: false
                                 components:
                                     Background:
@@ -250,7 +247,6 @@ Prototypes:
                                 - ["classes", "when slot.isPrem -> \"orange-orange-peel-bg\", \"white-wild-sand-50-bg\""]
                             -   class: "UIControl"
                                 name: "Right"
-                                position: [87.000000, 0.000000]
                                 input: false
                                 components:
                                     Background:
@@ -277,6 +273,7 @@ Prototypes:
                             components:
                                 Anchor:
                                     leftAnchorEnabled: true
+                                    vCenterAnchorEnabled: true
                                     useRtl: true
                                 LinearLayout:
                                     orientation: "LeftToRight"
@@ -370,8 +367,6 @@ Prototypes:
                                         classes: "t-body bold white-wild-sand-text"
                     -   class: "UIControl"
                         name: "TutorialInfoControl"
-                        position: [0.000000, 19.000000]
-                        size: [32.000000, 32.000000]
                         input: false
                         components:
                             Anchor:
@@ -387,7 +382,6 @@ Prototypes:
                         - ["UIAttachLayoutMasterComponent.attachId", "infoAttachId"]
                     -   class: "UIControl"
                         name: "TaskJournalLessonControl"
-                        size: [32.000000, 32.000000]
                         input: false
                         components:
                             Anchor:
@@ -542,8 +536,9 @@ Prototypes:
                                     "type": "eButtonType.OPTIONAL_LIGHT"
                                     "sound": "eButtonSound.CHECKBOX"
                                     "enabled": "true"
-                                    "bgStyle": "\"grey-shark-70-bg\""
                                     "isBlur": "false"
+                                    "isCustBg": "true"
+                                    "bgStyle": "\"grey-shark-70-bg\""
                                 eventActions:
                                 - ["ON_CLICK_BUTTON", "ON_SLIDER_CONVERT", "_event"]
                     -   class: "UIControl"
@@ -588,8 +583,6 @@ Prototypes:
                         - ["UITextureComponent.frame", "when slot.hasGold -> 1, 0"]
         -   class: "UIControl"
             name: "Background"
-            position: [-8.000000, 50.000000]
-            size: [450.000000, 120.000000]
             input: false
             components:
                 UIOpacityComponent:

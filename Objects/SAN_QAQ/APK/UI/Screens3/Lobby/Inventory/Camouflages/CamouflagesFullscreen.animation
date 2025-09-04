@@ -1,0 +1,29 @@
+animation Fullscreen
+{
+	if (fullscreenMode)
+	{
+		Event("SHOP_BUTTON_AVAILABLE", arg1=false);
+		parallel
+		{
+			ChangeProperty("**/KindGroup/List", "Anchor", "topAnchor", 2000, 0.5, EASE_IN); 
+			ChangeProperty("**/Footer", "Anchor", "bottomAnchor", -80, 0.5, EASE_IN);
+			ChangeProperty("**/InfoWrapper", "Anchor", "rightAnchor", -500, 0.5, EASE_IN); 
+			Opacity("**/KindGroup", opacity=0.0, time=0.5, interpolation=EASE_IN);
+			Opacity("**/FooterWrapper", opacity=0.0, time=0.5, interpolation=EASE_IN);
+			Opacity("**/InfoWrapper", opacity=0.0, time=0.5, interpolation=EASE_IN);
+		}
+	}
+	else
+	{
+		Event("SHOP_BUTTON_AVAILABLE", arg1=true);
+		parallel
+		{
+			ChangeProperty("**/KindGroup/List", "Anchor", "topAnchor", 0, 0.5, EASE_OUT); 
+			ChangeProperty("**/Footer", "Anchor", "bottomAnchor", 0, 0.5, EASE_OUT);
+			ChangeProperty("**/InfoWrapper", "Anchor", "rightAnchor", 0, 0.5, EASE_OUT); 
+			Opacity("**/KindGroup", opacity=1.0, time=0.5, interpolation=EASE_OUT);
+			Opacity("**/FooterWrapper", opacity=1.0, time=0.5, interpolation=EASE_OUT);
+			Opacity("**/InfoWrapper", opacity=1.0, time=0.5, interpolation=EASE_OUT);
+		}
+	}
+}

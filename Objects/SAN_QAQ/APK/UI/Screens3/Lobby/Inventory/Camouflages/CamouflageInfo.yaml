@@ -6,7 +6,6 @@ ImportedPackages:
 Prototypes:
 -   class: "UIControl"
     name: "Info"
-    size: [500.000000, 144.000000]
     input: false
     components:
         Anchor:
@@ -55,7 +54,7 @@ Prototypes:
         -   class: "UIControl"
             name: "Title"
             input: false
-            classes: "t-subtitle bold color=white-wild-sand-text"
+            classes: "t-subtitle bold white-wild-sand-text"
             components:
                 UITextComponent:
                     align: ["LEFT", "VCENTER"]

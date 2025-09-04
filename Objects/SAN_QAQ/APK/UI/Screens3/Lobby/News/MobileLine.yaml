@@ -3,7 +3,6 @@ Header:
 Prototypes:
 -   class: "UIControl"
     name: "Line"
-    size: [801.000000, 256.000000]
     input: false
     components:
         SizePolicy:
@@ -20,7 +19,6 @@ Prototypes:
     children:
     -   class: "UIControl"
         name: "HorizontalList"
-        size: [32.000000, 32.000000]
         input: true
         components:
             LinearLayout:

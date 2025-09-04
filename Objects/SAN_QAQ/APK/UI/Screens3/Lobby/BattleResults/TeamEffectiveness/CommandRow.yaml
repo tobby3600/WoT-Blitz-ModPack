@@ -3,7 +3,6 @@ Header:
 Prototypes:
 -   class: "UIControl"
     name: "CommandRow"
-    size: [474.000000, 0.000000]
     components:
         UIOpacityComponent: {}
         Anchor:
@@ -102,7 +101,6 @@ Prototypes:
     children:
     -   class: "UIControl"
         name: "Bg"
-        size: [32.000000, 32.000000]
         input: false
         components:
             Background:
@@ -124,7 +122,6 @@ Prototypes:
         - ["SizePolicy.horizontalValue", "rowWidth - rowHeight"]
     -   class: "UIControl"
         name: "CustomBg"
-        size: [32.000000, 32.000000]
         input: false
         components:
             SizePolicy:
@@ -142,7 +139,6 @@ Prototypes:
         - ["SizePolicy.horizontalValue", "rowWidth"]
     -   class: "UIControl"
         name: "Separator"
-        size: [32.000000, 32.000000]
         input: false
         components:
             Background:
@@ -163,7 +159,6 @@ Prototypes:
         - ["SizePolicy.horizontalValue", "rowWidth - rowHeight"]
     -   class: "UIControl"
         name: "Hover"
-        size: [32.000000, 32.000000]
         input: false
         components:
             Background:
@@ -185,7 +180,6 @@ Prototypes:
         - ["SizePolicy.horizontalValue", "rowWidth - rowHeight"]
     -   class: "UIControl"
         name: "TapArea"
-        size: [32.000000, 32.000000]
         pivot: [0.500000, 0.500000]
         input: false
         components:
@@ -214,7 +208,6 @@ Prototypes:
         -   class: "UIControl"
             name: "RightContent"
             position: [242.000000, 0.000000]
-            size: [232.000000, 56.000000]
             input: false
             components:
                 UIOpacityComponent: {}
@@ -233,7 +226,6 @@ Prototypes:
             children:
             -   class: "UIControl"
                 name: "Relations"
-                size: [32.000000, 32.000000]
                 input: false
                 components:
                     SizePolicy:
@@ -247,7 +239,6 @@ Prototypes:
                 children:
                 -   class: "UIControl"
                     name: "RelationsTapArea"
-                    size: [32.000000, 32.000000]
                     scale: [1.000000, 1.000000]
                     pivot: [0.500000, 0.500000]
                     input: false
@@ -280,7 +271,6 @@ Prototypes:
                     - ["visible", "isReactionsAvailable"]
             -   class: "UIControl"
                 name: "RatingHolder"
-                size: [32.000000, 32.000000]
                 input: false
                 components:
                     LinearLayout:
@@ -299,7 +289,6 @@ Prototypes:
                 - ["SizePolicy.horizontalValue", "when isSessionPlayerResults -> 72, 92"]
             -   class: "UIControl"
                 name: "Xp"
-                size: [32.000000, 32.000000]
                 input: false
                 components:
                     UIOpacityComponent: {}
@@ -319,7 +308,6 @@ Prototypes:
                 - ["UITextComponent.text", "when data.xp == 0 -> \"–\", str1000Separated(personalXPValue)"]
             -   class: "UIControl"
                 name: "Kills"
-                size: [32.000000, 32.000000]
                 input: false
                 components:
                     UIOpacityComponent: {}
@@ -338,7 +326,6 @@ Prototypes:
                 - ["UITextComponent.text", "when data.kills == 0 -> \"–\", data.kills"]
             -   class: "UIControl"
                 name: "Damage"
-                size: [32.000000, 32.000000]
                 input: false
                 components:
                     UIOpacityComponent: {}
@@ -357,7 +344,6 @@ Prototypes:
                 - ["UITextComponent.text", "when data.dmg == 0 -> \"–\", str1000Separated(personalDmgValue)"]
         -   class: "UIControl"
             name: "LeftContent"
-            size: [32.000000, 32.000000]
             input: false
             components:
                 LinearLayout:
@@ -450,7 +436,6 @@ Prototypes:
                     - ["visible", "data.isReactionForAccount"]
             -   class: "UIControl"
                 name: "Squad"
-                size: [16.000000, 18.000000]
                 input: false
                 components:
                     Anchor:
@@ -469,7 +454,6 @@ Prototypes:
                 children:
                 -   class: "UIControl"
                     name: "Back"
-                    size: [32.000000, 32.000000]
                     input: false
                     components:
                         Background:
@@ -484,7 +468,6 @@ Prototypes:
                             verticalValue: 18.000000
                 -   class: "UIControl"
                     name: "Front"
-                    size: [32.000000, 32.000000]
                     input: false
                     components:
                         Background:
@@ -502,7 +485,6 @@ Prototypes:
                     - ["UIOpacityComponent.opacity", "when data.isAlive -> 1, 0.500000"]
             -   class: "UIControl"
                 name: "NameContainer"
-                size: [32.000000, 32.000000]
                 input: false
                 components:
                     Anchor:
@@ -550,7 +532,6 @@ Prototypes:
                         - ["UIOpacityComponent.opacity", "textOpacity"]
                     -   class: "UIControl"
                         name: "TankName"
-                        size: [32.000000, 32.000000]
                         input: false
                         components:
                             UIOpacityComponent: {}
@@ -570,7 +551,6 @@ Prototypes:
                         - ["UITextComponent.align", "when isEnemy -> eAlign.RIGHT, eAlign.LEFT"]
                 -   class: "UIControl"
                     name: "PlayerNameWrapper"
-                    size: [200.000000, 32.000000]
                     input: false
                     components:
                         SizePolicy:
@@ -579,7 +559,6 @@ Prototypes:
                     children:
                     -   class: "UIControl"
                         name: "PlayerName"
-                        size: [200.000000, 32.000000]
                         input: false
                         components:
                             UIOpacityComponent: {}
@@ -600,7 +579,6 @@ Prototypes:
                         - ["LinearLayout.orientation", "when isEnemy -> 1, 0"]
     -   class: "UIControl"
         name: "SelectionHolder"
-        size: [32.000000, 32.000000]
         input: false
         components:
             SizePolicy:
@@ -615,7 +593,6 @@ Prototypes:
         - ["SizePolicy.horizontalValue", "rowWidth"]
     -   class: "UIControl"
         name: "ReactionSelectionHolder"
-        size: [32.000000, 32.000000]
         input: false
         components:
             SizePolicy:
@@ -631,7 +608,6 @@ Prototypes:
 Slots:
 -   class: "UIControl"
     name: "Rating"
-    size: [32.000000, 32.000000]
     input: false
     components:
         SizePolicy:
@@ -656,18 +632,16 @@ Slots:
         children:
         -   class: "UIControl"
             name: "Left"
-            size: [32.000000, 32.000000]
             input: false
             components:
                 SizePolicy:
                     horizontalPolicy: "FixedSize"
-                    horizontalValue: 40.000000
+                    horizontalValue: 56.000000
                     verticalPolicy: "FixedSize"
                     verticalValue: 56.000000
             children:
             -   class: "UIControl"
                 name: "dataRatingCurrentRating"
-                size: [32.000000, 32.000000]
                 input: false
                 components:
                     UIOpacityComponent: {}
@@ -683,7 +657,6 @@ Slots:
                 - ["SizePolicy.verticalValue", "rowHeight"]
             -   class: "UIControl"
                 name: "CalibrationIcon"
-                size: [32.000000, 32.000000]
                 input: false
                 components:
                     Background:
@@ -704,7 +677,6 @@ Slots:
                 - ["UIOpacityComponent.opacity", "when data.isAlive -> 0.750000, 0.500000"]
         -   class: "UIControl"
             name: "UpDownMark"
-            size: [32.000000, 32.000000]
             input: false
             components:
                 Background:
@@ -725,7 +697,6 @@ Slots:
             - ["UIOpacityComponent.opacity", "when data.isAlive -> 1, 0.750000"]
         -   class: "UIControl"
             name: "Right"
-            size: [32.000000, 32.000000]
             input: false
             components:
                 SizePolicy:
@@ -737,7 +708,6 @@ Slots:
             children:
             -   class: "UIControl"
                 name: "RatingDiff"
-                size: [32.000000, 32.000000]
                 input: false
                 components:
                     UIOpacityComponent: {}
@@ -755,12 +725,11 @@ Slots:
                 - ["UITextComponent.text", "abs(data.rating.difference)"]
             -   class: "UIControl"
                 name: "CalibrationText"
-                size: [32.000000, 32.000000]
                 input: false
                 classes: "t-body bold white-wild-sand-50-text"
                 components:
                     UITextComponent:
-                        text: "– "
+                        text: "–"
                     SizePolicy:
                         horizontalPolicy: "PercentOfContent"
                         verticalPolicy: "PercentOfParent"
@@ -768,7 +737,6 @@ Slots:
                 - ["visible", "data.rating.state == eBattleRatingState.CALIBRATION"]
 -   class: "UIControl"
     name: "Selection"
-    size: [32.000000, 32.000000]
     input: false
     components:
         UIOpacityComponent:
@@ -782,7 +750,6 @@ Slots:
     children:
     -   class: "UIControl"
         name: "Top"
-        size: [32.000000, 32.000000]
         input: false
         components:
             Background:
@@ -815,7 +782,6 @@ Slots:
         - ["SizePolicy.verticalValue", "rowHeight"]
     -   class: "UIControl"
         name: "Bottom"
-        size: [32.000000, 32.000000]
         input: false
         components:
             Background:
@@ -833,7 +799,6 @@ Slots:
         - ["SizePolicy.horizontalValue", "rowWidth - rowHeight"]
 -   class: "UIControl"
     name: "ReactionSelection"
-    size: [32.000000, 32.000000]
     input: false
     components:
         UIOpacityComponent:
@@ -847,7 +812,6 @@ Slots:
     children:
     -   class: "UIControl"
         name: "Top"
-        size: [32.000000, 32.000000]
         input: false
         components:
             Background:
@@ -884,7 +848,6 @@ Slots:
         - ["SizePolicy.verticalValue", "rowHeight"]
     -   class: "UIControl"
         name: "Bottom"
-        size: [32.000000, 32.000000]
         input: false
         components:
             Background:

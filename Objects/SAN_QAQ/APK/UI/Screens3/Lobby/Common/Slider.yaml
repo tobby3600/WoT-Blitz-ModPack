@@ -107,7 +107,6 @@ Prototypes:
                                 "type": "eButtonType.OPTIONAL_LIGHT"
                                 "sound": "sound"
                                 "enabled": "roundValue > minValue"
-                                "isBlur": "false"
                             eventActions:
                             - ["ON_CLICK_BUTTON", "ON_SLIDER_MINUS", "index"]
         -   class: "UISlider"
@@ -244,7 +243,7 @@ Prototypes:
                     bindings:
                     - ["visible", "not hideValue"]
                     - ["UITextComponent.text", "str1000Separated(currentValue, 0, true)"]
-                    - ["Anchor.vCenterAnchor", "when tutorialLayer > 0 -> -35, -32"]
+                    - ["Anchor.vCenterAnchor", "when tutorialLayer > 0 -> -15, -32"]
             -   prototype: "SliderThumb/thumbSpriteControl"
                 name: "thumbHidden"
                 position: [191.000000, 32.000000]
@@ -290,7 +289,6 @@ Prototypes:
                                 "type": "eButtonType.OPTIONAL_LIGHT"
                                 "sound": "sound"
                                 "enabled": "roundValue < maxAllowedValue"
-                                "isBlur": "false"
                             eventActions:
                             - ["ON_CLICK_BUTTON", "ON_SLIDER_PLUS", "index"]
     -   class: "UIControl"
