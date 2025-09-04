@@ -4,6 +4,7 @@ ImportedPackages:
 - "~res:/UI/Screens3/Common/HorizontalScrollBar.yaml"
 - "~res:/UI/Screens3/Common/VerticalScrollBar.yaml"
 - "~res:/UI/Screens3/Common/BlurMask.yaml"
+- "~res:/UI/Screens3/Common/BlurModified.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "TanksTechTree"
@@ -68,12 +69,6 @@ Prototypes:
                 prototypePath: "~res:/UI/Screens3/Lobby/TanksTechTree/TanksTechBg.yaml"
                 args:
                     "nation": "model.nation"
-    -   prototype: "BlurMask/BlurMask"
-        name: "Blur"
-        components:
-            UIDataParamsComponent:
-                args:
-                    "ID": "\"TanksTechTree\""
     -   class: "UIControl"
         name: "ContentWrapper"
         position: [0.000000, 48.000000]
@@ -116,8 +111,6 @@ Prototypes:
                 ClipContent: {}
                 LinearLayout:
                     orientation: "TopDown"
-                UIPostProcessSourceComponent0:
-                    id: "maskTanksTechTree"
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
                     verticalPolicy: "PercentOfParent"
@@ -131,12 +124,20 @@ Prototypes:
                         horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "PercentOfParent"
                 children:
+                -   prototype: "BlurMask/BlurMask"
+                    name: "Blur"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "ID": "\"TanksTechTree\""
                 -   class: "UIScrollViewContainer"
                     name: "scrollContainerControl"
                     position: [0.000000, -18.000000]
                     refreshStylesOnInteract: false
                     components:
                         Anchor: {}
+                        UIPostProcessSourceComponent0:
+                            id: "maskTanksTechTree"
                         SizePolicy:
                             horizontalPolicy: "Formula"
                             horizontalFormula: "when safeAreaInsets.right == 0 -> childrenSum, safeAreaInsets.right + (childrenSum - 20)"
@@ -314,17 +315,19 @@ Prototypes:
             -   class: "UIControl"
                 name: "Levels"
                 input: false
-                classes: "grey-shark-70-bg"
                 components:
-                    Background: {}
                     LinearLayout:
                         orientation: "TopDown"
                     SizePolicy:
                         horizontalPolicy: "PercentOfParent"
                         verticalPolicy: "PercentOfChildrenSum"
-                    StyleSheet:
-                        styles: "~res:/UI/Screens3/Color.style.yaml"
                 children:
+                -   prototype: "BlurModified/BlurModified"
+                    name: "Blur"
+                    components:
+                        UIDataParamsComponent:
+                            args:
+                                "bgStyle": "\"grey-shark-70-bg\""
                 -   class: "UIControl"
                     name: "ShadowLeft"
                     visible: false

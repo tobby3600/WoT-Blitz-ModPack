@@ -1,0 +1,125 @@
+Header:
+    version: 121
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/NotificationButtonWithText.yaml"
+Prototypes:
+-   class: "UIControl"
+    customClass: "UITankReceivedNotification"
+    name: "TankReceivedNotification"
+    input: true
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+            padding: "8; 0"
+        SizePolicy:
+            horizontalPolicy: "PercentOfMaxChild"
+            verticalPolicy: "PercentOfMaxChild"
+        UIDataParamsComponent:
+            params:
+            - ["string", "tankNameKey", "\"\"", "\"is - 3\""]
+    children:
+    -   class: "UIControl"
+        name: "NotificationItem"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "FixedSize"
+                horizontalValue: 608.000000
+                verticalPolicy: "PercentOfMaxChild"
+        children:
+        -   class: "UIControl"
+            name: "Content"
+            pivot: [0.500000, 0.500000]
+            input: false
+            components:
+                UIOpacityComponent: {}
+                Anchor:
+                    leftAnchorEnabled: true
+                    rightAnchorEnabled: true
+                    topAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                LinearLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 64.000000
+                    verticalMin: 64.000000
+                    verticalMax: 80.000000
+            children:
+            -   class: "UIControl"
+                name: "Bg"
+                input: false
+                components:
+                    Background:
+                        drawType: "DRAW_STRETCH_BOTH"
+                        sprite: "~res:/Gfx/Lobby/backgrounds/bg_dark_r8"
+                        leftRightStretchCap: 8.000000
+                        topBottomStretchCap: 8.000000
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfParent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "Status"
+                input: false
+                components:
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    LinearLayout:
+                        padding: "16"
+                        spacing: 16.000000
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "Formula"
+                        verticalFormula: "max(64, maxChild + 16)"
+                children:
+                -   class: "UIControl"
+                    name: "Icon"
+                    position: [16.000000, 20.000000]
+                    size: [24.000000, 24.000000]
+                    input: false
+                    components:
+                        Background:
+                            sprite: "~res:/Gfx/Lobby/icons/icon_finance_s"
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                            vCenterAnchor: 0.000000
+                -   class: "UIControl"
+                    name: "Description"
+                    input: false
+                    components:
+                        Background: {}
+                        RichContent:
+                            baseClasses: "t-caption regular white-wild-sand-70-text"
+                        RichContentAliases0:
+                            aliases:
+                            - ["t-caption_highlighted", "<span class=\"t-caption bold white-wild-sand-text\" />"]
+                        Anchor:
+                            vCenterAnchorEnabled: true
+                        SizePolicy:
+                            horizontalPolicy: "PercentOfParent"
+                            verticalPolicy: "PercentOfChildrenSum"
+                        FlowLayout:
+                            hSpacing: 5.000000
+                            useRtl: true
+                        UIDataSourceComponent0:
+                            sourceType: "Reflection"
+                            source: "~res:/UI/Examples/Model/Lobby/Common/RichText.model"
+                        UIDataSourceComponent1:
+                            sourceType: "File"
+                            source: "~res:/UI/Screens/Lobby/Common/ViewModel/RichText.model"
+                        StyleSheet:
+                            styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                    bindings:
+                    - ["RichContent.text", "format(localize(\"HANGAR_NOTIFICATION_RECEIVED_VEHICLE\"), {  \"highlight_start\" = \"<t-caption_highlighted>\"; \"highlight_end\" = \"</t-caption_highlighted>\"; \"vehicle\" = format(\"<t-caption_highlighted>%(name)</t-caption_highlighted>\", { \"name\" = localize(tankNameKey); }); })"]
+            -   prototype: "NotificationButtonWithText/NotificationButtonWithText"
+                name: "ToTankButton"
+                components:
+                    Anchor:
+                        rightAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    UIDataParamsComponent:
+                        args:
+                            "text": "\"NOTIFICATIONS_TO_TANK\""

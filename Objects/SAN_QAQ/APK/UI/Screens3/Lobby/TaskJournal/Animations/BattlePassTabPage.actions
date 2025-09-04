@@ -8,7 +8,7 @@ action OnWeekSelected()
 	if (model.hasUnseenTaskProgress) 
 	{
 		PlaySound("play_ui_result_achiev_score_click", ".", true);
-		Wait(0.1); // need for preloading tasks controls
+		Wait(0.1);
 		BroadcastEvent("AnimateTaskProgress", "**/Tasks");
 		ChangeData(progressAnimation, true);
 	}
@@ -17,7 +17,7 @@ action OnWeekSelected()
 		Event("ON_TASK_PROGRESS_DISPLAYED", ".", "", weekIndex);
 		if (model.actualUntakenStages > 0)
 		{
-			Wait(0.1); // need for preloading tasks controls
+			Wait(0.1);
 			Event("UpdateCollectButton", "**/BattlePassTabHeader", true);
 		}
 	}
@@ -34,17 +34,17 @@ action CollectStagesFromAllTasks()
 	}
 	else
 	{
-		Wait(0.2);	
+		Wait(0.2);
 		ChangeData(animationIterator, 0);
 		repeat (stagesToAnimate)
 		{
 			DirectEvent("DisableReadyToTake", "**/NonSelectedWeekStages/Stage_" + str(animationIterator), 0.135 * animationIterator);
 			ChangeData(animationIterator, animationIterator + 1);
 		}
-        if (isTasksLoaded)
-        {
-            Event("UpdateCollectButton", "**/CurrentStateHeader/BattlePassTabHeader", false);
-        }
+		if (isTasksLoaded)
+		{
+			Event("UpdateCollectButton", "**/CurrentStateHeader/BattlePassTabHeader", false);
+		}
 		Wait(0.4);
 		ChangeData(stagesToAnimate, 0);
 		Event("UpdateLocalVarsHeader", "**/BattlePassTabHeader");
@@ -60,9 +60,9 @@ action CollectStagesFromTask(string slotId, int indexInWeek)
 		DirectEvent("CollectTaskStages", "**/Tasks/BattlePassTask" + str(indexInWeek), false);
 		if (model.actualUntakenStages == 0)
 		{
-			Event("UpdateCollectButton", "**/BattlePassTabHeader", false);	
-            Wait(0.2);
-		    ChangeData(stagesToAnimate, 0);
+			Event("UpdateCollectButton", "**/BattlePassTabHeader", false);
+			Wait(0.2);
+			ChangeData(stagesToAnimate, 0);
 		}
 	}
 }
@@ -77,7 +77,7 @@ action AnimateWeekUnlock(bool showLicenseEffect)
 
 	parallel
 	{
-        Opacity("**/Fade", 0.0, 0.75, EASE_OUT);
+		Opacity("**/BlurAndFade", 0.0, 0.75, EASE_OUT);
 		Opacity("**/LicenseBanner", 0.0, 0.75, EASE_OUT);
 		sequence
 		{
@@ -96,15 +96,15 @@ action AnimateWeekUnlock(bool showLicenseEffect)
 	Wait(0.1);
 	Event("WeekChangeStateAnimationFinished", arg1 = weekIndex);
 	Wait(0.2);
-	Opacity("**/Fade", 1.0);
-	Opacity("**/LicenseBanner", 1.0);
+	Opacity("**/BlurAndFade", 1.0, 0.75, EASE_IN);
+	Opacity("**/LicenseBanner", 1.0, 0.75, EASE_IN);
 	ChangeData(showTimerEffect, false);
 	Event("FlareTasks");
 	Event("ShowTabNameEffect", ".", weekIndex);
 
 	Event("OnWeekSelected", ".");
-   	if (showLicenseEffect)
-   	{
+	if (showLicenseEffect)
+	{
 		Event("ShowLicenseEffect");
 	}
 	Wait(0.5);
@@ -148,9 +148,9 @@ action ProgressAnimationEnded()
 
 action FlareTasks()
 {
-	Wait(0.1); // need to lazy load control
-    PlaySound("play_ui_gliss");
-    BroadcastEvent("ShowBlinkEffect", "**/Tasks");
+	Wait(0.1);
+	PlaySound("play_ui_gliss");
+	BroadcastEvent("ShowBlinkEffect", "**/Tasks");
 }
 
 action ON_ACTIVATE_WEEK_CLICKED()
@@ -191,7 +191,7 @@ action UpdateNonSelectedWeekStages()
 {
 	if (not empty(badgeAttachId))
 	{
-        Wait(0.5);
+		Wait(0.5);
 		MoveToMaster("**/UntakenStages", badgeAttachId + str(weekIndex));
 	}
 }

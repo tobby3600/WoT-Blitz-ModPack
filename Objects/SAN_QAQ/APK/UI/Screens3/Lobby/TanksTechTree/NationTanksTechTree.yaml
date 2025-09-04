@@ -66,15 +66,16 @@ Prototypes:
         children:
         -   class: "UIControl"
             name: "PremiumSection"
-            classes: "white-wild-sand-10-bg"
             input: false
             components:
                 Background: {}
+                UIGradientComponent:
+                    startColor: [0.960784, 0.960784, 0.960784, 0.000000]
+                    endColor: [0.960784, 0.960784, 0.960784, 0.500000]
+                    orientation: "TopDown"
                 SizePolicy:
                     horizontalPolicy: "FixedSize"
                     verticalPolicy: "FixedSize"
-                StyleSheet:
-                    styles: "~res:/UI/Screens3/Color.style.yaml"
             bindings:
             - ["SizePolicy.horizontalValue", "model.columnsCount * columnWidth * 2"]
             - ["SizePolicy.verticalValue", "model.premiumRows * rowHeight"]
