@@ -248,21 +248,27 @@ Prototypes:
         -   class: "UIControl"
             name: "TaskDescription"
             input: false
-            classes: "t-body regular color=white-wild-sand-text"
             components:
-                UITextComponent:
-                    colorInheritType: "COLOR_MULTIPLY_ALPHA_ONLY"
-                    multiline: "MULTILINE_ENABLED"
-                    align: ["LEFT", "VCENTER"]
+                RichContent:
+                    baseClasses: "t-body regular white-wild-sand-70-text"
+                RichContentAliases0:
+                    aliases:
+                    - ["text_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                    - ["text2_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
                 LinearLayout:
                     orientation: "TopDown"
+                FlowLayout:
+                    hDynamicPadding: true
+                    alignment: "Left"
+                    hSpacing: 4.000000
+                    useRtl: true
                 SizePolicy:
-                    horizontalPolicy: "PercentOfParent"
-                    verticalPolicy: "PercentOfContent"
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfChildrenSum"
                 StyleSheet:
                     styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
             bindings:
-            - ["UITextComponent.text", "displayingTask.title"]
+            - ["RichContent.text", "localize(displayingTask.title, { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; })"]
         -   class: "UIControl"
             name: "RewardContainer"
             input: false

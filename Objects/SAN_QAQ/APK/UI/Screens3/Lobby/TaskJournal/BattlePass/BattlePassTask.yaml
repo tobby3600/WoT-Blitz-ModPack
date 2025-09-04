@@ -318,7 +318,7 @@ Prototypes:
                 -   class: "UIControl"
                     name: "ProgressText"
                     input: false
-                    classes: "t-caption bold color=white-wild-sand-text"
+                    classes: "t-caption bold white-wild-sand-text"
                     components:
                         UITextComponent:
                             colorInheritType: "COLOR_IGNORE_PARENT"
@@ -359,13 +359,13 @@ Slots:
     input: false
     components:
         RichContent:
-            baseClasses: "t-subtitle regular color=white-wild-sand-text"
+            baseClasses: "t-subtitle regular white-wild-sand-text"
         RichContentAliases0:
             aliases:
             - ["stage_progress", "<control control=\"~res:/UI/Screens3/Lobby/TaskJournal/BattlePass/BattlePassTaskValue.yaml\" args1=\"stages=task.stageNeededProgress\" args2=\"displayingStageIndex=displayingStageIndex\"/>"]
-            - ["white_bold", "<span class=\"t-subtitle bold color=white-wild-sand-text\" />"]
-            - ["orange", "<span class=\"t-subtitle regular color=orange-orange-peel-text\" />"]
-            - ["yellow_bold", "<span class=\"t-subtitle bold color=yellow-lightning-text\" />"]
+            - ["white_bold", "<span class=\"t-subtitle bold white-wild-sand-text\" />"]
+            - ["orange", "<span class=\"t-subtitle regular orange-orange-peel-text\" />"]
+            - ["yellow_bold", "<span class=\"t-subtitle bold yellow-lightning-text\" />"]
         Anchor:
             leftAnchorEnabled: true
             topAnchorEnabled: true
@@ -383,19 +383,19 @@ Slots:
         StyleSheet:
             styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
     bindings:
-    - ["RichContent.text", "localize(task.title, { \"stage_progress\" = \"<stage_progress/>\"; })"]
+    - ["RichContent.text", "localize(task.title, { \"highlight_start\" = \"<white_bold>\"; \"highlight_end\" = \"</white_bold>\"; \"stage_progress\" = \"<stage_progress/>\"; })"]
 -   class: "UIControl"
     name: "TextNormal"
     input: false
     components:
         RichContent:
-            baseClasses: "t-subtitle regular color=white-wild-sand-text"
+            baseClasses: "t-subtitle regular white-wild-sand-text"
         RichContentAliases0:
             aliases:
             - ["stage_progress", "<control control=\"~res:/UI/Screens3/Lobby/TaskJournal/BattlePass/BattlePassTaskValue.yaml\" args1=\"stages=task.stageNeededProgress\" args2=\"displayingStageIndex=displayingStageIndex\"/>"]
-            - ["white_bold", "<span class=\"t-subtitle bold color=white-wild-sand-text\" />"]
-            - ["orange", "<span class=\"t-subtitle regular color=orange-orange-peel-text\" />"]
-            - ["yellow_bold", "<span class=\"t-subtitle bold color=yellow-lightning-text\" />"]
+            - ["white_bold", "<span class=\"t-subtitle bold white-wild-sand-text\" />"]
+            - ["orange", "<span class=\"t-subtitle regular orange-orange-peel-text\" />"]
+            - ["yellow_bold", "<span class=\"t-subtitle bold yellow-lightning-text\" />"]
         Anchor:
             leftAnchorEnabled: true
             topAnchorEnabled: true
@@ -409,7 +409,7 @@ Slots:
         StyleSheet:
             styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
     bindings:
-    - ["RichContent.text", "localize(task.title, { \"stage_progress\" = \"<stage_progress/>\"; })"]
+    - ["RichContent.text", "localize(task.title, { \"highlight_start\" = \"<white_bold>\"; \"highlight_end\" = \"</white_bold>\"; \"stage_progress\" = \"<stage_progress/>\"; })"]
 -   class: "UIParticles"
     name: "GlowActivate"
     position: [548.000000, 222.000000]

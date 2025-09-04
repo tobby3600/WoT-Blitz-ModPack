@@ -446,7 +446,7 @@ Slots:
             components:
                 UIDataParamsComponent:
                     args:
-                        "ID": "\"QuestsInfo\""
+                        "ID": "\"QuestsInfo\" + quest.urlImage"
         -   class: "UIControl"
             name: "IconWrapper"
             position: [280.000000, -33.000000]
@@ -1478,7 +1478,7 @@ Slots:
                 components:
                     UIDataParamsComponent:
                         args:
-                            "ID": "\"MultipleRewards\""
+                            "ID": "\"MultipleRewards\" + quest.urlImage"
             -   class: "UIControl"
                 name: "Header"
                 input: false
@@ -1916,7 +1916,7 @@ Slots:
                     components:
                         UIDataParamsComponent:
                             args:
-                                "ID": "\"StageQuest\""
+                                "ID": "\"StageQuest\" + quest.urlImage"
                 -   class: "UIControl"
                     name: "Spacer"
                     input: false
@@ -2188,7 +2188,7 @@ Slots:
                 components:
                     UIDataParamsComponent:
                         args:
-                            "ID": "\"Stages\""
+                            "ID": "\"Stages\" + quest.urlImage"
             -   class: "UIControl"
                 name: "ScrollableContent"
                 input: false

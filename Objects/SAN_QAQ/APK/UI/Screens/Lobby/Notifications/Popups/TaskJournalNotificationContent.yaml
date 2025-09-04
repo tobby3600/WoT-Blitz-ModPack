@@ -1,0 +1,540 @@
+Header:
+    version: 151
+ImportedPackages:
+- "~res:/UI/Screens/Lobby/Common/RichText.yaml"
+- "~res:/UI/Screens3/Lobby/Common/CheckMark.yaml"
+- "~res:/UI/Screens3/Lobby/Common/NotificationButton.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "NotificationBaseContent"
+    input: false
+    components:
+        SizePolicy:
+            horizontalPolicy: "PercentOfChildrenSum"
+            verticalPolicy: "PercentOfChildrenSum"
+        UIDataParamsComponent:
+            params:
+            - ["TaskJournalNotificationModel", "model", "null", "{ \"questTitle\" = \"asfsf sdfs sdfsf sdf  sf sdfsdg sdfsgsg sddsgdg\"; }"]
+            events:
+            - "GO_TO_TASK_JOURNAL"
+        UIDataLocalBindingsComponent:
+            data:
+            - ["string", "iconPath", "when model.notificationType == eNotificationType.QuestProgress -> \"~res:/Gfx/Lobby/icons/icon_task-journal_s\", \"~res:/Gfx/Lobby/icons/icon_complete_s\""]
+            - ["string", "completedQuestAmountString", "format(localize(\"NOTIFICATION_MISSIONS_COMPLETED\"), { \"number\" = model.completedQuestAmount; })"]
+            - ["int", "activeStageValue", "when model.stageNeededProgress.Size() == 0 -> 0, model.stageNeededProgress[model.activeStageIndex]"]
+            - ["string", "chestStyleName", "format(\"chest-type-%(value)\", { \"value\" = model.chestSlot; })"]
+            - ["bool", "canOpenChest", "model.notificationType == eNotificationType.QuestCompleted and model.chestPercents >= 100"]
+            - ["string", "buttonCaptionString", "when canOpenChest -> localize(\"missionJournal/getReward/button\"), localize(\"HANGAR_NOTIFICATIONS_DETAILS\")"]
+            - ["string", "captionClass", "when canOpenChest -> \"t-caption bold green-la-palma-text\", \"t-caption bold white-wild-sand-text\""]
+            - ["string", "questStyleName", "\"t-caption white-wild-sand-70-text\""]
+            - ["bool", "showHint", "when canOpenChest and model.completedQuestAmount > 1 -> true, false"]
+            - ["int", "progressTargetIndex", "upperBound(model.stageNeededProgress, model.currentProgress)"]
+            - ["int", "progressTarget", "when model.stageNeededProgress.Size() == 0 -> model.totalProgress, when progressTargetIndex == -1 -> model.stageNeededProgress[model.activeStageIndex], model.stageNeededProgress[progressTargetIndex]"]
+            - ["int", "questProgress", "when progressTarget != 0 -> int(float(model.currentProgress) / float(progressTarget) * 100), 0"]
+            - ["int", "progressPercent", "min(100, (when model.hasChestProgress -> model.chestPercents, questProgress))"]
+    children:
+    -   class: "UIControl"
+        name: "Content"
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                verticalPolicy: "PercentOfChildrenSum"
+            UIChildComponent0:
+                prototypePath: "~res:/UI/Screens3/Lobby/Common/Notifications/NotificationBase.yaml"
+                args:
+                    "iconPath": "iconPath"
+                    "content": "Content"
+Slots:
+-   class: "UIControl"
+    name: "ContentQuestProgress"
+    size: [400.000000, 24.000000]
+    input: false
+    components:
+        LinearLayout:
+            padding: "0;16"
+            spacing: 16.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "FixedSize"
+            verticalValue: 60.000000
+    children:
+    -   class: "UIControl"
+        name: "Left"
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+                verticalMin: 64.000000
+                verticalMax: 80.000000
+            FlowLayout:
+                hSpacing: 5.000000
+                vPadding: "10"
+                vDynamicPadding: true
+                vDynamicSpacing: true
+                useRtl: true
+        children:
+        -   class: "UIControl"
+            name: "Caption"
+            position: [0.000000, 1.000000]
+            input: false
+            classes: "t-caption bold white-wild-sand-text"
+            components:
+                UITextComponent:
+                    colorInheritType: "COLOR_IGNORE_PARENT"
+                    align: ["LEFT", "VCENTER"]
+                    useRtlAlign: "USE_BY_SYSTEM"
+                Anchor:
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfContent"
+                    verticalPolicy: "PercentOfContent"
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["UITextComponent.text", "localize(\"NOTIFICATION_MISSION\") + \"  \""]
+        -   class: "UIControl"
+            name: "QuestTitle"
+            input: false
+            components:
+                RichContent: {}
+                RichContentAliases0:
+                    aliases:
+                    - ["value", "<control control=\"~res:/UI/Screens3/Lobby/TaskJournal/BattlePass/BattlePassTaskValueParam.yaml\" args1=\"value=progressTarget\" args2=\"textStyle=questStyleName\"/>"]
+                    - ["white_bold", "<span class=\"t-subtitle bold white-wild-sand-text\" />"]
+                    - ["orange", "<span class=\"t-subtitle regular orange-orange-peel-text\" />"]
+                    - ["yellow_bold", "<span class=\"t-subtitle bold yellow-lightning-text\" />"]
+                    - ["text_white_bold", "<span class=\"t-caption bold white-wild-sand-text\" />"]
+                Anchor:
+                    leftAnchorEnabled: true
+                    topAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfChildrenSum"
+                FlowLayout:
+                    hSpacing: 4.000000
+                    vSpacing: -4.000000
+                    useRtl: true
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["RichContent.text", "localize(model.questTitle, { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\";  \"stage_progress\" = \"<value/>\"; })"]
+            - ["RichContent.baseClasses", "questStyleName + \" regular\""]
+    -   class: "UIControl"
+        name: "Right"
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            LinearLayout:
+                orientation: "TopDown"
+                spacing: 8.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfChildrenSum"
+        children:
+        -   class: "UIControl"
+            name: "ProgressBar"
+            size: [32.000000, 32.000000]
+            input: false
+            classes: "white-wild-sand-15-bg"
+            components:
+                Background: {}
+                Anchor:
+                    hCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 4.000000
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+            children:
+            -   class: "UIControl"
+                name: "Progress"
+                input: false
+                classes: "yellow-chalky-bg"
+                components:
+                    Background:
+                        drawType: "DRAW_FILL"
+                    Anchor:
+                        leftAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 4.000000
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["SizePolicy.horizontalValue", "progressPercent"]
+        -   class: "UIControl"
+            name: "ProgressContainer"
+            input: false
+            components:
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    vCenterAnchorEnabled: true
+                LinearLayout:
+                    enabled: true
+                    spacing: 4.000000
+                SizePolicy:
+                    horizontalPolicy: "PercentOfChildrenSum"
+                    verticalPolicy: "PercentOfMaxChild"
+            children:
+            -   class: "UIControl"
+                name: "DailyProgressAmount"
+                input: false
+                classes: "t-overline bold"
+                components:
+                    UITextComponent:
+                        colorInheritType: "COLOR_IGNORE_PARENT"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "model.currentProgress"]
+            -   class: "UIControl"
+                name: "DailySeparator"
+                input: false
+                classes: "t-overline bold"
+                components:
+                    UITextComponent:
+                        text: "/"
+                        colorInheritType: "COLOR_IGNORE_PARENT"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+            -   class: "UIControl"
+                name: "DailyProgressTotal"
+                input: false
+                classes: "t-overline bold"
+                components:
+                    UITextComponent:
+                        colorInheritType: "COLOR_IGNORE_PARENT"
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfContent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["UITextComponent.text", "progressTarget"]
+-   class: "UIControl"
+    name: "ContentQuestCompleted"
+    size: [400.000000, 60.000000]
+    input: false
+    components:
+        LinearLayout:
+            padding: "0;16"
+            spacing: 16.000000
+            useRtl: false
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "FixedSize"
+            verticalValue: 60.000000
+    children:
+    -   class: "UIControl"
+        name: "QuestCompletedContainer"
+        position: [56.000000, 0.000000]
+        size: [32.000000, 32.000000]
+        input: false
+        components:
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "OneQuestCompleted"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                LinearLayout:
+                    orientation: "TopDown"
+                    padding: "10"
+                    dynamicPadding: true
+                    useRtl: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfChildrenSum"
+                    verticalMin: 64.000000
+                    verticalMax: 80.000000
+            bindings:
+            - ["visible", "model.completedQuestAmount == 1"]
+            children:
+            -   class: "UIControl"
+                name: "Caption"
+                input: false
+                components:
+                    UITextComponent:
+                        colorInheritType: "COLOR_IGNORE_PARENT"
+                        align: ["LEFT", "VCENTER"]
+                        useRtlAlign: "USE_BY_SYSTEM"
+                    Anchor:
+                        leftAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["classes", "captionClass"]
+                - ["UITextComponent.text", "localize(\"NOTIFICATION_MISSION_COMPLETED\")"]
+            -   class: "UIControl"
+                name: "QuestTitle"
+                input: false
+                components:
+                    RichContent: {}
+                    RichContentAliases0:
+                        aliases:
+                        - ["value", "<control control=\"~res:/UI/Screens3/Lobby/TaskJournal/BattlePass/BattlePassTaskValueParam.yaml\" args1=\"value=activeStageValue\" args2=\"textStyle=questStyleName\"/>"]
+                        - ["white_bold", "<span class=\"t-subtitle bold white-wild-sand-text\" />"]
+                        - ["orange", "<span class=\"t-subtitle regular orange-orange-peel-text\" />"]
+                        - ["yellow_bold", "<span class=\"t-subtitle bold yellow-lightning-text\" />"]
+                        - ["text_white_bold", "<span class=\"t-caption bold white-wild-sand-text\" />"]
+                    Anchor:
+                        leftAnchorEnabled: true
+                        topAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfChildrenSum"
+                    FlowLayout:
+                        hSpacing: 4.000000
+                        vSpacing: -4.000000
+                        useRtl: true
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["RichContent.text", "localize(model.questTitle, { \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\";  \"stage_progress\" = \"<value/>\"; })"]
+                - ["RichContent.baseClasses", "questStyleName + \" regular\""]
+        -   class: "UIControl"
+            name: "SomeQuestCompleted"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    vCenterAnchorEnabled: true
+                LinearLayout:
+                    orientation: "TopDown"
+                    dynamicPadding: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfParent"
+                    verticalPolicy: "PercentOfChildrenSum"
+                    verticalMin: 64.000000
+                    verticalMax: 80.000000
+            children:
+            -   prototype: "RichText/RichText"
+                name: "Caption"
+                size: [264.000000, 32.000000]
+                components:
+                    RichContent: {}
+                    Anchor:
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                    FlowLayout:
+                        useRtl: true
+                    StyleSheet:
+                        inheritsStylesFromParent: false
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["visible", "model.completedQuestAmount > 1"]
+                - ["RichContent.text", "completedQuestAmountString"]
+                - ["RichContent.baseClasses", "captionClass"]
+            -   class: "UIControl"
+                name: "Hint"
+                size: [32.000000, 32.000000]
+                input: false
+                classes: "t-caption regular white-wild-sand-70-text"
+                components:
+                    UITextComponent:
+                        fitting: "FITTING_POINTS"
+                        align: ["LEFT", "VCENTER"]
+                        useRtlAlign: "USE_BY_SYSTEM"
+                    Anchor:
+                        leftAnchorEnabled: true
+                        vCenterAnchorEnabled: true
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "PercentOfContent"
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["visible", "showHint"]
+                - ["UITextComponent.text", "localize(\"NOTIFICATION_GET_REWARD\")"]
+    -   class: "UIControl"
+        name: "ChestProgressContainer"
+        input: false
+        components:
+            Anchor:
+                rightAnchorEnabled: true
+                vCenterAnchorEnabled: true
+                vCenterAnchor: -2.000000
+            SizePolicy:
+                horizontalPolicy: "PercentOfMaxChild"
+                verticalPolicy: "PercentOfChildrenSum"
+        bindings:
+        - ["visible", "model.hasChestProgress"]
+        children:
+        -   class: "UIControl"
+            name: "ChestImage"
+            input: false
+            components:
+                Background:
+                    drawType: "DRAW_SCALE_PROPORTIONAL"
+                    frame: 2
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    horizontalValue: 80.000000
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 56.000000
+                StyleSheet:
+                    styles: "~res:/UI/Screens/Lobby/Notifications/Popups/Styles/TaskJournalNotificationStyles.yaml"
+            bindings:
+            - ["classes", "chestStyleName"]
+        -   class: "UIControl"
+            name: "ProgressBar"
+            size: [32.000000, 32.000000]
+            input: false
+            classes: "white-wild-sand-15-bg"
+            components:
+                Background: {}
+                Anchor:
+                    hCenterAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                    bottomAnchor: 8.000000
+                SizePolicy:
+                    horizontalPolicy: "FixedSize"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 4.000000
+                StyleSheet:
+                    styles: "~res:/UI/Screens3/Color.style.yaml"
+            bindings:
+            - ["visible", "not canOpenChest"]
+            children:
+            -   class: "UIControl"
+                name: "Progress"
+                input: false
+                classes: "yellow-chalky-bg"
+                components:
+                    Background: {}
+                    Anchor:
+                        leftAnchorEnabled: true
+                        bottomAnchorEnabled: true
+                    IgnoreLayout: {}
+                    SizePolicy:
+                        horizontalPolicy: "PercentOfParent"
+                        verticalPolicy: "FixedSize"
+                        verticalValue: 4.000000
+                    StyleSheet:
+                        styles: "~res:/UI/Screens3/Color.style.yaml"
+                bindings:
+                - ["SizePolicy.horizontalValue", "progressPercent"]
+        -   class: "UIControl"
+            name: "CheckMarkContainer"
+            size: [32.000000, 32.000000]
+            input: false
+            components:
+                Anchor:
+                    rightAnchorEnabled: true
+                    bottomAnchorEnabled: true
+                    bottomAnchor: 4.000000
+                IgnoreLayout: {}
+                SizePolicy:
+                    horizontalPolicy: "PercentOfFirstChild"
+                    verticalPolicy: "PercentOfFirstChild"
+            bindings:
+            - ["visible", "canOpenChest"]
+            children:
+            -   prototype: "CheckMark/CheckMark"
+                name: "CheckMark"
+                components:
+                    SizePolicy: {}
+                bindings:
+                - ["visible", "true"]
+                - ["SizePolicy.horizontalValue", "size"]
+                - ["SizePolicy.verticalValue", "size"]
+-   prototype: "NotificationButton/NotificationButton"
+    name: "GoToTaskJournal"
+    components:
+        SizePolicy:
+            horizontalValue: 64.000000
+            verticalPolicy: "PercentOfParent"
+        UIInputEventComponent:
+            onTouchUpInside: "GO_TO_TASK_JOURNAL"
+-   class: "UIControl"
+    name: "Content"
+    size: [600.000000, 64.000000]
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+            vCenterAnchorEnabled: true
+        LinearLayout: {}
+        SizePolicy:
+            horizontalPolicy: "PercentOfParent"
+            verticalPolicy: "FixedSize"
+            verticalValue: 64.000000
+    children:
+    -   class: "UIControl"
+        name: "MainContentWrapper"
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfParent"
+                verticalPolicy: "PercentOfChildrenSum"
+            UIChildComponent0:
+                childType: "kControl"
+                condition: "model.notificationType == eNotificationType.QuestProgress"
+                control: "ContentQuestProgress"
+            UIChildComponent1:
+                childType: "kControl"
+                condition: "model.notificationType == eNotificationType.QuestCompleted"
+                control: "ContentQuestCompleted"
+    -   class: "UIControl"
+        name: "ButtonWrapper"
+        input: false
+        components:
+            Anchor:
+                vCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfFirstChild"
+                verticalPolicy: "PercentOfParent"
+        children:
+        -   class: "UIControl"
+            name: "Button"
+            input: false
+            components:
+                Anchor:
+                    rightAnchorEnabled: true
+                    rightAnchor: -16.000000
+                    vCenterAnchorEnabled: true
+                SizePolicy:
+                    horizontalPolicy: "PercentOfMaxChild"
+                    verticalPolicy: "FixedSize"
+                    verticalValue: 80.000000
+                UIChildComponent0:
+                    condition: "canOpenChest"
+                    prototypePath: "~res:/UI/Screens3/Lobby/Common/Notifications/Common/NotificationButtonWithText.yaml"
+                    args:
+                        "text": "localize(\"missionJournal/getReward/button\")"
+                    eventActions:
+                    - ["ON_BUTTON_CLICK", "GO_TO_TASK_JOURNAL", ""]
+                UIChildComponent1:
+                    childType: "kControl"
+                    condition: "not canOpenChest"
+                    control: "GoToTaskJournal"

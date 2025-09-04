@@ -1,5 +1,7 @@
 Header:
     version: 160
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/BlurLite.yaml"
 Prototypes:
 -   class: "UIControl"
     name: "BattlePassTabPage"
@@ -290,8 +292,8 @@ Prototypes:
                     verticalPolicy: "PercentOfParent"
                     verticalValue: 200.000000
     -   class: "UIControl"
-        name: "Fade"
-        input: false
+        name: "BlurAndFade"
+        input: true
         classes: "black-35-bg"
         components:
             Background: {}
@@ -308,6 +310,16 @@ Prototypes:
         bindings:
         - ["visible", "(selectedWeekBlocked or previousStateIsBlocked) and (tabAbsolutePosition != 0.000000 and tasksAbsolutePosition != 0.000000)"]
         - ["Anchor.topAnchor", "tasksAbsolutePosition - tabAbsolutePosition - 16"]
+        children:
+        -   prototype: "BlurLite/BlurLite"
+            name: "BlurLite"
+            components:
+                UIPostProcessTextureComponent0:
+                    needClear: true
+                UIPostProcessTextureComponent1:
+                    needClear: true
+                UIPostProcessTextureComponent2:
+                    needClear: true
     -   class: "UIControl"
         name: "LicenseBanner"
         position: [145.000000, 456.000000]

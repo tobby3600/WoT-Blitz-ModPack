@@ -1,0 +1,93 @@
+Header:
+    version: 120
+ImportedPackages:
+- "~res:/UI/Screens3/Lobby/Common/FullScreenPopup/FullscreenNotificationContent.yaml"
+- "~res:/UI/Screens3/Lobby/Common/Resource/Detailed/StuffUnlimitedIcon.yaml"
+Prototypes:
+-   class: "UIControl"
+    name: "SpecialStuffNotificationContent"
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+            vCenterAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfFirstChild"
+            verticalPolicy: "PercentOfFirstChild"
+        UIDataParamsComponent:
+            params:
+            - ["StuffResource", "stuff", "null", "{ \"icon\" = \"~res:/Gfx/UI/HangarTutorial/icon_end_tutorial.psd\"; }"]
+            events:
+            - "ACCENT_CLICKED"
+    children:
+    -   prototype: "FullscreenNotificationContent/FullscreenNotificationContent"
+        name: "FullscreenNotificationContent"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "isButtonVisible": "true"
+                    "topPart": "TopPart"
+                    "description": "Description"
+                    "content": "null"
+                    "congratulationText": "localize(\"#common:fullscreenNotification/SpecialStuff/Header\")"
+                    "buttonText": "\"CustomBackground/Preview/Button\""
+                eventActions:
+                - ["ACCENT_CLICKED", "ACCENT_CLICKED", ""]
+        children:
+        -   path: "MainContent/Description"
+            position: [64.000000, 202.000000]
+Slots:
+-   class: "UIControl"
+    name: "Description"
+    input: false
+    components:
+        LinearLayout:
+            orientation: "TopDown"
+            spacing: 16.000000
+        SizePolicy:
+            horizontalPolicy: "PercentOfMaxChild"
+            verticalPolicy: "PercentOfChildrenSum"
+    children:
+    -   class: "UIControl"
+        name: "Text"
+        input: false
+        components:
+            RichContent:
+                baseClasses: "t-body regular white-wild-sand-70-text"
+            RichContentAliases0:
+                aliases:
+                - ["text_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+                - ["text2_white_bold", "<span class=\"t-body bold white-wild-sand-text\" />"]
+            Anchor:
+                hCenterAnchorEnabled: true
+            SizePolicy:
+                horizontalPolicy: "PercentOfChildrenSum"
+                horizontalMax: 332.000000
+                verticalPolicy: "PercentOfChildrenSum"
+            FlowLayout:
+                hDynamicPadding: true
+                alignment: "Center"
+                hSpacing: 4.000000
+                useRtl: true
+            StyleSheet:
+                styles: "~res:/UI/Screens3/Font.style.yaml;~res:/UI/Screens3/Color.style.yaml"
+        bindings:
+        - ["RichContent.text", "localize(\"#common:fullscreenNotification/SpecialStuff/Description\", { \"name\" = localize(stuff.title), \"highlight_start\" = \"<text_white_bold>\"; \"highlight_end\" = \"</text_white_bold>\"; })"]
+-   class: "UIControl"
+    name: "TopPart"
+    input: false
+    components:
+        Anchor:
+            hCenterAnchorEnabled: true
+            topAnchorEnabled: true
+        SizePolicy:
+            horizontalPolicy: "PercentOfMaxChild"
+            verticalPolicy: "PercentOfChildrenSum"
+    children:
+    -   prototype: "StuffUnlimitedIcon/StuffUnlimitedIcon"
+        name: "StuffUnlimitedIcon"
+        components:
+            UIDataParamsComponent:
+                args:
+                    "forceHideGrade": "true"
+                    "stuff": "stuff"

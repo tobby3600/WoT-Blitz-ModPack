@@ -58,7 +58,7 @@ Prototypes:
                     sprite: "~res:/Gfx/Lobby/backgrounds/bg_gradient_horizontal_0-100"
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
-                    horizontalValue: 30.000000
+                    horizontalValue: 50.000000
                     verticalPolicy: "PercentOfParent"
         -   class: "UIControl"
             name: "Centre"
@@ -79,7 +79,7 @@ Prototypes:
                     spriteModification: ["FLIP_HORIZONTAL"]
                 SizePolicy:
                     horizontalPolicy: "PercentOfParent"
-                    horizontalValue: 30.000000
+                    horizontalValue: 50.000000
                     verticalPolicy: "PercentOfParent"
     -   class: "UIControl"
         name: "BlurMask"

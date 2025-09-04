@@ -26,12 +26,8 @@ animation OpenOverlay
 	{
 		parallel
 		{
-			ChangeData(blurOpacity, 1, 0.6, EASE_OUT);
-			ChangeData(fadeOpacity, 0.6, 0.6, EASE_OUT);
-		}
-
-		parallel
-		{
+			ChangeData(blurOpacity, 1, 0.15, EASE_OUT);
+			ChangeData(fadeOpacity, 0.6, 0.15, EASE_OUT);
 			ChangeData(currentResultH, resultH, 0.15, SINE_OUT);
 			ChangeProperty("**/Overlay", "UIOpacityComponent", "opacity", 1, 0.15, EASE_OUT);
 		}
